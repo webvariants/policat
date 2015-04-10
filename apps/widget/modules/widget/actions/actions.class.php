@@ -1,4 +1,12 @@
 <?php
+/*
+ * Copyright (c) 2015, webvariants GmbH & Co. KG, http://www.webvariants.de
+ *
+ * This file is released under the terms of the MIT license. You can find the
+ * complete text in the attached LICENSE file or online at:
+ *
+ * http://www.opensource.org/licenses/mit-license.php
+ */
 
 /**
  * widget actions.
@@ -6,7 +14,7 @@
  * @package    policat
  * @subpackage widget
  * @author     Martin
- * 
+ *
  * @property $petition Petition
  * @property $widget Widget
  * @property $petition_text PetitionText
@@ -33,17 +41,17 @@ class widgetActions extends policatActions
   {
     $id = $this->getRequest()->getParameter('id');
     if (!is_numeric($id)) return $this->showError('Invalid ID');
-    
+
     $this->widget = WidgetTable::getInstance()->fetch($id);
     $this->widget->getPetition()->state(Doctrine_Record::STATE_CLEAN); // petition can not have changed yet, stupid doctrine
-    
+
     if (empty ($this->widget)) return $this->forward404('No widget found');
 
     $this->setContentTags($this->widget);
     $this->addContentTags($this->widget->getCampaign());
     $this->addContentTags($this->widget->getPetition());
     $this->addContentTags($this->widget->getPetitionText());
-    
+
     $donations_paypal_strore = StoreTable::getInstance()->findByKeyCached(StoreTable::DONATIONS_PAYPAL);
     if ($donations_paypal_strore)
       $this->addContentTags ($donations_paypal_strore);
@@ -130,7 +138,7 @@ class widgetActions extends policatActions
         if ($this->petition->isBefore() || $this->petition->isAfter()) {
           return $this->renderText(json_encode(array('over' => true)));
         }
-        
+
         $ajax_response_form = $this->form;
         $this->form->bind($request->getPostParameter($this->form->getName()));
         if ($this->form->isValid())
@@ -169,7 +177,7 @@ class widgetActions extends policatActions
           $extra['edit_code'] = $this->form_embed->getObject()->getEditCode();
           $extra['markup'] = UtilLink::widgetMarkup($extra['id']);
         } else {
-          
+
         }
       }
 
@@ -191,7 +199,7 @@ class widgetActions extends policatActions
       return $this->renderPartial('json_form', array('form' => $ajax_response_form, 'extra' => $extra));
     }
   }
-  
+
   public function executeSignHp(sfWebRequest $request) {
     $this->setTemplate('sign');
     if ($request->isMethod('post')) return $this->executeSign($request);

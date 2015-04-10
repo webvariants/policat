@@ -1,4 +1,12 @@
 <?php
+/*
+ * Copyright (c) 2015, webvariants GmbH & Co. KG, http://www.webvariants.de
+ *
+ * This file is released under the terms of the MIT license. You can find the
+ * complete text in the attached LICENSE file or online at:
+ *
+ * http://www.opensource.org/licenses/mit-license.php
+ */
 
 class ticketActions extends policatActions {
 
@@ -173,11 +181,11 @@ class ticketActions extends policatActions {
     if (!$user->hasPermission('user'))
       $user->addPermissionByName('user');
   }
-  
+
   protected function privacyPolicyChanged(Ticket $ticket) {
-    
+
   }
-  
+
   private function removeOldResignAndCallTickets(Campaign $campaign) {
     foreach (TicketTable::getInstance()->queryResignTicketForCampaign($campaign)->execute() as $old_ticket) {
       /* @var $old_ticket Ticket */
@@ -190,20 +198,20 @@ class ticketActions extends policatActions {
       $old_ticket->save();
     };
   }
-  
+
   protected function resignDataOfficer(Ticket $ticket) {
     $campaign = $ticket->getCampaign();
     $campaign->setDataOwner($ticket->getTo());
     $campaign->save();
-    
+
     $this->removeOldResignAndCallTickets($campaign);
   }
-  
+
   protected function callDataOfficer(Ticket $ticket) {
     $campaign = $ticket->getCampaign();
     $campaign->setDataOwner($ticket->getFrom());
     $campaign->save();
-    
+
     $this->removeOldResignAndCallTickets($campaign);
   }
 }

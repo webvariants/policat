@@ -1,18 +1,26 @@
 <?php
+/*
+ * Copyright (c) 2015, webvariants GmbH & Co. KG, http://www.webvariants.de
+ *
+ * This file is released under the terms of the MIT license. You can find the
+ * complete text in the attached LICENSE file or online at:
+ *
+ * http://www.opensource.org/licenses/mit-license.php
+ */
 
 class ValidatorPassword extends sfValidatorString {
 
   protected function configure($options = array(), $messages = array()) {
     parent::configure($options, $messages);
-    
+
     $this->addMessage('max_length', 'Password is too long (%max_length% characters max).');
     $this->addMessage('min_length', 'Password is too short (%min_length% characters min).');
-    
+
     $this->addMessage('number', 'Password requires at least one number.');
     $this->addMessage('upper', 'Password requires at least one capital letter.');
     $this->addMessage('lower', 'Password requires at least one letter.');
   }
-  
+
   protected function doClean($value) {
     $value = parent::doClean($value);
 

@@ -1,4 +1,12 @@
 <?php
+/*
+ * Copyright (c) 2015, webvariants GmbH & Co. KG, http://www.webvariants.de
+ *
+ * This file is released under the terms of the MIT license. You can find the
+ * complete text in the attached LICENSE file or online at:
+ *
+ * http://www.opensource.org/licenses/mit-license.php
+ */
 
 class PetitionTable extends Doctrine_Table {
 
@@ -48,9 +56,9 @@ class PetitionTable extends Doctrine_Table {
   }
 
   /**
-   * only used by generator 
+   * only used by generator
    * @param Doctrine_Query $query
-   * @return \Doctrine_Query 
+   * @return \Doctrine_Query
    */
   public function adminList(Doctrine_Query $query) {
     $root = $query->getRootAlias();
@@ -185,7 +193,7 @@ class PetitionTable extends Doctrine_Table {
    *
    * @param Doctrine_Query $query
    * @param FilterPetitionForm $filter
-   * @return Doctrine_Query 
+   * @return Doctrine_Query
    */
   public function filter(Doctrine_Query $query, $filter) {
     if (!$filter)

@@ -1,4 +1,12 @@
 <?php
+/*
+ * Copyright (c) 2015, webvariants GmbH & Co. KG, http://www.webvariants.de
+ *
+ * This file is released under the terms of the MIT license. You can find the
+ * complete text in the attached LICENSE file or online at:
+ *
+ * http://www.opensource.org/licenses/mit-license.php
+ */
 
 /**
  * @method myUser   getUser()          get the User Object
@@ -55,7 +63,7 @@ class policatActions extends sfActions {
    *
    * @param sfGuardUser $user or User ID
    * @return boolean
-   * @throws Exception 
+   * @throws Exception
    */
   public function isSelfUser($user) {
     if ($user instanceof sfGuardUser) {
@@ -127,7 +135,7 @@ class policatActions extends sfActions {
   private $ajax_instance = null;
 
   /**
-   * @return Ajax 
+   * @return Ajax
    */
   public function ajax() {
     if ($this->ajax_instance !== null)

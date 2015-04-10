@@ -1,4 +1,12 @@
 <?php
+/*
+ * Copyright (c) 2015, webvariants GmbH & Co. KG, http://www.webvariants.de
+ *
+ * This file is released under the terms of the MIT license. You can find the
+ * complete text in the attached LICENSE file or online at:
+ *
+ * http://www.opensource.org/licenses/mit-license.php
+ */
 
 /**
  * PetitionSigning form.
@@ -192,7 +200,7 @@ class PetitionSigningForm extends BasePetitionSigningForm {
       }
 
       $fields[Petition::FIELD_REF] = $values[Petition::FIELD_REF];
-      
+
       $wave = new PetitionSigningWave();
       $wave->setWave($this->getObject()->getWavePending());
       $wave->setFields(json_encode($fields));
@@ -204,9 +212,9 @@ class PetitionSigningForm extends BasePetitionSigningForm {
       $wave->setContactNum($this->contact_num);
       $object = $this->getObject();
       $object['PetitionSigningWave'][] = $wave;
-      
+
     }
-    
+
     if (!$this->getObject()->isNew()) {
       unset($values[Petition::FIELD_EMAIL_SUBJECT], $values[Petition::FIELD_EMAIL_BODY]);
     }

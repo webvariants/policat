@@ -1,4 +1,12 @@
 <?php
+/*
+ * Copyright (c) 2015, webvariants GmbH & Co. KG, http://www.webvariants.de
+ *
+ * This file is released under the terms of the MIT license. You can find the
+ * complete text in the attached LICENSE file or online at:
+ *
+ * http://www.opensource.org/licenses/mit-license.php
+ */
 
 class policatPager extends sfDoctrinePager {
 
@@ -17,7 +25,7 @@ class policatPager extends sfDoctrinePager {
    * @param string $route
    * @param array $params
    * @param bool $ajax
-   * @param int $maxPerPage 
+   * @param int $maxPerPage
    */
   public function __construct(Doctrine_Query $query, $page = 1, $route = null, $params = array(), $ajax = true, $maxPerPage = 10, $filter = null) {
     parent::__construct(null, $maxPerPage);

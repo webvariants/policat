@@ -1,4 +1,12 @@
 <?php
+/*
+ * Copyright (c) 2015, webvariants GmbH & Co. KG, http://www.webvariants.de
+ *
+ * This file is released under the terms of the MIT license. You can find the
+ * complete text in the attached LICENSE file or online at:
+ *
+ * http://www.opensource.org/licenses/mit-license.php
+ */
 
 /**
  * Campaign
@@ -27,7 +35,7 @@ class Campaign extends BaseCampaign
     self::ALLOW_DOWNLOAD_NO => 'no',
     self::ALLOW_DOWNLOAD_YES => 'yes'
   );
-  
+
   const BECOME_PETITION_ADMIN_NO = 0;
   const BECOME_PETITION_ADMIN_YES = 1;
 
@@ -35,7 +43,7 @@ class Campaign extends BaseCampaign
     self::BECOME_PETITION_ADMIN_NO => 'off',
     self::BECOME_PETITION_ADMIN_YES => 'on'
   );
-  
+
   public function isEditableBy(sfGuardUser $user) {
     return $user->isCampaignAdmin($this);
   }

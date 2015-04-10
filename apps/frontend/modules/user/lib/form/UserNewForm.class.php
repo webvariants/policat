@@ -1,4 +1,12 @@
 <?php
+/*
+ * Copyright (c) 2015, webvariants GmbH & Co. KG, http://www.webvariants.de
+ *
+ * This file is released under the terms of the MIT license. You can find the
+ * complete text in the attached LICENSE file or online at:
+ *
+ * http://www.opensource.org/licenses/mit-license.php
+ */
 
 class UserNewForm extends BasesfGuardUserAdminForm {
 
@@ -21,7 +29,7 @@ class UserNewForm extends BasesfGuardUserAdminForm {
         'email_address', 'first_name', 'last_name', 'organisation', 'website', 'street',
         'post_code', 'city', 'country', 'mobile', 'phone', 'language_id', 'groups_list'
       ), true);
-    
+
     $this->getWidget('groups_list')->setOption('expanded', true);
 
     $this->getWidgetSchema()->setHelp('street', 'In accordance with our terms of service and legal obligations, you must provide your, or your organisations\' legal address.');

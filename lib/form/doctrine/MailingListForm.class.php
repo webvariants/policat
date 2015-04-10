@@ -1,4 +1,12 @@
 <?php
+/*
+ * Copyright (c) 2015, webvariants GmbH & Co. KG, http://www.webvariants.de
+ *
+ * This file is released under the terms of the MIT license. You can find the
+ * complete text in the attached LICENSE file or online at:
+ *
+ * http://www.opensource.org/licenses/mit-license.php
+ */
 
 /**
  * MailingList form.
@@ -22,7 +30,7 @@ class MailingListForm extends BaseMailingListForm
       $this['status']
     );
 
-    $this->setWidget('name', new sfWidgetFormTextarea(array(), array('cols' => 90, 'rows' => 2)));    
+    $this->setWidget('name', new sfWidgetFormTextarea(array(), array('cols' => 90, 'rows' => 2)));
 
     if (!$this->getObject()->isNew())
     {

@@ -1,4 +1,12 @@
 <?php
+/*
+ * Copyright (c) 2015, webvariants GmbH & Co. KG, http://www.webvariants.de
+ *
+ * This file is released under the terms of the MIT license. You can find the
+ * complete text in the attached LICENSE file or online at:
+ *
+ * http://www.opensource.org/licenses/mit-license.php
+ */
 
 class myUser extends sfGuardSecurityUser {
 
@@ -13,8 +21,8 @@ class myUser extends sfGuardSecurityUser {
 
   /**
    * User is human when authorized or captcha was resolved 15 minutes ago.
-   * 
-   * @return boolean 
+   *
+   * @return boolean
    */
   public function human() {
     if ($this->isAuthenticated())
@@ -45,7 +53,7 @@ class myUser extends sfGuardSecurityUser {
 
     if ($this->user === null && $storage instanceof policatSessionStorage && !$this->human() && !$this->getAttribute(self::SESSION_WIDGETVAL_ON)) {
       // if user is not logged in or session is needed for other stuff forget the session cookie for better caching
-      
+
       $request = sfContext::getInstance()->getRequest();
       if ($request instanceof sfWebRequest) {
         if ($request->isMethod('post')) {

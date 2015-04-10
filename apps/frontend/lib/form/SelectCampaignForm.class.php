@@ -1,4 +1,12 @@
 <?php
+/*
+ * Copyright (c) 2015, webvariants GmbH & Co. KG, http://www.webvariants.de
+ *
+ * This file is released under the terms of the MIT license. You can find the
+ * complete text in the attached LICENSE file or online at:
+ *
+ * http://www.opensource.org/licenses/mit-license.php
+ */
 
 class SelectCampaignForm extends sfForm {
   const NAME = 'name';
@@ -12,7 +20,7 @@ class SelectCampaignForm extends sfForm {
     $query = $user ? CampaignTable::getInstance()->queryByMember($user, $this->getOption('is_member', true) ? true : false) : CampaignTable::getInstance()->queryAll();
     /* @var $query Doctrine_Query */
     $query->orderBy($query->getRootAlias() . '.name ASC');
-    
+
     $empty = $this->getOption('empty');
     if (!$empty) $empty = 'select campaign';
 

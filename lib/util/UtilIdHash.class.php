@@ -1,4 +1,12 @@
 <?php
+/*
+ * Copyright (c) 2015, webvariants GmbH & Co. KG, http://www.webvariants.de
+ *
+ * This file is released under the terms of the MIT license. You can find the
+ * complete text in the attached LICENSE file or online at:
+ *
+ * http://www.opensource.org/licenses/mit-license.php
+ */
 
 class UtilIdHash
 {
@@ -30,7 +38,7 @@ class UtilIdHash
   {
     if (!is_string($wannabe_hash)) return false;
     $parts = explode('-', $wannabe_hash, 2);
-    
+
     if (!is_array($parts) || count($parts) != 2 || !is_numeric($parts[0])) return false;
     $id   = $parts[0];
     $hash = $parts[1];

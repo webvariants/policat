@@ -1,7 +1,15 @@
 <?php
+/*
+ * Copyright (c) 2015, webvariants GmbH & Co. KG, http://www.webvariants.de
+ *
+ * This file is released under the terms of the MIT license. You can find the
+ * complete text in the attached LICENSE file or online at:
+ *
+ * http://www.opensource.org/licenses/mit-license.php
+ */
 
 /**
- * UGLY fix to get Radios with IDs working with ajax form error handling 
+ * UGLY fix to get Radios with IDs working with ajax form error handling
  */
 class FormatterRadio extends sfWidgetFormSelectRadio {
 

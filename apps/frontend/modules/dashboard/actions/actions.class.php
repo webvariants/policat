@@ -1,4 +1,12 @@
 <?php
+/*
+ * Copyright (c) 2015, webvariants GmbH & Co. KG, http://www.webvariants.de
+ *
+ * This file is released under the terms of the MIT license. You can find the
+ * complete text in the attached LICENSE file or online at:
+ *
+ * http://www.opensource.org/licenses/mit-license.php
+ */
 
 /**
  * dashboard actions.
@@ -20,7 +28,7 @@ class dashboardActions extends policatActions {
   }
 
   public function executeAdmin(sfWebRequest $request) {
-    
+
   }
 
   public function executeStats(sfWebRequest $request) {
@@ -39,7 +47,7 @@ class dashboardActions extends policatActions {
       $form->bind($request->getPostParameter($form->getName()));
       if ($form->isValid()) {
         UtilMail::send(null, $form->getValue('from'), $form->getValue('to'), $form->getValue('subject'), $form->getValue('body'));
-        
+
         return $this->ajax()->form($form)->alert('Mail sent.', '', '#testmail', 'after')->render();
       }
 

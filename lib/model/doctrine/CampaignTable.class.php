@@ -1,4 +1,12 @@
 <?php
+/*
+ * Copyright (c) 2015, webvariants GmbH & Co. KG, http://www.webvariants.de
+ *
+ * This file is released under the terms of the MIT license. You can find the
+ * complete text in the attached LICENSE file or online at:
+ *
+ * http://www.opensource.org/licenses/mit-license.php
+ */
 
 class CampaignTable extends Doctrine_Table {
 
@@ -30,7 +38,7 @@ class CampaignTable extends Doctrine_Table {
 
     return $query;
   }
-  
+
   /**
    *
    * @return Doctrine_Query
@@ -42,7 +50,7 @@ class CampaignTable extends Doctrine_Table {
   public function findById($id, $deleted_too = false) {
     if (!is_numeric($id))
       return false;
-    
+
     $query = $this->queryAll($deleted_too)->andWhere('c.id = ?', $id);
     $ret = $query->fetchOne();
 

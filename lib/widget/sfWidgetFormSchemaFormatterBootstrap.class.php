@@ -1,4 +1,12 @@
 <?php
+/*
+ * Copyright (c) 2015, webvariants GmbH & Co. KG, http://www.webvariants.de
+ *
+ * This file is released under the terms of the MIT license. You can find the
+ * complete text in the attached LICENSE file or online at:
+ *
+ * http://www.opensource.org/licenses/mit-license.php
+ */
 
 class sfWidgetFormSchemaFormatterBootstrap extends sfWidgetFormSchemaFormatter {
 
@@ -18,7 +26,7 @@ class sfWidgetFormSchemaFormatterBootstrap extends sfWidgetFormSchemaFormatter {
     if (!isset($attributes['for'])) {
       $attributes['for'] = $this->widgetSchema->generateId($this->widgetSchema->generateName($name));
     }
-    
+
     $attributes['class'] = 'control-label';
 
     return $this->widgetSchema->renderContentTag('label', $labelName, $attributes);

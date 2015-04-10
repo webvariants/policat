@@ -1,3 +1,12 @@
+/*
+ * Copyright (c) 2015, webvariants GmbH & Co. KG, http://www.webvariants.de
+ *
+ * This file is released under the terms of the MIT license. You can find the
+ * complete text in the attached LICENSE file or online at:
+ *
+ * http://www.opensource.org/licenses/mit-license.php
+ */
+
 var initRecaptcha_ids = 1;
 var initRecaptcha = function() {
 	var recaptchas = $('.recaptcha');
@@ -10,7 +19,7 @@ var initRecaptcha = function() {
 			recaptchas.each(function() {
 				if ($(this).hasClass('has')) return;
 				var id = $(this).addClass('has').attr('id');
-				if (id == undefined) { 
+				if (id == undefined) {
 					id = 'recaptcha_' + (initRecaptcha_ids++);
 					$(this).attr('id', id);
 				}
@@ -18,7 +27,7 @@ var initRecaptcha = function() {
 				Recaptcha.create($(this).attr('data-public_key'), id, {theme: "red"});
 			});
 		}
-	});	
+	});
 }};
 
 var load_href = window.location.href;
@@ -57,8 +66,8 @@ var wvAjax = function(options) {
 		add_data({'value': $this.val()});
 	}
 	if ($this.hasClass('post')) {
-		type = 'post'; 
-		cache = false; 
+		type = 'post';
+		cache = false;
 	}
 	if ($this.hasClass('domid')) {
 		if (!$this.attr('id')) $this.attr('id', 'wvAjax_gen_id_' + (++wvAjax_gen_id));
@@ -122,7 +131,7 @@ var wvAjax = function(options) {
 							var s = jQuery(action_data.selector);
 							if (action_data.args == undefined)
 								s[action_data.cmd].apply(s);
-							else 
+							else
 								s[action_data.cmd].apply(s, action_data.args);
 						}
 						break;
@@ -209,7 +218,7 @@ var wvAjax = function(options) {
 
 $(function($) {
 	$('.nav-collapse').collapse('hide');
-	
+
 	$('body')
 	.on('submit', 'form.ajax_form', wvAjax)
 	.on('click', 'a.ajax_link:not(.disabled), form.ajax_form .submit', wvAjax)
@@ -219,13 +228,13 @@ $(function($) {
 	.on('click', 'a.disabled', function() { return false; })
 	;
 	$('.change_onload select.ajax_change').each(wvAjax);
-	$('button.filter_reset').click(function() { 
+	$('button.filter_reset').click(function() {
 		var form = $(this).parents('form');
 		$('select', form).val('');
 		$('input', form).val('');
 		if ($.fn.chosen != undefined) try { $('select', form).trigger("liszt:updated"); } catch (e) {}
 	});
-	
+
 	$('select.select-update').change(function() {
 		wvAjax({
 			type: 'get',
@@ -272,7 +281,7 @@ $(function($) {
 
 		target_selector_1.change();
 	}
-	
+
 	$('body').on('click', '.filter_order', function() {
 		$('#o').val($(this).attr('data-value'));
 		$('form.filter_form').submit();
@@ -320,8 +329,8 @@ $(function($) {
 			if (help) that.highlightTextarea({'words': help.match(/#[^#, ]+#/g)});
 		});
 	} catch (e) {}
-	
-	if ($.fn.chosen != undefined) { 
+
+	if ($.fn.chosen != undefined) {
 		try { $('select:not(.no-chosen)').chosen({'allow_single_deselect': true}); } catch (e) {}
 	}
 	if ($.fn.select2 != undefined) {
@@ -348,7 +357,7 @@ $(function($) {
 				});
 		}); } catch (e) {}
 	}
-	
+
 	$('.add_popover').each(function() {
 		var $this = $(this);
 		var placement = $this.hasClass('popover_left') ? 'left' : 'right';
@@ -379,7 +388,7 @@ $(function($) {
 			minimumResultsForSearch: -1
 		});
 	};
-	
+
 	$('body').on('click', '.download-prepare', function () {
 		var a = $(this);
 		var href = a.attr('href');
@@ -387,13 +396,13 @@ $(function($) {
 		var pages = submit.pages;
 		var modal_body = $('#prepare-download .modal-body');
 
-		
+
 		var error = function() {
 			modal_body.append('<div class="alert">Error.</div>');
 		};
-		
+
 		a.hide();
-		
+
 		var progress = $('<div class="progress"></div>');
 		a.after(progress);
 		var bar = $('<div class="bar" style="width: 0%;"></div>');
@@ -420,12 +429,12 @@ $(function($) {
 					} else {
 						error();
 					}
-					
+
 				},
 				error: error
 			});
 		};
-		
+
 		process(0);
 
 		return false;

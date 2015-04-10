@@ -1,4 +1,13 @@
 <?php
+/*
+ * Copyright (c) 2015, webvariants GmbH & Co. KG, http://www.webvariants.de
+ *
+ * This file is released under the terms of the MIT license. You can find the
+ * complete text in the attached LICENSE file or online at:
+ *
+ * http://www.opensource.org/licenses/mit-license.php
+ */
+
 abstract class myDoctrineRecord extends sfCachetaggableDoctrineRecord
 {
   public function getCacheTag()
@@ -30,7 +39,7 @@ abstract class myDoctrineRecord extends sfCachetaggableDoctrineRecord
   {
     $non_json_fields = $this->option('non_json_fields');
     $old_json_fields = $this->option('old_json_fields');
-    
+
     if ($old_json_fields && isset($old_json_fields[$field]) && in_array($name, $old_json_fields[$field])) {
       $array = $this->utilGetAsJsonArray($field);
       if (array_key_exists($name, $array)) {
@@ -55,17 +64,17 @@ abstract class myDoctrineRecord extends sfCachetaggableDoctrineRecord
   {
     $non_json_fields = $this->option('non_json_fields');
     $old_json_fields = $this->option('old_json_fields');
-    
+
     if ($old_json_fields && isset($old_json_fields[$field]) && in_array($name, $old_json_fields[$field])) {
       $array = $this->utilGetAsJsonArray($field);
       if (array_key_exists($field, $array)) { // remove old entry from json
         unset($array[$field]);
         $this->utilSetAsJsonArray($field, $array);
       }
-      
+
       return $this[$name] = $value;
     }
-    
+
     if (isset($non_json_fields[$field]) && in_array($name, $non_json_fields[$field])) {
       return $this[$name] = $value;
     }

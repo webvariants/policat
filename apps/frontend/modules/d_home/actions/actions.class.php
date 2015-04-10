@@ -1,4 +1,12 @@
 <?php
+/*
+ * Copyright (c) 2015, webvariants GmbH & Co. KG, http://www.webvariants.de
+ *
+ * This file is released under the terms of the MIT license. You can find the
+ * complete text in the attached LICENSE file or online at:
+ *
+ * http://www.opensource.org/licenses/mit-license.php
+ */
 
 /**
  * dashboard home actions.
@@ -20,9 +28,9 @@ class d_homeActions extends policatActions {
   }
 
   public function executeIndex(sfWebRequest $request) {
-    
+
   }
-  
+
   public function executeTips(sfWebRequest $request) {
     $this->page(StoreTable::TIPS_TITLE, StoreTable::TIPS_CONTENT);
   }
@@ -77,7 +85,7 @@ class d_homeActions extends policatActions {
     $this->contact_content = $contact_content ? $contact_content->getValue() : '';
     $this->contact_title = $contact_title ? $contact_title->getValue() : '';
   }
-  
+
   public function executeImprint(sfWebRequest $request) {
     $store = StoreTable::getInstance();
     $imprint_content = $store->findByKeyCached(StoreTable::IMPRINT_CONTENT);
@@ -91,5 +99,5 @@ class d_homeActions extends policatActions {
     $this->imprint_content = $imprint_content ? $imprint_content->getValue() : '';
     $this->imprint_title = $imprint_title ? $imprint_title->getValue() : '';
   }
-  
+
 }

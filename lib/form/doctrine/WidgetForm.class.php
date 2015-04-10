@@ -1,4 +1,12 @@
 <?php
+/*
+ * Copyright (c) 2015, webvariants GmbH & Co. KG, http://www.webvariants.de
+ *
+ * This file is released under the terms of the MIT license. You can find the
+ * complete text in the attached LICENSE file or online at:
+ *
+ * http://www.opensource.org/licenses/mit-license.php
+ */
 
 /**
  * Widget form.
@@ -151,10 +159,10 @@ class WidgetForm extends BaseWidgetForm
         foreach (array('title', 'target', 'background', 'intro', 'footer', 'email_subject', 'email_body') as $field)
           if (isset($this[$field])) $this->setDefault($field, $defaults[$field]);
     }
-    
+
     $this->getObject()->setStatus(Widget::STATUS_ACTIVE);
     unset($this['status']);
-    
+
     $petition_paypal_email = $this->getObject()->getPetition()->getPaypalEmail();
     if ((is_string($petition_paypal_email) && strpos($petition_paypal_email, '@')) || !$this instanceof WidgetPublicForm)
     {
