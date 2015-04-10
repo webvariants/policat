@@ -1,0 +1,13 @@
+sfGuardUser:
+  sgu_super:
+    username:       super
+    email_address:  super
+    password:       'super' # INSERT SECURE PASSWORD HERE OR REMOVE USER
+    is_super_admin: true
+  sgu_admin:
+    username:       admin
+    email_address:  admin
+    password:       'admin' # INSERT SECURE PASSWORD HERE OR REMOVE USER
+    first_name:      John
+    last_name:       Doe
+    Groups:         [sgg_admin]

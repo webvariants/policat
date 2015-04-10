@@ -1,0 +1,101 @@
+Options +FollowSymLinks +ExecCGI
+
+<IfModule mod_rewrite.c>
+  RewriteEngine On
+  #RewriteBase /
+
+  # no SSL/REDIRECT for fb_tab and fb_canvas
+  # RewriteRule ^fb_tab$|^fb_canvas$ $1?no_redirect=TGBTGBTGB
+
+  # if running on policat.org
+  # missing WWW
+  RewriteCond %{HTTP_HOST} ^policat\.org$ [NC]
+  RewriteRule ^(.*)$ https://www.policat.org/$1 [R=301,L]
+
+  # missing SSL (HTTPS)
+  RewriteCond %{HTTP_HOST} ^.*policat\.org$ [NC]
+  RewriteCond %{HTTP_HOST} !(^staging\.policat\.org$) [NC]
+  RewriteCond %{HTTPS} off
+  RewriteCond %{QUERY_STRING} !(no_redirect=TGBTGBTGB)
+  RewriteRule ^(.*)$ https://www.policat.org/$1 [R=301,L]
+
+  #we skip some directories (less load on wrong links)
+  RewriteRule ^(css|images|js|uploads|sf|sfDoctrinePlugin|sfFormExtraPlugin)/.*$ - [L]
+
+  RewriteCond %{REQUEST_FILENAME} !-f
+  RewriteRule ^widget_page/([0-9]+)$ widget_page.html [L]
+
+  # widget routes
+  RewriteRule (^(counterbar|validate|(api/js/widget)|teaser_js2|teaser_js|widgetedit)/[0-9-]+$)|^feed$|^fb_canvas$|^fb_tab$|(^(sign(_hp)?/[0-9]+|text)/[0-9a-f]+) widget.php [L]
+  RewriteRule ^api(/v2)?$|^counterbar$ widget.php? [L]
+  RewriteRule ^api/jsonp?$|^counterbar/colors$ widget.php [L]
+  RewriteRule ^api/v2/actions/\d+/signings$ widget.php [L]
+  RewriteRule ^pledge/\d+/\d+/.{15}$ widget.php [L]
+  RewriteRule ^pledge/\d+/test$ widget.php [L]
+
+  # frontend routes
+  RewriteRule ^$ frontend.php [QSA,L]
+  RewriteRule ^((login)|(forgotten)|(guard/login)|(guard/logout)|(captcha)|(tips)|(faq)|(help)|(terms)|(contact)|(imprint)|(register)|(profile)|(unblock)|(dashboard/?))$ frontend.php [QSA,L]
+  RewriteRule ^((register)|(forgotten)|(user_validation))/\d+/[a-zA-Z0-9]+$ frontend.php [QSA,L]
+
+  RewriteRule ^campaign(|(/create)|(/join)|(/go_edit))?$ frontend.php [QSA,L]
+  RewriteRule ^campaign/((edit)|(leave)|(members)|(switches)|(name)|(privacy)|(privacy/list)|(address)|(officer_resign)|(officer_call)|(delete)|(undelete)|(privacy)|(data)|(data/download)|(data/prepare))/\d+$ frontend.php [QSA,L]
+  RewriteRule ^campaign/((data))/\d+/\d+$ frontend.php [QSA,L]
+  RewriteRule ^campaign/privacy/\d+/[a-z][a-z](_[A-Z][A-Z])?$ frontend.php [QSA,L]
+
+  RewriteRule ^action((/by_campaign)|(/join)|(/leave)|(/join_admin)|(/new)|(/spf))?$ frontend.php [QSA,L]
+  RewriteRule ^action/\d+$ frontend.php [QSA,L]
+  RewriteRule ^action/((edit)|(edit_target)|(widget)|(translation)|(todo)|(target)|(pager)|(members)|(data)|(data/download)|(data/prepare))/\d+$ frontend.php [QSA,L]
+  RewriteRule ^action/((pager)|(data))/\d+/\d+$ frontend.php [QSA,L]
+  RewriteRule ^action/((pledge)|(pledge_download)|(pledge_edit(/\d+)?)|(pledge_new)|(pledge_stats(/\d+)?))/\d+$ frontend.php [QSA,L]
+
+  RewriteRule ^action/((token)|(token_new)|(token_edit)|(token_data))/\d+$ frontend.php [QSA,L]
+
+  RewriteRule ^translation/((create)|(edit)|(default))/\d+$ frontend.php [QSA,L]
+
+  RewriteRule ^widget((/data_owner)|(/revoke_data))?$ frontend.php [QSA,L]
+  RewriteRule ^widget/((new)|(edit)|(pager)|(view)|(data)|(data/download)|(data/prepare))/\d+$ frontend.php [QSA,L]
+  RewriteRule ^widget/((pager)|(data))/\d+/\d+$ frontend.php [QSA,L]
+  RewriteRule ^widgetval/[0-9-]+$ frontend.php [QSA,L]
+
+  RewriteRule ^target((/join)|(/activate)|(/deactivate)|(/delete))$ frontend.php [QSA,L]
+  RewriteRule ^target/\d+$ frontend.php [QSA,L]
+  RewriteRule ^target/((edit)|(new)|(meta)|(meta_free)|(meta_delete)|(meta_choice)|(meta_mapping)|(contact/new)|(contact/delete)|(members)|(truncate)|(upload)|(copy)|(copy_global))/\d+$ frontend.php [QSA,L]
+  RewriteRule ^target/((contact)|(contact/pager))/\d+/\d+$ frontend.php [QSA,L]
+
+  RewriteRule ^ticket/((action)|(todo/\d+)|(view/\d+))$ frontend.php [QSA,L]
+
+  RewriteRule ^data/delete/\d+$ frontend.php [QSA,L]
+
+  RewriteRule ^admin((/stats)|(/testmail)|(/target)|(/store)|(/country)|(/country/((new)|(\d+)))|(/language)|(/language/new)|(/mapping)|(/mapping/new)|(/mapping/\d+(/delete)?)|(/mapping/pair/\d+(/\d+)?)|(/mapping/pair/\d+/delete)|(/mapping/\d+/pair)|(/user)|(/user/new)|(/campaign/undelete))?$ frontend.php [QSA,L]
+  RewriteRule ^admin/((store)|(store/lang))/[a-zA-Z0-9_]+$ frontend.php [QSA,L]
+  RewriteRule ^admin/store/[a-zA-Z0-9_]+/[a-z][a-z](_[A-Z][A-Z])?$ frontend.php [QSA,L]
+  RewriteRule ^admin/language((/download)|(/upload))?/[a-z][a-z](_[A-Z][A-Z])?$ frontend.php [QSA,L]
+  RewriteRule ^admin/user/((pager)|(edit)|(delete)|(block)|(unblock)|(switch))/\d+$ frontend.php [QSA,L]
+
+  RewriteRule ^(admin_campaign|admin_petition|admin_petition_text)([/\.].*)?$ frontend.php [QSA,L]
+  RewriteRule ^guard/((permissions)|(groups)|(users))([/\.].*)?$ frontend.php [QSA,L]
+
+  # OBSOLETE STUFF
+  RewriteRule ^main$ frontend.php [QSA,L]
+  RewriteRule ^page/\d+$ frontend.php [QSA,L]
+
+  # no route
+</IfModule>
+
+<IfModule mod_expires.c>
+	ExpiresActive On
+	ExpiresByType image/gif A43211
+	ExpiresByType image/png A43213
+	ExpiresByType image/jpg A43217
+	ExpiresByType image/jpeg A43223
+	ExpiresByType text/css A3647
+	ExpiresByType application/javascript A3673
+</IfModule>
+
+<IfModule mod_headers.c>
+	Header unset ETag
+	FileETag None
+
+	Header set P3P "policyref=\"/w3c/p3p.xml\", CP=\"IDC DSP COR ADM DEVi TAIi PSA PSD IVAi IVDi CONi HIS OUR IND CNT\""
+</IfModule>

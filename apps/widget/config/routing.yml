@@ -1,0 +1,99 @@
+feed:
+  url: /feed
+  param: { module: home, action: feed }
+
+sign:
+  url: /sign/:id/:hash
+  param: { module: widget, action: sign }
+
+sign_hp:
+  url: /sign_hp/:id/:hash
+  param: { module: widget, action: signHp }
+
+validate:
+  url: /validate/:code
+  param: { module: widget, action: validate }
+
+pledge_contact:
+  url: '/pledge/:petition_id/:contact_id/:secret'
+  param: { module: pledge_contact, action: index }
+  requirements:
+    sf_method: [get, head, post]
+    petition_id: '\d+'
+    contact_id: '\d+'
+    secret: '.{15}'
+
+pledge_contact_test:
+  url: '/pledge/:petition_id/test'
+  param: { module: pledge_contact, action: index }
+  requirements:
+    sf_method: [get, head]
+    petition_id: '\d+'
+
+api_js_widget:
+  url: /api/js/widget/:id
+  param: { module: widget, action: widgetOuter }
+
+teaser_js:
+  url: /teaser_js/:id
+  param: { module: widget, action: widgetOuter }
+
+teaser_js2:
+  url: /teaser_js2/:id
+  param: { module: widget, action: widgetOuter }
+
+api_v2:
+  url: /api/v2/actions/:action_id/signings
+  param: { module: api_v2, action: actionSignings }
+  requirements:
+    action_id: '\d+'
+
+api_v2_doc:
+  url: /api/v2
+  param: { module: api_v2, action: doc }
+
+api:
+  url: /api/:format
+  param: { module: api, action: index }
+
+api_doc:
+  url: /api
+  param: { module: api, action: doc }
+
+widgetedit:
+  url: /widgetedit/:code
+  param: { module: widget, action: widgetedit }
+
+fb_canvas:
+  url: /fb_canvas/*
+  param: { module: facebook, action: canvas }
+
+fb_tab:
+  url: /fb_tab/*
+  param: { module: facebook, action: tab }
+
+text:
+  url: /text/:hash
+  param: { module: widget, action: text }
+
+counterbar_generator:
+  url: /counterbar
+  param: { module: api, action: counterbar_generator }
+
+counterbar_colors:
+  url: /counterbar/colors
+  param: { module: api, action: colors }
+
+counterbar:
+  url: /counterbar/:id
+  param: { module: api, action: counterbar }
+
+terms: {    url: '/terms',   param: { module: default, action: error404 } }
+contact: {  url: '/contact', param: { module: default, action: error404 } }
+widgetval: { url: '/widgetval/:code', param: { module: default, action: error404 } }
+homepage: { url: '/',        param: { module: default,  action: error404 } }
+imprint: {  url: '/imprint', param: { module: defaiöt,  action: error404 } }
+
+default:
+  url: /*
+  param: { module: default, action: error404 }

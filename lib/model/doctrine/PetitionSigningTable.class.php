@@ -1,0 +1,490 @@
+<?php
+
+class PetitionSigningTable extends Doctrine_Table {
+
+  /**
+   *
+   * @return PetitionSigningTable
+   */
+  public static function getInstance() {
+    return Doctrine_Core::getTable('PetitionSigning');
+  }
+
+  /**
+   *
+   * @return Doctrine_Query
+   */
+  public function queryAll($alias = 'ps') {
+    return $this->createQuery($alias)->orderBy($alias . '.id');
+  }
+
+  const CAMPAIGN = 'campaign';
+  const PETITION = 'petition';
+  const LANGUAGE = 'language';
+  const COUNTRY = 'country';
+  const SUBSCRIBER = 'subscriber';
+  const STATUS = 'status';
+  const WIDGET = 'widget';
+  const USER = 'user';
+  const SEARCH = 'search';
+  const ORDER = 'order';
+  const WIDGET_FILTER = 'widget_filter';
+  const KEYWORD_NAME = '#SENDER-NAME#';
+  const KEYWORD_COUNTRY = '#SENDER-COUNTRY#';
+  const KEYWORD_ADDRESS = '#SENDER-ADDRESS#';
+  const KEYWORD_EMAIL = '#SENDER-EMAIL#';
+  const ORDER_ASC = '1';
+  const ORDER_DESC = '2';
+
+  static $DEFAULT_OPTIONS = array(
+      self::CAMPAIGN => null,
+      self::PETITION => null,
+      self::LANGUAGE => null,
+      self::COUNTRY => null,
+      self::SUBSCRIBER => false,
+      self::STATUS => PetitionSigning::STATUS_VERIFIED,
+      self::WIDGET => null,
+      self::USER => null,
+      self::SEARCH => '',
+      self::ORDER => null,
+      self::WIDGET_FILTER => ''
+  );
+  static $KEYWORDS = array(
+      self::KEYWORD_NAME,
+      self::KEYWORD_ADDRESS,
+      self::KEYWORD_COUNTRY,
+      self::KEYWORD_EMAIL
+  );
+
+  /**
+   *
+   * @param array $options
+   * @return Doctrine_Query
+   * @throws Exception
+   */
+  public function query(array $options) {
+    $query = $this->queryAll('ps')
+      ->leftJoin('ps.Widget w')
+      ->leftJoin('w.WidgetOwner wo')
+      ->leftJoin('w.PetitionText pt');
+
+    $options = array_merge(self::$DEFAULT_OPTIONS, $options);
+    $language = $options[self::LANGUAGE];
+    $country = $options[self::COUNTRY];
+    $subscriber = $options[self::SUBSCRIBER];
+    $campaign = $options[self::CAMPAIGN];
+    $petition = $options[self::PETITION];
+    $status = $options[self::STATUS];
+    $widget = $options[self::WIDGET];
+    $user = $options[self::USER];
+    $search = $options[self::SEARCH];
+    $order = $options[self::ORDER];
+    $widget_filter = $options[self::WIDGET_FILTER];
+
+    if ($status) {
+      $query->andWhere('ps.status = ?', $status);
+    }
+
+    if (!($petition || $campaign || $widget))
+      throw new Exception('campaign or petition required');
+
+    if ($petition) {
+      if (is_array($petition)) {
+        $ids = array();
+        foreach ($petition as $p)
+          $ids[] = is_object($p) ? $p->getId() : $p;
+        $query->andWhereIn('ps.petition_id', $ids);
+      } else
+        $query->andWhere('ps.petition_id = ?', is_object($petition) ? $petition->getId() : $petition);
+    }
+
+    if ($campaign) {
+      $query
+        ->leftJoin('ps.Petition p')
+        ->andWhere('p.status != ?', Petition::STATUS_DELETED);
+      if (is_array($campaign)) {
+        $ids = array();
+        foreach ($campaign as $c)
+          $ids[] = is_object($c) ? $c->getId() : $c;
+        $query->andWhereIn('p.campaign_id', $ids);
+      } else
+        $query->andWhere('p.campaign_id = ?', is_object($campaign) ? $campaign->getId() : $campaign);
+    }
+
+    if ($widget) {
+      $widget_id = is_object($widget) ? $widget->getId() : $widget;
+      if (is_array($widget_id))
+        $query->andWhereIn('ps.widget_id', $widget_id);
+      else
+        $query->andWhere('ps.widget_id = ?', $widget_id);
+    }
+
+    if ($language) {
+      if (is_array($language))
+        $query->andWhereIn('pt.language_id', $language);
+      else
+        $query->andWhere('pt.language_id = ?', $language);
+    }
+
+    if ($country) {
+      if (is_array($country))
+        $query->andWhereIn('ps.country', $country);
+      else
+        $query->andWhere('ps.country = ?', $country);
+    }
+
+    if ($subscriber) {
+      $query->andWhere('ps.subscribe = ?', PetitionSigning::SUBSCRIBE_YES);
+      if ($user) {
+        $user_id = is_object($user) ? $user->getId() : $user;
+        $query->andWhere('w.user_id = ? AND w.data_owner = ?', array($user_id, WidgetTable::DATA_OWNER_YES));
+      } else {
+        $query->andWhere('w.user_id is null OR w.data_owner = ?', WidgetTable::DATA_OWNER_NO);
+      }
+    }
+
+    if ($search) {
+      $search_normalized = PetitionSigningSearchTable::normalize($search);
+      $likes_dql = array();
+      $likes_param = array();
+      $i = 0;
+      foreach (explode(' ', $search_normalized) as $part) {
+        if ($i > 5)
+          break;
+        $len = mb_strlen($part, 'UTF-8');
+        if ($len > 2) {
+          if ($len > 48) {
+            $part = mb_substr($part, 0, 48, 'UTF-8');
+          }
+          $i++;
+          $query->andWhere('ps.id in (SELECT search' . $i . '.id FROM PetitionSigningSearch search' . $i . ' WHERE search' . $i . '.keyword LIKE ?)', $part . '%');
+        }
+      }
+    }
+
+    switch ($order) {
+      case self::ORDER_ASC:
+        $query->orderBy('ps.id ASC');
+        break;
+      case self::ORDER_DESC:
+        $query->orderBy('ps.id DESC');
+        break;
+    }
+
+    if ($widget_filter) {
+      if (preg_match('/^u(\d+)$/', $widget_filter, $matches)) {
+        $query->andWhere('w.user_id = ?', $matches[1]);
+      } elseif (preg_match('/^w(\d+)$/', $widget_filter, $matches)) {
+        $query->andWhere('w.id = ?', $matches[1]);
+      } else {
+        $query->andWhere('w.organisation = ?', $widget_filter);
+      }
+    }
+
+    return $query;
+  }
+
+  public function countByPetition($petition, $min_date = null, $max_date = null, $timeToLive = 600, $refresh = false) {
+    $petition_id = $petition instanceof Petition ? $petition->getId() : $petition;
+    $query = $this->queryAll('ps')
+      ->where('ps.petition_id = ? AND ps.status = ?', array($petition_id, PetitionSigning::STATUS_VERIFIED));
+
+    $this->dateFilter($query, $min_date, $max_date, 'ps', 'created_at');
+
+    if ($timeToLive)
+      $query->useResultCache(true, $timeToLive);
+
+    if ($refresh)
+      $query->expireResultCache();
+
+    return $query->count();
+  }
+
+  public function countByPetitionCountries($petition_id, $min_date = null, $max_date = null, $timeToLive = 600, $refresh = false) {
+    $query = $this->queryAll('ps')
+        ->where('ps.petition_id = ? AND ps.status = ?', array($petition_id, PetitionSigning::STATUS_VERIFIED))
+        ->select('ps.country, COUNT(ps.id) as count')->groupBy('ps.country');
+
+    $this->dateFilter($query, $min_date, $max_date, 'ps', 'created_at');
+
+    if ($timeToLive)
+      $query->useResultCache(true, $timeToLive);
+
+    if ($refresh)
+      $query->expireResultCache();
+
+    $ret = array();
+
+    foreach ($query->execute(array(), Doctrine_Core::HYDRATE_ARRAY_SHALLOW) as $row) {
+      if (!$row['country']) {
+        $ret['unknown'] = (int) $row['count'];
+      } else {
+        $ret[$row['country']] = (int) $row['count'];
+      }
+    }
+
+    return $ret;
+  }
+
+  public function count24ByPetition(Petition $petition, $timeToLive = 600) {
+    $query = $this
+      ->queryAll('ps')
+      ->where('ps.petition_id = ? AND ps.status = ? AND DATE_SUB(NOW(),INTERVAL 1 DAY) <= ps.created_at', array($petition->getId(), PetitionSigning::STATUS_VERIFIED));
+    if ($timeToLive)
+      $query->useResultCache(true, $timeToLive);
+
+    return $query->count();
+  }
+
+  public function countPendingByPetition(Petition $petition, $timeToLive = 600) {
+    $query = $this->queryAll('ps')
+      ->where('ps.petition_id = ? AND ps.status = ?', array($petition->getId(), PetitionSigning::STATUS_PENDING));
+    if ($timeToLive)
+      $query->useResultCache(true, $timeToLive);
+
+    return $query->count();
+  }
+
+  public function countByWidget($widget, $min_date = null, $max_date = null, $timeToLive = 600, $refresh = false) {
+    $widget_id = $widget instanceof Widget ? $widget->getId() : $widget;
+    $query = $this->queryAll('ps')
+      ->where('ps.widget_id = ? AND ps.status = ?', array($widget_id, PetitionSigning::STATUS_VERIFIED));
+    $this->dateFilter($query, $min_date, $max_date, 'ps', 'created_at');
+
+    if ($timeToLive)
+      $query->useResultCache(true, $timeToLive);
+
+    if ($refresh)
+      $query->expireResultCache();
+
+    return $query->count();
+  }
+
+  public function countByWidgetCountries($widget_id, $min_date = null, $max_date = null, $timeToLive = 600, $refresh = false) {
+    $query = $this->queryAll('ps')
+        ->where('ps.widget_id = ? AND ps.status = ?', array($widget_id, PetitionSigning::STATUS_VERIFIED))
+        ->select('ps.country, COUNT(ps.id) as count')->groupBy('ps.country');
+    $this->dateFilter($query, $min_date, $max_date, 'ps', 'created_at');
+
+    if ($timeToLive)
+      $query->useResultCache(true, $timeToLive);
+
+    if ($refresh)
+      $query->expireResultCache();
+
+    $ret = array();
+
+    foreach ($query->execute(array(), Doctrine_Core::HYDRATE_ARRAY_SHALLOW) as $row) {
+      if (!$row['country']) {
+        $ret['unknown'] = (int) $row['count'];
+      } {
+        $ret[$row['country']] = (int) $row['count'];
+      }
+    }
+
+    return $ret;
+  }
+
+  public function countPendingByWidget(Widget $widget, $timeToLive = 600) {
+    $query = $this->queryAll('ps')
+      ->where('ps.widget_id = ? AND ps.status = ?', array($widget->getId(), PetitionSigning::STATUS_PENDING));
+    if ($timeToLive)
+      $query->useResultCache(true, $timeToLive);
+
+    return $query->count();
+  }
+
+  /**
+   *
+   * @param int $id
+   * @return PetitionSigning
+   */
+  public function fetch($id) {
+    return $this->createQuery('ps')
+        ->leftJoin('ps.Petition p')
+        ->leftJoin('ps.Widget w, w.PetitionText pt')
+        ->leftJoin('ps.PetitionSigningWave psw')
+        ->where('ps.id = ?', $id)
+        ->select('ps.*, p.id, p.kind, p.email_targets, p.landing_url, ps.widget_id, w.id, w.petition_text_id, w.landing_url, pt.id, pt.language_id, pt.landing_url, psw.*')
+        ->fetchOne();
+  }
+
+  /**
+   *
+   * @param int $petition_id
+   * @param straing $email
+   * @param int $lower_then_id
+   * @return PetitionSigning
+   */
+  public function findByPetitionIdAndEmail($petition_id, $email, $lower_then_id = null) {
+    $query = $this
+      ->createQuery('s')
+      ->where('s.petition_id = ?', $petition_id)
+      ->andWhere('LOWER(s.email) = LOWER(?)', $email);
+    if ($lower_then_id) {
+      $query->andWhere('s.id < ?', $lower_then_id);
+    }
+    return $query->limit(1)->fetchOne();
+  }
+
+  public function getWidgetFilter(Petition $petition) {
+    $query_orga = WidgetTable::getInstance()
+      ->queryByPetition($petition)
+      ->andWhere('w.organisation != ""')
+      ->andWhere('w.id IN (SELECT DISTINCT ps.widget_id FROM PetitionSigning ps WHERE ps.status = ? AND ps.widget_id = w.id)', PetitionSigning::STATUS_VERIFIED);
+    $query_orga->select('DISTINCT ' . $query_orga->getRootAlias() . '.organisation');
+    $result_orga = $query_orga->fetchArray();
+
+    $organisations = array();
+    foreach ($result_orga as $orga) {
+      $organisations[$orga['organisation']] = $orga['organisation'];
+    }
+
+    $query_user = WidgetTable::getInstance()
+      ->queryByPetition($petition)
+      ->andWhere('w.user_id IS NOT NULL')
+      ->andWhere('w.id IN (SELECT DISTINCT ps.widget_id FROM PetitionSigning ps WHERE ps.status = ? AND ps.widget_id = w.id)', PetitionSigning::STATUS_VERIFIED);
+    $query_user->select('DISTINCT ' . $query_user->getRootAlias() . '.user_id');
+    $result_user = $query_user->fetchArray();
+    $user_ids = array();
+    foreach ($result_user as $user_id) {
+      $user_ids[] = $user_id['user_id'];
+    }
+
+    $users = array();
+    if ($user_ids) {
+      $user_objs = sfGuardUserTable::getInstance()->queryAll()->andWhereIn('u.id', $user_ids)->execute();
+      foreach ($user_objs as $user) {
+        /* @var $user sfGuardUser */
+        $users['u' . $user->getId()] = $user->getName();
+      }
+    }
+
+    $widgets = array();
+    $widget_ids = WidgetTable::getInstance()
+      ->queryByPetition($petition)
+      ->andWhere('w.id IN (SELECT DISTINCT ps.widget_id FROM PetitionSigning ps WHERE ps.status = ? AND ps.widget_id = w.id)', PetitionSigning::STATUS_VERIFIED)
+      ->select('w.id')
+      ->fetchArray();
+    foreach ($widget_ids as $widget) {
+      $widgets['w' . $widget['id']] = 'Widget #' . $widget['id'];
+    }
+
+    return array(
+        '' => array('' => ''),
+        'Organisations' => $organisations,
+        'Users' => $users,
+        'Widgets' => $widgets
+    );
+  }
+
+  public function fetchCountries($widget_id, $min_date = null, $max_date = null) {
+    if (is_array($widget_id) && count($widget_id) < 1) {
+      return array();
+    }
+
+    $query = $this->createQuery('ps')
+      ->whereIn('ps.widget_id', $widget_id)
+      ->andWhere('status = ' . PetitionSigning::STATUS_VERIFIED)
+      ->select('ps.country')
+      ->groupBy('ps.country');
+
+    $this->dateFilter($query, $min_date, $max_date);
+
+    return $query->execute(array(), Doctrine_Core::HYDRATE_ARRAY);
+  }
+
+  public function fetchSigningDateRange($widget_id, $min_date = null, $max_date = null, $timeToLive = 600, $refresh = false) {
+    if (is_array($widget_id) && count($widget_id) < 1) {
+      return array();
+    }
+
+    $query = $this->createQuery('ps')
+      ->whereIn('ps.widget_id', $widget_id)
+      ->andWhere('status = ' . PetitionSigning::STATUS_VERIFIED)
+      ->select('MIN(created_at) AS min_created, MAX(created_at) AS max_created');
+
+    $this->dateFilter($query, $min_date, $max_date);
+
+    if ($timeToLive)
+      $query->useResultCache(true, $timeToLive);
+
+    if ($refresh)
+      $query->expireResultCache();
+
+    $ret = $query->execute(array(), Doctrine_Core::HYDRATE_ARRAY_SHALLOW);
+
+    if ($ret) {
+      return $ret[0];
+    }
+
+    return null;
+  }
+
+  public function fetchSigningDateRangeByPetition($petition_id, $min_date = null, $max_date = null, $timeToLive = 600, $refresh = false) {
+    $query = $this->createQuery('ps')
+      ->whereIn('ps.petition_id', $petition_id)
+      ->andWhere('status = ' . PetitionSigning::STATUS_VERIFIED)
+      ->select('MIN(created_at) AS min_created, MAX(created_at) AS max_created');
+
+    $this->dateFilter($query, $min_date, $max_date);
+
+    if ($timeToLive)
+      $query->useResultCache(true, $timeToLive);
+
+    if ($refresh)
+      $query->expireResultCache();
+
+    $ret = $query->execute(array(), Doctrine_Core::HYDRATE_ARRAY_SHALLOW);
+    if ($ret) {
+      return $ret[0];
+    }
+
+    return null;
+  }
+
+  private function dateFilter(Doctrine_Query $query, $min_date = null, $max_date = null, $alias = 'ps', $field = 'created_at') {
+    if ($min_date > 0) {
+      $query->andWhere("$alias.$field >= ?", gmdate('Y-m-d H:i:s', $min_date));
+    }
+
+    if ($max_date > 0) {
+      $query->andWhere("$alias.$field <= ?", gmdate('Y-m-d H:i:s', $max_date));
+    }
+  }
+
+  public function queryPendingSignings($duration, $once = true, $petition_id = null) {
+    $before = gmdate('Y-m-d H:i:s', time() - $duration);
+
+    $query = $this->createQuery('ps')
+      ->where('ps.status = ?', PetitionSigning::STATUS_PENDING);
+    if ($once) {
+      $query->andWhere('ps.mailed_at IS NULL AND ps.updated_at < ?', array($before));
+    } else {
+      $query->andWhere('(ps.mailed_at IS NULL AND ps.updated_at < ?) OR (ps.mailed_at IS NOT NULL and ps.mailed_at < ?)', array($before, $before));
+    }
+    $query->orderBy('ps.status ASC, ps.mailed_at ASC, updated_at ASC, ps.id ASC');
+
+    if ($petition_id) {
+      $query->andWhere('ps.petition_id = ?', array($petition_id));
+    }
+
+    return $query;
+  }
+
+  public function queryPendingSigningsSinceCreation($duration, $petition_id = null) {
+    $before = gmdate('Y-m-d H:i:s', time() - $duration);
+
+    $query = $this->createQuery('ps')
+      ->where('ps.status = ?', PetitionSigning::STATUS_PENDING)
+      ->andWhere('ps.created_at < ?', array($before))
+      ->orderBy('ps.status ASC, ps.created_at ASC, ps.id ASC');
+
+    if ($petition_id) {
+      $query->andWhere('ps.petition_id = ?', array($petition_id));
+    }
+
+    return $query;
+  }
+
+}

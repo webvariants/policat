@@ -1,0 +1,22 @@
+[symfony]
+  name=policat
+  author=Martin
+  orm=Doctrine
+
+[test]
+  host=localhost
+  port=22
+  user=policat
+  dir=/var/www/test
+
+[prod1]
+  host=localhost
+  port=22
+  user=policat
+  dir=/var/www/prod1
+
+[prod2]
+  host=locahost
+  port=22
+  user=policat
+  dir=/var/www/prod2

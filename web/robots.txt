@@ -1,0 +1,7 @@
+User-agent: *
+Disallow: /sign*
+Disallow: /teaser_*
+Disallow: /validate*
+Disallow: /widgetval*
+Disallow: /widgetedit*
+Disallow: /text*

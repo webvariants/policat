@@ -1,0 +1,24 @@
+all:
+  facebook:
+    appId: # INSERT HERE # 
+    secret: # INSERT HERE #
+    domain: # INSERT HERE #
+    form_hash: '# INSERT RANDOM SECRET HERE #'
+
+  hashes:
+    petition_signing: '# INSERT RANDOM SECRET HERE       #'
+    petition_text:    '# INSERT RANDOM OTHER SECRET HERE #'
+    widget:           '# INSERT RANDOM OTHER SECRET HERE #'
+
+  frontend_csrf_secret: '# INSERT RANDOM OTHER SECRET HERE #'
+
+  recaptcha:
+    secret: # INSERT HERE #
+    public: # INSERT HERE #
+
+  web:
+    url: http://INSERT.HERE/
+
+  spf:
+    cmd: spfquery
+    ip: # INSERT IP OF YOUR MAILSERVER #

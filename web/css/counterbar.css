@@ -1,0 +1,50 @@
+#counterbar_example label {
+	width: 135px;
+}
+
+#counterbar_example {
+	width: 488px;
+	display: none;
+	margin-top: 30px;
+}
+
+#counterbar {
+	overflow: hidden;
+	padding: 5px;
+	position: relative;
+}
+
+#count_target {
+	font-size: 9px;
+}
+
+#count_target span { float: right; }
+
+#count {
+	font-size: 12px;
+	height: 18px;
+	position: relative;
+}
+
+#coloredbar {
+	height: 18px;
+	position: absolute;
+	left: 0;
+	top: 0;
+	width: 49%;
+	text-align: right;
+}
+
+#counternumber {
+	position: absolute;
+	padding: 0 2px;
+	top: 0;
+	left: 0;
+	margin-left: 49%;
+}
+
+#code { 
+	width: 400px;
+	height: 200px;
+	resize:none; 
+}

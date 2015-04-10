@@ -1,0 +1,10 @@
+index:
+  is_secure: false
+  
+admin:
+  is_secure: true
+  credentials: admin
+  
+testmail:
+  is_secure: true
+  credentials: admin

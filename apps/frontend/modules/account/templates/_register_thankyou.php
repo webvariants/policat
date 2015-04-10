@@ -1,0 +1,1 @@
+<p>Thank you for registering, please check your mail now.</p>

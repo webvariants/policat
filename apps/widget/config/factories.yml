@@ -1,0 +1,9 @@
+# widget
+
+test:
+  storage:
+    class: sfNoStorage
+
+all:
+  storage:
+    class: sfNoStorage

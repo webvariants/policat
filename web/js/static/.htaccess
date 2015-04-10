@@ -1,0 +1,9 @@
+<IfModule mod_expires.c>
+	ExpiresActive On
+	ExpiresByType image/gif A99999999
+	ExpiresByType image/png A99999999
+	ExpiresByType image/jpg A99999999
+	ExpiresByType image/jpeg A99999999
+	ExpiresByType text/css A99999999
+	ExpiresByType application/javascript A99999999
+</IfModule>

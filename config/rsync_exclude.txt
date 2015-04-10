@@ -1,0 +1,54 @@
+# Project files
+/cache/*
+/log/*
+/web/*_dev.php
+/web/*_stress.php
+/web/uploads/*
+/web/images/keyvisual
+/web/images/keyvisual/*
+/web/images/pledge_header_visual
+/web/images/pledge_header_visual/*
+/web/images/pledge_key_visual
+/web/images/pledge_key_visual/*
+/web/images/store
+/web/images/store/*
+/apps/widget/i18n/*
+
+# SCM files
+.arch-params
+.bzr
+_darcs
+.git
+.hg
+.monotone
+.svn
+CVS
+/nbproject
+/nbproject/*
+
+# autoloader config
+# /config/*.dist
+/config/app.yml
+/config/databases.yml
+/config/properties.ini
+/config/factories.yml
+
+/data/*.lck
+/data/csv_uploads
+/data/csv_uploads/*
+
+/data/csv_downloads
+/data/csv_downloads/*
+
+.hgignore
+/compile-bootstrap.sh
+/optimize_js.sh
+/optimize_css.sh
+/optimize_widget.sh
+/yuicompressor*
+
+/composer.json
+/composer.lock
+
+/web/images/ttipceta
+/web/images/ttipceta/*

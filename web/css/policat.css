@@ -1,0 +1,32 @@
+.clear { clear: both; }
+body#body_policat_portal { width: 900px; margin: 5px auto; background-color: #ddd; border: 1px solid silver; padding: 5px }
+table td, table th { border: 1px solid silver; margin: 0; padding: 5px;}
+table tfoot td, table tfoot th, table thead td, table thead th { background: silver; border: 1px solid #ddd }
+
+div#main_menu, div#sub_menu { background: silver; padding: 3px; }
+
+form div.form_row label { width: 100px; display: inline-block; vertical-align: top; }
+form div.form_row > div { display: inline-block }
+form div.form_row input, form div.form_row textarea { margin-bottom: 10px; margin-top: 10px; }
+form div.form_row span.help { display: block }
+form .form_row ul.radio_list { display: inline; margin: 0 }
+form .form_row ul.radio_list li { display: inline }
+form .form_row ul.radio_list li label { width: auto }
+form .form_row ul.radio_list li input { margin: 4px 0 0 0 }
+form.one_line div.form_row { display: inline-block }
+form.one_line div.form_row label { width: auto }
+form.check_left div.form_row input[type=checkbox] { margin: 2px 5px 0 0; float: left }
+
+#petition_text_helptext { background-color: #eee; }
+#petition_text_helptext > div { width: 740px }
+
+ul.error_list { background: red }
+
+form.delete input[type=submit] { background: none; margin: 0; padding: 1px;	border: 1px solid black; display: inline; }
+form.delete .form_row {	display: inline; }
+form.delete .form_row label { display: inline; width: auto; }
+
+ul.pager { list-style-type: none }
+ul.pager li { display: inline }
+ul.pager span { background: darkgray }
+ul.pager a:hover { text-decoration: none; background: yellow }

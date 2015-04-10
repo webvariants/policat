@@ -1,0 +1,16 @@
+# for development
+
+php:
+    build: docker/php
+    ports:
+        - "0.0.0.0:80:80"
+    volumes:
+        - '.:/var/www'
+
+#    external_links: # link database and other services
+#        - external_mysql:mysql
+#        - external_memcached:memcached
+
+# TODO:
+# - varnish
+# - mysql

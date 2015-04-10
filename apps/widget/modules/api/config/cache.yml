@@ -1,0 +1,14 @@
+doc:
+  enabled: true
+  with_layout: true
+  lifetime: 3600
+
+counterbar_generator:
+  enabled: true
+  with_layout: true
+  lifetime: 3600
+
+counterbar:
+  enabled: true
+  with_layout: true
+  lifetime: 3600

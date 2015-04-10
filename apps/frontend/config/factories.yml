@@ -1,0 +1,21 @@
+# frontend
+all:
+  storage:
+    class: policatSessionStorage
+    param:
+      session_name: policat
+      session_cookie_httponly: true
+#      cache:
+#        class: sfXCacheCache
+#        param:
+##        class: sfMemcacheCache
+
+  user:
+    class: myUser
+    param:
+      timeout: 3600
+
+stress:
+  storage:
+    param:
+      session_name: policat_stress

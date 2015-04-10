@@ -1,0 +1,89 @@
+prod:
+  logger:
+    class:   sfNoLogger
+    param:
+      level:   err
+      loggers: ~
+
+test:
+  storage:
+    class: sfSessionTestStorage
+    param:
+      session_path: %SF_TEST_CACHE_DIR%/sessions
+
+  response:
+    class: sfWebResponse
+    param:
+      send_http_headers: false
+
+  mailer:
+    param:
+      delivery_strategy: none
+
+#dev:
+#  mailer:
+#    param:
+#      delivery_strategy: single_address
+#      delivery_address: www-data@localhost
+
+all:
+  mailer:
+    param:
+      delivery_strategy: realtime
+#      delivery_strategy: spool
+#      spool_class:       Swift_DoctrineSpool
+#      spool_arguments:   [ MailMessage, message, getSpooledMessages ]
+
+  view_cache:
+    class: sfTaggingCache
+    param:
+      storage:
+        class: sfFileTaggingCache
+        param:
+          automatic_cleaning_factor: 0
+          cache_dir: %SF_CACHE_DIR%/sf_tag_cache
+#        class: sfMemcacheTaggingCache
+#        param:
+#          storeCacheInfo: true
+#          host: localhost
+#          port: 11211
+#           #host: unix:///path/to/memcache.socket
+#           #port: 0
+      logger:
+        class: sfNoCacheTagLogger  # sfFileCacheTagLogger
+        param:
+          file: %SF_LOG_DIR%/cache_%SF_ENVIRONMENT%.log
+          format: "%char% %microtime% %key%%EOL%"
+
+  view_cache_manager:
+    class: sfViewCacheTagManager
+#    param:
+#      cache_key_use_vary_headers: true
+#      cache_key_use_host_name:    true
+
+  routing:
+    class: policatRouting
+    param:
+      load_configuration:               true
+      suffix:                           ''
+      default_module:                   default
+      default_action:                   index
+      debug:                            %SF_DEBUG%
+      logging:                          %SF_LOGGING_ENABLED%
+      generate_shortest_url:            false
+      extra_parameters_as_query_string: false
+      cache:                            ~
+      cli_context:
+          prefix: ''
+          host: www.policat.org          # ENTER YOUR HOST
+          is_secure: true                # TRUE IF YOU ARE USING HTTPS
+
+stress:
+  logger:
+    class:   sfNoLogger
+    param:
+      level:   err
+      loggers: ~
+  mailer:
+    param:
+      delivery_strategy: none

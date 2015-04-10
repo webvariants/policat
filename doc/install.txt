@@ -1,0 +1,22 @@
+Installation instructions
+-------------------------
+
+$ composer.phar install
+$ cp databases.yml.dist    databases.yml    && nano databases.yml     (enter database connection parameters)
+$ cp app.yml.dist          app.yml          && nano app.yml           (enter random secrets, web domain, ip of your email server, 127.0.0.1 will do for testing)
+$ cp factories.yml.dist    factories.yml    && nano factories.yml     (editing optional)
+$ cp properties.ini.dist   properties.ini   && nano properties.ini    (editing optional)
+$ mkdir cache
+$ php symfony cc
+$ php symfony doctrine:create-db            (optional, only if symfony should create the database)
+$ php symfony doctrine:insert-sql
+$ nano data/fixtures/010_profiles.yml       (optional, change the default accounts)
+$ php symfony doctrine:data-load
+$ npm install
+$ grunt
+
+- create an apache2 vhost pointing to web/, mod_rewrite is required.
+
+open http://your-domain/dashboard
+
+Note: This setup is for development. On production add a varnish cache and take care that web/*_dev.php files are not accessable.

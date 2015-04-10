@@ -1,0 +1,17 @@
+all:
+  sfCacheTagging:
+
+    # Tag name delimiter
+    model_tag_name_separator: ":"
+
+    # Version of precision
+    # 0: without micro time, version length 10 digits
+    # 5: with micro time part, version length 15 digits
+    # allowed decimal numbers in range [0, 6]
+    microtime_precision: 5
+
+    # Callable array
+    # Example: [ClassName, StaticClassMethod]
+    # useful when tag name should contains extra information
+    # (e.g. Environment name, or application name)
+    object_class_tag_name_provider: []

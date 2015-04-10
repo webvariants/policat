@@ -1,0 +1,944 @@
+options:
+  options:
+  type: INNODB
+  collate: utf8_general_ci
+  charset: utf8
+
+sfGuardGroup:
+  columns:
+    id: { type: integer(4),  primary: true, autoincrement: true }    
+
+sfGuardPermission:
+  columns:
+    id: { type: integer(4),  primary: true, autoincrement: true }    
+
+sfGuardGroupPermission:  
+  columns:
+    group_id:
+      type: integer(4)
+      primary: true
+    permission_id:
+      type: integer(4)
+      primary: true
+
+sfGuardUserPermission:  
+  columns:
+    user_id:
+      type: integer(4)
+      primary: true
+    permission_id:
+      type: integer(4)
+      primary: true
+
+sfGuardUserGroup:
+  columns:
+    user_id:
+      type: integer(4)
+      primary: true
+    group_id:
+      type: integer(4)
+      primary: true
+
+sfGuardRememberKey:
+  columns:
+    id: { type: integer(4),  primary: true, autoincrement: true }
+    user_id: integer(4)
+
+sfGuardForgotPassword:
+  columns:
+    user_id:
+      type: integer(4)
+      notnull: true
+
+sfGuardUser:
+  columns:
+    id:               { type: integer(4),  primary: true, autoincrement: true }
+    first_name:       { type: string(40) }
+    last_name:        { type: string(40) }
+    email_address:    { type: string(80), notnull: true, unique: true }
+    organisation:     { type: string(120) }
+    website:          { type: string(200) }
+    mobile:           { type: string(40) }
+    phone:            { type: string(40) }
+    street:           { type: string(120) }
+    city:             { type: string(120) }
+    post_code:        { type: string(100) }
+    country:          { type: string(2) }
+    language_id:      { type: string(5), notnull: false, default: null }
+    validation_kind: { type: integer(1), notnull: true, default: 0 }
+    validation_code: { type: string(20) }
+  relations:
+    Language:          {  }
+
+MailMessage:
+  options:
+    symfony:
+      form:   false
+      filter: false
+  actAs: [ Timestampable ]
+  columns:
+    message: { type: clob, notnull: true }
+
+Permission: # obsolete
+  options:
+    symfony:
+      form:   false
+      filter: false
+  columns:
+    id:          { type: integer(4),  primary: true, autoincrement: true }
+    name:        { type: string(30),  notnull: true, unique: true }
+    description: { type: string,      notnull: true }
+  relations:
+    Group:       { refClass: GroupPermission, local: permission_id, foreign: group_id }
+
+GroupPermission: # obsolete
+  options:
+    symfony:
+      form:   false
+      filter: false
+  columns:
+    group_id:             { type: integer(4),     primary: true }
+    permission_id:        { type: integer(4),     primary: true }
+  relations:
+    Group:        { local: group_id,      onDelete: CASCADE }
+    Permission:   { local: permission_id, onDelete: CASCADE }
+
+Group: # obsolete
+  tableName:  groups
+  options:
+    symfony:
+      form:   false
+      filter: false
+  columns:
+    id:          { type: integer(4),  primary: true, autoincrement: true }
+    description: { type: string,      notnull: true }
+  relations:
+    Member:        { refClass: GroupMember, local: group_id, foreign: member_id, type: many }
+    Permission:    { refClass: GroupPermission, local: group_id, foreign: permission_id }
+
+GroupMember: # obsolete
+  options:
+    symfony:
+      form:   false
+      filter: false
+  columns:
+    group_id:     { type: integer(4),     primary: true }
+    member_id:    { type: integer(4),     primary: true }
+  relations:
+    Member:       { local: member_id,  onDelete: CASCADE }
+    Group:        { local: group_id,   onDelete: CASCADE }
+
+Member: # obsolete
+  options:
+    symfony:
+      filter: false
+  actAs: [Timestampable]
+  columns:
+    id:                  { type: integer(4), primary: true, autoincrement: true }
+    sf_guard_user_id:    { type: integer(4) }
+    campaign_id:         { type: integer(4) }
+  relations:
+    Group:               { refClass: GroupMember,    local: member_id, foreign: group_id, type: many }
+    sfGuardUser:         { local: sf_guard_user_id,  onDelete: CASCADE }
+    Campaign:            { local: campaign_id,       onDelete: CASCADE }
+
+Campaign:
+  actAs: [Timestampable, Cachetaggable]
+  columns:
+    id:                    { type: integer(4), primary: true, autoincrement: true }
+    name:                  { type: string,     notnull: true }
+    status:                { type: integer(4), notnull: true, default: 1 }
+    owner_register:        { type: integer(4), notnull: true, default: 0 }
+    allow_download:        { type: integer(4), notnull: true, default: 0 }
+    become_petition_admin: { type: integer(4), notnull: true, default: 0 }
+    privacy_policy:        { type: clob, notnull: true, default: '' }
+    address:               { type: clob, notnull: true, default: '' }
+    data_owner_id:         { type: integer(4), notnull: false, default: null }
+  relations:
+    sfGuardUser: { refClass: Member }
+    DataOwner:   { class: sfGuardUser, local: data_owner_id, onDelete: SET NULL, foreignAlias: DataOwnerCampaigns }
+  indexes:
+    campaign_status:    { fields: [status] }
+    campaign_name:      { fields: {name: {length: 100}} }
+
+CampaignRights:
+  options:
+    symfony:
+      form: false
+      filter: false
+  columns:
+    campaign_id: { type: integer(4), primary: true }
+    user_id:     { type: integer(4), primary: true }
+    active:      { type: integer(1), notnull: true, default: 0 }
+    member:      { type: integer(1), notnull: true, default: 0 }
+    admin:       { type: integer(1), notnull: true, default: 0 }
+  relations:
+    Campaign:
+      onDelete: CASCADE
+      class: Campaign
+      local: campaign_id
+      foreignAlias: CampaignRights
+    User:
+      onDelete: CASCADE
+      class: sfGuardUser
+      local: user_id
+      foreignAlias: CampaignRights
+
+PetitionRights:
+  options:
+    symfony:
+      form: false
+      filter: false
+  columns:
+    petition_id: { type: integer(4), primary: true }
+    user_id:     { type: integer(4), primary: true }
+    active:      { type: integer(1), notnull: true, default: 0 }
+    member:      { type: integer(1), notnull: true, default: 0 }
+    admin:       { type: integer(1), notnull: true, default: 0 }
+  relations:
+    Petition:
+      onDelete: CASCADE
+      class: Petition
+      local: petition_id
+      foreignAlias: PetitionRights
+    User:
+      onDelete: CASCADE
+      class: sfGuardUser
+      local: user_id
+      foreignAlias: PetitionRights
+
+Language:
+  actAs: [Cachetaggable]
+  options:
+    symfony:
+      filter: false
+  columns:
+    id: { type: string(5), primary: true }
+    name: string
+    order_number: { type: integer(4), notnull: true }
+    active:       { type: integer(1), notnull: true, default: 1 }
+  indexes:
+    language_order_num: { fields: [order_number] }
+
+Petition:
+  options:
+    symfony:
+      filter: false
+  actAs:
+    Timestampable: []
+    Cachetaggable:
+      skipOnChange:
+        - activity_at
+  columns:
+    id:                   { type: integer(4), primary: true, autoincrement: true }
+    campaign_id:          { type: integer(4), notnull: true }
+    kind:                 { type: integer(1), notnull: true, default: 1 }
+    nametype:             { type: integer(1), notnull: true, default: 2 }
+    status:               { type: integer(4), notnull: true, default: 1 }
+    name:                 { type: string,     notnull: true }
+    addnum:               { type: integer(4), notnull: true, default: 0}
+    addnote:              { type: clob }
+    read_more_url:        { type: string }
+    landing_url:          { type: string }
+    key_visual:           { type: string(60) }
+    paypal_email:         { type: string(80) }
+    from_name:            { type: string(80) }
+    from_email:           { type: string(80) }
+    email_targets:        { type: clob }
+    homepage:             { type: integer(1), notnull: true, default: 0 }
+    twitter_tags:         { type: string(200) }
+    language_id:          { type: string(5),  notnull: false, default: null }
+    mailing_list_id:      { type: integer(4), notnull: false, default: null }
+    editable:             { type: integer(1), notnull: true, default: 1 }
+    target_num:           { type: integer(4), notnull: true, default: 0 }
+    auto_greeting:        { type: integer(1), notnull: true, default: 0 }             # unused
+    start_at:             { type: date, notnull: false, default: null }
+    end_at:               { type: date, notnull: false, default: null }
+    with_comments:        { type: integer(1), notnull: true, default: 0 }
+    with_address:         { type: integer(1), notnull: true, default: 0 }
+    with_country:         { type: integer(1), notnull: true, default: 0 }
+    default_country:      { type: string(5), notnull: true, default: '' }
+    show_keyvisual:       { type: integer(1), notnull: true, default: 0 }
+    pledge_with_comments: { type: integer(1), notnull: true, default: 1 }
+    pledge_header_visual: { type: string(60), notnull: false }
+    pledge_key_visual:       { type: string(60), notnull: false }
+    pledge_background_color: { type: string(6), notnull: false, default: 'ffffff' }
+    pledge_color:            { type: string(6), notnull: false, default: '333333' }
+    pledge_head_color:       { type: string(6), notnull: false, default: '333333' }
+    pledge_font:             { type: string(80), notnull: false, default: null }
+    pledge_info_columns:     { type: clob, notnull: false, default: null }
+    activity_at:             { type: timestamp, notnull: false, default: null }
+    widget_individualise:    { type: integer(1), notnull: true, default: 1 }
+    style_font_family:       { type: string(80), notnull: true, default: '"Lucida Sans Unicode", Vardana, Arial' }
+    style_title_color:       { type: string(7), notnull: true, default: '#181716' }
+    style_body_color:        { type: string(7), notnull: true, default: '#666666' }
+    style_button_color:      { type: string(7), notnull: true, default: '#76b235' }
+    style_bg_left_color:     { type: string(7), notnull: true, default: '#e5e5e5' }
+    style_bg_right_color:    { type: string(7), notnull: true, default: '#f2f2f2' }
+    style_form_title_color:  { type: string(7), notnull: true, default: '#181716' }
+    country_collection_id:   { type: integer(4), notnull: false, default: null }
+    deleted_pendings:        { type: integer(4), notnull: true, default: 0 }
+    label_mode:              { type: integer(1), notnull: true, default: 1 }
+  relations:
+    Campaign:          { onDelete: CASCADE  }
+    Language:          {  }
+    MailingList:       { onDelete: SET NULL }
+    CountryCollection: { onDelete: SET NULL }
+  indexes:
+    petition_status:    { fields: [status] }
+    petition_home_stat: { fields: [status, homepage] }
+    petition_name:      { fields: {name: {length: 100}} }
+    petition_activity:  { fields: [activity_at, status] }
+    petition_activity2: { fields: [campaign_id, activity_at, status] }
+
+PetitionText:
+  options:
+    symfony:
+      filter: false
+  actAs: [Timestampable, Cachetaggable]
+  columns:
+    id:                         { type: integer(4), primary: true, autoincrement: true }
+    status:                     { type: integer(4), notnull: true, default: 1 }
+    language_id:                { type: string(5),  notnull: true }
+    petition_id:                { type: integer(4), notnull: true }
+
+    title:                      { type: string,     notnull: true }
+    target:                     { type: clob,       notnull: true }
+    background:                 { type: clob,       notnull: true }
+
+    intro:                      { type: clob }
+    body:                       { type: clob }
+    footer:                     { type: clob }
+
+    email_subject:              { type: string }
+    email_body:                 { type: clob }
+
+    email_validation_subject:   { type: string,     notnull: true }
+    email_validation_body:      { type: clob,       notnull: true }
+    email_tellyour_subject:     { type: string,     notnull: true }
+    email_tellyour_body:        { type: clob,       notnull: true }
+    ###
+    email_targets:              { type: clob }
+    privacy_policy_body:        { type: clob }
+    landing_url:                { type: string }
+
+    widget_id:                  { type: integer(4), notnull: false }
+
+    pledge_title:               { type: string,     notnull: false }
+    pledge_comment:             { type: clob,       notnull: false }
+    pledge_explantory:          { type: clob,       notnull: false, name: pledge_explantory as pledge_explantory_annotation }
+    pledge_thank_you:           { type: clob,       notnull: false }
+  relations:
+    Petition:      { onDelete: CASCADE }
+    Language:      { onDelete: CASCADE }
+    DefaultWidget: { onDelete: SET NULL, class: Widget, local: widget_id, foreign: id, foreignAlias: usedByPetitionText }
+
+Widget:
+  options:
+    symfony:
+      filter: false
+  actAs:
+    Timestampable: []
+    Cachetaggable:
+      skipOnChange:
+        - activity_at
+  columns:
+    id:                { type: integer(4), primary: true, autoincrement: true }
+    parent_id:         { type: integer(4) }
+    campaign_id:       { type: integer(4), notnull: true }
+    petition_id:       { type: integer(4), notnull: true }
+    petition_text_id:  { type: integer(4), notnull: true }
+    status:            { type: integer(4), notnull: true, default: 1 }
+    ###
+    title:             { type: string,     notnull: true }
+    target:            { type: clob }
+    background:        { type: clob }
+
+    intro:             { type: clob }
+    footer:            { type: clob }
+
+    email_subject:     { type: string }
+    email_body:        { type: clob }
+
+    stylings:          { type: clob,       notnull: true }
+
+    email:             { type: string(80) }
+    organisation:      { type: string(200) }
+
+    landing_url:       { type: string }
+
+    ref:               { type: string }
+    validation_kind:   { type: integer(1), notnull: true, default: 0 }
+    validation_data:   { type: string }
+    validation_status: { type: integer(1), default: 0}
+    edit_code:         { type: string(40) }
+    paypal_email:      { type: string(80) }
+    user_id:           { type: integer(4), notnull: false, default: null }
+    data_owner:        { type: integer(1), notnull: true, default: 0 }
+    activity_at:       { type: timestamp, notnull: false, default: null }
+    last_ref:          { type: string(200), notnull: false, default: null }
+  relations:
+    Campaign:          { onDelete: CASCADE }
+    Petition:          { onDelete: CASCADE }
+    PetitionText:      { onDelete: CASCADE }
+    Parent:            { class: Widget, local: parent_id, foreign: id, type: one, onDelete: SET NULL }
+    Children:          { class: Widget, local: id, foreign: parent_id, type: many }
+    User:              { onDelete: SET NULL, class: sfGuardUser, local: user_id, foreignAlias: PetitionRights }
+  indexes:
+    widget_parent_id_index: { fields: [parent_id] }
+    widget_activity:   { fields: [activity_at, status] }
+    widget_activity2:  { fields: [petition_id, activity_at, status] }
+
+PetitionSigning:
+  options:
+    non_json_fields:
+      fields: [email, country,subscribe, fullname, title, firstname, lastname, address, city, post_code, comment, privacy, email_subject, email_body, ref]
+    old_json_fields:
+      fields: [fullname, title, firstname, lastname, address, city, post_code, comment, privacy, email_subject, email_body, ref]
+  actAs: [Timestampable]
+  columns:
+    id:              { type: integer(8), primary: true, autoincrement: true }
+    petition_id:     { type: integer(4), notnull: true }
+    fields:          { type: clob,       notnull: true }
+    status:          { type: integer(4), notnull: true, default: 1}
+    email:           { type: string(80) }
+    country:         { type: string(5) }
+    validation_kind: { type: integer(1), notnull: true, default: 0 }
+    validation_data: { type: string }
+    widget_id:       { type: integer(4) }
+    wave_sent:       { type: integer(2), notnull: true, default: 0 }
+    wave_pending:    { type: integer(2), notnull: true, default: 0 }
+    wave_cron:       { type: integer(1), notnull: true, default: 0 }
+    subscribe:       { type: integer(1), notnull: true, default: 0 }
+    email_hash:      { type: string(80), notnull: false, default: null }
+    mailed_at:       { type: timestamp,  notnull: false, default: null }
+    fullname:        { type: string(120), notnull: false, default: null }
+    title:           { type: string(10),  notnull: false, default: null }
+    firstname:       { type: string(100), notnull: false, default: null }
+    lastname:        { type: string(100), notnull: false, default: null }
+    address:         { type: string(200), notnull: false, default: null }
+    city:            { type: string(100), notnull: false, default: null }
+    post_code:       { type: string(50),  notnull: false, default: null }
+    comment:         { type: clob,        notnull: false, default: null }
+    privacy:         { type: integer(1),  notnull: false, default: null }
+    email_subject:   { type: string(250), notnull: false, default: null }
+    email_body:      { type: clob,        notnull: false, default: null }
+    ref:             { type: string(250), notnull: false, default: null }
+  relations:
+    Petition: { onDelete: CASCADE }
+    Widget:   { onDelete: SET NULL }
+    Contact:  { refClass: PetitionSigningContact, local: petition_signing_id, foreign: contact_id, type: many }
+  indexes:
+    signing_petition_count_index2: { fields: [petition_id, status, created_at] }
+    signing_petition_count_index3: { fields: [petition_id, status, country, created_at] }
+    signing_widget_count_index2:   { fields: [widget_id, status, country, created_at] }
+    signing_widget_count_index3:   { fields: [widget_id, status, created_at] }
+    signing_wave_sent_index:      { fields: [wave_sent] }
+    signing_wave_pending_index:   { fields: [wave_pending] }
+    signing_wave_cron_index:      { fields: [wave_cron] }
+    signing_subsrcibe:            { fields: [subscribe]}
+    signing_country:              { fields: [country] }
+    signing_email_hash:           { fields: [email_hash] }
+    signing_pending_index2:       { fields: [status, created_at, id] }
+    signing_pending_index3:        { fields: [status, mailed_at, updated_at, id] }
+
+PetitionSigningSearch:
+  options:
+    symfony:
+      form:   false
+      filter: false
+  columns:
+    id:      { type: integer(8), notnull: true, primary: true }
+    keyword: { type: string(48), notnull: true, primary: true }
+  relations:
+    PetitionSigning: { onDelete: CASCADE, local: id, foreign: id, foreignAlias: Search }
+  indexes:
+    petition_signing_search_id_key_idx: { fields: [id, keyword] }
+
+MigrationVersion:
+  options:
+    symfony:
+      form:   false
+      filter: false
+  columns:
+    version: { type: integer(4) }
+
+PrivacyPolicy: # obsolete
+  options:
+    symfony:
+      filter: false
+  columns:
+    language_id:                { type: string(5), notnull: true }
+    body:                       { type: clob, notnull: true }
+  relations:
+    Language: { onDelete: CASCADE }
+
+DefaultText: # obsolete
+  options:
+    symfony:
+      filter: false
+  columns:
+    id:                         { type: integer(4), primary: true, autoincrement: true }
+    language_id:                { type: string(5), notnull: true }
+    text:                       { type: string(20), notnull: true }
+    subject:                    { type: string(255), notnull: true, default: '' }
+    body:                       { type: clob, notnull: true }
+  relations:
+    Language:                   { onDelete: CASCADE }
+  indexes:
+    def_text_lang_text: { fields: [language_id, text], type: unique }
+
+Registry: # obsolete
+  options:
+    symfony:
+      form:   false
+      filter: false
+  actAs: [Timestampable, Cachetaggable]
+  columns:
+    id:    { type: integer(4), primary: true, autoincrement: true }
+    regkey:   { type: string(200), unique: true, notnull: true }
+    regclass:  { type: string(40), notnull: true, default: '' }
+    value: { type: clob }
+  indexes:
+    registry_key: { fields: [regkey] }
+    registry_class: { fields: [regclass] }
+    registry_key_class: { fields: [regkey, regclass] }
+
+MailingList:
+  options:
+    symfony:
+      form:   true
+      filter: false
+  actAs: [Timestampable, Cachetaggable]
+  columns:
+    id:                { type: integer(4), primary: true, autoincrement: true }
+    status:            { type: integer(4), notnull: true, default: 1 }
+    campaign_id:       { type: integer(4), notnull: false }
+    name:              { type: string,     notnull: true }
+  relations:
+    Campaign:          { onDelete: CASCADE }
+
+MailingListMeta:
+  options:
+    symfony:
+      form:   true
+      filter: false
+  columns:
+    id:                { type: integer(4), primary: true, autoincrement: true }
+    mailing_list_id:   { type: integer(4), notnull: true }
+    kind:              { type: integer(1), notnull: true }
+    name:              { type: string,     notnull: true }
+    subst:             { type: string,     notnull: true }
+    data_json:         { type: clob,       notnull: false }
+  relations:
+    MailingList:       { onDelete: CASCADE }
+
+MailingListMetaChoice:
+  options:
+    symfony:
+      form:   true
+      filter: false
+  columns:
+    id:                     { type: integer(4), primary: true, autoincrement: true }
+    mailing_list_meta_id:   { type: integer(4), notnull: true }
+    choice:                 { type: string(120), notnull: true }
+  relations:
+    MailingListMeta:        { onDelete: CASCADE }
+  indexes:
+    mlmc_choice:            { fields: [choice] }
+    mlmc_ml_choice:         { fields: [mailing_list_meta_id, choice] }
+
+Contact:
+  columns:
+    id:                     { type: integer(4),  primary: true, autoincrement: true }
+    status:                 { type: integer(4),  notnull: true, default: 1 }
+    mailing_list_id:        { type: integer(4),  notnull: true }
+    email:                  { type: string(80),  notnull: true }
+    gender:                 { type: integer(1),  notnull: true }
+    firstname:              { type: string(100), notnull: true }
+    lastname:               { type: string(100), notnull: true }
+    country:                { type: string(5) }
+    language_id:            { type: string(5),  notnull: false, default: null }
+  relations:
+    MailingList:            { onDelete: CASCADE }
+    PetitionSigning:        { refClass: PetitionSigningContact, local: contact_id, foreign: petition_signing_id, type: many }
+    Language:               { onDelete: SET NULL }
+  indexes:
+    contact_status:         { fields: [status] }
+    contact_mail_status:    { fields: [status, mailing_list_id] }
+    contact_country:        { fields: [country] }
+    contact_gender:         { fields: [gender] }
+    contact_lastname:       { fields: [lastname] }
+
+ContactMeta:
+  options:
+    symfony:
+      form:   false
+      filter: false
+  columns:
+    id:                          { type: integer(4), primary: true, autoincrement: true }
+    mailing_list_meta_id:        { type: integer(4), notnull: true }
+    contact_id:                  { type: integer(4), notnull: true }
+    value:                       { type: string,     notnull: false }
+    mailing_list_meta_choice_id: { type: integer(4), notnull: false }
+  relations:
+    MailingListMeta:             { onDelete: CASCADE }
+    Contact:                     { onDelete: CASCADE }
+    MailingListMetaChoice:       { onDelete: CASCADE }
+
+PetitionSigningContact:
+  options:
+    symfony:
+      form:   false
+      filter: false
+  columns:
+    petition_signing_id: { type: integer(8), primary: true }
+    contact_id:          { type: integer(4), primary: true }
+    wave:                { type: integer(2), notnull: true, default: 1 }
+  relations:
+    PetitionSigning:     { local: petition_signing_id, onDelete: CASCADE }
+    Contact:             { local: contact_id,          onDelete: CASCADE }
+  indexes:
+    psc_wave:            { fields: [wave] }
+
+PetitionSigningWave:
+  options:
+    symfony:
+      form:   false
+      filter: false
+    non_json_fields:
+      fields: [email, country]
+  columns:
+    id:                  { type: integer(8), primary: true, autoincrement: true }
+    petition_signing_id: { type: integer(8), primary: true }
+    wave:                { type: integer(2), notnull: true, default: 1 }
+    fields:              { type: clob,       notnull: true }
+    status:              { type: integer(4), notnull: true, default: 1}
+    email:               { type: string(80) }
+    country:             { type: string(5) }
+    validation_data:     { type: string }
+    language_id:         { type: string(5),  notnull: false }
+    widget_id:           { type: integer(4), notnull: false }
+    contact_num:         { type: integer(4), notnull: true, default: 0 }
+  relations:
+    PetitionSigning:     { local: petition_signing_id, onDelete: CASCADE }
+    Widget:              { onDelete: SET NULL }
+    Language:            { onDelete: SET NULL }
+  indexes:
+    psw_wave:            { fields: [wave] }
+    psw_status:          { fields: [status] }
+    psw_p_status:        { fields: [petition_signing_id, status] }
+    psw_p_w_status:      { fields: [petition_signing_id, wave, status] }
+
+TargetListRights:
+  options:
+    symfony:
+      form: false
+      filter: false
+  columns:
+    mailing_list_id: { type: integer(4), primary: true }
+    user_id:         { type: integer(4), primary: true }
+    active:          { type: integer(1), notnull: true, default: 0 }
+  relations:
+    MailingList:
+      onDelete: CASCADE
+      class: MailingList
+      local: mailing_list_id
+      foreignAlias: TargetListRights
+    User:
+      onDelete: CASCADE
+      class: sfGuardUser
+      local: user_id
+      foreignAlias: TargetListRights
+
+FacebookTab:
+  options:
+    symfony:
+      filter: false
+  columns:
+    id:           { type: integer(4), primary: true, autoincrement: true }
+    page_id:      { type: string(40) }
+    language_id:  { type: string(5),  notnull: false }
+    widget_id:    { type: integer(4), notnull: false }
+  relations:
+    Widget:       { onDelete: CASCADE }
+    Language:     { onDelete: CASCADE }
+  indexes:
+    ft_page:      { fields: [page_id] }
+    ft_page_lang: { fields: [page_id, language_id], type: unique }
+
+Owner: # obsolete
+  options:
+    symfony:
+      filter: false
+  columns:
+    id:               { type: integer(4),  primary: true, autoincrement: true }
+    status:           { type: integer(4),  notnull: true, default: 1 }
+    campaign_id:      { type: integer(4),  notnull: true }
+    first_widget_id:  { type: integer(4),  notnull: false }
+    firstname:        { type: string(80),  notnull: true, default: '' }
+    lastname:         { type: string(80),  notnull: true, default: '' }
+    function:         { type: string(200), notnull: true, default: '' }
+    organisation:     { type: string(200), notnull: true, default: '' }
+    email:            { type: string(80),  notnull: true, default: '' }
+    phone:            { type: string(80),  notnull: true, default: '' }
+    address:          { type: string(200), notnull: true, default: '' }
+    country:          { type: string(5) }
+    password:         { type: string(81), notnull: true, default: '' }
+  relations:
+    FirstWidget:      { class: Widget, local: first_widget_id, onDelete: SET NULL, foreignType: one }
+    Campaign:         { onDelete: CASCADE }
+
+WidgetOwner: # obsolete
+  options:
+    symfony:
+      form:   false
+      filter: false
+  columns:
+    id:               { type: integer(4), primary: true, autoincrement: true }
+    status:           { type: integer(4), notnull: true, default: 1 }
+    owner_id:         { type: integer(4), notnull: true }
+    widget_id:        { type: integer(4), notnull: true }
+  relations:
+    Owner:            { onDelete: CASCADE }
+    Widget:           { onDelete: CASCADE, foreignType: one }
+  indexes:
+    wo_owner_widget:   { fields: [owner_id, widget_id], type: unique }
+    wo_widget:         { fields: [widget_id], type: unique }
+
+# TICKET
+
+Ticket:
+  actAs: [Timestampable]
+  columns:
+    from_id:     { type: integer(4), notnull: false, default: null }
+    to_id:       { type: integer(4), notnull: false, default: null }
+    campaign_id: { type: integer(4), notnull: false, default: null }
+    petition_id: { type: integer(4), notnull: false, default: null }
+    widget_id:   { type: integer(4), notnull: false, default: null }
+    target_list_id: { type: integer(4), notnull: false, default: null }
+    kind:        { type: integer(2), notnull: true, default: 1 }
+    status:      { type: integer(1), notnull: true, default: 1 }
+    text:        { type: clob, notnull: false }
+    data_json:   { type: clob, notnull: false }
+  relations:
+    From:
+      onDelete: SET NULL
+      class: sfGuardUser
+      local: from_id
+      foreignAlias: TicketsFrom
+    To:
+      onDelete: SET NULL
+      class: sfGuardUser
+      local: to_id
+      foreignAlias: TicketsTo
+    Campaign:
+      onDelete: CASCADE
+      class: Campaign
+      local: campaign_id
+      foreignAlias: Tickets
+    Petition:
+      onDelete: CASCADE
+      class: Petition
+      local: petition_id
+      foreignAlias: Tickets
+    Widget:
+      onDelete: CASCADE
+      class: Widget
+      local: widget_id
+      foreignAlias: Tickets
+    TargetList:
+      onDelete: CASCADE
+      class: MailingList
+      local: target_list_id
+      foreignAlias: Tickets
+  indexes:
+    ticket_kind_idx:   { fields: [kind] }
+    ticket_status_idx: { fields: [status] }
+
+Store:
+  options:
+    symfony:
+      form:   false
+      filter: false
+  actAs:
+    Cachetaggable:
+  columns:
+    key_ as key: { type: string(80), notnull: true, unique: false }
+    value:       { type: clob, notnull: false }
+    language_id: { type: string(5), notnull: false }
+  relations:
+    Language:    { onDelete: CASCADE }
+  indexes:
+    store_idx:   { fields: [key_, language_id], type: unique }
+    
+CampaignStore:
+  options:
+    symfony:
+      form:   true
+      filter: false
+  columns:
+    campaign_id: { type: integer(4), notnull: true }
+    key_ as key: { type: string(80), notnull: true, unique: false }
+    value:       { type: clob, notnull: false }
+    language_id: { type: string(5), notnull: false }
+  relations:
+    Language:    { onDelete: CASCADE }
+    Campaign:    { onDelete: CASCADE }
+  indexes:
+    cam_sto_idx: { fields: [campaign_id, key_, language_id], type: unique }
+
+Mapping:
+  options:
+    symfony:
+      filter: false
+  actAs:
+    Cachetaggable:
+  columns:
+    id:   { type: integer(4),  primary: true, autoincrement: true }
+    name: { type: string(120), notnull: true, unique: true }
+
+MappingPair:
+  options:
+    form: false
+    filter: false
+  actAs:
+    Cachetaggable:
+  columns:
+    id:         { type: integer(4), primary: true, autoincrement: true }
+    mapping_id: { type: integer(4), notnull: true }
+    a:          { type: string(80), notnull: true }
+    b:          { type: string(80), notnull: true }
+  indexes:
+    mp_a_idx:   { fields: [mapping_id, a] }
+    mp_ab_idx:  { fields: [mapping_id, a, b], type: unique }
+  relations:
+    Mapping:    { onDelete: CASCADE, foreignAlias: Pairs }
+
+PledgeItem:
+  options:
+    form: true
+    filter: false
+  columns:
+    id:                  { type: integer(4), primary: true, autoincrement: true }
+    petition_id:         { type: integer(4), notnull: true }
+    status:              { type: integer(1), notnull: true, default: 0 }
+    name:                { type: string(80), notnull: true }
+    icon:                { type: string(80), notnull: true, default: 'star' }
+    color:               { type: string(6),  notnull: true, default: '000000' }
+  relations:
+    Petition:            { onDelete: CASCADE, foreignAlias: PledgeItems }
+
+PledgeText:
+  options:
+    form: true
+    filter: false
+  columns:
+    pledge_item_id:      { type: integer(4), primary: true }
+    petition_text_id:    { type: integer(4), primary: true }
+    text:                { type: clob, notnull: true, default: '' }
+  relations:
+    PledgeItem:          { onDelete: CASCADE, foreignAlias: PledgeTexts }
+    PetitionText:        { onDelete: CASCADE, foreignAlias: PledgeTexts }
+
+PetitionContact:
+  options:
+    form: false
+    filter: false
+  columns:
+    petition_id:          { type: integer(4),  notnull: true,  primary: true }
+    contact_id:           { type: integer(4),  notnull: true,  primary: true }
+    secret:               { type: string(40),  notnull: true }
+    password:             { type: string(255), notnull: false, default: null }
+    password_reset:       { type: string(255), notnull: false, default: null }
+    password_reset_until: { type: date,        notnull: false, default: null }
+    comment:              { type: clob,        notnull: false }
+  relations:
+    Petition:            { onDelete: CASCADE, foreignAlias: PetitionContacts }
+    Contact:             { onDelete: CASCADE, foreignAlias: PetitionContacts }
+
+Pledge:
+  options:
+    form: false
+    filter: false
+  columns:
+    pledge_item_id:      { type: integer(4), primary: true }
+    contact_id:          { type: integer(4), primary: true }
+    status:              { type: integer(1), notnull: true, default: 0 }
+    status_at:           { type: timestamp, notnull: false, default: null }
+    comment:             { type: clob, notnull: false }
+  relations:
+    PledgeItem:          { onDelete: CASCADE, foreignAlias: Pledges }
+    Contact:             { onDelete: CASCADE, foreignAlias: Pledges }
+
+CountryCollection:
+  options:
+    form: true
+    filter: false
+  columns:
+    id:                  { type: integer(4), primary: true, autoincrement: true }
+    name:                { type: string(80), notnull: true, unique: true }
+    countries:           { type: clob,       notnull: false }
+
+PetitionApiToken:
+  options:
+    form: true
+    filter: false
+  actAs: [ Timestampable ]
+  columns:
+    id:                  { type: integer(4), primary: true, autoincrement: true }
+    petition_id:         { type: integer(4), notnull: true }
+    name:                { type: string(80), notnull: true }
+    token:               { type: string(80), notnull: true, unique: true }
+    status:              { type: integer(4), notnull: true, default: 1 }
+  relations:
+    Petition:            { onDelete: CASCADE, foreignAlias: ApiTokens }
+
+ApiTokenOffset:
+  options:
+    form: false
+    filter: false
+  actAs: [ Timestampable ]
+  columns:
+    id:                     { type: integer(4), primary: true, autoincrement: true }
+    petition_api_token_id:  { type: integer(4), notnull: true }
+    country:                { type: string(5),  notnull: true }
+    addnum:                 { type: integer(4), notnull: true, default: 0}
+  relations:
+    ApiToken:               { local: petition_api_token_id, class: PetitionApiToken, onDelete: CASCADE, foreignAlias: Offsets }
+  indexes:
+    p_counter_idx:          { fields: [petition_api_token_id, country] }
+
+Download:
+  options:
+    form: false
+    filter: false
+  actAs: [ Timestampable ]
+  columns:
+    id:                   { type: integer(4), primary: true, autoincrement: true }
+    user_id:              { type: integer(4), notnull: true }
+    widget_id:            { type: integer(4), notnull: false, default: null }
+    petition_id:          { type: integer(4), notnull: false, default: null }
+    campaign_id:          { type: integer(4), notnull: false, default: null }
+    filename:             { type: string(80), notnull: true, unique: true }
+    filter:               { type: clob,       default: '' }
+    type:                 { type: string(40), notnull: true }
+    subscriber:           { type: integer(1), notnull: true, default: 0 }
+    count:                { type: integer(4), notnull: true, default: 0 }
+    pages:                { type: integer(4), notnull: true, default: 0 }
+    pages_processed:      { type: integer(4), notnull: true, default: 0 }
+  relations:
+    User:
+      onDelete: CASCADE
+      class: sfGuardUser
+      local: user_id
+      foreignAlias: Downloads
+    Widget: 
+      onDelete: CASCADE
+      foreignAlias: Downloads
+    Petition:
+      onDelete: CASCADE
+      foreignAlias: Downloads
+    Campaign:
+      onDelete: CASCADE
+      foreignAlias: Downloads

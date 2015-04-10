@@ -1,0 +1,11 @@
+delete:
+  is_secure: true
+  credentials: admin
+
+undeleteList:
+  is_secure: true
+  credentials: admin
+
+undelete:
+  is_secure: true
+  credentials: admin

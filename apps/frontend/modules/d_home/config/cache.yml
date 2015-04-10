@@ -1,0 +1,18 @@
+index:
+  enabled: true
+  lifetime: 60
+
+tips:
+  enabled: true
+
+terms:
+  enabled: true
+
+contact:
+  enabled: true
+
+_footer:
+  enabled: true
+  
+_home_menu:
+  enabled: false

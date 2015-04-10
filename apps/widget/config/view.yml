@@ -1,0 +1,17 @@
+default:
+  http_metas:
+    content-type: text/html
+
+  metas:
+    title:        policat.org
+    description:  'Policat: Poli-Cyber-Action-Tool'
+    keywords:     policat, petition, e-action, e-petition, e-petiton-tool, cyberaction, cyberaction-tool
+#    language:     en
+    robots:       index, follow
+
+  stylesheets:    [opt]
+
+  javascripts:    [html5: { condition: lt IE 9 }, opt]
+
+  has_layout:     true
+  layout:         layout

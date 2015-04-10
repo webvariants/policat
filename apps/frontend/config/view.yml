@@ -1,0 +1,14 @@
+all:
+  http_metas: []
+
+  metas:
+    title:        ''
+    robots:       index, follow
+    charset: utf8
+
+  stylesheets:    [opt]
+
+  javascripts:    [html5: { condition: lt IE 9 }, opt]
+
+  has_layout:     true
+  layout:         dashboard

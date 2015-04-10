@@ -1,0 +1,14 @@
+sign:
+  enabled: true
+  lifetime:    3600
+
+signHp:
+  enabled: true
+
+widgetOuter:
+  enabled: true
+  lifetime: 60
+
+text:
+  enabled: true
+  lifetime: 600

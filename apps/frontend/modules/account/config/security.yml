@@ -1,0 +1,25 @@
+register:
+  is_secure: false
+
+registerValidation:
+  is_secure: false
+
+AjaxSignin:
+  is_secure: false
+  
+captcha:
+  is_secure: false
+
+forgotten:
+  is_secure: false
+
+reset:
+  is_secure: false
+  
+profile:
+  is_secure: true
+  credentials: []
+  
+unblock:
+  is_secure: true
+  credentials: []

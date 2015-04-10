@@ -1,0 +1,4 @@
+doc:
+  enabled: true
+  with_layout: true
+  lifetime: 600

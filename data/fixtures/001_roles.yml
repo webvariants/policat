@@ -1,0 +1,17 @@
+sfGuardPermission:
+  sgp_system:
+    name:           system
+    description:    Rights to use admin modules without restrictions
+  sgp_admin:
+    name:           admin
+    description:    Campaign-Admin for all Campaign and Users
+    
+  sgp_user:
+    name:           user
+    description:    a regular User (blocked when missing)
+
+sfGuardGroup:
+  sgg_admin:
+    name:           admin
+    description:    Campaign-Admin for all Campaign and Users
+    Permissions:    [sgp_admin]

@@ -1,0 +1,8 @@
+all:
+  has_layout: false
+  metas:
+    robots: noindex, nofollow
+
+  stylesheets: [opt]
+
+  javascripts: [opt]

@@ -1,0 +1,10 @@
+{
+    "require": {
+        "lexpress/symfony1": "1.5.*",
+        "lexpress/doctrine1": "1.*",
+        "ircmaxell/password-compat": "1.0.*"
+    },
+	"config": {
+        "vendor-dir": "lib/vendor"
+    }
+}

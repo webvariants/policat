@@ -1,0 +1,3 @@
+all:
+  sf_guard_plugin:
+    signin_form: myLoginForm

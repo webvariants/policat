@@ -1,0 +1,21 @@
+Language:
+  language_bg:   {id: bg, order_number:  1000, name: български език }
+  language_cs:   {id: cs, order_number:  2000, name: čeština }
+  language_da:   {id: da, order_number:  3000, name: dansk }
+  language_de:   {id: de, order_number:  4000, name: Deutsch }
+  language_el:   {id: el, order_number:  5000, name: ελληνικά }
+  language_en:   {id: en, order_number:  6000, name: English }
+  language_es:   {id: es, order_number:  7000, name: Español }
+  language_fi:   {id: fi, order_number:  8000, name: suomi }
+  language_fr:   {id: fr, order_number:  9000, name: français }
+  language_hr:   {id: hr, order_number: 10000, name: hrvatski}
+  language_is:   {id: is, order_number: 11000, name: íslenska }
+  language_it:   {id: it, order_number: 12000, name: italiano }
+  language_nl:   {id: nl, order_number: 13000, name: Nederlands }
+  language_no:   {id: no, order_number: 14000, name: norsk }
+  language_hu:   {id: hu, order_number: 15000, name: Magyar}
+  language_pl:   {id: pl, order_number: 16000, name: polski }
+  language_pt:   {id: pt, order_number: 17000, name: Português }
+  language_ru:   {id: ru, order_number: 18000, name: русский }
+  language_sl:   {id: sl, order_number: 19000, name: slovenščina}
+  language_sv:   {id: sv, order_number: 20000, name: svenska }
