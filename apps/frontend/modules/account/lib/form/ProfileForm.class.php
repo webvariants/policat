@@ -42,6 +42,7 @@ class ProfileForm extends BasesfGuardRegisterForm {
     $this->getWidgetSchema()->setHelp('street', 'In accordance with our terms of service and legal obligations, you must provide your, or your organisations\' legal address.');
     
     $this->getWidgetSchema()->setLabel('vat', 'VAT no. (if applicable)');
+    $this->getWidgetSchema()->setHelp('vat', 'Leave this field empty if you\'re an individual, group or NGO without a VAT identification number (VATIN). If you add your VATIN and are based in an EU member state except Germany, you will not be charged VAT. Make sure to include the full number preceded by the country code. Check the validity of your VATIN here: http://ec.europa.eu/taxation_customs/vies/');
 
     $this->validatorSchema->setPostValidator(
       new sfValidatorAnd(array(
