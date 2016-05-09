@@ -70,6 +70,9 @@ class facebookActions extends policatActions {
   }
 
   public function executeTab(sfWebRequest $request) {
+    $this->redirect404();
+    // diabled because outdated
+
     if ($request->hasParameter('tabs_added')) {
       return $this->tabs_added($request);
     }

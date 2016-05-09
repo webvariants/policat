@@ -1,5 +1,7 @@
 # Project files
 /cache/*
+/lib/vendor/ezyang/htmlpurifier/library/HTMLPurifier/DefinitionCache/Serializer/HTML/*.ser
+/lib/vendor/ezyang/htmlpurifier/library/HTMLPurifier/DefinitionCache/Serializer/URI/*.ser
 /log/*
 /web/*_dev.php
 /web/*_stress.php
@@ -40,7 +42,7 @@ CVS
 /data/csv_downloads
 /data/csv_downloads/*
 
-.hgignore
+.gitignore
 
 /composer.json
 /composer.lock
@@ -55,4 +57,5 @@ CVS
 /web/images/ttipceta
 /web/images/ttipceta/*
 
+/deploy*.sh
 /run*

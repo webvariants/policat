@@ -14,7 +14,7 @@ class UtilHtmlPurifier {
   protected static $purifier_less_safe = null;
 
   public static function xssSafe($html, $lessSafe = false) {
-    require_once sfConfig::get('sf_lib_dir') . '/vendor/htmlpurifier/HTMLPurifier.standalone.php';
+    // require_once sfConfig::get('sf_lib_dir') . '/vendor/htmlpurifier/HTMLPurifier.standalone.php';
 
     if ($lessSafe) {
       if (!isset(self::$purifier_less_safe)) {

@@ -4,8 +4,6 @@
 .rej
 log/*
 cache/*
-/lib/vendor/htmlpurifier/standalone/HTMLPurifier/DefinitionCache/Serializer/HTML/*.ser
-/lib/vendor/htmlpurifier/standalone/HTMLPurifier/DefinitionCache/Serializer/URI/*.ser
 /deploy/*
 /nbproject/*
 /plugins/*
