@@ -1,6 +1,6 @@
 <?php
 /*
- * Copyright (c) 2015, webvariants GmbH & Co. KG, http://www.webvariants.de
+ * Copyright (c) 2016, webvariants GmbH <?php Co. KG, http://www.webvariants.de
  *
  * This file is released under the terms of the MIT license. You can find the
  * complete text in the attached LICENSE file or online at:
@@ -34,7 +34,7 @@ class d_actionComponents extends policatComponents {
         ));
       $this->form->bindSelf('all');
 
-      $query = $table->queryByUserCampaigns($this->getGuardUser(), false, false);
+      $query = $table->queryByUserCampaigns($this->getGuardUser(), $this->userIsAdmin());
       $this->petitions = new policatPager($query, $page, 'petition_pager_all', array(), true, 20, $this->form);
     }
 
@@ -44,14 +44,25 @@ class d_actionComponents extends policatComponents {
 
   public function executeMembers() {
     $this->petition_rights_list = PetitionRightsTable::getInstance()->queryByPetition($this->petition)->execute();
-    $this->admin = $this->petition->isMemberEditable($this->getGuardUser());
+    $this->admin = $this->petition->isCampaignAdmin($this->getGuardUser());
     if (isset($this->no_admin) && $this->no_admin)
       $this->admin = false;
     $this->csrf_token = UtilCSRF::gen('action_members');
-
-    $this->become_admin = !$this->getGuardUser()->isPetitionAdmin($this->petition) && $this->petition->getCampaign()->getBecomePetitionAdmin();
-    if ($this->become_admin)
-      $this->csrf_token_admin = UtilCSRF::gen('action_join_admin');
+  }
+  
+  public function executeNotice() {
+    $this->billingEnabled = StoreTable::value(StoreTable::BILLING_ENABLE);
+    $this->campaign = $this->petition->getCampaign();
+    $this->follows = $this->petition->getFollowPetitionId() ? $this->petition->getFollowPetition() : null;
+    $this->petition_draft = $this->petition->getStatus() == Petition::STATUS_DRAFT;
+    $this->petition_text_draft = PetitionTextTable::getInstance()->queryByPetition($this->petition, false, PetitionText::STATUS_DRAFT)->count();
+    
   }
 
+  public function executeEditFollow() {
+    if ($this->petition->isCampaignAdmin($this->getGuardUser())) {
+      $this->form = new EditPetitionFollowForm($this->petition);
+    }
+  }
+  
 }

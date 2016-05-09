@@ -1,6 +1,6 @@
 <?php
 /*
- * Copyright (c) 2015, webvariants GmbH & Co. KG, http://www.webvariants.de
+ * Copyright (c) 2016, webvariants GmbH <?php Co. KG, http://www.webvariants.de
  *
  * This file is released under the terms of the MIT license. You can find the
  * complete text in the attached LICENSE file or online at:
@@ -109,6 +109,8 @@ class dataActions extends policatActions {
     $type = isset($route_params['type']) ? $route_params['type'] : null;
     $page = $request->getParameter('page');
 
+    $subscriptions = $request->getGetParameter('s') ? true : false;
+
     switch ($type) {
       case 'petition':
         $petition = $this->getPetition($request->getParameter('id'));
@@ -116,7 +118,7 @@ class dataActions extends policatActions {
           return $petition;
         }
 
-        return $this->ajax()->replaceWithComponent('#data', 'data', 'list', array('petition' => $petition, 'page' => $page, 'no_filter' => true))->render();
+        return $this->ajax()->replaceWithComponent('#data', 'data', 'list', array('petition' => $petition, 'page' => $page, 'subscriptions' => $subscriptions, 'no_filter' => true))->render();
 
       case 'campaign':
         $campaign = $this->getCampaign($request->getParameter('id'));
@@ -124,7 +126,7 @@ class dataActions extends policatActions {
           return $campaign;
         }
 
-        return $this->ajax()->replaceWithComponent('#data', 'data', 'list', array('campaign' => $campaign, 'page' => $page, 'no_filter' => true))->render();
+        return $this->ajax()->replaceWithComponent('#data', 'data', 'list', array('campaign' => $campaign, 'page' => $page, 'subscriptions' => $subscriptions, 'no_filter' => true))->render();
 
       case 'widget': // this is for widget owners only
         $widget = $this->getWidget($request->getParameter('id'));
@@ -132,7 +134,7 @@ class dataActions extends policatActions {
           return $widget;
         }
 
-        return $this->ajax()->replaceWithComponent('#data', 'data', 'list', array('widget' => $widget, 'page' => $page, 'no_filter' => true))->render();
+        return $this->ajax()->replaceWithComponent('#data', 'data', 'list', array('widget' => $widget, 'page' => $page, 'subscriptions' => $subscriptions, 'no_filter' => true))->render();
 
       default:
         return $this->renderText('error');
@@ -143,16 +145,25 @@ class dataActions extends policatActions {
     $route_params = $this->getRoute()->getParameters();
     $type = isset($route_params['type']) ? $route_params['type'] : null;
 
-    $query = $this->buildQuery($type, $request->getParameter('id'), $this->getRequest()->getGetParameter('_'), $form, $object);
+    $subscriptions = $request->getGetParameter('s') ? true : false;
+
+    $query = $this->buildQuery($type, $request->getParameter('id'), $subscriptions, $this->getRequest()->getGetParameter('_'), $form, $object);
+    /* @var $form sfForm */
+    if (!$form->isValid()) {
+      return null;
+    }
 
     if ($query instanceof Doctrine_Query && $download instanceof Download) {
       $download->setType($type);
-      $download->setSubscriber($form->getSubscriber());
-      $download->setFilter(json_encode($form->getValues()));
+      $download->setSubscriber($subscriptions ? true : false);
+      $download->setQuery($query);
       $download->setCount($query->count());
       $download->setUser($this->getGuardUser());
 
-      $download->setPages(UtilExport::pages($download->getCount()));
+      $download->setPages($download->calcPages());
+      if ($download->getPages() === 0) {
+        die('0 pages.');
+      }
       $download->setPagesProcessed(0);
       $download->setFilename(mt_rand());
       $download->save();
@@ -179,7 +190,7 @@ class dataActions extends policatActions {
     return $query;
   }
 
-  private function buildQuery($type, $id, $form_data, &$form, &$object) {
+  private function buildQuery($type, $id, &$subscriptions, $form_data, &$form = null, &$object = null) {
     switch ($type) {
       case 'petition':
         $petition = $this->getPetition($id);
@@ -187,17 +198,25 @@ class dataActions extends policatActions {
           return $petition;
         }
 
-        $query = PetitionSigningTable::getInstance()->query(array(PetitionSigningTable::PETITION => $petition));
+        // check the rights for subscriptions
+        if ($subscriptions && !$this->getGuardUser()->isDataOwnerOfCampaign($petition->getCampaign())) {
+          $subscriptions = false;
+        }
+
+        $base_query_options = array(
+            PetitionSigningTable::PETITION => $petition,
+            PetitionSigningTable::SUBSCRIBER => $subscriptions
+        );
 
         // filter
         $form = new SigningsDownloadForm(array(), array(
-            SigningsDownloadForm::OPTION_QUERY => $query->copy(),
-            SigningsDownloadForm::OPTION_IS_DATA_OWNER => $this->getGuardUser()->isDataOwnerOfCampaign($petition->getCampaign())
+            PetitionSigningTable::PETITION => $petition,
+            SigningsDownloadForm::OPTION_QUERY => PetitionSigningTable::getInstance()->query($base_query_options)
         ));
         $form->bind($form_data);
         if ($form->isValid()) {
           $query = PetitionSigningTable::getInstance()->query(
-            array_merge(array(PetitionSigningTable::PETITION => $petition), $form->getQueryOptions()));
+            array_merge($form->getQueryOptions(), $base_query_options));
         }
 
         $object = $petition;
@@ -209,17 +228,25 @@ class dataActions extends policatActions {
           return $campaign;
         }
 
-        $query = PetitionSigningTable::getInstance()->query(array(PetitionSigningTable::CAMPAIGN => $campaign));
+        // check the rights for subscriptions
+        if ($subscriptions && !$this->getGuardUser()->isDataOwnerOfCampaign($campaign)) {
+          $subscriptions = false;
+        }
+
+        $base_query_options = array(
+            PetitionSigningTable::CAMPAIGN => $campaign,
+            PetitionSigningTable::SUBSCRIBER => $subscriptions
+        );
 
         // filter
         $form = new SigningsDownloadForm(array(), array(
-            SigningsDownloadForm::OPTION_QUERY => $query->copy(),
-            SigningsDownloadForm::OPTION_IS_DATA_OWNER => $this->getGuardUser()->isDataOwnerOfCampaign($campaign)
+            PetitionSigningTable::CAMPAIGN => $campaign,
+            SigningsDownloadForm::OPTION_QUERY => PetitionSigningTable::getInstance()->query($base_query_options)
         ));
         $form->bind($form_data);
         if ($form->isValid()) {
           $query = PetitionSigningTable::getInstance()->query(
-            array_merge(array(PetitionSigningTable::CAMPAIGN => $campaign), $form->getQueryOptions()));
+            array_merge($form->getQueryOptions(), $base_query_options));
         }
 
         $object = $campaign;
@@ -231,23 +258,20 @@ class dataActions extends policatActions {
           return $widget;
         }
 
-        $query = PetitionSigningTable::getInstance()->query(array(
+        $base_query_options = array(
             PetitionSigningTable::WIDGET => $widget,
-            PetitionSigningTable::USER => $this->getGuardUser()
-        ));
+            PetitionSigningTable::USER => $this->getGuardUser(),
+            PetitionSigningTable::SUBSCRIBER => $subscriptions
+        );
 
         // filter
         $form = new SigningsDownloadForm(array(), array(
-            SigningsDownloadForm::OPTION_QUERY => $query->copy(),
-            SigningsDownloadForm::OPTION_IS_DATA_OWNER => true
+            SigningsDownloadForm::OPTION_QUERY => PetitionSigningTable::getInstance()->query($base_query_options)
         ));
         $form->bind($form_data);
         if ($form->isValid()) {
           $query = PetitionSigningTable::getInstance()->query(
-            array_merge(array(
-              PetitionSigningTable::WIDGET => $widget,
-              PetitionSigningTable::USER => $this->getGuardUser()
-              ), $form->getQueryOptions()));
+            array_merge($form->getQueryOptions(), $base_query_options));
         }
 
         $object = $widget;
@@ -261,14 +285,14 @@ class dataActions extends policatActions {
   public function executeDownload(sfWebRequest $request) {
     $download = new Download();
     $query = $this->buildQueryByRequest($request, $download);
-    if (!$query instanceof Doctrine_Query) {
-      return $query;
+    if (!$query || !$query instanceof Doctrine_Query) {
+      return null;
     }
 
     $this->ajax()
       ->remove('#prepare-download')
       ->appendPartial('body', 'prepare_modal', array(
-          'submit' => array('pages' => UtilExport::pages($download->getCount())),
+          'submit' => array('pages' => $download->calcPages()),
           'count' => $download->getCount(),
           'prepare_route' => 'data_' . $download->getType() . '_prepare',
           'batch' => $download->getId(),
@@ -284,12 +308,6 @@ class dataActions extends policatActions {
     $download = DownloadTable::getInstance()->find((int) $request->getParameter('id'));
     /* @var $download Download */
     if (!$download || $download->getUserId() != $this->getGuardUser()->getId()) {
-      return $this->renderJson(array('status' => 'fail'));
-    }
-
-    // buildQuery checks for permissions
-    $query = $this->buildQuery($download->getType(), $download->getIdForType(), json_decode($download->getFilter(), true));
-    if (!$query instanceof Doctrine_Query) {
       return $this->renderJson(array('status' => 'fail'));
     }
 
@@ -318,7 +336,7 @@ class dataActions extends policatActions {
       return $this->renderJson(array('status' => 'fail'));
     }
 
-    UtilExport::writeCsv($download->getFilepath(), $query, $download->getSubscriber(), $page);
+    $download->writeCsv($page);
     $download->setPagesProcessed($page + 1);
     $download->save();
     return $this->renderJson(array('status' => 'ok'));

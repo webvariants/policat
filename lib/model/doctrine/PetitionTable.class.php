@@ -1,6 +1,6 @@
 <?php
 /*
- * Copyright (c) 2015, webvariants GmbH & Co. KG, http://www.webvariants.de
+ * Copyright (c) 2016, webvariants GmbH <?php Co. KG, http://www.webvariants.de
  *
  * This file is released under the terms of the MIT license. You can find the
  * complete text in the attached LICENSE file or online at:
@@ -47,6 +47,14 @@ class PetitionTable extends Doctrine_Table {
       self::LABEL_MODE_INITIATIVE => 'Citizen initiative'
   );
 
+  const POLICY_CHECKBOX_NO = 0;
+  const POLICY_CHECKBOX_YES = 1;
+
+  public static $POLICY_CHECKBOX = array(
+      self::POLICY_CHECKBOX_YES => 'yes',
+      self::POLICY_CHECKBOX_NO => 'no'
+  );
+
   /**
    *
    * @return PetitionTable
@@ -56,9 +64,9 @@ class PetitionTable extends Doctrine_Table {
   }
 
   /**
-   * only used by generator
+   * only used by generator 
    * @param Doctrine_Query $query
-   * @return \Doctrine_Query
+   * @return \Doctrine_Query 
    */
   public function adminList(Doctrine_Query $query) {
     $root = $query->getRootAlias();
@@ -128,7 +136,7 @@ class PetitionTable extends Doctrine_Table {
    * @param sfGuardUser $user
    * @return Doctrine_Query
    */
-  public function queryByUserCampaigns(sfGuardUser $user, $fetch_rights = false, $deleted_too = false, $actionsOfUser = null) {
+  public function queryByUserCampaigns(sfGuardUser $user, $deleted_too = false, $actionsOfUser = null) {
     $admin = $user->hasPermission(myUser::CREDENTIAL_ADMIN);
     if ($admin) {
       $query = $this->queryAll($deleted_too);
@@ -137,31 +145,43 @@ class PetitionTable extends Doctrine_Table {
     }
     else {
       $query = $this->queryAll($deleted_too)->leftJoin('p.Campaign c')->innerJoin('c.CampaignRights cr')
-        ->andWhere('cr.user_id = ? AND cr.active = 1 AND (cr.member = 1 OR cr.admin = 1)', $user->getId());
+        ->andWhere('cr.user_id = ? AND cr.active = 1 AND (cr.member = 1 OR cr.admin = 1)', $user->getId()); // c.public_enabled = 1 OR
       if (!$deleted_too)
         $query->andWhere('c.status = ?', CampaignTable::STATUS_ACTIVE);
     }
 
+    if ($actionsOfUser === true && !$admin) {
 
-    $joined_action_rights = false;
+      $petition_ids = (array) PetitionRightsTable::getInstance()->createQuery('pr')
+          ->where('pr.user_id = ?', $user->getId())
+          ->leftJoin('pr.Petition p')
+          ->select('pr.petition_id')
+          ->execute(array(), Doctrine_Core::HYDRATE_SINGLE_SCALAR);
 
-    if ($fetch_rights && !$admin) {
+      if (count($petition_ids)) {
+        $query->andWhere('(cr.active = 1 OR (p.id in ?))', array($petition_ids));
+      }
+
+//      $query
+//        ->leftJoin('p.PetitionRights pr')
+//        ->andWhere('pr.user_id = ? OR pr.user_id is null', $user->getId())
+//        ->andWhere('pr.active = 1 AND pr.member = 1');
+    }
+
+    return $query;
+  }
+
+  public function queryCopyablePetitions(Petition $petition, sfGuardUser $user) {
+    $admin = $user->hasPermission(myUser::CREDENTIAL_ADMIN);
+    $query = $this->queryAll(false);
+    $query->andWhere('p.campaign_id = ?', $petition->getCampaignId());
+    $query->andWhere('p.id != ?', $petition->getId());
+
+    if (!$admin) {
       $query
         ->leftJoin('p.PetitionRights pr')
         ->andWhere('pr.user_id = ? OR pr.user_id is null', $user->getId())
-        ->select('p.*, c.*, cr.*, pr.*');
-
-      $joined_action_rights = true;
-    }
-
-    if ($actionsOfUser === true && !$admin) {
-      if (!$joined_action_rights) {
-        $query
-          ->leftJoin('p.PetitionRights pr')
-          ->andWhere('pr.user_id = ? OR pr.user_id is null', $user->getId());
-      }
-
-      $query->andWhere('pr.active = 1 AND (pr.member = 1 OR pr.admin = 1)');
+        ->andWhere('pr.active = 1 AND pr.member = 1');
     }
 
     return $query;
@@ -193,7 +213,7 @@ class PetitionTable extends Doctrine_Table {
    *
    * @param Doctrine_Query $query
    * @param FilterPetitionForm $filter
-   * @return Doctrine_Query
+   * @return Doctrine_Query 
    */
   public function filter(Doctrine_Query $query, $filter) {
     if (!$filter)
@@ -258,14 +278,14 @@ class PetitionTable extends Doctrine_Table {
           break;
         case self::ORDER_TRENDING:
           $query->select('p.*');
-          $query->addSelect('(SELECT count(z.id) FROM PetitionSigning z WHERE DATE_SUB(NOW(),INTERVAL 1 DAY) <= z.created_at  and z.petition_id = p.id and z.status = ' . PetitionSigning::STATUS_VERIFIED . ') as signings24');
+          $query->addSelect('(SELECT count(z.id) FROM PetitionSigning z WHERE DATE_SUB(NOW(),INTERVAL 1 DAY) <= z.created_at  and z.petition_id = p.id and z.status = ' . PetitionSigning::STATUS_COUNTED . ') as signings24');
           $query->orderBy('signings24 DESC, p.activity_at DESC, p.id DESC');
           break;
       }
     }
 
     if ($filter->getValue(self::FILTER_MIN_SIGNINGS)) {
-      $query->andWhere('(SELECT count(ps.id) FROM PetitionSigning ps WHERE ps.petition_id = p.id AND ps.status = ? LIMIT ' . $filter->getValue(self::FILTER_MIN_SIGNINGS) . ') >= ?', array(PetitionSigning::STATUS_VERIFIED, $filter->getValue(self::FILTER_MIN_SIGNINGS)));
+      $query->andWhere('(SELECT count(ps.id) FROM PetitionSigning ps WHERE ps.petition_id = p.id AND ps.status = ? LIMIT ' . $filter->getValue(self::FILTER_MIN_SIGNINGS) . ') >= ?', array(PetitionSigning::STATUS_COUNTED, $filter->getValue(self::FILTER_MIN_SIGNINGS)));
     }
 
     return $query;
@@ -283,6 +303,37 @@ class PetitionTable extends Doctrine_Table {
         ->andWhere('p.start_at IS NOT NULL OR p.end_at IS NOT NULL')
         ->andWhere('p.start_at = ? OR p.end_at = ? OR p.end_at = ?', array($today, $today, $tomorrow))
         ->execute();
+  }
+
+  public function fetchNoCycleChoices(Petition $petition) {
+    $rows = $this->queryByCampaign($petition->getCampaign(), false)
+      ->andWhere('p.id != ?', $petition->getId())
+      ->select('id, follow_petition_id')
+      ->fetchArray();
+    $mapping = array();
+    foreach ($rows as $row) {
+      $mapping[(int) $row['id']] = (int) $row['follow_petition_id'];
+    }
+
+    $ok = array();
+    foreach ($mapping as $id => $_useless) { // check each choice
+      $mapping[(int) $petition->getId()] = $id;
+      $i = (int) $petition->getId();
+      $path = array();
+      while (array_key_exists($i, $mapping) && $mapping[$i] !== 0 && !in_array($i, $path)) { // move through path
+        $path[] = $i;
+        $i = $mapping[$i];
+      }
+      if (array_key_exists($i, $mapping) && $mapping[$i] === 0) { // no cycle for this id
+        $ok[] = $id;
+      }
+    }
+
+    if (count($ok)) {
+      return $this->queryByCampaign($petition->getCampaign())->andWhereIn('p.id', $ok)->orderBy('p.name ASC')->execute();
+    } else {
+      return array();
+    }
   }
 
 }

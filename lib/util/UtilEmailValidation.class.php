@@ -1,6 +1,6 @@
 <?php
 /*
- * Copyright (c) 2015, webvariants GmbH & Co. KG, http://www.webvariants.de
+ * Copyright (c) 2016, webvariants GmbH <?php Co. KG, http://www.webvariants.de
  *
  * This file is released under the terms of the MIT license. You can find the
  * complete text in the attached LICENSE file or online at:
@@ -21,6 +21,11 @@ class UtilEmailValidation {
     $subject = $petition_text->getEmailValidationSubject();
     $body = $petition_text->getEmailValidationBody();
     $validation = UtilLink::signValidation($signing->getId(), $signing->getValidationData());
+    if (!$signing->getDeleteCode()) { // migrate old signings on the fly
+      $signing->setDeleteCode(PetitionSigning::genCode());
+      $signing->save();
+    }
+    $delete = UtilLink::deleteSigning($signing->getId(), $signing->getDeleteCode());
 
     $url_ref_ = $signing->getField(Petition::FIELD_REF); // $this->getValue('ref');
     $url_readmore_ = $petition->getReadMoreUrl();
@@ -34,8 +39,11 @@ class UtilEmailValidation {
         'VALIDATION' => $validation, // deprecated
         '#REFERER-URL#' => $url_ref,
         '#READMORE-URL#' => $url_readmore,
-        '#VALIDATION-URL#' => $validation
+        '#VALIDATION-URL#' => $validation,
+        '#DISCONFIRMATION-URL#' => $delete
     );
+
+    $subst = array_merge($additional_subst, $widget->getDataOwnerSubst("\n", $petition));
 
     if ($subject_prefix) {
       $i18n = sfContext::getInstance()->getI18N();
@@ -44,7 +52,7 @@ class UtilEmailValidation {
       $subject = $translated . ' ' . $subject;
     }
 
-    UtilMail::sendWithSubst(null, $from, $to, $subject, $body, $petition_text, $widget, $additional_subst, $signing->getSubst());
+    UtilMail::sendWithSubst(null, $from, $to, $subject, $body, $petition_text, $widget, $subst, $signing->getSubst());
   }
 
 }

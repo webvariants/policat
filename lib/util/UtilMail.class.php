@@ -1,6 +1,6 @@
 <?php
 /*
- * Copyright (c) 2015, webvariants GmbH & Co. KG, http://www.webvariants.de
+ * Copyright (c) 2016, webvariants GmbH <?php Co. KG, http://www.webvariants.de
  *
  * This file is released under the terms of the MIT license. You can find the
  * complete text in the attached LICENSE file or online at:
@@ -23,7 +23,7 @@ class UtilMail {
     return StoreTable::getInstance()->getValueCached(StoreTable::EMAIL_SENDER) ? true : false;
   }
 
-  public static function send($sender, $from, $to, $subject, $body, $contentType = null, $subst = null, $subst_2nd = null, $replyTo = null) {
+  public static function send($sender, $from, $to, $subject, $body, $contentType = null, $subst = null, $subst_2nd = null, $replyTo = null, $attachments = array()) {
     $message = Swift_Message::newInstance();
     if ($from == null) {
       $message->setFrom(self::getDefaultFrom());
@@ -61,6 +61,11 @@ class UtilMail {
     $message->setTo($to)
       ->setSubject($subject)
       ->setBody($body, $contentType);
+    
+    foreach ($attachments as $attachment) {
+      $message->attach($attachment);
+    }
+    
     sfContext::getInstance()->getMailer()->send($message);
   }
 
@@ -111,6 +116,18 @@ class UtilMail {
       $subst[$keyword] = self::firstValue($widget, $petition_text, $field);
     $subst['BODY'] = $petition_text['body'];  // deprecated
     $subst['#BODY#'] = $petition_text['body'];
+
+    /* @var $petition_text PetitionText */
+    $petition = $petition_text->getPetition();
+    /* @var $petition Petition */
+    if ($petition->isEmailKind()) {
+      $action_text = $subst['#EMAIL-SUBJECT#'] . "\n\n" . $subst['#EMAIL-BODY#'] . "\n";
+    } else {
+      $action_text = $subst['#INTRO#'] . "\n\n" . $subst['#BODY#'] . "\n\n" . $subst['#FOOTER#'] . "\n";
+    }
+
+    $subst['#ACTION-TEXT#'] = $action_text;
+
     return $subst;
   }
 

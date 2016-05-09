@@ -1,6 +1,6 @@
 <?php
 /*
- * Copyright (c) 2015, webvariants GmbH & Co. KG, http://www.webvariants.de
+ * Copyright (c) 2016, webvariants GmbH <?php Co. KG, http://www.webvariants.de
  *
  * This file is released under the terms of the MIT license. You can find the
  * complete text in the attached LICENSE file or online at:
@@ -32,7 +32,7 @@ class TargetListCopyForm extends sfForm {
           'model' => 'Campaign',
           'query' => $query
       )));
-
+    
     $this->setWidget('new_name', new sfWidgetFormInputText(array(), array('class' => 'span4')));
     $this->setValidator('new_name', new sfValidatorString(array('max_length' => 100, 'required' => true)));
   }

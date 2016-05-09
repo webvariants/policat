@@ -41,14 +41,18 @@ CVS
 /data/csv_downloads/*
 
 .hgignore
-/compile-bootstrap.sh
-/optimize_js.sh
-/optimize_css.sh
-/optimize_widget.sh
-/yuicompressor*
 
 /composer.json
 /composer.lock
+/bower.json
+/Gruntfile.js
+
+/bower_components
+/bower_components/*
+/node_modules
+/node_modules/*
 
 /web/images/ttipceta
 /web/images/ttipceta/*
+
+/run*

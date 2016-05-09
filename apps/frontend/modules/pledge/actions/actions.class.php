@@ -1,6 +1,6 @@
 <?php
 /*
- * Copyright (c) 2015, webvariants GmbH & Co. KG, http://www.webvariants.de
+ * Copyright (c) 2016, webvariants GmbH <?php Co. KG, http://www.webvariants.de
  *
  * This file is released under the terms of the MIT license. You can find the
  * complete text in the attached LICENSE file or online at:
@@ -279,7 +279,7 @@ class pledgeActions extends policatActions {
     }
 
     $head[] = 'comment';
-
+    
     $out = fopen('php://temp/export', 'a+');
 
     foreach ($contact_data as $id => $contact) {
@@ -323,7 +323,7 @@ class pledgeActions extends policatActions {
         $data[] = array_key_exists($pledge_status, PledgeTable::$STATUS_SHOW) ? PledgeTable::$STATUS_SHOW[$pledge_status] : null;
         $data[] = array_key_exists($pledge_item->getId(), $pledges) ? $pledges[$pledge_item->getId()]['status_at'] : null;
       }
-
+      
       $data[] = array_key_exists($id, $pledge_data_contacts) ? $pledge_data_contacts[$id]['comment'] : null;
 
       fputcsv($out, $data, ';');

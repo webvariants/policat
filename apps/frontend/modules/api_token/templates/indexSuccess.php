@@ -5,8 +5,13 @@
     <li><a href="<?php echo url_for('petition_overview', array('id' => $petition->getId())) ?>"><?php echo $petition->getName() ?></a></li><span class="divider">/</span>
     <li class="active">Overview</li>
 </ul>
+<?php include_component('d_action', 'notice', array('petition' => $petition)) ?>
 <?php include_partial('d_action/tabs', array('petition' => $petition, 'active' => 'tokens')) ?>
 
+<h2>Counter</h2>
+<?php include_partial('form', array('form' => $form)) ?>
+
+<h2>API</h2>
 <p>
   You can update your counter with signings collected elsewhere, whether in other e-petition systems, or at offline
   events or canvassing. A simple method is to tweak the overall counter manually by adding a number into the

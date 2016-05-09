@@ -284,7 +284,8 @@ a.back {
 	max-height: 1000px;
 }
 
-#policat_widget_right form > div.submit.button_small {
+#policat_widget_right form > div.submit.button_small,
+#policat_widget_right form > a.a_submit.button_small {
 	height: 25px;
 	margin-bottom: 5px;
 }
@@ -374,7 +375,7 @@ div.checkbox label {
 	text-transform: none;
 }
 
-.submit {
+.submit, .a_submit {
 	overflow: hidden;
 	margin-top: 4px;
 	height: 50px;
@@ -397,24 +398,40 @@ div.checkbox label {
 	margin-bottom: 10px !important;
 }
 
-.submit.button_small { height: 25px; background-position: -320px 0; margin-top: 8px; margin-bottom: 8px; }
+.submit.button_small,
+.a_submit.button_small { 
+	height: 25px;
+	background-position: -320px 0;
+	margin-top: 8px;
+	margin-bottom: 8px;
+}
 
 #policat_widget_right .submit:hover {background-position: -120px -60px; }
 
-#policat_widget_right .submit.button_small:hover {background-position: -320px -60px;}
+#policat_widget_right .submit.button_small:hover,
+#policat_widget_right .a_submit.button_small:hover {
+	background-position: -320px -60px;
+}
 
 #policat_widget_right .submit div  { margin: 0; width: auto; float: none; }
 
-.submit.button_small p { font-size: 13px; margin: 6px 0 0 0; }
+.submit.button_small p, .a_submit.button_small p {
+	font-size: 13px; margin: 6px 0 0 0;
+}
 
 *:first-child+html .submit p { line-height: 1.5; } /*only IE7*/
 
 .submit.twoline p { font-size: 16px; margin: 9px 0 0;	}
 .submit.threeline p { font-size: 13px; margin: 3px 0 0; }
 
-#policat_widget_right div.submit {
+#policat_widget_right div.submit, #policat_widget_right a.a_submit {
 	width: 180px;
 	margin: 0 auto;
+}
+
+#policat_widget_right a.a_submit {
+	display: block;
+	text-decoration: none;
 }
 
 #policat_widget_footer {

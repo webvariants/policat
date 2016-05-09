@@ -1,6 +1,6 @@
 <?php
 /*
- * Copyright (c) 2015, webvariants GmbH & Co. KG, http://www.webvariants.de
+ * Copyright (c) 2016, webvariants GmbH <?php Co. KG, http://www.webvariants.de
  *
  * This file is released under the terms of the MIT license. You can find the
  * complete text in the attached LICENSE file or online at:
@@ -13,7 +13,7 @@ class Ajax {
   protected $data = array();
 
   /**
-   * @var sfAction
+   * @var sfAction 
    */
   protected $action = null;
 
@@ -29,7 +29,7 @@ class Ajax {
   public function jSelect($cmd, $selector, $args = array()) {
     return $this->add('j', array('cmd' => $cmd, 'selector' => $selector, 'args' => $args));
   }
-
+  
   public function j0($cmd, $selector) {
     return $this->jSelect($cmd, $selector, array());
   }
@@ -73,7 +73,7 @@ class Ajax {
   public function remove($selector) {
     return $this->jSelect('remove', $selector);
   }
-
+  
   public function append($selector, $markup) {
     return $this->j('append', $selector, $markup);
   }
@@ -81,7 +81,7 @@ class Ajax {
   public function appendPartial($selector, $templateName, $vars = null) {
     return $this->jPartial('append', $selector, $templateName, $vars);
   }
-
+  
   public function afterPartial($selector, $templateName, $vars = null) {
     return $this->jPartial('after', $selector, $templateName, $vars);
   }
@@ -109,15 +109,15 @@ class Ajax {
   public function removeClass($selector, $class) {
     return $this->j('removeClass', $selector, $class);
   }
-
+  
   public function val($selector, $value) {
     return $this->j('val', $selector, $value);
   }
-
+  
   public function trigger($selector, $value) {
     return $this->j('trigger', $selector, $value);
   }
-
+  
   public function empty_($selector) {
     return $this->j0('empty', $selector);
   }
@@ -185,7 +185,7 @@ class Ajax {
   public function initRecaptcha() {
     return $this->add('initRecaptcha');
   }
-
+  
   public function click($selector) {
     return $this->j0('click', $selector);
   }
@@ -204,6 +204,10 @@ class Ajax {
 
   public function __toString() {
     return '   Do not forget to call render()!   ';
+  }
+  
+  public function edits($selector = null) {
+    return $this->add('edits', $selector);
   }
 
   public function form(sfForm $form) {

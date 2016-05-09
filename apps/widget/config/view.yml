@@ -9,9 +9,9 @@ default:
 #    language:     en
     robots:       index, follow
 
-  stylesheets:    [opt]
+  stylesheets:    [dist/frontend]
 
-  javascripts:    [html5: { condition: lt IE 9 }, opt]
+  javascripts:    [dist/html5shiv: { condition: lt IE 9 }, dist/frontend]
 
   has_layout:     true
   layout:         layout

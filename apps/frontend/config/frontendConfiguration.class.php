@@ -1,6 +1,6 @@
 <?php
 /*
- * Copyright (c) 2015, webvariants GmbH & Co. KG, http://www.webvariants.de
+ * Copyright (c) 2016, webvariants GmbH <?php Co. KG, http://www.webvariants.de
  *
  * This file is released under the terms of the MIT license. You can find the
  * complete text in the attached LICENSE file or online at:
@@ -19,7 +19,8 @@ class frontendConfiguration extends sfApplicationConfiguration {
     $con = $parameters['connection'];
     /* @var $con Doctrine_Connection */
 
-    $con->setAttribute(Doctrine_Core::ATTR_QUERY_CACHE, new Doctrine_Cache_Array());
+    $cache = new Doctrine_Cache_Db(array('connection' => $con, 'tableName' => 'query_cache'));
+    $con->setAttribute(Doctrine_Core::ATTR_QUERY_CACHE, $cache);
     $con->setAttribute(Doctrine_Core::ATTR_QUERY_CACHE_LIFESPAN, 3600);
   }
 

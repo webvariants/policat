@@ -1,12 +1,4 @@
 <?php
-/*
- * Copyright (c) 2015, webvariants GmbH & Co. KG, http://www.webvariants.de
- *
- * This file is released under the terms of the MIT license. You can find the
- * complete text in the attached LICENSE file or online at:
- *
- * http://www.opensource.org/licenses/mit-license.php
- */
 
 /**
  * Campaign form base class.
@@ -26,12 +18,17 @@ abstract class BaseCampaignForm extends BaseFormDoctrine
       'id'                    => new sfWidgetFormInputHidden(),
       'name'                  => new sfWidgetFormTextarea(),
       'status'                => new sfWidgetFormInputText(),
+      'billing_enabled'       => new sfWidgetFormInputText(),
       'owner_register'        => new sfWidgetFormInputText(),
       'allow_download'        => new sfWidgetFormInputText(),
       'become_petition_admin' => new sfWidgetFormInputText(),
       'privacy_policy'        => new sfWidgetFormTextarea(),
       'address'               => new sfWidgetFormTextarea(),
       'data_owner_id'         => new sfWidgetFormDoctrineChoice(array('model' => $this->getRelatedModelName('DataOwner'), 'add_empty' => true)),
+      'quota_id'              => new sfWidgetFormDoctrineChoice(array('model' => $this->getRelatedModelName('Quota'), 'add_empty' => true)),
+      'order_id'              => new sfWidgetFormDoctrineChoice(array('model' => $this->getRelatedModelName('Order'), 'add_empty' => true)),
+      'public_enabled'        => new sfWidgetFormInputText(),
+      'join_enabled'          => new sfWidgetFormInputText(),
       'created_at'            => new sfWidgetFormDateTime(),
       'updated_at'            => new sfWidgetFormDateTime(),
       'object_version'        => new sfWidgetFormInputText(),
@@ -42,12 +39,17 @@ abstract class BaseCampaignForm extends BaseFormDoctrine
       'id'                    => new sfValidatorChoice(array('choices' => array($this->getObject()->get('id')), 'empty_value' => $this->getObject()->get('id'), 'required' => false)),
       'name'                  => new sfValidatorString(),
       'status'                => new sfValidatorInteger(array('required' => false)),
+      'billing_enabled'       => new sfValidatorInteger(array('required' => false)),
       'owner_register'        => new sfValidatorInteger(array('required' => false)),
       'allow_download'        => new sfValidatorInteger(array('required' => false)),
       'become_petition_admin' => new sfValidatorInteger(array('required' => false)),
       'privacy_policy'        => new sfValidatorString(array('required' => false)),
       'address'               => new sfValidatorString(array('required' => false)),
       'data_owner_id'         => new sfValidatorDoctrineChoice(array('model' => $this->getRelatedModelName('DataOwner'), 'column' => 'id', 'required' => false)),
+      'quota_id'              => new sfValidatorDoctrineChoice(array('model' => $this->getRelatedModelName('Quota'), 'column' => 'id', 'required' => false)),
+      'order_id'              => new sfValidatorDoctrineChoice(array('model' => $this->getRelatedModelName('Order'), 'column' => 'id', 'required' => false)),
+      'public_enabled'        => new sfValidatorInteger(array('required' => false)),
+      'join_enabled'          => new sfValidatorInteger(array('required' => false)),
       'created_at'            => new sfValidatorDateTime(),
       'updated_at'            => new sfValidatorDateTime(),
       'object_version'        => new sfValidatorString(array('max_length' => 15, 'required' => false)),

@@ -1,6 +1,6 @@
 <?php
 /*
- * Copyright (c) 2015, webvariants GmbH & Co. KG, http://www.webvariants.de
+ * Copyright (c) 2016, webvariants GmbH <?php Co. KG, http://www.webvariants.de
  *
  * This file is released under the terms of the MIT license. You can find the
  * complete text in the attached LICENSE file or online at:
@@ -15,7 +15,7 @@
  * @subpackage form
  * @author     Martin
  */
-class EditWidgetForm extends BaseWidgetForm {
+class EditWidgetForm extends WidgetForm {
 
   protected $state_count = true;
 
@@ -24,75 +24,72 @@ class EditWidgetForm extends BaseWidgetForm {
   }
 
   public function configure() {
-    $this->widgetSchema->setFormFormatterName('bootstrap');
-    $this->widgetSchema->setNameFormat('edit_widget[%s]');
+    $this->getWidgetSchema()->setFormFormatterName('bootstrap');
+    $this->getWidgetSchema()->setNameFormat('edit_widget[%s]');
     $petition = $this->getObject()->getPetition();
-
-    unset
-      (
-      $this['user_id'], $this['data_owner'], $this['created_at'], $this['updated_at'], $this['campaign_id'],
-      $this['petition_id'], $this['petition_text_id'], $this['stylings'], $this['email'], $this['organisation'],
-      $this['validation_kind'], $this['validation_data'], $this['validation_status'], $this['edit_code'],
-      $this['object_version'], $this['parent_id'], $this['ref'], $this['paypal_email'], $this['activity_at'],
-      $this['last_ref']
-    );
-
-    $parent = $this->getObject()->getParentId() ? $this->getObject()->getParent() : null;
-
+    
     if ($this->isNew()) {
       $this->setWidget('id', new sfWidgetFormInput(array(), array('size' => 4)));
       $this->setValidator('id', new ValidatorFreeId(array('required' => false, ValidatorFreeId::OPTION_MODEL => $this->getModelName())));
+    } else {
+      $this->setWidget('updated_at', new sfWidgetFormInputHidden());
+      $this->setValidator('updated_at', new ValidatorUnchanged(array('fix' => $this->getObject()->getUpdatedAt())));
     }
+
+    $parent = $this->getObject()->getParentId() ? $this->getObject()->getParent() : null;
 
     $this->setWidget('title', new sfWidgetFormInput(array(), array('size' => 90, 'class' => 'large')));
 
-    $this->setWidget('styling_type', new sfWidgetFormChoice(array('choices' => array('popup' => 'Popup', 'embed' => 'Embed'))));
+    $this->setWidget('styling_type', new sfWidgetFormChoice(array('choices' => array('popup' => 'Popup', 'embed' => 'Embed')), array(
+        'class' => 'add_popover',
+        'data-content' => 'Choose \'Embed\' to have this box ("widget") embedded into your webpage, including texts and action-form. Visitors can instantly read all and take action. However, you need at least 440px width to embed the widget. Choose \'Popup\' if you lack sufficient space on your webpage. You will get a small box ("teaser") with flexible width (at least 150px). If visitors click on the teaser, the big action-widget pops up.'
+    )));
     $this->setValidator('styling_type', new sfValidatorChoice(array('choices' => array('popup', 'embed'))));
     $this->setDefault('styling_type', $this->getObject()->getStyling('type', 'embed'));
-    $this->widgetSchema->setLabel('styling_type', 'Widget type');
+    $this->getWidgetSchema()->setLabel('styling_type', 'Widget type');
 
-    $choices = array('auto' => 'auto');
-    for ($i = 440; $i <= 740; $i++)
-      $choices[$i] = $i;
-    //$this->setWidget('styling_width',    new sfWidgetFormInput());
-    $this->setWidget('styling_width', new sfWidgetFormChoice(array('choices' => $choices)));
+    $choices = $this->getWidthChoices();
+    $this->setWidget('styling_width', new sfWidgetFormChoice(array('choices' => $choices), array(
+        'class' => 'add_popover',
+        'data-content' => 'You may define a precise widget width. Select "auto" and the widget will adapt to the space available (max: 1000px). Should there be less than 440px width available, contents will display in one column (instead of two) with the sign-on-form below the petition text. On mobile devices with less than 768px device-width, the widget-width is set to 360px for smooth reading on smartphones.'
+    )));
     $this->setValidator('styling_width', new sfValidatorChoice(array('choices' => array_keys($choices))));
     $this->setDefault('styling_width', $this->getObject()->getStyling('width', $parent ? $parent->getStyling('width') : 'auto'));
-    $this->widgetSchema->setLabel('styling_width', 'Width');
+    $this->getWidgetSchema()->setLabel('styling_width', 'Width');
 
     if ($petition->getWidgetIndividualiseDesign()) {
       $this->setWidget('styling_title_color', new sfWidgetFormInput(array(), array('class' => 'color {hash:true}')));
       $this->setValidator('styling_title_color', new ValidatorCssColor(array('min_length' => 7, 'max_length' => 7)));
       $this->setDefault('styling_title_color', $this->getObject()->getStyling('title_color', $parent ? $parent->getStyling('title_color') : $petition->getStyleTitleColor()));
-      $this->widgetSchema->setLabel('styling_title_color', 'Text title');
+      $this->getWidgetSchema()->setLabel('styling_title_color', 'Text title');
 
       $this->setWidget('styling_body_color', new sfWidgetFormInput(array(), array('class' => 'color {hash:true}')));
       $this->setValidator('styling_body_color', new ValidatorCssColor(array('min_length' => 7, 'max_length' => 7)));
       $this->setDefault('styling_body_color', $this->getObject()->getStyling('body_color', $parent ? $parent->getStyling('body_color') : $petition->getStyleBodyColor()));
-      $this->widgetSchema->setLabel('styling_body_color', 'Text body');
+      $this->getWidgetSchema()->setLabel('styling_body_color', 'Text body');
 
       $this->setWidget('styling_bg_left_color', new sfWidgetFormInput(array(), array('class' => 'color {hash:true}')));
       $this->setValidator('styling_bg_left_color', new ValidatorCssColor(array('min_length' => 7, 'max_length' => 7)));
       $this->setDefault('styling_bg_left_color', $this->getObject()->getStyling('bg_left_color', $parent ? $parent->getStyling('bg_left_color') : $petition->getStyleBgLeftColor()));
-      $this->widgetSchema->setLabel('styling_bg_left_color', 'Backgr left');
+      $this->getWidgetSchema()->setLabel('styling_bg_left_color', 'Backgr left');
 
       $this->setWidget('styling_bg_right_color', new sfWidgetFormInput(array(), array('class' => 'color {hash:true}')));
       $this->setValidator('styling_bg_right_color', new ValidatorCssColor(array('min_length' => 7, 'max_length' => 7)));
       $this->setDefault('styling_bg_right_color', $this->getObject()->getStyling('bg_right_color', $parent ? $parent->getStyling('bg_right_color') : $petition->getStyleBgRightColor()));
-      $this->widgetSchema->setLabel('styling_bg_right_color', 'Backgr right');
+      $this->getWidgetSchema()->setLabel('styling_bg_right_color', 'Backgr right');
 
       $this->setWidget('styling_form_title_color', new sfWidgetFormInput(array(), array('class' => 'color {hash:true}')));
       $this->setValidator('styling_form_title_color', new ValidatorCssColor(array('min_length' => 7, 'max_length' => 7)));
       $this->setDefault('styling_form_title_color', $this->getObject()->getStyling('form_title_color', $parent ? $parent->getStyling('form_title_color') : $petition->getStyleFormTitleColor()));
-      $this->widgetSchema->setLabel('styling_form_title_color', 'Form title');
+      $this->getWidgetSchema()->setLabel('styling_form_title_color', 'Form title');
 
       $this->setWidget('styling_button_color', new sfWidgetFormInput(array(), array('class' => 'color {hash:true}')));
       $this->setValidator('styling_button_color', new ValidatorCssColor(array('min_length' => 7, 'max_length' => 7)));
       $this->setDefault('styling_button_color', $this->getObject()->getStyling('button_color', $parent ? $parent->getStyling('button_color') : $petition->getStyleButtonColor()));
-      $this->widgetSchema->setLabel('styling_button_color', 'Button');
+      $this->getWidgetSchema()->setLabel('styling_button_color', 'Button');
     }
 
-    $this->setWidget('target', new sfWidgetFormTextarea(array(), array('cols' => 90, 'rows' => 3, 'class' => 'markdown')));
+    $this->setWidget('target', new sfWidgetFormTextarea(array('label' => 'Subtitle'), array('cols' => 90, 'rows' => 3, 'class' => 'markdown')));
     $this->getWidgetSchema()->setHelp('target', 'Keep this short, this area is not scrollable.');
 
     $this->setWidget('background', new sfWidgetFormTextarea(array(), array('cols' => 90, 'rows' => 5, 'class' => 'markdown')));
@@ -113,63 +110,23 @@ class EditWidgetForm extends BaseWidgetForm {
       }
       unset($this['intro'], $this['footer']);
       if ($petition->getKind() != Petition::KIND_PLEDGE) {
-        if ($petition->isGeoKind()) {
-          $subst_fields = $petition->getGeoSubstFields();
-          $keywords = array();
-          foreach ($subst_fields as $keyword => $subst_field) {
-            if ($subst_field['id'] != MailingList::FIX_GENDER) {
-              $keywords[] = '<b>' . $keyword . '</b> (' . $subst_field['name'] . ')';
-            }
-          }
-          foreach (PetitionSigningTable::$KEYWORDS as $keyword) {
-            $keywords[] = $keyword;
-          }
-
-          $keywords[] = PetitionTable::KEYWORD_PERSONAL_SALUTATION;
-        } else {
-          $keywords = PetitionSigningTable::$KEYWORDS;
-        }
-        $this->getWidgetSchema()->setHelp('email_body', 'You can use the following keywords: ' . implode(', ', $keywords) . '.');
+        $this->getWidgetSchema()->setHelp('email_body', 'You can use the following keywords: ' . $this->getKeywords(', ') . '.');
       }
     }
 
-    $defaults = $this->getObject()->getPetitionText();
-    if ($this->getObject()->getParentId())
-      $defaults = $this->getObject()->getParent();
-    if ($this->getObject()->isNew())
-      foreach (array('title', 'target', 'background', 'intro', 'footer', 'email_subject', 'email_body') as $field)
-        if (isset($this[$field]))
-          $this->setDefault($field, $defaults[$field]);
+    $this->setWidgetDefaults();
 
     $possible_statuses = Widget::$STATUS_SHOW;
     unset($possible_statuses[Widget::STATUS_DRAFT]);
     $possible_statuses = array_keys($possible_statuses);
 
     $this->state_count = count($possible_statuses);
-    $possible_statuses_show = Petition::calcStatusShow($possible_statuses);
+    $possible_statuses_show = Widget::calcStatusShow($possible_statuses);
     $this->setWidget('status', new sfWidgetFormChoice(array('choices' => $possible_statuses_show)));
     $this->setValidator('status', new sfValidatorChoice(array('choices' => $possible_statuses, 'required' => true)));
-//    }
-//    else
-//    {
-//      $this->getObject()->setStatus(Widget::STATUS_ACTIVE);
-//      unset($this['status']);
-//    }
-
-    $petition_paypal_email = $petition->getPaypalEmail();
-    if ((is_string($petition_paypal_email) && strpos($petition_paypal_email, '@')) || !$this instanceof WidgetPublicForm) {
-      $this->setWidget('paypal_email', new WidgetFormInputInverseCheckbox(array('value_attribute_value' => 'ignore')));
-      $this->setValidator('paypal_email', new ValidatorInverseCheckbox(array('value_attribute_value' => 'ignore')));
-      $this->getWidgetSchema()->setLabel('paypal_email', 'Include fundraising form');
-    }
-
-    if (!$this->getObject()->isNew()) {
-      $this->setWidget('updated_at', new sfWidgetFormInputHidden());
-      $this->setValidator('updated_at', new ValidatorUnchanged(array('fix' => $this->getObject()->getUpdatedAt())));
-    }
 
     $this->setWidget('landing_url', new sfWidgetFormInput(array(
-        'label' => 'Email Validation Landingpage - auto forwarding to external page',
+        'label' => 'E-mail Validation Landingpage - auto forwarding to external page',
         'default' => $this->getObject()->getInheritLandingUrl()
       ), array(
         'size' => 90,
@@ -178,26 +135,34 @@ class EditWidgetForm extends BaseWidgetForm {
     )));
     $this->setValidator('landing_url', new ValidatorUrl(array('required' => false, 'trim' => true)));
 
-    if (!$petition->getWidgetIndividualiseText()) {
-      foreach (array('title', 'target', 'background', 'intro', 'footer', 'email_subject', 'email_body') as $field) {
-        if (isset($this[$field])) {
-          unset($this[$field]);
-        }
+    $this->removeWidgetIndividualiseFields();
+
+    // donate_url on petition enables/disabled donate_url and donate_text feature
+    if ($petition->getDonateUrl() && $petition->getDonateWidgetEdit()) {
+      $placeholder = $this->getObject()->getPetitionText()->getDonateUrl();
+      if (!$placeholder) {
+        $placeholder = $petition->getDonateUrl();
+      }
+      if (!$placeholder) {
+        $placeholder = 'https://www.example.com/donate/';
+      }
+
+      $this->setWidget('donate_url', new sfWidgetFormInput(array('label' => 'Link for donation button'), array(
+          'size' => 90,
+          'class' => 'add_popover large',
+          'data-content' => 'Enter the link (URL) to your widget-specific donation page (e.g. "https://" or "http://"). Optional.',
+          'placeholder' => $placeholder,
+      )));
+      $this->setValidator('donate_url', new ValidatorUrl(array('required' => false)));
+
+      $this->setWidget('donate_text', new sfWidgetFormTextarea(array(), array('cols' => 90, 'rows' => 3, 'class' => 'markdown')));
+      $this->setValidator('donate_text', new sfValidatorString(array('max_length' => 1800, 'required' => false)));
+      $this->getWidgetSchema()->setHelp('donate_text', 'This may contain explanatory text and will be displayed in the widget, on click of the \'Donate\' button. It necessitates two clicks to open the donation page in a new browser tab. For a single click workflow, leave this field empty.');
+
+      if ($this->getObject()->isNew()) {
+        $this->getWidgetSchema()->setDefault('donate_text', $this->getObject()->getPetitionText()->getDonateText());
       }
     }
-  }
-
-  protected function doUpdateObject($values) {
-    if (!$this instanceof WidgetStatusForm) {
-      $stylings = array();
-      foreach (array('type', 'width', 'title_color', 'body_color', 'button_color', 'bg_left_color', 'bg_right_color', 'form_title_color') as $i) {
-        $stylings[$i] = $values['styling_' . $i];
-        unset($values['styling_' . $i]);
-      }
-      $values['stylings'] = json_encode($stylings);
-    }
-
-    parent::doUpdateObject($values);
   }
 
 }

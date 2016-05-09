@@ -1,12 +1,4 @@
 <?php
-/*
- * Copyright (c) 2015, webvariants GmbH & Co. KG, http://www.webvariants.de
- *
- * This file is released under the terms of the MIT license. You can find the
- * complete text in the attached LICENSE file or online at:
- *
- * http://www.opensource.org/licenses/mit-license.php
- */
 
 /**
  * PetitionSigning
@@ -21,14 +13,14 @@
 class PetitionSigning extends BasePetitionSigning {
 
   const STATUS_PENDING = 1;
-  const STATUS_VERIFIED = 2;
+  const STATUS_COUNTED = 2;
   const STATUS_BLOCKED = 3;
   const STATUS_DUPLICATE = 4;
   const STATUS_SENT = 5; // waves only
 
   static $STATUS_SHOW = array(
       self::STATUS_PENDING => 'pending',
-      self::STATUS_VERIFIED => 'verified',
+      self::STATUS_COUNTED => 'counted',
       self::STATUS_BLOCKED => 'blocked',
       self::STATUS_DUPLICATE => 'duplicate',
   );
@@ -43,6 +35,9 @@ class PetitionSigning extends BasePetitionSigning {
 
   const SUBSCRIBE_NO = 0;
   const SUBSCRIBE_YES = 1;
+  
+  const VERIFIED_NO = 0;
+  const VERIFIED_YES = 1;
 
   public function getStatusName() {
     $status = $this->getStatus();
@@ -54,7 +49,8 @@ class PetitionSigning extends BasePetitionSigning {
       $name = $name['name'];
     }
 
-    return $this->utilGetFieldFromArray('fields', $name, $default);
+    $value = $this[$name];
+    return $value === null ? $default : $value;
   }
 
   public function setField($name, $value) {
@@ -62,7 +58,7 @@ class PetitionSigning extends BasePetitionSigning {
       $name = $name['name'];
     }
 
-    $this->utilSetFieldFromArray('fields', $name, $value);
+    $this[$name] = $value;
   }
 
   public static function genCode() {
@@ -169,11 +165,14 @@ class PetitionSigning extends BasePetitionSigning {
   }
 
   public function getSubst($culture = 'en') {
+    sfContext::getInstance()->getConfiguration()->loadHelpers(array('Date'));
+
     return array(
         PetitionSigningTable::KEYWORD_NAME => $this->getComputedName(),
         PetitionSigningTable::KEYWORD_COUNTRY => $this->getCountryName($culture),
         PetitionSigningTable::KEYWORD_ADDRESS => $this->getComputedAddress($culture, "\n", false, false),
         PetitionSigningTable::KEYWORD_EMAIL => $this->getEmail(),
+        PetitionSigningTable::KEYWORD_DATE => format_date($this->getCreatedAt(), 'yyyy-MM-dd HH:mm'),
     );
   }
 

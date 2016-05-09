@@ -1,6 +1,6 @@
 <?php
 /*
- * Copyright (c) 2015, webvariants GmbH & Co. KG, http://www.webvariants.de
+ * Copyright (c) 2016, webvariants GmbH <?php Co. KG, http://www.webvariants.de
  *
  * This file is released under the terms of the MIT license. You can find the
  * complete text in the attached LICENSE file or online at:
@@ -88,11 +88,11 @@ class migrateJsonSigningsTask extends sfBaseTask {
               }
             }
           }
-
+          
           if (!$sets) {
             die("no fields\n");
           }
-
+          
           $sets[] = 'fields = ?';
           $values[] = null;
 

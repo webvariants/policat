@@ -9,7 +9,13 @@ $user = $sf_user->getGuardUser();
 if ($user->isCampaignAdmin($campaign->getRawValue()))
   $list['privacy'] = array('title' => 'Default Privacy Policy', 'route' => 'campaign_privacy_list');
 if ($user->isCampaignAdmin($campaign->getRawValue()))
-  $list['data'] = array('title' => 'Signings', 'route' => 'campaign_data');
+  $list['data'] = array('title' => 'Participants', 'route' => 'campaign_data');
+if ($user->isDataOwnerOfCampaign($campaign->getRawValue())) {
+  $list['dataSubscriptions'] = array('title' => 'Mailing addresses', 'route' => 'campaign_data_email');
+}
+if (StoreTable::value(StoreTable::BILLING_ENABLE) && $campaign->getBillingEnabled()) {
+  $list['billing'] = array('title' => 'Billing &amp; Packages', 'route' => 'quota_list');
+}
 if (!isset($active))
   $active = '';
 ?>

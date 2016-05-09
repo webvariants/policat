@@ -1,12 +1,4 @@
 <?php
-/*
- * Copyright (c) 2015, webvariants GmbH & Co. KG, http://www.webvariants.de
- *
- * This file is released under the terms of the MIT license. You can find the
- * complete text in the attached LICENSE file or online at:
- *
- * http://www.opensource.org/licenses/mit-license.php
- */
 
 class CampaignTable extends Doctrine_Table {
 
@@ -33,12 +25,13 @@ class CampaignTable extends Doctrine_Table {
   public function queryAll($deleted_too = false) {
     $query = $this->createQuery('c')->orderBy('c.id');
 
-    if (!$deleted_too)
+    if (!$deleted_too) {
       $query->where('c.status = ?', self::STATUS_ACTIVE);
+    }
 
     return $query;
   }
-
+  
   /**
    *
    * @return Doctrine_Query
@@ -48,9 +41,10 @@ class CampaignTable extends Doctrine_Table {
   }
 
   public function findById($id, $deleted_too = false) {
-    if (!is_numeric($id))
+    if (!is_numeric($id)) {
       return false;
-
+    }
+    
     $query = $this->queryAll($deleted_too)->andWhere('c.id = ?', $id);
     $ret = $query->fetchOne();
 
@@ -64,13 +58,20 @@ class CampaignTable extends Doctrine_Table {
    * @param sfGuardUser $user
    * @return Doctrine_Query
    */
-  public function queryByMember(sfGuardUser $user, $is_member = true, $deleted_too = false) {
-    if ($user->hasPermission(myUser::CREDENTIAL_ADMIN))
+  public function queryByMember(sfGuardUser $user, $is_member = true, $deleted_too = false, $all_for_admin = true) {
+    if ($all_for_admin && $user->hasPermission(myUser::CREDENTIAL_ADMIN)) {
       return $this->queryAll($deleted_too);
-    if ($is_member)
-      return $this->queryAll($deleted_too)->innerJoin('c.CampaignRights cr')->andWhere('cr.user_id = ? AND cr.active = ?', array($user->getId(), 1));
-    else
-      return $this->queryAll($deleted_too)->andWhere('c.id NOT IN (SELECT cr.campaign_id FROM CampaignRights cr WHERE cr.user_id = ? AND cr.active = ?)', array($user->getId(), 1));
+    }
+    if ($is_member) {
+      return $this->queryAll($deleted_too)->innerJoin('c.CampaignRights cr')->andWhere('c.public_enabled = ? OR (cr.user_id = ? AND cr.active = ?)', array(Campaign::PUBLIC_ENABLED_YES, $user->getId(), 1));
+    }
+    else {
+      return $this->queryAll($deleted_too)->andWhere('c.public_enabled = ? AND c.id NOT IN (SELECT cr.campaign_id FROM CampaignRights cr WHERE cr.user_id = ? AND cr.active = ?)', array(Campaign::PUBLIC_ENABLED_NO, $user->getId(), 1));
+    }
+  }
+  
+  public function queryBillingEnabled() {
+    return $this->queryAll()->andWhere('c.billing_enabled = 1');
   }
 
 }

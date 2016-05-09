@@ -1,6 +1,6 @@
 <?php
 /*
- * Copyright (c) 2015, webvariants GmbH & Co. KG, http://www.webvariants.de
+ * Copyright (c) 2016, webvariants GmbH <?php Co. KG, http://www.webvariants.de
  *
  * This file is released under the terms of the MIT license. You can find the
  * complete text in the attached LICENSE file or online at:
@@ -36,7 +36,7 @@ class MailingListMetaForm extends BaseMailingListMetaForm {
       array('pattern' => '/^#[A-Z-_0-9]+#$/', 'max_length' => 80, 'min_length' => 5, 'trim' => true), array('invalid' => 'Keyword must be of format "#MY-KEYWORD#"')
     ));
     $this->getWidgetSchema()->setLabel('subst', 'Keyword');
-    $this->getWidgetSchema()->setHelp('subst', 'will be used as keyword in Emails and Target Selector');
+    $this->getWidgetSchema()->setHelp('subst', 'will be used as keyword in e-mails and Target Selector');
 
     if ($this->getObject()->getKind() == MailingListMeta::KIND_CHOICE) {
       $this->setWidget('choices', new sfWidgetFormTextarea(array()));

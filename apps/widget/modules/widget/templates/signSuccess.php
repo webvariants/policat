@@ -40,14 +40,14 @@ if (is_array($target_selectors)) {
         </script>
         <?php
         echo '<style type="text/css">';
-        foreach (array('jscrollpane.css', 'policat_widget_opt.css') as $filename) {
+        foreach (array('dist/jscrollpane.css', 'dist/policat_widget.css') as $filename) {
           echo (file_get_contents(sfConfig::get('sf_web_dir') . '/css/' . $filename) . "\n");
         }
         echo '</style>'
         ?>
         <script type="text/javascript" src="/js/static/jquery-1.10.2.min.js"></script>
         <?php
-        foreach (array('jscrollpane.min.js', 'mousewheel.min.js', 'jscolor.min.js', 'policat_widget_opt.js') as $filename) {
+        foreach (array('dist/jscrollpane.js', 'dist/jscolor.js', 'dist/policat_widget.js') as $filename) {
           printf("<script type=\"text/javascript\">/* <![CDATA[ */\n%s\n/* ]]> */</script>\n", (file_get_contents(sfConfig::get('sf_web_dir') . '/js/' . $filename)));
         }
           ?>
@@ -59,7 +59,7 @@ if (is_array($target_selectors)) {
             #html,body,div,span,h1,h2,h3,h4,h5,h6,p,a,em,img,q,dl,dt,dd,ol,ul,li,form,label,input,textarea, select { font-family: <?php echo $font_family ?>;}
             #body_policat_widget, a { color: <?php echo $body_color ?>; }
             h1, h2, #petition_tabs { color: <?php echo $title_color ?>; }
-            #policat_widget_right .submit, .button_color { background-color: <?php echo $button_color; ?> ; }
+            #policat_widget_right .submit, #policat_widget_right .a_submit, .button_color { background-color: <?php echo $button_color; ?> ; }
             #policat_widget_left { background: <?php echo $bg_left_color ?>; }
             #policat_widget_right { background: <?php echo $bg_right_color ?>; }
             div#count { background: <?php echo $bg_left_color ?>; }
@@ -93,14 +93,9 @@ if (is_array($target_selectors)) {
                             <div class="left tab active"><span class="button_color button_btn"><?php
                                     switch ($petition->getKind()):
                                       case Petition::KIND_EMAIL_TO_LIST:
-                                      case Petition::KIND_EMAIL_ACTION:
-                                      case Petition::KIND_GEO:
-                                      case Petition::KIND_GEO_EXTRA:
-                                      case Petition::KIND_OLD_EMAIL_ACTION: echo __('Email action');
+                                      case Petition::KIND_EMAIL_ACTION: echo __('Email action');
                                         break;
                                       case Petition::KIND_PLEDGE: echo __('Recipients');
-                                        break;
-                                      case Petition::KIND_NETWORK_NEWS: echo __('Network-News');
                                         break;
                                       default: echo $petition->getLabelMode() == PetitionTable::LABEL_MODE_PETITION ? __('Petition') : __('Initiative');
                                     endswitch
@@ -112,40 +107,9 @@ if (is_array($target_selectors)) {
                     <div id="privacy_policy">
                         <div class="scroll">
                             <div id="privacy_policy_text">
-                                <h1 id="priv_title"><?php echo __('Privacy policy') ?></h1>
+                                <h1 id="priv_title"><?php echo __('PP Heading') ?></h1>
                                 <?php
-                                /* @var $petition Petition */
-                                $widget_data_owner = ($widget->getDataOwner() == WidgetTable::DATA_OWNER_YES && $widget->getUserId()) ? $widget->getUser() : null;
-                                $data_owner = $widget_data_owner ? $widget_data_owner : ($petition->getCampaign()->getDataOwnerId() ? $petition->getCampaign()->getDataOwner() : null);
-                                /* @var $data_owner sfGuardUser */
-                                $privacy_policy = $petition_text['privacy_policy_body'];
-                                $orga = $data_owner ? $data_owner->getOrganisation() : '';
-                                $name = $data_owner ? $data_owner->getFullName() : '';
-                                $street = $data_owner ? $data_owner->getStreet() : '';
-                                $postcode = $data_owner ? $data_owner->getPostCode() : '';
-                                $city = $data_owner ? $data_owner->getCity() : '';
-                                $country = $data_owner ? $data_owner->getCountry() : '';
-                                if ($country) {
-                                  $country = format_country($country);
-                                }
-                                $address = $orga . ($orga ? "<br />" : '');
-                                $address .= $name . ($name ? "<br />" : '');
-                                $address .= $street . ($street ? "<br />" : '');
-                                $address .= $postcode . ' ' . $city . (($postcode || $city) ? "<br />" : '');
-                                $address .= $country . ($country ? "<br />" : '');
-                                $privacy_policy = strtr($privacy_policy, array(
-                                    '#DATA-OFFICER-NAME#' => $name,
-                                    '#DATA-OFFICER-ORGA#' => $orga,
-                                    '#DATA-OFFICER-EMAIL#' => $data_owner ? $data_owner->getEmailAddress() : '',
-                                    '#DATA-OFFICER-WEBSITE#' => $data_owner ? $data_owner->getWebsite() : '',
-                                    '#DATA-OFFICER-PHONE#' => $data_owner ? $data_owner->getPhone() : '',
-                                    '#DATA-OFFICER-MOBILE#' => $data_owner ? $data_owner->getMobile() : '',
-                                    '#DATA-OFFICER-STREET#' => $street,
-                                    '#DATA-OFFICER-POST-CODE#' => $postcode,
-                                    '#DATA-OFFICER-CITY#' => $city,
-                                    '#DATA-OFFICER-COUNTRY#' => $country,
-                                    '#DATA-OFFICER-ADDRESS#' => $address
-                                ));
+                                $privacy_policy = strtr($petition_text['privacy_policy_body'], $widget->getDataOwnerSubst('<br />', $petition));
                                 echo UtilMarkdown::transform($privacy_policy);
                                 ?>
                             </div>
@@ -226,21 +190,29 @@ if (is_array($target_selectors)) {
                         <div class="sign">
                             <h2 class="form_title"><?php echo __($petition->isEmailKind() ? 'Send an Email' : ($petition->getLabelMode() == PetitionTable::LABEL_MODE_PETITION ? 'Sign the Petition' : 'Support the initiative')) ?></h2>
                             <?php
-                            $not_in_time = false;
-                            if ($petition->isBefore()): $not_in_time = true
+                            $disabled = false;
+                            $require_billing_before = $require_billing_after = false;
+                            if ($require_billing) {
+                              if ($petition->countSignings() < 10) { // show begin message when action has some signings
+                                $require_billing_before = true;
+                              } else {
+                                $require_billing_after = true;
+                              }
+                            }
+                            if ($petition->isBefore()|| $require_billing_before): $disabled = true
                               ?>
                               <?php if ($petition->getKeyVisual()): ?><div id="kv_ot"><img src="<?php echo image_path('keyvisual/' . $petition->getKeyVisual()) ?>" alt="" /></div><?php endif ?>
-                              <p><?php echo __('The action starts on #DATE#. Stay tuned and spread the word!', array('#DATE#' => format_date($petition->getStartAt(), 'D'))) ?></p>
-                            <?php elseif ($petition->isAfter()): $not_in_time = true ?>
+                              <p><?php echo __('The action starts on #DATE#. Stay tuned and spread the word!', array('#DATE#' => $petition->getStartAt() ? format_date($petition->getStartAt(), 'D') : 'XX.XX.XXXX')) ?></p>
+                            <?php elseif ($petition->isAfter() || $require_billing_after): $disabled = true ?>
                               <?php if ($petition->getKeyVisual()): ?><div id="kv_ot"><img src="<?php echo image_path('keyvisual/' . $petition->getKeyVisual()) ?>" alt="" /></div><?php endif ?>
                               <p>
                                   <?php echo __('This action is over. Thanks to the #COUNTER# people who signed-up!', array('#COUNTER#' => '<b>' . $petition->countSigningsPlus() . '</b>')) ?>
                                   <a target="_blank" href="<?php echo url_for('homepage') ?>"><?php echo __('More actions') ?></a>
                               </p>
                             <?php endif ?>
-                            <?php if (!$not_in_time): ?><div id="count"><div></div><span></span></div><?php endif ?>
+                            <?php if (!$disabled): ?><div id="count"><div></div><span></span></div><?php endif ?>
                             <?php echo $form->renderGlobalErrors() ?>
-                            <form <?php if ($not_in_time): ?>style="display:none"<?php endif ?> id="sign" action="" method="post" autocomplete="off">
+                            <form <?php if ($disabled): ?>style="display:none"<?php endif ?> id="sign" action="" method="post" autocomplete="off">
                                 <?php echo $form->renderHiddenFields() ?>
                                 <?php
                                 foreach ($form as $fieldname => $fieldwidget) {
@@ -249,16 +221,22 @@ if (is_array($target_selectors)) {
                                     printf('<div class="%s%s%s">%s</div>', $fieldname, $group ? ' group' : '', $group === 2 ? ' first' : '', $fieldwidget->renderRow());
                                   }
                                 }
-                                ?>
+                                if (!isset($form[Petition::FIELD_PRIVACY])): ?>
+                                <div class="privacy"><label style="text-decoration:none"><?php echo UtilBold::format(__('By signing, I agree with the _privacy policy_.')) ?></label></div>
+                                <?php endif; ?>
                                 <div class="content_right_outbreak">
                                     <div class="submit submit_sign"><span id="btn_sign"><?php echo strtr(__($petition->isEmailKind() ? 'Send' : 'Sign'), array(' ' => '&nbsp;')) ?></span></div>
                                 </div>
                             </form>
-                            <?php if ($not_in_time): ?>
+                            <?php if ($disabled): ?>
                               <div id="footer_ot">
                                   <a id="a_share2" class="button_color button_btn"><?php echo __('Share') ?></a>
-                                  <?php if (is_string($paypal_email) && strlen($paypal_email) > 5): ?>
-                                    <a id="a_donate2" class="button_color button_btn"><?php echo __('Donate') ?></a>
+                                  <?php if ($paypal_email || $donate_url): ?>
+                                    <?php if ($donate_direct): ?>
+                                      <a class="button_color button_btn" target="_blank" href="<?php echo $donate_url ?>"><?php echo __('Donate') ?></a>
+                                    <?php else: ?>
+                                      <a id="a_donate2" class="button_color button_btn"><?php echo __('Donate') ?></a>
+                                    <?php endif ?>
                                   <?php endif ?>
                               </div>
                             <?php else: ?>
@@ -267,14 +245,18 @@ if (is_array($target_selectors)) {
                             <div id="policat_widget_footer">
                                 <ul class="linklist">
                                     <li><a id="a_share" class="button_color button_btn"><?php echo __('Share') ?></a></li>
-                                    <?php if (is_string($paypal_email) && strlen($paypal_email) > 5): ?>
-                                      <li><a id="a_donate" class="button_color button_btn"><?php echo __('Donate') ?></a></li>
+                                    <?php if ($paypal_email || $donate_url): ?>
+                                      <?php if ($donate_direct): ?>
+                                        <li><a class="button_color button_btn" target="_blank" href="<?php echo $donate_url ?>"><?php echo __('Donate') ?></a></li>
+                                      <?php else: ?>
+                                        <li><a id="a_donate" class="button_color button_btn"><?php echo __('Donate') ?></a></li>
+                                      <?php endif ?>
                                     <?php endif ?>
                                 </ul>
                             </div>
                         </div>
                         <div class="donate">
-                            <?php if (is_string($paypal_email) && strlen($paypal_email) > 5): ?>
+                            <?php if ($paypal_email): ?>
                               <h2 class="form_title"><?php echo __('Donate') ?></h2>
                               <p><?php echo __('Help us fund this campaign. Give whatever you can now using the safe and secure paypal form below.') ?></p>
                               <form id="paypal" action="https://www.paypal.com/cgi-bin/webscr" method="post">
@@ -303,6 +285,16 @@ if (is_array($target_selectors)) {
                                       <p><?php echo __('Donate') ?></p>
                                   </div>
                               </form>
+                            <?php endif ?>
+                            <?php if ($donate_url): ?>
+                              <?php if ($donate_text): ?>
+                                <div class="external_links"><?php echo UtilMarkdown::transform($sf_data->getRaw('donate_text')) ?></div>
+                              <?php endif ?>
+                              <form>
+                                <a class="a_submit button_small" target="_blank" href="<?php echo $donate_url ?>"><p><?php echo __('Donate') ?></p></a>
+                              </form>
+                            <?php endif ?>
+                            <?php if ($paypal_email || $donate_url): ?>
                               <a class="back button_color button_btn"><?php echo __('Back') ?></a>
                             <?php endif ?>
                         </div>

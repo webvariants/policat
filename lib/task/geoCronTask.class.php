@@ -1,6 +1,6 @@
 <?php
 /*
- * Copyright (c) 2015, webvariants GmbH & Co. KG, http://www.webvariants.de
+ * Copyright (c) 2016, webvariants GmbH <?php Co. KG, http://www.webvariants.de
  *
  * This file is released under the terms of the MIT license. You can find the
  * complete text in the attached LICENSE file or online at:
@@ -20,7 +20,7 @@ class geoCronTask extends sfBaseTask {
 
     $this->namespace = 'policat';
     $this->name = 'geo-cron';
-    $this->briefDescription = 'Send emails from Geo Activism';
+    $this->briefDescription = 'Send e-mails from Geo Activism';
     $this->detailedDescription = '';
   }
 
@@ -40,7 +40,7 @@ class geoCronTask extends sfBaseTask {
         ->addFrom('ps.PetitionSigningWave psw')
         ->where('ps.wave_cron > 0')
         ->andWhere('DATE_SUB(NOW(),INTERVAL 2 MINUTE) > ps.updated_at') // just to have the creating transaction ready
-        ->andWhere('psw.status = ?', PetitionSigning::STATUS_VERIFIED)
+        ->andWhere('psw.status = ?', PetitionSigning::STATUS_COUNTED)
         ->orderBy('ps.created_at DESC')
         ->fetchOne();
       ;
@@ -57,7 +57,7 @@ class geoCronTask extends sfBaseTask {
 
       $waves_verified = array();
       foreach ($petition_signing->getPetitionSigningWave() as $wave) {
-        if ($wave->getStatus() == PetitionSigning::STATUS_VERIFIED) {
+        if ($wave->getStatus() == PetitionSigning::STATUS_COUNTED) {
           $waves_verified[] = $wave->getWave();
           $wave->setStatus(PetitionSigning::STATUS_SENT);
         }
@@ -169,6 +169,16 @@ class geoCronTask extends sfBaseTask {
       $waves_sent = implode(',', $waves_verified);
       $petition_signing->setWaveSent($petition_signing->getWaveCron());
       $petition_signing->setWaveCron(0);
+
+      if ($i > 0 & StoreTable::value(StoreTable::BILLING_ENABLE)) {
+        $campaign = $petition_signing->getPetition()->getCampaign();
+        if ($campaign->getBillingEnabled() && $campaign->getQuotaId()) {
+          QuotaTable::getInstance()->useQuota($campaign->getQuotaId(), $i);
+          $petition_signing->setQuotaId($campaign->getQuotaId());
+          $petition_signing->setQuotaEmails($i);
+        }
+      }
+
       $petition_signing->save();
 
       echo "$i mails sent. [$id:$waves_sent] (continue)";

@@ -1,11 +1,4 @@
-/*
- * Copyright (c) 2015, webvariants GmbH & Co. KG, http://www.webvariants.de
- *
- * This file is released under the terms of the MIT license. You can find the
- * complete text in the attached LICENSE file or online at:
- *
- * http://www.opensource.org/licenses/mit-license.php
- */
+jscolor.dir = '/js/dist/';
 
 $(document).ready(function($) {
 	(function($, widget_id, window, Math, target_selectors, CT_extra, t_sel, t_sel_all) {
@@ -552,7 +545,13 @@ $(document).ready(function($) {
 					return false;
 				isClick = true;
 				var form_error = false;
+				var formId = form.attr('id');
 				$('.form_error').removeClass('form_error');
+
+				if (formId === 'sign') {
+					$('#petition_tabs .left').click();
+					show_sign();
+				}
 
 				// copy -> original
 				$('input[type=hidden],textarea.original', form).each(function() {
@@ -676,7 +675,6 @@ $(document).ready(function($) {
 				});
 
 				if (!form_error) {
-					var formId = form.attr('id');
 					if (formId == 'paypal') {
 						// paypal form
 						window.open(form.attr('action') + '?' + form.serialize(), '_blank');
@@ -845,6 +843,8 @@ $(document).ready(function($) {
 			};
 			img.src = src;
 		});
+		
+		$('.external_links a').attr('target', '_blank');
 
 	})($, widget_id, window, Math, target_selectors, CT_extra, t_sel, t_sel_all);
 });

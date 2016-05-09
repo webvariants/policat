@@ -1,12 +1,4 @@
 <?php
-/*
- * Copyright (c) 2015, webvariants GmbH & Co. KG, http://www.webvariants.de
- *
- * This file is released under the terms of the MIT license. You can find the
- * complete text in the attached LICENSE file or online at:
- *
- * http://www.opensource.org/licenses/mit-license.php
- */
 
 /**
  * Widget
@@ -135,12 +127,22 @@ class Widget extends BaseWidget {
 
   public function getFinalPaypalEmail() {
     $email = $this->getPaypalEmail();
-    if (is_string($email) && strpos($email, '@'))
+    if (is_string($email) && strpos($email, '@') && strlen($email) > 5) {
       return $email;
-    if (empty($email))
-      return $this->getPetition()->getPaypalEmail();
-    // $email shout be 'ignore' here
-    return false;
+    }
+    if (empty($email)) { // not == 'ignore'
+      $email = $this->getPetition()->getPaypalEmail();
+
+      if (is_string($email) && strpos($email, '@') && strlen($email) > 5) {
+        return $email;
+      }
+    }
+
+    if ($email === 'ignore') {
+      return false;
+    }
+
+    return null;
   }
 
   public function getIdentString() {
@@ -231,4 +233,54 @@ class Widget extends BaseWidget {
 
     return $landing_url;
   }
+
+  public function getRequireBilling() {
+    return StoreTable::value(StoreTable::BILLING_ENABLE) && $this->getCampaign()->getBillingEnabled() && !$this->getCampaign()->getQuotaId();
+  }
+
+  /**
+   * @param type $petition_id
+   */
+  public function followsWidgetId($petition_id) {
+    return WidgetTable::getInstance()->fetchWidgetIdByOrigin($petition_id, $this->getId());
+  }
+
+  public function getDataOwnerSubst($newline = "\n", $petition) {
+    if (!$petition) {
+      $petition = $this->getPetition();
+    }
+    $widget_data_owner = ($this->getDataOwner() == WidgetTable::DATA_OWNER_YES && $this->getUserId()) ? $this->getUser() : null;
+    $data_owner = $widget_data_owner ? $widget_data_owner : ($petition->getCampaign()->getDataOwnerId() ? $petition->getCampaign()->getDataOwner() : null);
+    /* @var $data_owner sfGuardUser */
+    $orga = $data_owner ? $data_owner->getOrganisation() : '';
+    $name = $data_owner ? $data_owner->getFullName() : '';
+    $street = $data_owner ? $data_owner->getStreet() : '';
+    $postcode = $data_owner ? $data_owner->getPostCode() : '';
+    $city = $data_owner ? $data_owner->getCity() : '';
+    $country = $data_owner ? $data_owner->getCountry() : '';
+    if ($country) {
+      sfContext::getInstance()->getConfiguration()->loadHelpers(array('I18N'));
+      $country = format_country($country);
+    }
+    $address = $orga . ($orga ? $newline : '');
+    $address .= $name . ($name ? $newline : '');
+    $address .= $street . ($street ? $newline : '');
+    $address .= $postcode . ' ' . $city . (($postcode || $city) ? $newline : '');
+    $address .= $country . ($country ? $newline : '');
+
+    return array(
+        '#DATA-OFFICER-NAME#' => $name,
+        '#DATA-OFFICER-ORGA#' => $orga,
+        '#DATA-OFFICER-EMAIL#' => $data_owner ? $data_owner->getEmailAddress() : '',
+        '#DATA-OFFICER-WEBSITE#' => $data_owner ? $data_owner->getWebsite() : '',
+        '#DATA-OFFICER-PHONE#' => $data_owner ? $data_owner->getPhone() : '',
+        '#DATA-OFFICER-MOBILE#' => $data_owner ? $data_owner->getMobile() : '',
+        '#DATA-OFFICER-STREET#' => $street,
+        '#DATA-OFFICER-POST-CODE#' => $postcode,
+        '#DATA-OFFICER-CITY#' => $city,
+        '#DATA-OFFICER-COUNTRY#' => $country,
+        '#DATA-OFFICER-ADDRESS#' => $address
+    );
+  }
+
 }

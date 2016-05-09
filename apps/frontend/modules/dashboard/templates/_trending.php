@@ -17,17 +17,13 @@ if ($petitions->count()):
           foreach ($petitions as $petition): /* @var $petition Petition */
             ?>
             <tr>
-                <td><a href="<?php echo url_for('petition_overview', array('id' => $petition->getId())) ?>"><?php echo $petition->getName() ?></a></td>
-                <td><a href="<?php echo url_for('campaign_edit_', array('id' => $petition->getCampaignId())) ?>"><?php echo $petition->getCampaign()->getName() ?></a></td>
+                <td><?php $sf_user->linkPetition($petition) ?></td>
+                <td><?php $sf_user->linkCampaign($petition->getCampaign()) ?></td>
                 <td class="align-right">
-                    <a href="<?php echo url_for('petition_widgets', array('id' => $petition->getId())) ?>">
-                        <?php echo format_number($petition->countWidgets()) ?>
-                    </a>
+                    <?php $sf_user->linkPetition($petition, null, format_number($petition->countWidgets()), null, false, 'petition_widgets') ?>
                 </td>
                 <td class="align-right">
-                    <a href="<?php echo url_for('petition_data', array('id' => $petition->getId())) ?>">
-                        <?php echo format_number($petition->countSignings()) ?>
-                    </a>
+                    <?php $sf_user->linkPetition($petition, null, format_number($petition->countSignings()), null, false, 'petition_data') ?>
                 </td>
             </tr>
           <?php endforeach; ?>
@@ -53,8 +49,8 @@ if ($widgets->count()):
           foreach ($widgets as $widget): /* @var $widget Widget */
             ?>
             <tr>
-                <td><a class="" href="<?php echo url_for('widget_edit', array('id' => $widget->getId())) ?>"><?php echo $widget->getId() ?></a></td>
-                <td><a href="<?php echo url_for('petition_overview', array('id' => $widget->getPetitionId())) ?>"><?php echo $widget->getPetition()->getName() ?></a></td>
+                <td><?php $sf_user->linkWidget($widget) ?></td>
+                <td><?php $sf_user->linkPetition($widget->getPetition()) ?></td>
                 <td class="span2 span2-ellipsis">
                     <?php if ($widget->getLastRef()): ?>
                       <a class="add_popover popover_left popover_hover" data-content="<?php echo $widget->getLastRefShy() ?>" target="_blank" href="<?php echo $widget->getLastRef() ?>"><?php echo $widget->getLastRefShort(30) ?></a>

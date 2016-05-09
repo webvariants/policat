@@ -22,3 +22,12 @@ all:
   spf:
     cmd: spfquery
     ip: # INSERT IP OF YOUR MAILSERVER #
+
+#prod:
+#  amg_sentry:
+#    enabled: true
+#    dsn: 'http://...'
+##    logger: 'custom-logger-name'
+#    reportPHPErrors: true
+#    reportPHPWarnings: false
+#    report404: false

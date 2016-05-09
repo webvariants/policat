@@ -1,6 +1,6 @@
 <?php
 /*
- * Copyright (c) 2015, webvariants GmbH & Co. KG, http://www.webvariants.de
+ * Copyright (c) 2016, webvariants GmbH <?php Co. KG, http://www.webvariants.de
  *
  * This file is released under the terms of the MIT license. You can find the
  * complete text in the attached LICENSE file or online at:
@@ -14,7 +14,7 @@
  * @package    policat
  * @subpackage widget
  * @author     Martin
- *
+ * 
  * @property $petition Petition
  * @property $widget Widget
  * @property $petition_text PetitionText
@@ -37,21 +37,30 @@ class widgetActions extends policatActions
     }
   }
 
-  protected function fetchWidget()
+  protected function fetchWidget($force_id = false)
   {
-    $id = $this->getRequest()->getParameter('id');
+    $id = $force_id === false ?  $this->getRequest()->getParameter('id') : $force_id;
     if (!is_numeric($id)) return $this->showError('Invalid ID');
-
+    
     $this->widget = WidgetTable::getInstance()->fetch($id);
+    if (!$this->widget) {
+      $response = $this->getResponse();
+      $response->setContent('// NOT FOUND');
+      if ($response instanceof sfWebResponse) {
+        $response->setHttpHeader('cache-control', 'public, must-revalidate, max-age=60');
+      }
+      $response->send();
+      throw new sfStopException();
+    }
     $this->widget->getPetition()->state(Doctrine_Record::STATE_CLEAN); // petition can not have changed yet, stupid doctrine
-
+    
     if (empty ($this->widget)) return $this->forward404('No widget found');
 
     $this->setContentTags($this->widget);
     $this->addContentTags($this->widget->getCampaign());
     $this->addContentTags($this->widget->getPetition());
     $this->addContentTags($this->widget->getPetitionText());
-
+    
     $donations_paypal_strore = StoreTable::getInstance()->findByKeyCached(StoreTable::DONATIONS_PAYPAL);
     if ($donations_paypal_strore)
       $this->addContentTags ($donations_paypal_strore);
@@ -79,9 +88,26 @@ class widgetActions extends policatActions
     $this->target        = $widget_texts ? $this->widget['target'] : $this->petition_text['target'];
     $this->background    = $widget_texts ? $this->widget['background'] : $this->petition_text['background'];
 
-    $this->paypal_email  = StoreTable::value(StoreTable::DONATIONS_PAYPAL) ? $this->widget->getFinalPaypalEmail() : '';
+    // donate_url on petition enables/disabled donate_url and donate_text feature
+    $this->donate_url    = $this->petition['donate_url'] && $this->petition_text['donate_url'] ? $this->petition_text['donate_url'] : $this->petition['donate_url'];
+    $this->donate_text   = $this->donate_url ? $this->petition_text['donate_text'] : null;
+    if ($this->petition['donate_url'] && $this->petition['donate_widget_edit']) {
+      if ($this->widget['donate_url']) {
+        $this->donate_url = $this->widget['donate_url'];
+      }
+      $this->donate_text = $this->widget['donate_text'];
+    }
+    $this->donate_direct = $this->donate_url && !$this->donate_text;
+
+    $paypal_email = $this->widget->getFinalPaypalEmail();
+    $this->paypal_email  = StoreTable::value(StoreTable::DONATIONS_PAYPAL) && !$this->donate_url ? $paypal_email: '';
+    if ($paypal_email === false) { // disable donate
+      $this->donate_url = null;
+    }
     $this->paypal_ref    = sprintf("%s%s%s", $this->petition['id'], $this->petition_text['language_id'], $this->widget['id']);
     $this->read_more_url = $this->petition['read_more_url'];
+
+    $this->require_billing = $this->widget->getRequireBilling();
 
     $this->width = $this->widget->getStyling('width');
     $this->font_family = $this->petition->getStyleFontFamily();
@@ -135,10 +161,10 @@ class widgetActions extends policatActions
       // It is a signing form
       if ($request->hasParameter($this->form->getName()))
       {
-        if ($this->petition->isBefore() || $this->petition->isAfter()) {
+        if ($this->petition->isBefore() || $this->petition->isAfter() || $this->require_billing) {
           return $this->renderText(json_encode(array('over' => true)));
         }
-
+        
         $ajax_response_form = $this->form;
         $this->form->bind($request->getPostParameter($this->form->getName()));
         if ($this->form->isValid())
@@ -177,7 +203,7 @@ class widgetActions extends policatActions
           $extra['edit_code'] = $this->form_embed->getObject()->getEditCode();
           $extra['markup'] = UtilLink::widgetMarkup($extra['id']);
         } else {
-
+          
         }
       }
 
@@ -199,7 +225,7 @@ class widgetActions extends policatActions
       return $this->renderPartial('json_form', array('form' => $ajax_response_form, 'extra' => $extra));
     }
   }
-
+  
   public function executeSignHp(sfWebRequest $request) {
     $this->setTemplate('sign');
     if ($request->isMethod('post')) return $this->executeSign($request);
@@ -222,6 +248,7 @@ class widgetActions extends policatActions
         {
           $petition      = $petition_signing->getPetition();
           $widget        = $petition_signing->getWidget();
+          $campaign      = $petition->getCampaign();
           $this->lang    = $widget->getPetitionText()->getLanguageId();
           $this->getContext()->getI18N()->setCulture($this->lang);
           $this->getUser()->setCulture($this->lang);
@@ -242,13 +269,15 @@ class widgetActions extends policatActions
           if (($code === $petition_signing->getValidationData() && !$petition->isGeoKind()) || $wave)
           {
             if ($petition_signing->getStatus() == PetitionSigning::STATUS_PENDING
-              || ($wave && $wave->getStatus() == PetitionSigning::STATUS_PENDING))
+              || ($wave && $wave->getStatus() == PetitionSigning::STATUS_PENDING)
+              || ($petition_signing->getStatus() == PetitionSigning::STATUS_COUNTED && $petition_signing->getVerified() == PetitionSigning::VERIFIED_NO))
             {
+              $quota_emails = 0;
               if ($petition->isEmailKind())
               {
                 if ($petition->isGeoKind()) {
                   $petition_signing->setWaveCron($petition_signing->getWavePending());
-                  $wave->setStatus(PetitionSigning::STATUS_VERIFIED);
+                  $wave->setStatus(PetitionSigning::STATUS_COUNTED);
                 }
                 else {  // regular email action, send mail now
                   $subject = $petition_signing->getField(Petition::FIELD_EMAIL_SUBJECT);
@@ -264,10 +293,23 @@ class widgetActions extends policatActions
                     /* Email to target */
                     UtilMail::send(null, $petition_signing->getEmailContact($petition->getFromEmail(), true), $email_targets, $subject, /* email problem */
                       $body, null, $petition_signing->getSubst($this->lang), null, $petition_signing->getEmailContact());
+                    
+                    $quota_emails = count($email_targets);
                   }
                 }
+              } else {
+                $quota_emails = 1;
               }
-              $petition_signing->setStatus(PetitionSigning::STATUS_VERIFIED);
+              
+              if ($quota_emails && StoreTable::value(StoreTable::BILLING_ENABLE) && $campaign->getBillingEnabled() && $campaign->getQuotaId()) {
+                QuotaTable::getInstance()->useQuota($campaign->getQuotaId(), $quota_emails);
+                $petition_signing->setQuotaId($campaign->getQuotaId());
+                $petition_signing->setQuotaEmails($quota_emails);
+              }
+              
+              $petition->state(Doctrine_Record::STATE_CLEAN); // prevent updating Petitiion for nothing
+              $petition_signing->setStatus(PetitionSigning::STATUS_COUNTED);
+              $petition_signing->setVerified(PetitionSigning::VERIFIED_YES);
               $petition_signing->setEmailHash($petition_signing->getEmailHashAuto());
               $petition_signing->save();
             }
@@ -293,6 +335,7 @@ class widgetActions extends policatActions
   public function executeWidgetOuter(sfWebRequest $request)
   {
     $this->fetchWidget();
+    $this->checkFollowWidget();
     $petition = $this->widget['Petition'];
     /* @var $petition Petition */
     $petition_text = $this->widget['PetitionText'];
@@ -331,6 +374,30 @@ class widgetActions extends policatActions
     }
 
     $this->title = Util::enc($title);
+  }
+  
+  private function checkFollowWidget() {
+    $route_params = $this->getRoute()->getParameters();
+    if (isset($route_params['noRedirect']) && $route_params['noRedirect']) {
+      return;
+    }
+    $check_cycle = array();
+    while (1) {
+      $petition = $this->widget['Petition'];
+      /* @var $petition Petition */
+
+      if ($petition->getFollowPetitionId()) {
+        $follow_widget_id = WidgetTable::getInstance()->fetchWidgetIdByOrigin($petition->getFollowPetitionId(), $this->widget->getId());
+        if (in_array($follow_widget_id, $check_cycle)) {
+          return;
+        } else {
+          $check_cycle[] = $follow_widget_id;
+        }
+        $this->fetchWidget($follow_widget_id);
+      } else {
+        return;
+      }
+    }
   }
 
   public function executeWidgetedit(sfWebRequest $request)
@@ -389,5 +456,39 @@ class widgetActions extends policatActions
     $this->setContentTags($petition_text);
 
     return $this->renderText(json_encode($result));
+  }
+  
+  public function executeDelete(sfWebRequest $request)
+  {
+    $this->setLayout(false);
+    if ($request->hasParameter('code'))
+    {
+      $idcode = $request->getParameter('code');
+      if (is_string($idcode)) $idcode = explode('-', trim($idcode));
+      if (is_array($idcode) && count($idcode) === 2)
+      {
+        list($this->id, $code) = $idcode;
+        $this->id = ltrim($this->id, '0 ');
+        $petition_signing = PetitionSigningTable::getInstance()->fetch($this->id);
+        if (!empty($petition_signing))
+        {
+          $widget        = $petition_signing->getWidget();
+          $this->lang    = $widget->getPetitionText()->getLanguageId();
+          $this->getContext()->getI18N()->setCulture($this->lang);
+          $this->getUser()->setCulture($this->lang);
+
+          /* @var $petition_signing PetitionSigning */
+          /* @var $petition Petition */
+
+          if ($code && $code === $petition_signing->getDeleteCode())
+          {
+            $petition_signing->delete();
+            return;
+          }
+        }
+      }
+    }
+
+    $this->setTemplate('fail');
   }
 }

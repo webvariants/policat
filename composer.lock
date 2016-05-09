@@ -1,11 +1,189 @@
 {
     "_readme": [
         "This file locks the dependencies of your project to a known state",
-        "Read more about it at http://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
+        "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "0423704752025df83be4a7bbc4911211",
+    "hash": "430146e68c9f73c725528355e47b3709",
     "packages": [
+        {
+            "name": "amg-dev/amg-sentry-plugin",
+            "version": "dev-master",
+            "source": {
+                "type": "git",
+                "url": "git@github.com:amg-dev/symfony-amg-sentry-plugin.git",
+                "reference": "5b307e29c7a51da5d8c0467705a9f148d9ff0723"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/amg-dev/symfony-amg-sentry-plugin/zipball/5b307e29c7a51da5d8c0467705a9f148d9ff0723",
+                "reference": "5b307e29c7a51da5d8c0467705a9f148d9ff0723",
+                "shasum": ""
+            },
+            "require": {
+                "composer/installers": "*",
+                "raven/raven": ">=0.2.0"
+            },
+            "type": "symfony1-plugin",
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Nicolas Dubois",
+                    "email": "nicolas.c.dubois@gmail.com"
+                },
+                {
+                    "name": "Jean Roussel",
+                    "email": "contact@jean-roussel.fr"
+                }
+            ],
+            "description": "Symfony 1.x plugin for Sentry.",
+            "homepage": "https://github.com/amg-dev/symfony-amg-sentry-plugin",
+            "keywords": [
+                "logger",
+                "sentry",
+                "symfony"
+            ],
+            "time": "2014-04-10 19:08:27"
+        },
+        {
+            "name": "composer/installers",
+            "version": "v1.0.21",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/composer/installers.git",
+                "reference": "d64e23fce42a4063d63262b19b8e7c0f3b5e4c45"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/composer/installers/zipball/d64e23fce42a4063d63262b19b8e7c0f3b5e4c45",
+                "reference": "d64e23fce42a4063d63262b19b8e7c0f3b5e4c45",
+                "shasum": ""
+            },
+            "replace": {
+                "roundcube/plugin-installer": "*",
+                "shama/baton": "*"
+            },
+            "require-dev": {
+                "composer/composer": "1.0.*@dev",
+                "phpunit/phpunit": "4.1.*"
+            },
+            "type": "composer-installer",
+            "extra": {
+                "class": "Composer\\Installers\\Installer",
+                "branch-alias": {
+                    "dev-master": "1.0-dev"
+                }
+            },
+            "autoload": {
+                "psr-0": {
+                    "Composer\\Installers\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Kyle Robinson Young",
+                    "email": "kyle@dontkry.com",
+                    "homepage": "https://github.com/shama"
+                }
+            ],
+            "description": "A multi-framework Composer library installer",
+            "homepage": "http://composer.github.com/installers/",
+            "keywords": [
+                "Craft",
+                "Dolibarr",
+                "Hurad",
+                "MODX Evo",
+                "OXID",
+                "SMF",
+                "Thelia",
+                "WolfCMS",
+                "agl",
+                "aimeos",
+                "annotatecms",
+                "bitrix",
+                "cakephp",
+                "chef",
+                "codeigniter",
+                "concrete5",
+                "croogo",
+                "dokuwiki",
+                "drupal",
+                "elgg",
+                "fuelphp",
+                "grav",
+                "installer",
+                "joomla",
+                "kohana",
+                "laravel",
+                "lithium",
+                "magento",
+                "mako",
+                "mediawiki",
+                "modulework",
+                "moodle",
+                "phpbb",
+                "piwik",
+                "ppi",
+                "puppet",
+                "roundcube",
+                "shopware",
+                "silverstripe",
+                "symfony",
+                "typo3",
+                "wordpress",
+                "zend",
+                "zikula"
+            ],
+            "time": "2015-02-18 17:17:01"
+        },
+        {
+            "name": "dompdf/dompdf",
+            "version": "v0.6.1",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/dompdf/dompdf.git",
+                "reference": "cf7d8a0a27270418850cc7d7ea532159e5eeb3eb"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/dompdf/dompdf/zipball/cf7d8a0a27270418850cc7d7ea532159e5eeb3eb",
+                "reference": "cf7d8a0a27270418850cc7d7ea532159e5eeb3eb",
+                "shasum": ""
+            },
+            "require": {
+                "phenx/php-font-lib": "0.2.*"
+            },
+            "type": "library",
+            "autoload": {
+                "classmap": [
+                    "include/"
+                ]
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "LGPL"
+            ],
+            "authors": [
+                {
+                    "name": "Fabien Ménager",
+                    "email": "fabien.menager@gmail.com"
+                },
+                {
+                    "name": "Brian Sweeney",
+                    "email": "eclecticgeek@gmail.com"
+                }
+            ],
+            "description": "DOMPDF is a CSS 2.1 compliant HTML to PDF converter",
+            "homepage": "https://github.com/dompdf/dompdf",
+            "time": "2014-03-11 01:59:52"
+        },
         {
             "name": "ircmaxell/password-compat",
             "version": "v1.0.4",
@@ -50,16 +228,16 @@
         },
         {
             "name": "lexpress/doctrine1",
-            "version": "v1.3.0",
+            "version": "dev-master",
             "source": {
                 "type": "git",
                 "url": "https://github.com/LExpress/doctrine1.git",
-                "reference": "b7682da098acacdd8063d59740697962eea8bfb6"
+                "reference": "85928dcd03c93127ae07101705875b5f51e05150"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/LExpress/doctrine1/zipball/b7682da098acacdd8063d59740697962eea8bfb6",
-                "reference": "b7682da098acacdd8063d59740697962eea8bfb6",
+                "url": "https://api.github.com/repos/LExpress/doctrine1/zipball/85928dcd03c93127ae07101705875b5f51e05150",
+                "reference": "85928dcd03c93127ae07101705875b5f51e05150",
                 "shasum": ""
             },
             "require": {
@@ -92,28 +270,32 @@
                 "database",
                 "orm"
             ],
-            "time": "2014-02-05 09:53:08"
+            "time": "2015-06-22 14:02:42"
         },
         {
             "name": "lexpress/symfony1",
-            "version": "v1.5.3",
+            "version": "v1.5.6",
             "source": {
                 "type": "git",
                 "url": "https://github.com/LExpress/symfony1.git",
-                "reference": "786f87547fec1f43bc3c232564a6533bbcf476cc"
+                "reference": "cf86a0f1b57dbca443fa2843ba74cbecee06a9f8"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/LExpress/symfony1/zipball/786f87547fec1f43bc3c232564a6533bbcf476cc",
-                "reference": "786f87547fec1f43bc3c232564a6533bbcf476cc",
+                "url": "https://api.github.com/repos/LExpress/symfony1/zipball/cf86a0f1b57dbca443fa2843ba74cbecee06a9f8",
+                "reference": "cf86a0f1b57dbca443fa2843ba74cbecee06a9f8",
                 "shasum": ""
             },
             "require": {
-                "swiftmailer/swiftmailer": "~5.2.1"
+                "swiftmailer/swiftmailer": "~5.2"
+            },
+            "require-dev": {
+                "psr/log": "*"
             },
             "suggest": {
                 "lexpress/doctrine1": "Doctrine plugin",
-                "propel/sf-propel-o-r-m-plugin": "Propel plugin"
+                "propel/sf-propel-o-r-m-plugin": "Propel plugin",
+                "psr/log": "Psr logger"
             },
             "bin": [
                 "data/bin/symfony"
@@ -134,32 +316,207 @@
                 "MIT"
             ],
             "description": "Fork of symfony 1.4 with dic, form enhancements, latest swiftmailer and better performance",
-            "time": "2014-09-17 07:55:09"
+            "time": "2015-07-22 13:05:29"
         },
         {
-            "name": "swiftmailer/swiftmailer",
-            "version": "v5.2.2",
+            "name": "lox/xhprof",
+            "version": "dev-master",
             "source": {
                 "type": "git",
-                "url": "https://github.com/swiftmailer/swiftmailer.git",
-                "reference": "e02f71a35436af4bd58a1bd90116089e632e29e1"
+                "url": "https://github.com/lox/xhprof.git",
+                "reference": "c64571f892bda1298bad9c5e94ede0bc3f0e4627"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/swiftmailer/swiftmailer/zipball/e02f71a35436af4bd58a1bd90116089e632e29e1",
-                "reference": "e02f71a35436af4bd58a1bd90116089e632e29e1",
+                "url": "https://api.github.com/repos/lox/xhprof/zipball/c64571f892bda1298bad9c5e94ede0bc3f0e4627",
+                "reference": "c64571f892bda1298bad9c5e94ede0bc3f0e4627",
                 "shasum": ""
             },
             "require": {
+                "php": ">=5.2.0"
+            },
+            "bin": [
+                "bin/xhprofile"
+            ],
+            "type": "library",
+            "autoload": {
+                "files": [
+                    "xhprof_lib/utils/xhprof_lib.php",
+                    "xhprof_lib/utils/xhprof_runs.php"
+                ]
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "Apache-2.0"
+            ],
+            "description": "XHProf: A Hierarchical Profiler for PHP",
+            "homepage": "http://pecl.php.net/package/xhprof",
+            "keywords": [
+                "performance",
+                "profiling"
+            ],
+            "time": "2015-08-31 22:07:48"
+        },
+        {
+            "name": "paypal/rest-api-sdk-php",
+            "version": "v1.3.2",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/paypal/PayPal-PHP-SDK.git",
+                "reference": "0a32a6323c829e0e424e9f4d15e7b346c8472c08"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/paypal/PayPal-PHP-SDK/zipball/0a32a6323c829e0e424e9f4d15e7b346c8472c08",
+                "reference": "0a32a6323c829e0e424e9f4d15e7b346c8472c08",
+                "shasum": ""
+            },
+            "require": {
+                "ext-curl": "*",
+                "ext-json": "*",
+                "php": ">=5.3.0"
+            },
+            "require-dev": {
+                "phpunit/phpunit": "3.7.*"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-0": {
+                    "PayPal": "lib/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "Apache2"
+            ],
+            "authors": [
+                {
+                    "name": "PayPal",
+                    "homepage": "https://github.com/paypal/rest-api-sdk-php/contributors"
+                }
+            ],
+            "description": "PayPal's PHP SDK for REST APIs",
+            "homepage": "https://github.com/paypal/rest-api-sdk-php",
+            "keywords": [
+                "payments",
+                "paypal",
+                "rest",
+                "sdk"
+            ],
+            "time": "2015-03-18 20:40:42"
+        },
+        {
+            "name": "phenx/php-font-lib",
+            "version": "0.2.2",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/PhenX/php-font-lib.git",
+                "reference": "c30c7fc00a6b0d863e9bb4c5d5dd015298b2dc82"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/PhenX/php-font-lib/zipball/c30c7fc00a6b0d863e9bb4c5d5dd015298b2dc82",
+                "reference": "c30c7fc00a6b0d863e9bb4c5d5dd015298b2dc82",
+                "shasum": ""
+            },
+            "type": "library",
+            "autoload": {
+                "classmap": [
+                    "classes/"
+                ]
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "LGPL"
+            ],
+            "authors": [
+                {
+                    "name": "Fabien Ménager",
+                    "email": "fabien.menager@gmail.com"
+                }
+            ],
+            "description": "A library to read, parse, export and make subsets of different types of font files.",
+            "homepage": "https://github.com/PhenX/php-font-lib",
+            "time": "2014-02-01 15:22:28"
+        },
+        {
+            "name": "raven/raven",
+            "version": "0.13.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/getsentry/raven-php.git",
+                "reference": "1d5be07afc001df98a3528d1f928eeb2241afce6"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/getsentry/raven-php/zipball/1d5be07afc001df98a3528d1f928eeb2241afce6",
+                "reference": "1d5be07afc001df98a3528d1f928eeb2241afce6",
+                "shasum": ""
+            },
+            "require": {
+                "ext-curl": "*",
                 "php": ">=5.2.4"
             },
             "require-dev": {
-                "mockery/mockery": "~0.9.1"
+                "fabpot/php-cs-fixer": "^1.8.0",
+                "phpunit/phpunit": "^4.6.6"
+            },
+            "bin": [
+                "bin/raven"
+            ],
+            "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "0.13.x-dev"
+                }
+            },
+            "autoload": {
+                "psr-0": {
+                    "Raven_": "lib/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "BSD"
+            ],
+            "authors": [
+                {
+                    "name": "David Cramer",
+                    "email": "dcramer@gmail.com"
+                }
+            ],
+            "description": "A PHP client for Sentry (http://getsentry.com)",
+            "homepage": "http://getsentry.com",
+            "keywords": [
+                "log",
+                "logging"
+            ],
+            "time": "2015-09-09 18:12:58"
+        },
+        {
+            "name": "swiftmailer/swiftmailer",
+            "version": "v5.4.1",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/swiftmailer/swiftmailer.git",
+                "reference": "0697e6aa65c83edf97bb0f23d8763f94e3f11421"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/swiftmailer/swiftmailer/zipball/0697e6aa65c83edf97bb0f23d8763f94e3f11421",
+                "reference": "0697e6aa65c83edf97bb0f23d8763f94e3f11421",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=5.3.3"
+            },
+            "require-dev": {
+                "mockery/mockery": "~0.9.1,<0.9.4"
             },
             "type": "library",
             "extra": {
                 "branch-alias": {
-                    "dev-master": "5.2-dev"
+                    "dev-master": "5.4-dev"
                 }
             },
             "autoload": {
@@ -183,16 +540,28 @@
             "description": "Swiftmailer, free feature-rich PHP mailer",
             "homepage": "http://swiftmailer.org",
             "keywords": [
+                "email",
                 "mail",
                 "mailer"
             ],
-            "time": "2014-09-20 07:17:36"
+            "time": "2015-06-06 14:19:39"
         }
     ],
     "packages-dev": [],
-    "aliases": [],
+    "aliases": [
+        {
+            "alias": "5.2.1",
+            "alias_normalized": "5.2.1.0",
+            "version": "5.4.1.0",
+            "package": "swiftmailer/swiftmailer"
+        }
+    ],
     "minimum-stability": "stable",
-    "stability-flags": [],
+    "stability-flags": {
+        "lexpress/doctrine1": 20,
+        "lox/xhprof": 20,
+        "amg-dev/amg-sentry-plugin": 20
+    },
     "prefer-stable": false,
     "prefer-lowest": false,
     "platform": [],

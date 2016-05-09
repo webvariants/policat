@@ -32,7 +32,7 @@ all:
       delivery_strategy: realtime
 #      delivery_strategy: spool
 #      spool_class:       Swift_DoctrineSpool
-#      spool_arguments:   [ MailMessage, message, getSpooledMessages ]
+#      spool_arguments:   [ MailMessage, messagePlain, getSpooledMessages ]
 
   view_cache:
     class: sfTaggingCache

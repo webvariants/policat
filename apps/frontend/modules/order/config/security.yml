@@ -1,0 +1,19 @@
+list:
+  is_secure: true
+  credentials: admin
+
+paid:
+  is_secure: true
+  credentials: admin
+
+editBilling:
+  is_secure: true
+  credentials: admin
+
+manual:
+  is_secure: true
+  credentials: admin
+  
+manualUser:
+  is_secure: true
+  credentials: admin

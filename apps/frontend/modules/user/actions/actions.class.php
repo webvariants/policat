@@ -1,6 +1,6 @@
 <?php
 /*
- * Copyright (c) 2015, webvariants GmbH & Co. KG, http://www.webvariants.de
+ * Copyright (c) 2016, webvariants GmbH <?php Co. KG, http://www.webvariants.de
  *
  * This file is released under the terms of the MIT license. You can find the
  * complete text in the attached LICENSE file or online at:
@@ -96,11 +96,6 @@ class userActions extends policatActions {
         return $this->ajax()->form($this->form)->render();
       }
     }
-
-    if (!$user->isNew()) {
-      $this->campaign_rights_list = CampaignRightsTable::getInstance()->queryByUser($user)->execute();
-      $this->petition_rights_list = PetitionRightsTable::getInstance()->queryByUser($user)->execute();
-    }
   }
 
   public function executeValidation(sfWebRequest $request) {
@@ -122,12 +117,14 @@ class userActions extends policatActions {
           $user->setIsActive(true);
           $user->setValidationKind(sfGuardUserTable::VALIDATION_KIND_NONE);
           $user->save();
+          $widgets_connected = WidgetTable::getInstance()->updateByEmailToUser($user);
+          $widgets_info = $widgets_connected ? $widgets_connected . ' existing widget(s) have been connected with your account.' : '';
 
           return $this->ajax()
               ->form($this->form)
               ->attr('#password_form input, #password_form button', 'disabled', 'disabled')
               ->scroll()
-              ->alert('You have activated your account. You may login now.', 'Congratulations!', '.page-header', 'after')->render();
+              ->alert('You have activated your account. You may login now. ' . $widgets_info, 'Congratulations!', '.page-header', 'after')->render();
         } else {
           return $this->ajax()->form($this->form)->render();
         }
@@ -232,10 +229,25 @@ class userActions extends policatActions {
       if ($user->hasPermission(myUser::CREDENTIAL_ADMIN)) {
         return $this->ajax()->alert('You can not switch to an admin.')->render();
       }
+      
+      if (!$this->getUser()->hasCredential(myUser::CREDENTIAL_ADMIN)) { // check admin again (security.yml)
+        return $this->ajax()->alert('You must be admin.')->render();
+      }
 
+      $this->getUser()->getAttributeHolder()->clear();
       $this->getUser()->signin($user);
       return $this->ajax()->redirectRotue('dashboard')->render();
     }
   }
 
+  public function executeEmails(sfWebRequest $request) {
+    $users = sfGuardUserTable::getInstance()->queryAll()->execute();
+    $emails = array();
+    foreach ($users as $user) { /* @var $user sfGuardUser */
+      if ($user->hasValidEmail()) {
+        $emails[] = $user->getEmailAddress();
+      }
+    }
+    return $this->ajax()->appendPartial('body', 'emails', array('emails' => implode(', ', $emails)))->modal('#user_emails_modal')->render();
+  }
 }

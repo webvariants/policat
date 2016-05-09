@@ -1,5 +1,4 @@
 <ul class="nav nav-tabs">
-  <li><span class="title">Open actions</span></li>
   <?php $first = true;
   foreach ($open as $key => $value):
     ?>

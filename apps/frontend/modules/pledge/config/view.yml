@@ -1,4 +1,3 @@
 listSuccess:
-  stylesheets:    [select2/select2, select2/select2-bootstrap]
-
-  javascripts:    [select2/select2.min.js]
+  stylesheets:    [dist/select2]
+  javascripts:    [dist/select2]

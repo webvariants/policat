@@ -9,10 +9,11 @@ $hide_edit = false;
     <li><a href="<?php echo url_for('petition_overview', array('id' => $petition->getId())) ?>"><?php echo $petition->getName() ?></a></li><span class="divider">/</span>
     <li class="active">Edit</li>
   </ul>
+  <?php include_component('d_action', 'notice', array('petition' => $petition)) ?>
   <?php include_partial('d_action/tabs', array('petition' => $petition, 'active' => 'targets')) ?>
   <div class="row">
     <div class="span8">
-      <h2>Recipient(s) of the email action (your campaign targets)</h2>
+      <h2>Recipient(s) of the e-mail action (your campaign targets)</h2>
       <form class="ajax_form form-horizontal" action="<?php echo url_for('petition_edit_target', array('id' => $petition->getId())) ?>" method="post">
         <?php echo $target_form->renderHiddenFields() ?>
         <fieldset>
@@ -70,7 +71,7 @@ $hide_edit = false;
       <div class="span12">
         <h3>Meta fields</h3>
         <?php include_partial('metas', array('metas' => $metas)) ?>
-        <a class="ajax_link btn btn-mini" href="<?php echo url_for('target_meta_choice', array('id' => $form->getObject()->getId())) ?>">New choices</a>
+        <a class="ajax_link btn btn-mini" href="<?php echo url_for('target_meta_choice', array('id' => $form->getObject()->getId())) ?>">New selector</a>
         <a class="ajax_link btn btn-mini" href="<?php echo url_for('target_meta_free', array('id' => $form->getObject()->getId())) ?>">New free text</a>
         <a class="ajax_link btn btn-mini" href="<?php echo url_for('target_meta_mapping', array('id' => $form->getObject()->getId())) ?>">New mapping</a>
         <h3>Contacts</h3>

@@ -1,6 +1,6 @@
 <?php
 /*
- * Copyright (c) 2015, webvariants GmbH & Co. KG, http://www.webvariants.de
+ * Copyright (c) 2016, webvariants GmbH <?php Co. KG, http://www.webvariants.de
  *
  * This file is released under the terms of the MIT license. You can find the
  * complete text in the attached LICENSE file or online at:
@@ -95,7 +95,7 @@ class EditPetitionTargetForm extends BasePetitionForm {
           'default' => isset($fields[0]) ? $fields[0] : null
         ), array(
           'class' => 'add_popover span6',
-          'data-content' => "Activists will be able to select their preferred email recipient from your target list. "
+          'data-content' => "Activists will be able to select their preferred e-mail recipient from your target list. "
           . "Define, by which criteria activists can filter your list: by country, affiliation or any other criteria "
           . "defined by the \"meta keywords\" in your target-list. In case you run an international action, we "
           . "recommend you to choose the #country# selector, so activists can search for targets in their country. "
@@ -112,7 +112,7 @@ class EditPetitionTargetForm extends BasePetitionForm {
           'data-content' => "We recommend you leave this field blank. Then, the second selector will list a number "
           . "of targets by their full name, based on the choice in the first selector. That will allow activists to "
           . "browse your target-list by name of recipient (...and you want your activists to know to whom they are "
-          . "sending their emails!)",
+          . "sending their e-mails!)",
       )));
       $this->setValidator('target_selector_2', new sfValidatorString(array('required' => false)));
     }

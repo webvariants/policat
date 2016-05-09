@@ -1,12 +1,4 @@
 <?php
-/*
- * Copyright (c) 2015, webvariants GmbH & Co. KG, http://www.webvariants.de
- *
- * This file is released under the terms of the MIT license. You can find the
- * complete text in the attached LICENSE file or online at:
- *
- * http://www.opensource.org/licenses/mit-license.php
- */
 
 class sfGuardUserTable extends PluginsfGuardUserTable {
 
@@ -26,8 +18,8 @@ class sfGuardUserTable extends PluginsfGuardUserTable {
    *
    * @param int $id
    * @param string $code
-   * @param bool $active
-   *
+   * @param bool $active 
+   * 
    * @return sfGuardUser
    */
   public function getByRegisterValidationByLink($id, $code, $active = false) {
@@ -79,14 +71,15 @@ class sfGuardUserTable extends PluginsfGuardUserTable {
    *
    * @param int $id
    * @param string $code
-   * @param bool $active
-   *
+   * @param bool $active 
+   * 
    * @return sfGuardUser
    */
   public function getByValidationBackendByLink($id, $code, $active = false) {
     $query = self::getInstance()->createQuery('u');
-    if (is_bool($active))
+    if (is_bool($active)) {
       $query->where('u.is_active = ?', $active);
+    }
 
     return $query->andWhere('u.id = ?', $id)
         ->andWhere('u.validation_code = ?', $code)
@@ -100,8 +93,9 @@ class sfGuardUserTable extends PluginsfGuardUserTable {
    */
   public function queryAll($super_admin_too = false) {
     $query = $this->createQuery('u')->orderBy('u.id ASC');
-    if (!$super_admin_too)
+    if (!$super_admin_too) {
       $query->andWhere('u.is_super_admin != true');
+    }
 
     return $query;
   }
@@ -125,12 +119,18 @@ class sfGuardUserTable extends PluginsfGuardUserTable {
    */
   public function queryAdminsByCampaign(Campaign $campaign, sfGuardUser $orUser = null) {
     $query = $this->queryByCampaign($campaign);
-    if ($orUser)
+    if ($orUser) {
       $query->andWhere('(cr.admin = 1 AND cr.active = 1) OR u.id = ?', $orUser->getId());
-    else
+    }
+    else {
       $query->andWhere('cr.admin = 1 AND cr.active = 1');
+    }
 
     return $query;
   }
 
+  public function queryAdmins() {
+    return $this->queryAll()->leftJoin('u.Groups g')->andWhere('g.name = ?', 'admin');
+  }
+  
 }

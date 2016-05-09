@@ -56,22 +56,17 @@ if (!isset($no_filter)):
               /* @var $widget Widget */
               $petition = $widget->getPetition();
               $user = $sf_user->getGuardUser()->getRawValue(); /* @var $user sfGuardUser */
-              $edit = $user->getId() == $widget->getUserId() || $user->isPetitionMember($petition->getRawValue()) || $user->hasPermission(myUser::CREDENTIAL_ADMIN);
               ?>
               <tr>
                 <td><?php echo $widget->getId() ?></td>
                 <?php if (isset($show_petition)): $trunc_an = truncate_text($petition->getName(), 20, '…'); ?>
                   <?php if (!isset($campaign)): $trunc_cn = truncate_text($petition->getCampaign()->getName(), 15, '…'); ?>
                     <td>
-                      <a href="<?php echo url_for('campaign_edit_', array('id' => $petition->getCampaignId())) ?>" <?php if ($trunc_cn != $petition->getCampaign()->getName()): ?>title="<?php echo $petition->getCampaign()->getName() ?>"<?php endif ?> >
-                        <?php echo $trunc_cn ?>
-                      </a>
+                      <?php $sf_user->linkCampaign($petition->getCampaign(), 15) ?>
                     </td>
                   <?php endif ?>
                   <td>
-                    <?php if ($edit): ?><a href="<?php echo url_for('petition_overview', array('id' => $petition->getId())) ?>"><?php endif ?>
-                      <span<?php if ($trunc_an != $petition->getName()): ?> title="<?php echo $petition->getName() ?>"<?php endif ?>><?php echo $trunc_an ?></span>
-                      <?php if ($edit): ?></a><?php endif ?>
+                      <?php $sf_user->linkPetition($petition, 20) ?>
                   </td>
                 <?php endif ?>
                 <td><?php echo $widget->getPetitionText()->getLanguage() ?></td>
@@ -97,19 +92,24 @@ if (!isset($no_filter)):
                 <td>
                   <?php $x = 1; ?>
                   <?php if ($user->isCampaignAdmin($petition->getCampaign()->getRawValue())): $x = 0 ?><span class="label label-important">admin</span><?php endif ?>
-                  <?php if ($x && $user->isPetitionAdmin($petition->getRawValue())): $x = 0 ?><span class="label label-important">member-manager</span><?php endif ?>
-                  <?php if ($x && $user->isPetitionMember($petition->getRawValue())): ?><span class="label label-info">member</span><?php endif ?>
+                  <?php if ($x && $user->isPetitionMember($petition->getRawValue())): ?><span class="label label-info">editor</span><?php endif ?>
                 </td>
                 <td>
-                  <?php if ($edit): ?>
-                    <a class="btn btn-mini btn-primary" href="<?php echo url_for('widget_edit', array('id' => $widget->getId())) ?>">edit</a>
+                  <?php $sf_user->linkWidget($widget, 'edit', 'btn btn-mini btn-primary', true) ?>
+                  <?php $follow = false; ?>
+                  <?php if ($petition->getFollowPetitionId()):
+                    $follows_id = $widget->followsWidgetId($petition->getFollowPetitionId());
+                    if ($follows_id): $follow = true; ?>
+                      <a class="btn btn-mini btn-info" title="Widget ID <?php echo $follows_id ?>" href="<?php echo url_for('widget_edit', array('id' => $follows_id)) ?>">forwarding to</a>
+                    <?php endif ?>
                   <?php endif ?>
-                  <?php if ($widget->getStatus() == Widget::STATUS_ACTIVE): ?>
+                  <?php if ($widget->getStatus() == Widget::STATUS_ACTIVE && !$follow): ?>
                     <a class="btn btn-mini ajax_link" href="<?php echo url_for('widget_view', array('id' => $widget->getId())) ?>">view</a>
                   <?php endif ?>
                   <?php if ($widget->getUserId() && $widget->getUserId() === $sf_user->getUserId()): ?>
                     <?php if ($widget->getDataOwner() == WidgetTable::DATA_OWNER_YES): ?>
-                      <a class="btn btn-mini" href="<?php echo url_for('widget_data', array('id' => $widget->getId())) ?>">Signings</a>
+                      <a class="btn btn-mini" href="<?php echo url_for('widget_data', array('id' => $widget->getId())) ?>">Participants</a>
+                      <a class="btn btn-mini" href="<?php echo url_for('widget_data_email', array('id' => $widget->getId())) ?>">Mailing addresses</a>
                     <?php else: if ($petition->getCampaign()->getOwnerRegister()): ?>
                         <a class="btn btn-mini ajax_link post" data-submit='<?php echo json_encode(array('csrf_token' => $csrf_token, 'id' => $widget->getId())) ?>' href="<?php echo url_for('widget_data_owner') ?>">Become Data-owner</a>
                         <?php
@@ -121,6 +121,9 @@ if (!isset($no_filter)):
                     <a class="btn btn-mini ajax_link post" data-submit='<?php echo json_encode(array('csrf_token' => $csrf_token_revoke, 'id' => $widget->getId())) ?>' href="<?php echo url_for('widget_revoke_data') ?>">Revoke Data-owner</a>
                   <?php endif ?>
                   <?php if ($widget->getUserId() && $user->hasPermission(myUser::CREDENTIAL_ADMIN)): ?><a class="btn btn-mini" href="<?php echo url_for('user_edit', array('id' => $widget->getUserId())) ?>">user account</a><?php endif ?>
+                  <?php if (($user->getId() == $widget->getUserId() || $user->isPetitionMember($petition->getRawValue()) || $user->hasPermission(myUser::CREDENTIAL_ADMIN)) && $widget->getOriginWidgetId()): ?>
+                  <a class="btn btn-mini btn-info" title="Widget ID <?php echo $widget->getOriginWidgetId() ?>" href="<?php echo url_for('petition_overview', array('id' => $widget->getOriginWidget()->getPetitionId())) ?>">copied from</a>
+                  <?php endif ?>
                 </td>
               </tr>
             <?php endforeach ?>

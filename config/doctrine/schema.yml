@@ -64,6 +64,7 @@ sfGuardUser:
     city:             { type: string(120) }
     post_code:        { type: string(100) }
     country:          { type: string(2) }
+    vat:              { type: string(40) }
     language_id:      { type: string(5), notnull: false, default: null }
     validation_kind: { type: integer(1), notnull: true, default: 0 }
     validation_code: { type: string(20) }
@@ -78,6 +79,16 @@ MailMessage:
   actAs: [ Timestampable ]
   columns:
     message: { type: clob, notnull: true }
+
+QueryCache:
+  options:
+    symfony:
+      form:   false
+      filter: false
+  columns:
+    id: { type: string(255),  primary: true }
+    cacheData: { type: blob, name: data as cacheData }
+    expire: { type: timestamp }
 
 Permission: # obsolete
   options:
@@ -148,15 +159,28 @@ Campaign:
     id:                    { type: integer(4), primary: true, autoincrement: true }
     name:                  { type: string,     notnull: true }
     status:                { type: integer(4), notnull: true, default: 1 }
+    billing_enabled:       { type: integer(1), notnull: true, default: 0 }
     owner_register:        { type: integer(4), notnull: true, default: 0 }
     allow_download:        { type: integer(4), notnull: true, default: 0 }
-    become_petition_admin: { type: integer(4), notnull: true, default: 0 }
+    become_petition_admin: { type: integer(4), notnull: true, default: 0 } # obsolete
     privacy_policy:        { type: clob, notnull: true, default: '' }
     address:               { type: clob, notnull: true, default: '' }
     data_owner_id:         { type: integer(4), notnull: false, default: null }
+    quota_id:              { type: integer(4), notnull: false, default: null }
+    order_id:              { type: integer(4), notnull: false, default: null }
+    public_enabled:        { type: integer(1), notnull: true, default: 0 }
+    join_enabled:          { type: integer(1), notnull: true, default: 0 }
   relations:
     sfGuardUser: { refClass: Member }
     DataOwner:   { class: sfGuardUser, local: data_owner_id, onDelete: SET NULL, foreignAlias: DataOwnerCampaigns }
+    Order:
+      foreignType: one
+      onDelete: SET NULL
+      foreignAlias: activeCampaign
+    Quota:
+      foreignType: one
+      onDelete: SET NULL
+      foreignAlias: activeCampaign
   indexes:
     campaign_status:    { fields: [status] }
     campaign_name:      { fields: {name: {length: 100}} }
@@ -232,9 +256,11 @@ Petition:
   columns:
     id:                   { type: integer(4), primary: true, autoincrement: true }
     campaign_id:          { type: integer(4), notnull: true }
+    follow_petition_id:   { type: integer(4), notnull: false, default: null }
     kind:                 { type: integer(1), notnull: true, default: 1 }
     nametype:             { type: integer(1), notnull: true, default: 2 }
     status:               { type: integer(4), notnull: true, default: 1 }
+    validation_required:  { type: integer(4), notnull: true, default: 1 }
     name:                 { type: string,     notnull: true }
     addnum:               { type: integer(4), notnull: true, default: 0}
     addnote:              { type: clob }
@@ -242,6 +268,8 @@ Petition:
     landing_url:          { type: string }
     key_visual:           { type: string(60) }
     paypal_email:         { type: string(80) }
+    donate_url:           { type: string(200), notnull: false, default: null }
+    donate_widget_edit:   { type: integer(1), notnull: true, default: 0 }
     from_name:            { type: string(80) }
     from_email:           { type: string(80) }
     email_targets:        { type: clob }
@@ -257,6 +285,7 @@ Petition:
     with_comments:        { type: integer(1), notnull: true, default: 0 }
     with_address:         { type: integer(1), notnull: true, default: 0 }
     with_country:         { type: integer(1), notnull: true, default: 0 }
+    with_extra1:          { type: integer(1), notnull: true, default: 0 }
     default_country:      { type: string(5), notnull: true, default: '' }
     show_keyvisual:       { type: integer(1), notnull: true, default: 0 }
     pledge_with_comments: { type: integer(1), notnull: true, default: 1 }
@@ -279,11 +308,13 @@ Petition:
     country_collection_id:   { type: integer(4), notnull: false, default: null }
     deleted_pendings:        { type: integer(4), notnull: true, default: 0 }
     label_mode:              { type: integer(1), notnull: true, default: 1 }
+    policy_checkbox:         { type: integer(1), notnull: true, default: 1 }
   relations:
     Campaign:          { onDelete: CASCADE  }
     Language:          {  }
     MailingList:       { onDelete: SET NULL }
     CountryCollection: { onDelete: SET NULL }
+    FollowPetition:    { onDelete: SET NULL, class: Petition, local: follow_petition_id, foreign: id, foreignAlias: FollowedByPetitions }
   indexes:
     petition_status:    { fields: [status] }
     petition_home_stat: { fields: [status, homepage] }
@@ -328,6 +359,12 @@ PetitionText:
     pledge_comment:             { type: clob,       notnull: false }
     pledge_explantory:          { type: clob,       notnull: false, name: pledge_explantory as pledge_explantory_annotation }
     pledge_thank_you:           { type: clob,       notnull: false }
+    
+    donate_url:                 { type: string(200), notnull: false, default: null }
+    donate_text:                { type: clob,        notnull: false }
+
+    label_extra1:               { type: string(80), notnull: false, default: null }
+    placeholder_extra1:         { type: string(80), notnull: false, default: null }
   relations:
     Petition:      { onDelete: CASCADE }
     Language:      { onDelete: CASCADE }
@@ -348,6 +385,7 @@ Widget:
     campaign_id:       { type: integer(4), notnull: true }
     petition_id:       { type: integer(4), notnull: true }
     petition_text_id:  { type: integer(4), notnull: true }
+    origin_widget_id:  { type: integer(4), notnull: false, default: null }
     status:            { type: integer(4), notnull: true, default: 1 }
     ###
     title:             { type: string,     notnull: true }
@@ -366,6 +404,8 @@ Widget:
     organisation:      { type: string(200) }
 
     landing_url:       { type: string }
+    donate_url:        { type: string(200), notnull: false, default: null }
+    donate_text:       { type: clob,        notnull: false }
 
     ref:               { type: string }
     validation_kind:   { type: integer(1), notnull: true, default: 0 }
@@ -384,27 +424,27 @@ Widget:
     Parent:            { class: Widget, local: parent_id, foreign: id, type: one, onDelete: SET NULL }
     Children:          { class: Widget, local: id, foreign: parent_id, type: many }
     User:              { onDelete: SET NULL, class: sfGuardUser, local: user_id, foreignAlias: PetitionRights }
+    OriginWidget:      { onDelete: SET NULL, class: Widget, local: origin_widget_id, foreignAlias: OriginWidgetFor }
   indexes:
     widget_parent_id_index: { fields: [parent_id] }
     widget_activity:   { fields: [activity_at, status] }
     widget_activity2:  { fields: [petition_id, activity_at, status] }
+    widget_origin:     { fields: [petition_id, origin_widget_id] }
+    widget_email:      { fields: [email, user_id] }
 
 PetitionSigning:
-  options:
-    non_json_fields:
-      fields: [email, country,subscribe, fullname, title, firstname, lastname, address, city, post_code, comment, privacy, email_subject, email_body, ref]
-    old_json_fields:
-      fields: [fullname, title, firstname, lastname, address, city, post_code, comment, privacy, email_subject, email_body, ref]
   actAs: [Timestampable]
   columns:
     id:              { type: integer(8), primary: true, autoincrement: true }
     petition_id:     { type: integer(4), notnull: true }
     fields:          { type: clob,       notnull: true }
     status:          { type: integer(4), notnull: true, default: 1}
+    verified:        { type: integer(4), notnull: true, default: 0}
     email:           { type: string(80) }
     country:         { type: string(5) }
     validation_kind: { type: integer(1), notnull: true, default: 0 }
-    validation_data: { type: string }
+    validation_data: { type: string(16) }
+    delete_code:     { type: string(16) }
     widget_id:       { type: integer(4) }
     wave_sent:       { type: integer(2), notnull: true, default: 0 }
     wave_pending:    { type: integer(2), notnull: true, default: 0 }
@@ -420,14 +460,18 @@ PetitionSigning:
     city:            { type: string(100), notnull: false, default: null }
     post_code:       { type: string(50),  notnull: false, default: null }
     comment:         { type: clob,        notnull: false, default: null }
+    extra1:          { type: string(100), notnull: false, default: null }
     privacy:         { type: integer(1),  notnull: false, default: null }
     email_subject:   { type: string(250), notnull: false, default: null }
     email_body:      { type: clob,        notnull: false, default: null }
     ref:             { type: string(250), notnull: false, default: null }
+    quota_id:        { type: integer(4),  notnull: false, default: null }
+    quota_emails:    { type: integer(2),  notnull: false, default: null }
   relations:
     Petition: { onDelete: CASCADE }
     Widget:   { onDelete: SET NULL }
     Contact:  { refClass: PetitionSigningContact, local: petition_signing_id, foreign: contact_id, type: many }
+    Quota:    { onDelete: SET NULL }
   indexes:
     signing_petition_count_index2: { fields: [petition_id, status, created_at] }
     signing_petition_count_index3: { fields: [petition_id, status, country, created_at] }
@@ -441,6 +485,7 @@ PetitionSigning:
     signing_email_hash:           { fields: [email_hash] }
     signing_pending_index2:       { fields: [status, created_at, id] }
     signing_pending_index3:        { fields: [status, mailed_at, updated_at, id] }
+    signing_email_duplicate:       { fields: [petition_id, email] }
 
 PetitionSigningSearch:
   options:
@@ -452,8 +497,6 @@ PetitionSigningSearch:
     keyword: { type: string(48), notnull: true, primary: true }
   relations:
     PetitionSigning: { onDelete: CASCADE, local: id, foreign: id, foreignAlias: Search }
-  indexes:
-    petition_signing_search_id_key_idx: { fields: [id, keyword] }
 
 MigrationVersion:
   options:
@@ -893,6 +936,8 @@ PetitionApiToken:
     status:              { type: integer(4), notnull: true, default: 1 }
   relations:
     Petition:            { onDelete: CASCADE, foreignAlias: ApiTokens }
+  indexes:
+    p_api_token_status:  { fields: [petition_id, status] }
 
 ApiTokenOffset:
   options:
@@ -942,3 +987,211 @@ Download:
     Campaign:
       onDelete: CASCADE
       foreignAlias: Downloads
+
+Product:
+  options:
+    symfony:
+      filter: false
+  actAs:
+    Cachetaggable:
+  columns:
+    id:                 { type: integer(4),  primary: true, autoincrement: true }
+    name:               { type: string(120), notnull: true, unique: true }
+    price:              { type: decimal(10), notnull: true, scale: 2 }
+    days:               { type: integer(4),  notnull: true, default: 0 }
+    emails:             { type: integer(4),  notnull: true, default: 0 }
+
+Quota:
+  options:
+    symfony:
+      filter: false
+  actAs: [ Timestampable ]
+  columns:
+    id:                 { type: integer(4),  primary: true, autoincrement: true }
+    status:             { type: integer(4),  notnull: true, default: 1 }
+    name:               { type: string(120), notnull: true }
+    price:              { type: decimal(10), notnull: true, scale: 2 }
+    days:               { type: integer(4),  notnull: true }
+    emails:             { type: integer(4),  notnull: true }
+    user_id:            { type: integer(4),  notnull: false }
+    campaign_id:        { type: integer(4),  notnull: false }
+    start_at:           { type: date,        notnull: false, default: null }
+    end_at:             { type: date,        notnull: false, default: null }
+    paid_at:            { type: date,        notnull: false, default: null }
+    emails_remaining:   { type: integer(4),  notnull: true, default: 0 }
+    order_id:           { type: integer(4),  notnull: false, default: null }
+    upgrade_of_id:      { type: integer(4),  notnull: false, default: null }
+  relations:
+    User:
+      onDelete: SET NULL
+      class: sfGuardUser
+      local: user_id
+      foreignAlias: Quotas
+    Campaign:
+      onDelete: SET NULL     # for billing
+      foreignAlias: Quotas
+    Order:
+      onDelete: SET NULL
+      foreignAlias: Quotas
+    UpgradeOf:
+      local: upgrade_of_id
+      class: Quota
+      foreignType: one
+      onDelete: SET NULL
+      foreignAlias: UpgradedBy
+
+Order:
+  tableName:  orders
+  options:
+    symfony:
+      filter: false
+  actAs: [ Timestampable ]
+  columns:
+    id:                 { type: integer(4),  primary: true, autoincrement: true }
+    status:             { type: integer(4),  notnull: true, default: 1 }
+    paid_at:            { type: date,        notnull: false, default: null }
+    user_id:            { type: integer(4),  notnull: false }
+    first_name:         { type: string(40) }
+    last_name:          { type: string(40) }
+    organisation:       { type: string(120) }
+    street:             { type: string(120) }
+    city:               { type: string(120) }
+    post_code:          { type: string(100) }
+    country:            { type: string(2) }
+    vat:                { type: string(40) }
+    tax:                { type: decimal(5),  notnull: false, scale: 2, default: null }
+    tax_note:           { type: clob }
+    paypal_payment_id:  { type: string(80), notnull: false, default: null }
+    paypal_sale_id:     { type: string(80), notnull: false, default: null }
+    paypal_status:      { type: integer(4),  notnull: true, default: 1 }
+  relations:
+    User:
+      onDelete: SET NULL
+      class: sfGuardUser
+      local: user_id
+      foreignAlias: Quotas
+
+Bill:
+  options:
+    symfony:
+      filter: false
+  actAs: [ Timestampable ]
+  columns:
+    id:                 { type: integer(4), primary: true, autoincrement: true }
+    user_id:            { type: integer(4), notnull: false }
+    order_id:           { type: integer(4), notnull: false }
+    first_name:         { type: string(40) }
+    last_name:          { type: string(40) }
+    organisation:       { type: string(120) }
+    street:             { type: string(120) }
+    city:               { type: string(120) }
+    post_code:          { type: string(100) }
+    country:            { type: string(2) }
+    vat:                { type: string(40) }
+    price:              { type: decimal(10), notnull: true, scale: 2 } # netto
+    tax:                { type: decimal(5),  notnull: true, scale: 2 }
+    tax_note:           { type: clob }
+    price_brutto:       { type: decimal(10), notnull: true, scale: 2 } # with tax
+    markup:             { type: clob }
+  relations:
+    User:
+      onDelete: SET NULL
+      class: sfGuardUser
+      local: user_id
+      foreignAlias: Quotas
+    Order:
+      foreignType: one
+      onDelete: SET NULL
+
+BillItem:
+  options:
+    symfony:
+      filter: false
+  columns:
+    id:                 { type: integer(4),  primary: true, autoincrement: true }
+    bill_id:            { type: integer(4),  notnull: true }
+    name:               { type: string(120), notnull: true }
+    price:              { type: decimal(10), notnull: true, scale: 2 }
+    days:               { type: integer(4),  notnull: true }
+    emails:             { type: integer(4),  notnull: true }
+  relations:
+    Bill:
+      onDelete: CASCADE
+      foreignAlias: Items
+
+Offer:
+  options:
+    symfony:
+      filter: false
+  actAs: [ Timestampable ]
+  columns:
+    id:                 { type: integer(4), primary: true, autoincrement: true }
+    user_id:            { type: integer(4), notnull: false }
+    campaign_id:        { type: integer(4), notnull: false }
+    first_name:         { type: string(40) }
+    last_name:          { type: string(40) }
+    organisation:       { type: string(120) }
+    street:             { type: string(120) }
+    city:               { type: string(120) }
+    post_code:          { type: string(100) }
+    country:            { type: string(2) }
+    vat:                { type: string(40) }
+    price:              { type: decimal(10), notnull: true, scale: 2 } # netto
+    tax:                { type: decimal(5),  notnull: true, scale: 2 }
+    tax_note:           { type: clob }
+    price_brutto:       { type: decimal(10), notnull: true, scale: 2 } # with tax
+    markup:             { type: clob }
+  relations:
+    User:
+      onDelete: SET NULL
+      class: sfGuardUser
+      local: user_id
+      foreignAlias: Quotas
+    Campaign:
+      foreignType: one
+      onDelete: CASCADE
+
+OfferItem:
+  options:
+    symfony:
+      filter: false
+  columns:
+    id:                 { type: integer(4),  primary: true, autoincrement: true }
+    offer_id:            { type: integer(4),  notnull: true }
+    name:               { type: string(120), notnull: true }
+    price:              { type: decimal(10), notnull: true, scale: 2 }
+    days:               { type: integer(4),  notnull: true }
+    emails:             { type: integer(4),  notnull: true }
+  relations:
+    Offer:
+      onDelete: CASCADE
+      foreignAlias: Items
+
+TaxNote:
+  columns:
+    id:                { type: integer(4), primary: true, autoincrement: true }
+    name:              { type: string(40), unique: true }
+    note:              { type: clob }
+
+CountryTax:
+  columns:
+    id:                { type: integer(4), primary: true, autoincrement: true }
+    country:           { type: string(2), unique: true, notnull: true }
+
+    tax_no_vat:        { type: decimal(5), notnull: true, scale: 2 }
+    no_vat_note_id:    { type: integer(4), notnull: false, default: null }
+
+    tax_vat:           { type: decimal(5), notnull: true, scale: 2 }
+    vat_note_id:       { type: integer(4), notnull: false, default: null }
+
+  relations:
+    NoVatNote:
+      class: TaxNote
+      local: no_vat_note_id
+      onDelete: SET NULL
+      foreignAlias: CountryTaxesNoVat
+    VatNote:
+      class: TaxNote
+      local: vat_note_id
+      onDelete: SET NULL
+      foreignAlias: CountryTaxesVat

@@ -1,6 +1,6 @@
 <?php
 /*
- * Copyright (c) 2015, webvariants GmbH & Co. KG, http://www.webvariants.de
+ * Copyright (c) 2016, webvariants GmbH <?php Co. KG, http://www.webvariants.de
  *
  * This file is released under the terms of the MIT license. You can find the
  * complete text in the attached LICENSE file or online at:
@@ -99,8 +99,7 @@ class d_widgetActions extends policatActions {
       if (!$widget || !($this->getGuardUser()->isPetitionMember($widget->getPetition(), true) || $widget->getUserId() == $this->getGuardUser()->getId()))
         return $this->noAccess();
 
-      if (!$this->userIsAdmin()
-        && ($widget->getPetition()->getStatus() == Petition::STATUS_DELETED || $widget->getCampaign()->getStatus() == CampaignTable::STATUS_DELETED ))
+      if (!$this->userIsAdmin() && ($widget->getPetition()->getStatus() == Petition::STATUS_DELETED || $widget->getCampaign()->getStatus() == CampaignTable::STATUS_DELETED ))
         return $this->notFound();
 
       $this->form = new EditWidgetForm($widget);
@@ -116,6 +115,15 @@ class d_widgetActions extends policatActions {
         if ($widget->getStatus() == Widget::STATUS_ACTIVE && !$widget->getPetitionText()->getWidgetId()) {
           $widget->getPetitionText()->setDefaultWidget($widget);
           $widget->getPetitionText()->save();
+        }
+        if ($request->getPostParameter('preview')) {
+          $this->ajax()
+            ->replaceWithPartial('#widget_edit_form', 'form', array(
+              'form' => new EditWidgetForm($widget),
+              'petition' => $widget->getPetition()
+            ))
+            ->edits('#widget_edit_form ');
+          return $this->ajaxWidgetView($widget)->render();
         }
         if ($this->getGuardUser()->isPetitionMember($widget->getPetition(), true))
           return $this->ajax()->redirectRotue('petition_widgets', array('id' => $this->petition->getId()))->render();
@@ -133,10 +141,29 @@ class d_widgetActions extends policatActions {
   public function executeView(sfWebRequest $request) {
     $widget = WidgetTable::getInstance()->find($request->getParameter('id'));
     /* @var $widget Widget */
-    if (!$widget || $widget->getStatus() != Widget::STATUS_ACTIVE)
+    if (!$widget) {
       return $this->notFound();
+    }
+    
+    return $this->ajaxWidgetView($widget)->render();
+  }
+  
+  public function ajaxWidgetView(Widget $widget) {
+    $petition = $widget->getPetition();
+    $petition_text = $widget->getPetitionText();
+    $petition_off = $petition->getStatus() != Petition::STATUS_ACTIVE ? $petition->getId() : null;
+    $petition_text_off = $petition_text->getStatus() != PetitionText::STATUS_ACTIVE ? $petition_text->getId() : null;
+    $widget_off = $widget->getStatus() != Widget::STATUS_ACTIVE;
+    
+    $follows = $petition->getFollowPetitionId() ? $petition->getFollowPetition()->getName() : null;
 
-    return $this->ajax()->appendPartial('body', 'view', array('id' => $widget->getId()))->modal('#widget_view')->render();
+    return $this->ajax()->appendPartial('body', 'view', array(
+        'id' => $widget->getId(),
+        'follows' => $follows,
+        'petition_off' => $petition_off,
+        'petition_text_off' => $petition_text_off,
+        'widget_off' => $widget_off
+      ))->modal('#widget_view');
   }
 
   public function executeDataOwner(sfWebRequest $request) {
@@ -154,8 +181,7 @@ class d_widgetActions extends policatActions {
     if (!$widget)
       return $this->ajax()->alert('Widget not found', 'Error')->render();
 
-    if (!$this->userIsAdmin() && ($widget->getCampaign()->getStatus() == CampaignTable::STATUS_DELETED
-      || $widget->getPetition()->getStatus() == Petition::STATUS_DELETED))
+    if (!$this->userIsAdmin() && ($widget->getCampaign()->getStatus() == CampaignTable::STATUS_DELETED || $widget->getPetition()->getStatus() == Petition::STATUS_DELETED))
       return $this->ajax()->alert('Widget not found', 'Error')->render();
 
     if (!$widget->getCampaign()->getOwnerRegister())
@@ -172,12 +198,11 @@ class d_widgetActions extends policatActions {
         TicketTable::CREATE_WIDGET => $widget,
         TicketTable::CREATE_KIND => TicketTable::KIND_WIDGET_DATA_OWNER,
         TicketTable::CREATE_CHECK_DUPLICATE => true
-      ));
+    ));
     if ($ticket) {
       $ticket->save();
       $ticket->notifyAdmin();
-    }
-    else
+    } else
       return $this->ajax()->alert('Application already pending', '')->render();
 
     return $this->ajax()->alert('Application has been sent to Campaign admin', '')->render();
@@ -192,6 +217,9 @@ class d_widgetActions extends policatActions {
 
     if (!$widget->isDataOwner($this->getGuardUser()))
       return $this->noAccess('You are not Data-owner of this widget.');
+
+    $route_params = $this->getRoute()->getParameters();
+    $this->subscriptions = isset($route_params['type']) && $route_params['type'] === 'email';
 
     $this->widget = $widget;
     $this->petition = $widget->getPetition();
@@ -212,8 +240,7 @@ class d_widgetActions extends policatActions {
     if (!$widget)
       return $this->ajax()->alert('Widget not found', 'Error')->render();
 
-    if (!$this->userIsAdmin() && ($widget->getCampaign()->getStatus() == CampaignTable::STATUS_DELETED
-      || $widget->getPetition()->getStatus() == Petition::STATUS_DELETED))
+    if (!$this->userIsAdmin() && ($widget->getCampaign()->getStatus() == CampaignTable::STATUS_DELETED || $widget->getPetition()->getStatus() == Petition::STATUS_DELETED))
       return $this->ajax()->alert('Widget not found', 'Error')->render();
 
     if (!$this->getGuardUser()->isDataOwnerOfCampaign($widget->getPetition()->getCampaign()))
@@ -288,6 +315,61 @@ class d_widgetActions extends policatActions {
           }
         }
       }
+    }
+  }
+
+  public function executeCopy(sfWebRequest $request) {
+    $petition = PetitionTable::getInstance()->findById($request->getParameter('id'));
+    /* @var $petition Petition */
+    if (!$petition) {
+      return $this->notFound();
+    }
+
+    if (!$this->getGuardUser()->isCampaignAdmin($petition->getCampaign())) {
+      return $this->noAccess();
+    }
+
+    $form = new WidgetsCopyFollowForm(array(), array(
+        'petition' => $petition,
+        'user' => $this->getGuardUser()
+    ));
+
+    if ($request->isMethod('post')) {
+      $form->bind($request->getPostParameter($form->getName()));
+      if ($form->isValid()) {
+        try {
+          $status = $form->copy();
+        } catch (\Exception $e) {
+          $status = null;
+        }
+        if ($status) {
+          $msg = $status['created'] . ' widgets copied';
+          if ($status['skip_language']) {
+            $msg .= ', ' . $status['skip_language'] . ' skipped because (active) translation is missing';
+          }
+          if ($status['skip_existing_origin']) {
+            $msg .= ', ' . $status['skip_existing_origin'] . ' skipped because already copied';
+          }
+          if ($status['skip_timeout']) {
+            $msg .= ', ' . $status['skip_timeout'] . ' skipped because of timeout, please run again to continue';
+          }
+          $msg .= '.';
+          if (!$status['source_is_following']) {
+            $link = sfContext::getInstance()->getRouting()->generate('petition_edit_', array('id' => $status['source_petition_id']));
+            $msg .= ' <strong>The source action is not following this action. </strong> ';
+            $msg .= "<a class=\"btn btn-mini btn-success\" href=\"$link\">edit source action</a>";
+          }
+          $widgets_link = sfContext::getInstance()->getRouting()->generate('petition_widgets', array('id' => $petition->getId()));
+          $msg .= "<br /><a class=\"btn btn-mini btn-success\" href=\"$widgets_link\">refresh widget list</a>";
+          return $this->ajax()->alert($msg, 'Success, report: ', '#widget_copy_form', 'prepend', true, 'success')->render();
+        } else {
+          return $this->ajax()->alert('Something went wrong.', 'Error', '#widget_copy_form', 'prepend', false, 'error')->render();
+        }
+      }
+
+      return $this->ajax()->form($form)->render();
+    } else {
+      return $this->notFound();
     }
   }
 

@@ -12,6 +12,7 @@ else:
     <li><a href="<?php echo url_for('pledge_list', array('id' => $petition->getId())) ?>">Pledges</a></li><span class="divider">/</span>
     <li class="active"><?php // echo $pledge_item->getName()     ?></li>
   </ul>
+  <?php include_component('d_action', 'notice', array('petition' => $petition)) ?>
   <?php include_partial('d_action/tabs', array('petition' => $petition, 'active' => 'pledge_stats')) ?>
   <form method="get" class="form-inline ajax_form filter_form" action="<?php echo url_for('pledge_stats_pager', array('page' => 1, 'id' => $petition->getId())) ?>">
     <?php echo $form ?>

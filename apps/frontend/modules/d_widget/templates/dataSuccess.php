@@ -6,4 +6,4 @@
   <li class="active">Signings of Widget <?php echo $widget->getId() ?></li>
 </ul>
 <?php include_partial('d_action/tabs', array('petition' => $petition)) ?>
-<?php include_component('data', 'list', array('widget' => $widget)) ?>
+<?php include_component('data', 'list', array('widget' => $widget, 'subscriptions' => $subscriptions)) ?>

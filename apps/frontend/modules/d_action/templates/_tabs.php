@@ -14,12 +14,15 @@ if ($petition->isEditableBy($user)) {
 } else {
   $list = array();
 }
-if ($petition->isTicketManager($user)) {
+if ($petition->isCampaignAdmin($user)) {
   $list['todo'] = array('title' => 'To-Do', 'route' => 'petition_todo');
   $list['tokens'] = array('title' => 'Counter &amp; API', 'route' => 'petition_tokens');
 }
 if ($user->isPetitionMember($petition->getRawValue(), true)) {
-  $list['data'] = array('title' => 'Signings', 'route' => 'petition_data');
+  $list['data'] = array('title' => 'Participants', 'route' => 'petition_data');
+  if ($user->isDataOwnerOfCampaign($petition->getRawValue()->getCampaign())) {
+    $list['dataSubscriptions'] = array('title' => 'Mailing addresses', 'route' => 'petition_data_email');
+  }
 }
 if ($petition->getKind() == Petition::KIND_PLEDGE) {
   $list['pledges'] = array('title' => 'Pledges', 'route' => 'pledge_list');

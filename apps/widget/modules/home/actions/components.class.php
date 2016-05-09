@@ -1,6 +1,6 @@
 <?php
 /*
- * Copyright (c) 2015, webvariants GmbH & Co. KG, http://www.webvariants.de
+ * Copyright (c) 2016, webvariants GmbH <?php Co. KG, http://www.webvariants.de
  *
  * This file is released under the terms of the MIT license. You can find the
  * complete text in the attached LICENSE file or online at:
@@ -22,15 +22,15 @@ class homeComponents extends policatComponents {
     $footer_link = $store->findByKeyCached(StoreTable::FOOTER_LINK);
 
     if ($terms)
-      $this->setContentTags($terms);
+      $this->addContentTags($terms);
     if ($terms_title)
       $this->addContentTags($terms_title);
     if ($contact)
-      $this->setContentTags($contact);
+      $this->addContentTags($contact);
     if ($contact_title)
       $this->addContentTags($contact_title);
     if ($imprint)
-      $this->setContentTags($imprint);
+      $this->addContentTags($imprint);
     if ($imprint_title)
       $this->addContentTags($imprint_title);
     if ($footer_title)

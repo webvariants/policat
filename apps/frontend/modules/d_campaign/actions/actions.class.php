@@ -1,6 +1,6 @@
 <?php
 /*
- * Copyright (c) 2015, webvariants GmbH & Co. KG, http://www.webvariants.de
+ * Copyright (c) 2016, webvariants GmbH <?php Co. KG, http://www.webvariants.de
  *
  * This file is released under the terms of the MIT license. You can find the
  * complete text in the attached LICENSE file or online at:
@@ -17,61 +17,27 @@
  */
 class d_campaignActions extends policatActions {
 
-  public function executeList(sfWebRequest $request) {
-    $this->campaigns = CampaignTable::getInstance()->queryAll()->execute();
-  }
-
-  public function executeCreate(sfWebRequest $request) {
-    if (!($this->getUser()->hasCredential(myUser::CREDENTIAL_ADMIN) || StoreTable::value(StoreTable::CAMAPIGN_CREATE_ON))) {
-      return $this->ajax()->alert('', 'You have no right to create a campaign.', '#my_campaigns h3', 'after')->render();
-    }
-
-    $form = new NewCampaignNameForm();
-    $form->bind($request->getPostParameter($form->getName()));
-    if (!$form->isValid())
-      return $this->ajax()->form_error_list($form, '#my_campaigns_create', 'after')->render();
-
-    CampaignTable::getInstance()->getConnection()->beginTransaction();
-    try {
-      $campaign = new Campaign();
-      $campaign->setName($form->getValue('name'));
-      $campaign->setDataOwner($this->getGuardUser());
-      $store = StoreTable::getInstance()->findByKey(StoreTable::PRIVACY_AGREEMENT);
-      if ($store)
-        $campaign->setPrivacyPolicy($store->getField('text'));
-      $campaign->save();
-
-      $cr = new CampaignRights();
-      $cr->setCampaign($campaign);
-      $cr->setUser($this->getGuardUser());
-      $cr->setActive(1);
-      $cr->setAdmin(1);
-      $cr->setMember(1);
-      $cr->save();
-
-      CampaignTable::getInstance()->getConnection()->commit();
-    } catch (Exception $e) {
-      CampaignTable::getInstance()->getConnection()->rollback();
-      return $this->ajax()->alert('', 'DB Error', '#my_campaigns_create', 'after')->render();
-    }
-
-    return $this->ajax()->redirectRotue('campaign_edit_', array('id' => $campaign->getId()))->render();
-//    return $this->ajax()->alert('Campaign created', '', '#my_campaigns_create', 'after')->render();
-  }
-
   public function executeJoin(sfWebRequest $request) {
-    $form = new SelectCampaignForm(array(), array(SelectCampaignForm::NAME => 'select_join_campaign'));
+    $form = new SelectCampaignForm(array(), array(
+        SelectCampaignForm::JOINABLE => true,
+        SelectCampaignForm::USER => $this->getGuardUser(),
+        SelectCampaignForm::NAME => 'select_join_campaign',
+        SelectCampaignForm::IS_MEMBER => false
+    ));
     $form->bind($request->getPostParameter($form->getName()));
-    if (!$form->isValid())
-      return $this->ajax()->alert('please select a campaign', 'Error', '#my_campaigns_join', 'after')->render();
+    if (!$form->isValid()) {
+      return $this->ajax()->form($form)->alert('please select a campaign', 'Error', '#my_campaigns_join', 'after')->render();
+    }
 
     $campaign = CampaignTable::getInstance()->findById($form->getValue('id'), $this->userIsAdmin());
-    if (!$campaign)
+    if (!$campaign) {
       return $this->ajax()->alert('Campaign not found', 'Error', '#my_campaigns_join', 'after')->render();
+    }
 
     $cr = $this->getGuardUser()->getRightsByCampaign($campaign);
-    if ($cr && $cr->getActive() && $cr->getMember())
+    if ($cr && $cr->getActive() && $cr->getMember()) {
       return $this->ajax()->alert('You are already campaign member', '', '#my_campaigns_join', 'after')->render();
+    }
 
     $ticket = TicketTable::getInstance()->generate(array(
         TicketTable::CREATE_AUTO_FROM => true,
@@ -83,8 +49,9 @@ class d_campaignActions extends policatActions {
     if ($ticket) {
       $ticket->save();
       $ticket->notifyAdmin();
-    } else
+    } else {
       return $this->ajax()->alert('Application already pending', '', '#my_campaigns_join', 'after')->render();
+    }
 
     return $this->ajax()->alert('Application has been sent to Campaign admin', '', '#my_campaigns_join', 'after')->render();
   }
@@ -116,7 +83,7 @@ class d_campaignActions extends policatActions {
         }
         return $this->ajax()->redirectRotue('dashboard')->render();
       }
-
+      
       return $this->ajax()->alert('not member of campaign ', 'Error', '#campaign_leave_modal .modal-body', 'append')->render();
     }
 
@@ -127,19 +94,6 @@ class d_campaignActions extends policatActions {
 
   }
 
-  public function executeGoEdit(sfWebRequest $request) {
-    $form = new SelectCampaignForm(array(), array(SelectCampaignForm::NAME => 'select_edit_campaign'));
-    $form->bind($request->getPostParameter($form->getName()));
-    if (!$form->isValid())
-      return $this->ajax()->alert('please select a campaign', 'Error', '#campaign_admin_go_edit', 'after')->render();
-
-    $campaign = CampaignTable::getInstance()->findById($form->getValue('id'), $this->userIsAdmin());
-    if (!$campaign)
-      return $this->ajax()->alert('Campaign not found', 'Error', '#campaign_admin_go_edit', 'after')->render();
-
-    return $this->ajax()->redirectRotue('campaign_edit_', array('id' => $campaign->getId()))->render();
-  }
-
   public function executeEdit(sfWebRequest $request) {
     $campaign = CampaignTable::getInstance()->findById($request->getParameter('id'), $this->userIsAdmin());
     /* @var $campaign Campaign */
@@ -148,10 +102,16 @@ class d_campaignActions extends policatActions {
 
     if (!$this->getGuardUser()->isCampaignMember($campaign))
       return $this->noAccess();
+    
+    $billingEnabled = StoreTable::value(StoreTable::BILLING_ENABLE);
+    
+    // recheck quota
+    QuotaTable::getInstance()->activateQuota($campaign);
 
     $this->campaign = $campaign;
     $this->admin = $campaign->isEditableBy($this->getGuardUser());
     $this->hasResign = TicketTable::getInstance()->queryResignTicketForCampaign($campaign)->fetchOne();
+    $this->billingEnabled = $billingEnabled;
 
     $this->includeChosen();
   }
@@ -231,6 +191,22 @@ class d_campaignActions extends policatActions {
       return $this->ajax()->render();
     } else
       return $this->ajax()->alert('Invalid data', 'Error', '#campaign_switches', 'append')->render();
+  }
+  
+  public function executeEditPublic(sfWebRequest $request) {
+    $campaign = CampaignTable::getInstance()->findById($request->getParameter('id'), $this->userIsAdmin());
+    /* @var $campaign Campaign */
+    if (!$campaign)
+      return $this->ajax()->alert('Campaign not found', 'Error', '#campaign_public', 'append')->render();
+
+    $form = new CampaignPublicEnableForm($campaign);
+    $form->bind($request->getPostParameter($form->getName()));
+
+    if ($form->isValid()) {
+      $form->save();
+      return $this->ajax()->render();
+    } else
+      return $this->ajax()->alert('Invalid data', 'Error', '#campaign_public', 'append')->render();
   }
 
   protected function editSomething(sfWebRequest $request, $form_class, $dom_id, $partial) {
@@ -392,6 +368,9 @@ class d_campaignActions extends policatActions {
     if (!$this->getGuardUser()->isCampaignAdmin($this->campaign))
       return $this->noAccess();
 
+    $route_params = $this->getRoute()->getParameters();
+    $this->subscriptions = isset($route_params['type']) && $route_params['type'] === 'email';
+
     $this->includeChosen();
   }
 
@@ -494,7 +473,7 @@ class d_campaignActions extends policatActions {
 
       $campaign->setStatus(CampaignTable::STATUS_DELETED);
       $campaign->save();
-      return $this->ajax()->redirectRotue('campaign_undelete_list')->render();
+      return $this->ajax()->redirectRotue('campaign_list')->render();
     }
 
     return $this->ajax()
@@ -503,8 +482,12 @@ class d_campaignActions extends policatActions {
         ->render();
   }
 
-  public function executeUndeleteList(sfWebRequest $request) {
-    $this->campaigns = CampaignTable::getInstance()->queryDeleted()->execute();
+  public function executeList(sfWebRequest $request) {
+  }
+  
+  public function executePager(sfWebRequest $request) {
+    $page = $request->getParameter('page', 1);
+    return $this->ajax()->replaceWithComponent('#campaing_list', 'd_campaign', 'list', array('page' => $page))->render();
   }
 
   public function executeUndelete(sfWebRequest $request) {
@@ -531,6 +514,35 @@ class d_campaignActions extends policatActions {
     return $this->ajax()
         ->appendPartial('body', 'undelete', array('id' => $id, 'name' => $campaign->getName(), 'csrf_token' => $csrf_token))
         ->modal('#campaign_undelete_modal')
+        ->render();
+  }
+  
+  public function executeHardDelete(sfWebRequest $request) {
+    $id = $request->getParameter('id');
+
+    if (is_numeric($id)) {
+      $campaign = CampaignTable::getInstance()->findById($id, true);
+      /* @var $campaign Campaign */
+      if (!$campaign || $campaign->getStatus() != CampaignTable::STATUS_DELETED) {
+        return $this->notFound();
+      }
+    }
+
+    $csrf_token = UtilCSRF::gen('delete_hard_campaign', $campaign->getId());
+
+    if ($request->isMethod('post')) {
+      if ($request->getPostParameter('csrf_token') != $csrf_token) {
+        return $this->ajax()->alert('CSRF Attack detected, please relogin.', 'Error', '#campaign_hard_delete_modal .modal-body')->render();
+      }
+
+      $this->ajax()->redirectRotue('campaign_list');
+      $campaign->delete();
+      return $this->ajax()->render();
+    }
+
+    return $this->ajax()
+        ->appendPartial('body', 'hardDelete', array('id' => $id, 'name' => $campaign->getName(), 'csrf_token' => $csrf_token))
+        ->modal('#campaign_hard_delete_modal')
         ->render();
   }
 

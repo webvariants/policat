@@ -1,6 +1,6 @@
 <?php
 /*
- * Copyright (c) 2015, webvariants GmbH & Co. KG, http://www.webvariants.de
+ * Copyright (c) 2016, webvariants GmbH <?php Co. KG, http://www.webvariants.de
  *
  * This file is released under the terms of the MIT license. You can find the
  * complete text in the attached LICENSE file or online at:
@@ -59,7 +59,7 @@ class policatEmailHashWorkerTask extends sfBaseTask {
       $petition_signings = $table
         ->createQuery('ps')
         ->select('ps.id, ps.email')
-        ->where('ps.status = ? and ps.email_hash IS NULL', PetitionSigning::STATUS_VERIFIED)
+        ->where('ps.status = ? and ps.email_hash IS NULL', PetitionSigning::STATUS_COUNTED)
         ->limit(100)
         ->execute(array(), Doctrine_Core::HYDRATE_ARRAY_SHALLOW);
 

@@ -49,11 +49,11 @@ if ($petition->isEmailKind()):
     <form action="">
       <div>
         <label><?php echo __('Subject') ?></label>
-        <input type="text" id="petition_signing_email_subject_copy" />
+        <input <?php if ($petition->getEditable() == Petition::EDITABLE_NO): ?>disabled="disabled"<?php endif ?> type="text" id="petition_signing_email_subject_copy" />
       </div>
       <div>
         <label><?php echo __('Email body') ?></label>
-        <textarea id="petition_signing_email_body_copy" cols="10" rows="10"></textarea>
+        <textarea <?php if ($petition->getEditable() == Petition::EDITABLE_NO): ?>disabled="disabled"<?php endif ?> id="petition_signing_email_body_copy" cols="10" rows="10"></textarea>
       </div>
     </form>
     <?php

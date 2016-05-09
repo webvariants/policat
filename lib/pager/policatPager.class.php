@@ -1,6 +1,6 @@
 <?php
 /*
- * Copyright (c) 2015, webvariants GmbH & Co. KG, http://www.webvariants.de
+ * Copyright (c) 2016, webvariants GmbH <?php Co. KG, http://www.webvariants.de
  *
  * This file is released under the terms of the MIT license. You can find the
  * complete text in the attached LICENSE file or online at:
@@ -16,6 +16,8 @@ class policatPager extends sfDoctrinePager {
 
   /** @var policatFilterForm */
   protected $filter = null;
+  protected $count_query = null;
+  protected $query_params = '';
 
   /**
    *
@@ -25,26 +27,47 @@ class policatPager extends sfDoctrinePager {
    * @param string $route
    * @param array $params
    * @param bool $ajax
-   * @param int $maxPerPage
+   * @param int $maxPerPage 
    */
-  public function __construct(Doctrine_Query $query, $page = 1, $route = null, $params = array(), $ajax = true, $maxPerPage = 10, $filter = null) {
+  public function __construct(Doctrine_Query $query, $page = 1, $route = null, $params = array(), $ajax = true, $maxPerPage = 10, $filter = null, $count_query = null, $query_params = null) {
     parent::__construct(null, $maxPerPage);
     if ($filter) {
       if ($filter instanceof policatFilterForm) {
         if ($filter->isValid()) {
           $query = $filter->filter($query);
           $this->filter = $filter;
+        } else {
+          $query = null;
         }
-      }
-      else
+      } else
         throw new Exception('filter must be of type policatFilterForm');
     }
     $this->setQuery($query);
     $this->setPage($page);
+
+    $this->count_query = $count_query;
+    if ($query_params && is_array($query_params)) {
+      $this->query_params = http_build_query($query_params);
+    }
+
     $this->init();
     $this->route = $route;
     $this->params = $params;
     $this->ajax = $ajax;
+  }
+
+  public function getCountQuery() {
+    if ($this->count_query) {
+      return $this->count_query;
+    }
+
+    $query = clone $this->getQuery();
+    $query
+      ->offset(0)
+      ->limit(0)
+    ;
+
+    return $query;
   }
 
   public function getRoute() {
@@ -66,6 +89,10 @@ class policatPager extends sfDoctrinePager {
 
     if ($this->filter && $this->filter->isValid())
       $query_param = http_build_query($this->filter->getQueryParams());
+
+    if ($this->query_params) {
+      $query_param = $query_param . ($query_param ? '&' : '') . $this->query_params;
+    }
 
     return sfContext::getInstance()->getRouting()->generate($this->getRoute(), $params, $absolute) . ($query_param ? '?' . $query_param : '');
   }
@@ -119,4 +146,3 @@ class policatPager extends sfDoctrinePager {
   }
 
 }
-

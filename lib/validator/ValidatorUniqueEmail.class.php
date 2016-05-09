@@ -1,4 +1,12 @@
 <?php
+/*
+ * Copyright (c) 2016, webvariants GmbH <?php Co. KG, http://www.webvariants.de
+ *
+ * This file is released under the terms of the MIT license. You can find the
+ * complete text in the attached LICENSE file or online at:
+ *
+ * http://www.opensource.org/licenses/mit-license.php
+ */
 
 class ValidatorUniqueEmail extends ValidatorEmail {
 
@@ -19,7 +27,7 @@ class ValidatorUniqueEmail extends ValidatorEmail {
     $existing_signing = Doctrine_Core::getTable('PetitionSigning')
       ->createQuery('s')
       ->where('s.petition_id = ?', $this->getOption('petition_id'))
-      ->andWhere('LOWER(s.email) = LOWER(?)', $clean)
+      ->andWhere('s.email = ?', $clean)
       ->limit(1)
       ->fetchOne();
     if ($existing_signing && !$this->getOption(self::OPTION_IS_GEO)) {

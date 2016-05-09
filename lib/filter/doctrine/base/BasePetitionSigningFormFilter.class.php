@@ -1,12 +1,4 @@
 <?php
-/*
- * Copyright (c) 2015, webvariants GmbH & Co. KG, http://www.webvariants.de
- *
- * This file is released under the terms of the MIT license. You can find the
- * complete text in the attached LICENSE file or online at:
- *
- * http://www.opensource.org/licenses/mit-license.php
- */
 
 /**
  * PetitionSigning filter form base class.
@@ -24,10 +16,12 @@ abstract class BasePetitionSigningFormFilter extends BaseFormFilterDoctrine
       'petition_id'     => new sfWidgetFormDoctrineChoice(array('model' => $this->getRelatedModelName('Petition'), 'add_empty' => true)),
       'fields'          => new sfWidgetFormFilterInput(array('with_empty' => false)),
       'status'          => new sfWidgetFormFilterInput(array('with_empty' => false)),
+      'verified'        => new sfWidgetFormFilterInput(array('with_empty' => false)),
       'email'           => new sfWidgetFormFilterInput(),
       'country'         => new sfWidgetFormFilterInput(),
       'validation_kind' => new sfWidgetFormFilterInput(array('with_empty' => false)),
       'validation_data' => new sfWidgetFormFilterInput(),
+      'delete_code'     => new sfWidgetFormFilterInput(),
       'widget_id'       => new sfWidgetFormDoctrineChoice(array('model' => $this->getRelatedModelName('Widget'), 'add_empty' => true)),
       'wave_sent'       => new sfWidgetFormFilterInput(array('with_empty' => false)),
       'wave_pending'    => new sfWidgetFormFilterInput(array('with_empty' => false)),
@@ -43,10 +37,13 @@ abstract class BasePetitionSigningFormFilter extends BaseFormFilterDoctrine
       'city'            => new sfWidgetFormFilterInput(),
       'post_code'       => new sfWidgetFormFilterInput(),
       'comment'         => new sfWidgetFormFilterInput(),
+      'extra1'          => new sfWidgetFormFilterInput(),
       'privacy'         => new sfWidgetFormFilterInput(),
       'email_subject'   => new sfWidgetFormFilterInput(),
       'email_body'      => new sfWidgetFormFilterInput(),
       'ref'             => new sfWidgetFormFilterInput(),
+      'quota_id'        => new sfWidgetFormDoctrineChoice(array('model' => $this->getRelatedModelName('Quota'), 'add_empty' => true)),
+      'quota_emails'    => new sfWidgetFormFilterInput(),
       'created_at'      => new sfWidgetFormFilterDate(array('from_date' => new sfWidgetFormDate(), 'to_date' => new sfWidgetFormDate(), 'with_empty' => false)),
       'updated_at'      => new sfWidgetFormFilterDate(array('from_date' => new sfWidgetFormDate(), 'to_date' => new sfWidgetFormDate(), 'with_empty' => false)),
       'contact_list'    => new sfWidgetFormDoctrineChoice(array('multiple' => true, 'model' => 'Contact')),
@@ -56,10 +53,12 @@ abstract class BasePetitionSigningFormFilter extends BaseFormFilterDoctrine
       'petition_id'     => new sfValidatorDoctrineChoice(array('required' => false, 'model' => $this->getRelatedModelName('Petition'), 'column' => 'id')),
       'fields'          => new sfValidatorPass(array('required' => false)),
       'status'          => new sfValidatorSchemaFilter('text', new sfValidatorInteger(array('required' => false))),
+      'verified'        => new sfValidatorSchemaFilter('text', new sfValidatorInteger(array('required' => false))),
       'email'           => new sfValidatorPass(array('required' => false)),
       'country'         => new sfValidatorPass(array('required' => false)),
       'validation_kind' => new sfValidatorSchemaFilter('text', new sfValidatorInteger(array('required' => false))),
       'validation_data' => new sfValidatorPass(array('required' => false)),
+      'delete_code'     => new sfValidatorPass(array('required' => false)),
       'widget_id'       => new sfValidatorDoctrineChoice(array('required' => false, 'model' => $this->getRelatedModelName('Widget'), 'column' => 'id')),
       'wave_sent'       => new sfValidatorSchemaFilter('text', new sfValidatorInteger(array('required' => false))),
       'wave_pending'    => new sfValidatorSchemaFilter('text', new sfValidatorInteger(array('required' => false))),
@@ -75,10 +74,13 @@ abstract class BasePetitionSigningFormFilter extends BaseFormFilterDoctrine
       'city'            => new sfValidatorPass(array('required' => false)),
       'post_code'       => new sfValidatorPass(array('required' => false)),
       'comment'         => new sfValidatorPass(array('required' => false)),
+      'extra1'          => new sfValidatorPass(array('required' => false)),
       'privacy'         => new sfValidatorSchemaFilter('text', new sfValidatorInteger(array('required' => false))),
       'email_subject'   => new sfValidatorPass(array('required' => false)),
       'email_body'      => new sfValidatorPass(array('required' => false)),
       'ref'             => new sfValidatorPass(array('required' => false)),
+      'quota_id'        => new sfValidatorDoctrineChoice(array('required' => false, 'model' => $this->getRelatedModelName('Quota'), 'column' => 'id')),
+      'quota_emails'    => new sfValidatorSchemaFilter('text', new sfValidatorInteger(array('required' => false))),
       'created_at'      => new sfValidatorDateRange(array('required' => false, 'from_date' => new sfValidatorDateTime(array('required' => false, 'datetime_output' => 'Y-m-d 00:00:00')), 'to_date' => new sfValidatorDateTime(array('required' => false, 'datetime_output' => 'Y-m-d 23:59:59')))),
       'updated_at'      => new sfValidatorDateRange(array('required' => false, 'from_date' => new sfValidatorDateTime(array('required' => false, 'datetime_output' => 'Y-m-d 00:00:00')), 'to_date' => new sfValidatorDateTime(array('required' => false, 'datetime_output' => 'Y-m-d 23:59:59')))),
       'contact_list'    => new sfValidatorDoctrineChoice(array('multiple' => true, 'model' => 'Contact', 'required' => false)),
@@ -123,10 +125,12 @@ abstract class BasePetitionSigningFormFilter extends BaseFormFilterDoctrine
       'petition_id'     => 'ForeignKey',
       'fields'          => 'Text',
       'status'          => 'Number',
+      'verified'        => 'Number',
       'email'           => 'Text',
       'country'         => 'Text',
       'validation_kind' => 'Number',
       'validation_data' => 'Text',
+      'delete_code'     => 'Text',
       'widget_id'       => 'ForeignKey',
       'wave_sent'       => 'Number',
       'wave_pending'    => 'Number',
@@ -142,10 +146,13 @@ abstract class BasePetitionSigningFormFilter extends BaseFormFilterDoctrine
       'city'            => 'Text',
       'post_code'       => 'Text',
       'comment'         => 'Text',
+      'extra1'          => 'Text',
       'privacy'         => 'Number',
       'email_subject'   => 'Text',
       'email_body'      => 'Text',
       'ref'             => 'Text',
+      'quota_id'        => 'ForeignKey',
+      'quota_emails'    => 'Number',
       'created_at'      => 'Date',
       'updated_at'      => 'Date',
       'contact_list'    => 'ManyKey',

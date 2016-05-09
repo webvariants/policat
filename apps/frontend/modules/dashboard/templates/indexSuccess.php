@@ -20,16 +20,6 @@
   <?php if ($sf_user->isNotBlocked()): ?>
     <div class="span4">
       <div class="row">
-        <?php
-        /* @var $sf_user myUser */
-        if ($sf_user->isAuthenticated() && $sf_user->getGuardUser()->hasCampaigns()):
-          ?>
-          <div class="span4">
-            <div class="well">
-              <a class="btn btn-primary btn-large" href="<?php echo url_for('petition_new_') ?>">Start new e-action</a>
-            </div>
-          </div>
-        <?php endif ?>
         <?php include_component('d_campaign', 'myCampaigns'); ?>
       </div>
     </div>

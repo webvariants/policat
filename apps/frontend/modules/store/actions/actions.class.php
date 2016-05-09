@@ -1,6 +1,6 @@
 <?php
 /*
- * Copyright (c) 2015, webvariants GmbH & Co. KG, http://www.webvariants.de
+ * Copyright (c) 2016, webvariants GmbH <?php Co. KG, http://www.webvariants.de
  *
  * This file is released under the terms of the MIT license. You can find the
  * complete text in the attached LICENSE file or online at:
@@ -23,7 +23,7 @@ class storeActions extends policatActions {
    * @param sfRequest $request A request object
    */
   public function executeIndex(sfWebRequest $request) {
-    $this->list = StoreTable::$meta;
+    $this->list = StoreTable::metaOrdered();
   }
 
   public function executeLanguage(sfWebRequest $request) {
@@ -35,7 +35,7 @@ class storeActions extends policatActions {
     $this->key = $key;
     $this->title = StoreTable::$meta[$key]['name'];
     $this->languages = LanguageTable::getInstance()->queryAll()->execute();
-    $this->list = StoreTable::$meta;
+    $this->list = StoreTable::metaOrdered();
   }
 
   public function executeEdit(sfWebRequest $request) {
@@ -72,7 +72,7 @@ class storeActions extends policatActions {
       return $this->ajax()->form($this->form)->render();
     }
 
-    $this->list = StoreTable::$meta;
+    $this->list = StoreTable::metaOrdered();
 
     $this->includeIframeTransport();
     $this->includeMarkdown();

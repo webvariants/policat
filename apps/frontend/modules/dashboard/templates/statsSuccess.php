@@ -3,7 +3,7 @@
 
 <div class="form-horizontal">
   <fieldset>
-    <label>Email-to-list actions</label>
+    <label>E-mail-to-list actions</label>
     <div class="control-group">
       <label class="control-label">Mails sent</label>
       <div class="controls"><span class="widget_text"><?php echo format_number($sent) ?></span></div>

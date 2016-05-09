@@ -4,6 +4,7 @@
   <li><a href="<?php echo url_for('petition_overview', array('id' => $petition->getId())) ?>"><?php echo $petition->getName() ?></a></li><span class="divider">/</span>
   <li class="active">Translations</li>
 </ul>
+<?php include_component('d_action', 'notice', array('petition' => $petition)) ?>
 <?php include_partial('tabs', array('petition' => $petition, 'active' => 'translations')) ?>
 <?php if ($can_not_create_widget_from_draft) include_partial('dashboard/alert', array('heading' => 'Info', 'message' => 'You can not create a widget of a draft translation.')) ?>
 <div class="row">

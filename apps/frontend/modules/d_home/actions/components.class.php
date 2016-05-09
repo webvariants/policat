@@ -1,6 +1,6 @@
 <?php
 /*
- * Copyright (c) 2015, webvariants GmbH & Co. KG, http://www.webvariants.de
+ * Copyright (c) 2016, webvariants GmbH <?php Co. KG, http://www.webvariants.de
  *
  * This file is released under the terms of the MIT license. You can find the
  * complete text in the attached LICENSE file or online at:
@@ -10,9 +10,9 @@
 
 class d_homeComponents extends policatComponents {
 
-  const HOTTEST = 'hottest';
-  const LARGEST = 'largest';
-  const RECENT = 'recent';
+  const HOTTEST = 'hottest'; // Trending
+  const LARGEST = 'largest'; // Popular
+  const RECENT = 'recent'; // New
 
   protected function getPetitions($type) {
     $query = PetitionTable::getInstance()
@@ -27,12 +27,12 @@ class d_homeComponents extends policatComponents {
       ->leftJoin('pt.DefaultWidget w')
       ->andWhere('w.status = ?', Widget::STATUS_ACTIVE)
       ->select('p.*, pt.*, w.*')
-      ->addSelect('(SELECT count(z.id) FROM PetitionSigning z WHERE DATE_SUB(NOW(),INTERVAL 1 DAY) <= z.created_at  and z.petition_id = p.id and z.status = ' . PetitionSigning::STATUS_VERIFIED . ') as signings24')
+      ->addSelect('(SELECT count(z.id) FROM PetitionSigning z WHERE DATE_SUB(NOW(),INTERVAL 1 DAY) <= z.created_at  and z.petition_id = p.id and z.status = ' . PetitionSigning::STATUS_COUNTED . ') as signings24')
       ->limit(5);
 
     switch ($type) {
       case self::LARGEST:
-        $query->addSelect('((SELECT count(s.id) FROM PetitionSigning s WHERE s.petition_id = p.id and s.status = ' . PetitionSigning::STATUS_VERIFIED . ') + (SELECT p.addnum FROM Petition p2 where p2.id = p.id)) as signings');
+        $query->addSelect('((SELECT count(s.id) FROM PetitionSigning s WHERE s.petition_id = p.id and s.status = ' . PetitionSigning::STATUS_COUNTED . ') + (SELECT p.addnum FROM Petition p2 where p2.id = p.id)) as signings');
         $query->orderBy('signings DESC, p.id ASC');
         break;
       case self::RECENT:
@@ -58,7 +58,17 @@ class d_homeComponents extends policatComponents {
     foreach (array(self::HOTTEST => 'Trending', self::LARGEST => 'Popular', self::RECENT => 'New') as $key => $value) {
       $data = $this->getPetitions($key);
       $this->tags[$key] = '';
-      foreach ($data as &$petition) {
+      foreach ($data as $k => &$petition) {
+        if ($key == self::HOTTEST && $petition['signings24'] < 1) {
+          unset($data[$k]);
+          continue;
+        }
+        
+        if ($key == self::LARGEST && $petition['signings'] < 10) {
+          unset($data[$k]);
+          continue;
+        }
+        
         $count = PetitionSigningTable::getInstance()->countByPetition($petition['id'], null, null, 60);
         $count += PetitionApiTokenTable::getInstance()->sumOffsets($petition['id'], 60);
         $count += $petition['addnum'];
@@ -69,8 +79,9 @@ class d_homeComponents extends policatComponents {
         $style = json_decode($widget['stylings'], true);
 
         $tags = trim($petition['twitter_tags']);
-        if ($tags)
+        if ($tags) {
           $this->tags[$key] .= ($this->tags[$key] ? ' OR ' : '') . $petition['twitter_tags'];
+        }
 
         if (!isset($this->widget_styles[$widget['id']])) {
           $this->widget_styles[$widget['id']] = array(
@@ -87,12 +98,15 @@ class d_homeComponents extends policatComponents {
           );
         }
       }
-      $this->open[$key] =
-        array(
-            'title' => $value,
-            'data' => $data
-      );
-//      $this->js['tags'][$key] .= ($this->js['tags'][$key] ? ' OR ' : '') . $this->js['tags']['policat'];
+      
+      if (count($data)) {
+        $this->open[$key] =
+          array(
+              'title' => $value,
+              'data' => $data
+        );
+//        $this->js['tags'][$key] .= ($this->js['tags'][$key] ? ' OR ' : '') . $this->js['tags']['policat'];
+      }
     }
   }
 
@@ -132,7 +146,7 @@ class d_homeComponents extends policatComponents {
       ->leftJoin('pt.DefaultWidget w')
       ->andWhere('w.status = ?', Widget::STATUS_ACTIVE)
       ->select('p.id')
-      ->addSelect('(SELECT count(z.id) FROM PetitionSigning z WHERE DATE_SUB(NOW(),INTERVAL 1 DAY) <= z.created_at  and z.petition_id = p.id and z.status = ' . PetitionSigning::STATUS_VERIFIED . ') as signings24')
+      ->addSelect('(SELECT count(z.id) FROM PetitionSigning z WHERE DATE_SUB(NOW(),INTERVAL 1 DAY) <= z.created_at  and z.petition_id = p.id and z.status = ' . PetitionSigning::STATUS_COUNTED . ') as signings24')
       ->limit(1)
       ->orderBy('signings24 DESC, p.id ASC')
       ->fetchArray();
@@ -185,21 +199,23 @@ class d_homeComponents extends policatComponents {
     $menu_start = $store->findByKeyCached(StoreTable::MENU_START);
     $menu_join = $store->findByKeyCached(StoreTable::MENU_JOIN);
     $menu_login = $store->findByKeyCached(StoreTable::MENU_LOGIN);
+    
+    $pricing = $store->findByKeyCached(StoreTable::BILLING_PRICING_MENU);
 
     $register = $store->findByKeyCached(StoreTable::REGISTER_ON);
 
     if ($tips)
-      $this->setContentTags($tips);
+      $this->addContentTags($tips);
     if ($tips_title)
       $this->addContentTags($tips_title);
 
     if ($faq)
-      $this->setContentTags($faq);
+      $this->addContentTags($faq);
     if ($faq_title)
       $this->addContentTags($faq_title);
 
     if ($help)
-      $this->setContentTags($help);
+      $this->addContentTags($help);
     if ($help_title)
       $this->addContentTags($help_title);
 
@@ -211,6 +227,11 @@ class d_homeComponents extends policatComponents {
       $this->addContentTags($menu_join);
     if ($menu_login)
       $this->addContentTags($menu_login);
+    
+    if ($pricing) {
+      $this->addContentTags($pricing);
+    }
+    
     if ($register)
       $this->addContentTags($register);
 
@@ -227,6 +248,8 @@ class d_homeComponents extends policatComponents {
     $this->menu_start = $menu_start ? $menu_start->getValue() : '';
     $this->menu_join = ($menu_join ? $menu_join->getValue() : '') && ($register ? $register->getValue() : '');
     $this->menu_login = $menu_login ? $menu_login->getValue() : '';
+    
+    $this->pricing = $pricing ? $pricing->getValue() : '';
   }
 
   public function executeFooter() {
@@ -241,15 +264,15 @@ class d_homeComponents extends policatComponents {
     $footer_link = $store->findByKeyCached(StoreTable::FOOTER_LINK);
 
     if ($terms)
-      $this->setContentTags($terms);
+      $this->addContentTags($terms);
     if ($terms_title)
       $this->addContentTags($terms_title);
     if ($contact)
-      $this->setContentTags($contact);
+      $this->addContentTags($contact);
     if ($contact_title)
       $this->addContentTags($contact_title);
     if ($imprint)
-      $this->setContentTags($imprint);
+      $this->addContentTags($imprint);
     if ($imprint_title)
       $this->addContentTags($imprint_title);
     if ($footer_title)

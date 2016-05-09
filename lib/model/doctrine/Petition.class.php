@@ -1,6 +1,6 @@
 <?php
 /*
- * Copyright (c) 2015, webvariants GmbH & Co. KG, http://www.webvariants.de
+ * Copyright (c) 2016, webvariants GmbH <?php Co. KG, http://www.webvariants.de
  *
  * This file is released under the terms of the MIT license. You can find the
  * complete text in the attached LICENSE file or online at:
@@ -18,20 +18,9 @@
 class Petition extends BasePetition {
 
   const STATUS_DRAFT = 1;
-//  const STATUS_WAITING = 2;
-//  const STATUS_APPROVED = 3;
   const STATUS_ACTIVE = 4;
   const STATUS_BLOCKED = 5;
-//  const STATUS_DENIED = 6;
   const STATUS_DELETED = 7;
-  const KIND_OLD_PETITION = 1;
-  const KIND_PETITION_WITH_COMMENTS = 2;
-  const KIND_CITIZEN_INITIATIVE = 3;
-  const KIND_OLD_EMAIL_ACTION = 4;
-  const KIND_MESSENGER = 5;
-  const KIND_NETWORK_NEWS = 6;
-  const KIND_GEO = 7;
-  const KIND_GEO_EXTRA = 8;
   const KIND_PETITION = 9;
   const KIND_EMAIL_TO_LIST = 10;
   const KIND_EMAIL_ACTION = 11;
@@ -53,101 +42,68 @@ class Petition extends BasePetition {
   const FIELD_EMAIL_SUBJECT = 'email_subject';
   const FIELD_EMAIL_BODY = 'email_body';
   const FIELD_REF = 'ref';
+  const FIELD_EXTRA1 = 'extra1';
   const EDITABLE_YES = 1;
   const EDITABLE_NO = 2;
+  const VALIDATION_REQUIRED_YES = 1;
+  const VALIDATION_REQUIRED_NO = 0;
+  const WITH_EXTRA_YES = 1;
+  const WITH_EXTRA_NO = 0;
 
-//  const AUTO_GREETING_NO = 0;
-//  const AUTO_GREETING_YES = 1;
-
-  static $NEW_KIND = array(self::KIND_PETITION, self::KIND_EMAIL_TO_LIST, self::KIND_EMAIL_ACTION, self::KIND_PLEDGE);
   static $FIELD_SHOW = array(
       self::FIELD_FULLNAME => 'fullname',
       self::FIELD_TITLE => 'title',
       self::FIELD_FIRSTNAME => 'firstname',
       self::FIELD_LASTNAME => 'lastname',
-      self::FIELD_EMAIL => 'email',
+      self::FIELD_EMAIL => 'e-mail',
       self::FIELD_ADDRESS => 'address',
       self::FIELD_CITY => 'city',
       self::FIELD_POSTCODE => 'post_code',
       self::FIELD_COUNTRY => 'country',
+      self::FIELD_EXTRA1 => 'extra1',
       self::FIELD_COMMENT => 'comment',
       self::FIELD_PRIVACY => 'privacy policy accepted',
-      self::FIELD_SUBSCRIBE => 'subscribe');
+      self::FIELD_SUBSCRIBE => 'subscribe'
+  );
   static $NAMETYPE_SHOW = array
       (
       self::NAMETYPE_SPLIT => 'Title, firstname, lastname',
       self::NAMETYPE_FULL => 'Fullname'
-  );
-  static $KIND_EXTRA_FIELDS = array
-      (
-      self::KIND_OLD_PETITION => array(),
-      self::KIND_PETITION_WITH_COMMENTS => array(self::FIELD_COMMENT),
-      self::KIND_CITIZEN_INITIATIVE => array(self::FIELD_ADDRESS, self::FIELD_CITY, self::FIELD_POSTCODE),
-      self::KIND_OLD_EMAIL_ACTION => array(self::FIELD_ADDRESS, self::FIELD_CITY, self::FIELD_POSTCODE),
-      self::KIND_MESSENGER => array(self::FIELD_COMMENT),
-      self::KIND_NETWORK_NEWS => array(),
-      self::KIND_GEO => array(),
-      self::KIND_GEO_EXTRA => array(self::FIELD_ADDRESS, self::FIELD_CITY, self::FIELD_POSTCODE),
   );
   static $NAMETYPE_EXTRA_FIELDS = array
       (
       self::NAMETYPE_FULL => array(self::FIELD_FULLNAME),
       self::NAMETYPE_SPLIT => array(self::FIELD_TITLE, self::FIELD_FIRSTNAME, self::FIELD_LASTNAME)
   );
-  static $FIELDS_ALWAYS = array(self::FIELD_EMAIL, self::FIELD_PRIVACY, self::FIELD_SUBSCRIBE, self::FIELD_COUNTRY);
   static $STATUS_SHOW = array
       (
       self::STATUS_DRAFT => 'draft',
-//      self::STATUS_WAITING => 'waiting',
-//      self::STATUS_APPROVED => 'approved',
       self::STATUS_ACTIVE => 'active',
       self::STATUS_BLOCKED => 'blocked',
-//      self::STATUS_DENIED => 'denied'
       self::STATUS_DELETED => 'deleted'
   );
   static $KIND_SHOW = array
       (
       self::KIND_PETITION => 'Petition',
-      self::KIND_EMAIL_TO_LIST => 'Email-to-list action',
-      self::KIND_EMAIL_ACTION => 'Email-Action',
-      self::KIND_PLEDGE => 'e-Action Pledge',
-      self::KIND_CITIZEN_INITIATIVE => '(old) Citizen Initiative',
-      self::KIND_MESSENGER => '(old) Messenger',
-      self::KIND_NETWORK_NEWS => '(old) Network News',
-      self::KIND_OLD_PETITION => '(old) Petition',
-      self::KIND_PETITION_WITH_COMMENTS => '(old) Petition with comments',
-      self::KIND_GEO => '(old) Email-to-list action',
-      self::KIND_GEO_EXTRA => '(old) Email-to-list action (with full address)',
-      self::KIND_OLD_EMAIL_ACTION => '(old) Email-Action'
-  );
-  static $KIND_SHOW_CREATE = array
-      (
-      self::KIND_PETITION => 'Petition',
-      self::KIND_EMAIL_TO_LIST => 'Email-to-list action',
-      self::KIND_EMAIL_ACTION => 'Email-Action',
-      self::KIND_PLEDGE => 'e-Action Pledge',
+      self::KIND_EMAIL_TO_LIST => 'E-mail-to-list action',
+      self::KIND_EMAIL_ACTION => 'E-mail-Action',
+      self::KIND_PLEDGE => 'e-Action Pledge'
   );
   static $EMAIL_KINDS = array(
       self::KIND_EMAIL_TO_LIST,
       self::KIND_EMAIL_ACTION,
-      self::KIND_PLEDGE,
-      self::KIND_OLD_EMAIL_ACTION,
-      self::KIND_GEO,
-      self::KIND_GEO_EXTRA
+      self::KIND_PLEDGE
   );
   static $EDITABLE_SHOW = array(
       self::EDITABLE_YES => 'yes',
       self::EDITABLE_NO => 'no'
   );
-//  static $AUTO_GREETING_SHOW = array(
-//      self::AUTO_GREETING_NO => 'no',
-//      self::AUTO_GREETING_YES => 'yes'
-//  );
   static $WITH_ADDRESS_SHOW = array(0 => 'Don\'t ask', 1 => 'Post code and city', 2 => '(Street) address, post code and city');
 
   public function calcPossibleStatusForUser(sfGuardUser $user) {
-    if (!$user || $user->isPetitionAdmin($this))
+    if (!$user) {
       return array_keys(self::$STATUS_SHOW);
+    }
 
     if ($this->getStatus() == self::STATUS_BLOCKED)
       return array(self::STATUS_BLOCKED);
@@ -214,31 +170,28 @@ class Petition extends BasePetition {
   }
 
   public function getFormfields() {
-    if (in_array($this->getKind(), self::$NEW_KIND)) {
-      $fields = array_merge(array(self::FIELD_EMAIL, self::FIELD_PRIVACY, self::FIELD_SUBSCRIBE), self::$NAMETYPE_EXTRA_FIELDS[$this->getNametype()]);
-      switch ($this->getWithAddress()) {
-        case 1:
-        case '1':
-          $fields[] = self::FIELD_POSTCODE;
-          $fields[] = self::FIELD_CITY;
-          break;
-        case 2:
-        case '2':
-          $fields[] = self::FIELD_POSTCODE;
-          $fields[] = self::FIELD_CITY;
-          $fields[] = self::FIELD_ADDRESS;
-          break;
-      }
-      if ($this->getWithCountry()) {
-        $fields[] = self::FIELD_COUNTRY;
-      }
-      if ($this->getWithComments()) {
-        $fields[] = self::FIELD_COMMENT;
-      }
-    } else {
-      $fields = array_merge(
-        self::$FIELDS_ALWAYS, self::$KIND_EXTRA_FIELDS[$this->getKind()], self::$NAMETYPE_EXTRA_FIELDS[$this->getNametype()]
-      );
+    $fields = array_merge(array(self::FIELD_EMAIL, self::FIELD_PRIVACY, self::FIELD_SUBSCRIBE), self::$NAMETYPE_EXTRA_FIELDS[$this->getNametype()]);
+    switch ($this->getWithAddress()) {
+      case 1:
+      case '1':
+        $fields[] = self::FIELD_POSTCODE;
+        $fields[] = self::FIELD_CITY;
+        break;
+      case 2:
+      case '2':
+        $fields[] = self::FIELD_POSTCODE;
+        $fields[] = self::FIELD_CITY;
+        $fields[] = self::FIELD_ADDRESS;
+        break;
+    }
+    if ($this->getWithCountry()) {
+      $fields[] = self::FIELD_COUNTRY;
+    }
+    if ($this->getWithComments()) {
+      $fields[] = self::FIELD_COMMENT;
+    }
+    if ($this->getWithExtra1()) {
+      $fields[] = self::FIELD_EXTRA1;
     }
     $formfields = array();
     foreach (array_keys(self::$FIELD_SHOW) as $field) {
@@ -259,7 +212,7 @@ class Petition extends BasePetition {
 
   public function isGeoKind() {
     $kind = $this->getKind();
-    return $kind == self::KIND_EMAIL_TO_LIST || $kind == self::KIND_PLEDGE || $kind == self::KIND_GEO || $kind == self::KIND_GEO_EXTRA;
+    return $kind == self::KIND_EMAIL_TO_LIST || $kind == self::KIND_PLEDGE;
   }
 
   public function getKindName() {
@@ -534,12 +487,8 @@ class Petition extends BasePetition {
     return $user->isPetitionMember($this, true);
   }
 
-  public function isMemberEditable(sfGuardUser $user) {
-    return $user->isCampaignAdmin($this->getCampaign()) || $user->isPetitionAdmin($this);
-  }
-
-  public function isTicketManager(sfGuardUser $user) {
-    return $user->isCampaignAdmin($this->getCampaign()) || $user->isPetitionAdmin($this);
+  public function isCampaignAdmin(sfGuardUser $user) {
+    return $user->isCampaignAdmin($this->getCampaign());
   }
 
   public function countSignings($timeToLive = 600) {
@@ -584,7 +533,7 @@ class Petition extends BasePetition {
   }
 
   public function countMailsOutgoing() {
-    return PetitionSigningWaveTable::getInstance()->sumContactStatus(PetitionSigning::STATUS_VERIFIED, $this);
+    return PetitionSigningWaveTable::getInstance()->sumContactStatus(PetitionSigning::STATUS_COUNTED, $this);
 //    return PetitionSigningContactTable::getInstance()->countOutgoingMails($this);
   }
 

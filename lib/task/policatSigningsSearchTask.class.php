@@ -1,6 +1,6 @@
 <?php
 /*
- * Copyright (c) 2015, webvariants GmbH & Co. KG, http://www.webvariants.de
+ * Copyright (c) 2016, webvariants GmbH <?php Co. KG, http://www.webvariants.de
  *
  * This file is released under the terms of the MIT license. You can find the
  * complete text in the attached LICENSE file or online at:
@@ -78,7 +78,7 @@ EOF;
       $query = $signings_table->createQuery('s')->where('s.id >= ? and s.id < ?', array($pos, $pos + $step));
       $signings = $query->execute();
       printf("step: %s - %s\n", $pos, $pos + $step - 1);
-
+      
       foreach ($signings as $signing) {
         /* @var $signing PetitionSigning */
 //        printf("s: %s\n", $signing->getId());

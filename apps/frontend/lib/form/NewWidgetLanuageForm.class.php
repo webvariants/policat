@@ -1,6 +1,6 @@
 <?php
 /*
- * Copyright (c) 2015, webvariants GmbH & Co. KG, http://www.webvariants.de
+ * Copyright (c) 2016, webvariants GmbH <?php Co. KG, http://www.webvariants.de
  *
  * This file is released under the terms of the MIT license. You can find the
  * complete text in the attached LICENSE file or online at:
@@ -20,7 +20,7 @@ class NewWidgetLanguageForm extends sfForm {
           'model' => 'PetitionText',
           'query' => PetitionTextTable::getInstance()->queryByPetitionAndActive($this->getOption(self::OPTION_PETITION), true),
           'method' => 'getLanguage',
-          'add_empty' => 'select language',
+          'add_empty' => 'Select language',
           'label' => false
       )));
   }

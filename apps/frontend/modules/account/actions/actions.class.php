@@ -1,6 +1,6 @@
 <?php
 /*
- * Copyright (c) 2015, webvariants GmbH & Co. KG, http://www.webvariants.de
+ * Copyright (c) 2016, webvariants GmbH <?php Co. KG, http://www.webvariants.de
  *
  * This file is released under the terms of the MIT license. You can find the
  * complete text in the attached LICENSE file or online at:
@@ -104,7 +104,10 @@ class accountActions extends policatActions {
       $user->setIsActive(true);
       $user->setValidationKind(sfGuardUserTable::VALIDATION_KIND_NONE);
       $user->save();
+      $widgets_connected = WidgetTable::getInstance()->updateByEmailToUser($user);
+
       $this->user = $user;
+      $this->widgets_connected = $widgets_connected;
     }
   }
 
@@ -346,7 +349,7 @@ class accountActions extends policatActions {
         return
             $this->ajax()
             ->remove('#forgotten_modal .alert')
-            ->alert('Wrong email address.', 'Error', '#forgotten_modal .modal-body', 'append')
+            ->alert('Wrong e-mail address.', 'Error', '#forgotten_modal .modal-body', 'append')
             ->render();
       }
     } else {

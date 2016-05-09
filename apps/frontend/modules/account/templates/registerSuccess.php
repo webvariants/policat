@@ -6,10 +6,10 @@
     <div class="row">
       <div class="span6">
         <?php echo $form->renderHiddenFields() ?>
-        <?php echo $form->renderRows('email_address', 'password', 'password_again', 'first_name', 'last_name', 'phone', 'language_id') ?>
+        <?php echo $form->renderRows('email_address', 'password', 'password_again', 'first_name', 'last_name', 'phone', 'mobile', 'language_id') ?>
       </div>
       <div class="span6">
-        <?php echo $form->renderRows('organisation', 'website', 'street', 'post_code', 'city', 'country', 'mobile') ?>
+        <?php echo $form->renderRows('organisation', 'vat', 'website', 'street', 'post_code', 'city', 'country') ?>
       </div>
       <div class="span12">
         <?php echo $form['terms']->renderRow() ?>

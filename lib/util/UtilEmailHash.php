@@ -1,12 +1,4 @@
 <?php
-/*
- * Copyright (c) 2015, webvariants GmbH & Co. KG, http://www.webvariants.de
- *
- * This file is released under the terms of the MIT license. You can find the
- * complete text in the attached LICENSE file or online at:
- *
- * http://www.opensource.org/licenses/mit-license.php
- */
 
 class UtilEmailHash {
 
@@ -14,6 +6,9 @@ class UtilEmailHash {
 
   public static function hash($email) {
     $email_trim = trim($email);
+    if (!$email_trim) {
+      return '';
+    }
     $email_low = mb_strtolower($email_trim, 'UTF-8');
 
     if (strpos(PHP_VERSION, '5.3.3-') === 0) {

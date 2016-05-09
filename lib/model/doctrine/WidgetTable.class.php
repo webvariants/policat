@@ -1,6 +1,6 @@
 <?php
 /*
- * Copyright (c) 2015, webvariants GmbH & Co. KG, http://www.webvariants.de
+ * Copyright (c) 2016, webvariants GmbH <?php Co. KG, http://www.webvariants.de
  *
  * This file is released under the terms of the MIT license. You can find the
  * complete text in the attached LICENSE file or online at:
@@ -58,6 +58,16 @@ class WidgetTable extends Doctrine_Table {
   public function queryByPetition(Petition $petition) {
     return $this->queryAll()->where('w.petition_id = ?', $petition->getId());
   }
+  
+  public function updateByEmailToUser(sfGuardUser $user) {
+    $email = $user->getUsername();
+    return $this->createQuery()
+      ->update()
+      ->where('email = ?', $email)
+      ->andWhere('user_id IS NULL')
+      ->set('user_id', $user->getId())
+      ->execute();
+  }
 
   /**
    *
@@ -83,7 +93,7 @@ class WidgetTable extends Doctrine_Table {
         ->innerJoin('w.Petition p')->leftJoin('p.PetitionRights pr ON p.id = pr.petition_id and pr.user_id = ?', $user->getId())
         ->innerJoin('p.Campaign c')->leftJoin('c.CampaignRights cr ON c.id = cr.campaign_id and cr.user_id = ?', $user->getId())
         ->where('p.status != ? AND c.status = ?', array(Petition::STATUS_DELETED, CampaignTable::STATUS_ACTIVE))
-        ->andWhere('w.user_id = ? OR (cr.user_id = ? AND pr.user_id = ? AND cr.active = 1 AND pr.active = 1 AND (pr.admin = 1 OR pr.member = 1) AND (cr.admin = 1 OR cr.member = 1))', array($user->getId(), $user->getId(), $user->getId()))
+        ->andWhere('w.user_id = ? OR (cr.user_id = ? AND pr.user_id = ? AND cr.active = 1 AND pr.active = 1 AND pr.member = 1 AND (cr.admin = 1 OR cr.member = 1))', array($user->getId(), $user->getId(), $user->getId()))
     ;
   }
 
@@ -116,7 +126,7 @@ class WidgetTable extends Doctrine_Table {
 
     if ($widget && $all_active) {
       if ($widget->getStatus() != Widget::STATUS_ACTIVE || $widget->getCampaign()->getStatus() != CampaignTable::STATUS_ACTIVE
-        || $widget->getPetition()->getStatus() != Petition::STATUS_ACTIVE) {
+        || $widget->getPetition()->getStatus() != Petition::STATUS_ACTIVE || $widget->getPetitionText()->getStatus() != PetitionText::STATUS_ACTIVE) {
         return null;
       }
     }
@@ -159,16 +169,16 @@ class WidgetTable extends Doctrine_Table {
       $query->addSelect('w.stylings as stylings');
     }
     if (in_array('petition_signings', $select)) {
-      $query->addSelect('((SELECT count(s.id) FROM PetitionSigning s WHERE s.petition_id = p.id and s.status = ' . PetitionSigning::STATUS_VERIFIED . $date_filter . $country_filter . ') + (SELECT p.addnum FROM Petition p2 where p2.id = p.id)) as petition_signings');
+      $query->addSelect('((SELECT count(s.id) FROM PetitionSigning s WHERE s.petition_id = p.id and s.status = ' . PetitionSigning::STATUS_COUNTED . $date_filter . $country_filter . ') + (SELECT p.addnum FROM Petition p2 where p2.id = p.id)) as petition_signings');
     }
     if (in_array('petition_signings24', $select)) {
-      $query->addSelect('(SELECT count(z.id) FROM PetitionSigning z WHERE DATE_SUB(NOW(),INTERVAL 1 DAY) <= z.created_at  and z.petition_id = p.id and z.status = ' . PetitionSigning::STATUS_VERIFIED . $country_filter . ') as petition_signings24');
+      $query->addSelect('(SELECT count(z.id) FROM PetitionSigning z WHERE DATE_SUB(NOW(),INTERVAL 1 DAY) <= z.created_at  and z.petition_id = p.id and z.status = ' . PetitionSigning::STATUS_COUNTED . $country_filter . ') as petition_signings24');
     }
     if (in_array('widget_signings', $select)) {
-      $query->addSelect('((SELECT count(s2.id) FROM PetitionSigning s2 WHERE s2.widget_id = w.id and s2.status = ' . PetitionSigning::STATUS_VERIFIED . $date_filter . $country_filter . ')) as widget_signings');
+      $query->addSelect('((SELECT count(s2.id) FROM PetitionSigning s2 WHERE s2.widget_id = w.id and s2.status = ' . PetitionSigning::STATUS_COUNTED . $date_filter . $country_filter . ')) as widget_signings');
     }
     if (in_array('widget_signings24', $select)) {
-      $query->addSelect('(SELECT count(z2.id) FROM PetitionSigning z2 WHERE DATE_SUB(NOW(),INTERVAL 1 DAY) <= z2.created_at  and z2.widget_id = w.id and z2.status = ' . PetitionSigning::STATUS_VERIFIED . $country_filter . ') as widget_signings24');
+      $query->addSelect('(SELECT count(z2.id) FROM PetitionSigning z2 WHERE DATE_SUB(NOW(),INTERVAL 1 DAY) <= z2.created_at  and z2.widget_id = w.id and z2.status = ' . PetitionSigning::STATUS_COUNTED . $country_filter . ') as widget_signings24');
     }
 
     return $query->execute(array(), Doctrine_Core::HYDRATE_ARRAY);
@@ -269,17 +279,47 @@ class WidgetTable extends Doctrine_Table {
           break;
         case self::ORDER_TRENDING:
           $query->select('w.*');
-          $query->addSelect('(SELECT count(z.id) FROM PetitionSigning z WHERE DATE_SUB(NOW(),INTERVAL 1 DAY) <= z.created_at  and z.widget_id = w.id and z.status = ' . PetitionSigning::STATUS_VERIFIED . ') as signings24');
+          $query->addSelect('(SELECT count(z.id) FROM PetitionSigning z WHERE DATE_SUB(NOW(),INTERVAL 1 DAY) <= z.created_at  and z.widget_id = w.id and z.status = ' . PetitionSigning::STATUS_COUNTED . ') as signings24');
           $query->orderBy('signings24 DESC, w.activity_at DESC, w.id DESC');
           break;
       }
     }
 
     if ($filter->getValue(self::FILTER_MIN_SIGNINGS)) {
-      $query->andWhere('(SELECT count(ps.id) FROM PetitionSigning ps WHERE ps.widget_id = w.id AND ps.status = ? LIMIT ' . $filter->getValue(self::FILTER_MIN_SIGNINGS) . ') >= ?', array(PetitionSigning::STATUS_VERIFIED, $filter->getValue(self::FILTER_MIN_SIGNINGS)));
+      $query->andWhere('(SELECT count(ps.id) FROM PetitionSigning ps WHERE ps.widget_id = w.id AND ps.status = ? LIMIT ' . $filter->getValue(self::FILTER_MIN_SIGNINGS) . ') >= ?', array(PetitionSigning::STATUS_COUNTED, $filter->getValue(self::FILTER_MIN_SIGNINGS)));
     }
 
     return $query;
   }
+  
+  public function fetchIdsOfPetition(Petition $petition) {
+    $query = $this->createQuery('w')
+      ->where('w.petition_id = ?', $petition->getId())
+      ->orderBy('w.id ASC')
+      ->select('w.id');
+    
+    $ids = $query->execute(array(), Doctrine_Core::HYDRATE_SCALAR);
+    $query->free();
+    return array_map('reset', $ids);
+  }
+  
+  public function fetchOriginIdsOfPetition(Petition $petition) {
+    $query = $this->createQuery('w')
+      ->where('w.petition_id = ?', $petition->getId())
+      ->orderBy('w.id ASC')
+      ->select('w.origin_widget_id');
+    
+    $ids = $query->execute(array(), Doctrine_Core::HYDRATE_SCALAR);
+    $query->free();
+    return array_map('reset', $ids);
+  }
 
+  public function fetchWidgetIdByOrigin($petition_id, $origin_id) {
+    $query = $this->createQuery('w')
+      ->where('w.petition_id = ? AND w.origin_widget_id = ?', array($petition_id, $origin_id))
+      ->select('w.id');
+    
+    $id = $query->execute(array(), Doctrine_Core::HYDRATE_SINGLE_SCALAR);
+    return $id ? : false;
+  }
 }

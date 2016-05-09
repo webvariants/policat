@@ -10,6 +10,11 @@ $officer_self = $officer && $officer->getId() == $user->getId();
     <li><a href="<?php echo url_for('dashboard') ?>">Dashboard</a></li><span class="divider">/</span>
     <li class="active"><?php echo $campaign->getName() ?></li>
 </ul>
+<?php
+if ($billingEnabled) {
+  include_component('order', 'notice', array('campaign' => $campaign));
+}
+?>
 <?php include_partial('tabs', array('campaign' => $campaign, 'active' => 'overview')) ?>
 <div class="row">
     <div class="span8">
@@ -30,10 +35,13 @@ $officer_self = $officer && $officer->getId() == $user->getId();
                 <?php else: ?>
                   You are member.
                 <?php endif ?>
-                <?php if (!$officer_self): ?>
+                <?php if (!$officer_self && $campaign->getPublicEnabled() == Campaign::PUBLIC_ENABLED_NO): ?>
                   <a title="Leave this campaign." class="ajax_link btn btn-mini pull-right" href="<?php echo url_for('campaign_leave', array('id' => $campaign->getId())) ?>">Leave campaign</a>
                 <?php endif ?>
             </p>
+            <?php if ($campaign->getPublicEnabled() == Campaign::PUBLIC_ENABLED_YES): ?>
+              <p>This is a community campaign.</p>
+            <?php endif ?>
             <?php if ($sf_user->hasCredential(myUser::CREDENTIAL_ADMIN)): ?>
               <?php if ($campaign->getStatus() != CampaignTable::STATUS_DELETED): ?>
                 <a class="btn btn-danger btn-mini ajax_link" href="<?php echo url_for('campaign_delete_', array('id' => $campaign->getId())) ?>">Delete Campaign</a>
@@ -57,11 +65,17 @@ $officer_self = $officer && $officer->getId() == $user->getId();
             <?php endif ?>
             <?php if ($admin): ?>
               <?php include_component('d_campaign', 'editSwitches', array('campaign' => $campaign)) ?>
+              <?php if ($sf_user->hasCredential(myUser::CREDENTIAL_ADMIN)): ?><?php include_component('d_campaign', 'editPublic', array('campaign' => $campaign)) ?><?php endif ?>
               <a class="btn btn-mini ajax_link" href="<?php echo url_for('campaign_name', array('id' => $campaign->getId())) ?>">Rename campaign</a>
               <a class="btn btn-mini ajax_link" href="<?php echo url_for('campaign_privacy', array('id' => $campaign->getId())) ?>">Privacy agreement</a>
               <a class="btn btn-mini ajax_link" href="<?php echo url_for('campaign_address', array('id' => $campaign->getId())) ?>">Address</a>
             <?php endif ?>
         </div>
+        <?php
+        if ($billingEnabled) {
+          include_component('order', 'sidebar', array('campaign' => $campaign));
+        }
+        ?>
         <?php if ($admin): ?>
           <?php include_component('d_campaign', 'members', array('campaign' => $campaign)) ?>
         <?php endif ?>

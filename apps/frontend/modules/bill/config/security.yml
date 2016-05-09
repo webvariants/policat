@@ -1,0 +1,11 @@
+default:
+  is_secure: true
+  credentials: admin
+
+user:
+  is_secure: true
+  credentials: []
+
+mail:
+  is_secure: true
+  credentials: []

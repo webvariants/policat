@@ -1,6 +1,6 @@
 <?php
 /*
- * Copyright (c) 2015, webvariants GmbH & Co. KG, http://www.webvariants.de
+ * Copyright (c) 2016, webvariants GmbH <?php Co. KG, http://www.webvariants.de
  *
  * This file is released under the terms of the MIT license. You can find the
  * complete text in the attached LICENSE file or online at:
@@ -11,35 +11,27 @@
 class SigningsDownloadForm extends policatFilterForm {
 
   const OPTION_QUERY = 'query';
-  const OPTION_IS_DATA_OWNER = 'is_data_owner';
-
-  static $TYPE_SHOW = array(
-      '' => 'Participants list',
-      1 => 'Newsletter subscriptions'
-  );
+  const OPTION_SUBSCRIBER = 'subscriber';
 
   public function configure() {
     $query = $this->getOption(self::OPTION_QUERY);
     /* @var $query Doctrine_Query */
 
-    $lang_sub_query = $query->copy()->select('DISTINCT pt.language_id');
-    $lang_query = Doctrine_Core::getTable('Language')
+    $widget_sub_query = $query->copy()
+      ->orderBy('ps.widget_id')
+      ->select('DISTINCT ps.widget_id');
+
+    $lang_sub_query = WidgetTable::getInstance()->createQuery('wq')
+      ->where('wq.id IN (' . $widget_sub_query->getDql() . ')', $widget_sub_query)
+      ->leftJoin('wq.PetitionText wq_pt')
+      ->select('DISTINCT wq_pt.language_id');
+    $lang_sub_query->setParams($widget_sub_query->getParams());
+
+    $lang_query = LanguageTable::getInstance()
       ->createQuery('l')
-      ->where('l.id IN (' . $lang_sub_query->getDql() . ')', $lang_sub_query);
+      ->where('l.id IN (' . $lang_sub_query->getDql() . ')', $lang_sub_query)
+      ->orderBy('l.name ASC');
     $lang_query->setParams($lang_sub_query->getParams());
-
-    if ($this->isDataOwner()) {
-      $this->setWidget('t', new sfWidgetFormChoice(
-        array('choices' => self::$TYPE_SHOW, 'label' => false), array('class' => 'span2')
-      ));
-    }
-//    if (!$this->isDataOwner())
-//      $this->getWidget('t')->setAttribute('disabled', 'disabled');
-
-    if ($this->isDataOwner())
-      $this->setValidator('t', new sfValidatorChoice(array('choices' => array_keys(self::$TYPE_SHOW), 'required' => false)));
-    else
-      $this->setValidator('t', new sfValidatorChoice(array('choices' => array(''), 'required' => false)));
 
     $this->setWidget('l', new sfWidgetFormDoctrineChoice(
       array(
@@ -55,7 +47,7 @@ class SigningsDownloadForm extends policatFilterForm {
         'query' => $lang_query
     )));
 
-    $countries = $query->copy()->select('DISTINCT ps.country')->execute(array(), Doctrine_Core::HYDRATE_SINGLE_SCALAR);
+    $countries = $query->copy()->orderBy('ps.country')->select('DISTINCT ps.country')->execute(array(), Doctrine_Core::HYDRATE_SINGLE_SCALAR);
     if (is_string($countries))
       $countries = array($countries);
 
@@ -85,7 +77,7 @@ class SigningsDownloadForm extends policatFilterForm {
       $this->setWidget('p', new sfWidgetFormChoice(array(
           'choices' => $petition_choices,
           'label' => false
-      ), array(
+        ), array(
           'class' => 'span2',
           'data-placeholder' => 'Action'
       )));
@@ -102,7 +94,7 @@ class SigningsDownloadForm extends policatFilterForm {
       $this->setWidget('w', new sfWidgetFormChoice(array(
           'choices' => $widget_filter,
           'label' => false
-      ), array(
+        ), array(
           'class' => 'span2',
           'data-placeholder' => 'Widget'
       )));
@@ -115,12 +107,12 @@ class SigningsDownloadForm extends policatFilterForm {
 
     $this->setWidget('s', new sfWidgetFormInputText(array(
         'label' => false
-    ), array(
+      ), array(
         'type' => 'search',
         'placeholder' => 'Search',
         'class' => 'span2',
         'style' => 'vertical-align:top',
-        'title' => 'Enter a part of, or the full name, email-address, or other data. If you don\'t get a search result, check different spellings and accents'
+        'title' => 'Enter a part of, or the full name, e-mail-address, or other data. If you don\'t get a search result, check different spellings and accents'
     )));
     $this->setValidator('s', new sfValidatorString(array(
         'required' => false
@@ -129,7 +121,7 @@ class SigningsDownloadForm extends policatFilterForm {
 
   public function getQueryOptions() {
     $options = array(
-        PetitionSigningTable::SUBSCRIBER => $this->getSubscriber(),
+        PetitionSigningTable::SUBSCRIBER => $this->getOption(self::OPTION_SUBSCRIBER),
         PetitionSigningTable::LANGUAGE => $this->getValue('l'),
         PetitionSigningTable::COUNTRY => $this->getValue('c'),
         PetitionSigningTable::SEARCH => $this->getValue('s'),
@@ -141,14 +133,6 @@ class SigningsDownloadForm extends policatFilterForm {
     }
 
     return $options;
-  }
-
-  public function isDataOwner() {
-    return $this->getOption(self::OPTION_IS_DATA_OWNER, false);
-  }
-
-  public function getSubscriber() {
-    return $this->isDataOwner() && ($this->getValue('t') ? true : false);
   }
 
   public function getMergedQueryOptions() {
@@ -176,6 +160,9 @@ class SigningsDownloadForm extends policatFilterForm {
   }
 
   public function filter(Doctrine_Query $query) {
+//    Doctrine_Core::dump($this->getMergedQueryOptions());
+//    Doctrine_Core::dump(PetitionSigningTable::getInstance()->query($this->getMergedQueryOptions())->getDql());
+//    die;
     return PetitionSigningTable::getInstance()->query($this->getMergedQueryOptions());
   }
 

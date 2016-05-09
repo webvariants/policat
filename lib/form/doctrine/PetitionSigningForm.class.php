@@ -1,6 +1,6 @@
 <?php
 /*
- * Copyright (c) 2015, webvariants GmbH & Co. KG, http://www.webvariants.de
+ * Copyright (c) 2016, webvariants GmbH <?php Co. KG, http://www.webvariants.de
  *
  * This file is released under the terms of the MIT license. You can find the
  * complete text in the attached LICENSE file or online at:
@@ -66,9 +66,13 @@ class PetitionSigningForm extends BasePetitionSigningForm {
           $label = false;
           break;
         case Petition::FIELD_PRIVACY:
-          $widget = new WidgetFormInputCheckbox(array('value_attribute_value' => 1));
-          $validator = new sfValidatorChoice(array('choices' => array('1'), 'required' => true));
-          $label = 'Privacy policy';
+          if ($petition->getPolicyCheckbox() == PetitionTable::POLICY_CHECKBOX_YES) {
+            $widget = new WidgetFormInputCheckbox(array('value_attribute_value' => 1));
+            $validator = new sfValidatorChoice(array('choices' => array('1'), 'required' => true));
+            $label = 'Privacy policy';
+          } else {
+            $this->getObject()->setPrivacy(0);
+          }
           break;
         case Petition::FIELD_SUBSCRIBE:
           $widget = new WidgetFormInputCheckbox(array('value_attribute_value' => 1), array('checked' => 'checked'));
@@ -99,6 +103,12 @@ class PetitionSigningForm extends BasePetitionSigningForm {
           $validator = new sfValidatorString();
           $label = 'Full name';
           break;
+        case Petition::FIELD_EXTRA1:
+          $text = $this->getObject()->getWidget()->getPetitionText();
+          $widget = new sfWidgetFormInputText(array(), array('class' => 'not_required', 'placeholder' => $text->getPlaceholderExtra1()));
+          $validator = new sfValidatorString(array('required' => false));
+          $label = $text->getLabelExtra1() ? : 'Extra';
+          break;
         default:
           $widget = new sfWidgetFormInputText();
           $validator = new sfValidatorString();
@@ -116,16 +126,13 @@ class PetitionSigningForm extends BasePetitionSigningForm {
 
     if ($petition->isEmailKind()) {
       if ($petition->getKind() != Petition::KIND_PLEDGE) {
-        $petition_text = $widget_object->getPetitionText();
         $this->setWidget(Petition::FIELD_EMAIL_SUBJECT, new sfWidgetFormInputHidden(array(), array('class' => 'original')));
         $this->setValidator(Petition::FIELD_EMAIL_SUBJECT, new sfValidatorString(array('required' => true)));
-        $widget_texts = $petition->getWidgetIndividualiseText();
-        $w_subject = $widget_object->getEmailSubject();
-        $this->setDefault(Petition::FIELD_EMAIL_SUBJECT, ($widget_texts && trim($w_subject)) ? $w_subject : $petition_text->getEmailSubject());
+        $this->setDefault(Petition::FIELD_EMAIL_SUBJECT, $this->buildEmailSubject($widget_object, $petition));
+
         $this->setWidget(Petition::FIELD_EMAIL_BODY, new sfWidgetFormTextarea(array('is_hidden' => true), array('class' => 'original')));
         $this->setValidator(Petition::FIELD_EMAIL_BODY, new sfValidatorString(array('required' => true)));
-        $w_body = $widget_object->getEmailBody();
-        $this->setDefault(Petition::FIELD_EMAIL_BODY, ($widget_texts && trim($w_body)) ? $w_body : $petition_text->getEmailBody());
+        $this->setDefault(Petition::FIELD_EMAIL_BODY, $this->buildEmailBody($widget_object, $petition));
       } else {
         $this->setWidget('pledges', new sfWidgetFormInputHidden());
         $this->setValidator('pledges', new sfValidatorString(array('required' => false)));
@@ -140,6 +147,14 @@ class PetitionSigningForm extends BasePetitionSigningForm {
     }
 
     $this->widgetSchema->setFormFormatterName('policatWidget');
+  }
+
+  private function buildEmailSubject(Widget $widget, Petition $petition) {
+    return ($petition->getWidgetIndividualiseText() && trim($widget->getEmailSubject())) ? $widget->getEmailSubject() : $widget->getPetitionText()->getEmailSubject();
+  }
+
+  private function buildEmailBody(Widget $widget, Petition $petition) {
+    return ($petition->getWidgetIndividualiseText() && trim($widget->getEmailBody())) ? $widget->getEmailBody() : $widget->getPetitionText()->getEmailBody();
   }
 
   public function selectFormatter($widget, $inputs) {
@@ -178,15 +193,16 @@ class PetitionSigningForm extends BasePetitionSigningForm {
 
   protected function doUpdateObject($values) {
     $code = PetitionSigning::genCode();
+    $petition = $this->getObject()->getPetition();
 
-    if ($this->getObject()->getPetition()->isGeoKind()) {
+    if ($petition->isGeoKind()) {
         // EMAIL-TO-LIST ACTION (AND PLEDGE)
       $fields = array();
       $formFields = array();
       foreach ($this->formfields as $fieldname) {
         $formFields[] = $fieldname;
       }
-      if ($this->getObject()->getPetition()->isEmailKind()) {
+      if ($petition->isEmailKind()) {
         $formFields[] = Petition::FIELD_EMAIL_SUBJECT;
         $formFields[] = Petition::FIELD_EMAIL_BODY;
       }
@@ -198,29 +214,35 @@ class PetitionSigningForm extends BasePetitionSigningForm {
           }
         }
       }
+      
+      if ($petition->isEmailKind() && $petition->getEditable() == Petition::EDITABLE_NO) {
+        $widget = $this->getObject()->getWidget();
+        $fields[Petition::FIELD_EMAIL_SUBJECT] = $this->buildEmailSubject($widget, $petition);
+        $fields[Petition::FIELD_EMAIL_BODY] = $this->buildEmailBody($widget, $petition);
+      }
 
       $fields[Petition::FIELD_REF] = $values[Petition::FIELD_REF];
-
+      
       $wave = new PetitionSigningWave();
       $wave->setWave($this->getObject()->getWavePending());
       $wave->setFields(json_encode($fields));
       $wave->setEmail($this->getValue(Petition::FIELD_EMAIL));
-      $wave->setCountry($this->getObject()->getPetition()->getWithCountry() ? $this->getValue(Petition::FIELD_COUNTRY) : $this->getObject()->getPetition()->getDefaultCountry());
+      $wave->setCountry($petition->getWithCountry() ? $this->getValue(Petition::FIELD_COUNTRY) : $petition->getDefaultCountry());
       $wave->setValidationData($code);
       $wave->setLanguageId($this->getObject()->getWidget()->getPetitionText()->getLanguageId());
       $wave->setWidgetId($this->getObject()->getWidgetId());
       $wave->setContactNum($this->contact_num);
       $object = $this->getObject();
       $object['PetitionSigningWave'][] = $wave;
-
+      
     }
-
+    
     if (!$this->getObject()->isNew()) {
       unset($values[Petition::FIELD_EMAIL_SUBJECT], $values[Petition::FIELD_EMAIL_BODY]);
     }
 
-    if (!$this->getObject()->getPetition()->getWithCountry()) {
-      $values['country'] = $this->getObject()->getPetition()->getDefaultCountry();
+    if (!$petition->getWithCountry()) {
+      $values['country'] = $petition->getDefaultCountry();
     }
 
     $validation_kind = $this->getOption('validation_kind', PetitionSigning::VALIDATION_KIND_NONE);
@@ -228,11 +250,17 @@ class PetitionSigningForm extends BasePetitionSigningForm {
       case PetitionSigning::VALIDATION_KIND_EMAIL:
         $values['validation_data'] = $code;
         $values['validation_kind'] = PetitionSigning::VALIDATION_KIND_EMAIL;
+        $values['delete_code'] = PetitionSigning::genCode();
         break;
       case PetitionSigning::VALIDATION_KIND_NONE:
       default:
         $values['validation_kind'] = PetitionSigning::VALIDATION_KIND_NONE;
         break;
+    }
+    
+    $email = $values[Petition::FIELD_EMAIL];
+    if ($email) {
+      $values['email_hash'] = UtilEmailHash::hash($email);
     }
 
     unset($values['id']);
@@ -246,6 +274,11 @@ class PetitionSigningForm extends BasePetitionSigningForm {
 
     $signing = $this->getObject();
     $petition = $signing->getPetition();
+    
+    if ($petition->getValidationRequired() == Petition::VALIDATION_REQUIRED_NO) {
+      $signing->setStatus(PetitionSigning::STATUS_COUNTED);
+    }
+    
     $geo_existing = false;
     if ($petition->isGeoKind()) {
       // EMAIL-TO-LIST ACTION (AND PLEDGE)

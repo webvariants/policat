@@ -1,6 +1,6 @@
 <?php
 /*
- * Copyright (c) 2015, webvariants GmbH & Co. KG, http://www.webvariants.de
+ * Copyright (c) 2016, webvariants GmbH <?php Co. KG, http://www.webvariants.de
  *
  * This file is released under the terms of the MIT license. You can find the
  * complete text in the attached LICENSE file or online at:
@@ -28,7 +28,7 @@ class dashboardActions extends policatActions {
   }
 
   public function executeAdmin(sfWebRequest $request) {
-
+    
   }
 
   public function executeStats(sfWebRequest $request) {
@@ -37,7 +37,7 @@ class dashboardActions extends policatActions {
 //    $this->outgoing = PetitionSigningContactTable::getInstance()->countOutgoingMails();
     $this->sent = PetitionSigningWaveTable::getInstance()->sumContactStatus(PetitionSigning::STATUS_SENT);
     $this->pending = PetitionSigningWaveTable::getInstance()->sumContactStatus(PetitionSigning::STATUS_PENDING);
-    $this->outgoing = PetitionSigningWaveTable::getInstance()->sumContactStatus(PetitionSigning::STATUS_VERIFIED);
+    $this->outgoing = PetitionSigningWaveTable::getInstance()->sumContactStatus(PetitionSigning::STATUS_COUNTED);
   }
 
   public function executeTestmail(sfWebRequest $request) {
@@ -47,7 +47,7 @@ class dashboardActions extends policatActions {
       $form->bind($request->getPostParameter($form->getName()));
       if ($form->isValid()) {
         UtilMail::send(null, $form->getValue('from'), $form->getValue('to'), $form->getValue('subject'), $form->getValue('body'));
-
+        
         return $this->ajax()->form($form)->alert('Mail sent.', '', '#testmail', 'after')->render();
       }
 

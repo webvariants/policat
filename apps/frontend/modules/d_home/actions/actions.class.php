@@ -1,6 +1,6 @@
 <?php
 /*
- * Copyright (c) 2015, webvariants GmbH & Co. KG, http://www.webvariants.de
+ * Copyright (c) 2016, webvariants GmbH <?php Co. KG, http://www.webvariants.de
  *
  * This file is released under the terms of the MIT license. You can find the
  * complete text in the attached LICENSE file or online at:
@@ -22,13 +22,13 @@ class d_homeActions extends policatActions {
 
     $response = $this->getResponse();
     if ($response instanceof sfWebResponse) {
-      $response->addJavascript('policat_widget_outer_opt', 'last');
+      $response->addJavascript('dist/policat_widget_outer', 'last');
       $response->addJavascript('dashboard_home', 'last');
     }
   }
 
   public function executeIndex(sfWebRequest $request) {
-
+    
   }
 
   public function executeTips(sfWebRequest $request) {
@@ -74,6 +74,28 @@ class d_homeActions extends policatActions {
 
   public function executeContact(sfWebRequest $request) {
     $store = StoreTable::getInstance();
+    $contact_user = $store->findByKeyCached(StoreTable::CONTACT_USER);
+    if ($contact_user) {
+      $this->setContentTags($contact_user);
+    }
+
+    $form = ($contact_user && $contact_user->getValue()) ? new ContactTicketForm(array(), array(
+        ContactTicketForm::OPTION_USER_ID => $contact_user->getValue()
+    )) : null;
+    if ($form && $request->isMethod('post')) {
+      $form->bind($request->getPostParameter($form->getName()));
+      if ($form->isValid()) {
+        $form->save();
+        return $this->ajax()
+          ->form($form)
+          ->attr('#contactticket input, #contactticket button, #contactticket select, #contactticket textarea', 'disabled', 'disabled')
+          ->alert('Thank you', '', '#contactticket .form-actions', 'after')
+          ->render();
+      } else {
+        return $this->ajax()->form($form)->render();
+      }
+    }
+
     $contact_content = $store->findByKeyCached(StoreTable::CONTACT_CONTENT);
     $contact_title = $store->findByKeyCached(StoreTable::CONTACT_TITLE);
 
@@ -84,6 +106,7 @@ class d_homeActions extends policatActions {
 
     $this->contact_content = $contact_content ? $contact_content->getValue() : '';
     $this->contact_title = $contact_title ? $contact_title->getValue() : '';
+    $this->form = $form;
   }
 
   public function executeImprint(sfWebRequest $request) {
@@ -98,6 +121,35 @@ class d_homeActions extends policatActions {
 
     $this->imprint_content = $imprint_content ? $imprint_content->getValue() : '';
     $this->imprint_title = $imprint_title ? $imprint_title->getValue() : '';
+  }
+
+  public function executePricing(sfWebRequest $request) {
+    $page_content = StoreTable::getInstance()->findByKeyCached(StoreTable::BILLING_PRICING);
+    $markdown = '';
+
+    if ($page_content) {
+      $this->setContentTags($page_content);
+      $markdown = $page_content->getValue();
+    }
+
+    $products = ProductTable::getInstance()->queryAll()->execute();
+    $number = new sfNumberFormat('en');
+
+    $table = '<table class="table table-bordered" style="width:auto"><tr><th>Package</th><th>E-mails / participants</th><th>Days</th><th>Net</th><th>Gross</th></tr>';
+
+    foreach ($products as $product) {
+      /* @var $product Product */
+      $table .= sprintf('<tr><td>%s</td><td style="text-align: right;">%s</td><td style="text-align: right;">%s</td><td style="text-align: right;">%s</td><td style="text-align: right;">%s</td></tr>', Util::enc($product->getName()),$number->format($product->getEmails()), $number->format($product->getDays()), $number->format($product->getPrice(), 'c', StoreTable::value(StoreTable::BILLING_CURRENCY)), $number->format($product->getPriceBrutto(), 'c', StoreTable::value(StoreTable::BILLING_CURRENCY)));
+    }
+
+    $table .= '</table>';
+
+    $markup = strtr(
+      UtilMarkdown::transform(strtr($markdown, array('#PRODUCTS#' => 'a324ehksdf3457dfjgdkhi534wnhksdxfda')), true, true), array(
+        'a324ehksdf3457dfjgdkhi534wnhksdxfda' => $table
+    ));
+
+    $this->markup = $markup;
   }
 
 }

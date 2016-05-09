@@ -1,12 +1,15 @@
 <?php
 $list = array(
     'store' => array('title' => 'Global Settings', 'route' => 'store'),
+    'product' => array('title' => 'Products', 'route' => 'product_index'),
+    'order' => array('title' => 'Orders', 'route' => 'order_list'),
+    'tax' => array('title' => 'Tax', 'route' => 'tax_list'),
     'users' => array('title' => 'User Management', 'route' => 'user_idx'),
     'languages' => array('title' => 'Languages', 'route' => 'language_index'),
     'country' => array('title' => 'Countries', 'route' => 'country_index'),
     'mappings' => array('title' => 'Mappings', 'route' => 'mapping_index'),
     'target' => array('title' => 'Global target-lists', 'route' => 'target_index_global'),
-    'undelete' => array('title' => 'Deleted Campaigns', 'route' => 'campaign_undelete_list'),
+    'campaigns' => array('title' => 'Campaigns', 'route' => 'campaign_list'),
     'testmail' => array('title' => 'Testmail', 'route' => 'admin_testmail'),
     'stats' => array('title' => 'Stats', 'route' => 'admin_stats'),
 );

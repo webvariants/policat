@@ -1,0 +1,29 @@
+{
+  "name": "policat",
+  "version": "0.0.0",
+  "license": "MIT",
+  "private": true,
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "web/bower",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "html5shiv": "~3.7.2",
+    "jquery-1.7": "jquery#1.7.2",
+    "bootstrap-2.0": "bootstrap#2.0.2",
+    "jquery-elastic": "jakobmattsson-jquery-elastic#~1.6.11",
+    "jquery-highlightTextarea": "jQuery-highlightTextarea-bower#2.0",
+    "jquery-iframe-transport": "jquery.iframe-transport#~1.0.0",
+    "jscolor": "JSColor#1.4.2",
+    "jscrollpane": "jScrollPane#2.0.20",
+    "chosen": "1.4.2",
+    "markitup": "1.1",
+    "select2": "3.4",
+    "jquery-1.10": "jquery#1.10",
+    "showdown": "0.5.0"
+  }
+}

@@ -1,12 +1,4 @@
 <?php
-/*
- * Copyright (c) 2015, webvariants GmbH & Co. KG, http://www.webvariants.de
- *
- * This file is released under the terms of the MIT license. You can find the
- * complete text in the attached LICENSE file or online at:
- *
- * http://www.opensource.org/licenses/mit-license.php
- */
 
 /**
  * Campaign
@@ -18,33 +10,50 @@
  * @author     Martin
  * @version    SVN: $Id: Builder.php 6820 2009-11-30 17:27:49Z jwage $
  */
-class Campaign extends BaseCampaign
-{
+class Campaign extends BaseCampaign {
+
   const OWNER_REGISTER_NO = 0;
   const OWNER_REGISTER_YES = 1;
 
   public static $OWNER_REGISTER_SHOW = array(
-    self::OWNER_REGISTER_NO => 'off',
-    self::OWNER_REGISTER_YES => 'on'
+      self::OWNER_REGISTER_NO => 'off',
+      self::OWNER_REGISTER_YES => 'on'
   );
 
   const ALLOW_DOWNLOAD_NO = 0;
   const ALLOW_DOWNLOAD_YES = 1;
 
   public static $ALLOW_DOWNLOAD_SHOW = array(
-    self::ALLOW_DOWNLOAD_NO => 'no',
-    self::ALLOW_DOWNLOAD_YES => 'yes'
+      self::ALLOW_DOWNLOAD_NO => 'no',
+      self::ALLOW_DOWNLOAD_YES => 'yes'
   );
 
-  const BECOME_PETITION_ADMIN_NO = 0;
-  const BECOME_PETITION_ADMIN_YES = 1;
+  const BILLING_ENABLED_NO = 0;
+  const BILLING_ENABLED_YES = 1;
 
-  public static $BECOME_PETITION_ADMIN_SHOW = array(
-    self::BECOME_PETITION_ADMIN_NO => 'off',
-    self::BECOME_PETITION_ADMIN_YES => 'on'
+  public static $BILLING_ENABLED_SHOW = array(
+      self::BILLING_ENABLED_NO => 'no',
+      self::BILLING_ENABLED_YES => 'yes'
+  );
+
+  const PUBLIC_ENABLED_NO = 0;
+  const PUBLIC_ENABLED_YES = 1;
+
+  public static $PUBLIC_ENABLED_SHOW = array(
+      self::PUBLIC_ENABLED_NO => 'no',
+      self::PUBLIC_ENABLED_YES => 'yes'
+  );
+  
+  const JOIN_ENABLED_NO = 0;
+  const JOIN_ENABLED_YES = 1;
+  
+  public static $JOIN_ENABLED_SHOW = array(
+      self::JOIN_ENABLED_NO => 'no',
+      self::JOIN_ENABLED_YES => 'yes'
   );
 
   public function isEditableBy(sfGuardUser $user) {
     return $user->isCampaignAdmin($this);
   }
+
 }

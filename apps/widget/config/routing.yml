@@ -13,6 +13,10 @@ sign_hp:
 validate:
   url: /validate/:code
   param: { module: widget, action: validate }
+  
+delete_signing:
+  url: /delete/:code
+  param: { module: widget, action: delete }
 
 pledge_contact:
   url: '/pledge/:petition_id/:contact_id/:secret'
@@ -34,6 +38,11 @@ api_js_widget:
   url: /api/js/widget/:id
   param: { module: widget, action: widgetOuter }
 
+api_js_widget_no_redirect:
+  url: /api/js/widget_no_redirect/:id
+  param: { module: widget, action: widgetOuter, noRedirect: true }
+
+# keep for old urls compatibility
 teaser_js:
   url: /teaser_js/:id
   param: { module: widget, action: widgetOuter }
@@ -88,11 +97,13 @@ counterbar:
   url: /counterbar/:id
   param: { module: api, action: counterbar }
 
-terms: {    url: '/terms',   param: { module: default, action: error404 } }
-contact: {  url: '/contact', param: { module: default, action: error404 } }
-widgetval: { url: '/widgetval/:code', param: { module: default, action: error404 } }
-homepage: { url: '/',        param: { module: default,  action: error404 } }
-imprint: {  url: '/imprint', param: { module: defaiöt,  action: error404 } }
+terms:            { url: '/terms',                  param: { module: default, action: error404 } }
+contact:          { url: '/contact',                param: { module: default, action: error404 } }
+widgetval:        { url: '/widgetval/:code',        param: { module: default, action: error404 } }
+homepage:         { url: '/',                       param: { module: default, action: error404 } }
+imprint:          { url: '/imprint',                param: { module: default, action: error404 } }
+widget_edit:      { url: '/widget/edit/:id',        param: { module: default, action: error404 } }
+dashboard:        { url: '/dashboard',              param: { module: default, action: error404 } }
 
 default:
   url: /*

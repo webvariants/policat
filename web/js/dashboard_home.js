@@ -1,12 +1,3 @@
-/*
- * Copyright (c) 2015, webvariants GmbH & Co. KG, http://www.webvariants.de
- *
- * This file is released under the terms of the MIT license. You can find the
- * complete text in the attached LICENSE file or online at:
- *
- * http://www.opensource.org/licenses/mit-license.php
- */
-
 String.prototype.parseURL = function() { return this.replace(/[A-Za-z]+:\/\/[A-Za-z0-9-_]+\.[A-Za-z0-9-_:%&\?\/.=]+/, function(url) { return url.link(url); });};
 String.prototype.parseUsername = function() { return this.replace(/[@]+[A-Za-z0-9-_]+/, function(u) { var username = u.replace("@",""); return u.link("https://twitter.com/"+username); });};
 String.prototype.parseHashtag = function() { return this.replace(/[#]+[A-Za-z0-9-_]+/, function(t) { var tag = t.replace("#","%23"); return t.link("https://search.twitter.com/search?q="+tag);});};

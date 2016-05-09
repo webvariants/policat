@@ -1,6 +1,6 @@
 <?php
 /*
- * Copyright (c) 2015, webvariants GmbH & Co. KG, http://www.webvariants.de
+ * Copyright (c) 2016, webvariants GmbH <?php Co. KG, http://www.webvariants.de
  *
  * This file is released under the terms of the MIT license. You can find the
  * complete text in the attached LICENSE file or online at:
@@ -21,9 +21,9 @@ class CampaignStoreForm extends BaseCampaignStoreForm
   {
     $this->widgetSchema->setFormFormatterName('bootstrap');
     $this->widgetSchema->setNameFormat('cstore[%s]');
-
+    
     $this->useFields(array('value'));
-
+    
     $this->getWidget('value')->setAttribute('class', 'markdown highlight');
     $this->getWidgetSchema()->setLabel('value', 'Privacy Policy');
     $this->getWidgetSchema()->setHelp('value', '#DATA-OFFICER-NAME#, #DATA-OFFICER-ORGA#, #DATA-OFFICER-EMAIL#, #DATA-OFFICER-WEBSITE#, #DATA-OFFICER-PHONE#, #DATA-OFFICER-MOBILE#, #DATA-OFFICER-STREET#, #DATA-OFFICER-POST-CODE#, #DATA-OFFICER-CITY#, #DATA-OFFICER-COUNTRY#, #DATA-OFFICER-ADDRESS#');

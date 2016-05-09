@@ -4,6 +4,7 @@
   <li><a href="<?php echo url_for('petition_overview', array('id' => $petition->getId())) ?>"><?php echo $petition->getName() ?></a></li><span class="divider">/</span>
   <li class="active">Pledges</li>
 </ul>
+<?php include_component('d_action', 'notice', array('petition' => $petition)) ?>
 <?php include_partial('d_action/tabs', array('petition' => $petition, 'active' => 'pledges')) ?>
 <div class="row">
   <div class="span8">

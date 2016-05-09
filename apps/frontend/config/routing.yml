@@ -1,13 +1,14 @@
 # fake routes from widget ####
-validate:               { url: '/validate/:code',                   param: { module: default, action: error404 } }
-api_js_widget:          { url: '/api/js/widget/:id',                param: { module: default, action: error404 } }
-widgetval:              { url: '/widgetval/:code',                  param: { module: default, action: error404 } }
-widgetedit:             { url: '/widgetedit/:code',                 param: { module: default, action: error404 } }
-sign:                   { url: /sign/:id/:hash,                     param: { module: default, action: error404 } }
-sign_hp:                { url: /sign_hp/:id/:hash,                  param: { module: default, action: error404 } }
-feed:                   { url: /feed,                               param: { module: default, action: error404 } }
-pledge_contact_test:    { url: '/pledge/:petition_id/test',         param: { module: default, action: error404 } }
-api_v2_doc:             { url: '/api/v2',                           param: { module: default, action: error404 } }
+validate:                  { url: '/validate/:code',                   param: { module: default, action: error404 } }
+delete_signing:            { url: '/delete/:code',                     param: { module: default, action: error404 } }
+api_js_widget:             { url: '/api/js/widget/:id',                param: { module: default, action: error404 } }
+api_js_widget_no_redirect: { url: '/api/js/widget_no_redirect/:id',    param: { module: default, action: error404 } }
+widgetedit:                { url: '/widgetedit/:code',                 param: { module: default, action: error404 } }
+sign:                      { url: /sign/:id/:hash,                     param: { module: default, action: error404 } }
+sign_hp:                   { url: /sign_hp/:id/:hash,                  param: { module: default, action: error404 } }
+feed:                      { url: /feed,                               param: { module: default, action: error404 } }
+pledge_contact_test:       { url: '/pledge/:petition_id/test',         param: { module: default, action: error404 } }
+api_v2_doc:                { url: '/api/v2',                           param: { module: default, action: error404 } }
 
 # ############################
 
@@ -22,6 +23,7 @@ help: {                   url: '/help',                             param: { mod
 terms: {                  url: '/terms',                            param: { module: d_home,     action: terms },                      requirements: { sf_method: [get, head] }  }
 contact: {                url: '/contact',                          param: { module: d_home,     action: contact },                    requirements: { sf_method: [get, head] }  }
 imprint: {                url: '/imprint',                          param: { module: d_home,     action: imprint },                    requirements: { sf_method: [get, head] }  }
+pricing: {                url: '/pricing',                          param: { module: d_home,     action: pricing },                    requirements: { sf_method: [get, head] }  }
 register: {               url: '/register',                         param: { module: account,    action: register },                   requirements: { sf_method: [get, head, post] } }
 register_validation: {    url: '/register/:id/:code',               param: { module: account,    action: registerValidation },         requirements: { sf_method: [get, head], id: '\d+', code: '[a-zA-Z0-9]+' } }
 profile: {                url: '/profile',                          param: { module: account,    action: profile },                    requirements: { sf_method: [get, head, post] } }
@@ -30,14 +32,13 @@ dashboard: {              url: '/dashboard',                        param: { mod
 dashboard_: {             url: '/dashboard/',                       param: { module: dashboard,  action: index },                      requirements: { sf_method: [get, head] } }
 user_validation: {        url: '/user_validation/:id/:code',        param: { module: user,       action: validation },                 requirements: { sf_method: [get, head, post], id: '\d+', code: '[a-zA-Z0-9]+' } }
 
-campaigns: {              url: '/campaign',                         param: { module: d_campaign, action: list },                       requirements: { sf_method: [get, head] }  }
-campaign_create_: {       url: '/campaign/create',                  param: { module: d_campaign, action: create },                     requirements: { sf_method: [post] } }
 campaign_join: {          url: '/campaign/join',                    param: { module: d_campaign, action: join },                       requirements: { sf_method: [post] } }
 campaign_leave: {         url: '/campaign/leave/:id',               param: { module: d_campaign, action: leave },                      requirements: { sf_method: [get, head, post] } }
-campaign_go_edit: {       url: '/campaign/go_edit',                 param: { module: d_campaign, action: goEdit },                     requirements: { sf_method: [post] } }
 campaign_edit_:  {        url: '/campaign/edit/:id',                param: { module: d_campaign, action: edit },                       requirements: { sf_method: [get, head, post], id: '\d+' } }
 campaign_members: {       url: '/campaign/members/:id',             param: { module: d_campaign, action: editMembers },                requirements: { sf_method: [post], id: '\d+' } }
 campaign_switches: {      url: '/campaign/switches/:id',            param: { module: d_campaign, action: editSwitches },               requirements: { sf_method: [post], id: '\d+' } }
+campaign_public: {        url: '/campaign/public/:id',              param: { module: d_campaign, action: editPublic },                 requirements: { sf_method: [post], id: '\d+' } }
+campaign_billing: {       url: '/campaign/billing/:id',             param: { module: order,      action: editBilling },                requirements: { sf_method: [post], id: '\d+' } }
 campaign_name:  {         url: '/campaign/name/:id',                param: { module: d_campaign, action: editName },                   requirements: { sf_method: [get, head, post], id: '\d+' } }
 campaign_privacy:  {      url: '/campaign/privacy/:id',             param: { module: d_campaign, action: editPrivacy },                requirements: { sf_method: [get, head, post], id: '\d+' } }
 campaign_address:  {      url: '/campaign/address/:id',             param: { module: d_campaign, action: editAddress },                requirements: { sf_method: [get, head, post], id: '\d+' } }
@@ -47,7 +48,8 @@ campaign_delete_:  {      url: '/campaign/delete/:id',              param: { mod
 campaign_undelete:  {     url: '/campaign/undelete/:id',            param: { module: d_campaign, action: undelete },                   requirements: { sf_method: [get, head, post], id: '\d+' } }
 campaign_privacy_list: {  url: '/campaign/privacy/list/:id',        param: { module: d_campaign, action: privacyList },                requirements: { sf_method: [get, head], id: '\d+' } }
 campaign_privacy_edit: {  url: '/campaign/privacy/:id/:lang',       param: { module: d_campaign, action: privacyLang },                requirements: { sf_method: [get, head, post], id: '\d+', lang: '[a-z][a-z](_[A-Z][A-Z])?' } }
-campaign_data:         {  url: '/campaign/data/:id',                param: { module: d_campaign, action: data },                       requirements: { sf_method: [get, head], id: '\d+' } }
+campaign_data:         {  url: '/campaign/data/:id',                param: { module: d_campaign, action: data, type: participant },    requirements: { sf_method: [get, head], id: '\d+' } }
+campaign_data_email:   {  url: '/campaign/data_email/:id',          param: { module: d_campaign, action: data, type: email },          requirements: { sf_method: [get, head], id: '\d+' } }
 data_campaign_pager:   {  url: '/campaign/data/:id/:page',          param: { module: data,       action: pager, type: campaign },      requirements: { sf_method: [get, head], id: '\d+', page: '\d+' } }
 data_campaign_download: { url: '/campaign/data/download/:id',       param: { module: data,       action: download, type: campaign },   requirements: { sf_method: [post], id: '\d+' } }
 data_campaign_prepare:  { url: '/campaign/data/prepare/:id',        param: { module: data,       action: prepare, type: campaign },    requirements: { sf_method: [post], id: '\d+' } }
@@ -56,20 +58,23 @@ action_index: {           url: '/action',                           param: { mod
 action_by_campaign: {     url: '/action/by_campaign',               param: { module: d_action,   action: byCampaign },                 requirements: { sf_method: [get, head] } }
 action_join: {            url: '/action/join',                      param: { module: d_action,   action: join },                       requirements: { sf_method: [post] } }
 action_leave: {           url: '/action/leave',                     param: { module: d_action,   action: leave },                      requirements: { sf_method: [post] } }
-action_join_admin: {      url: '/action/join_admin',                param: { module: d_action,   action: joinAdmin },                  requirements: { sf_method: [post] } }
 petition_new_:  {         url: '/action/new',                       param: { module: d_action,   action: new },                        requirements: { sf_method: [get, head, post] } }
 petition_spf:           { url: '/action/spf',                       param: { module: d_action,   action: spf },                        requirements: { sf_method: [post] }, class: sfRequestRoute }
 petition_overview:  {     url: '/action/:id',                       param: { module: d_action,   action: overview },                   requirements: { sf_method: [get, head], id: '\d+' } }
 petition_edit_:  {        url: '/action/edit/:id',                  param: { module: d_action,   action: edit },                       requirements: { sf_method: [get, head, post], id: '\d+' } }
 petition_edit_target: {   url: '/action/edit_target/:id',           param: { module: d_action,   action: editTarget },                 requirements: { sf_method: [post], id: '\d+' }, class: sfRequestRoute }
 petition_widgets:      {  url: '/action/widget/:id',                param: { module: d_widget,   action: petition },                   requirements: { sf_method: [get, head], id: '\d+' } }
+petition_widgets_copy: {  url: '/action/widget_copy/:id',           param: { module: d_widget,   action: copy },                       requirements: { sf_method: [post], id: '\d+' } }
 petition_translations: {  url: '/action/translation/:id',           param: { module: d_action,   action: translations },               requirements: { sf_method: [get, head], id: '\d+' } }
 petition_todo:         {  url: '/action/todo/:id',                  param: { module: d_action,   action: todo },                       requirements: { sf_method: [get, head], id: '\d+' } }
 petition_target:       {  url: '/action/target/:id',                param: { module: d_action,   action: target },                     requirements: { sf_method: [post], id: '\d+' }, class: sfRequestRoute }
 petition_pager:        {  url: '/action/pager/:id/:page',           param: { module: d_action,   action: pager },                      requirements: { sf_method: [get, head], id: '\d+', page: '\d+' } }
 petition_pager_all:    {  url: '/action/pager/:page',               param: { module: d_action,   action: pager },                      requirements: { sf_method: [get, head], page: '\d+' } }
 petition_members:  {      url: '/action/members/:id',               param: { module: d_action,   action: editMembers },                requirements: { sf_method: [post], id: '\d+' } }
-petition_data:         {  url: '/action/data/:id',                  param: { module: d_action,   action: data },                       requirements: { sf_method: [get, head], id: '\d+' } }
+petition_follow:   {      url: '/action/follow/:id',                param: { module: d_action,   action: editFollow },                 requirements: { sf_method: [post], id: '\d+' } }
+petition_data:         {  url: '/action/data/:id',                  param: { module: d_action,   action: data, type: participant },    requirements: { sf_method: [get, head], id: '\d+' } }
+petition_data_email:   {  url: '/action/data_email/:id',            param: { module: d_action,   action: data, type: email },          requirements: { sf_method: [get, head], id: '\d+' } }
+petition_delete_:   {      url: '/action/delete/:id',               param: { module: d_action,   action: hardDelete },                 requirements: { sf_method: [get, head, post], id: '\d+' } }
 data_petition_pager:   {  url: '/action/data/:id/:page',            param: { module: data,       action: pager, type: petition },      requirements: { sf_method: [get, head], id: '\d+', page: '\d+' } }
 data_petition_download: { url: '/action/data/download/:id',         param: { module: data,       action: download, type: petition },   requirements: { sf_method: [post], id: '\d+' } }
 data_petition_prepare:  { url: '/action/data/prepare/:id',          param: { module: data,       action: prepare, type: petition },    requirements: { sf_method: [post], id: '\d+' } }
@@ -85,6 +90,7 @@ petition_tokens:        { url: '/action/token/:id',                 param: { mod
 petition_token_new:     { url: '/action/token_new/:id',             param: { module: api_token,  action: new },                        requirements: { sf_method: [get, head, post], id: '\d+'}, class: sfRequestRoute }
 petition_token_edit:    { url: '/action/token_edit/:id',            param: { module: api_token,  action: edit },                       requirements: { sf_method: [get, head, post], id: '\d+'}, class: sfRequestRoute }
 petition_token_data:    { url: '/action/token_data/:id',            param: { module: api_token,  action: data },                       requirements: { sf_method: [get, head], id: '\d+'}, class: sfRequestRoute }
+petition_token_addnum:  { url: '/action/token_addnum/:id',          param: { module: api_token,  action: addnum },                     requirements: { sf_method: [post], id: '\d+'}, class: sfRequestRoute }
 
 translation_create:    {  url: '/translation/create/:id',           param: { module: d_action,   action: translationEdit, new: true }, requirements: { sf_method: [get, head, post], id: '\d+' } }
 translation_edit:      {  url: '/translation/edit/:id',             param: { module: d_action,   action: translationEdit },            requirements: { sf_method: [get, head, post], id: '\d+' } }
@@ -98,7 +104,8 @@ widget_pager:          {  url: '/widget/pager/:page',               param: { mod
 widget_data_owner:     {  url: '/widget/data_owner',                param: { module: d_widget,   action: dataOwner },                  requirements: { sf_method: [post] } }
 widget_revoke_data:    {  url: '/widget/revoke_data',               param: { module: d_widget,   action: revokeData },                 requirements: { sf_method: [post] } }
 widget_view:           {  url: '/widget/view/:id',                  param: { module: d_widget,   action: view },                       requirements: { sf_method: [get, head], page: '\d+' } }
-widget_data:           {  url: '/widget/data/:id',                  param: { module: d_widget,   action: data },                       requirements: { sf_method: [get, head], id: '\d+' } }
+widget_data:           {  url: '/widget/data/:id',                  param: { module: d_widget,   action: data, type: participant },    requirements: { sf_method: [get, head], id: '\d+' } }
+widget_data_email:     {  url: '/widget/data_email/:id',            param: { module: d_widget,   action: data, type: email },          requirements: { sf_method: [get, head], id: '\d+' } }
 data_widget_pager:     {  url: '/widget/data/:id/:page',            param: { module: data,       action: pager, type: widget },        requirements: { sf_method: [get, head], id: '\d+', page: '\d+' } }
 data_widget_download:  {  url: '/widget/data/download/:id',         param: { module: data,       action: download, type: widget },     requirements: { sf_method: [post], id: '\d+' } }
 data_widget_prepare:   {  url: '/widget/data/prepare/:id',          param: { module: data,       action: prepare, type: widget },      requirements: { sf_method: [post], id: '\d+'} }
@@ -129,7 +136,6 @@ target_truncate: {        url: '/target/truncate/:id',              param: { mod
 
 ticket_action: {          url: '/ticket/action',                    param: { module: ticket,     action: action },                     requirements: { sf_metgod: [post] } }
 ticket_todo: {            url: '/ticket/todo/:page',                param: { module: ticket,     action: todo },                       requirements: { sf_metgod: [get, head], page: '\d+' } }
-ticket_view: {            url: '/ticket/view/:id',                  param: { module: ticket,     action: view },                       requirements: { sf_metgod: [get, head], id: '\d+' } }
 
 data_delete: {            url: '/data/delete/:id',                  param: { module: data,       action: delete },                     requirements: { sf_method: [get, head, post], id: '\d+' } }
 admin: {                  url: '/admin',                            param: { module: dashboard,  action: admin },                      requirements: { sf_method: [get, head] } }
@@ -163,11 +169,45 @@ user_delete:           {  url: '/admin/user/delete/:id',            param: { mod
 user_block:            {  url: '/admin/user/block/:id',             param: { module: user,       action: block },                      requirements: { sf_method: [get, head, post], id: '\d+' } }
 user_unblock:          {  url: '/admin/user/unblock/:id',           param: { module: user,       action: unblock },                    requirements: { sf_method: [get, head, post], id: '\d+' } }
 user_switch:           {  url: '/admin/user/switch/:id',            param: { module: user,       action: switch },                     requirements: { sf_method: [post], id: '\d+' }, class: sfRequestRoute}
-campaign_undelete_list: { url: '/admin/campaign/undelete',          param: { module: d_campaign, action: undeleteList },               requirements: { sf_method: [get, head, post] } }
+user_emails:           {  url: '/admin/user/emails',                param: { module: user,       action: emails },                     requirements: { sf_method: [post] }, class: sfRequestRoute}
+campaign_list:          { url: '/admin/campaign/list',              param: { module: d_campaign, action: list },                       requirements: { sf_method: [get, head] }, class: sfRequestRoute}
+campaign_list_pager:    { url: '/admin/campaign/list/:page',        param: { module: d_campaign, action: pager },                      requirements: { sf_method: [get, head], page: '\d+' }, class: sfRequestRoute}
+campaign_hard_delete:   { url: '/admin/campaign/delete/:id',        param: { module: d_campaign, action: hardDelete },                 requirements: { sf_method: [get, head, post], id: '\d+' } }
+product_index: {          url: '/admin/product',                    param: { module: product,    action: index},                       requirements: { sf_method: [get, head] } }
+product_new: {            url: '/admin/product/new',                param: { module: product,    action: edit, new: true },            requirements: { sf_method: [get, head, post] } }
+product_delete:        {  url: '/admin/product/delete/:id',         param: { module: product,    action: delete },                     requirements: { sf_method: [get, head, post], id: '\d+' } }
+product_edit: {           url: '/admin/product/:id',                param: { module: product,    action: edit},                        requirements: { sf_method: [get, head, post], id: '\d+' } }
 
-# OBSOLETE STUFF
-main:              { url: '/main',                             param: { module: main,         action: index } }
-main_page:         { url: '/page/:id',                         param: { module: main,         action: page } }
+quota_list: {             url: '/quota/list/:id',                   param: { module: quota,      action: list },                       requirements: { sf_method: [get, head, post], id: '\d+' } }
+quota_edit: {             url: '/quota/edit/:id',                   param: { module: quota,      action: edit },                       requirements: { sf_method: [get, head, post], id: '\d+' } }
+quota_new: {              url: '/quota/new/:id',                    param: { module: quota,      action: edit, type: new },            requirements: { sf_method: [get, head, post], id: '\d+' } }
+
+order_new: {              url: '/order/new/:id',                    param: { module: order,      action: new },                        requirements: { sf_method: [get, head, post], id: '\d+' } }
+order_show: {             url: '/order/show/:id',                   param: { module: order,      action: show },                       requirements: { sf_method: [get, head], id: '\d+' } }
+order_delete: {           url: '/order/delete/:id',                 param: { module: order,      action: delete },                     requirements: { sf_method: [get, head, post], id: '\d+' } }
+order_list: {             url: '/order/list',                       param: { module: order,      action: list },                       requirements: { sf_method: [get, head] } }
+order_list_page: {        url: '/order/list/:page',                 param: { module: order,      action: list },                       requirements: { sf_method: [get, head], page: '\d+' } }
+order_paid: {             url: '/order/paid/:id',                   param: { module: order,      action: paid },                       requirements: { sf_method: [get, head, post], id: '\d+' } }
+order_bill: {             url: '/order/bill/:id',                   param: { module: bill,       action: user },                       requirements: { sf_method: [get, head, post], id: '\d+' } }
+order_offer: {            url: '/order/offer/:id',                  param: { module: order,      action: offer },                      requirements: { sf_method: [get, head], id: '\d+' } }
+order_manual_user: {      url: '/order/manual_user/:id',            param: { module: order,      action: manualUser },                 requirements: { sf_method: [get, head], id: '\d+' } }
+order_manual: {           url: '/order/manual/:id/:user_id',        param: { module: order,      action: manual },                     requirements: { sf_method: [get, head, post], id: '\d+', user_id: '\d+' } }
+
+bill_new: {               url: '/bill/new/:id',                     param: { module: bill,      action: new },                         requirements: { sf_method: [get, head, post], id: '\d+' } }
+bill_show: {              url: '/bill/show/:id',                    param: { module: bill,      action: show },                        requirements: { sf_method: [get, head], id: '\d+' } }
+bill_mail: {              url: '/bill/mail/:id',                    param: { module: bill,      action: mail },                        requirements: { sf_method: [get, head, post], id: '\d+' } }
+
+paypal_pay: {             url: '/paypal/pay/:id',                   param: { module: paypal,    action: pay },                         requirements: { sf_method: [get, head], id: '\d+' } }
+paypal_pay_return: {      url: '/paypal/pay/return/:id',            param: { module: paypal,    action: return },                      requirements: { sf_method: [get, head], id: '\d+' } }
+paypal_pay_cancel: {      url: '/paypal/pay/cancel/:id',            param: { module: paypal,    action: cancel },                      requirements: { sf_method: [get, head], id: '\d+' } }
+
+tax_list: {               url: '/admin/tax',                        param: { module: tax,       action: index},                        requirements: { sf_method: [get, head] } }
+tax_note_new: {           url: '/admin/tax/note/new',               param: { module: tax,       action: noteEdit, new: true },         requirements: { sf_method: [get, head, post] } }
+tax_note_delete: {        url: '/admin/tax/note/delete/:id',        param: { module: tax,       action: noteDelete },                  requirements: { sf_method: [get, head, post], id: '\d+' } }
+tax_note_edit: {          url: '/admin/tax/note/:id',               param: { module: tax,       action: noteEdit },                    requirements: { sf_method: [get, head, post], id: '\d+' } }
+tax_new: {                url: '/admin/tax/new',                    param: { module: tax,       action: edit, new: true },             requirements: { sf_method: [get, head, post] } }
+tax_delete: {             url: '/admin/tax/delete/:id',             param: { module: tax,       action: delete },                      requirements: { sf_method: [get, head, post], id: '\d+' } }
+tax_edit: {               url: '/admin/tax/:id',                    param: { module: tax,       action: edit },                        requirements: { sf_method: [get, head, post], id: '\d+' } }
 
 campaign:
   class: sfDoctrineRouteCollection

@@ -1,12 +1,4 @@
 <?php
-/*
- * Copyright (c) 2015, webvariants GmbH & Co. KG, http://www.webvariants.de
- *
- * This file is released under the terms of the MIT license. You can find the
- * complete text in the attached LICENSE file or online at:
- *
- * http://www.opensource.org/licenses/mit-license.php
- */
 
 /**
  * sfGuardUser form base class.
@@ -42,6 +34,7 @@ abstract class BasesfGuardUserForm extends BaseFormDoctrine
       'city'             => new sfWidgetFormInputText(),
       'post_code'        => new sfWidgetFormInputText(),
       'country'          => new sfWidgetFormInputText(),
+      'vat'              => new sfWidgetFormInputText(),
       'language_id'      => new sfWidgetFormDoctrineChoice(array('model' => $this->getRelatedModelName('Language'), 'add_empty' => true)),
       'validation_kind'  => new sfWidgetFormInputText(),
       'validation_code'  => new sfWidgetFormInputText(),
@@ -72,6 +65,7 @@ abstract class BasesfGuardUserForm extends BaseFormDoctrine
       'city'             => new sfValidatorString(array('max_length' => 120, 'required' => false)),
       'post_code'        => new sfValidatorString(array('max_length' => 100, 'required' => false)),
       'country'          => new sfValidatorString(array('max_length' => 2, 'required' => false)),
+      'vat'              => new sfValidatorString(array('max_length' => 40, 'required' => false)),
       'language_id'      => new sfValidatorDoctrineChoice(array('model' => $this->getRelatedModelName('Language'), 'column' => 'id', 'required' => false)),
       'validation_kind'  => new sfValidatorInteger(array('required' => false)),
       'validation_code'  => new sfValidatorString(array('max_length' => 20, 'required' => false)),

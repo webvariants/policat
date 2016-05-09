@@ -1,6 +1,6 @@
 <?php
 /*
- * Copyright (c) 2015, webvariants GmbH & Co. KG, http://www.webvariants.de
+ * Copyright (c) 2016, webvariants GmbH <?php Co. KG, http://www.webvariants.de
  *
  * This file is released under the terms of the MIT license. You can find the
  * complete text in the attached LICENSE file or online at:
@@ -78,7 +78,7 @@ EOF;
         {
           $i++;
           if ($i % 100 == 0) echo "$i\n";
-
+        
           //if ($i > 300) break;
           if (!is_array($first_line))
           {
@@ -89,7 +89,7 @@ EOF;
             $line = array_combine($first_line, $data);
             $signing = new PetitionSigning();
             $signing->setPetitionId($petition_id);
-            $signing->setStatus(PetitionSigning::STATUS_VERIFIED);
+            $signing->setStatus(PetitionSigning::STATUS_COUNTED);
             foreach ($formfields as $formfield)
             {
               switch ($formfield)
@@ -138,7 +138,7 @@ EOF;
             $email = array_shift($emails);
             if (empty($email)) $break;
             $where_param[] = $email;
-            $where[] = '(LOWER(ps.email) = LOWER(?))';
+            $where[] = '(ps.email = ?)';
           }
           echo count($emails) . "\n";
 

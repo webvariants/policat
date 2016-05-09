@@ -26,7 +26,7 @@ Options +FollowSymLinks +ExecCGI
   RewriteRule ^widget_page/([0-9]+)$ widget_page.html [L]
 
   # widget routes
-  RewriteRule (^(counterbar|validate|(api/js/widget)|teaser_js2|teaser_js|widgetedit)/[0-9-]+$)|^feed$|^fb_canvas$|^fb_tab$|(^(sign(_hp)?/[0-9]+|text)/[0-9a-f]+) widget.php [L]
+  RewriteRule (^(counterbar|validate|delete|(api/js/widget)|(api/js/widget_no_redirect)|teaser_js2|teaser_js|widgetedit)/[0-9-]+$)|^feed$|^fb_canvas$|^fb_tab$|(^(sign(_hp)?/[0-9]+|text)/[0-9a-f]+) widget.php [L]
   RewriteRule ^api(/v2)?$|^counterbar$ widget.php? [L]
   RewriteRule ^api/jsonp?$|^counterbar/colors$ widget.php [L]
   RewriteRule ^api/v2/actions/\d+/signings$ widget.php [L]
@@ -35,26 +35,26 @@ Options +FollowSymLinks +ExecCGI
 
   # frontend routes
   RewriteRule ^$ frontend.php [QSA,L]
-  RewriteRule ^((login)|(forgotten)|(guard/login)|(guard/logout)|(captcha)|(tips)|(faq)|(help)|(terms)|(contact)|(imprint)|(register)|(profile)|(unblock)|(dashboard/?))$ frontend.php [QSA,L]
+  RewriteRule ^((login)|(forgotten)|(guard/login)|(guard/logout)|(captcha)|(tips)|(faq)|(help)|(terms)|(contact)|(imprint)|(pricing)|(register)|(profile)|(unblock)|(dashboard/?))$ frontend.php [QSA,L]
   RewriteRule ^((register)|(forgotten)|(user_validation))/\d+/[a-zA-Z0-9]+$ frontend.php [QSA,L]
 
-  RewriteRule ^campaign(|(/create)|(/join)|(/go_edit))?$ frontend.php [QSA,L]
-  RewriteRule ^campaign/((edit)|(leave)|(members)|(switches)|(name)|(privacy)|(privacy/list)|(address)|(officer_resign)|(officer_call)|(delete)|(undelete)|(privacy)|(data)|(data/download)|(data/prepare))/\d+$ frontend.php [QSA,L]
+  RewriteRule ^campaign(/join)$ frontend.php [QSA,L]
+  RewriteRule ^campaign/((edit)|(leave)|(members)|(switches)|(public)|(billing)|(name)|(privacy)|(privacy/list)|(address)|(officer_resign)|(officer_call)|(delete)|(undelete)|(privacy)|(data)|(data_email)|(data/download)|(data/prepare))/\d+$ frontend.php [QSA,L]
   RewriteRule ^campaign/((data))/\d+/\d+$ frontend.php [QSA,L]
   RewriteRule ^campaign/privacy/\d+/[a-z][a-z](_[A-Z][A-Z])?$ frontend.php [QSA,L]
 
-  RewriteRule ^action((/by_campaign)|(/join)|(/leave)|(/join_admin)|(/new)|(/spf))?$ frontend.php [QSA,L]
+  RewriteRule ^action((/by_campaign)|(/join)|(/leave)|(/new)|(/spf))?$ frontend.php [QSA,L]
   RewriteRule ^action/\d+$ frontend.php [QSA,L]
-  RewriteRule ^action/((edit)|(edit_target)|(widget)|(translation)|(todo)|(target)|(pager)|(members)|(data)|(data/download)|(data/prepare))/\d+$ frontend.php [QSA,L]
+  RewriteRule ^action/((edit)|(edit_target)|(widget)|(widget_copy)|(translation)|(todo)|(target)|(pager)|(members)|(follow)|(delete)|(data)|(data_email)|(data/download)|(data/prepare))/\d+$ frontend.php [QSA,L]
   RewriteRule ^action/((pager)|(data))/\d+/\d+$ frontend.php [QSA,L]
   RewriteRule ^action/((pledge)|(pledge_download)|(pledge_edit(/\d+)?)|(pledge_new)|(pledge_stats(/\d+)?))/\d+$ frontend.php [QSA,L]
 
-  RewriteRule ^action/((token)|(token_new)|(token_edit)|(token_data))/\d+$ frontend.php [QSA,L]
+  RewriteRule ^action/((token)|(token_new)|(token_edit)|(token_data)|(token_addnum))/\d+$ frontend.php [QSA,L]
 
   RewriteRule ^translation/((create)|(edit)|(default))/\d+$ frontend.php [QSA,L]
 
   RewriteRule ^widget((/data_owner)|(/revoke_data))?$ frontend.php [QSA,L]
-  RewriteRule ^widget/((new)|(edit)|(pager)|(view)|(data)|(data/download)|(data/prepare))/\d+$ frontend.php [QSA,L]
+  RewriteRule ^widget/((new)|(edit)|(pager)|(view)|(data)|(data_email)|(data/download)|(data/prepare))/\d+$ frontend.php [QSA,L]
   RewriteRule ^widget/((pager)|(data))/\d+/\d+$ frontend.php [QSA,L]
   RewriteRule ^widgetval/[0-9-]+$ frontend.php [QSA,L]
 
@@ -63,22 +63,27 @@ Options +FollowSymLinks +ExecCGI
   RewriteRule ^target/((edit)|(new)|(meta)|(meta_free)|(meta_delete)|(meta_choice)|(meta_mapping)|(contact/new)|(contact/delete)|(members)|(truncate)|(upload)|(copy)|(copy_global))/\d+$ frontend.php [QSA,L]
   RewriteRule ^target/((contact)|(contact/pager))/\d+/\d+$ frontend.php [QSA,L]
 
-  RewriteRule ^ticket/((action)|(todo/\d+)|(view/\d+))$ frontend.php [QSA,L]
+  RewriteRule ^quota/((list)|(edit)|(new))/\d+$ frontend.php [QSA,L]
+
+  RewriteRule ^order/((show)|(new)|(delete)|(list)|(paid)|(bill)|(offer)|(manual_user)|(manual/\d+))/\d+$ frontend.php [QSA,L]
+  RewriteRule ^order/list$ frontend.php [QSA,L]
+
+  RewriteRule ^bill/((new)|(show)|(mail))/\d+$ frontend.php [QSA,L]
+  RewriteRule ^paypal/((pay)|(pay/return)|(pay/cancel))/\d+$ frontend.php [QSA,L]
+
+  RewriteRule ^ticket/((action)|(todo/\d+))$ frontend.php [QSA,L]
 
   RewriteRule ^data/delete/\d+$ frontend.php [QSA,L]
 
-  RewriteRule ^admin((/stats)|(/testmail)|(/target)|(/store)|(/country)|(/country/((new)|(\d+)))|(/language)|(/language/new)|(/mapping)|(/mapping/new)|(/mapping/\d+(/delete)?)|(/mapping/pair/\d+(/\d+)?)|(/mapping/pair/\d+/delete)|(/mapping/\d+/pair)|(/user)|(/user/new)|(/campaign/undelete))?$ frontend.php [QSA,L]
+  RewriteRule ^admin((/stats)|(/testmail)|(/target)|(/store)|(/country)|(/country/((new)|(\d+)))|(/product/delete/\d+)|(/product)|(/product/((new)|(\d+)))|(/language)|(/language/new)|(/mapping)|(/mapping/new)|(/mapping/\d+(/delete)?)|(/mapping/pair/\d+(/\d+)?)|(/mapping/pair/\d+/delete)|(/mapping/\d+/pair)|(/user)|(/user/new)|(/user/emails)|(/campaign/list(/\d+)?)|(/campaign/delete/\d+))?$ frontend.php [QSA,L]
   RewriteRule ^admin/((store)|(store/lang))/[a-zA-Z0-9_]+$ frontend.php [QSA,L]
   RewriteRule ^admin/store/[a-zA-Z0-9_]+/[a-z][a-z](_[A-Z][A-Z])?$ frontend.php [QSA,L]
   RewriteRule ^admin/language((/download)|(/upload))?/[a-z][a-z](_[A-Z][A-Z])?$ frontend.php [QSA,L]
   RewriteRule ^admin/user/((pager)|(edit)|(delete)|(block)|(unblock)|(switch))/\d+$ frontend.php [QSA,L]
+  RewriteRule ^admin/tax(|(/note/new)|(/new)|(/note/(delete/)?\d+)|(/(delete/)?\d+))$ frontend.php [QSA,L]
 
   RewriteRule ^(admin_campaign|admin_petition|admin_petition_text)([/\.].*)?$ frontend.php [QSA,L]
   RewriteRule ^guard/((permissions)|(groups)|(users))([/\.].*)?$ frontend.php [QSA,L]
-
-  # OBSOLETE STUFF
-  RewriteRule ^main$ frontend.php [QSA,L]
-  RewriteRule ^page/\d+$ frontend.php [QSA,L]
 
   # no route
 </IfModule>

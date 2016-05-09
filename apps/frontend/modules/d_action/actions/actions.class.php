@@ -1,6 +1,6 @@
 <?php
 /*
- * Copyright (c) 2015, webvariants GmbH & Co. KG, http://www.webvariants.de
+ * Copyright (c) 2016, webvariants GmbH <?php Co. KG, http://www.webvariants.de
  *
  * This file is released under the terms of the MIT license. You can find the
  * complete text in the attached LICENSE file or online at:
@@ -11,8 +11,6 @@
 /**
  * dashboard action actions.
  *
- * @package    policat
- * @subpackage d_action
  * @author     Martin
  */
 class d_actionActions extends policatActions {
@@ -24,25 +22,30 @@ class d_actionActions extends policatActions {
   public function executeByCampaign(sfWebRequest $request) {
     $id = $request->getGetParameter('id');
     $target = $request->getGetParameter('target');
-    if (!$target && !is_string($target))
+    if (!$target && !is_string($target)) {
       return $this->ajax()->alert('invalid')->render();
+    }
 
-    if (empty($id))
+    if (empty($id)) {
       return $this->ajax()
           ->empty_($target)
           ->append($target, '<option value="">select action</option>')
-          ->trigger($target, 'liszt:updated')
+          ->trigger($target, 'chosen:updated')
           ->render();
+    }
 
-    if (!$id && !is_numeric($id))
+    if (!$id && !is_numeric($id)) {
       return $this->ajax()->alert('invalid')->render();
+    }
 
     $campaign = CampaignTable::getInstance()->findById($id);
-    if (!$campaign)
+    if (!$campaign) {
       return $this->ajax()->alert('campaign not found')->render();
+    }
 
-    if (!$this->getGuardUser()->isCampaignMember($campaign))
+    if (!$this->getGuardUser()->isCampaignMember($campaign)) {
       return $this->ajax()->alert('no rights')->render();
+    }
 
     $this->ajax()
       ->empty_($target)
@@ -52,7 +55,7 @@ class d_actionActions extends policatActions {
       $this->ajax()->append($target, sprintf('<option value="%s">%s</option>', $petition->getId(), htmlentities($petition->getName(), ENT_COMPAT, 'UTF-8')));
     }
 
-    return $this->ajax()->trigger($target, 'liszt:updated')->render();
+    return $this->ajax()->trigger($target, 'chosen:updated')->render();
   }
 
   public function executePager(sfWebRequest $request) {
@@ -61,11 +64,13 @@ class d_actionActions extends policatActions {
     if ($request->hasParameter('id')) {
       $campaign = CampaignTable::getInstance()->findById($request->getParameter('id'), $this->userIsAdmin());
       /* @var $campaign Campaign */
-      if (!$campaign)
+      if (!$campaign) {
         return $this->notFound();
+      }
 
-      if (!$this->getGuardUser()->isCampaignMember($campaign))
+      if (!$this->getGuardUser()->isCampaignMember($campaign)) {
         return $this->noAccess();
+      }
 
       return $this->ajax()->replaceWithComponent('#action_list', 'd_action', 'list', array('page' => $page, 'campaign' => $campaign, 'no_filter' => true))->render();
     }
@@ -76,22 +81,26 @@ class d_actionActions extends policatActions {
   public function executeJoin(sfWebRequest $request) {
     $this->ajax()->setAlertTarget('#action_list table', 'after');
 
-    if ($request->getPostParameter('csrf_token') !== UtilCSRF::gen('action_join'))
+    if ($request->getPostParameter('csrf_token') !== UtilCSRF::gen('action_join')) {
       return $this->ajax()->alert('CSRF Attack detected, please relogin.', 'Error')->render();
+    }
 
     $id = $request->getPostParameter('id');
-    if (!is_numeric($id))
+    if (!is_numeric($id)) {
       return $this->ajax()->alert('invalid data', 'Error')->render();
+    }
 
     $petition = PetitionTable::getInstance()->findById($id);
     /* @var $petition Petition */
-    if (!$petition)
+    if (!$petition) {
       return $this->ajax()->alert('Petition not found', 'Error')->render();
+    }
 
     $pr = $this->getGuardUser()->getRightsByPetition($petition);
 
-    if ($pr && $pr->getActive() && $pr->getMember())
+    if ($pr && $pr->getActive() && $pr->getMember()) {
       return $this->ajax()->alert('You are already action member', '')->render();
+    }
 
     if ($this->getGuardUser()->isCampaignAdmin($petition->getCampaignId())) {
       if (!$pr) {
@@ -110,54 +119,14 @@ class d_actionActions extends policatActions {
         TicketTable::CREATE_AUTO_FROM => true,
         TicketTable::CREATE_PETITION => $petition,
         TicketTable::CREATE_KIND => TicketTable::KIND_JOIN_PETITION,
-        TicketTable::CREATE_CHECK_DUPLICATE => true
+        TicketTable::CREATE_CHECK_DUPLICATE => true,
     ));
     if ($ticket) {
       $ticket->save();
       $ticket->notifyAdmin();
-    } else
+    } else {
       return $this->ajax()->alert('Application already pending', '')->render();
-
-    return $this->ajax()->alert('Application has been sent to Campaign admin', '')->render();
-  }
-
-  public function executeJoinAdmin(sfWebRequest $request) {
-    $this->ajax()->setAlertTarget('#petition_members table', 'after');
-
-    if ($request->getPostParameter('csrf_token') !== UtilCSRF::gen('action_join_admin'))
-      return $this->ajax()->alert('CSRF Attack detected, please relogin.', 'Error')->render();
-
-    $id = $request->getPostParameter('id');
-    if (!is_numeric($id))
-      return $this->ajax()->alert('invalid data', 'Error')->render();
-
-    $petition = PetitionTable::getInstance()->findById($id);
-    /* @var $petition Petition */
-    if (!$petition)
-      return $this->ajax()->alert('Petition not found', 'Error')->render();
-
-    if (!$petition->getCampaign()->getBecomePetitionAdmin())
-      return $this->ajax()->alert('Disabled function', 'Error')->render();
-
-    $pr = $this->getGuardUser()->getRightsByPetition($petition);
-
-    if (!$pr || !$pr->getActive() || !$pr->getMember())
-      return $this->ajax()->alert('You are not member of this action', '')->render();
-
-    if ($pr->getAdmin())
-      return $this->ajax()->alert('You are already member-manager.', '')->render();
-
-    $ticket = TicketTable::getInstance()->generate(array(
-        TicketTable::CREATE_AUTO_FROM => true,
-        TicketTable::CREATE_PETITION => $petition,
-        TicketTable::CREATE_KIND => TicketTable::KIND_JOIN_PETITION_ADMIN,
-        TicketTable::CREATE_CHECK_DUPLICATE => true
-    ));
-    if ($ticket) {
-      $ticket->save();
-      $ticket->notifyAdmin();
-    } else
-      return $this->ajax()->alert('Application already pending', '')->render();
+    }
 
     return $this->ajax()->alert('Application has been sent to Campaign admin', '')->render();
   }
@@ -165,38 +134,43 @@ class d_actionActions extends policatActions {
   public function executeLeave(sfWebRequest $request) {
     $this->ajax()->setAlertTarget('#action_list table', 'after');
 
-    if ($request->getPostParameter('csrf_token') !== UtilCSRF::gen('action_leave'))
+    if ($request->getPostParameter('csrf_token') !== UtilCSRF::gen('action_leave')) {
       return $this->ajax()->alert('CSRF Attack detected, please relogin.', 'Error')->render();
+    }
 
     $id = $request->getPostParameter('id');
-    if (!is_numeric($id))
+    if (!is_numeric($id)) {
       return $this->ajax()->alert('invalid data', 'Error')->render();
+    }
 
     $petition = PetitionTable::getInstance()->findById($id);
     /* @var $petition Petition */
-    if (!$petition)
+    if (!$petition) {
       return $this->ajax()->alert('Petition not found', 'Error')->render();
+    }
 
     $pr = $this->getGuardUser()->getRightsByPetition($petition);
     /* @var $pr PetitionRights */
     if ($pr) {
-      if ($pr->getAdmin())
-        return $this->ajax()->alert('You can not leave an action as admin', 'Error')->render();
-
       if ($pr->getActive()) {
         $pr->setActive(0);
         $pr->save();
       }
+
       return $this->ajax()
           ->replaceWithComponent('#action_list', 'd_action', 'list', $request->getPostParameter('campaign') ? array('campaign' => $petition->getCampaign()) : null)
           ->alert('Left action ' . $pr->getPetition()->getName(), '')->render();
     }
 
-    return $this->ajax()->alert('You are not member of this Action', 'Error')->render();
+    return $this->ajax()->alert('You are not editor of this Action', 'Error')->render();
+  }
+
+  private function canCreateCamapaign() {
+    return $this->getGuardUser()->hasPermission(myUser::CREDENTIAL_ADMIN) || StoreTable::value(StoreTable::CAMAPIGN_CREATE_ON);
   }
 
   public function executeNew(sfWebRequest $request) {
-    if (!$this->getGuardUser()->hasCampaigns()) {
+    if (!$this->getGuardUser()->hasCampaigns() && !$this->canCreateCamapaign()) {
       $this->redirect($this->getContext()->getRouting()->generate('dashboard', array(), true) . '?no_campaign=1');
     }
 
@@ -208,12 +182,14 @@ class d_actionActions extends policatActions {
     $petition->setEndAt(gmdate('Y-m-d', strtotime('next year')));
     $petition->setFromName($this->getGuardUser()->getOrganisation() ? : $this->getGuardUser()->getName());
     $petition->setFromEmail($this->getGuardUser()->getEmailAddress());
+    $petition->setPolicyCheckbox(PetitionTable::POLICY_CHECKBOX_NO);
 
     $campaign_id = $request->getGetParameter('campaign');
     if (is_numeric($campaign_id)) {
       $campaign = CampaignTable::getInstance()->findById($campaign_id, $this->userIsAdmin());
-      if ($campaign)
+      if ($campaign) {
         $petition->setCampaign($campaign);
+      }
     }
 
     $this->form = new NewPetitionForm($petition, array(NewPetitionForm::OPTION_USER => $this->getGuardUser()));
@@ -239,6 +215,7 @@ class d_actionActions extends policatActions {
         } catch (Exception $e) {
           $con->rollback();
         }
+
         return $this->ajax()->redirectRotue('petition_edit_', array('id' => $petition->getId()))->render();
       } else {
         return $this->ajax()->form($this->form)->render();
@@ -251,11 +228,13 @@ class d_actionActions extends policatActions {
   public function executeOverview(sfWebRequest $request) {
     $petition = PetitionTable::getInstance()->findById($request->getParameter('id'), $this->userIsAdmin());
     /* @var $petition Petition */
-    if (!$petition)
+    if (!$petition) {
       return $this->notFound();
+    }
 
-    if (!$petition->isEditableBy($this->getGuardUser()))
+    if (!$petition->isEditableBy($this->getGuardUser())) {
       return $this->noAccess();
+    }
 
     $this->petition = $petition;
   }
@@ -263,11 +242,13 @@ class d_actionActions extends policatActions {
   public function executeEdit(sfWebRequest $request) {
     $petition = PetitionTable::getInstance()->findById($request->getParameter('id'), $this->userIsAdmin());
     /* @var $petition Petition */
-    if (!$petition)
+    if (!$petition) {
       return $this->notFound();
+    }
 
-    if (!$petition->isEditableBy($this->getGuardUser()))
+    if (!$petition->isEditableBy($this->getGuardUser())) {
       return $this->noAccess();
+    }
 
     $form = new EditPetitionForm($petition, array(EditPetitionForm::USER => $this->getGuardUser()));
 
@@ -294,13 +275,13 @@ class d_actionActions extends policatActions {
           return $this->ajax()->redirectRotue('petition_overview', array('id' => $petition->getId()))->render();
         }
       } else {
-
         if ($form->hasDeleteStatus()) { // ignore form errors when action should be deleted
           $tv = $form->getTaintedValues();
           if (is_array($tv) && isset($tv['status']) && $tv['status'] == Petition::STATUS_DELETED) {
             if (!$form->getErrorSchema()->offsetExists(EditPetitionForm::getCSRFFieldName())) {
               $petition->setStatus(Petition::STATUS_DELETED);
               $petition->save();
+
               return $this->ajax()->redirectRotue('petition_overview', array('id' => $petition->getId()))->render();
             }
           }
@@ -318,11 +299,13 @@ class d_actionActions extends policatActions {
   public function executeEditTarget(sfWebRequest $request) {
     $petition = PetitionTable::getInstance()->findById($request->getParameter('id'), $this->userIsAdmin());
     /* @var $petition Petition */
-    if (!$petition)
+    if (!$petition) {
       return $this->notFound();
+    }
 
-    if (!$petition->isEditableBy($this->getGuardUser()))
+    if (!$petition->isEditableBy($this->getGuardUser())) {
       return $this->noAccess();
+    }
 
     $form = new EditPetitionTargetForm($petition, array(EditPetitionForm::USER => $this->getGuardUser()));
     $form->bind($request->getPostParameter($form->getName()), $request->getFiles($form->getName()));
@@ -345,11 +328,13 @@ class d_actionActions extends policatActions {
   public function executeTarget(sfWebRequest $request) {
     $petition = PetitionTable::getInstance()->findById($request->getParameter('id'), $this->userIsAdmin());
     /* @var $petition Petition */
-    if (!$petition)
+    if (!$petition) {
       return $this->notFound();
+    }
 
-    if (!$petition->isEditableBy($this->getGuardUser()))
+    if (!$petition->isEditableBy($this->getGuardUser())) {
       return $this->noAccess();
+    }
 
     $value = $request->getPostParameter('value');
     if (!is_numeric($value)) {
@@ -358,8 +343,9 @@ class d_actionActions extends policatActions {
 
     if ($value) {
       $ml = MailingListTable::getInstance()->queryByCampaignForUser($petition->getCampaign(), $this->getGuardUser(), $petition->getMailingListId() ? $petition->getMailingList() : null, false, $value)->fetchOne();
-      if (!$ml)
+      if (!$ml) {
         return $this->notFound();
+      }
 
       $target_choices = $ml->getTargetChoices();
     } else {
@@ -371,8 +357,8 @@ class d_actionActions extends policatActions {
     }
 
     return $this->ajax()
-        ->html('#edit_petition_target_target_selector_1', $html)->trigger('#edit_petition_target_target_selector_1', 'liszt:updated')
-        ->html('#edit_petition_target_target_selector_2', $html)->trigger('#edit_petition_target_target_selector_2', 'liszt:updated')
+        ->html('#edit_petition_target_target_selector_1', $html)->trigger('#edit_petition_target_target_selector_1', 'chosen:updated')
+        ->html('#edit_petition_target_target_selector_2', $html)->trigger('#edit_petition_target_target_selector_2', 'chosen:updated')
         ->remove('#edit, #edit-btn')
         ->show('#edit-btn-save')
         ->render();
@@ -383,19 +369,23 @@ class d_actionActions extends policatActions {
 
     $petition = PetitionTable::getInstance()->findById($request->getParameter('id'), $this->userIsAdmin());
     /* @var $petition Petition */
-    if (!$petition)
+    if (!$petition) {
       return $this->ajax()->alert('Action not found', 'Error')->render();
+    }
 
-    if (!$petition->isMemberEditable($this->getGuardUser()))
+    if (!$petition->isCampaignAdmin($this->getGuardUser())) {
       return $this->ajax()->alert('You are not admin', 'Error')->render();
+    }
 
-    if ($request->getPostParameter('csrf_token') !== UtilCSRF::gen('action_members'))
+    if ($request->getPostParameter('csrf_token') !== UtilCSRF::gen('action_members')) {
       return $this->ajax()->alert('CSRF Attack detected, please relogin.', 'Error')->render();
+    }
 
     $ids = $request->getPostParameter('ids');
     $method = $request->getPostParameter('method');
-    if (!in_array($method, array('block', 'member', 'admin')))
+    if (!in_array($method, array('block', 'member'))) {
       return $this->ajax()->alert('Something is wrong.', 'Error')->render();
+    }
     $self = false;
     if (is_array($ids)) {
       foreach (PetitionRightsTable::getInstance()->queryByPetitionAndUsers($petition->getId(), $ids)->execute() as $petition_rights) {
@@ -410,11 +400,6 @@ class d_actionActions extends policatActions {
         } elseif ($method === 'member') {
           $petition_rights->setActive(1);
           $petition_rights->setMember(1);
-          $petition_rights->setAdmin(0);
-        } elseif ($method === 'admin') {
-          $petition_rights->setActive(1);
-          $petition_rights->setMember(1);
-          $petition_rights->setAdmin(1);
         }
 
         $petition_rights->save();
@@ -423,8 +408,9 @@ class d_actionActions extends policatActions {
 
     $this->ajax()->replaceWithComponent('#petition_members', 'd_action', 'members', array('petition' => $petition));
 
-    if ($self)
+    if ($self) {
       $this->ajax()->alert('You can not edit yourself.', 'Error');
+    }
 
     return $this->ajax()->render();
   }
@@ -432,11 +418,13 @@ class d_actionActions extends policatActions {
   public function executeTranslations(sfWebRequest $request) {
     $petition = PetitionTable::getInstance()->findById($request->getParameter('id'), $this->userIsAdmin());
     /* @var $petition Petition */
-    if (!$petition)
+    if (!$petition) {
       return $this->notFound();
+    }
 
-    if (!$petition->isEditableBy($this->getGuardUser()))
+    if (!$petition->isEditableBy($this->getGuardUser())) {
       return $this->noAccess();
+    }
 
     $this->translations = $petition->getPetitionText();
 
@@ -451,8 +439,9 @@ class d_actionActions extends policatActions {
     if (isset($route_params['new'])) {
       $petition = PetitionTable::getInstance()->findById($request->getParameter('id'), $this->userIsAdmin());
       /* @var $petition Petition */
-      if (!$petition)
+      if (!$petition) {
         return $this->notFound();
+      }
 
       $translation = new PetitionText();
       $translation->setPetition($petition);
@@ -468,18 +457,22 @@ class d_actionActions extends policatActions {
     } else {
       $translation = PetitionTextTable::getInstance()->find($request->getParameter('id'));
       /* @var $translation PetitionText */
-      if (!$translation)
+      if (!$translation) {
         return $this->notFound();
+      }
 
       $petition = $translation->getPetition();
-      if ($petition->getStatus() == Petition::STATUS_DELETED && !$this->userIsAdmin())
+      if ($petition->getStatus() == Petition::STATUS_DELETED && !$this->userIsAdmin()) {
         return $this->notFound();
-      if (!$this->userIsAdmin() && $petition->getCampaign()->getStatus() == CampaignTable::STATUS_DELETED)
+      }
+      if (!$this->userIsAdmin() && $petition->getCampaign()->getStatus() == CampaignTable::STATUS_DELETED) {
         return $this->notFound();
+      }
     }
 
-    if (!$petition->isEditableBy($this->getGuardUser()))
+    if (!$petition->isEditableBy($this->getGuardUser())) {
       return $this->noAccess();
+    }
 
     $this->form = new TranslationForm($translation, array('copy' => $copy));
 
@@ -512,22 +505,26 @@ class d_actionActions extends policatActions {
 
   public function executeTranslationDefaultText(sfWebRequest $request) {
     $campaign = CampaignTable::getInstance()->findById($request->getParameter('id'), $this->userIsAdmin());
-    if (!$campaign)
+    if (!$campaign) {
       return $this->notFound();
+    }
 
-    if (!$this->getGuardUser()->isCampaignMember($campaign))
+    if (!$this->getGuardUser()->isCampaignMember($campaign)) {
       return $this->noAccess();
+    }
 
     $form = new TranslationForm();
     $form_name = $form->getName();
 
     $value = $request->getGetParameter('value');
-    if (!is_string($value))
+    if (!is_string($value)) {
       return $this->notFound();
+    }
 
     $language = LanguageTable::getInstance()->find($value);
-    if (!$language)
+    if (!$language) {
       return $this->notFound();
+    }
 
     $validation_email = StoreTable::getInstance()->findByKeyAndLanguageCached(StoreTable::SIGNING_VALIDATION_EMAIL, $value);
     if ($validation_email) {
@@ -557,11 +554,13 @@ class d_actionActions extends policatActions {
   public function executeTodo(sfWebRequest $request) {
     $petition = PetitionTable::getInstance()->findById($request->getParameter('id'), $this->userIsAdmin());
     /* @var $petition Petition */
-    if (!$petition)
+    if (!$petition) {
       return $this->notFound();
+    }
 
-    if (!$petition->isTicketManager($this->getGuardUser()))
+    if (!$petition->isCampaignAdmin($this->getGuardUser())) {
       return $this->noAccess();
+    }
 
     $this->petition = $petition;
   }
@@ -569,11 +568,16 @@ class d_actionActions extends policatActions {
   public function executeData(sfWebRequest $request) {
     $petition = PetitionTable::getInstance()->findById($request->getParameter('id'), $this->userIsAdmin());
     /* @var $petition Petition */
-    if (!$petition)
+    if (!$petition) {
       return $this->notFound();
+    }
 
-    if (!$this->getGuardUser()->isPetitionMember($petition, true))
+    if (!$this->getGuardUser()->isPetitionMember($petition, true)) {
       return $this->noAccess();
+    }
+
+    $route_params = $this->getRoute()->getParameters();
+    $this->subscriptions = isset($route_params['type']) && $route_params['type'] === 'email';
 
     $this->petition = $petition;
 
@@ -598,10 +602,76 @@ class d_actionActions extends policatActions {
       $this->ajax()->appendPartial('body', 'spf', array(
           'status' => UtilSpf::$STATUS[$status],
           'text' => UtilSpf::$STATUS_TEXT[$status],
-          'ip' => sfConfig::get('app_spf_ip')
+          'ip' => sfConfig::get('app_spf_ip'),
       ))->modal('#spf_modal');
     }
+
     return $this->ajax()->render();
+  }
+
+  public function executeEditFollow(sfWebRequest $request) {
+    $this->ajax()->setAlertTarget('#petition_follow', 'after');
+
+    $petition = PetitionTable::getInstance()->findById($request->getParameter('id'), $this->userIsAdmin());
+    /* @var $petition Petition */
+    if (!$petition) {
+      return $this->ajax()->alert('Action not found', 'Error')->render();
+    }
+
+    if (!$petition->isCampaignAdmin($this->getGuardUser())) {
+      return $this->ajax()->alert('You are not admin', 'Error')->render();
+    }
+
+    $form = new EditPetitionFollowForm($petition);
+    if ($request->isMethod('post')) {
+      $form->bind($request->getPostParameter($form->getName()));
+      if ($form->isValid()) {
+        $form->save();
+        if (!$form->getValue('follow_petition_id')) {
+          $this->ajax()->remove('#alert-forward-info');
+        }
+
+        return $this->ajax()
+            ->alert('Saved.', '')
+            ->replaceWithPartial('#petition_edit_form', 'form', array(
+                'form' => new EditPetitionForm($petition, array(EditPetitionForm::USER => $this->getGuardUser()))
+            ))
+            ->render();
+      }
+
+      return $this->ajax()->form($form)->render();
+    } else {
+      return $this->forward404();
+    }
+  }
+
+  public function executeHardDelete(sfWebRequest $request) {
+    $id = $request->getParameter('id');
+
+    if (is_numeric($id)) {
+      $petition = PetitionTable::getInstance()->findById($id, true, false);
+      /* @var $petition Petition */
+      if (!$petition || $petition->getStatus() != Petition::STATUS_DELETED) {
+        return $this->notFound();
+      }
+    }
+
+    $csrf_token = UtilCSRF::gen('delete_petition', $petition->getId());
+
+    if ($request->isMethod('post')) {
+      if ($request->getPostParameter('csrf_token') != $csrf_token) {
+        return $this->ajax()->alert('CSRF Attack detected, please relogin.', 'Error', '#petition_delete_modal .modal-body')->render();
+      }
+
+      $this->ajax()->redirectRotue('campaign_edit_', array('id' => $petition->getCampaignId()));
+      $petition->delete();
+      return $this->ajax()->render();
+    }
+
+    return $this->ajax()
+        ->appendPartial('body', 'delete', array('id' => $id, 'name' => $petition->getName(), 'csrf_token' => $csrf_token))
+        ->modal('#petition_delete_modal')
+        ->render();
   }
 
 }

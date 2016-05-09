@@ -1,12 +1,4 @@
 <?php
-/*
- * Copyright (c) 2015, webvariants GmbH & Co. KG, http://www.webvariants.de
- *
- * This file is released under the terms of the MIT license. You can find the
- * complete text in the attached LICENSE file or online at:
- *
- * http://www.opensource.org/licenses/mit-license.php
- */
 
 /**
  * sfGuardUser filter form base class.
@@ -39,6 +31,7 @@ abstract class BasesfGuardUserFormFilter extends BaseFormFilterDoctrine
       'city'             => new sfWidgetFormFilterInput(),
       'post_code'        => new sfWidgetFormFilterInput(),
       'country'          => new sfWidgetFormFilterInput(),
+      'vat'              => new sfWidgetFormFilterInput(),
       'language_id'      => new sfWidgetFormDoctrineChoice(array('model' => $this->getRelatedModelName('Language'), 'add_empty' => true)),
       'validation_kind'  => new sfWidgetFormFilterInput(array('with_empty' => false)),
       'validation_code'  => new sfWidgetFormFilterInput(),
@@ -68,6 +61,7 @@ abstract class BasesfGuardUserFormFilter extends BaseFormFilterDoctrine
       'city'             => new sfValidatorPass(array('required' => false)),
       'post_code'        => new sfValidatorPass(array('required' => false)),
       'country'          => new sfValidatorPass(array('required' => false)),
+      'vat'              => new sfValidatorPass(array('required' => false)),
       'language_id'      => new sfValidatorDoctrineChoice(array('required' => false, 'model' => $this->getRelatedModelName('Language'), 'column' => 'id')),
       'validation_kind'  => new sfValidatorSchemaFilter('text', new sfValidatorInteger(array('required' => false))),
       'validation_code'  => new sfValidatorPass(array('required' => false)),
@@ -168,6 +162,7 @@ abstract class BasesfGuardUserFormFilter extends BaseFormFilterDoctrine
       'city'             => 'Text',
       'post_code'        => 'Text',
       'country'          => 'Text',
+      'vat'              => 'Text',
       'language_id'      => 'ForeignKey',
       'validation_kind'  => 'Number',
       'validation_code'  => 'Text',

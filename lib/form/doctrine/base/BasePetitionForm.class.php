@@ -1,12 +1,4 @@
 <?php
-/*
- * Copyright (c) 2015, webvariants GmbH & Co. KG, http://www.webvariants.de
- *
- * This file is released under the terms of the MIT license. You can find the
- * complete text in the attached LICENSE file or online at:
- *
- * http://www.opensource.org/licenses/mit-license.php
- */
 
 /**
  * Petition form base class.
@@ -25,9 +17,11 @@ abstract class BasePetitionForm extends BaseFormDoctrine
     $this->setWidgets(array(
       'id'                      => new sfWidgetFormInputHidden(),
       'campaign_id'             => new sfWidgetFormDoctrineChoice(array('model' => $this->getRelatedModelName('Campaign'), 'add_empty' => false)),
+      'follow_petition_id'      => new sfWidgetFormDoctrineChoice(array('model' => $this->getRelatedModelName('FollowPetition'), 'add_empty' => true)),
       'kind'                    => new sfWidgetFormInputText(),
       'nametype'                => new sfWidgetFormInputText(),
       'status'                  => new sfWidgetFormInputText(),
+      'validation_required'     => new sfWidgetFormInputText(),
       'name'                    => new sfWidgetFormTextarea(),
       'addnum'                  => new sfWidgetFormInputText(),
       'addnote'                 => new sfWidgetFormTextarea(),
@@ -35,6 +29,8 @@ abstract class BasePetitionForm extends BaseFormDoctrine
       'landing_url'             => new sfWidgetFormTextarea(),
       'key_visual'              => new sfWidgetFormInputText(),
       'paypal_email'            => new sfWidgetFormInputText(),
+      'donate_url'              => new sfWidgetFormInputText(),
+      'donate_widget_edit'      => new sfWidgetFormInputText(),
       'from_name'               => new sfWidgetFormInputText(),
       'from_email'              => new sfWidgetFormInputText(),
       'email_targets'           => new sfWidgetFormTextarea(),
@@ -50,6 +46,7 @@ abstract class BasePetitionForm extends BaseFormDoctrine
       'with_comments'           => new sfWidgetFormInputText(),
       'with_address'            => new sfWidgetFormInputText(),
       'with_country'            => new sfWidgetFormInputText(),
+      'with_extra1'             => new sfWidgetFormInputText(),
       'default_country'         => new sfWidgetFormInputText(),
       'show_keyvisual'          => new sfWidgetFormInputText(),
       'pledge_with_comments'    => new sfWidgetFormInputText(),
@@ -72,6 +69,7 @@ abstract class BasePetitionForm extends BaseFormDoctrine
       'country_collection_id'   => new sfWidgetFormDoctrineChoice(array('model' => $this->getRelatedModelName('CountryCollection'), 'add_empty' => true)),
       'deleted_pendings'        => new sfWidgetFormInputText(),
       'label_mode'              => new sfWidgetFormInputText(),
+      'policy_checkbox'         => new sfWidgetFormInputText(),
       'created_at'              => new sfWidgetFormDateTime(),
       'updated_at'              => new sfWidgetFormDateTime(),
       'object_version'          => new sfWidgetFormInputText(),
@@ -80,9 +78,11 @@ abstract class BasePetitionForm extends BaseFormDoctrine
     $this->setValidators(array(
       'id'                      => new sfValidatorChoice(array('choices' => array($this->getObject()->get('id')), 'empty_value' => $this->getObject()->get('id'), 'required' => false)),
       'campaign_id'             => new sfValidatorDoctrineChoice(array('model' => $this->getRelatedModelName('Campaign'), 'column' => 'id')),
+      'follow_petition_id'      => new sfValidatorDoctrineChoice(array('model' => $this->getRelatedModelName('FollowPetition'), 'column' => 'id', 'required' => false)),
       'kind'                    => new sfValidatorInteger(array('required' => false)),
       'nametype'                => new sfValidatorInteger(array('required' => false)),
       'status'                  => new sfValidatorInteger(array('required' => false)),
+      'validation_required'     => new sfValidatorInteger(array('required' => false)),
       'name'                    => new sfValidatorString(),
       'addnum'                  => new sfValidatorInteger(array('required' => false)),
       'addnote'                 => new sfValidatorString(array('required' => false)),
@@ -90,6 +90,8 @@ abstract class BasePetitionForm extends BaseFormDoctrine
       'landing_url'             => new sfValidatorString(array('required' => false)),
       'key_visual'              => new sfValidatorString(array('max_length' => 60, 'required' => false)),
       'paypal_email'            => new sfValidatorString(array('max_length' => 80, 'required' => false)),
+      'donate_url'              => new sfValidatorString(array('max_length' => 200, 'required' => false)),
+      'donate_widget_edit'      => new sfValidatorInteger(array('required' => false)),
       'from_name'               => new sfValidatorString(array('max_length' => 80, 'required' => false)),
       'from_email'              => new sfValidatorString(array('max_length' => 80, 'required' => false)),
       'email_targets'           => new sfValidatorString(array('required' => false)),
@@ -105,6 +107,7 @@ abstract class BasePetitionForm extends BaseFormDoctrine
       'with_comments'           => new sfValidatorInteger(array('required' => false)),
       'with_address'            => new sfValidatorInteger(array('required' => false)),
       'with_country'            => new sfValidatorInteger(array('required' => false)),
+      'with_extra1'             => new sfValidatorInteger(array('required' => false)),
       'default_country'         => new sfValidatorString(array('max_length' => 5, 'required' => false)),
       'show_keyvisual'          => new sfValidatorInteger(array('required' => false)),
       'pledge_with_comments'    => new sfValidatorInteger(array('required' => false)),
@@ -127,6 +130,7 @@ abstract class BasePetitionForm extends BaseFormDoctrine
       'country_collection_id'   => new sfValidatorDoctrineChoice(array('model' => $this->getRelatedModelName('CountryCollection'), 'column' => 'id', 'required' => false)),
       'deleted_pendings'        => new sfValidatorInteger(array('required' => false)),
       'label_mode'              => new sfValidatorInteger(array('required' => false)),
+      'policy_checkbox'         => new sfValidatorInteger(array('required' => false)),
       'created_at'              => new sfValidatorDateTime(),
       'updated_at'              => new sfValidatorDateTime(),
       'object_version'          => new sfValidatorString(array('max_length' => 15, 'required' => false)),

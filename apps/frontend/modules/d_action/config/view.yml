@@ -1,8 +1,3 @@
 all: 
   metas: { title: Action }
-  javascripts:    [jscolor.min.js]
-
-editSuccess:
-  stylesheets:    [select2/select2, select2/select2-bootstrap]
-
-  javascripts:    [select2/select2.min.js, jquery-ui-1.8.custom.min.js]
+  javascripts:    [dist/jscolor]

@@ -51,21 +51,11 @@ if (!isset($no_filter)):
         /* @var $petition Petition */
         $pr = $user->getRightsByPetition($petition->getRawValue());
         $cr = $user->getRightsByCampaign($petition->getRawValue()->getCampaign());
-        $trunc_an = truncate_text($petition->getName(), 20, '…');
+        $public_campaign = $petition->getRawValue()->getCampaign()->getPublicEnabled();
         ?>
         <tr>
-          <td>
-            <?php if ($petition->isEditableBy($user)): ?><a href="<?php echo url_for('petition_overview', array('id' => $petition->getId())) ?>"><?php endif ?>
-              <span<?php if ($trunc_an != $petition->getName()): ?> title="<?php echo $petition->getName() ?>"<?php endif ?>><?php echo $trunc_an ?></span>
-              <?php if ($petition->isEditableBy($user)): ?></a><?php endif ?>
-          </td>
-          <?php if (!isset($campaign)): $trunc_cn = truncate_text($petition->getCampaign()->getName(), 15, '…'); ?>
-            <td>
-              <a href="<?php echo url_for('campaign_edit_', array('id' => $petition->getCampaignId())) ?>" <?php if ($trunc_cn != $petition->getCampaign()->getName()): ?>title="<?php echo $petition->getCampaign()->getName() ?>"<?php endif ?> >
-                <?php echo $trunc_cn ?>
-              </a>
-            </td>
-          <?php endif ?>
+          <td><?php $sf_user->linkPetition($petition, 20) ?></td>
+          <?php if (!isset($campaign)): ?><td><?php $sf_user->linkCampaign($petition->getCampaign(), 15) ?></td><?php endif ?>
           <td><?php echo $petition->getStatusName() ?></td>
           <td><?php echo $petition->getKindName() ?></td>
           <td><?php echo format_date($petition->getActivityAt(), 'yyyy-MM-dd') ?></td>
@@ -75,9 +65,8 @@ if (!isset($no_filter)):
           <td>
             <?php $x = 1; ?>
             <?php if ($cr && $cr->getActive() && $cr->getAdmin()): $x = 0 ?><span class="label label-important">admin</span><?php endif ?>
-            <?php if ($x && $pr && $pr->getActive() && $pr->getAdmin()): $x = 0 ?><span class="label label-important">member-manager</span><?php endif ?>
-            <?php if ($x && $pr && $pr->getActive() && $pr->getMember()): ?><span class="label label-info">member</span><?php endif ?>
-            <?php if (!$cr || !$cr->getActive() || !($cr->getMember() || $cr->getAdmin())): ?>not&nbsp;campaign&nbsp;member<?php endif ?>
+            <?php if ($x && $pr && $pr->getActive() && $pr->getMember()): $x = 0 ?><span class="label label-info">editor</span><?php endif ?>
+            <?php if ($x && !$public_campaign && (!$cr || !$cr->getActive() || !($cr->getMember() || $cr->getAdmin()))): ?>not&nbsp;campaign&nbsp;member<?php endif ?>
           </td>
           <td>
             <?php if ($petition->isEditableBy($user)): ?>
@@ -92,6 +81,9 @@ if (!isset($no_filter)):
               <?php else: ?>
                 <a class="btn btn-mini ajax_link post" data-submit='<?php echo json_encode(array('csrf_token' => $csrf_token_join, 'id' => $petition->getId())) ?>' href="<?php echo url_for('action_join') ?>">join</a>
               <?php endif ?>
+            <?php endif ?>
+            <?php if ($petition->getStatus() == Petition::STATUS_DELETED && $sf_user->hasCredential(myUser::CREDENTIAL_ADMIN)): ?>
+            <a class="btn btn-danger btn-mini ajax_link" href="<?php echo url_for('petition_delete_', array('id' => $petition->getId())) ?>">wipe</a>
             <?php endif ?>
           </td>
         </tr>

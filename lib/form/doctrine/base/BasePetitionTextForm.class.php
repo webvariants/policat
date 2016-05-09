@@ -1,12 +1,4 @@
 <?php
-/*
- * Copyright (c) 2015, webvariants GmbH & Co. KG, http://www.webvariants.de
- *
- * This file is released under the terms of the MIT license. You can find the
- * complete text in the attached LICENSE file or online at:
- *
- * http://www.opensource.org/licenses/mit-license.php
- */
 
 /**
  * PetitionText form base class.
@@ -47,6 +39,10 @@ abstract class BasePetitionTextForm extends BaseFormDoctrine
       'pledge_comment'               => new sfWidgetFormTextarea(),
       'pledge_explantory_annotation' => new sfWidgetFormTextarea(),
       'pledge_thank_you'             => new sfWidgetFormTextarea(),
+      'donate_url'                   => new sfWidgetFormInputText(),
+      'donate_text'                  => new sfWidgetFormTextarea(),
+      'label_extra1'                 => new sfWidgetFormInputText(),
+      'placeholder_extra1'           => new sfWidgetFormInputText(),
       'created_at'                   => new sfWidgetFormDateTime(),
       'updated_at'                   => new sfWidgetFormDateTime(),
       'object_version'               => new sfWidgetFormInputText(),
@@ -77,6 +73,10 @@ abstract class BasePetitionTextForm extends BaseFormDoctrine
       'pledge_comment'               => new sfValidatorString(array('required' => false)),
       'pledge_explantory_annotation' => new sfValidatorString(array('required' => false)),
       'pledge_thank_you'             => new sfValidatorString(array('required' => false)),
+      'donate_url'                   => new sfValidatorString(array('max_length' => 200, 'required' => false)),
+      'donate_text'                  => new sfValidatorString(array('required' => false)),
+      'label_extra1'                 => new sfValidatorString(array('max_length' => 80, 'required' => false)),
+      'placeholder_extra1'           => new sfValidatorString(array('max_length' => 80, 'required' => false)),
       'created_at'                   => new sfValidatorDateTime(),
       'updated_at'                   => new sfValidatorDateTime(),
       'object_version'               => new sfValidatorString(array('max_length' => 15, 'required' => false)),

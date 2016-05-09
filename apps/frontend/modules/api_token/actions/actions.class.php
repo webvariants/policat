@@ -1,6 +1,6 @@
 <?php
 /*
- * Copyright (c) 2015, webvariants GmbH & Co. KG, http://www.webvariants.de
+ * Copyright (c) 2016, webvariants GmbH <?php Co. KG, http://www.webvariants.de
  *
  * This file is released under the terms of the MIT license. You can find the
  * complete text in the attached LICENSE file or online at:
@@ -23,11 +23,11 @@ class api_tokenActions extends policatActions {
     if (!$petition)
       return $this->notFound();
 
-    if (!$petition->isTicketManager($this->getGuardUser()))
+    if (!$petition->isCampaignAdmin($this->getGuardUser()))
       return $this->noAccess();
 
     $this->petition = $petition;
-
+    $this->form = new EditPetitionCounterForm($petition);
     $this->tokens = PetitionApiTokenTable::getInstance()->queryByPetition($petition)->execute();
   }
 
@@ -37,7 +37,7 @@ class api_tokenActions extends policatActions {
     if (!$petition)
       return $this->notFound();
 
-    if (!$petition->isTicketManager($this->getGuardUser()))
+    if (!$petition->isCampaignAdmin($this->getGuardUser()))
       return $this->noAccess();
 
     $token = new PetitionApiToken();
@@ -77,7 +77,7 @@ class api_tokenActions extends policatActions {
 
     $petition = $token->getPetition();
 
-    if (!$petition->isTicketManager($this->getGuardUser()))
+    if (!$petition->isCampaignAdmin($this->getGuardUser()))
       return $this->noAccess();
 
     $form = new PetitionApiTokenForm($token);
@@ -106,15 +106,37 @@ class api_tokenActions extends policatActions {
 
     $petition = $token->getPetition();
 
-    if (!$petition->isTicketManager($this->getGuardUser()))
+    if (!$petition->isCampaignAdmin($this->getGuardUser()))
       return $this->noAccess();
 
     $offsets = $token->getOffsets();
 
     return $this->ajax()
-      ->remove('#token_data_' . $token->getId())
-      ->afterPartial('#token_' . $token->getId(), 'data', array('token' => $token, 'offsets' => $offsets))
-      ->render();
+        ->remove('#token_data_' . $token->getId())
+        ->afterPartial('#token_' . $token->getId(), 'data', array('token' => $token, 'offsets' => $offsets))
+        ->render();
+  }
+
+  public function executeAddnum(sfWebRequest $request) {
+    $petition = PetitionTable::getInstance()->findById($request->getParameter('id'), $this->userIsAdmin());
+    /* @var $petition Petition */
+    if (!$petition || !$request->isMethod('post')) {
+      return $this->notFound();
+    }
+
+    if (!$petition->isCampaignAdmin($this->getGuardUser())) {
+      return $this->noAccess();
+    }
+
+    $form = new EditPetitionCounterForm($petition);
+    $form->bind($request->getPostParameter($form->getName()), $request->getFiles($form->getName()));
+
+    if ($form->isValid()) {
+      $form->save();
+      return $this->ajax()->form($form)->alert('Saved.', '', '.form-actions', 'before')->render();
+    } else {
+      return $this->ajax()->form($form)->render();
+    }
   }
 
 }

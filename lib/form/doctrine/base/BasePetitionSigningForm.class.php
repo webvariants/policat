@@ -1,12 +1,4 @@
 <?php
-/*
- * Copyright (c) 2015, webvariants GmbH & Co. KG, http://www.webvariants.de
- *
- * This file is released under the terms of the MIT license. You can find the
- * complete text in the attached LICENSE file or online at:
- *
- * http://www.opensource.org/licenses/mit-license.php
- */
 
 /**
  * PetitionSigning form base class.
@@ -27,10 +19,12 @@ abstract class BasePetitionSigningForm extends BaseFormDoctrine
       'petition_id'     => new sfWidgetFormDoctrineChoice(array('model' => $this->getRelatedModelName('Petition'), 'add_empty' => false)),
       'fields'          => new sfWidgetFormTextarea(),
       'status'          => new sfWidgetFormInputText(),
+      'verified'        => new sfWidgetFormInputText(),
       'email'           => new sfWidgetFormInputText(),
       'country'         => new sfWidgetFormInputText(),
       'validation_kind' => new sfWidgetFormInputText(),
-      'validation_data' => new sfWidgetFormTextarea(),
+      'validation_data' => new sfWidgetFormInputText(),
+      'delete_code'     => new sfWidgetFormInputText(),
       'widget_id'       => new sfWidgetFormDoctrineChoice(array('model' => $this->getRelatedModelName('Widget'), 'add_empty' => true)),
       'wave_sent'       => new sfWidgetFormInputText(),
       'wave_pending'    => new sfWidgetFormInputText(),
@@ -46,10 +40,13 @@ abstract class BasePetitionSigningForm extends BaseFormDoctrine
       'city'            => new sfWidgetFormInputText(),
       'post_code'       => new sfWidgetFormInputText(),
       'comment'         => new sfWidgetFormTextarea(),
+      'extra1'          => new sfWidgetFormInputText(),
       'privacy'         => new sfWidgetFormInputText(),
       'email_subject'   => new sfWidgetFormInputText(),
       'email_body'      => new sfWidgetFormTextarea(),
       'ref'             => new sfWidgetFormInputText(),
+      'quota_id'        => new sfWidgetFormDoctrineChoice(array('model' => $this->getRelatedModelName('Quota'), 'add_empty' => true)),
+      'quota_emails'    => new sfWidgetFormInputText(),
       'created_at'      => new sfWidgetFormDateTime(),
       'updated_at'      => new sfWidgetFormDateTime(),
       'contact_list'    => new sfWidgetFormDoctrineChoice(array('multiple' => true, 'model' => 'Contact')),
@@ -60,10 +57,12 @@ abstract class BasePetitionSigningForm extends BaseFormDoctrine
       'petition_id'     => new sfValidatorDoctrineChoice(array('model' => $this->getRelatedModelName('Petition'), 'column' => 'id')),
       'fields'          => new sfValidatorString(),
       'status'          => new sfValidatorInteger(array('required' => false)),
+      'verified'        => new sfValidatorInteger(array('required' => false)),
       'email'           => new sfValidatorString(array('max_length' => 80, 'required' => false)),
       'country'         => new sfValidatorString(array('max_length' => 5, 'required' => false)),
       'validation_kind' => new sfValidatorInteger(array('required' => false)),
-      'validation_data' => new sfValidatorString(array('required' => false)),
+      'validation_data' => new sfValidatorString(array('max_length' => 16, 'required' => false)),
+      'delete_code'     => new sfValidatorString(array('max_length' => 16, 'required' => false)),
       'widget_id'       => new sfValidatorDoctrineChoice(array('model' => $this->getRelatedModelName('Widget'), 'column' => 'id', 'required' => false)),
       'wave_sent'       => new sfValidatorInteger(array('required' => false)),
       'wave_pending'    => new sfValidatorInteger(array('required' => false)),
@@ -79,10 +78,13 @@ abstract class BasePetitionSigningForm extends BaseFormDoctrine
       'city'            => new sfValidatorString(array('max_length' => 100, 'required' => false)),
       'post_code'       => new sfValidatorString(array('max_length' => 50, 'required' => false)),
       'comment'         => new sfValidatorString(array('required' => false)),
+      'extra1'          => new sfValidatorString(array('max_length' => 100, 'required' => false)),
       'privacy'         => new sfValidatorInteger(array('required' => false)),
       'email_subject'   => new sfValidatorString(array('max_length' => 250, 'required' => false)),
       'email_body'      => new sfValidatorString(array('required' => false)),
       'ref'             => new sfValidatorString(array('max_length' => 250, 'required' => false)),
+      'quota_id'        => new sfValidatorDoctrineChoice(array('model' => $this->getRelatedModelName('Quota'), 'column' => 'id', 'required' => false)),
+      'quota_emails'    => new sfValidatorInteger(array('required' => false)),
       'created_at'      => new sfValidatorDateTime(),
       'updated_at'      => new sfValidatorDateTime(),
       'contact_list'    => new sfValidatorDoctrineChoice(array('multiple' => true, 'model' => 'Contact', 'required' => false)),

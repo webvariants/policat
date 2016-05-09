@@ -10,7 +10,7 @@ use_helper('I18N');
       <h3>Password request</h3>
     </div>
     <div class="modal-body">
-      <p>Enter the email address you used when you set up your account. We will then email you a link to a secure page where you can create a new password.</p>
+      <p>Enter the e-mail address you used when you set up your account. We will then e-mail you a link to a secure page where you can create a new password.</p>
       <?php echo $form ?>
     </div>
     <div class="modal-footer">

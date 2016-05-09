@@ -1,16 +1,8 @@
 <?php
-/*
- * Copyright (c) 2015, webvariants GmbH & Co. KG, http://www.webvariants.de
- *
- * This file is released under the terms of the MIT license. You can find the
- * complete text in the attached LICENSE file or online at:
- *
- * http://www.opensource.org/licenses/mit-license.php
- */
 
 /**
  * sfGuardUser
- *
+ * 
  * @package    policat
  * @subpackage model
  * @author     Martin
@@ -35,14 +27,6 @@ class sfGuardUser extends PluginsfGuardUser {
     return $this->camapign_admin_ids = CampaignRightsTable::getInstance()->adminIds($this);
   }
 
-  private $petition_admin_ids = null;
-
-  public function getPetitionAdminIds() {
-    if ($this->petition_admin_ids !== null)
-      return $this->petition_admin_ids;
-    return $this->petition_admin_ids = PetitionRightsTable::getInstance()->adminIds($this);
-  }
-
   /**
    *
    * @param Campaign $campaign or ID
@@ -60,23 +44,6 @@ class sfGuardUser extends PluginsfGuardUser {
     return in_array($id, $this->getCampaignAdminIds());
   }
 
-  /**
-   *
-   * @param Petition $petition or ID
-   * @return bool
-   */
-  public function isPetitionAdmin($petition) {
-    if ($this->hasPermission(myUser::CREDENTIAL_ADMIN))
-      return true;
-    if (is_numeric($petition))
-      $id = $petition;
-    elseif ($petition instanceof Petition)
-      $id = $petition->getId();
-    else
-      return null;
-    return in_array($id, $this->getPetitionAdminIds());
-  }
-
   private $cr_cache = array();
 
   /**
@@ -91,7 +58,7 @@ class sfGuardUser extends PluginsfGuardUser {
   }
 
   public function isCampaignMember(Campaign $campaign) {
-    if ($this->hasPermission(myUser::CREDENTIAL_ADMIN))
+    if ($this->hasPermission(myUser::CREDENTIAL_ADMIN) || $campaign->getPublicEnabled() == Campaign::PUBLIC_ENABLED_YES)
       return true;
     $cr = $this->getRightsByCampaign($campaign);
     return $cr && $cr->getActive() && ($cr->getMember() || $cr->getAdmin());
@@ -114,7 +81,7 @@ class sfGuardUser extends PluginsfGuardUser {
     if ($orCampaignAdmin && $this->isCampaignAdmin($petition->getCampaign()))
       return true;
     $pr = $this->getRightsByPetition($petition);
-    return $pr && $pr->getActive() && ($pr->getMember() || $pr->getAdmin()) && $this->isCampaignMember($petition->getCampaign());
+    return $pr && $pr->getActive() && $pr->getMember() && $this->isCampaignMember($petition->getCampaign());
   }
 
   public function randomValidationCode() {

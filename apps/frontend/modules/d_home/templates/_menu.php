@@ -21,6 +21,7 @@
           <?php endif ?>
           <?php if ($tips): ?><li><a href="<?php echo url_for('tips') ?>"><?php echo $tips_title ?></a></li><?php endif ?>
           <?php if ($faq): ?><li><a href="<?php echo url_for('faq') ?>"><?php echo $faq_title ?></a></li><?php endif ?>
+          <?php if ($pricing): ?><li><a href="<?php echo url_for('pricing') ?>">Pricing</a></li><?php endif ?>
           <?php if ($sf_user->isAuthenticated()): ?>
               <?php if ($help): ?><li><a href="<?php echo url_for('help') ?>"><?php echo $help_title ?></a></li><?php endif ?>
             <?php endif ?>
@@ -28,6 +29,7 @@
           <li><a href="<?php echo url_for('dashboard') ?>">Dashboard</a></li>
           <li><a href="<?php echo url_for('action_index') ?>">Actions</a></li>
           <li><a href="<?php echo url_for('widget_index') ?>">Widgets</a></li>
+          <?php if ($pricing): ?><li><a href="<?php echo url_for('pricing') ?>">Pricing</a></li><?php endif ?>
           <li><a href="<?php echo url_for('help') ?>"><?php echo $help_title ?></a></li>
         <?php endif ?>
       </ul>

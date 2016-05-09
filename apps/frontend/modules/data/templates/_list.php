@@ -4,6 +4,7 @@ use_helper('Number');
 <?php if (!isset($no_filter)): ?>
   <form class="form-inline ajax_form" action="<?php echo url_for($route, array_merge($route_params->getRawValue(), array('page' => 1))) ?>" method="get">
       <?php echo $form ?>
+      <input type="hidden" name="s" value="<?php echo $subscriptions ? 1 : 0 ?>" />
       <button class="btn btn-primary" type="submit">Filter</button>
       <button class="filter_reset btn btn-small">Reset filter</button>
   </form>
@@ -41,11 +42,19 @@ use_helper('Number');
                     <?php if ($show_petition): ?><td><?php echo $signing->getPetition()->getName() ?></td><?php endif ?>
                     <td><?php echo $signing->getCreatedAt() ?></td>
                     <?php if ($show_status): ?><td><?php echo $signing->getStatusName() ?></td><?php endif ?>
-                    <?php if ($show_email): ?><td><?php echo $signing->getEmailScramble() ?></td><?php endif ?>
+                    <?php if ($show_email): ?>
+                      <td>
+                        <?php echo $signing->getEmailScramble() ?>
+                        <?php if ($signing->getVerified() == PetitionSigning::VERIFIED_YES): ?><span class="label label-success">verified</span><?php endif ?>
+                        <?php if ($signing->getVerified() == PetitionSigning::VERIFIED_NO): ?><span class="label label-warning">not verified</span><?php endif ?>
+                      </td>
+                    <?php endif ?>
                     <?php if ($show_subscriber): ?>
                       <td>
                           <?php echo $signing->getSubscribe() ? 'yes' : 'no' ?>
                           <?php if ($signing->getWidget()->getUserId() && $signing->getWidget()->getDataOwner() == WidgetTable::DATA_OWNER_YES): ?><br /><span class="label label-info">Data-owner</span><?php endif ?>
+                          <?php if ($signing->getVerified() == PetitionSigning::VERIFIED_YES): ?><span class="label label-success">verified</span><?php endif ?>
+                          <?php if ($signing->getVerified() == PetitionSigning::VERIFIED_NO): ?><span class="label label-warning">not verified</span><?php endif ?>
                       </td>
                     <?php endif ?>
                     <td><?php echo $signing->getCountry() ?></td>
@@ -57,23 +66,14 @@ use_helper('Number');
           </tbody>
       </table>
       <?php include_partial('dashboard/pager', array('pager' => $signings)) ?>
-      <?php if (isset($pages)): ?>
+      <?php if (isset($count)): ?>
         <div class="well">
-            <?php if (isset($download_filter)) $download_filter = '?' . http_build_query($download_filter->getRawValue(), null, '&amp;') ?>
-            <?php if (isset($petition)): ?>
+            <?php if (isset($download_url)): ?>
               Download data (utf-8 encoded .csv):
-              <a class="btn btn-mini ajax_link post" href="<?php echo url_for('data_petition_download', array('id' => $petition->getId())) . $download_filter ?>">Download</a>
-            <?php endif ?>
-            <?php if (isset($campaign)): ?>
-              Download data (utf-8 encoded .csv):
-              <a class="btn btn-mini ajax_link post" href="<?php echo url_for('data_campaign_download', array('id' => $campaign->getId())) . $download_filter ?>">Download</a>
-            <?php endif ?>
-            <?php if (isset($widget)): ?>
-              Download data (utf-8 encoded .csv):
-              <a class="btn btn-mini ajax_link post" href="<?php echo url_for('data_widget_download', array('id' => $widget->getId())) . $download_filter ?>">Download</a>
+              <a class="btn btn-mini ajax_link post" href="<?php echo $download_url ?>">Download</a>
             <?php endif ?>
             <p class="top15 bottom0">
-                The participant list exports contain hashes to compare or deduplicate signings with other lists. Input: email address, utf-8 encoded, white spaces
+                The participant list exports contain hashes to compare or deduplicate signings with other lists. Input: e-mail address, utf-8 encoded, white spaces
                 removed front and tail, all letters converted to lowercase. Function: bcrypt, parameters cost=10 and salt='POLICAT1234567890ABCDE'
             </p>
         </div>

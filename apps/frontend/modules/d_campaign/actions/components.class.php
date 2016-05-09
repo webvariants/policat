@@ -1,6 +1,6 @@
 <?php
 /*
- * Copyright (c) 2015, webvariants GmbH & Co. KG, http://www.webvariants.de
+ * Copyright (c) 2016, webvariants GmbH <?php Co. KG, http://www.webvariants.de
  *
  * This file is released under the terms of the MIT license. You can find the
  * complete text in the attached LICENSE file or online at:
@@ -13,23 +13,9 @@ class d_campaignComponents extends policatComponents {
   public function executeMyCampaigns() {
     $user = $this->getGuardUser();
     if ($user) {
-      if ($this->getUser()->hasCredential(myUser::CREDENTIAL_ADMIN) || StoreTable::value(StoreTable::CAMAPIGN_CREATE_ON)) {
-        $this->create_form = new NewCampaignNameForm();
-      }
-      $this->join_form = new SelectCampaignForm(array(), array(
-          'user' => $user,
-          'is_member' => false,
-          'empty' => 'join campaign',
-          SelectCampaignForm::NAME => 'select_join_campaign',
-          SelectCampaignForm::HELP => 'Join the campaign of your group or organisation. Within each campaign, you can start as many actions as you like - simultaneously or consecutively.'
-      ));
-
-      $this->edit_form = new SelectCampaignForm(array(), array(
-          'user' => $user,
-          'is_member' => true,
-          'empty' => 'go to campaign',
-          SelectCampaignForm::NAME => 'select_edit_campaign'
-      ));
+      $query = CampaignTable::getInstance()->queryByMember($user, true, false, false);
+      $query->orderBy($query->getRootAlias() . '.name ASC');
+      $this->list = $query->execute();
     }
   }
 
@@ -43,4 +29,15 @@ class d_campaignComponents extends policatComponents {
     $this->form = new CampaignSwitchesForm($this->campaign);
   }
 
+  public function executeEditPublic() {
+    $this->form = new CampaignPublicEnableForm($this->campaign);
+  }
+  
+  public function executeList() {
+    $page = isset($this->page) ? $this->page : 1;
+    $query = CampaignTable::getInstance()->queryAll(true)->orderBy('name ASC');
+    
+    $this->campaigns = new policatPager($query, $page, 'campaign_list_pager', array(), true, 20);
+  }
+  
 }

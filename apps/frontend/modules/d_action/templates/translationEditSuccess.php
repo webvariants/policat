@@ -5,6 +5,7 @@
   <li><a href="<?php echo url_for('petition_translations', array('id' => $petition->getId())) ?>">Translations</a></li><span class="divider">/</span>
   <li class="active"><?php echo $translation->getLanguage() ?></li>
 </ul>
+<?php include_component('d_action', 'notice', array('petition' => $petition)) ?>
 <?php include_partial('tabs', array('petition' => $petition, 'active' => 'translations')) ?>
 <h3><?php echo $translation->getLanguage() ?></h3>
 <form class="ajax_form form-horizontal<?php if ($form->getObject()->isNew()): ?> change_onload<?php endif ?>" action="<?php echo $form->getObject()->isNew() ? url_for('translation_create', array('id' => $petition->getId())) : url_for('translation_edit', array('id' => $translation->getId())) ?>" method="post">
@@ -15,11 +16,12 @@
     <?php echo $form->renderRows(array('*language_id', 'status', 'landing_url', '*widget_id')) ?>
 
     <legend>Widget texts</legend>
-    <?php echo $form->renderRows(array('*title', '*target', '*background')) ?>
+    <?php echo $form->renderRows(array('*title', '*target')) ?>
     <?php if ($petition->getKind() != Petition::KIND_PLEDGE): ?>
       <?php echo $form->renderRows(array('*intro')) ?>
     <?php endif ?>
-    <?php echo $form->renderRows(array('*body', '*footer')) ?>
+    <?php echo $form->renderRows(array('*body', '*footer', '*email_subject', '*email_body', '*background')) ?>
+    <?php echo $form->renderRows(array('*label_extra1', '*placeholder_extra1')) ?>
 
     <?php if ($petition->getKind() == Petition::KIND_PLEDGE): ?>
       <legend>Pledge Page</legend>
@@ -29,11 +31,28 @@
       </div>
     <?php endif ?>
 
-    <legend>Emails to participants</legend>
-    <?php echo $form->renderRows(array('*email_subject', '*email_body', '*email_validation_subject', '*email_validation_body', '*email_tellyour_subject', '*email_tellyour_body')) ?>
-
+    <legend>E-mails to participants</legend>
+    <?php echo $form->renderRows(array('*email_validation_subject', '*email_validation_body')) ?>
+    <div class="control-group">
+      <div class="controls">
+        <p class="help-block">Note: #DISCONFIRMATION-URL# adds a link for participants to revoke their participation and delete their data. Make sure you include this, as it is your legal obligation to allow participants to unsubscribe easily, and to allow those who think they didn't participate willingly, to have their data deleted.</p>
+      </div>
+    </div>
+    <?php echo $form->renderRows(array('*email_tellyour_subject', '*email_tellyour_body')) ?>
+    
     <legend>Privacy Policy</legend>
     <?php echo $form->renderRows(array('privacy_policy_body')) ?>
+    
+    <?php if ($petition->getDonateUrl()): ?>
+    <legend>Donate</legend>
+    <div class="control-group">
+        <label class="control-label">Action settings</label>
+        <div class="controls well">
+          Donate link: <?php echo $petition->getDonateUrl() ?>
+        </div>
+    </div>
+    <?php echo $form->renderRows(array('donate_url', 'donate_text')) ?>
+    <?php endif ?>
 
     <?php
     $other_rows = $form->renderOtherRows();

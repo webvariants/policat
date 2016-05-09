@@ -1,6 +1,6 @@
 <?php
 /*
- * Copyright (c) 2015, webvariants GmbH & Co. KG, http://www.webvariants.de
+ * Copyright (c) 2016, webvariants GmbH <?php Co. KG, http://www.webvariants.de
  *
  * This file is released under the terms of the MIT license. You can find the
  * complete text in the attached LICENSE file or online at:
@@ -31,7 +31,7 @@ class EditPetitionForm extends BasePetitionForm {
     unset($this['with_country'], $this['default_country'], $this['pledge_header_visual'], $this['pledge_key_visual']);
     unset($this['pledge_background_color'], $this['pledge_color'], $this['pledge_head_color'], $this['pledge_font']);
     unset($this['pledge_info_columns'], $this['pledge_with_comments'], $this['activity_at'], $this['deleted_pendings']);
-    unset($this['label_mode']);
+    unset($this['label_mode'], $this['follow_petition_id'], $this['with_extra1'], $this['addnum'], $this['target_num']);
 
     $this->setWidget('name', new sfWidgetFormTextarea(array('label' => 'Action name'), array(
         'cols' => 90,
@@ -40,35 +40,28 @@ class EditPetitionForm extends BasePetitionForm {
         'data-content' => 'Give your action a short and memorisable name. It won\'t be shown to your supporters. It\'s only for your and your colleague\'s overview.'
     )));
 
-    $this->getWidgetSchema()->setLabel('addnum', 'Sign-on counter start');
-    $this->getWidget('addnum')->setAttribute('class', 'add_popover');
-    $this->getWidget('addnum')->setAttribute('data-content', 'Add the number of activists that have signed-on to your action in the streets or via another e-action tool. The number will be added to the live counter in all widgets of your e-action. Be honest :-)');
-
-    $this->getWidgetSchema()->setLabel('target_num', 'Sign-on counter target');
-    $this->getWidget('target_num')->setAttribute('class', 'add_popover');
-    $this->getWidget('target_num')->setAttribute('data-content', 'Add your action target as the number of sign-ons that you want to achieve. If you keep "0" in this field, the counter in all widgets will automatically set a motivating target – not too low, not too high – and increase the target automatically to the next level, once a level is met. We recommend keeping "0"in this field to use the automatic target setting. It\'s a fun feature :-) ');
-
     $this->setWidget('read_more_url', new sfWidgetFormInput(array('label' => '"Read more" link'), array(
         'size' => 90,
         'class' => 'add_popover large',
-        'data-content' => 'Add the URL of your campaign site (if you have a central one), including "http://" or http://www. ".  A "Read more" link will appear underneath your e-action. You may leave this field free.',
+        'data-content' => 'Add the URL of your campaign site (if you have a central one), including "https://" or https://www. ".  A "Read more" link will appear underneath your e-action. You may leave this field free.',
         'placeholder' => 'https://www.example.com/'
     )));
     $this->setValidator('read_more_url', new ValidatorUrl(array('required' => false)));
 
-    $this->setWidget('landing_url', new sfWidgetFormInput(array('label' => 'Email Validation Landingpage - auto forwarding to external page'), array(
+    $this->setWidget('landing_url', new sfWidgetFormInput(array('label' => 'E-mail Validation Landingpage - auto forwarding to external page'), array(
         'size' => 90,
         'class' => 'add_popover large',
-        'data-content' => 'Enter URL of external landing page, including \'http://\'. Leave empty for standard landing page',
+        'data-content' => 'Enter URL of external landing page, including \'https://\'. Leave empty for standard landing page',
         'placeholder' => 'https://www.example.com/thank-you'
     )));
     $this->setValidator('landing_url', new ValidatorUrl(array('required' => false, 'trim' => true)));
 
     $this->setWidget('key_visual', new sfWidgetFormInputFileEditable(array(
-        'file_src' => '/images/keyvisual/' . $this->getObject()->getKeyVisual(),
+        'file_src' => $this->getObject()->getKeyVisual() ? '/images/keyvisual/' . $this->getObject()->getKeyVisual() : null,
         'is_image' => true,
-        'with_delete' => false,
-        'template' => '<div>%file%<br />%input%<br />%delete% %delete_label%</div>'
+        'with_delete' => true,
+        'template' => '<div>%file%<br />%input%<br /><label><span style="float:left">%delete%&nbsp</span> %delete_label%</label></div>',
+        'delete_label' => 'No key visual (delete existing key visual)'
     )));
     $this->setValidator('key_visual', new sfValidatorFile(array(
         'required' => false,
@@ -76,6 +69,7 @@ class EditPetitionForm extends BasePetitionForm {
         'path' => sfConfig::get('sf_web_dir') . DIRECTORY_SEPARATOR . 'images' . DIRECTORY_SEPARATOR . 'keyvisual'
     )));
     $this->getWidgetSchema()->setHelp('key_visual', 'Your key visual should be a strong visual expression of what your action is about. It should not contain text in case your action will be multi-lingual. Make sure, your image wider than 150 pixel but not bigger than 20kB in size. Note: portrait images will be cropped to square format!');
+    $this->setValidator('key_visual_delete', new sfValidatorBoolean(array('required' => false)));
 
     $this->setWidget('show_keyvisual', new sfWidgetFormChoice(array(
         'choices' => array(0 => 'no', 1 => 'yes'),
@@ -90,7 +84,7 @@ class EditPetitionForm extends BasePetitionForm {
         ), array(
           'size' => 90,
           'class' => 'add_popover',
-          'data-content' => 'Add your Paypal ID or Paypal email to ask your activists to support your campaign. A "Donate" link will appear underneath your e-action. If people click it, they are asked to donate a free amount of money via Paypal transaction or credit card payment powered by Paypal. You may leave this field free.'
+          'data-content' => 'Add your Paypal ID or Paypal e-mail to ask your activists to support your campaign. A "Donate" link will appear underneath your e-action. If people click it, they are asked to donate a free amount of money via Paypal transaction or credit card payment powered by Paypal. You may leave this field free.'
       )));
       $this->setValidator('paypal_email', new ValidatorEmail(array('required' => false, 'max_length' => 80)));
     }
@@ -98,18 +92,18 @@ class EditPetitionForm extends BasePetitionForm {
     $this->setWidget('from_name', new sfWidgetFormInput(array(), array(
         'size' => 90,
         'class' => 'add_popover',
-        'data-content' => 'Any activist who wants to support your action will receive a verification email. In order to make their participation count, activists must click on the validation link in their verification email, in order to proof their consent. Otherwise, anyone could sign up to an action in anothers\' name. Please specify the name and email address that should appear as the sender of these emails. We recommend, you choose a short name that resembles the action title, and your own email address. Note: you must provide a valid email address to which you have access!'
+        'data-content' => 'Any activist who wants to support your action will receive a verification e-mail. In order to make their participation count, activists must click on the validation link in their verification e-mail, in order to proof their consent. Otherwise, anyone could sign up to an action in anothers\' name. Please specify the name and e-mail address that should appear as the sender of these e-mails. We recommend, you choose a short name that resembles the action title, and your own e-mail address. Note: you must provide a valid e-mail address to which you have access!'
     )));
     $this->setValidator('from_name', new sfValidatorString(array('required' => true, 'max_length' => 80)));
 
     $this->setWidget('from_email', new sfWidgetFormInput(array(), array(
         'size' => 90,
         'class' => 'add_popover',
-        'data-content' => 'Any activist who wants to support your action will receive a verification email. In order to make their participation count, activists must click on the validation link in their verification email, in order to proof their consent. Otherwise, anyone could sign up to an action in anothers\' name. Please specify the name and email address that should appear as the sender of these emails. We recommend, you choose a short name that resembles the action title, and your own email address. Note: you must provide a valid email address to which you have access!',
+        'data-content' => 'Any activist who wants to support your action will receive a verification e-mail. In order to make their participation count, activists must click on the validation link in their verification e-mail, in order to proof their consent. Otherwise, anyone could sign up to an action in anothers\' name. Please specify the name and e-mail address that should appear as the sender of these e-mails. We recommend, you choose a short name that resembles the action title, and your own e-mail address. Note: you must provide a valid e-mail address to which you have access!',
         'placeholder' => 'john.doe@example.com'
     )));
     $this->setValidator('from_email', new ValidatorEmail(array('required' => true, 'max_length' => 80)));
-    $this->getWidgetSchema()->setHelp('from_email', 'Please check if the email domain server of the email you provided allows PoliCAT to send emails with your address. Do not use an address if the SPF check result is "fail". You may use an email address if the SPF check result is "none" or "softfail". However, be aware that in these cases a certain percentage of your validation and action emails might be considered spam by some email clients. Ideally, ask your email server admin to add ' . sfConfig::get('app_spf_ip') . ' in their SPF record."');
+    $this->getWidgetSchema()->setHelp('from_email', 'Please check if the e-mail domain server of the e-mail you provided allows PoliCAT to send e-mails with your address. Do not use an address if the SPF check result is "fail". You may use an e-mail address if the SPF check result is "none" or "softfail". However, be aware that in these cases a certain percentage of your validation and action e-mails might be considered spam by some e-mail clients. Ideally, ask your e-mail server admin to add ' . sfConfig::get('app_spf_ip') . ' in their SPF record, sample code: your.mail.domain. 3600 IN TXT "v=spf1 mx ip4:' . sfConfig::get('app_spf_ip') . '/32 -all"' );
 
     $this->setWidget('homepage', new sfWidgetFormChoice(array(
         'label' => 'Feature on e-action portal',
@@ -158,15 +152,28 @@ class EditPetitionForm extends BasePetitionForm {
         '"Trebuchet MS", Helvetica, sans-serif', 'Verdana, Geneva, sans-serif', '"Courier New", Courier, monospace',
         '"Lucida Console", Monaco, monospace', '"Lucida Sans Unicode", Vardana, Arial'
     );
+    
+    if ($this->getObject()->getKind() == Petition::KIND_PETITION) {
+      $this->setWidget('validation_required', new sfWidgetFormChoice(array(
+          'choices' => array(Petition::VALIDATION_REQUIRED_NO => 'no', Petition::VALIDATION_REQUIRED_YES => 'yes'),
+          'label' => 'Validation required to count signing.'
+      ), array(
+          'class' => 'add_popover',
+          'data-content' => 'PoliCAT sends this email to each signee, asking to validate the stated email address. This is to improve the credibility of your data: it confirms that the stated email address exists and belongs to the participant. Sometimes, participants will not click this link (e.g. because they forget or the verification email lands in their spam filter). Thus, we recommend that you count signatures immediately (i.e. select "no"). This will also give you access to non-verified data, and may improve your overall participation count. The verification email always includes an "opt-out" link, allowing participants to revoke their participation and delete their data.',
+      )));
+      $this->setValidator('validation_required', new sfValidatorChoice(array('choices' => array(Petition::VALIDATION_REQUIRED_NO, Petition::VALIDATION_REQUIRED_YES), 'required' => true)));
+    } else {
+      unset($this['validation_required']);
+    }
 
     if ($this->getObject()->isEmailKind()) { // EMAIL, GEO, GEO_EXTRA => editable
       $this->setWidget('editable', new sfWidgetFormChoice(array('choices' => Petition::$EDITABLE_SHOW, 'label' => 'Text editable'), array(
           'class' => 'add_popover',
-          'data-content' => 'If you enable this, activists can modify the action email text as they wish. We recommend you keep the box ticked and encourage your activists to personalise their action emails.'
+          'data-content' => 'If you enable this, activists can modify the action e-mail text as they wish. We recommend you keep the box ticked and encourage your activists to personalise their action e-mails.'
       )));
       $this->setValidator('editable', new sfValidatorChoice(array('choices' => array_keys(Petition::$EDITABLE_SHOW), 'required' => true)));
 
-      if ($this->getObject()->getKind() == Petition::KIND_OLD_EMAIL_ACTION || $this->getObject()->getKind() == Petition::KIND_EMAIL_ACTION) { // EMAIL  => email_target_email_*, email_target_name_*
+      if ($this->getObject()->getKind() == Petition::KIND_EMAIL_ACTION) { // EMAIL  => email_target_email_*, email_target_name_*
         $email_targets_json = $this->getObject()->getEmailTargets();
         if (is_string($email_targets_json))
           $email_targets_json = json_decode($email_targets_json, true);
@@ -176,16 +183,16 @@ class EditPetitionForm extends BasePetitionForm {
             $email_targets[] = array('email' => $email, 'name' => $name);
 
         $labels = array(
-            1 => array('Name of recipient', 'Email address of recipient'),
-            2 => array('Name (2nd, optional)', 'Email (2nd, optional)'),
-            3 => array('Name (3rd, optional)', 'Email (3rd, optional)')
+            1 => array('Name of recipient', 'E-mail address of recipient'),
+            2 => array('Name (2nd, optional)', 'E-mail (2nd, optional)'),
+            3 => array('Name (3rd, optional)', 'E-mail (3rd, optional)')
         );
 
         for ($i = 1; $i <= 3; $i++) {
           $this->setWidget("email_target_email_$i", new sfWidgetFormInputText(array('label' => $labels[$i][1]), array(
               'size' => 90,
               'class' => 'add_popover',
-              'data-content' => 'Fill in the and email address of your target: the recipient of your email-action.' . ($i > 1 ? ' You may leave this field blank.' : ''),
+              'data-content' => 'Fill in the e-mail address of your target: the recipient of your e-mail-action.' . ($i > 1 ? ' You may leave this field blank.' : ''),
           )));
           $this->setValidator("email_target_email_$i", new ValidatorEmail(array('max_length' => 80, 'min_length' => 3, 'required' => false, 'trim' => true)));
           if (isset($email_targets[$i - 1]))
@@ -193,7 +200,7 @@ class EditPetitionForm extends BasePetitionForm {
           $this->setWidget("email_target_name_$i", new sfWidgetFormInputText(array('label' => $labels[$i][0]), array(
               'size' => 90,
               'class' => 'add_popover',
-              'data-content' => 'Fill in the full name of your target: the recipient of your email-action.' . ($i > 1 ? ' You may leave this field blank.' : ''),
+              'data-content' => 'Fill in the full name of your target: the recipient of your e-mail-action.' . ($i > 1 ? ' You may leave this field blank.' : ''),
           )));
           $this->setValidator("email_target_name_$i", new sfValidatorString(array('max_length' => 80, 'min_length' => 3, 'required' => false, 'trim' => true)));
           if (isset($email_targets[$i - 1]))
@@ -302,12 +309,32 @@ class EditPetitionForm extends BasePetitionForm {
       $this->setWidget('label_mode', new sfWidgetFormChoice(array('choices' => PetitionTable::$LABEL_MODE, 'label' => 'Petition labelling')));
       $this->setValidator('label_mode', new sfValidatorChoice(array('choices' => array_keys(PetitionTable::$LABEL_MODE))));
     }
+
+    $this->setWidget('donate_url', new sfWidgetFormInput(array('label' => 'Alternatively: link to donate page'), array(
+        'size' => 90,
+        'class' => 'add_popover large',
+        'data-content' => 'Enter the link (URL) to our donation page (starting with "https://" or "http://"). This will override a donation-via-Paypal setting. You can specify/add language-specific URLs and add optional texts in the translations of the action.',
+        'placeholder' => 'https://www.example.com/donate',
+    )));
+    $this->setValidator('donate_url', new ValidatorUrl(array('required' => false)));
+    
+    $this->setWidget('donate_widget_edit', new sfWidgetFormChoice(array(
+        'label' => 'Widget owner can edit donation',
+        'choices' => array('0' => 'no', '1' => 'yes')), array(
+        'class' => 'add_popover',
+        'data-content' => 'Select "yes" to allow widget owners to edit donation text and link.'
+    )));
+    $this->setValidator('donate_widget_edit', new sfValidatorChoice(array('choices' => array('0', '1'))));
+    
+    $this->setWidget('policy_checkbox', new sfWidgetFormChoice(array('choices' => PetitionTable::$POLICY_CHECKBOX, 'label' => 'Add privacy policy checkbox')));
+    $this->setValidator('policy_checkbox', new sfValidatorChoice(array('choices' => array_keys(PetitionTable::$POLICY_CHECKBOX))));
+    $this->getWidgetSchema()->setHelp('policy_checkbox', 'This adds a checkbox to the sign-up form of your action. Activists have to actively tick this box to prove that they accept your privacy policy before they can sign up.');
   }
 
   public function processValues($values) {
     $values = parent::processValues($values);
     if ($this->getObject()->isEmailKind()) {
-      if ($this->getObject()->getKind() == Petition::KIND_OLD_EMAIL_ACTION || $this->getObject()->getKind() == Petition::KIND_EMAIL_ACTION) {
+      if ($this->getObject()->getKind() == Petition::KIND_EMAIL_ACTION) {
         $email_targets = array();
         for ($i = 1; $i <= 3; $i++) {
           $name = $this->getValue("email_target_name_$i");

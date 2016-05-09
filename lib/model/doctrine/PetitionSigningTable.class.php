@@ -1,12 +1,4 @@
 <?php
-/*
- * Copyright (c) 2015, webvariants GmbH & Co. KG, http://www.webvariants.de
- *
- * This file is released under the terms of the MIT license. You can find the
- * complete text in the attached LICENSE file or online at:
- *
- * http://www.opensource.org/licenses/mit-license.php
- */
 
 class PetitionSigningTable extends Doctrine_Table {
 
@@ -41,6 +33,7 @@ class PetitionSigningTable extends Doctrine_Table {
   const KEYWORD_COUNTRY = '#SENDER-COUNTRY#';
   const KEYWORD_ADDRESS = '#SENDER-ADDRESS#';
   const KEYWORD_EMAIL = '#SENDER-EMAIL#';
+  const KEYWORD_DATE = '#ACTION-TAKEN-DATE#';
   const ORDER_ASC = '1';
   const ORDER_DESC = '2';
 
@@ -50,7 +43,7 @@ class PetitionSigningTable extends Doctrine_Table {
       self::LANGUAGE => null,
       self::COUNTRY => null,
       self::SUBSCRIBER => false,
-      self::STATUS => PetitionSigning::STATUS_VERIFIED,
+      self::STATUS => PetitionSigning::STATUS_COUNTED,
       self::WIDGET => null,
       self::USER => null,
       self::SEARCH => '',
@@ -61,7 +54,8 @@ class PetitionSigningTable extends Doctrine_Table {
       self::KEYWORD_NAME,
       self::KEYWORD_ADDRESS,
       self::KEYWORD_COUNTRY,
-      self::KEYWORD_EMAIL
+      self::KEYWORD_EMAIL,
+      self::KEYWORD_DATE
   );
 
   /**
@@ -73,8 +67,8 @@ class PetitionSigningTable extends Doctrine_Table {
   public function query(array $options) {
     $query = $this->queryAll('ps')
       ->leftJoin('ps.Widget w')
-      ->leftJoin('w.WidgetOwner wo')
-      ->leftJoin('w.PetitionText pt');
+      ->leftJoin('w.PetitionText pt')
+      ->useQueryCache(false);
 
     $options = array_merge(self::$DEFAULT_OPTIONS, $options);
     $language = $options[self::LANGUAGE];
@@ -128,10 +122,30 @@ class PetitionSigningTable extends Doctrine_Table {
     }
 
     if ($language) {
-      if (is_array($language))
-        $query->andWhereIn('pt.language_id', $language);
-      else
-        $query->andWhere('pt.language_id = ?', $language);
+      $widget_ids_lang_sub_query = $query->copy()
+        ->orderBy('ps.widget_id')
+        ->removeSqlQueryPart('orderby')
+        ->select('DISTINCT ps.widget_id');
+      if (is_array($language)) {
+        $widget_ids_lang_sub_query->andWhereIn('pt.language_id', $language);
+      } else {
+        $widget_ids_lang_sub_query->andWhere('pt.language_id = ?', $language);
+      }
+
+      $widget_lang_filter_query = WidgetTable::getInstance()->createQuery('wlfq')
+        ->where('wlfq.id IN (' . $widget_ids_lang_sub_query->getDql() . ')', $widget_ids_lang_sub_query)
+        ->removeSqlQueryPart('orderby')
+        ->select('DISTINCT wlfq.id');
+      $widget_lang_filter_query->setParams($widget_ids_lang_sub_query->getParams());
+
+
+
+      $widget_lang_ids = (array) $widget_ids_lang_sub_query->execute(array(), Doctrine_Core::HYDRATE_SINGLE_SCALAR);
+      if (count($widget_lang_ids)) {
+        $query->andWhereIn('ps.widget_id', $widget_lang_ids);
+      } else {
+        $query->andWhere('ps.widget_id = -3'); // force to return nothing
+      }
     }
 
     if ($country) {
@@ -143,11 +157,30 @@ class PetitionSigningTable extends Doctrine_Table {
 
     if ($subscriber) {
       $query->andWhere('ps.subscribe = ?', PetitionSigning::SUBSCRIBE_YES);
+
+      $widget_ids_sub_query = $query->copy()
+        ->orderBy('ps.widget_id')
+        ->removeSqlQueryPart('orderby')
+        ->select('DISTINCT ps.widget_id');
+
+      $widget_filter_query = WidgetTable::getInstance()->createQuery('wfq')
+        ->where('wfq.id IN (' . $widget_ids_sub_query->getDql() . ')', $widget_ids_sub_query)
+        ->removeSqlQueryPart('orderby')
+        ->select('DISTINCT wfq.id');
+      $widget_filter_query->setParams($widget_ids_sub_query->getParams());
+
       if ($user) {
         $user_id = is_object($user) ? $user->getId() : $user;
-        $query->andWhere('w.user_id = ? AND w.data_owner = ?', array($user_id, WidgetTable::DATA_OWNER_YES));
+        $widget_filter_query->andWhere('wfq.user_id = ? AND wfq.data_owner = ?', array($user_id, WidgetTable::DATA_OWNER_YES));
       } else {
-        $query->andWhere('w.user_id is null OR w.data_owner = ?', WidgetTable::DATA_OWNER_NO);
+        $widget_filter_query->andWhere('wfq.user_id is null OR wfq.data_owner = ?', WidgetTable::DATA_OWNER_NO);
+      }
+
+      $widget_ids = (array) $widget_filter_query->execute(array(), Doctrine_Core::HYDRATE_SINGLE_SCALAR);
+      if (count($widget_ids)) {
+        $query->andWhereIn('ps.widget_id', $widget_ids);
+      } else {
+        $query->andWhere('ps.widget_id = -1'); // force to return nothing
       }
     }
 
@@ -195,7 +228,7 @@ class PetitionSigningTable extends Doctrine_Table {
   public function countByPetition($petition, $min_date = null, $max_date = null, $timeToLive = 600, $refresh = false) {
     $petition_id = $petition instanceof Petition ? $petition->getId() : $petition;
     $query = $this->queryAll('ps')
-      ->where('ps.petition_id = ? AND ps.status = ?', array($petition_id, PetitionSigning::STATUS_VERIFIED));
+      ->where('ps.petition_id = ? AND ps.status = ?', array($petition_id, PetitionSigning::STATUS_COUNTED));
 
     $this->dateFilter($query, $min_date, $max_date, 'ps', 'created_at');
 
@@ -210,7 +243,7 @@ class PetitionSigningTable extends Doctrine_Table {
 
   public function countByPetitionCountries($petition_id, $min_date = null, $max_date = null, $timeToLive = 600, $refresh = false) {
     $query = $this->queryAll('ps')
-        ->where('ps.petition_id = ? AND ps.status = ?', array($petition_id, PetitionSigning::STATUS_VERIFIED))
+        ->where('ps.petition_id = ? AND ps.status = ?', array($petition_id, PetitionSigning::STATUS_COUNTED))
         ->select('ps.country, COUNT(ps.id) as count')->groupBy('ps.country');
 
     $this->dateFilter($query, $min_date, $max_date, 'ps', 'created_at');
@@ -237,7 +270,7 @@ class PetitionSigningTable extends Doctrine_Table {
   public function count24ByPetition(Petition $petition, $timeToLive = 600) {
     $query = $this
       ->queryAll('ps')
-      ->where('ps.petition_id = ? AND ps.status = ? AND DATE_SUB(NOW(),INTERVAL 1 DAY) <= ps.created_at', array($petition->getId(), PetitionSigning::STATUS_VERIFIED));
+      ->where('ps.petition_id = ? AND ps.status = ? AND DATE_SUB(NOW(),INTERVAL 1 DAY) <= ps.created_at', array($petition->getId(), PetitionSigning::STATUS_COUNTED));
     if ($timeToLive)
       $query->useResultCache(true, $timeToLive);
 
@@ -256,7 +289,7 @@ class PetitionSigningTable extends Doctrine_Table {
   public function countByWidget($widget, $min_date = null, $max_date = null, $timeToLive = 600, $refresh = false) {
     $widget_id = $widget instanceof Widget ? $widget->getId() : $widget;
     $query = $this->queryAll('ps')
-      ->where('ps.widget_id = ? AND ps.status = ?', array($widget_id, PetitionSigning::STATUS_VERIFIED));
+      ->where('ps.widget_id = ? AND ps.status = ?', array($widget_id, PetitionSigning::STATUS_COUNTED));
     $this->dateFilter($query, $min_date, $max_date, 'ps', 'created_at');
 
     if ($timeToLive)
@@ -270,7 +303,7 @@ class PetitionSigningTable extends Doctrine_Table {
 
   public function countByWidgetCountries($widget_id, $min_date = null, $max_date = null, $timeToLive = 600, $refresh = false) {
     $query = $this->queryAll('ps')
-        ->where('ps.widget_id = ? AND ps.status = ?', array($widget_id, PetitionSigning::STATUS_VERIFIED))
+        ->where('ps.widget_id = ? AND ps.status = ?', array($widget_id, PetitionSigning::STATUS_COUNTED))
         ->select('ps.country, COUNT(ps.id) as count')->groupBy('ps.country');
     $this->dateFilter($query, $min_date, $max_date, 'ps', 'created_at');
 
@@ -310,10 +343,11 @@ class PetitionSigningTable extends Doctrine_Table {
   public function fetch($id) {
     return $this->createQuery('ps')
         ->leftJoin('ps.Petition p')
+        ->leftJoin('p.Campaign c')
         ->leftJoin('ps.Widget w, w.PetitionText pt')
         ->leftJoin('ps.PetitionSigningWave psw')
         ->where('ps.id = ?', $id)
-        ->select('ps.*, p.id, p.kind, p.email_targets, p.landing_url, ps.widget_id, w.id, w.petition_text_id, w.landing_url, pt.id, pt.language_id, pt.landing_url, psw.*')
+        ->select('ps.*, p.id, p.kind, p.email_targets, p.landing_url, ps.widget_id, c.id, c.billing_enabled, c.quota_id, w.id, w.petition_text_id, w.landing_url, pt.id, pt.language_id, pt.landing_url, psw.*')
         ->fetchOne();
   }
 
@@ -328,7 +362,7 @@ class PetitionSigningTable extends Doctrine_Table {
     $query = $this
       ->createQuery('s')
       ->where('s.petition_id = ?', $petition_id)
-      ->andWhere('LOWER(s.email) = LOWER(?)', $email);
+      ->andWhere('s.email = ?', $email);
     if ($lower_then_id) {
       $query->andWhere('s.id < ?', $lower_then_id);
     }
@@ -339,7 +373,7 @@ class PetitionSigningTable extends Doctrine_Table {
     $query_orga = WidgetTable::getInstance()
       ->queryByPetition($petition)
       ->andWhere('w.organisation != ""')
-      ->andWhere('w.id IN (SELECT DISTINCT ps.widget_id FROM PetitionSigning ps WHERE ps.status = ? AND ps.widget_id = w.id)', PetitionSigning::STATUS_VERIFIED);
+      ->andWhere('w.id IN (SELECT DISTINCT ps.widget_id FROM PetitionSigning ps WHERE ps.status = ? AND ps.widget_id = w.id)', PetitionSigning::STATUS_COUNTED);
     $query_orga->select('DISTINCT ' . $query_orga->getRootAlias() . '.organisation');
     $result_orga = $query_orga->fetchArray();
 
@@ -351,7 +385,7 @@ class PetitionSigningTable extends Doctrine_Table {
     $query_user = WidgetTable::getInstance()
       ->queryByPetition($petition)
       ->andWhere('w.user_id IS NOT NULL')
-      ->andWhere('w.id IN (SELECT DISTINCT ps.widget_id FROM PetitionSigning ps WHERE ps.status = ? AND ps.widget_id = w.id)', PetitionSigning::STATUS_VERIFIED);
+      ->andWhere('w.id IN (SELECT DISTINCT ps.widget_id FROM PetitionSigning ps WHERE ps.status = ? AND ps.widget_id = w.id)', PetitionSigning::STATUS_COUNTED);
     $query_user->select('DISTINCT ' . $query_user->getRootAlias() . '.user_id');
     $result_user = $query_user->fetchArray();
     $user_ids = array();
@@ -371,7 +405,7 @@ class PetitionSigningTable extends Doctrine_Table {
     $widgets = array();
     $widget_ids = WidgetTable::getInstance()
       ->queryByPetition($petition)
-      ->andWhere('w.id IN (SELECT DISTINCT ps.widget_id FROM PetitionSigning ps WHERE ps.status = ? AND ps.widget_id = w.id)', PetitionSigning::STATUS_VERIFIED)
+      ->andWhere('w.id IN (SELECT DISTINCT ps.widget_id FROM PetitionSigning ps WHERE ps.status = ? AND ps.widget_id = w.id)', PetitionSigning::STATUS_COUNTED)
       ->select('w.id')
       ->fetchArray();
     foreach ($widget_ids as $widget) {
@@ -393,7 +427,7 @@ class PetitionSigningTable extends Doctrine_Table {
 
     $query = $this->createQuery('ps')
       ->whereIn('ps.widget_id', $widget_id)
-      ->andWhere('status = ' . PetitionSigning::STATUS_VERIFIED)
+      ->andWhere('status = ' . PetitionSigning::STATUS_COUNTED)
       ->select('ps.country')
       ->groupBy('ps.country');
 
@@ -409,7 +443,7 @@ class PetitionSigningTable extends Doctrine_Table {
 
     $query = $this->createQuery('ps')
       ->whereIn('ps.widget_id', $widget_id)
-      ->andWhere('status = ' . PetitionSigning::STATUS_VERIFIED)
+      ->andWhere('status = ' . PetitionSigning::STATUS_COUNTED)
       ->select('MIN(created_at) AS min_created, MAX(created_at) AS max_created');
 
     $this->dateFilter($query, $min_date, $max_date);
@@ -432,7 +466,7 @@ class PetitionSigningTable extends Doctrine_Table {
   public function fetchSigningDateRangeByPetition($petition_id, $min_date = null, $max_date = null, $timeToLive = 600, $refresh = false) {
     $query = $this->createQuery('ps')
       ->whereIn('ps.petition_id', $petition_id)
-      ->andWhere('status = ' . PetitionSigning::STATUS_VERIFIED)
+      ->andWhere('status = ' . PetitionSigning::STATUS_COUNTED)
       ->select('MIN(created_at) AS min_created, MAX(created_at) AS max_created');
 
     $this->dateFilter($query, $min_date, $max_date);

@@ -1,6 +1,6 @@
 <?php
 /*
- * Copyright (c) 2015, webvariants GmbH & Co. KG, http://www.webvariants.de
+ * Copyright (c) 2016, webvariants GmbH <?php Co. KG, http://www.webvariants.de
  *
  * This file is released under the terms of the MIT license. You can find the
  * complete text in the attached LICENSE file or online at:
@@ -147,6 +147,7 @@ class policatActions extends sfActions {
     $request = $this->getRequest();
     if ($request instanceof sfWebRequest && $request->isXmlHttpRequest())
       return $this->ajax()->alert($message)->render();
+    $this->message = $message;
     return $this->forward404($message);
   }
 
@@ -164,35 +165,34 @@ class policatActions extends sfActions {
   public function includeMarkdown() {
     $response = $this->getResponse();
     if ($response instanceof sfWebResponse) {
-      $response->addStylesheet('markitup/skins/markitup/style.css', 'last');
-      $response->addStylesheet('markitup/sets/markdown/style.css', 'last');
-      $response->addJavascript('markitup/sets/markdown/showdown.js', 'last');
-      $response->addJavascript('markitup/jquery.markitup.js', 'last');
-      $response->addJavascript('markitup/sets/markdown/set.js', 'last');
+      $response->addStylesheet('dist/markitup/skins/markitup/style.css', 'last');
+      $response->addStylesheet('markdown/style.css', 'last');
+      $response->addJavascript('dist/showdown.js', 'last');
+      $response->addJavascript('dist/markitup/jquery.markitup.js', 'last');
+      $response->addJavascript('markdown/set.js', 'last');
     }
   }
 
   public function includeIframeTransport() {
     $response = $this->getResponse();
     if ($response instanceof sfWebResponse) {
-      $response->addJavascript('jquery.iframe-transport.js', 'last');
+      $response->addJavascript('dist/jquery.iframe-transport.js', 'last');
     }
   }
 
   public function includeHighlight() {
     $response = $this->getResponse();
     if ($response instanceof sfWebResponse) {
-      $response->addStylesheet('jquery.highlighttextarea.css', 'last');
-      $response->addJavascript('jquery.highlighttextarea.js', 'last');
+      $response->addStylesheet('dist/jquery.highlighttextarea.css', 'last');
+      $response->addJavascript('dist/jquery.highlighttextarea.js', 'last');
     }
   }
 
   public function includeChosen() {
     $response = $this->getResponse();
     if ($response instanceof sfWebResponse) {
-      $response->addStylesheet('chosen/chosen.css', 'last');
-      $response->addJavascript('chosen/chosen.jquery.min.js', 'last');
-//      $response->addJavascript('chosen/chosen.ajaxaddition.jquery.js', 'last');
+      $response->addStylesheet('dist/chosen.min.css', 'last');
+      $response->addJavascript('dist/chosen.jquery.min.js', 'last');
     }
   }
 

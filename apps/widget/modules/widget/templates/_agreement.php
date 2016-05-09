@@ -19,7 +19,7 @@
   <tr>
     <th>last name</th>
     <td><?php echo Util::enc($owner->getLastname()) ?></td>
-    <th>email</th>
+    <th>e-mail</th>
     <td><?php echo Util::enc($owner->getEmail()) ?></td>
   </tr>
   <tr>

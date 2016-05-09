@@ -1,12 +1,4 @@
 <?php
-/*
- * Copyright (c) 2015, webvariants GmbH & Co. KG, http://www.webvariants.de
- *
- * This file is released under the terms of the MIT license. You can find the
- * complete text in the attached LICENSE file or online at:
- *
- * http://www.opensource.org/licenses/mit-license.php
- */
 
 /**
  * Widget form base class.
@@ -28,6 +20,7 @@ abstract class BaseWidgetForm extends BaseFormDoctrine
       'campaign_id'       => new sfWidgetFormDoctrineChoice(array('model' => $this->getRelatedModelName('Campaign'), 'add_empty' => false)),
       'petition_id'       => new sfWidgetFormDoctrineChoice(array('model' => $this->getRelatedModelName('Petition'), 'add_empty' => false)),
       'petition_text_id'  => new sfWidgetFormDoctrineChoice(array('model' => $this->getRelatedModelName('PetitionText'), 'add_empty' => false)),
+      'origin_widget_id'  => new sfWidgetFormDoctrineChoice(array('model' => $this->getRelatedModelName('OriginWidget'), 'add_empty' => true)),
       'status'            => new sfWidgetFormInputText(),
       'title'             => new sfWidgetFormTextarea(),
       'target'            => new sfWidgetFormTextarea(),
@@ -40,6 +33,8 @@ abstract class BaseWidgetForm extends BaseFormDoctrine
       'email'             => new sfWidgetFormInputText(),
       'organisation'      => new sfWidgetFormInputText(),
       'landing_url'       => new sfWidgetFormTextarea(),
+      'donate_url'        => new sfWidgetFormInputText(),
+      'donate_text'       => new sfWidgetFormTextarea(),
       'ref'               => new sfWidgetFormTextarea(),
       'validation_kind'   => new sfWidgetFormInputText(),
       'validation_data'   => new sfWidgetFormTextarea(),
@@ -61,6 +56,7 @@ abstract class BaseWidgetForm extends BaseFormDoctrine
       'campaign_id'       => new sfValidatorDoctrineChoice(array('model' => $this->getRelatedModelName('Campaign'), 'column' => 'id')),
       'petition_id'       => new sfValidatorDoctrineChoice(array('model' => $this->getRelatedModelName('Petition'), 'column' => 'id')),
       'petition_text_id'  => new sfValidatorDoctrineChoice(array('model' => $this->getRelatedModelName('PetitionText'), 'column' => 'id')),
+      'origin_widget_id'  => new sfValidatorDoctrineChoice(array('model' => $this->getRelatedModelName('OriginWidget'), 'column' => 'id', 'required' => false)),
       'status'            => new sfValidatorInteger(array('required' => false)),
       'title'             => new sfValidatorString(),
       'target'            => new sfValidatorString(array('required' => false)),
@@ -73,6 +69,8 @@ abstract class BaseWidgetForm extends BaseFormDoctrine
       'email'             => new sfValidatorString(array('max_length' => 80, 'required' => false)),
       'organisation'      => new sfValidatorString(array('max_length' => 200, 'required' => false)),
       'landing_url'       => new sfValidatorString(array('required' => false)),
+      'donate_url'        => new sfValidatorString(array('max_length' => 200, 'required' => false)),
+      'donate_text'       => new sfValidatorString(array('required' => false)),
       'ref'               => new sfValidatorString(array('required' => false)),
       'validation_kind'   => new sfValidatorInteger(array('required' => false)),
       'validation_data'   => new sfValidatorString(array('required' => false)),

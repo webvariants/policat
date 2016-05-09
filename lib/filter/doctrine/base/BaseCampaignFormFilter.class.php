@@ -1,12 +1,4 @@
 <?php
-/*
- * Copyright (c) 2015, webvariants GmbH & Co. KG, http://www.webvariants.de
- *
- * This file is released under the terms of the MIT license. You can find the
- * complete text in the attached LICENSE file or online at:
- *
- * http://www.opensource.org/licenses/mit-license.php
- */
 
 /**
  * Campaign filter form base class.
@@ -23,12 +15,17 @@ abstract class BaseCampaignFormFilter extends BaseFormFilterDoctrine
     $this->setWidgets(array(
       'name'                  => new sfWidgetFormFilterInput(array('with_empty' => false)),
       'status'                => new sfWidgetFormFilterInput(array('with_empty' => false)),
+      'billing_enabled'       => new sfWidgetFormFilterInput(array('with_empty' => false)),
       'owner_register'        => new sfWidgetFormFilterInput(array('with_empty' => false)),
       'allow_download'        => new sfWidgetFormFilterInput(array('with_empty' => false)),
       'become_petition_admin' => new sfWidgetFormFilterInput(array('with_empty' => false)),
       'privacy_policy'        => new sfWidgetFormFilterInput(array('with_empty' => false)),
       'address'               => new sfWidgetFormFilterInput(array('with_empty' => false)),
       'data_owner_id'         => new sfWidgetFormDoctrineChoice(array('model' => $this->getRelatedModelName('DataOwner'), 'add_empty' => true)),
+      'quota_id'              => new sfWidgetFormDoctrineChoice(array('model' => $this->getRelatedModelName('Quota'), 'add_empty' => true)),
+      'order_id'              => new sfWidgetFormDoctrineChoice(array('model' => $this->getRelatedModelName('Order'), 'add_empty' => true)),
+      'public_enabled'        => new sfWidgetFormFilterInput(array('with_empty' => false)),
+      'join_enabled'          => new sfWidgetFormFilterInput(array('with_empty' => false)),
       'created_at'            => new sfWidgetFormFilterDate(array('from_date' => new sfWidgetFormDate(), 'to_date' => new sfWidgetFormDate(), 'with_empty' => false)),
       'updated_at'            => new sfWidgetFormFilterDate(array('from_date' => new sfWidgetFormDate(), 'to_date' => new sfWidgetFormDate(), 'with_empty' => false)),
       'object_version'        => new sfWidgetFormFilterInput(),
@@ -38,12 +35,17 @@ abstract class BaseCampaignFormFilter extends BaseFormFilterDoctrine
     $this->setValidators(array(
       'name'                  => new sfValidatorPass(array('required' => false)),
       'status'                => new sfValidatorSchemaFilter('text', new sfValidatorInteger(array('required' => false))),
+      'billing_enabled'       => new sfValidatorSchemaFilter('text', new sfValidatorInteger(array('required' => false))),
       'owner_register'        => new sfValidatorSchemaFilter('text', new sfValidatorInteger(array('required' => false))),
       'allow_download'        => new sfValidatorSchemaFilter('text', new sfValidatorInteger(array('required' => false))),
       'become_petition_admin' => new sfValidatorSchemaFilter('text', new sfValidatorInteger(array('required' => false))),
       'privacy_policy'        => new sfValidatorPass(array('required' => false)),
       'address'               => new sfValidatorPass(array('required' => false)),
       'data_owner_id'         => new sfValidatorDoctrineChoice(array('required' => false, 'model' => $this->getRelatedModelName('DataOwner'), 'column' => 'id')),
+      'quota_id'              => new sfValidatorDoctrineChoice(array('required' => false, 'model' => $this->getRelatedModelName('Quota'), 'column' => 'id')),
+      'order_id'              => new sfValidatorDoctrineChoice(array('required' => false, 'model' => $this->getRelatedModelName('Order'), 'column' => 'id')),
+      'public_enabled'        => new sfValidatorSchemaFilter('text', new sfValidatorInteger(array('required' => false))),
+      'join_enabled'          => new sfValidatorSchemaFilter('text', new sfValidatorInteger(array('required' => false))),
       'created_at'            => new sfValidatorDateRange(array('required' => false, 'from_date' => new sfValidatorDateTime(array('required' => false, 'datetime_output' => 'Y-m-d 00:00:00')), 'to_date' => new sfValidatorDateTime(array('required' => false, 'datetime_output' => 'Y-m-d 23:59:59')))),
       'updated_at'            => new sfValidatorDateRange(array('required' => false, 'from_date' => new sfValidatorDateTime(array('required' => false, 'datetime_output' => 'Y-m-d 00:00:00')), 'to_date' => new sfValidatorDateTime(array('required' => false, 'datetime_output' => 'Y-m-d 23:59:59')))),
       'object_version'        => new sfValidatorPass(array('required' => false)),
@@ -88,12 +90,17 @@ abstract class BaseCampaignFormFilter extends BaseFormFilterDoctrine
       'id'                    => 'Number',
       'name'                  => 'Text',
       'status'                => 'Number',
+      'billing_enabled'       => 'Number',
       'owner_register'        => 'Number',
       'allow_download'        => 'Number',
       'become_petition_admin' => 'Number',
       'privacy_policy'        => 'Text',
       'address'               => 'Text',
       'data_owner_id'         => 'ForeignKey',
+      'quota_id'              => 'ForeignKey',
+      'order_id'              => 'ForeignKey',
+      'public_enabled'        => 'Number',
+      'join_enabled'          => 'Number',
       'created_at'            => 'Date',
       'updated_at'            => 'Date',
       'object_version'        => 'Text',
