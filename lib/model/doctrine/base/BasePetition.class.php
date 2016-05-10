@@ -60,6 +60,7 @@
  * @property integer $deleted_pendings
  * @property integer $label_mode
  * @property integer $policy_checkbox
+ * @property integer $thank_you_email
  * @property Campaign $Campaign
  * @property Language $Language
  * @property MailingList $MailingList
@@ -131,6 +132,7 @@
  * @method integer             getDeletedPendings()         Returns the current record's "deleted_pendings" value
  * @method integer             getLabelMode()               Returns the current record's "label_mode" value
  * @method integer             getPolicyCheckbox()          Returns the current record's "policy_checkbox" value
+ * @method integer             getThankYouEmail()           Returns the current record's "thank_you_email" value
  * @method Campaign            getCampaign()                Returns the current record's "Campaign" value
  * @method Language            getLanguage()                Returns the current record's "Language" value
  * @method MailingList         getMailingList()             Returns the current record's "MailingList" value
@@ -201,6 +203,7 @@
  * @method Petition            setDeletedPendings()         Sets the current record's "deleted_pendings" value
  * @method Petition            setLabelMode()               Sets the current record's "label_mode" value
  * @method Petition            setPolicyCheckbox()          Sets the current record's "policy_checkbox" value
+ * @method Petition            setThankYouEmail()           Sets the current record's "thank_you_email" value
  * @method Petition            setCampaign()                Sets the current record's "Campaign" value
  * @method Petition            setLanguage()                Sets the current record's "Language" value
  * @method Petition            setMailingList()             Sets the current record's "MailingList" value
@@ -514,6 +517,12 @@ abstract class BasePetition extends myDoctrineRecord
              'type' => 'integer',
              'notnull' => true,
              'default' => 1,
+             'length' => 1,
+             ));
+        $this->hasColumn('thank_you_email', 'integer', 1, array(
+             'type' => 'integer',
+             'notnull' => true,
+             'default' => 0,
              'length' => 1,
              ));
 

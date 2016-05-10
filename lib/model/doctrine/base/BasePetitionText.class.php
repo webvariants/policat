@@ -17,6 +17,8 @@
  * @property clob $footer
  * @property string $email_subject
  * @property clob $email_body
+ * @property string $thank_you_email_subject
+ * @property clob $thank_you_email_body
  * @property string $email_validation_subject
  * @property clob $email_validation_body
  * @property string $email_tellyour_subject
@@ -51,6 +53,8 @@
  * @method clob                getFooter()                       Returns the current record's "footer" value
  * @method string              getEmailSubject()                 Returns the current record's "email_subject" value
  * @method clob                getEmailBody()                    Returns the current record's "email_body" value
+ * @method string              getThankYouEmailSubject()         Returns the current record's "thank_you_email_subject" value
+ * @method clob                getThankYouEmailBody()            Returns the current record's "thank_you_email_body" value
  * @method string              getEmailValidationSubject()       Returns the current record's "email_validation_subject" value
  * @method clob                getEmailValidationBody()          Returns the current record's "email_validation_body" value
  * @method string              getEmailTellyourSubject()         Returns the current record's "email_tellyour_subject" value
@@ -84,6 +88,8 @@
  * @method PetitionText        setFooter()                       Sets the current record's "footer" value
  * @method PetitionText        setEmailSubject()                 Sets the current record's "email_subject" value
  * @method PetitionText        setEmailBody()                    Sets the current record's "email_body" value
+ * @method PetitionText        setThankYouEmailSubject()         Sets the current record's "thank_you_email_subject" value
+ * @method PetitionText        setThankYouEmailBody()            Sets the current record's "thank_you_email_body" value
  * @method PetitionText        setEmailValidationSubject()       Sets the current record's "email_validation_subject" value
  * @method PetitionText        setEmailValidationBody()          Sets the current record's "email_validation_body" value
  * @method PetitionText        setEmailTellyourSubject()         Sets the current record's "email_tellyour_subject" value
@@ -163,6 +169,12 @@ abstract class BasePetitionText extends myDoctrineRecord
              'type' => 'string',
              ));
         $this->hasColumn('email_body', 'clob', null, array(
+             'type' => 'clob',
+             ));
+        $this->hasColumn('thank_you_email_subject', 'string', null, array(
+             'type' => 'string',
+             ));
+        $this->hasColumn('thank_you_email_body', 'clob', null, array(
              'type' => 'clob',
              ));
         $this->hasColumn('email_validation_subject', 'string', null, array(

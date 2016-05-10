@@ -25,50 +25,53 @@
  * @property Quota $UpgradeOf
  * @property Campaign $activeCampaign
  * @property Doctrine_Collection $PetitionSigning
+ * @property Doctrine_Collection $PetitionSigningThankYous
  * @property Quota $UpgradedBy
  * 
- * @method integer             getId()               Returns the current record's "id" value
- * @method integer             getStatus()           Returns the current record's "status" value
- * @method string              getName()             Returns the current record's "name" value
- * @method decimal             getPrice()            Returns the current record's "price" value
- * @method integer             getDays()             Returns the current record's "days" value
- * @method integer             getEmails()           Returns the current record's "emails" value
- * @method integer             getUserId()           Returns the current record's "user_id" value
- * @method integer             getCampaignId()       Returns the current record's "campaign_id" value
- * @method date                getStartAt()          Returns the current record's "start_at" value
- * @method date                getEndAt()            Returns the current record's "end_at" value
- * @method date                getPaidAt()           Returns the current record's "paid_at" value
- * @method integer             getEmailsRemaining()  Returns the current record's "emails_remaining" value
- * @method integer             getOrderId()          Returns the current record's "order_id" value
- * @method integer             getUpgradeOfId()      Returns the current record's "upgrade_of_id" value
- * @method sfGuardUser         getUser()             Returns the current record's "User" value
- * @method Campaign            getCampaign()         Returns the current record's "Campaign" value
- * @method Order               getOrder()            Returns the current record's "Order" value
- * @method Quota               getUpgradeOf()        Returns the current record's "UpgradeOf" value
- * @method Campaign            getActiveCampaign()   Returns the current record's "activeCampaign" value
- * @method Doctrine_Collection getPetitionSigning()  Returns the current record's "PetitionSigning" collection
- * @method Quota               getUpgradedBy()       Returns the current record's "UpgradedBy" value
- * @method Quota               setId()               Sets the current record's "id" value
- * @method Quota               setStatus()           Sets the current record's "status" value
- * @method Quota               setName()             Sets the current record's "name" value
- * @method Quota               setPrice()            Sets the current record's "price" value
- * @method Quota               setDays()             Sets the current record's "days" value
- * @method Quota               setEmails()           Sets the current record's "emails" value
- * @method Quota               setUserId()           Sets the current record's "user_id" value
- * @method Quota               setCampaignId()       Sets the current record's "campaign_id" value
- * @method Quota               setStartAt()          Sets the current record's "start_at" value
- * @method Quota               setEndAt()            Sets the current record's "end_at" value
- * @method Quota               setPaidAt()           Sets the current record's "paid_at" value
- * @method Quota               setEmailsRemaining()  Sets the current record's "emails_remaining" value
- * @method Quota               setOrderId()          Sets the current record's "order_id" value
- * @method Quota               setUpgradeOfId()      Sets the current record's "upgrade_of_id" value
- * @method Quota               setUser()             Sets the current record's "User" value
- * @method Quota               setCampaign()         Sets the current record's "Campaign" value
- * @method Quota               setOrder()            Sets the current record's "Order" value
- * @method Quota               setUpgradeOf()        Sets the current record's "UpgradeOf" value
- * @method Quota               setActiveCampaign()   Sets the current record's "activeCampaign" value
- * @method Quota               setPetitionSigning()  Sets the current record's "PetitionSigning" collection
- * @method Quota               setUpgradedBy()       Sets the current record's "UpgradedBy" value
+ * @method integer             getId()                       Returns the current record's "id" value
+ * @method integer             getStatus()                   Returns the current record's "status" value
+ * @method string              getName()                     Returns the current record's "name" value
+ * @method decimal             getPrice()                    Returns the current record's "price" value
+ * @method integer             getDays()                     Returns the current record's "days" value
+ * @method integer             getEmails()                   Returns the current record's "emails" value
+ * @method integer             getUserId()                   Returns the current record's "user_id" value
+ * @method integer             getCampaignId()               Returns the current record's "campaign_id" value
+ * @method date                getStartAt()                  Returns the current record's "start_at" value
+ * @method date                getEndAt()                    Returns the current record's "end_at" value
+ * @method date                getPaidAt()                   Returns the current record's "paid_at" value
+ * @method integer             getEmailsRemaining()          Returns the current record's "emails_remaining" value
+ * @method integer             getOrderId()                  Returns the current record's "order_id" value
+ * @method integer             getUpgradeOfId()              Returns the current record's "upgrade_of_id" value
+ * @method sfGuardUser         getUser()                     Returns the current record's "User" value
+ * @method Campaign            getCampaign()                 Returns the current record's "Campaign" value
+ * @method Order               getOrder()                    Returns the current record's "Order" value
+ * @method Quota               getUpgradeOf()                Returns the current record's "UpgradeOf" value
+ * @method Campaign            getActiveCampaign()           Returns the current record's "activeCampaign" value
+ * @method Doctrine_Collection getPetitionSigning()          Returns the current record's "PetitionSigning" collection
+ * @method Doctrine_Collection getPetitionSigningThankYous() Returns the current record's "PetitionSigningThankYous" collection
+ * @method Quota               getUpgradedBy()               Returns the current record's "UpgradedBy" value
+ * @method Quota               setId()                       Sets the current record's "id" value
+ * @method Quota               setStatus()                   Sets the current record's "status" value
+ * @method Quota               setName()                     Sets the current record's "name" value
+ * @method Quota               setPrice()                    Sets the current record's "price" value
+ * @method Quota               setDays()                     Sets the current record's "days" value
+ * @method Quota               setEmails()                   Sets the current record's "emails" value
+ * @method Quota               setUserId()                   Sets the current record's "user_id" value
+ * @method Quota               setCampaignId()               Sets the current record's "campaign_id" value
+ * @method Quota               setStartAt()                  Sets the current record's "start_at" value
+ * @method Quota               setEndAt()                    Sets the current record's "end_at" value
+ * @method Quota               setPaidAt()                   Sets the current record's "paid_at" value
+ * @method Quota               setEmailsRemaining()          Sets the current record's "emails_remaining" value
+ * @method Quota               setOrderId()                  Sets the current record's "order_id" value
+ * @method Quota               setUpgradeOfId()              Sets the current record's "upgrade_of_id" value
+ * @method Quota               setUser()                     Sets the current record's "User" value
+ * @method Quota               setCampaign()                 Sets the current record's "Campaign" value
+ * @method Quota               setOrder()                    Sets the current record's "Order" value
+ * @method Quota               setUpgradeOf()                Sets the current record's "UpgradeOf" value
+ * @method Quota               setActiveCampaign()           Sets the current record's "activeCampaign" value
+ * @method Quota               setPetitionSigning()          Sets the current record's "PetitionSigning" collection
+ * @method Quota               setPetitionSigningThankYous() Sets the current record's "PetitionSigningThankYous" collection
+ * @method Quota               setUpgradedBy()               Sets the current record's "UpgradedBy" value
  * 
  * @package    policat
  * @subpackage model
@@ -187,6 +190,10 @@ abstract class BaseQuota extends myDoctrineRecord
         $this->hasMany('PetitionSigning', array(
              'local' => 'id',
              'foreign' => 'quota_id'));
+
+        $this->hasMany('PetitionSigning as PetitionSigningThankYous', array(
+             'local' => 'id',
+             'foreign' => 'quota_thank_you_id'));
 
         $this->hasOne('Quota as UpgradedBy', array(
              'local' => 'id',

@@ -23,7 +23,7 @@ class UtilMail {
     return StoreTable::getInstance()->getValueCached(StoreTable::EMAIL_SENDER) ? true : false;
   }
 
-  public static function send($sender, $from, $to, $subject, $body, $contentType = null, $subst = null, $subst_2nd = null, $replyTo = null, $attachments = array()) {
+  public static function send($sender, $from, $to, $subject, $body, $contentType = null, $subst = null, $subst_2nd = null, $replyTo = null, $attachments = array(), $markdown = false) {
     $message = Swift_Message::newInstance();
     if ($from == null) {
       $message->setFrom(self::getDefaultFrom());
@@ -47,6 +47,27 @@ class UtilMail {
       $subject = strtr($subject, $subst);
     }
 
+    $body_html = null;
+
+    if ($markdown) {
+      if ($subst_2nd && is_array($subst_2nd)) {
+        $forth = array();
+        $back = array();
+        $i = 0;
+        $hash = mt_srand();
+
+        foreach ($subst_2nd as $subst_key => $subst_value) {
+          $i++;
+          $forth[$subst_key] = 'PC123' . $subst_key .$hash . $i . 'PC123';
+          $back[$forth[$subst_key]] = Util::enc($subst_value);
+        }
+
+        $body_html = strtr(UtilMarkdown::transform(strtr($body, $forth), true, false), $back);
+      } else {
+        UtilMarkdown::transform($body, true, false);
+      }
+    }
+
     if ($subst_2nd && is_array($subst_2nd)) {
       $body = strtr($body, $subst_2nd);
       $subject = strtr($subject, $subst_2nd);
@@ -61,20 +82,25 @@ class UtilMail {
     $message->setTo($to)
       ->setSubject($subject)
       ->setBody($body, $contentType);
-    
+
+    if ($body_html) {
+      $message->addPart($body_html, 'text/html', 'UTF-8');
+    }
+
     foreach ($attachments as $attachment) {
       $message->attach($attachment);
     }
-    
+
     sfContext::getInstance()->getMailer()->send($message);
   }
 
-  public static function sendWithSubst($sender, $from, $to, $subject, $body, $petition_text, $widget = null, $additional_subst = array(), $subst_2nd = array()) {
+  public static function sendWithSubst($sender, $from, $to, $subject, $body, $petition_text, $widget = null, $additional_subst = array(), $subst_2nd = array(), $markdown = false) {
     $subst = self::createSubstArray($petition_text, $widget);
-    if (is_array($additional_subst))
+    if (is_array($additional_subst)) {
       $subst = array_merge($subst, $additional_subst);
+    }
 
-    self::send($sender, $from, $to, $subject, $body, null, $subst, $subst_2nd);
+    self::send($sender, $from, $to, $subject, $body, null, $subst, $subst_2nd, null, array(), $markdown);
   }
 
   public static function isEmpty($object, $field) {

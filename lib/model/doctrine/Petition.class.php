@@ -49,6 +49,8 @@ class Petition extends BasePetition {
   const VALIDATION_REQUIRED_NO = 0;
   const WITH_EXTRA_YES = 1;
   const WITH_EXTRA_NO = 0;
+  const THANK_YOU_EMAIL_YES = 1;
+  const THANK_YOU_EMAIL_NO = 0;
 
   static $FIELD_SHOW = array(
       self::FIELD_FULLNAME => 'fullname',

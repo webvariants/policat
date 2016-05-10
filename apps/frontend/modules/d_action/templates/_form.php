@@ -51,6 +51,8 @@
         <div class="controls">
             <a data-collect="<?php echo Util::enc(json_encode(array('email' => '#edit_petition_from_email'))) ?>" href="<?php echo url_for('petition_spf') ?>" class="btn ajax_link post">Make SPF check</a>
         </div>
+        <br />
+        <?php echo $form->renderRows('thank_you_email') ?>
     </fieldset>
     <fieldset>
         <legend>Add-ons (optional)</legend>

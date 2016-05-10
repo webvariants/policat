@@ -309,6 +309,7 @@ Petition:
     deleted_pendings:        { type: integer(4), notnull: true, default: 0 }
     label_mode:              { type: integer(1), notnull: true, default: 1 }
     policy_checkbox:         { type: integer(1), notnull: true, default: 1 }
+    thank_you_email:         { type: integer(1), notnull: true, default: 0 }
   relations:
     Campaign:          { onDelete: CASCADE  }
     Language:          {  }
@@ -343,6 +344,9 @@ PetitionText:
 
     email_subject:              { type: string }
     email_body:                 { type: clob }
+
+    thank_you_email_subject:    { type: string }
+    thank_you_email_body:       { type: clob }
 
     email_validation_subject:   { type: string,     notnull: true }
     email_validation_body:      { type: clob,       notnull: true }
@@ -467,11 +471,14 @@ PetitionSigning:
     ref:             { type: string(250), notnull: false, default: null }
     quota_id:        { type: integer(4),  notnull: false, default: null }
     quota_emails:    { type: integer(2),  notnull: false, default: null }
+    thank_sent:      { type: integer(1),  notnull: true, default: 0 }
+    quota_thank_you_id: { type: integer(4),  notnull: false, default: null }
   relations:
     Petition: { onDelete: CASCADE }
     Widget:   { onDelete: SET NULL }
     Contact:  { refClass: PetitionSigningContact, local: petition_signing_id, foreign: contact_id, type: many }
     Quota:    { onDelete: SET NULL }
+    QuotaThankYou: { class: Quota, local: quota_thank_you_id, onDelete: SET NULL, foreignAlias: PetitionSigningThankYous }
   indexes:
     signing_petition_count_index2: { fields: [petition_id, status, created_at] }
     signing_petition_count_index3: { fields: [petition_id, status, country, created_at] }

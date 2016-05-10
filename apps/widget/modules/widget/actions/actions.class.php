@@ -249,7 +249,8 @@ class widgetActions extends policatActions
           $petition      = $petition_signing->getPetition();
           $widget        = $petition_signing->getWidget();
           $campaign      = $petition->getCampaign();
-          $this->lang    = $widget->getPetitionText()->getLanguageId();
+          $petition_text = $widget->getPetitionText();
+          $this->lang    = $petition_text->getLanguageId();
           $this->getContext()->getI18N()->setCulture($this->lang);
           $this->getUser()->setCulture($this->lang);
 
@@ -311,6 +312,7 @@ class widgetActions extends policatActions
               $petition_signing->setStatus(PetitionSigning::STATUS_COUNTED);
               $petition_signing->setVerified(PetitionSigning::VERIFIED_YES);
               $petition_signing->setEmailHash($petition_signing->getEmailHashAuto());
+              UtilThankYouEmail::send($petition_signing);
               $petition_signing->save();
             }
 

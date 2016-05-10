@@ -38,7 +38,7 @@
         <p class="help-block">Note: #DISCONFIRMATION-URL# adds a link for participants to revoke their participation and delete their data. Make sure you include this, as it is your legal obligation to allow participants to unsubscribe easily, and to allow those who think they didn't participate willingly, to have their data deleted.</p>
       </div>
     </div>
-    <?php echo $form->renderRows(array('*email_tellyour_subject', '*email_tellyour_body')) ?>
+    <?php echo $form->renderRows(array('*email_tellyour_subject', '*email_tellyour_body', '*thank_you_email_subject', '*thank_you_email_body')) ?>
     
     <legend>Privacy Policy</legend>
     <?php echo $form->renderRows(array('privacy_policy_body')) ?>

@@ -37,10 +37,13 @@
  * @property string $ref
  * @property integer $quota_id
  * @property integer $quota_emails
+ * @property integer $thank_sent
+ * @property integer $quota_thank_you_id
  * @property Petition $Petition
  * @property Widget $Widget
  * @property Doctrine_Collection $Contact
  * @property Quota $Quota
+ * @property Quota $QuotaThankYou
  * @property Doctrine_Collection $Search
  * @property Doctrine_Collection $PetitionSigningContact
  * @property Doctrine_Collection $PetitionSigningWave
@@ -77,10 +80,13 @@
  * @method string              getRef()                    Returns the current record's "ref" value
  * @method integer             getQuotaId()                Returns the current record's "quota_id" value
  * @method integer             getQuotaEmails()            Returns the current record's "quota_emails" value
+ * @method integer             getThankSent()              Returns the current record's "thank_sent" value
+ * @method integer             getQuotaThankYouId()        Returns the current record's "quota_thank_you_id" value
  * @method Petition            getPetition()               Returns the current record's "Petition" value
  * @method Widget              getWidget()                 Returns the current record's "Widget" value
  * @method Doctrine_Collection getContact()                Returns the current record's "Contact" collection
  * @method Quota               getQuota()                  Returns the current record's "Quota" value
+ * @method Quota               getQuotaThankYou()          Returns the current record's "QuotaThankYou" value
  * @method Doctrine_Collection getSearch()                 Returns the current record's "Search" collection
  * @method Doctrine_Collection getPetitionSigningContact() Returns the current record's "PetitionSigningContact" collection
  * @method Doctrine_Collection getPetitionSigningWave()    Returns the current record's "PetitionSigningWave" collection
@@ -116,10 +122,13 @@
  * @method PetitionSigning     setRef()                    Sets the current record's "ref" value
  * @method PetitionSigning     setQuotaId()                Sets the current record's "quota_id" value
  * @method PetitionSigning     setQuotaEmails()            Sets the current record's "quota_emails" value
+ * @method PetitionSigning     setThankSent()              Sets the current record's "thank_sent" value
+ * @method PetitionSigning     setQuotaThankYouId()        Sets the current record's "quota_thank_you_id" value
  * @method PetitionSigning     setPetition()               Sets the current record's "Petition" value
  * @method PetitionSigning     setWidget()                 Sets the current record's "Widget" value
  * @method PetitionSigning     setContact()                Sets the current record's "Contact" collection
  * @method PetitionSigning     setQuota()                  Sets the current record's "Quota" value
+ * @method PetitionSigning     setQuotaThankYou()          Sets the current record's "QuotaThankYou" value
  * @method PetitionSigning     setSearch()                 Sets the current record's "Search" collection
  * @method PetitionSigning     setPetitionSigningContact() Sets the current record's "PetitionSigningContact" collection
  * @method PetitionSigning     setPetitionSigningWave()    Sets the current record's "PetitionSigningWave" collection
@@ -293,6 +302,17 @@ abstract class BasePetitionSigning extends myDoctrineRecord
              'notnull' => false,
              'length' => 2,
              ));
+        $this->hasColumn('thank_sent', 'integer', 1, array(
+             'type' => 'integer',
+             'notnull' => true,
+             'default' => 0,
+             'length' => 1,
+             ));
+        $this->hasColumn('quota_thank_you_id', 'integer', 4, array(
+             'type' => 'integer',
+             'notnull' => false,
+             'length' => 4,
+             ));
 
 
         $this->index('signing_petition_count_index2', array(
@@ -415,6 +435,11 @@ abstract class BasePetitionSigning extends myDoctrineRecord
 
         $this->hasOne('Quota', array(
              'local' => 'quota_id',
+             'foreign' => 'id',
+             'onDelete' => 'SET NULL'));
+
+        $this->hasOne('Quota as QuotaThankYou', array(
+             'local' => 'quota_thank_you_id',
              'foreign' => 'id',
              'onDelete' => 'SET NULL'));
 
