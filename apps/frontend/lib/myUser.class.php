@@ -184,7 +184,7 @@ class myUser extends sfGuardSecurityUser {
     $context = sfContext::getInstance();
 
     $name = $petition->getName();
-    if ($text) {
+    if ($text !== null) {
       $name = $text;
     }
 
