@@ -38,13 +38,21 @@
                 <?php echo $form->renderRows('end_at') ?>
             </div>
         </div>
-        <?php echo $form->renderRows('name', 'key_visual', 'show_keyvisual', '*editable', 'country_collection_id') ?>
+        <?php echo $form->renderRows('name', 'key_visual', 'show_keyvisual', '*editable') ?>
         <fieldset>
             <?php if ($petition->isEmailKind() && !$petition->isGeoKind()): ?><legend>Recipient(s) of the email action (your campaign targets)</legend><?php endif ?>
             <?php echo $form->renderRows('*email_target_name_1', '*email_target_email_1', '*email_target_name_2', '*email_target_email_2', '*email_target_name_3', '*email_target_email_3') ?>
         </fieldset>
         <?php echo $form->renderRows('*label_mode', 'policy_checkbox') ?>
     </fieldset>
+    <fieldset>
+        <legend>Customise sign-up form</legend>
+        <p class="alert alert-danger">If you make changes here for a running action you may lose data if you remove fields.</p>
+        <div class="global_error">
+          <span id="new_petition_customise"></span>
+        </div>
+        <?php echo $form->renderRows('nametype', 'with_address', 'with_country', 'default_country', 'country_collection_id', 'with_comments', 'with_extra1') ?>
+      </fieldset>
     <fieldset>
         <legend>Sign-up verification e-mail (opt-in)</legend>
         <?php echo $form->renderRows('*validation_required', 'from_name', 'from_email') ?>

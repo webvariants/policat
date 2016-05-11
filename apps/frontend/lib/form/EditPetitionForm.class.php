@@ -9,7 +9,7 @@
  * http://www.opensource.org/licenses/mit-license.php
  */
 
-class EditPetitionForm extends BasePetitionForm {
+class EditPetitionForm extends PetitionFieldsForm {
 
   const USER = 'user';
 
@@ -28,11 +28,13 @@ class EditPetitionForm extends BasePetitionForm {
 
     unset($this['created_at'], $this['updated_at'], $this['campaign_id'], $this['object_version'], $this['email_targets']);
     unset($this['addnote'], $this['mailing_list_id'], $this['editable'], $this['auto_greeting'], $this['key_visual'], $this['kind']);
-    unset($this['nametype'], $this['language_id'], $this['paypal_email'], $this['with_comments'], $this['with_address']);
-    unset($this['with_country'], $this['default_country'], $this['pledge_header_visual'], $this['pledge_key_visual']);
+    unset($this['language_id'], $this['paypal_email']);
+    unset($this['pledge_header_visual'], $this['pledge_key_visual']);
     unset($this['pledge_background_color'], $this['pledge_color'], $this['pledge_head_color'], $this['pledge_font']);
     unset($this['pledge_info_columns'], $this['pledge_with_comments'], $this['activity_at'], $this['deleted_pendings']);
-    unset($this['label_mode'], $this['follow_petition_id'], $this['with_extra1'], $this['addnum'], $this['target_num']);
+    unset($this['label_mode'], $this['follow_petition_id'], $this['addnum'], $this['target_num']);
+
+    $this->configure_fields();
 
     $this->setWidget('name', new sfWidgetFormTextarea(array('label' => 'Action name'), array(
         'cols' => 90,
@@ -309,9 +311,6 @@ class EditPetitionForm extends BasePetitionForm {
 
     $this->setWidget('style_form_title_color', new sfWidgetFormInput(array('label' => 'Form title'), array('class' => 'color {hash:true}')));
     $this->setValidator('style_form_title_color', new ValidatorCssColor(array('min_length' => 7, 'max_length' => 7)));
-
-    $this->getWidgetSchema()->setLabel('country_collection_id', 'Restrict Countries');
-    $this->getWidgetSchema()->setHelp('country_collection_id', 'As a standard, activists can select their home country from a list of all countries in the world. You may restrict the number of country options shown, so activists can pick their country faster.');
 
     if ($this->getObject()->getKind() == Petition::KIND_PETITION) {
       $this->setWidget('label_mode', new sfWidgetFormChoice(array('choices' => PetitionTable::$LABEL_MODE, 'label' => 'Petition labelling')));
