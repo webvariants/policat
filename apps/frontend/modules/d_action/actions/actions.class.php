@@ -532,6 +532,12 @@ class d_actionActions extends policatActions {
       $this->ajax()->val('#' . $form_name . '_email_validation_body', $validation_email->getField('body', ''));
     }
 
+    $thankyou_email = StoreTable::getInstance()->findByKeyAndLanguageCached(StoreTable::SIGNING_THANK_YOU_EMAIL, $value);
+    if ($thankyou_email) {
+      $this->ajax()->val('#' . $form_name . '_thank_you_email_subject', $thankyou_email->getField('subject', ''));
+      $this->ajax()->val('#' . $form_name . '_thank_you_email_body', $thankyou_email->getField('body', ''));
+    }
+
     $tellyourfriend_email = StoreTable::getInstance()->findByKeyAndLanguageCached(StoreTable::ACTION_TELL_YOUR_FRIEND_EMAIL, $value);
     if ($tellyourfriend_email) {
       $this->ajax()->val('#' . $form_name . '_email_tellyour_subject', $tellyourfriend_email->getField('subject', ''));
