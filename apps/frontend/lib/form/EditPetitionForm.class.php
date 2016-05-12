@@ -174,7 +174,7 @@ class EditPetitionForm extends PetitionFieldsForm {
         'label' => 'Thank-you email after successful validation.'
       )));
     $this->setValidator('thank_you_email', new sfValidatorChoice(array('choices' => array(Petition::VALIDATION_REQUIRED_NO, Petition::VALIDATION_REQUIRED_YES), 'required' => true)));
-    $this->getWidgetSchema()->setHelp('thank_you_email', 'Email is only sent if translation is complete. Note that this option generates one additional email per participant which will be charged onto your campaign’s package.');
+    $this->getWidgetSchema()->setHelp('thank_you_email', 'Note that this option generates one additional email per participant which will be charged onto your campaign\'s package.');
 
     if ($this->getObject()->isEmailKind()) { // EMAIL, GEO, GEO_EXTRA => editable
       $this->setWidget('editable', new sfWidgetFormChoice(array('choices' => Petition::$EDITABLE_SHOW, 'label' => 'Text editable'), array(

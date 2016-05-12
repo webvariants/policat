@@ -54,7 +54,7 @@
         <?php echo $form->renderRows('nametype', 'with_address', 'with_country', 'default_country', 'country_collection_id', 'with_comments', 'with_extra1') ?>
       </fieldset>
     <fieldset>
-        <legend>Sign-up verification e-mail (opt-in)</legend>
+        <legend>Opt-in (email verification) &amp; thank-you emails</legend>
         <?php echo $form->renderRows('*validation_required', 'from_name', 'from_email') ?>
         <div class="controls">
             <a data-collect="<?php echo Util::enc(json_encode(array('email' => '#edit_petition_from_email'))) ?>" href="<?php echo url_for('petition_spf') ?>" class="btn ajax_link post">Make SPF check</a>
