@@ -532,7 +532,7 @@ a {
 #sign .group.firstname {
 	width: 56%;
 }
-#sign .lastname, #sign .fullname, #sign .email, #sign .address {
+#sign .lastname, #sign .fullname, #sign .email, #sign .address, #sign .extra1 {
 	clear: left;
 }
 #sign .group.city {
