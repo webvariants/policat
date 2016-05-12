@@ -482,9 +482,46 @@ class widgetActions extends policatActions
           /* @var $petition_signing PetitionSigning */
           /* @var $petition Petition */
 
-          if ($code && $code === $petition_signing->getDeleteCode())
+          if ($code && hash_equals($code, $petition_signing->getDeleteCode()))
           {
             $petition_signing->delete();
+            return;
+          }
+        }
+      }
+    }
+
+    $this->setTemplate('fail');
+  }
+
+  public function executeUnsubscribe(sfWebRequest $request)
+  {
+    $this->setLayout(false);
+    if ($request->hasParameter('code'))
+    {
+      $idcode = $request->getParameter('code');
+      if (is_string($idcode)) $idcode = explode('-', trim($idcode));
+      if (is_array($idcode) && count($idcode) === 2)
+      {
+        list($this->id, $code) = $idcode;
+        $this->id = ltrim($this->id, '0 ');
+        $petition_signing = PetitionSigningTable::getInstance()->fetch($this->id);
+        if (!empty($petition_signing))
+        {
+          $widget        = $petition_signing->getWidget();
+          $this->lang    = $widget->getPetitionText()->getLanguageId();
+          $this->getContext()->getI18N()->setCulture($this->lang);
+          $this->getUser()->setCulture($this->lang);
+
+          /* @var $petition_signing PetitionSigning */
+          /* @var $petition Petition */
+
+          if ($code && hash_equals($code, $petition_signing->getDeleteCode()))
+          {
+            if ($petition_signing->getSubscribe() !== PetitionSigning::SUBSCRIBE_NO) {
+              $petition_signing->setSubscribe(PetitionSigning::SUBSCRIBE_NO);
+              $petition_signing->save();
+            }
             return;
           }
         }

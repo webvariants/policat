@@ -35,10 +35,15 @@
     <?php echo $form->renderRows(array('*email_validation_subject', '*email_validation_body')) ?>
     <div class="control-group">
       <div class="controls">
-        <p class="help-block">Note: #DISCONFIRMATION-URL# adds a link for participants to revoke their participation and delete their data. Make sure you include this, as it is your legal obligation to allow participants to unsubscribe easily, and to allow those who think they didn't participate willingly, to have their data deleted.</p>
+        <p class="help-block">Note: #DISCONFIRMATION-URL# adds a link for participants to revoke their participation and delete their data. Make sure you include this to allow those who think they didn't participate willingly, to have their data deleted.</p>
       </div>
     </div>
     <?php echo $form->renderRows(array('*email_tellyour_subject', '*email_tellyour_body', '*thank_you_email_subject', '*thank_you_email_body')) ?>
+    <div class="control-group">
+      <div class="controls">
+        <p class="help-block">Note: #UNSUBSCRIBE-URL# adds a link for participants to unsubscribe. A click on it will not revoke participation, but you won't be able to access the person's email address. Make sure you include this, as it is your legal obligation to allow participants to unsubscribe easily.</p>
+      </div>
+    </div>
     
     <legend>Privacy Policy</legend>
     <?php echo $form->renderRows(array('privacy_policy_body')) ?>

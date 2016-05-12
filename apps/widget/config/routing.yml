@@ -18,6 +18,10 @@ delete_signing:
   url: /delete/:code
   param: { module: widget, action: delete }
 
+unsubscribe_signing:
+  url: /unsubscribe/:code
+  param: { module: widget, action: unsubscribe }
+
 pledge_contact:
   url: '/pledge/:petition_id/:contact_id/:secret'
   param: { module: pledge_contact, action: index }

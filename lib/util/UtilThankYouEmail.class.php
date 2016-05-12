@@ -33,7 +33,7 @@ class UtilThankYouEmail {
       return;
     }
 
-    $delete = UtilLink::deleteSigning($signing->getId(), $signing->getDeleteCode());
+    $unsubscribe = UtilLink::unsubscribeSigning($signing->getId(), $signing->getDeleteCode());
     $url_ref_ = $signing->getField(Petition::FIELD_REF);
     $url_readmore_ = $petition->getReadMoreUrl();
     $url_ref = UtilPolicat::firstString(array($url_ref_, $url_readmore_));
@@ -43,7 +43,7 @@ class UtilThankYouEmail {
     $additional_subst = array(
         '#REFERER-URL#' => $url_ref,
         '#READMORE-URL#' => $url_readmore,
-        '#DISCONFIRMATION-URL#' => $delete
+        '#UNSUBSCRIBE-URL#' => $unsubscribe
     );
 
     $subst = array_merge($additional_subst, $widget->getDataOwnerSubst("\n", $petition));

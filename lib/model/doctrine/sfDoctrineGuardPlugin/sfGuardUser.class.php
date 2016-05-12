@@ -151,7 +151,7 @@ class sfGuardUser extends PluginsfGuardUser {
   public function checkPassword($password) {
     $algorithm = $this->getAlgorithm();
     if ($algorithm === 'crypt') {
-      return crypt($password, $this->getPassword()) === $this->getPassword();
+      return hash_equals(crypt($password, $this->getPassword()), $this->getPassword());
     }
 
     return parent::checkPassword($password);
