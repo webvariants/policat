@@ -1,4 +1,5 @@
 <?php
+
 /*
  * Copyright (c) 2016, webvariants GmbH <?php Co. KG, http://www.webvariants.de
  *
@@ -7,16 +8,12 @@
  *
  * http://www.opensource.org/licenses/mit-license.php
  */
-class Util
-{
-  static function distinctRelations($object, array $relations)
-  {
-    $collect = new UtilCollectObject($object, $relations);
-    return $collect->getResult();
-  }
+
+class Util {
 
   static function enc($text) {
-    if ($text === null) return '';
+    if ($text === null)
+      return '';
     if (is_scalar($text))
       return htmlentities($text, ENT_COMPAT, 'utf-8');
     return '';
@@ -27,41 +24,28 @@ class Util
   }
 
   public static function youtube($id, $width = 300, $height = 210) {
-    if (is_array($id)) $id = $id[1];
+    if (is_array($id))
+      $id = $id[1];
     return sprintf('<object type="application/x-shockwave-flash" width="%s" height="%s" data="https://www.youtube.com/v/%s?hl=en&amp;fs=1"><param name="wmode" value="opaque" /><param name="movie" value="https://www.youtube.com/v/%s?hl=en&amp;fs=1"/><param name="allowFullScreen" value="true"/><param name="allowscriptaccess" value="always"/></object>', $width, $height, $id, $id);
   }
-}
 
-class UtilCollectObject
-{
-  private $result = array();
-
-  public function __construct($object, $relations)
-  {
-    $this->handle($object, $relations);
-  }
-
-  public function getResult()
-  {
-    return $this->result;
-  }
-
-  public function handle($object, $relations)
-  {
-    if (empty ($relations))
-    {
-      if (!isset($this->result[$object['id']])) $this->result[$object['id']] = $object;
+  public static function readable_number($number, $decimals = 2, $dec_point = ".", $thousands_sep = ",") {
+    if (!is_numeric($number)) {
+      return $number;
     }
-    else
-    {
-      $head = $relations[0];
-      $tail = array_slice($relations, 1);
 
-      if ($head[0] !== '1')
-        foreach ($object[$head] as $object) $this->handle($object, $tail);
-      else
-        $this->handle($object[substr($head, 1)], $tail);
+    if ($number > 9999999) {
+      return number_format($number / 1000000000, $decimals, $dec_point, $thousands_sep) . 'G';
     }
-  }
 
+    if ($number > 999999) {
+      return number_format($number / 1000000, $decimals, $dec_point, $thousands_sep) . 'M';
+    }
+
+    if ($number > 999) {
+      return number_format($number / 1000, $decimals, $dec_point, $thousands_sep) . 'K';
+    }
+
+    return number_format($number, 0, $dec_point, $thousands_sep);
+  }
 }
