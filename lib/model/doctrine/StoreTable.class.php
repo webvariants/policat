@@ -80,6 +80,8 @@ class StoreTable extends Doctrine_Table {
   const PRIVACY_AGREEMENT_EMAIL = 'privacy_agreement_email';
   const PRIVACY_AGREEMENT_REPLY = 'privacy_agreement_reply';
   const DONATIONS_PAYPAL = 'donations_paypal';
+
+  const INTERNAL_CACHE_OPEN_ACTIONS = 'internal_cache_open_actions';
   
   static $meta = array(
       'portal' => array(
@@ -554,10 +556,18 @@ class StoreTable extends Doctrine_Table {
   /**
    *
    * @param string $key
+   * @param boolean $createMissing
    * @return Store
    */
-  public function findByKey($key) {
-    return $this->createQuery('s')->where('s.key = ?', $key)->fetchOne();
+  public function findByKey($key, $createMissing = false) {
+    $one = $this->createQuery('s')->where('s.key = ?', $key)->fetchOne();
+
+    if ($createMissing && !$one) {
+      $one = new Store();
+      $one->setKey($key);
+    }
+
+    return $one;
   }
 
   /**
