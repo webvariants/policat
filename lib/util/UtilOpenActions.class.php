@@ -15,6 +15,33 @@ class UtilOpenActions {
   const LARGEST = 'largest'; // Popular
   const RECENT = 'recent'; // New
 
+  /**
+   *
+   * @param integer $id
+   * @param string $lang
+   * @return array
+   */
+
+  static private function topWidgetByPetition($id, $lang = 'en') {
+    $widgets = WidgetTable::getInstance()
+      ->createQuery('w')
+      ->where('w.petition_id = ?', $id)
+      ->leftJoin('w.PetitionText pt')
+      ->andWhere('pt.language_id = ?', $lang)
+      ->andWhere('w.status = ?', Widget::STATUS_ACTIVE)
+      ->select('w.*')
+      ->addSelect('(SELECT count(s.id) FROM PetitionSigning s WHERE s.widget_id = w.id and s.status = ' . PetitionSigning::STATUS_COUNTED . ') as signings')
+      ->orderBy('signings DESC, w.id ASC')
+      ->limit(1)
+      ->execute(array(), Doctrine_Core::HYDRATE_ARRAY);
+
+    if ($widgets) {
+      return $widgets[0];
+    } else {
+      return false;
+    }
+  }
+
   static private function getPetitions($type) {
     $query = PetitionTable::getInstance()
       ->createQuery('p')
@@ -25,9 +52,9 @@ class UtilOpenActions {
       ->leftJoin('p.PetitionText pt')
       ->andWhere('pt.status = ?', PetitionText::STATUS_ACTIVE)
       ->andWhere('pt.language_id = ?', 'en')
-      ->leftJoin('pt.DefaultWidget w')
-      ->andWhere('w.status = ?', Widget::STATUS_ACTIVE)
-      ->select('p.*, pt.*, w.*, c.id, c.object_version')
+//      ->leftJoin('pt.DefaultWidget w')
+//      ->andWhere('w.status = ?', Widget::STATUS_ACTIVE)
+      ->select('p.*, pt.*, c.id, c.object_version')
       ->addSelect('(SELECT count(z.id) FROM PetitionSigning z WHERE DATE_SUB(NOW(),INTERVAL 1 DAY) <= z.created_at  and z.petition_id = p.id and z.status = ' . PetitionSigning::STATUS_COUNTED . ') as signings24')
       ->limit(5);
 
@@ -80,7 +107,12 @@ class UtilOpenActions {
 
         $petition['signings'] = $count;
         $text = $petition['PetitionText'][0];
-        $widget = $text['DefaultWidget'];
+//        $widget = $text['DefaultWidget'];
+        $widget = self::topWidgetByPetition($petition['id']);
+        if (!$widget) {
+          continue;
+        }
+
         $style = json_decode($widget['stylings'], true);
         $campaign_version = $petition['Campaign']['object_version'];
 
@@ -109,8 +141,9 @@ class UtilOpenActions {
         if (in_array($petition['kind'], Petition::$EMAIL_KINDS, false)) {
           $body = Util::enc($widget['email_subject'] ? $widget['email_subject'] : $text['email_subject']) . ', ';
           $body .= Util::enc($widget['email_body'] ? $widget['email_body'] : $text['email_body']);
-        } else
+        } else {
           $body = UtilMarkdown::transform(($widget['intro'] ? $widget['intro'] . " \n\n" : '') . $text['body']);
+        }
 
         $shorten = truncate_text(preg_replace('/#[A-Z-]+#/', '', strip_tags($body)), 200);
 
@@ -120,7 +153,16 @@ class UtilOpenActions {
             'signings' => $petition['signings'],
             'signings24' => $petition['signings24'],
             'key_visual' => $petition['key_visual'],
-            'widget_id' => $widget['id']
+            'widget_id' => $widget['id'],
+            'read_more_url' => $petition['read_more_url'],
+            'petition_id' => $petition['id'],
+            'widget_last_hash' => Widget::calcLastHash(
+              $widget['id'], array(
+                $petition['object_version'],
+                $widget['object_version'],
+                $text['object_version'],
+                $campaign_version
+            ))
         );
       }
 

@@ -6,16 +6,10 @@ if (isset($markup)):
   echo $markup;
 endif;
 
-if (isset($widget_id)):
-  use_helper('I18N');
-
-  $stylings = $stylings->getRawValue();
-  $stylings['count'] = number_format($count, 0, '.', ',') . ' ' . __('people so far');
-  $stylings['target'] = $target;
-  ?>
+if (isset($widget_id)): ?>
   <script type="text/javascript">
     <?php echo UtilWidget::getInitJS() ?>
-    <?php echo UtilWidget::getAddStyleJS($widget_id, $stylings) ?>
+    <?php echo UtilWidget::getAddStyleJS($widget_id, $stylings->getRawValue()) ?>
     <?php echo UtilWidget::getWidgetHereJs($widget_id, false) ?>
   </script>
-<?php endif ?>
+<?php endif;
