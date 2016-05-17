@@ -112,9 +112,11 @@ class EditPetitionForm extends PetitionFieldsForm {
         'label' => 'Feature on e-action portal',
         'choices' => array('0' => 'no', '1' => 'yes')), array(
         'class' => 'add_popover',
-        'data-content' => 'Select "yes" to feature your e-action on the homepage of our e-action community. Note that for each translation, you need to create at least one widget (in the translations tab) and assign it to the homepage (in the settings of each language), otherwise your action will not be featured! Disclaimer: our friendly admin will cast her or his meticulous eyes over your action and reserves the right to take your action off the portal homepage. We guess that\'s quite unlikely :-)'
+        'data-content' => 'Select "yes" to feature your e-action on the homepage of our e-action community. Note that for each translation, you need to create at least one widget (in the translations tab), otherwise your action will not be featured! Disclaimer: our friendly admin will cast her or his meticulous eyes over your action and reserves the right to take your action off the portal homepage. We guess that\'s quite unlikely :-)'
     )));
     $this->setValidator('homepage', new sfValidatorChoice(array('choices' => array('0', '1'))));
+    $home = sfContext::getInstance()->getRouting()->generate('homepage', array(), true);
+    $this->getWidgetSchema()->setHelp('homepage', "The action will be featured on $home if it has 1 or more participants.");
 
     $this->setWidget('twitter_tags', new sfWidgetFormInput(array(
         'label' => 'Twitter hashtags'

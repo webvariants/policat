@@ -56,7 +56,7 @@ class UtilOpenActions {
 //      ->andWhere('w.status = ?', Widget::STATUS_ACTIVE)
       ->select('p.*, pt.*, c.id, c.object_version')
       ->addSelect('(SELECT count(z.id) FROM PetitionSigning z WHERE DATE_SUB(NOW(),INTERVAL 1 DAY) <= z.created_at  and z.petition_id = p.id and z.status = ' . PetitionSigning::STATUS_COUNTED . ') as signings24')
-      ->limit(5);
+      ->limit(10);
 
     switch ($type) {
       case self::LARGEST:
@@ -91,6 +91,10 @@ class UtilOpenActions {
       $exerpts = array();
       $tags[$key] = '';
       foreach ($data as $k => &$petition) {
+        if (count($exerpts) >= 5) {
+          break;
+        }
+
         if ($key == self::HOTTEST && $petition['signings24'] < 1) {
           unset($data[$k]);
           continue;
@@ -104,6 +108,10 @@ class UtilOpenActions {
         $count = PetitionSigningTable::getInstance()->countByPetition($petition['id'], null, null, 60);
         $count += PetitionApiTokenTable::getInstance()->sumOffsets($petition['id'], 60);
         $count += $petition['addnum'];
+
+        if ($count < 1) {
+          continue;
+        }
 
         $petition['signings'] = $count;
         $text = $petition['PetitionText'][0];
