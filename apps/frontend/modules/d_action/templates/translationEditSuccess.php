@@ -13,7 +13,7 @@
     <?php echo $form->renderHiddenFields(); ?>
 
     <legend>Settings</legend>
-    <?php echo $form->renderRows(array('*language_id', 'status', 'landing_url', '*widget_id')) ?>
+    <?php echo $form->renderRows(array('*language_id', 'status', 'landing_url')) ?>
 
     <legend>Widget texts</legend>
     <?php echo $form->renderRows(array('*title', '*target')) ?>

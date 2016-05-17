@@ -214,25 +214,25 @@ The e-mail text: #EMAIL-SUBJECT# -- #EMAIL-BODY#"
       $this->setWidget('updated_at', new sfWidgetFormInputHidden());
       $this->setValidator('updated_at', new ValidatorUnchanged(array('fix' => $petition_text->getUpdatedAt())));
 
-      $this->setWidget('widget_id', new sfWidgetFormDoctrineChoice(array(
-          'model' => $this->getRelatedModelName('DefaultWidget'),
-          'add_empty' => true,
-          'label' => 'Widget for Homepage',
-          'method' => 'getIdentString',
-          'query' => Doctrine_Core::getTable('Widget')
-            ->createQuery('w')
-            ->where('w.petition_text_id = ?', $petition_text->getId())
-            ->andWhere('w.status = ?', Widget::STATUS_ACTIVE)
-      )));
-
-      $this->setValidator('widget_id', new sfValidatorDoctrineChoice(array(
-          'model' => $this->getRelatedModelName('DefaultWidget'),
-          'required' => false,
-          'query' => Doctrine_Core::getTable('Widget')
-            ->createQuery('w')
-            ->where('w.petition_text_id = ?', $petition_text->getId())
-            ->andWhere('w.status = ?', Widget::STATUS_ACTIVE)
-      )));
+//      $this->setWidget('widget_id', new sfWidgetFormDoctrineChoice(array(
+//          'model' => $this->getRelatedModelName('DefaultWidget'),
+//          'add_empty' => true,
+//          'label' => 'Widget for Homepage',
+//          'method' => 'getIdentString',
+//          'query' => Doctrine_Core::getTable('Widget')
+//            ->createQuery('w')
+//            ->where('w.petition_text_id = ?', $petition_text->getId())
+//            ->andWhere('w.status = ?', Widget::STATUS_ACTIVE)
+//      )));
+//
+//      $this->setValidator('widget_id', new sfValidatorDoctrineChoice(array(
+//          'model' => $this->getRelatedModelName('DefaultWidget'),
+//          'required' => false,
+//          'query' => Doctrine_Core::getTable('Widget')
+//            ->createQuery('w')
+//            ->where('w.petition_text_id = ?', $petition_text->getId())
+//            ->andWhere('w.status = ?', Widget::STATUS_ACTIVE)
+//      )));
     }
 
     // static defaults
