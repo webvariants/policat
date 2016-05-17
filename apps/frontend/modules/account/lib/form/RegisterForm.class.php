@@ -32,9 +32,13 @@ class RegisterForm extends BasesfGuardRegisterForm {
         'post_code', 'city', 'country', 'mobile', 'phone', 'language_id', 'vat'
       ), true);
 
+    $routing = sfContext::getInstance()->getRouting();
+    $terms = $routing->generate('terms');
+
     $this->setWidget('terms', new sfWidgetCheckboxBootstrap(array(
           'label' => false,
-          'inner_label' => 'I accept the Terms of Service and I have read the Privacy Policy.',
+          'inner_label' => 'I have read and accepted the <a target="_blank" href="'. $terms .'">terms of service</a>. I will handle any activist data in accordance with the privacy policy, as defined in my campaigns and actions.',
+          'inner_label_escape' => false,
           'value_attribute_value' => 'yes'
       )));
 
