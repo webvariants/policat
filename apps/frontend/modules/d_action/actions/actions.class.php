@@ -271,6 +271,8 @@ class d_actionActions extends policatActions {
           return $this->ajax()->redirectRotue('pledge_list', array('id' => $petition->getId()))->render();
         } elseif ($request->getPostParameter('go_target')) {
           return $this->ajax()->redirectRotue('target_petition_edit', array('id' => $petition->getId()))->render();
+        } if (!$petition->getPetitionText()->count()) {
+          return $this->ajax()->redirectRotue('translation_create', array('id' => $petition->getId()))->render();
         } else {
           return $this->ajax()->redirectRotue('petition_overview', array('id' => $petition->getId()))->render();
         }
