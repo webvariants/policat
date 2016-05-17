@@ -137,7 +137,6 @@ class UtilOpenActions {
           );
         }
 
-        $title = Util::enc($widget['title'] ? $widget['title'] : $text['title']);
         if (in_array($petition['kind'], Petition::$EMAIL_KINDS, false)) {
           $body = Util::enc($widget['email_subject'] ? $widget['email_subject'] : $text['email_subject']) . ', ';
           $body .= Util::enc($widget['email_body'] ? $widget['email_body'] : $text['email_body']);
@@ -145,10 +144,12 @@ class UtilOpenActions {
           $body = UtilMarkdown::transform(($widget['intro'] ? $widget['intro'] . " \n\n" : '') . $text['body']);
         }
 
-        $shorten = truncate_text(preg_replace('/#[A-Z-]+#/', '', strip_tags($body)), 200);
+        $title = $widget['title'] ? $widget['title'] : $text['title'];
+        $len = 240 - mb_strlen($title, 'UTF-8');
+        $shorten = $len > 20 ? truncate_text(preg_replace('/#[A-Z-]+#/', '', strip_tags($body)), $len) : '';
 
         $exerpts[] = array(
-            'title' => $widget['title'] ? $widget['title'] : $text['title'],
+            'title' => $title,
             'text' => $shorten,
             'signings' => $petition['signings'],
             'signings24' => $petition['signings24'],

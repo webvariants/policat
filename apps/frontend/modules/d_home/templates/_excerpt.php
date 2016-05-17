@@ -1,5 +1,5 @@
 <div class="row" onclick="<?php echo UtilWidget::getWidgetHereJs($excerpt['widget_id'], true) ?>" style="cursor: pointer">
-  <div class="span1"><?php if ($excerpt['key_visual']): ?><img class="home_teaser" src="<?php echo image_path('keyvisual/' . $excerpt['key_visual']) ?>" alt="" /><?php else: ?><div>&nbsp;</div><?php endif ?></div>
+  <div class="span1"><?php if ($excerpt['key_visual']): ?><img class="home_teaser" src="<?php echo image_path('keyvisual/' . $excerpt['key_visual']) ?>" alt="" /><?php else: ?><div style="background: #f5f5f5; height: 70px">&nbsp;</div><?php endif ?></div>
   <div class="span3">
     <p><b><?php echo $excerpt['title'] ?></b> <?php echo $excerpt['text'] ?></p>
   </div>
