@@ -39,11 +39,13 @@
       </div>
     </div>
     <?php echo $form->renderRows(array('*email_tellyour_subject', '*email_tellyour_body', '*thank_you_email_subject', '*thank_you_email_body')) ?>
+    <?php if (isset($form['thank_you_email_body'])): ?>
     <div class="control-group">
       <div class="controls">
         <p class="help-block">Note: #UNSUBSCRIBE-URL# adds a link for participants to unsubscribe. A click on it will not revoke participation, but you won't be able to access the person's email address. Make sure you include this, as it is your legal obligation to allow participants to unsubscribe easily.</p>
       </div>
     </div>
+    <?php endif ?>
     
     <legend>Privacy Policy</legend>
     <?php echo $form->renderRows(array('privacy_policy_body')) ?>
