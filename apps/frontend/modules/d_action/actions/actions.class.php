@@ -266,13 +266,15 @@ class d_actionActions extends policatActions {
           $con->rollback();
         }
         if ($request->getPostParameter('go_translation')) {
-          return $this->ajax()->redirectRotue('translation_create', array('id' => $petition->getId()))->render();
+          if ($petition->getPetitionText()->count()) {
+            return $this->ajax()->redirectRotue('petition_translations', array('id' => $petition->getId()))->render();
+          } else {
+            return $this->ajax()->redirectRotue('translation_create', array('id' => $petition->getId()))->render();
+          }
         } elseif ($request->getPostParameter('go_pledge')) {
           return $this->ajax()->redirectRotue('pledge_list', array('id' => $petition->getId()))->render();
         } elseif ($request->getPostParameter('go_target')) {
           return $this->ajax()->redirectRotue('target_petition_edit', array('id' => $petition->getId()))->render();
-        } if (!$petition->getPetitionText()->count()) {
-          return $this->ajax()->redirectRotue('translation_create', array('id' => $petition->getId()))->render();
         } else {
           return $this->ajax()->redirectRotue('petition_overview', array('id' => $petition->getId()))->render();
         }
@@ -316,7 +318,11 @@ class d_actionActions extends policatActions {
       $form->save();
 
       if ($request->getPostParameter('go_translation')) {
-        return $this->ajax()->redirectRotue('translation_create', array('id' => $petition->getId()))->render();
+        if ($petition->getPetitionText()->count()) {
+          return $this->ajax()->redirectRotue('petition_translations', array('id' => $petition->getId()))->render();
+        } else {
+          return $this->ajax()->redirectRotue('translation_create', array('id' => $petition->getId()))->render();
+        }
       } elseif ($request->getPostParameter('go_pledge')) {
         return $this->ajax()->redirectRotue('pledge_list', array('id' => $petition->getId()))->render();
       } elseif ($request->getPostParameter('edit_target')) {
@@ -484,7 +490,7 @@ class d_actionActions extends policatActions {
       if ($this->form->isValid()) {
         $this->form->save();
 
-        if ($request->getPostParameter('go_translation')) {
+        if ($request->getPostParameter('go_widget')) {
           if ($translation->getStatus() == PetitionText::STATUS_ACTIVE) {
             return $this->ajax()->redirectPostRoute('widget_create', array('id' => $petition->getId()), array('page' => 1, 'lang' => $translation->getId()))->render();
           } else {

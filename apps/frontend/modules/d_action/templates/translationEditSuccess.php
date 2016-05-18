@@ -72,7 +72,7 @@
   </fieldset>
   <div class="form-actions">
     <button class="btn btn-primary" type="submit">Save</button>
-    <a class="btn submit" data-submit='{"go_translation":1}'>Save &amp; and create new widget from this translation</a>
+    <a class="btn submit" data-submit='{"go_widget":1}'>Save &amp; and create new widget from this translation</a>
     <a class="btn" href="<?php echo url_for('petition_translations', array('id' => $petition->getId())) ?>">Cancel</a>
   </div>
 </form>
