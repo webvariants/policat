@@ -59,7 +59,7 @@ class PetitionFieldsForm extends BasePetitionForm {
       }
     }
     $countries = array_diff($countries, array('QU', 'ZZ'));
-    $this->setWidget('default_country', new sfWidgetFormI18nChoiceCountry(array('countries' => $countries, 'culture' => 'en', 'add_empty' => 'Country')));
+    $this->setWidget('default_country', new sfWidgetFormI18nChoiceCountry(array('countries' => $countries, 'culture' => 'en', 'add_empty' => ''), array('data-placeholder' => 'No default country')));
     $this->setValidator('default_country', new sfValidatorI18nChoiceCountry(array('countries' => $countries, 'required' => false)));
 
     $this->setWidget('with_extra1', new sfWidgetFormChoice(array(
@@ -73,6 +73,7 @@ class PetitionFieldsForm extends BasePetitionForm {
 
     $this->getWidgetSchema()->setLabel('country_collection_id', 'Restrict Countries');
     $this->getWidgetSchema()->setHelp('country_collection_id', 'As a standard, activists can select their home country from a list of all countries in the world. You may restrict the number of country options shown, so activists can pick their country faster.');
+    $this->getWidget('country_collection_id')->setAttribute('data-placeholder', 'unrestricted');
   }
 
 }
