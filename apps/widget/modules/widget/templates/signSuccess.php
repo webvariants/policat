@@ -184,7 +184,7 @@ if (is_array($target_selectors)) {
                 </div>
             </div>
 
-            <div id="policat_widget_right" class="show_sign">
+            <div id="policat_widget_right" class="show_sign show_share">
                 <div id="content_right">
                     <div class="stage_right">
                         <div class="sign">
@@ -229,73 +229,9 @@ if (is_array($target_selectors)) {
                                 </div>
                             </form>
                             <?php if ($disabled): ?>
-                              <div id="footer_ot">
-                                  <a id="a_share2" class="button_color button_btn"><?php echo __('Share') ?></a>
-                                  <?php if ($paypal_email || $donate_url): ?>
-                                    <?php if ($donate_direct): ?>
-                                      <a class="button_color button_btn" target="_blank" href="<?php echo $donate_url ?>"><?php echo __('Donate') ?></a>
-                                    <?php else: ?>
-                                      <a id="a_donate2" class="button_color button_btn"><?php echo __('Donate') ?></a>
-                                    <?php endif ?>
-                                  <?php endif ?>
-                              </div>
+                              <div id="footer_ot"></div>
                             <?php else: ?>
                               <?php if ($petition->getShowKeyvisual() && $petition->getKeyVisual()): ?><div id="kv_ot" class="kv_bottom"><img src="<?php echo image_path('keyvisual/' . $petition->getKeyVisual()) ?>" alt="" /></div><?php endif ?>
-                            <?php endif ?>
-                            <div id="policat_widget_footer">
-                                <ul class="linklist">
-                                    <li><a id="a_share" class="button_color button_btn"><?php echo __('Share') ?></a></li>
-                                    <?php if ($paypal_email || $donate_url): ?>
-                                      <?php if ($donate_direct): ?>
-                                        <li><a class="button_color button_btn" target="_blank" href="<?php echo $donate_url ?>"><?php echo __('Donate') ?></a></li>
-                                      <?php else: ?>
-                                        <li><a id="a_donate" class="button_color button_btn"><?php echo __('Donate') ?></a></li>
-                                      <?php endif ?>
-                                    <?php endif ?>
-                                </ul>
-                            </div>
-                        </div>
-                        <div class="donate">
-                            <?php if ($paypal_email): ?>
-                              <h2 class="form_title"><?php echo __('Donate') ?></h2>
-                              <p><?php echo __('Help us fund this campaign. Give whatever you can now using the safe and secure paypal form below.') ?></p>
-                              <form id="paypal" action="https://www.paypal.com/cgi-bin/webscr" method="post">
-                                  <input type="hidden" name="cmd" value="_xclick" />
-                                  <input type="hidden" name="business" value="<?php echo $paypal_email; ?>" />
-                                  <input type="hidden" name="item_name" value="<?php echo $title; ?>" />
-                                  <input type="hidden" name="item_number" value="<?php echo $paypal_ref; ?>" />
-                                  <input type="hidden" name="lc" value="<?php echo strtoupper($lang) ?>" />
-                                  <input type="hidden" name="no_shipping" value="2" />
-                                  <input type="hidden" name="no_note" value="1" />
-                                  <input type="hidden" name="tax" value="0" />
-                                  <input type="hidden" name="bn" value="IC_Beispiel" />
-                                  <div class="amount group first">
-                                      <label><?php echo __('Amount') ?></label>
-                                      <input id="paypal_amount" type="text" name="amount" value="" />
-                                  </div>
-                                  <div class="currency_code group">
-                                      <label>&nbsp;</label>
-                                      <select name="currency_code">
-                                          <option value="EUR">Euro</option>
-                                          <option value="USD">Dollar</option>
-                                          <option value="GBP">Pound</option>
-                                      </select>
-                                  </div>
-                                  <div class="submit button_small">
-                                      <p><?php echo __('Donate') ?></p>
-                                  </div>
-                              </form>
-                            <?php endif ?>
-                            <?php if ($donate_url): ?>
-                              <?php if ($donate_text): ?>
-                                <div class="external_links"><?php echo UtilMarkdown::transform($sf_data->getRaw('donate_text')) ?></div>
-                              <?php endif ?>
-                              <form>
-                                <a class="a_submit button_small" target="_blank" href="<?php echo $donate_url ?>"><p><?php echo __('Donate') ?></p></a>
-                              </form>
-                            <?php endif ?>
-                            <?php if ($paypal_email || $donate_url): ?>
-                              <a class="back button_color button_btn"><?php echo __('Back') ?></a>
                             <?php endif ?>
                         </div>
                         <div class="embed_this">
@@ -357,24 +293,66 @@ if (is_array($target_selectors)) {
                                 <p><?php echo __('You verified your email address. Your action is confirmed. Use this moment to tell friends and family.') ?></p>
                             </div>
                             <h2 id="h2_tell" class="form_title"><?php echo __('Tell your friends') ?></h2>
-                            <?php if (0): ?>
-                              <form id="tell" action="" method="post">
-                                  <?php echo $form_tellyour ?>
-                                  <div class="submit ">
-                                      <p><?php echo __('Send') ?></p>
+                            <a class="back button_color button_btn"><?php echo __('Back') ?></a>
+                        </div>
+                        <div class="share">
+                            <a href="https://www.facebook.com/sharer/sharer.php?t=<?php echo urlencode($title) ?>&amp;u=" class="newwin sicon facebook" title="Facebook"><img class="no_load" alt="Facebook" src="<?php echo image_path('facebook-32.png') ?>" /></a>
+                            <a href="https://twitter.com/share?text=<?php echo urlencode($title) ?>&amp;url=" class="newwin sicon twitter" title="Twitter"><img class="no_load" alt="Twitter" src="<?php echo image_path('twitter-32.png') ?>" /></a>
+                            <?php
+                            list($mail_subject, $mail_body) = UtilMail::tellyourmail($widget, $petition, $petition_text, 'UURRLLRREEFF', 'UURRLLMMOORREE');
+                            ?>
+                            <a href="mailto:?subject=<?php echo $mail_subject ?>&amp;body=<?php echo $mail_body ?>" class="sicon mailto" title="Email" target="_top"><img  class="no_load" alt="Email" src="<?php echo image_path('email-32.png') ?>" /></a>
+                            <a id="a_embed_this" class="sicon" title="<?php echo __('Embed this') ?>"><img class="no_load" alt="<?php echo __('Embed this') ?>" src="<?php echo image_path('code-32.png') ?>" /></a>
+                            <?php if ($paypal_email || $donate_url): ?>
+                                <?php if ($donate_direct): ?>
+                                    <a class="sicon donate_btn" target="_blank" href="<?php echo $donate_url ?>" title="<?php echo __('Donate') ?>"><img class="no_load" alt="<?php echo __('Donate') ?>" src="<?php echo image_path('charity-32.png') ?>" /></a>
+                                <?php else: ?>
+                                    <a id="a_donate" class="sicon donate_btn" title="<?php echo __('Donate') ?>"><img class="no_load" alt="<?php echo __('Donate') ?>" src="<?php echo image_path('charity-32.png') ?>" /></a>
+                                <?php endif ?>
+                            <?php endif ?>
+                        </div>
+                        <div class="donate">
+                            <?php if ($paypal_email): ?>
+                              <h2 class="form_title"><?php echo __('Donate') ?></h2>
+                              <p><?php echo __('Help us fund this campaign. Give whatever you can now using the safe and secure paypal form below.') ?></p>
+                              <form id="paypal" action="https://www.paypal.com/cgi-bin/webscr" method="post">
+                                  <input type="hidden" name="cmd" value="_xclick" />
+                                  <input type="hidden" name="business" value="<?php echo $paypal_email; ?>" />
+                                  <input type="hidden" name="item_name" value="<?php echo $title; ?>" />
+                                  <input type="hidden" name="item_number" value="<?php echo $paypal_ref; ?>" />
+                                  <input type="hidden" name="lc" value="<?php echo strtoupper($lang) ?>" />
+                                  <input type="hidden" name="no_shipping" value="2" />
+                                  <input type="hidden" name="no_note" value="1" />
+                                  <input type="hidden" name="tax" value="0" />
+                                  <input type="hidden" name="bn" value="IC_Beispiel" />
+                                  <div class="amount group first">
+                                      <label><?php echo __('Amount') ?></label>
+                                      <input id="paypal_amount" type="text" name="amount" value="" />
+                                  </div>
+                                  <div class="currency_code group">
+                                      <label>&nbsp;</label>
+                                      <select name="currency_code">
+                                          <option value="EUR">Euro</option>
+                                          <option value="USD">Dollar</option>
+                                          <option value="GBP">Pound</option>
+                                      </select>
+                                  </div>
+                                  <div class="submit button_small">
+                                      <p><?php echo __('Donate') ?></p>
                                   </div>
                               </form>
                             <?php endif ?>
-                            <div class="share_buttons">
-                                <a href="https://www.facebook.com/sharer/sharer.php?t=<?php echo urlencode($title) ?>&amp;u=" class="newwin sicon facebook" title="Facebook"><img class="no_load" alt="Facebook" src="<?php echo image_path('facebook-32.png') ?>" /></a>
-                                <a href="https://twitter.com/share?text=<?php echo urlencode($title) ?>&amp;url=" class="newwin sicon twitter" title="Twitter"><img class="no_load" alt="Twitter" src="<?php echo image_path('twitter-32.png') ?>" /></a>
-                                <?php
-                                list($mail_subject, $mail_body) = UtilMail::tellyourmail($widget, $petition, $petition_text, 'UURRLLRREEFF', 'UURRLLMMOORREE');
-                                ?>
-                                <a href="mailto:?subject=<?php echo $mail_subject ?>&amp;body=<?php echo $mail_body ?>" class="sicon mailto" title="Email" target="_top"><img  class="no_load" alt="Email" src="<?php echo image_path('email-32.png') ?>" /></a>
-                                <a id="a_embed_this" class="sicon" title="<?php echo __('Embed this') ?>"><img class="no_load" alt="<?php echo __('Embed this') ?>" src="<?php echo image_path('code-32.png') ?>" /></a>
-                            </div>
-                            <a class="back button_color button_btn"><?php echo __('Back') ?></a>
+                            <?php if ($donate_url): ?>
+                              <?php if ($donate_text): ?>
+                                <div class="external_links"><?php echo UtilMarkdown::transform($sf_data->getRaw('donate_text')) ?></div>
+                              <?php endif ?>
+                              <form>
+                                <a class="a_submit button_small" target="_blank" href="<?php echo $donate_url ?>"><p><?php echo __('Donate') ?></p></a>
+                              </form>
+                            <?php endif ?>
+                            <?php if ($paypal_email || $donate_url): ?>
+                              <a class="back button_color button_btn"><?php echo __('Back') ?></a>
+                            <?php endif ?>
                         </div>
                     </div>
                 </div>

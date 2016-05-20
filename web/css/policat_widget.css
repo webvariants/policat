@@ -238,8 +238,18 @@ a.back {
 #policat_widget_right.show_sign .stage_right .sign,
 #policat_widget_right.show_donate .stage_right .donate,
 #policat_widget_right.show_embed_this .stage_right .embed_this,
-#policat_widget_right.show_tell .stage_right .tell {
+#policat_widget_right.show_tell .stage_right .tell,
+#policat_widget_right.show_sign .stage_right .share,
+#policat_widget_right.show_tell .stage_right .share,
+#policat_widget_right.show_tell .stage_right .donate
+{
 	display: block;
+}
+
+#policat_widget_right.show_tell .stage_right .share #a_donate,
+#policat_widget_right.show_tell .stage_right .donate .back
+ {
+	display: none;
 }
 
 #policat_widget_right .stage_right.stage_calc {
@@ -300,7 +310,7 @@ a.back {
 
 #policat_widget_right .tell,
 #policat_widget_right .donate {
-	padding-bottom: 40px;
+	padding-bottom: 0;
 }
 #policat_widget_right .sign, #policat_widget_right .embed_this {
 	padding-bottom: 30px;
@@ -434,16 +444,6 @@ div.checkbox label {
 	text-decoration: none;
 }
 
-#policat_widget_footer {
-	height: 26px;
-	clear: both;
-	font-size: 9px;
-	line-height: 16px;
-	position: absolute;
-	bottom: 0;
-	left: 0;
-}
-
 .icon {
 	display: block;
 	float: left;
@@ -453,15 +453,6 @@ div.checkbox label {
 	height: 16px;
 	width: 51px;
 	margin-top: 6px !important;
-}
-
-#footer_ot a {
-	margin-left: 0;
-	margin: 0 5px 0 0 !important;
-}
-#a_donate2 {
-	font-size: 9px;
-	text-decoration: none;
 }
 
 #kv_ot {
@@ -484,20 +475,6 @@ div.checkbox label {
 	max-height: 70%;
 	margin-bottom: 1px;
 }
-
-#policat_widget_footer ul.linklist {
-	display: block;
-	margin: 0;
-	padding: 0;
-}
-#policat_widget_footer .linklist li {
-	list-style-type: none;
-	float: left;
-	margin-right: 6px;
-	margin-top: 1px;
-}
-
-#policat_widget_footer .linklist li a { text-decoration: none; }
 
 p {
 	line-height: 15px;
@@ -838,11 +815,17 @@ h1:hover + div#embed_this_help_head {display: block;}
 	margin: 5px 0 0 20px;
 }
 
-.share_buttons a {
+.share {
+	display: none;
+	overflow: hidden;
+	margin-bottom: 20px;
+}
+
+.share a {
 	display: block;
 }
 
-.share_buttons .sicon {
+.share .sicon {
 	height: 32px;
 	width: 32px;
 	display: block;
@@ -851,23 +834,27 @@ h1:hover + div#embed_this_help_head {display: block;}
 	padding: 0;
 }
 
-.share_buttons .sicon img {
+.share .sicon img {
 	height: 32px;
 	width: 32px;
 	border: 0;
 }
 
-.share_buttons .facebook {
+.share .facebook {
 	background: #3B5998;
 }
-.share_buttons .twitter {
+.share .twitter {
 	background: #00ACED;
 }
-.share_buttons .mailto {
-	background: #D14836;
-}
-.share_buttons #a_embed_this {
+.share .mailto {
 	background: #f7d804;
+}
+.share #a_embed_this {
+	background: #aaa;
+}
+
+.share .donate_btn {
+	background: #D14836;
 }
 
 .button_color {
@@ -889,10 +876,6 @@ h1:hover + div#embed_this_help_head {display: block;}
 	-moz-border-radius: 3px;
 	border-radius: 3px;
 	text-decoration: none;
-}
-
-#footer_ot .button_btn {
-	padding: 3px 8px;
 }
 
 .wkScroll {
@@ -935,8 +918,7 @@ h1:hover + div#embed_this_help_head {display: block;}
 }
 
 .small #policat_widget_left,
-.small #policat_widget_right,
-.small #policat_widget_footer {
+.small #policat_widget_right {
 	float: none;
 	width: 100%;
 	min-width: 260px;

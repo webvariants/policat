@@ -203,6 +203,10 @@ $(document).ready(function($) {
 		var iframe_no = hash_parts[3];
 		var ref = hash_parts[4];
 
+		if (hasSign) {
+			policat_widget.addClass('has_sign');
+		}
+
 		if (count) {
 			var c = count.split('-', 3);
 			if (c.length == 3) {
@@ -498,7 +502,7 @@ $(document).ready(function($) {
 			show_tell();
 		}
 		if (editMode) {
-			$('#petition, #policat_widget_footer, a.back').hide();
+			$('#petition, a.back').hide();
 			$('#widget_edit_code').val(edit_code);
 			$('#widget_id').val(widget_id); // from outer JS
 			$('#widget_email, #widget_organisation').parent().remove();
@@ -704,6 +708,7 @@ $(document).ready(function($) {
 									$('#policat_widget_right .tell .error').html(message);
 									$('.tell .back').remove();
 									hasSign = true;
+									policat_widget.addClass('has_sign');
 									break;
 								case 'tell':
 									$('#tellyour_emails').val('');
