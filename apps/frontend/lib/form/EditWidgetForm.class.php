@@ -71,12 +71,12 @@ class EditWidgetForm extends WidgetForm {
       $this->setWidget('styling_bg_left_color', new sfWidgetFormInput(array(), array('class' => 'color {hash:true}')));
       $this->setValidator('styling_bg_left_color', new ValidatorCssColor(array('min_length' => 7, 'max_length' => 7)));
       $this->setDefault('styling_bg_left_color', $this->getObject()->getStyling('bg_left_color', $parent ? $parent->getStyling('bg_left_color') : $petition->getStyleBgLeftColor()));
-      $this->getWidgetSchema()->setLabel('styling_bg_left_color', 'Backgr left');
+      $this->getWidgetSchema()->setLabel('styling_bg_left_color', 'Text background');
 
       $this->setWidget('styling_bg_right_color', new sfWidgetFormInput(array(), array('class' => 'color {hash:true}')));
       $this->setValidator('styling_bg_right_color', new ValidatorCssColor(array('min_length' => 7, 'max_length' => 7)));
       $this->setDefault('styling_bg_right_color', $this->getObject()->getStyling('bg_right_color', $parent ? $parent->getStyling('bg_right_color') : $petition->getStyleBgRightColor()));
-      $this->getWidgetSchema()->setLabel('styling_bg_right_color', 'Backgr right');
+      $this->getWidgetSchema()->setLabel('styling_bg_right_color', 'Form background');
 
       $this->setWidget('styling_form_title_color', new sfWidgetFormInput(array(), array('class' => 'color {hash:true}')));
       $this->setValidator('styling_form_title_color', new ValidatorCssColor(array('min_length' => 7, 'max_length' => 7)));

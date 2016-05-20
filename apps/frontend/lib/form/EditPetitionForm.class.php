@@ -305,10 +305,10 @@ class EditPetitionForm extends PetitionFieldsForm {
     $this->setWidget('style_button_color', new sfWidgetFormInput(array('label' => 'Button colour'), array('class' => 'color {hash:true}')));
     $this->setValidator('style_button_color', new ValidatorCssColor(array('min_length' => 7, 'max_length' => 7)));
 
-    $this->setWidget('style_bg_left_color', new sfWidgetFormInput(array('label' => 'Background left colour'), array('class' => 'color {hash:true}')));
+    $this->setWidget('style_bg_left_color', new sfWidgetFormInput(array('label' => 'Text background'), array('class' => 'color {hash:true}')));
     $this->setValidator('style_bg_left_color', new ValidatorCssColor(array('min_length' => 7, 'max_length' => 7)));
 
-    $this->setWidget('style_bg_right_color', new sfWidgetFormInput(array('label' => 'Background right colour'), array('class' => 'color {hash:true}')));
+    $this->setWidget('style_bg_right_color', new sfWidgetFormInput(array('label' => 'Form background'), array('class' => 'color {hash:true}')));
     $this->setValidator('style_bg_right_color', new ValidatorCssColor(array('min_length' => 7, 'max_length' => 7)));
 
     $this->setWidget('style_form_title_color', new sfWidgetFormInput(array('label' => 'Form title'), array('class' => 'color {hash:true}')));
