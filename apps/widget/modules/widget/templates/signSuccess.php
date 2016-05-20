@@ -368,12 +368,11 @@ if (is_array($target_selectors)) {
                             <div class="share_buttons">
                                 <a href="https://www.facebook.com/sharer/sharer.php?t=<?php echo urlencode($title) ?>&amp;u=" class="newwin sicon facebook" title="Facebook"><img class="no_load" alt="Facebook" src="<?php echo image_path('facebook-32.png') ?>" /></a>
                                 <a href="https://twitter.com/share?text=<?php echo urlencode($title) ?>&amp;url=" class="newwin sicon twitter" title="Twitter"><img class="no_load" alt="Twitter" src="<?php echo image_path('twitter-32.png') ?>" /></a>
-                                <a href="https://plus.google.com/share?url=" class="newwin sicon gplus" title="Google+"><img class="no_load" alt="Google+" src="<?php echo image_path('googleplus-32.png') ?>" /></a>
                                 <?php
                                 list($mail_subject, $mail_body) = UtilMail::tellyourmail($widget, $petition, $petition_text, 'UURRLLRREEFF', 'UURRLLMMOORREE');
                                 ?>
                                 <a href="mailto:?subject=<?php echo $mail_subject ?>&amp;body=<?php echo $mail_body ?>" class="sicon mailto" title="Email" target="_top"><img  class="no_load" alt="Email" src="<?php echo image_path('email-32.png') ?>" /></a>
-                                <a id="a_embed_this" class="button_color button_btn"><?php echo __('Embed this') ?></a>
+                                <a id="a_embed_this" class="sicon" title="<?php echo __('Embed this') ?>"><img class="no_load" alt="<?php echo __('Embed this') ?>" src="<?php echo image_path('code-32.png') ?>" /></a>
                             </div>
                             <a class="back button_color button_btn"><?php echo __('Back') ?></a>
                         </div>

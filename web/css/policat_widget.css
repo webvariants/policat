@@ -863,30 +863,11 @@ h1:hover + div#embed_this_help_head {display: block;}
 .share_buttons .twitter {
 	background: #00ACED;
 }
-.share_buttons .gplus {
+.share_buttons .mailto {
 	background: #D14836;
 }
-.share_buttons .mailto {
-	background: #f7d804;
-}
-.share_buttons .icon_embed {
-	background: #F06529;
-	color: #fff;
-	font-family: monospace;
-	font-size: 10px;
-	text-align: center;
-	line-height: 32px;
-	overflow: hidden;
-	text-decoration: none;
-	text-transform: lowercase;
-}
-
 .share_buttons #a_embed_this {
-	display: block;
-	float: left;
-	clear: left;
-	margin: 10px 0 0 0;
-	padding: 3px 8px;
+	background: #f7d804;
 }
 
 .button_color {
