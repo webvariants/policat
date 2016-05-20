@@ -94,8 +94,8 @@ class EditWidgetForm extends WidgetForm {
 
     $this->setWidget('background', new sfWidgetFormTextarea(array(), array('cols' => 90, 'rows' => 5, 'class' => 'markdown')));
     if (!$petition->isEmailKind()) {
-      $this->setWidget('intro', new sfWidgetFormTextarea(array(), array('cols' => 90, 'rows' => 5, 'class' => 'large')));
-      $this->setWidget('footer', new sfWidgetFormTextarea(array(), array('cols' => 90, 'rows' => 5, 'class' => 'large')));
+      $this->setWidget('intro', new sfWidgetFormTextarea(array('label' => 'Introductory part'), array('cols' => 90, 'rows' => 5, 'class' => 'large')));
+      $this->setWidget('footer', new sfWidgetFormTextarea(array('label' => 'Closing part'), array('cols' => 90, 'rows' => 5, 'class' => 'large')));
       $this->getValidator('intro')->setOption('required', false);
       $this->getValidator('footer')->setOption('required', false);
       unset($this['email_subject'], $this['email_body']);

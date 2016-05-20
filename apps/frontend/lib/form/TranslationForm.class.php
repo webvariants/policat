@@ -120,9 +120,9 @@ The e-mail text: #EMAIL-SUBJECT# -- #EMAIL-BODY#"
     $this->setValidator('landing_url', new ValidatorUrl(array('required' => false, 'trim' => true)));
 
     if (!$petition->isEmailKind()) {
-      $this->setWidget('intro', new sfWidgetFormTextarea(array(), array('cols' => 90, 'rows' => 5, 'class' => 'markdown')));
-      $this->setWidget('body', new sfWidgetFormTextarea(array(), array('cols' => 90, 'rows' => 30, 'class' => 'markdown')));
-      $this->setWidget('footer', new sfWidgetFormTextarea(array(), array('cols' => 90, 'rows' => 5, 'class' => 'markdown')));
+      $this->setWidget('intro', new sfWidgetFormTextarea(array('label' => 'Introductory part'), array('cols' => 90, 'rows' => 5, 'class' => 'markdown')));
+      $this->setWidget('body', new sfWidgetFormTextarea(array('label' => 'Main part'), array('cols' => 90, 'rows' => 30, 'class' => 'markdown')));
+      $this->setWidget('footer', new sfWidgetFormTextarea(array('label' => 'Closing part'), array('cols' => 90, 'rows' => 5, 'class' => 'markdown')));
       $this->getValidator('intro')->setOption('required', false);
       $this->getValidator('body')->setOption('required', true);
       $this->getValidator('footer')->setOption('required', false);
@@ -248,8 +248,7 @@ The e-mail text: #EMAIL-SUBJECT# -- #EMAIL-BODY#"
 
     if ($petition->getKind() == Petition::KIND_PLEDGE) {
       $this->setWidget('pledge_title', new sfWidgetFormInput(array('label' => 'Title'), array('size' => 90, 'class' => 'large')));
-      $this->setWidget('intro', new sfWidgetFormTextarea(array(), array('cols' => 90, 'rows' => 5, 'class' => 'markdown')));
-      $this->getWidgetSchema()->setLabel('intro', 'Introduction');
+      $this->setWidget('intro', new sfWidgetFormTextarea(array('label' => 'Introduction'), array('cols' => 90, 'rows' => 5, 'class' => 'markdown')));
       $this->getWidgetSchema()->moveField('intro', sfWidgetFormSchema::AFTER, 'pledge_title');
       $this->setValidator('intro', new sfValidatorString(array('required' => false)));
       unset($this['pledge_comment']);
