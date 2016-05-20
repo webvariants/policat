@@ -1,4 +1,5 @@
 <?php
+
 /*
  * Copyright (c) 2016, webvariants GmbH <?php Co. KG, http://www.webvariants.de
  *
@@ -34,6 +35,15 @@ class WidgetTable extends Doctrine_Table {
   const ORDER_ACTIVITY_DESC = '12';
   const ORDER_TRENDING = '13';
 
+  public static $STYLE_COLOR_NAMES = array(
+      'title_color',
+      'body_color',
+      'button_color',
+      'bg_left_color',
+      'bg_right_color',
+      'form_title_color'
+  );
+
   /**
    *
    * @return WidgetTable
@@ -58,15 +68,15 @@ class WidgetTable extends Doctrine_Table {
   public function queryByPetition(Petition $petition) {
     return $this->queryAll()->where('w.petition_id = ?', $petition->getId());
   }
-  
+
   public function updateByEmailToUser(sfGuardUser $user) {
     $email = $user->getUsername();
     return $this->createQuery()
-      ->update()
-      ->where('email = ?', $email)
-      ->andWhere('user_id IS NULL')
-      ->set('user_id', $user->getId())
-      ->execute();
+        ->update()
+        ->where('email = ?', $email)
+        ->andWhere('user_id IS NULL')
+        ->set('user_id', $user->getId())
+        ->execute();
   }
 
   /**
@@ -76,10 +86,10 @@ class WidgetTable extends Doctrine_Table {
    */
   public function fetchIdsByPetition(Petition $petition) {
     return (array) $this->queryAll()
-      ->where('w.petition_id = ?', $petition->getId())
-      ->orderBy('w.id ASC')
-      ->select('w.id')
-      ->execute(array(), Doctrine_Core::HYDRATE_SINGLE_SCALAR);
+        ->where('w.petition_id = ?', $petition->getId())
+        ->orderBy('w.id ASC')
+        ->select('w.id')
+        ->execute(array(), Doctrine_Core::HYDRATE_SINGLE_SCALAR);
   }
 
   public function queryByUser(sfGuardUser $user) {
@@ -125,8 +135,7 @@ class WidgetTable extends Doctrine_Table {
     /* @var $widget Widget */
 
     if ($widget && $all_active) {
-      if ($widget->getStatus() != Widget::STATUS_ACTIVE || $widget->getCampaign()->getStatus() != CampaignTable::STATUS_ACTIVE
-        || $widget->getPetition()->getStatus() != Petition::STATUS_ACTIVE || $widget->getPetitionText()->getStatus() != PetitionText::STATUS_ACTIVE) {
+      if ($widget->getStatus() != Widget::STATUS_ACTIVE || $widget->getCampaign()->getStatus() != CampaignTable::STATUS_ACTIVE || $widget->getPetition()->getStatus() != Petition::STATUS_ACTIVE || $widget->getPetitionText()->getStatus() != PetitionText::STATUS_ACTIVE) {
         return null;
       }
     }
@@ -291,24 +300,24 @@ class WidgetTable extends Doctrine_Table {
 
     return $query;
   }
-  
+
   public function fetchIdsOfPetition(Petition $petition) {
     $query = $this->createQuery('w')
       ->where('w.petition_id = ?', $petition->getId())
       ->orderBy('w.id ASC')
       ->select('w.id');
-    
+
     $ids = $query->execute(array(), Doctrine_Core::HYDRATE_SCALAR);
     $query->free();
     return array_map('reset', $ids);
   }
-  
+
   public function fetchOriginIdsOfPetition(Petition $petition) {
     $query = $this->createQuery('w')
       ->where('w.petition_id = ?', $petition->getId())
       ->orderBy('w.id ASC')
       ->select('w.origin_widget_id');
-    
+
     $ids = $query->execute(array(), Doctrine_Core::HYDRATE_SCALAR);
     $query->free();
     return array_map('reset', $ids);
@@ -318,8 +327,9 @@ class WidgetTable extends Doctrine_Table {
     $query = $this->createQuery('w')
       ->where('w.petition_id = ? AND w.origin_widget_id = ?', array($petition_id, $origin_id))
       ->select('w.id');
-    
+
     $id = $query->execute(array(), Doctrine_Core::HYDRATE_SINGLE_SCALAR);
     return $id ? : false;
   }
+
 }

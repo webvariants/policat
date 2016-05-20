@@ -69,14 +69,19 @@ class WidgetForm extends BaseWidgetForm {
   }
 
   protected function setWidgetDefaults() {
-    $defaults = $this->getObject()->getPetitionText();
+    $defaults_text = $this->getObject()->getPetitionText();
+    $defaults_parent = null;
     if ($this->getObject()->getParentId()) {
-      $defaults = $this->getObject()->getParent();
+      $defaults_parent = $this->getObject()->getParent();
     }
     if ($this->getObject()->isNew()) {
       foreach (array('title', 'target', 'background', 'intro', 'footer', 'email_subject', 'email_body') as $field) {
         if (isset($this[$field])) {
-          $this->setDefault($field, $defaults[$field]);
+          if ($defaults_parent && $defaults_parent[$field]) {
+            $this->setDefault($field, $defaults_parent[$field]);
+          } else {
+            $this->setDefault($field, $defaults_text[$field]);
+          }
         }
       }
     }

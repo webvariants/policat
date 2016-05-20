@@ -112,9 +112,9 @@ class widgetActions extends policatActions
     $this->width = $this->widget->getStyling('width');
     $this->font_family = $this->petition->getStyleFontFamily();
     $widget_colors = $this->petition->getWidgetIndividualiseDesign();
-    foreach (array('title_color', 'body_color', 'button_color', 'bg_left_color', 'bg_right_color', 'form_title_color') as $style) {
+    foreach (WidgetTable::$STYLE_COLOR_NAMES as $style) {
       if ($widget_colors) {
-        $this->$style = $this->widget->getStyling($style, $this->petition['style_' . $style]);
+        $this->$style = $this->widget->getStyling($style);
       } else {
         $this->$style = $this->petition['style_' . $style];
       }
