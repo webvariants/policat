@@ -287,13 +287,12 @@ if (is_array($target_selectors)) {
                             <div id="embed_this_help_width"><span><?php echo __("You may define a precise widget width. Select \"auto\" and the widget will adapt to the space available (max: 1000px). Should there be less than 440px width available, contents will display in one column (instead of two) with the sign-on-form below the petition text. On mobile devices with less than 768px device-width, the widget-width is set to 360px for smooth reading on smartphones.") ?></span></div>
                             <a class="back button_color button_btn"><?php echo __('Back') ?></a>
                         </div>
-                        <div class="tell">
-                            <h2 class="thankyou form_title"><?php echo __('Thank you') ?></h2>
-                            <div class="thankyou error">
+                        <div class="thankyou">
+                            <h2 class="form_title"><?php echo __('Thank you') ?></h2>
+                            <div class="error">
                                 <p><?php echo __('You verified your email address. Your action is confirmed. Use this moment to tell friends and family.') ?></p>
                             </div>
-                            <h2 id="h2_tell" class="form_title"><?php echo __('Tell your friends') ?></h2>
-                            <a class="back button_color button_btn"><?php echo __('Back') ?></a>
+                            <h2 class="form_title"><?php echo __('Tell your friends') ?></h2>
                         </div>
                         <div class="share">
                             <a href="https://www.facebook.com/sharer/sharer.php?t=<?php echo urlencode($title) ?>&amp;u=" class="newwin sicon facebook" title="Facebook"><img class="no_load" alt="Facebook" src="<?php echo image_path('facebook-32.png') ?>" /></a>

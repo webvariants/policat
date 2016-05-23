@@ -108,7 +108,8 @@ $(document).ready(function($) {
 		});
 
 		function show_right(name) {
-			policat_widget_right.removeClass('show_sign').removeClass('show_donate').removeClass('show_embed_this').removeClass('show_tell');
+			policat_widget.removeClass('right_only');
+			policat_widget_right.removeClass('show_sign').removeClass('show_donate').removeClass('show_embed_this').removeClass('show_thankyou');
 			policat_widget_right.addClass('show_' + name);
 		}
 
@@ -134,17 +135,21 @@ $(document).ready(function($) {
 			}
 			show_right('embed_this');
 		}
-		function show_tell() {
-			show_right('tell');
+		function show_thankyou() {
+			show_right('thankyou');
+			policat_widget.addClass('right_only');
 		}
 		function show_privacy_policy() {
 			show_left('privacy_policy');
-			if (!useWkScroll && scroll_privacy_policy.length)
+			if (!useWkScroll && scroll_privacy_policy.length) {
 				scroll_privacy_policy.data('jsp').reinitialise();
-			if (hasSign)
-				show_right('tell');
-			else
+			}
+			if (hasSign) {
+				show_right('thankyou');
+			}
+			else {
 				show_right('sign');
+			}
 		}
 
 		if (!('postMessage' in window))
@@ -498,8 +503,7 @@ $(document).ready(function($) {
 		$('#right_tab').hide();
 		$('#privacy_policy').hide();
 		if (hasSign) {
-			$('.tell .back').remove();
-			show_tell();
+			show_thankyou();
 		}
 		if (editMode) {
 			$('#petition, a.back').hide();
@@ -657,16 +661,6 @@ $(document).ready(function($) {
 						else
 							textarea.parent().addClass('form_error');
 						form_error = true;
-					} else if (textarea.attr('id') === 'tellyour_emails') {
-						var emails = textarea.val().split(/[,\s\n\r]+/);
-						for (var i = 0; i < emails.length; i++) {
-							var mail = emails[i].match(/^([^@\s]+)@((?:[-a-z0-9]+\.)+[a-z]{2,})$/i);
-							if (!mail) {
-								textarea.parent().addClass('form_error');
-								form_error = true;
-								break;
-							}
-						}
 					}
 				});
 
@@ -691,9 +685,6 @@ $(document).ready(function($) {
 								refName = 'petition_signing[ref]';
 								$('#petition_signing_email_subject_copy, #petition_signing_email_body_copy').attr('disabled', 'disabled');
 								break;
-							case 'tell':
-								refName = 'tellyour[ref]';
-								break;
 							case 'embed':
 								refName = 'widget[ref]';
 								break;
@@ -704,15 +695,10 @@ $(document).ready(function($) {
 								message += '<p>' + data.errors[error] + '</p>';
 							switch (formId) {
 								case 'sign':
-									show_tell();
-									$('#policat_widget_right .tell .error').html(message);
-									$('.tell .back').remove();
+									show_thankyou();
+									$('#policat_widget_right .thankyou .error').html(message);
 									hasSign = true;
 									policat_widget.addClass('has_sign');
-									break;
-								case 'tell':
-									$('#tellyour_emails').val('');
-									$('#policat_widget_right .error').html(message);
 									break;
 								case 'embed':
 									if (data.isValid) {
@@ -771,11 +757,6 @@ $(document).ready(function($) {
 			show_donate();
 		});
 
-		$('#a_share, #a_share2').click(function() {
-			$('#policat_widget_right div.tell .thankyou').hide();
-			show_tell();
-		});
-
 		$('div.privacy label').attr('for', 'useless').click(function() {
 			show_privacy_policy();
 		});
@@ -790,14 +771,10 @@ $(document).ready(function($) {
 		// BACK
 		$('a.back').click(function() {
 			if (hasSign) {
-				show_tell();
+				show_thankyou();
 				show_left('petition');
-			}
-			else
+			} else {
 				show_sign();
-
-			if ($(this).parent().is('.tell')) {
-				$('.thankyou').show();
 			}
 
 			return false;

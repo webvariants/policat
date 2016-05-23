@@ -19,7 +19,6 @@ h2 {
 	font-weight: normal;
 	margin-bottom: 0.2em;
 }
-h2#h2_tell { margin-bottom: 0.8em }
 h3 { font-size: 1.5em; line-height: 1; margin-bottom: 1em; }
 h4 { font-size: 1.2em; line-height: 1.25; margin-bottom: 1.25em; }
 h5 { font-size: 1em; margin-bottom: 1.5em; }
@@ -50,7 +49,6 @@ table tfoot td, table tfoot th, table thead td, table thead th { background: sil
 div#policat_modal_window { padding: 0 }
 
 form span.help { font-size: 0.8em }
-form#tell label { display: inline-block; margin-left: 0 }
 
 input[type=text], textarea, select {
 	border: 1px solid;
@@ -205,6 +203,14 @@ a.back {
 	margin: 0;
 	font-size: 9px;
 }
+
+.thankyou h2 {
+	font-size: 20px;
+}
+.thankyou div {
+	font-size: 14px;
+}
+
 #content_left a.back {
 	margin: 0 0 0 20px;
 }
@@ -215,6 +221,14 @@ a.back {
 	padding: 0;
 	position: relative;
 }
+
+.right_only #policat_widget_left {
+	display: none;
+}
+.right_only #policat_widget_right {
+	width: 100%;
+}
+
 #content_right {
 	padding: 20px 20px 0 17px;
 	overflow: hidden;
@@ -231,23 +245,23 @@ a.back {
 #policat_widget_right .stage_right .sign,
 #policat_widget_right .stage_right .donate,
 #policat_widget_right .stage_right .embed_this,
-#policat_widget_right .stage_right .tell {
+#policat_widget_right .stage_right .thankyou {
 	display: none;
 }
 
 #policat_widget_right.show_sign .stage_right .sign,
 #policat_widget_right.show_donate .stage_right .donate,
 #policat_widget_right.show_embed_this .stage_right .embed_this,
-#policat_widget_right.show_tell .stage_right .tell,
+#policat_widget_right.show_thankyou .stage_right .thankyou,
 #policat_widget_right.show_sign .stage_right .share,
-#policat_widget_right.show_tell .stage_right .share,
-#policat_widget_right.show_tell .stage_right .donate
+#policat_widget_right.show_thankyou .stage_right .share,
+#policat_widget_right.show_thankyou .stage_right .donate
 {
 	display: block;
 }
 
-#policat_widget_right.show_tell .stage_right .share #a_donate,
-#policat_widget_right.show_tell .stage_right .donate .back
+#policat_widget_right.show_thankyou .stage_right .share #a_donate,
+#policat_widget_right.show_thankyou .stage_right .donate .back
  {
 	display: none;
 }
@@ -261,7 +275,7 @@ a.back {
 #policat_widget_right .stage_right.stage_calc .sign,
 #policat_widget_right .stage_right.stage_calc .donate,
 #policat_widget_right .stage_right.stage_calc .embed_this,
-#policat_widget_right .stage_right.stage_calc .tell {
+#policat_widget_right .stage_right.stage_calc .thankyou {
 	width: 12.5%;
 	margin: 0 12.5% 0 0;
 	float: left;
@@ -277,20 +291,20 @@ a.back {
 #policat_widget_right.show_embed_this .stage_right.stage_calc {
 	margin-left: -400%;
 }
-#policat_widget_right.show_tell .stage_right.stage_calc {
+#policat_widget_right.show_thankyou .stage_right.stage_calc {
 	margin-left: -600%;
 }
 
 .small #policat_widget_right .stage_right .sign,
 .small #policat_widget_right .stage_right .donate,
 .small #policat_widget_right .stage_right .embed_this,
-.small #policat_widget_right .stage_right .tell {
+.small #policat_widget_right .stage_right .thankyou {
 	max-height: 20px;
 }
 .small #policat_widget_right.show_sign .stage_right .sign,
 .small #policat_widget_right.show_donate .stage_right .donate,
 .small #policat_widget_right.show_embed_this .stage_right .embed_this,
-.small #policat_widget_right.show_tell .stage_right .tell {
+.small #policat_widget_right.show_thankyou .stage_right .thankyou {
 	max-height: 1000px;
 }
 
@@ -304,11 +318,11 @@ a.back {
 #policat_widget_right .stage_right .donate .back {
 	left: 0;
 }
-#policat_widget_right .stage_right .tell .back {
+#policat_widget_right .stage_right .thankyou .back {
 	left: 0;
 }
 
-#policat_widget_right .tell,
+#policat_widget_right .thankyou,
 #policat_widget_right .donate {
 	padding-bottom: 0;
 }
