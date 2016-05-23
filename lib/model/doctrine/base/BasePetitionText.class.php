@@ -150,11 +150,9 @@ abstract class BasePetitionText extends myDoctrineRecord
              ));
         $this->hasColumn('target', 'clob', null, array(
              'type' => 'clob',
-             'notnull' => true,
              ));
         $this->hasColumn('background', 'clob', null, array(
              'type' => 'clob',
-             'notnull' => true,
              ));
         $this->hasColumn('intro', 'clob', null, array(
              'type' => 'clob',
@@ -183,7 +181,6 @@ abstract class BasePetitionText extends myDoctrineRecord
              ));
         $this->hasColumn('email_validation_body', 'clob', null, array(
              'type' => 'clob',
-             'notnull' => true,
              ));
         $this->hasColumn('email_tellyour_subject', 'string', null, array(
              'type' => 'string',
@@ -191,7 +188,6 @@ abstract class BasePetitionText extends myDoctrineRecord
              ));
         $this->hasColumn('email_tellyour_body', 'clob', null, array(
              'type' => 'clob',
-             'notnull' => true,
              ));
         $this->hasColumn('email_targets', 'clob', null, array(
              'type' => 'clob',

@@ -45,7 +45,6 @@ abstract class BasePledgeText extends myDoctrineRecord
         $this->hasColumn('text', 'clob', null, array(
              'type' => 'clob',
              'notnull' => true,
-             'default' => '',
              ));
 
         $this->option('form', true);

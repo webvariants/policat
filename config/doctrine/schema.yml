@@ -163,8 +163,8 @@ Campaign:
     owner_register:        { type: integer(4), notnull: true, default: 0 }
     allow_download:        { type: integer(4), notnull: true, default: 0 }
     become_petition_admin: { type: integer(4), notnull: true, default: 0 } # obsolete
-    privacy_policy:        { type: clob, notnull: true, default: '' }
-    address:               { type: clob, notnull: true, default: '' }
+    privacy_policy:        { type: clob }
+    address:               { type: clob }
     data_owner_id:         { type: integer(4), notnull: false, default: null }
     quota_id:              { type: integer(4), notnull: false, default: null }
     order_id:              { type: integer(4), notnull: false, default: null }
@@ -295,7 +295,7 @@ Petition:
     pledge_color:            { type: string(6), notnull: false, default: '333333' }
     pledge_head_color:       { type: string(6), notnull: false, default: '333333' }
     pledge_font:             { type: string(80), notnull: false, default: null }
-    pledge_info_columns:     { type: clob, notnull: false, default: null }
+    pledge_info_columns:     { type: clob, notnull: false }
     activity_at:             { type: timestamp, notnull: false, default: null }
     widget_individualise:    { type: integer(1), notnull: true, default: 1 }
     style_font_family:       { type: string(80), notnull: true, default: '"Lucida Sans Unicode", Vardana, Arial' }
@@ -335,8 +335,8 @@ PetitionText:
     petition_id:                { type: integer(4), notnull: true }
 
     title:                      { type: string,     notnull: true }
-    target:                     { type: clob,       notnull: true }
-    background:                 { type: clob,       notnull: true }
+    target:                     { type: clob }
+    background:                 { type: clob }
 
     intro:                      { type: clob }
     body:                       { type: clob }
@@ -349,9 +349,9 @@ PetitionText:
     thank_you_email_body:       { type: clob }
 
     email_validation_subject:   { type: string,     notnull: true }
-    email_validation_body:      { type: clob,       notnull: true }
+    email_validation_body:      { type: clob }
     email_tellyour_subject:     { type: string,     notnull: true }
-    email_tellyour_body:        { type: clob,       notnull: true }
+    email_tellyour_body:        { type: clob }
     ###
     email_targets:              { type: clob }
     privacy_policy_body:        { type: clob }
@@ -441,7 +441,7 @@ PetitionSigning:
   columns:
     id:              { type: integer(8), primary: true, autoincrement: true }
     petition_id:     { type: integer(4), notnull: true }
-    fields:          { type: clob,       notnull: true }
+    fields:          { type: clob }
     status:          { type: integer(4), notnull: true, default: 1}
     verified:        { type: integer(4), notnull: true, default: 0}
     email:           { type: string(80) }
@@ -463,11 +463,11 @@ PetitionSigning:
     address:         { type: string(200), notnull: false, default: null }
     city:            { type: string(100), notnull: false, default: null }
     post_code:       { type: string(50),  notnull: false, default: null }
-    comment:         { type: clob,        notnull: false, default: null }
+    comment:         { type: clob,        notnull: false }
     extra1:          { type: string(100), notnull: false, default: null }
     privacy:         { type: integer(1),  notnull: false, default: null }
     email_subject:   { type: string(250), notnull: false, default: null }
-    email_body:      { type: clob,        notnull: false, default: null }
+    email_body:      { type: clob,        notnull: false }
     ref:             { type: string(250), notnull: false, default: null }
     quota_id:        { type: integer(4),  notnull: false, default: null }
     quota_emails:    { type: integer(2),  notnull: false, default: null }
@@ -886,7 +886,7 @@ PledgeText:
   columns:
     pledge_item_id:      { type: integer(4), primary: true }
     petition_text_id:    { type: integer(4), primary: true }
-    text:                { type: clob, notnull: true, default: '' }
+    text:                { type: clob, notnull: true }
   relations:
     PledgeItem:          { onDelete: CASCADE, foreignAlias: PledgeTexts }
     PetitionText:        { onDelete: CASCADE, foreignAlias: PledgeTexts }
@@ -973,7 +973,7 @@ Download:
     petition_id:          { type: integer(4), notnull: false, default: null }
     campaign_id:          { type: integer(4), notnull: false, default: null }
     filename:             { type: string(80), notnull: true, unique: true }
-    filter:               { type: clob,       default: '' }
+    filter:               { type: clob }
     type:                 { type: string(40), notnull: true }
     subscriber:           { type: integer(1), notnull: true, default: 0 }
     count:                { type: integer(4), notnull: true, default: 0 }

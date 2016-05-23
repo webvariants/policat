@@ -99,7 +99,6 @@ abstract class BaseDownload extends myDoctrineRecord
              ));
         $this->hasColumn('filter', 'clob', null, array(
              'type' => 'clob',
-             'default' => '',
              ));
         $this->hasColumn('type', 'string', 40, array(
              'type' => 'string',
