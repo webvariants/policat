@@ -1,0 +1,111 @@
+#!/bin/bash
+
+if [ -z "$1" ]
+  then
+    echo "The 1st parameter must be a port number or hostname for policat webserver."
+    exit
+fi
+
+re='^[0-9]+$'
+if [[ $1 =~ $re ]] ; then
+    POLICAT_RUN="--publish 127.0.0.1:$1:80 --label traefik.enable=false"
+else
+    POLICAT_RUN="-e VIRTUAL_HOST=$1 -e VIRTUAL_PORT=80 -l traefik.port=80 -l traefik.frontend.rule=Host:$1 -l traefik.frontend.passHostHeader=true"
+fi
+
+if [ -z "$2" ]
+  then
+    echo "The 2nd parameter must be a port number or hostname for test mailserver."
+    exit
+fi
+
+re='^[0-9]+$'
+if [[ $2 =~ $re ]] ; then
+    MAILDEV_RUN="--publish 127.0.0.1:$2:80 --label traefik.enable=false"
+else
+    MAILDEV_RUN="-e VIRTUAL_HOST=$2 -e VIRTUAL_PORT=80 -l traefik.port=80 -l traefik.frontend.rule=Host:$2 -l traefik.frontend.passHostHeader=true"
+fi
+
+
+POLICAT_CONTAINER=policat-develop
+MYSQL_CONTAINER=policat-develop-mysql
+MEMCACHED_CONTAINER=policat-develop-memcached
+MAILDEV_CONTAINER=policat-develop-maildev
+
+set +e
+RUNNING=$(docker inspect --format="{{ .State.Running }}" $MYSQL_CONTAINER 2> /dev/null)
+set -e
+
+if [ "$RUNNING" == "" ]; then
+    docker run \
+        -d \
+        --name $MYSQL_CONTAINER \
+        -e "MYSQL_ROOT_PASSWORD=policat" \
+        --volume $PWD/docker/data-develop/mysql/:/var/lib/mysql \
+        --label traefik.enable=false \
+        mysql:5.6
+fi
+
+set +e
+RUNNING=$(docker inspect --format="{{ .State.Running }}" $MEMCACHED_CONTAINER 2> /dev/null)
+set -e
+
+if [ "$RUNNING" == "" ]; then
+    docker run \
+        -d \
+        --name $MEMCACHED_CONTAINER \
+        --label traefik.enable=false \
+        memcached
+fi
+
+set +e
+RUNNING=$(docker inspect --format="{{ .State.Running }}" $MAILDEV_CONTAINER 2> /dev/null)
+set -e
+
+if [ "$RUNNING" == "" ]; then
+    docker run \
+        -d \
+        --name $MAILDEV_CONTAINER \
+        $MAILDEV_RUN \
+        djfarrelly/maildev
+fi
+
+docker start $MYSQL_CONTAINER $MEMCACHED_CONTAINER $MAILDEV_CONTAINER
+
+mkdir -p \
+    docker/data-develop/csv_uploads \
+    docker/data-develop/csv_downloads \
+    docker/data-develop/keyvisual \
+    docker/data-develop/pledge_header_visual \
+    docker/data-develop/pledge_key_visual \
+    docker/data-develop/store
+
+docker run \
+    --rm \
+    -w "${PWD}" \
+    -v "${PWD}/:${PWD}" \
+    -v "${PWD}/docker/config-develop/app.yml:${PWD}/config/app.yml:ro" \
+    -v "${PWD}/docker/config-develop/databases.yml:${PWD}/config/databases.yml:ro" \
+    -v "${PWD}/docker/config-develop/factories.yml:${PWD}/config/factories.yml:ro" \
+    -v "${PWD}/docker/config-develop/properties.ini:${PWD}/config/properties.ini:ro" \
+    -v "${PWD}/docker/data-develop/csv_uploads/:${PWD}/data/csv_uploads" \
+    -v "${PWD}/docker/data-develop/csv_downloads/:${PWD}/data/csv_downloads" \
+    -v "${PWD}/docker/data-develop/keyvisual/:${PWD}/web/images/keyvisual" \
+    -v "${PWD}/docker/data-develop/pledge_header_visual/:${PWD}/web/images/pledge_header_visual" \
+    -v "${PWD}/docker/data-develop/pledge_key_visual/:${PWD}/web/images/pledge_key_visual" \
+    -v "${PWD}/docker/data-develop/store/:${PWD}/web/images/store" \
+    --tmpfs ${PWD}/cache \
+    -e "WEB_ROOT=${PWD}/web" \
+    -e "WWW_DATA_UID=${UID}" \
+    -e "WWW_DATA_GID=`id -g $USER`" \
+    --link "$MAILDEV_CONTAINER:mail" \
+    --link "$MEMCACHED_CONTAINER:memcached" \
+    --link "$MYSQL_CONTAINER:mysql" \
+    --name $POLICAT_CONTAINER \
+    $POLICAT_RUN \
+    mcnilz/php-develop
+
+echo "Stopping side containers..."
+docker stop $MYSQL_CONTAINER
+docker stop -t 0 $MEMCACHED_CONTAINER $MAILDEV_CONTAINER
+docker rm $MAILDEV_CONTAINER
