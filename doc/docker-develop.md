@@ -6,8 +6,8 @@ You can use docker to develop policat. To start policat run:
 
 This runs mysql, memcached, maildev and php-apache with docker. Press ``Ctrl-C`` to stop it. While the server is running you can execute commands inside with ``./docker-develop-exec [command]``. You can even start a shell with ``./docker-develop-exec bash``.
 
-The Webserver runs on port 80 so you can connect to with http://localhost/. A frontend to the test mailserver runs on http://localhost:82/.
-If you are using docker with a jwilder/nginx-proxy or traefik load balancer you can start the docker environment with hostnames instead for port numbers:
+The Webserver runs on port 80 so you can connect to with http://localhost/. A frontend to the test mailserver runs on http://localhost:81/.
+If you are using docker with a jwilder/nginx-proxy or traefik load balancer you can start the docker environment with hostnames instead of port numbers:
 
     ./docker-develop policat-example.com mail-example.com
 
@@ -25,7 +25,7 @@ Go to http://localhost/guard/login and login with admin / admin.
 
 ## Symfony
 
-Policat is based on http://symfony.com/legacy/doc . For API check http://www.symfony-project.org/api/ and http://doctrine.readthedocs.io/
+Policat is based on Symfony 1.4 (legacy) http://symfony.com/legacy/doc . For API check http://www.symfony-project.org/api/ and http://doctrine.readthedocs.io/
 
 ### clear symfony cache
 
