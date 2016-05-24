@@ -121,13 +121,20 @@ img.home_teaser {
 	max-height: 100px;
 }
 
-.span1_10px {
-/*	margin-left: 10px !important;
-	width: 70px !important;*/
+.petition_stats_container {
+	position: relative;
+	padding-right: 90px;
+	min-height: 120px;
 }
 
 .petition_stats {
-	margin: 0 0 9px 0 !important;
+	position: absolute;
+	top: 0;
+	right: 0;
+
+	dl {
+		margin: 0 0 9px 0 !important;
+	}
 }
 
 .bottom_line {
@@ -501,4 +508,12 @@ button.button-medium {
 .modal-large {
 	width: 900px;
 	margin-left: -450px;
+}
+
+.iframe-center {
+	iframe {
+		display: block;
+		margin-left: auto;
+		margin-right: auto;
+	}
 }

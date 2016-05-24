@@ -323,6 +323,8 @@ class widgetActions extends policatActions
             if ($this->landing_url) {
               $this->setLayout(false);
               $this->setTemplate('landing');
+            } else {
+              $this->petition_id = $petition->getId();
             }
             return;
           }

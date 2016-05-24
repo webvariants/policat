@@ -209,6 +209,7 @@ $(document).ready(function($) {
 		var ref = hash_parts[4];
 
 		if (hasSign) {
+			$('.reload', policat_widget_right).remove();
 			policat_widget.addClass('has_sign');
 		}
 
