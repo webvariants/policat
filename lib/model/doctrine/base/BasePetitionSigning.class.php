@@ -156,7 +156,6 @@ abstract class BasePetitionSigning extends myDoctrineRecord
              ));
         $this->hasColumn('fields', 'clob', null, array(
              'type' => 'clob',
-             'notnull' => true,
              ));
         $this->hasColumn('status', 'integer', 4, array(
              'type' => 'integer',

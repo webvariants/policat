@@ -14,7 +14,7 @@ abstract class BasePetitionSigningFormFilter extends BaseFormFilterDoctrine
   {
     $this->setWidgets(array(
       'petition_id'        => new sfWidgetFormDoctrineChoice(array('model' => $this->getRelatedModelName('Petition'), 'add_empty' => true)),
-      'fields'             => new sfWidgetFormFilterInput(array('with_empty' => false)),
+      'fields'             => new sfWidgetFormFilterInput(),
       'status'             => new sfWidgetFormFilterInput(array('with_empty' => false)),
       'verified'           => new sfWidgetFormFilterInput(array('with_empty' => false)),
       'email'              => new sfWidgetFormFilterInput(),

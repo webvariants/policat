@@ -1,0 +1,31 @@
+all:
+  facebook:
+    appId: ~
+    secret: ~
+    domain: ~
+    form_hash: '-develop-can-be-unsecure-'
+
+  hashes:
+    petition_signing: '-develop-can-be-unsecure-'
+    petition_text: '-develop-can-be-unsecure-'
+    widget: '-develop-can-be-unsecure-'
+
+  frontend_csrf_secret: '-develop-can-be-unsecure-'
+
+  recaptcha:
+    secret: ~
+    public: ~
+
+  web:
+    url: http://localhost/
+
+  query_cache:
+    class: Doctrine_Cache_Memcache
+    params:
+      prefix: policat
+      servers:
+        - {host: memcached}
+
+  spf:
+    cmd: spfquery
+    ip: 127.0.0.1

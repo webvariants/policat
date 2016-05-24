@@ -1,0 +1,11 @@
+all:
+  doctrine:
+    class: sfDoctrineDatabase
+    param:
+      dsn:      mysql:host=mysql;dbname=policat_develop
+      username: root
+      password: policat
+      attributes:
+        #default_table_collate: utf8_unicode_ci
+        default_table_collate: utf8_general_ci
+        default_table_charset: utf8

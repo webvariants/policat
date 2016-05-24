@@ -59,3 +59,5 @@ CVS
 
 /deploy*.sh
 /run*
+
+/docker*
