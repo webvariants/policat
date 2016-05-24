@@ -312,8 +312,12 @@ if (is_array($target_selectors)) {
                         </div>
                         <div class="donate">
                             <?php if ($paypal_email): ?>
-                              <h2 class="form_title"><?php echo __('Donate') ?></h2>
-                              <p><?php echo __('Help us fund this campaign. Give whatever you can now using the safe and secure paypal form below.') ?></p>
+                              <?php if ($donate_text): ?>
+                                <div class="external_links"><?php echo UtilMarkdown::transform($sf_data->getRaw('donate_text')) ?></div>
+                              <?php else: ?>
+                                <h2 class="form_title"><?php echo __('Donate') ?></h2>
+                                <p><?php echo __('Help us fund this campaign. Give whatever you can now using the safe and secure paypal form below.') ?></p>
+                              <?php endif ?>
                               <form id="paypal" action="https://www.paypal.com/cgi-bin/webscr" method="post">
                                   <input type="hidden" name="cmd" value="_xclick" />
                                   <input type="hidden" name="business" value="<?php echo $paypal_email; ?>" />
@@ -352,6 +356,9 @@ if (is_array($target_selectors)) {
                             <?php if ($paypal_email || $donate_url): ?>
                               <a class="back button_color button_btn"><?php echo __('Back') ?></a>
                             <?php endif ?>
+                        </div>
+                        <div class="reload">
+                          <a class="reload-iframe button_color button_btn"><?php echo __('Back') ?></a>
                         </div>
                     </div>
                 </div>

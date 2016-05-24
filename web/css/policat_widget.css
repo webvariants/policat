@@ -245,7 +245,8 @@ a.back {
 #policat_widget_right .stage_right .sign,
 #policat_widget_right .stage_right .donate,
 #policat_widget_right .stage_right .embed_this,
-#policat_widget_right .stage_right .thankyou {
+#policat_widget_right .stage_right .thankyou,
+#policat_widget_right .stage_right .reload {
 	display: none;
 }
 
@@ -255,7 +256,8 @@ a.back {
 #policat_widget_right.show_thankyou .stage_right .thankyou,
 #policat_widget_right.show_sign .stage_right .share,
 #policat_widget_right.show_thankyou .stage_right .share,
-#policat_widget_right.show_thankyou .stage_right .donate
+#policat_widget_right.show_thankyou .stage_right .donate,
+#policat_widget_right.show_thankyou .stage_right .reload
 {
 	display: block;
 }

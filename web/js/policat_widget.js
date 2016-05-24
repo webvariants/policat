@@ -780,6 +780,10 @@ $(document).ready(function($) {
 			return false;
 		});
 
+		$('a.reload-iframe').click(function() {
+			window.location.reload();
+		});
+
 		if (pledge_ul.length) {
 			var last_text_for = '';
 			pledge_ul.on('click', 'a.pledge_item', function() {
