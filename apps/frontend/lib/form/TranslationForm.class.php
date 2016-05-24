@@ -111,6 +111,7 @@ The e-mail text: #EMAIL-SUBJECT# -- #EMAIL-BODY#"
     $this->getWidgetSchema()->setHelp('target', 'Keep this short, this area is not scrollable.');
     $this->getValidator('target')->setOption('required', false)->setOption('trim', true);
     $this->setWidget('background', new sfWidgetFormTextarea(array(), array('cols' => 90, 'rows' => 5, 'class' => 'markdown')));
+    $this->getValidator('background')->setOption('required', true);
 
     $this->setWidget('landing_url', new sfWidgetFormInput(array('label' => 'E-mail Validation Landingpage - auto forwarding to external page'), array(
         'size' => 90,
