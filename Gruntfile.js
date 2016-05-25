@@ -144,6 +144,12 @@ module.exports = function(grunt) {
 				cwd: 'bower_components/markitup/markitup/',
 				src: ['**/*.css', '**/*.png'],
 				dest: 'web/css/dist/markitup'
+			},
+			bootstrap_icon: {
+				expand:true,
+				cwd: 'bower_components/bootstrap-2.0/img/',
+				src: ['*.png'],
+				dest: 'web/css/dist/img'
 			}
 		}
 	});

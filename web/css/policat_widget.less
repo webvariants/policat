@@ -420,9 +420,6 @@ a.back {
 		height: auto;
 	}
 	.submit {
-		&:hover {
-			background-position: -120px -60px;
-		}
 		div {
 			float: none;
 			margin: 0;
@@ -562,11 +559,8 @@ div.checkbox {
 	}
 }
 .submit, .a_submit  {
-	-moz-border-radius: 10px;
-	-webkit-border-radius: 10px;
-	background-image: url(/images/policat.spr.png);
-	background-position: -121px 0;
-	background-repeat: no-repeat;
+	border-radius: 10px;
+	background-image: linear-gradient(to bottom, rgba(0,0,0,0) 0%, rgba(0,0,0,0.1) 75%, rgba(0,0,0,0.3) 100%);
 	border-radius: 10px;
 	color: @color-white;
 	cursor: pointer;
@@ -576,6 +570,10 @@ div.checkbox {
 	overflow: hidden;
 	text-align: center;
 	text-transform: uppercase;
+
+	&:hover {
+		background-image: linear-gradient(to bottom, rgba(0,0,0,0.1) 0%, rgba(0,0,0,0.2) 75%, rgba(0,0,0,0.4) 100%);
+	}
 }
 .submit_sign {
 	font-size: 32px;
@@ -583,13 +581,9 @@ div.checkbox {
 	margin-bottom: 10px !important;
 }
 .submit.button_small, .a_submit.button_small  {
-	background-position: -320px 0;
 	height: 25px;
 	margin-bottom: 8px;
 	margin-top: 8px;
-}
-#policat_widget_right .submit.button_small:hover, #policat_widget_right .a_submit.button_small:hover  {
-	background-position: -320px -60px;
 }
 .submit.button_small p, .a_submit.button_small p  {
 	font-size: 13px;
@@ -619,16 +613,6 @@ div.checkbox {
 #policat_widget_right div.submit, #policat_widget_right a.a_submit  {
 	margin: 0 auto;
 	width: 180px;
-}
-.icon {
-	background-color: transparent;
-	background-image: url(/images/policat.spr.png);
-	background-repeat: no-repeat;
-	display: block;
-	float: left;
-	height: 16px;
-	margin-top: 6px !important;
-	width: 51px;
 }
 #kv_ot {
 	clear: left;
@@ -1009,8 +993,7 @@ div#embed_this_help_head {
 	}
 }
 .button_btn {
-	-moz-border-radius: 3px;
-	-webkit-border-radius: 3px;
+	border-radius: 3px;
 	border-radius: 3px;
 	display: inline-block;
 	height: 15px;
