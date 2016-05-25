@@ -8,15 +8,11 @@ module.exports = function(grunt) {
 					sourceMap: true
 				},
 				files: {
-					'web/js/dist/policat_widget.js': ['web/js/policat_widget.js'],
+					'web/js/dist/policat_widget.js': ['bower_components/jscolor/jscolor.js', 'web/js/policat_widget.js'],
 					'web/js/dist/policat_widget_outer.js': ['web/js/policat_widget_outer.js'],
 					'web/js/dist/select2.js' : ['bower_components/select2/select2.js'],
 					'web/js/dist/jscolor.js': [
 						'bower_components/jscolor/jscolor.js'
-					],
-					'web/js/dist/jscrollpane.js': [
-						'bower_components/jscrollpane/script/jquery.jscrollpane.js',
-						'bower_components/jscrollpane/script/jquery.mousewheel.js'
 					]
 				}
 			},
@@ -69,6 +65,14 @@ module.exports = function(grunt) {
 				files: {
 					'web/css/dist/frontend_print.css' : 'web/css/frontend_print.less',
 				}
+			},
+			widget: {
+				options: {
+					sourceMapFilename: 'web/css/dist/policat_widget.less.map',
+				},
+				files: {
+					'web/css/dist/policat_widget.css': 'web/css/policat_widget.less',
+				}
 			}
 		},
 		cssmin: {
@@ -79,12 +83,6 @@ module.exports = function(grunt) {
 				shorthandCompacting: false,
 				roundingPrecision: -1,
 				sourceMap: true
-			},
-			widget: {
-				files: {
-					'web/css/dist/policat_widget.css': ['web/css/policat_widget.css'],
-					'web/css/dist/jscrollpane.css': ['bower_components/jscrollpane/style/jquery.jscrollpane.css']
-				}
 			},
 			frontend: {
 				files: {

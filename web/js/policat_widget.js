@@ -6,21 +6,25 @@ $(document).ready(function($) {
 		var body_policat_widget = $('#body_policat_widget');
 		var policat_widget_left = $('#policat_widget_left');
 		var policat_widget_right = $('#policat_widget_right');
-		var content_right = $('#content_right');
-		var stage_right = $('.stage_right ');
+//		var content_right = $('#content_right');
+//		var stage_right = $('.stage_right ');
 		var down_button = $('#down_button');
 		var pledge_ul = $('#pledges');
-		var resize_throttleTimeout = 1;
+		var petition_tabs = $('#petition_tabs');
+		var petition_tabs_body = $('.tab_body', petition_tabs);
+		var petition_tabs_left = $('.left_tab', petition_tabs);
+		var petition_tabs_right = $('.right_tab', petition_tabs);
+//		var resize_throttleTimeout = 1;
 //		var availHeight = "availHeight" in window.screen ? window.screen.availHeight : null;
-		var webkit = window.navigator.userAgent.match(/AppleWebKit\/([0-9]+)/);
-		var wkversion = webkit && webkit[1];
-		var wkLte534 = webkit && wkversion >= 534;
-		var android2 = window.navigator.userAgent.match(/Android ([0-9]+)/) && RegExp.$1 <= 2;
+//		var webkit = window.navigator.userAgent.match(/AppleWebKit\/([0-9]+)/);
+//		var wkversion = webkit && webkit[1];
+//		var wkLte534 = webkit && wkversion >= 534;
+//		var android2 = window.navigator.userAgent.match(/Android ([0-9]+)/) && RegExp.$1 <= 2;
 		var iphone = window.navigator.userAgent.match(/iPhone/i) || window.navigator.userAgent.match(/iPod/i);
-		var useWkScroll = wkLte534 && !android2;
+		var useWkScroll = false; // wkLte534 && !android2;
 		var scroll_privacy_policy = $('#privacy_policy_text');
 		var scroll_petition_text = $('#petition_text');
-		var scroll_petition_text_img = $('img', scroll_petition_text);
+//		var scroll_petition_text_img = $('img', scroll_petition_text);
 		var scroll_background_text = $('#background_text');
 		var scroll_pledges = $('#scroll_pledges');
 		var scrolls_ = [scroll_privacy_policy, scroll_petition_text, scroll_background_text];
@@ -28,42 +32,22 @@ $(document).ready(function($) {
 			scrolls_.push(scroll_pledges);
 		}
 		var scrolls = $(scrolls_);
-		var isSmall = false;
 		var old_height = null;
 
 		var numberWithCommas = function numberWithCommas(x) {
 			return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
 		};
 
-		var resize_left = function() {
-			var title_height = $('#pet_title').outerHeight(true);
-			var subtitle_height = $('#pet_subtitle').outerHeight(true);
-			var tabs_height = $('#petition_tabs').outerHeight(true);
-			var target_selector_height = $('#target_selector').outerHeight(true);
-			if (!target_selector_height)
-				target_selector_height = 0;
-
-			stage_right.addClass('stage_calc');
-			stage_right.css('height', stage_right.height());
-			stage_right.removeClass('stage_calc');
-
-			var content_right_height = content_right.height();
-			if (content_right_height < 400 || isSmall) {
-				content_right_height = 400;
-			}
-			$('#petition_text').css('height', content_right_height - (title_height + subtitle_height + tabs_height));
-			$('#petition_signing_email_body_copy').css('height', content_right_height - (61 + target_selector_height + title_height + subtitle_height + tabs_height));
-			$('#right_tab,.right_tab_content').css('height', content_right_height - (title_height + tabs_height));
-			$('#embed_this_left').css('height', content_right_height);
-			$('#privacy_policy_text').css('height', content_right_height - 40);
-			scroll_pledges.css('height', content_right_height - (target_selector_height + title_height + subtitle_height + tabs_height));
-		};
-
 		var resize = function() {
+			if (petition_tabs.length) {
+				petition_tabs.addClass('calc_tab');
+				petition_tabs_body.height(Math.max(petition_tabs_left.outerHeight(), petition_tabs_right.outerHeight()));
+				petition_tabs.removeClass('calc_tab');
+			}
+
 			var width = $(window).width();
 			if (width < 440) {
 				body_policat_widget.addClass('small');
-				isSmall = true;
 //				if (availHeight && policat_widget_left.height() < availHeight / 1.5) {
 //					down_button.addClass('hide');
 //				}
@@ -72,7 +56,6 @@ $(document).ready(function($) {
 //				}
 			} else {
 				body_policat_widget.removeClass('small');
-				isSmall = false;
 			}
 			var height = policat_widget.height();
 			if (!old_height || height !== old_height) {
@@ -80,26 +63,6 @@ $(document).ready(function($) {
 					window.parent.postMessage('policat_height;' + iframe_no + ';' + height, '*');
 			}
 			old_height = height;
-
-			resize_left();
-			policat_widget.css('background-color', policat_widget_left.height() > policat_widget_right.height() ? policat_widget_right.css('background-color') : policat_widget_left.css('background-color'));
-
-			if (!useWkScroll) {
-				if (!resize_throttleTimeout) {
-					resize_throttleTimeout = setTimeout(function() {
-						scrolls.each(function() {
-							var scroll = $(this);
-							if (scroll.length) {
-								if (scroll_petition_text.length) {
-									scroll_petition_text_img.css('max-width', scroll_petition_text.width() - 10);
-								}
-								scroll.data('jsp').reinitialise();
-							}
-						});
-						resize_throttleTimeout = null;
-					}, 50);
-				}
-			}
 		};
 
 		down_button.click(function() {
@@ -141,9 +104,6 @@ $(document).ready(function($) {
 		}
 		function show_privacy_policy() {
 			show_left('privacy_policy');
-			if (!useWkScroll && scroll_privacy_policy.length) {
-				scroll_privacy_policy.data('jsp').reinitialise();
-			}
 			if (hasSign) {
 				show_right('thankyou');
 			}
@@ -400,8 +360,6 @@ $(document).ready(function($) {
 											if (typeof data.pledges == 'object') {
 												pledge_ul.empty();
 												insert_sort(pledge_ul, data.choices, null, null, data.pledges, pledge_ul.data('template'), data.infos, pledge_ul.data('pledge-count'));
-												if (!useWkScroll && scroll_pledges.length)
-													scroll_pledges.data('jsp').reinitialise();
 											} else {
 												$('option.x', ts_2).remove();
 												insert_sort(ts_2, data.choices, 'x', ts_2.hasClass('country'));
@@ -465,8 +423,6 @@ $(document).ready(function($) {
 											insert_sort(pledge_ul, data.choices, null, null, data.pledges, pledge_ul.data('template'), data.infos, pledge_ul.data('pledge-count'));
 											ts_1.attr('disabled', null);
 											select.attr('disabled', null);
-											if (!useWkScroll && scroll_pledges.length)
-												scroll_pledges.data('jsp').reinitialise();
 										}
 									});
 								} else {
@@ -485,8 +441,6 @@ $(document).ready(function($) {
 			}
 		}
 
-		resize_left();
-
 		scrolls.each(function() {
 			var scroll = $(this);
 			if (scroll.length) {
@@ -496,12 +450,11 @@ $(document).ready(function($) {
 						scroll.addClass('wkScroll_iPhone');
 					}
 				} else {
-					scroll.jScrollPane({mouseWheelSpeed: 30});
+					// scroll.jScrollPane({mouseWheelSpeed: 30});
 				}
 			}
 		});
 
-		$('#right_tab').hide();
 		$('#privacy_policy').hide();
 		if (hasSign) {
 			show_thankyou();
@@ -730,22 +683,16 @@ $(document).ready(function($) {
 			$('#petition input, #petition select, #petition textarea').attr('disabled', 'disabled');
 
 		// TABS
-		$('#petition_tabs').each(function() {
+		petition_tabs.each(function() {
 			var parent = $(this);
 			$('.left', this).click(function() {
 				parent.removeClass('right').addClass('left');
-				$('#right_tab').hide();
-				$('#left_tab').show();
-				if (!useWkScroll && scroll_petition_text.length)
-					scroll_petition_text.data('jsp').reinitialise();
+				resize();
 			});
 
 			$('.right', this).click(function() {
 				parent.removeClass('left').addClass('right');
-				$('#right_tab').show();
-				$('#left_tab').hide();
-				if (!useWkScroll && scroll_background_text.length)
-					scroll_background_text.data('jsp').reinitialise();
+				resize();
 			});
 		});
 
@@ -807,8 +754,6 @@ $(document).ready(function($) {
 					$(last_text_for).hide();
 				}
 				last_text_for = text_for;
-				if (!useWkScroll && scroll_pledges.length)
-					scroll_pledges.data('jsp').reinitialise();
 
 				return false;
 			});

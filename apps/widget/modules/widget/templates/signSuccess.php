@@ -38,19 +38,9 @@ if (is_array($target_selectors)) {
         var CT_extra = null;
 <?php endif ?>
         </script>
-        <?php
-        echo '<style type="text/css">';
-        foreach (array('dist/jscrollpane.css', 'dist/policat_widget.css') as $filename) {
-          echo (file_get_contents(sfConfig::get('sf_web_dir') . '/css/' . $filename) . "\n");
-        }
-        echo '</style>'
-        ?>
+        <?php echo '<style type="text/css">' . file_get_contents(sfConfig::get('sf_web_dir') . '/css/dist/policat_widget.css') . "\n</style>"; ?>
         <script type="text/javascript" src="/js/static/jquery-1.10.2.min.js"></script>
-        <?php
-        foreach (array('dist/jscrollpane.js', 'dist/jscolor.js', 'dist/policat_widget.js') as $filename) {
-          printf("<script type=\"text/javascript\">/* <![CDATA[ */\n%s\n/* ]]> */</script>\n", (file_get_contents(sfConfig::get('sf_web_dir') . '/js/' . $filename)));
-        }
-          ?>
+        <?php printf("<script type=\"text/javascript\">/* <![CDATA[ */\n%s\n/* ]]> */</script>\n", file_get_contents(sfConfig::get('sf_web_dir') . '/js/dist/policat_widget.js')); ?>
         <?php if (mb_strpos($sf_data->getRaw('font_family'), 'Open Sans', 0, 'UTF-8') !== false): ?>
           <?php if (0): ?><link href="//fonts.googleapis.com/css?family=Open+Sans:400,700&subset=latin,cyrillic,greek" rel="stylesheet" type="text/css" /><?php endif ?>
           <link href="/fonts/OpenSans/OpenSans.css" rel="stylesheet" type="text/css" />
@@ -60,12 +50,23 @@ if (is_array($target_selectors)) {
             #body_policat_widget, a { color: <?php echo $body_color ?>; }
             h1, h2, #petition_tabs { color: <?php echo $title_color ?>; }
             #policat_widget_right .submit, #policat_widget_right .a_submit, .button_color { background-color: <?php echo $button_color; ?> ; }
-            #policat_widget_left { background: <?php echo $bg_left_color ?>; }
-            #policat_widget_right { background: <?php echo $bg_right_color ?>; }
+            #policat_widget { background: <?php echo $bg_right_color ?>; }
             div#count { background: <?php echo $bg_left_color ?>; }
             div#count div { background: <?php echo $button_color ?>; }
+            #petition_tabs .tab-mid {
+              border: 13px solid <?php echo $bg_left_color ?>;
+            }
+            #petition_tabs.left .left span,
+            #petition_tabs.right .right span,
+            #petition_tabs .tab_body
+            {
+              background: <?php echo $bg_left_color ?>;
+            }
             <?php if ($form_title_color): ?>
-            h2.form_title, div.error p { color: <?php echo $form_title_color ?>; }
+            h2.form_title, div.error p,
+            #petition_tabs.left .right,
+            #petition_tabs.right .left
+            { color: <?php echo $form_title_color ?>; }
             <?php endif ?>
         </style>
     </head>
@@ -77,31 +78,36 @@ if (is_array($target_selectors)) {
                     <div id="petition">
                         <h1 id="pet_title"><?php echo htmlentities($title, ENT_COMPAT, 'utf-8') ?></h1>
                         <a id="down_button" class="button_color button_btn"><?php echo __($petition->isEmailKind() ? 'Send an Email' : ($petition->getLabelMode() == PetitionTable::LABEL_MODE_PETITION ? 'Sign the Petition' : 'Support the initiative')) ?></a>
-                        <div id="left_tab" class="left_tab">
-                            <div id="pet_subtitle" class="title"><?php echo UtilMarkdown::transform($target) ?></div>
-                            <?php include_partial('petition', array('petition_text' => $petition_text, 'widget' => $widget, 'petition' => $petition)) ?>
-                        </div>
-                        <div id="right_tab" class="right_tab scroll">
-                            <div id="background_text" class="right_tab_content" style="width: 100%;">
-                                <?php echo UtilMarkdown::transform($background); ?>
-                                <?php if (is_string($read_more_url) && strlen($read_more_url) > 6): ?>
-                                  <br /><a id="readmore" href="<?php echo Util::enc($read_more_url) ?>" class="newwin read_more"><?php echo __('Read more') ?></a>
-                                <?php endif ?>
-                            </div>
-                        </div>
                         <div id="petition_tabs" class="left">
-                            <div class="left tab active"><span class="button_color button_btn"><?php
-                                    switch ($petition->getKind()):
-                                      case Petition::KIND_EMAIL_TO_LIST:
-                                      case Petition::KIND_EMAIL_ACTION: echo __('Email action');
-                                        break;
-                                      case Petition::KIND_PLEDGE: echo __('Recipients');
-                                        break;
-                                      default: echo $petition->getLabelMode() == PetitionTable::LABEL_MODE_PETITION ? __('Petition') : __('Initiative');
-                                    endswitch
-                                    ?>
-                                </span></div>
-                            <div class="right tab"><span class="button_color button_btn"><?php echo __('Background') ?></span></div>
+                            <div class="tab_head">
+                                <div class="left tab active"><span><?php
+                                        switch ($petition->getKind()):
+                                          case Petition::KIND_EMAIL_TO_LIST:
+                                          case Petition::KIND_EMAIL_ACTION: echo __('Email action');
+                                            break;
+                                          case Petition::KIND_PLEDGE: echo __('Recipients');
+                                            break;
+                                          default: echo $petition->getLabelMode() == PetitionTable::LABEL_MODE_PETITION ? __('Petition') : __('Initiative');
+                                        endswitch
+                                        ?>
+                                    </span></div>
+                                <div class="tab-mid"></div>
+                                <div class="right tab"><span><?php echo __('Background') ?></span></div>
+                            </div>
+                            <div class="tab_body">
+                                <div class="left_tab">
+                                    <div id="pet_subtitle" class="title"><?php echo UtilMarkdown::transform($target) ?></div>
+                                    <?php include_partial('petition', array('petition_text' => $petition_text, 'widget' => $widget, 'petition' => $petition)) ?>
+                                </div>
+                                <div class="right_tab scroll">
+                                    <div id="background_text" class="right_tab_content" style="width: 100%;">
+                                        <?php echo UtilMarkdown::transform($background); ?>
+                                        <?php if (is_string($read_more_url) && strlen($read_more_url) > 6): ?>
+                                          <br /><a id="readmore" href="<?php echo Util::enc($read_more_url) ?>" class="newwin read_more"><?php echo __('Read more') ?></a>
+                                        <?php endif ?>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
                     </div>
                     <div id="privacy_policy">
