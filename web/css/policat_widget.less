@@ -419,16 +419,8 @@ a.back {
 	form>div.comment {
 		height: auto;
 	}
-	.submit {
-		div {
-			float: none;
-			margin: 0;
-			width: auto;
-		}
-	}
-	a.a_submit {
+	a.submit {
 		display: block;
-		text-decoration: none;
 	}
 }
 .right_only {
@@ -441,10 +433,7 @@ a.back {
 }
 #content_right {
 	overflow: hidden;
-	padding: 20px 20px 0 17px;
-}
-.content_right_outbreak {
-	margin: 0 -20px 0 -17px;
+	padding: 20px 20px 10px 17px;
 }
 #policat_widget_right .stage_right .sign, #policat_widget_right .stage_right .donate, #policat_widget_right .stage_right .embed_this, #policat_widget_right .stage_right .thankyou, #policat_widget_right .stage_right .reload  {
 	display: none;
@@ -481,34 +470,13 @@ a.back {
 		margin-left: -600%;
 	}
 }
-.small #policat_widget_right .stage_right .sign, .small #policat_widget_right .stage_right .donate, .small #policat_widget_right .stage_right .embed_this, .small #policat_widget_right .stage_right .thankyou  {
-	max-height: 20px;
-}
-.small #policat_widget_right.show_sign .stage_right .sign, .small #policat_widget_right.show_donate .stage_right .donate, .small #policat_widget_right.show_embed_this .stage_right .embed_this, .small #policat_widget_right.show_thankyou .stage_right .thankyou  {
-	max-height: 1000px;
-}
-#policat_widget_right form>div.submit.button_small, #policat_widget_right form>a.a_submit.button_small  {
-	height: 25px;
-	margin-bottom: 5px;
-}
 #policat_widget_right .thankyou, #policat_widget_right .donate  {
 	padding-bottom: 0;
 }
-#policat_widget_right .sign, #policat_widget_right .embed_this  {
+#policat_widget_right .embed_this,
+#policat_widget_right .donate
+{
 	padding-bottom: 30px;
-}
-.small {
-	#policat_widget_right {
-		.sign {
-			padding-bottom: 10px;
-		}
-	}
-	#down_button {
-		display: inline-block;
-	}
-	#down_button.hide {
-		display: none;
-	}
 }
 label {
 	display: block;
@@ -558,7 +526,9 @@ div.checkbox {
 		text-transform: none;
 	}
 }
-.submit, .a_submit  {
+.submit {
+	border: 0;
+	padding: 0;
 	border-radius: 10px;
 	background-image: linear-gradient(to bottom, rgba(0,0,0,0) 0%, rgba(0,0,0,0.1) 75%, rgba(0,0,0,0.3) 100%);
 	border-radius: 10px;
@@ -570,50 +540,33 @@ div.checkbox {
 	overflow: hidden;
 	text-align: center;
 	text-transform: uppercase;
+	text-decoration: none;
+	width: 180px;
 
 	&:hover {
 		background-image: linear-gradient(to bottom, rgba(0,0,0,0.1) 0%, rgba(0,0,0,0.2) 75%, rgba(0,0,0,0.4) 100%);
 	}
 }
-.submit_sign {
+
+button.submit {
+	display: block;
+	margin: 0 auto;
+}
+button.submit_sign {
 	font-size: 32px;
 	height: 50px;
-	margin-bottom: 10px !important;
+	border: 0;
+	width: 100%;
+	margin-top: 20px;
+	margin-bottom: 20px;
 }
-.submit.button_small, .a_submit.button_small  {
+.submit.button_small {
+	font-size: 13px;
 	height: 25px;
 	margin-bottom: 8px;
 	margin-top: 8px;
 }
-.submit.button_small p, .a_submit.button_small p  {
-	font-size: 13px;
-	margin: 6px 0 0 0;
-}
-* {
-	&:first-child+html {
-		.submit {
-			p {
-				line-height: 1.5;
-			}
-		}
-	}
-}
-.submit.twoline {
-	p {
-		font-size: 16px;
-		margin: 9px 0 0;
-	}
-}
-.submit.threeline {
-	p {
-		font-size: 13px;
-		margin: 3px 0 0;
-	}
-}
-#policat_widget_right div.submit, #policat_widget_right a.a_submit  {
-	margin: 0 auto;
-	width: 180px;
-}
+
 #kv_ot {
 	clear: left;
 	float: none !important;
@@ -626,7 +579,7 @@ div.checkbox {
 }
 #kv_ot.kv_bottom {
 	clear: left;
-	margin: 0;
+	margin: 0 0 10px 0;
 	text-align: center;
 	img {
 		margin-bottom: 1px;
@@ -950,7 +903,6 @@ div#embed_this_help_head {
 }
 .share {
 	display: none;
-	margin-bottom: 20px;
 	overflow: hidden;
 	a {
 		display: block;
@@ -959,7 +911,7 @@ div#embed_this_help_head {
 		display: block;
 		float: left;
 		height: 32px;
-		margin: 0 5px 0 0;
+		margin: 0 5px 10px 0;
 		padding: 0;
 		width: 32px;
 		img {
@@ -1025,8 +977,16 @@ div#embed_this_help_head {
 	margin-bottom: 10px;
 	padding: 3px 8px;
 }
-.small #policat_widget_left, .small #policat_widget_right  {
-	float: none;
-	min-width: 260px;
-	width: 100%;
+.small {
+	#down_button {
+		display: inline-block;
+	}
+	#down_button.hide {
+		display: none;
+	}
+	#policat_widget_left, #policat_widget_right  {
+		float: none;
+		min-width: 260px;
+		width: 100%;
+	}
 }

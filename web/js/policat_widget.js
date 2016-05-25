@@ -14,7 +14,6 @@ $(document).ready(function($) {
 		var petition_tabs_body = $('.tab_body', petition_tabs);
 		var petition_tabs_left = $('.left_tab', petition_tabs);
 		var petition_tabs_right = $('.right_tab', petition_tabs);
-//		var resize_throttleTimeout = 1;
 //		var availHeight = "availHeight" in window.screen ? window.screen.availHeight : null;
 //		var webkit = window.navigator.userAgent.match(/AppleWebKit\/([0-9]+)/);
 //		var wkversion = webkit && webkit[1];
@@ -79,16 +78,17 @@ $(document).ready(function($) {
 		function show_left(name) {
 			$('#petition, #privacy_policy, #embed_this_left').hide();
 			$('#' + name).show();
-			resize();
 		}
 
 		function show_sign() {
 			show_left('petition');
 			show_right('sign');
+			resize();
 		}
 		function show_donate() {
 			show_left('petition');
 			show_right('donate');
+			resize();
 		}
 		function show_embed_this() {
 			if ($('#embed_this_left').length) {
@@ -97,10 +97,12 @@ $(document).ready(function($) {
 				show_left('petition');
 			}
 			show_right('embed_this');
+			resize();
 		}
 		function show_thankyou() {
 			show_right('thankyou');
 			policat_widget.addClass('right_only');
+			resize();
 		}
 		function show_privacy_policy() {
 			show_left('privacy_policy');
@@ -110,6 +112,7 @@ $(document).ready(function($) {
 			else {
 				show_right('sign');
 			}
+			resize();
 		}
 
 		if (!('postMessage' in window))
@@ -760,7 +763,6 @@ $(document).ready(function($) {
 		}
 
 		resize();
-		resize_throttleTimeout = 0;
 		$(window).resize(resize);
 
 		$('img:not(.no_load)', policat_widget).each(function() {

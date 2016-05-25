@@ -49,7 +49,7 @@ if (is_array($target_selectors)) {
             #html,body,div,span,h1,h2,h3,h4,h5,h6,p,a,em,img,q,dl,dt,dd,ol,ul,li,form,label,input,textarea, select { font-family: <?php echo $font_family ?>;}
             #body_policat_widget, a { color: <?php echo $body_color ?>; }
             h1, h2, #petition_tabs { color: <?php echo $title_color ?>; }
-            #policat_widget_right .submit, #policat_widget_right .a_submit, .button_color { background-color: <?php echo $button_color; ?> ; }
+            #policat_widget_right .submit, .button_color { background-color: <?php echo $button_color; ?> ; }
             #policat_widget { background: <?php echo $bg_right_color ?>; }
             div#count { background: <?php echo $bg_left_color ?>; }
             div#count div { background: <?php echo $button_color ?>; }
@@ -230,9 +230,7 @@ if (is_array($target_selectors)) {
                                 if (!isset($form[Petition::FIELD_PRIVACY])): ?>
                                 <div class="privacy"><label style="text-decoration:none"><?php echo UtilBold::format(__('By signing, I agree with the _privacy policy_.')) ?></label></div>
                                 <?php endif; ?>
-                                <div class="content_right_outbreak">
-                                    <div class="submit submit_sign"><span id="btn_sign"><?php echo strtr(__($petition->isEmailKind() ? 'Send' : 'Sign'), array(' ' => '&nbsp;')) ?></span></div>
-                                </div>
+                                <button type="button" class="submit submit_sign"><span id="btn_sign"><?php echo strtr(__($petition->isEmailKind() ? 'Send' : 'Sign'), array(' ' => '&nbsp;')) ?></span></button>
                             </form>
                             <?php if ($disabled): ?>
                               <div id="footer_ot"></div>
@@ -280,10 +278,10 @@ if (is_array($target_selectors)) {
                                   printf('<div class="%s">%s</div>', $fieldname, $form_embed[$fieldname]->renderRow());
                                 }
                                 ?>
-                                <div class="submit button_small">
-                                    <p id="p_widget_reg"><?php echo __('Generate widget') ?></p>
-                                    <p id="p_widget_reg_alt" style="display:none"><?php echo __('Change widget') ?></p>
-                                </div>
+                                <button type="button" class="submit button_small">
+                                    <span id="p_widget_reg"><?php echo __('Generate widget') ?></span>
+                                    <span id="p_widget_reg_alt" style="display:none"><?php echo __('Change widget') ?></span>
+                                </button>
                             </form>
                             <div>
                                 <label><?php echo __('Embed this code') ?>:</label>
@@ -346,9 +344,7 @@ if (is_array($target_selectors)) {
                                           <option value="GBP">Pound</option>
                                       </select>
                                   </div>
-                                  <div class="submit button_small">
-                                      <p><?php echo __('Donate') ?></p>
-                                  </div>
+                                  <button type="button" class="submit button_small"><?php echo __('Donate') ?></button>
                               </form>
                             <?php endif ?>
                             <?php if ($donate_url): ?>
@@ -356,7 +352,7 @@ if (is_array($target_selectors)) {
                                 <div class="external_links"><?php echo UtilMarkdown::transform($sf_data->getRaw('donate_text')) ?></div>
                               <?php endif ?>
                               <form>
-                                <a class="a_submit button_small" target="_blank" href="<?php echo $donate_url ?>"><p><?php echo __('Donate') ?></p></a>
+                                <a class="submit button_small" target="_blank" href="<?php echo $donate_url ?>"><p><?php echo __('Donate') ?></p></a>
                               </form>
                             <?php endif ?>
                             <?php if ($paypal_email || $donate_url): ?>
