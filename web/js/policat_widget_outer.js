@@ -217,7 +217,7 @@ var policat = typeof policat === "undefined" ? {widgets: []} : policat;
 				close_x.style.display = 'block';
 				close_x.style.width = '25px';
 				close_x.style.height = '25px';
-				close_x.style.lineHeight = '0.8em';
+				close_x.style.lineHeight = '25px';
 				close_x.style.fontSize = '25px';
 				close_x.appendChild(document.createTextNode("\u00d7"));
 				close_x.style.fontFamily = '"Lucida Sans Unicode"';

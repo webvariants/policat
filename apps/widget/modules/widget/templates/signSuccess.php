@@ -58,7 +58,7 @@ if (is_array($target_selectors)) {
             }
             #petition_tabs.left .left span,
             #petition_tabs.right .right span,
-            #petition_tabs .tab_body
+            #petition_tabs .tab_body, #petition_tabs .left_tab, #petition_tabs .right_tab
             {
               background: <?php echo $bg_left_color ?>;
             }
@@ -71,7 +71,6 @@ if (is_array($target_selectors)) {
         </style>
     </head>
     <body id="body_policat_widget">
-        <div id="policat_widget_loading"></div>
         <div id="policat_widget">
             <div id="policat_widget_left">
                 <div id="content_left">
@@ -80,7 +79,7 @@ if (is_array($target_selectors)) {
                         <a id="down_button" class="button_color button_btn"><?php echo __($petition->isEmailKind() ? 'Send an Email' : ($petition->getLabelMode() == PetitionTable::LABEL_MODE_PETITION ? 'Sign the Petition' : 'Support the initiative')) ?></a>
                         <div id="petition_tabs" class="left">
                             <div class="tab_head">
-                                <div class="left tab active"><span><?php
+                                <div class="left tab"><span><?php
                                         switch ($petition->getKind()):
                                           case Petition::KIND_EMAIL_TO_LIST:
                                           case Petition::KIND_EMAIL_ACTION: echo __('Email action');
@@ -98,6 +97,10 @@ if (is_array($target_selectors)) {
                                 <div class="left_tab">
                                     <div id="pet_subtitle" class="title"><?php echo UtilMarkdown::transform($target) ?></div>
                                     <?php include_partial('petition', array('petition_text' => $petition_text, 'widget' => $widget, 'petition' => $petition)) ?>
+                                </div>
+                                <div class="no_tab_head tab_head">
+                                    <div class="left tab"><span><?php echo __('Background') ?></span></div>
+                                    <div class="tab-mid"></div>
                                 </div>
                                 <div class="right_tab scroll">
                                     <div id="background_text" class="right_tab_content" style="width: 100%;">
@@ -367,5 +370,7 @@ if (is_array($target_selectors)) {
             </div>
             <div style="clear: both"></div>
         </div>
+        <div id="policat_widget_loading"></div>
     </body>
 </html>
+<!-- <?php echo $petition->getId() ?> / <?php echo $widget->getPetitionTextId() ?> / <?php echo $widget->getId() ?> -->

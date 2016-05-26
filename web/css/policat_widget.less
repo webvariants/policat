@@ -290,9 +290,17 @@ div.error {
 
 	&.left .tab_body {
 		border-radius: 0 3px 3px 3px;
+
+		.left_tab {
+			border-radius: 0 3px 3px 3px;
+		}
 	}
 	&.right .tab_body {
 		border-radius: 3px 0 3px 3px;
+
+		.right_tab {
+			border-radius: 0 3px 3px 3px;
+		}
 	}
 
 	&.calc_tab {
@@ -317,6 +325,37 @@ div.error {
 				z-index: 2;
 			}
 		}
+	}
+
+	.no_tab_head {
+		display: none;
+	}
+
+	&.no_tabs {
+		.tab_body {
+			height: auto !important;
+			background: none;
+		}
+
+		.tab.right {
+			display: none;
+		}
+
+		.right_tab, .left_tab {
+			display: block;
+			border-radius: 0 3px 3px 3px;
+		}
+
+		.no_tab_head {
+			display: block;
+			margin: 10px 0 0 0;
+		}
+	}
+}
+
+.small {
+	.tab_body {
+		height: auto !important;
 	}
 }
 
@@ -989,4 +1028,12 @@ div#embed_this_help_head {
 		min-width: 260px;
 		width: 100%;
 	}
+}
+
+#policat_widget_loading {
+	position: fixed;
+	top: 0;
+	left: 0;
+	right: 0;
+	bottom: 0;
 }

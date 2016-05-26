@@ -6,7 +6,7 @@ $(document).ready(function($) {
 		var body_policat_widget = $('#body_policat_widget');
 		var policat_widget_left = $('#policat_widget_left');
 		var policat_widget_right = $('#policat_widget_right');
-//		var content_right = $('#content_right');
+		var content_right = $('#content_right');
 //		var stage_right = $('.stage_right ');
 		var down_button = $('#down_button');
 		var pledge_ul = $('#pledges');
@@ -38,14 +38,26 @@ $(document).ready(function($) {
 		};
 
 		var resize = function() {
+			var isOneColumn = $(window).width() < 440;
+
 			if (petition_tabs.length) {
 				petition_tabs.addClass('calc_tab');
-				petition_tabs_body.height(Math.max(petition_tabs_left.outerHeight(), petition_tabs_right.outerHeight()));
+				var left_height = petition_tabs_left.outerHeight();
+				var right_height = petition_tabs_right.outerHeight();
+
+				if (!isOneColumn && content_right.height() > left_height + right_height) {
+					petition_tabs.addClass('no_tabs');
+					petition_tabs.addClass('left');
+					petition_tabs.removeClass('right');
+				} else {
+					petition_tabs.removeClass('no_tabs');
+				}
+
+				petition_tabs_body.height(Math.max(left_height, right_height));
 				petition_tabs.removeClass('calc_tab');
 			}
 
-			var width = $(window).width();
-			if (width < 440) {
+			if (isOneColumn) {
 				body_policat_widget.addClass('small');
 //				if (availHeight && policat_widget_left.height() < availHeight / 1.5) {
 //					down_button.addClass('hide');
@@ -115,8 +127,9 @@ $(document).ready(function($) {
 			resize();
 		}
 
-		if (!('postMessage' in window))
+		if (!('postMessage' in window)) {
 			$('#content_right .stage_right').css('max-height', '500px'); // IE7
+		}
 
 		// AUTO SIZE
 		var n = 32;

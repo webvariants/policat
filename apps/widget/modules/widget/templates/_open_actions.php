@@ -1,7 +1,7 @@
-<?php if (array_key_exists(UtilOpenActions::LARGEST, $data['open'])): ?>
+<?php if (array_key_exists(UtilOpenActions::HOTTEST, $data['open'])): ?>
   <div class="row">
       <?php
-      foreach ($data['open'][UtilOpenActions::LARGEST]['excerpts'] as $excerpt) {
+      foreach ($data['open'][UtilOpenActions::HOTTEST]['excerpts'] as $excerpt) {
         include_partial('excerpt', array('excerpt' => $excerpt));
       }
       ?></div><?php
