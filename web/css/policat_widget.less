@@ -759,8 +759,15 @@ div#embed_this_help_head {
 	}
 }
 #scroll_pledges {
-	height: 200px;
+	max-height: 300px;
+	overflow: auto;
 }
+
+.small #scroll_pledges {
+	max-height: none;
+	height: auto;
+}
+
 #scroll_pledges.error {
 	border: 3px solid red;
 	margin: -3px 0 -3px -3px;

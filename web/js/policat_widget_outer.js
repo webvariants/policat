@@ -42,6 +42,18 @@ var policat = typeof policat === "undefined" ? {widgets: []} : policat;
 			return false;
 		};
 
+		function scrollTo(no, x, y) {
+			var iframe = document.getElementById('policat_iframe_no_' + no);
+			if (iframe) {
+				var doc = document.documentElement;
+				var left = (window.pageXOffset || doc.scrollLeft) - (doc.clientLeft || 0);
+				var top = (window.pageYOffset || doc.scrollTop)  - (doc.clientTop || 0);
+				var rect = iframe.getBoundingClientRect();
+
+				window.scrollBy((rect.left + x) - left, (rect.top + y) - top);
+			}
+		}
+
 		var receivePostMsg = function(event) {
 			if (typeof event.data == 'string') {
 				if (event.data.match(/^policat_height;\d+;\d+$/)) {
@@ -71,10 +83,7 @@ var policat = typeof policat === "undefined" ? {widgets: []} : policat;
 					var data = event.data.split(';');
 					var no = data[1];
 					var offset = parseInt(data[2], 10);
-					var iframe = document.getElementById('policat_iframe_no_' + no);
-					if (iframe) {
-						window.scrollBy(iframe.getBoundingClientRect().left, iframe.getBoundingClientRect().top + offset);
-					}
+					scrollTo(no, 0, offset);
 				}
 			}
 		};

@@ -38,7 +38,7 @@ $(document).ready(function($) {
 			return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
 		};
 
-		var resize = function() {
+		function resize() {
 			var isOneColumn = $(window).width() < 440;
 
 			if (petition_tabs.length) {
@@ -76,7 +76,7 @@ $(document).ready(function($) {
 					window.parent.postMessage('policat_height;' + iframe_no + ';' + height, '*');
 			}
 			old_height = height;
-		};
+		}
 
 		down_button.click(function() {
 			window.parent.postMessage('policat_scroll;' + iframe_no + ';' + policat_widget_left.height(), '*');
@@ -294,6 +294,8 @@ $(document).ready(function($) {
 						delete list[sk];
 					}
 				} while (sk != null);
+
+				resize();
 			};
 
 			var select_lookup = {};
@@ -383,6 +385,7 @@ $(document).ready(function($) {
 												insert_sort(ts_2, data.choices, 'x', ts_2.hasClass('country'));
 											}
 											ts_2.attr('disabled', null);
+											resize();
 										}
 									});
 								} else {
@@ -429,8 +432,9 @@ $(document).ready(function($) {
 								if (s_val) {
 									ts_1.attr('disabled', 'disabled');
 									select.attr('disabled', 'disabled');
-									if (pledge_ul.length)
+									if (pledge_ul.length) {
 										pledge_ul.empty();
+									}
 									$.ajax({
 										type: 'POST',
 										dataType: 'json',
@@ -441,10 +445,12 @@ $(document).ready(function($) {
 											insert_sort(pledge_ul, data.choices, null, null, data.pledges, pledge_ul.data('template'), data.infos, pledge_ul.data('pledge-count'));
 											ts_1.attr('disabled', null);
 											select.attr('disabled', null);
+											resize();
 										}
 									});
 								} else {
 									pledge_ul.empty();
+									resize();
 								}
 							});
 						}
@@ -671,6 +677,8 @@ $(document).ready(function($) {
 									$('#policat_widget_right .thankyou .error').html(message);
 									hasSign = true;
 									policat_widget.addClass('has_sign');
+									resize();
+									window.parent.postMessage('policat_scroll;' + iframe_no + ';0', '*');
 									break;
 								case 'embed':
 									if (data.isValid) {
