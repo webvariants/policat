@@ -58,7 +58,7 @@ if (is_array($target_selectors)) {
             }
             #petition_tabs.left .left span,
             #petition_tabs.right .right span,
-            #petition_tabs .tab_body, #petition_tabs .left_tab, #petition_tabs .right_tab
+            #petition_tabs .tab_body, #petition_tabs .left_tab
             {
               background: <?php echo $bg_left_color ?>;
             }
@@ -75,7 +75,10 @@ if (is_array($target_selectors)) {
             <div id="policat_widget_left">
                 <div id="content_left">
                     <div id="petition">
-                        <h1 id="pet_title"><?php echo htmlentities($title, ENT_COMPAT, 'utf-8') ?></h1>
+                        <div id="petition_head">
+                            <h1 id="pet_title"><?php echo htmlentities($title, ENT_COMPAT, 'utf-8') ?></h1>
+                            <div class="pet_subtitle" class="title"><?php echo UtilMarkdown::transform($target) ?></div>
+                        </div>
                         <a id="down_button" class="button_color button_btn"><?php echo __($petition->isEmailKind() ? 'Send an Email' : ($petition->getLabelMode() == PetitionTable::LABEL_MODE_PETITION ? 'Sign the Petition' : 'Support the initiative')) ?></a>
                         <div id="petition_tabs" class="left">
                             <div class="tab_head">
@@ -95,12 +98,7 @@ if (is_array($target_selectors)) {
                             </div>
                             <div class="tab_body">
                                 <div class="left_tab">
-                                    <div id="pet_subtitle" class="title"><?php echo UtilMarkdown::transform($target) ?></div>
                                     <?php include_partial('petition', array('petition_text' => $petition_text, 'widget' => $widget, 'petition' => $petition)) ?>
-                                </div>
-                                <div class="no_tab_head tab_head">
-                                    <div class="left tab"><span><?php echo __('Background') ?></span></div>
-                                    <div class="tab-mid"></div>
                                 </div>
                                 <div class="right_tab scroll">
                                     <div id="background_text" class="right_tab_content" style="width: 100%;">
@@ -355,7 +353,7 @@ if (is_array($target_selectors)) {
                                 <div class="external_links"><?php echo UtilMarkdown::transform($sf_data->getRaw('donate_text')) ?></div>
                               <?php endif ?>
                               <form>
-                                <a class="submit button_small" target="_blank" href="<?php echo $donate_url ?>"><p><?php echo __('Donate') ?></p></a>
+                                <a class="submit button_small" target="_blank" href="<?php echo $donate_url ?>"><?php echo __('Donate') ?></a>
                               </form>
                             <?php endif ?>
                             <?php if ($paypal_email || $donate_url): ?>

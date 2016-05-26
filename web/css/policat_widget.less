@@ -181,7 +181,7 @@ div.error {
 		margin: 0 0 0 20px;
 	}
 }
-#pet_subtitle {
+.pet_subtitle {
 	img {
 		max-height: 80px;
 	}
@@ -327,28 +327,30 @@ div.error {
 		}
 	}
 
-	.no_tab_head {
-		display: none;
-	}
-
 	&.no_tabs {
+		.tab_head {
+			display: none;
+		}
+
 		.tab_body {
 			height: auto !important;
 			background: none;
 		}
 
-		.tab.right {
-			display: none;
+		.left_tab {
+			display: block;
+			border-radius: 3px;
 		}
 
-		.right_tab, .left_tab {
+		.right_tab {
 			display: block;
-			border-radius: 0 3px 3px 3px;
-		}
+			padding-top: 10px;
 
-		.no_tab_head {
-			display: block;
-			margin: 10px 0 0 0;
+			#background_text {
+				p:first-child {
+					margin-top: 10px;
+				}
+			}
 		}
 	}
 }
@@ -472,7 +474,7 @@ a.back {
 }
 #content_right {
 	overflow: hidden;
-	padding: 20px 20px 10px 17px;
+	padding: 20px 20px 10px 10px;
 }
 #policat_widget_right .stage_right .sign, #policat_widget_right .stage_right .donate, #policat_widget_right .stage_right .embed_this, #policat_widget_right .stage_right .thankyou, #policat_widget_right .stage_right .reload  {
 	display: none;
@@ -517,6 +519,11 @@ a.back {
 {
 	padding-bottom: 30px;
 }
+
+#policat_widget_right.show_thankyou .donate {
+	padding-bottom: 0;
+}
+
 label {
 	display: block;
 	font-size: 9px;
@@ -602,8 +609,10 @@ button.submit_sign {
 .submit.button_small {
 	font-size: 13px;
 	height: 25px;
+	line-height: 25px;
 	margin-bottom: 8px;
 	margin-top: 8px;
+	border-radius: 5px;
 }
 
 #kv_ot {
@@ -943,6 +952,8 @@ div#embed_this_help_head {
 .share {
 	display: none;
 	overflow: hidden;
+	margin-right: -10px;
+
 	a {
 		display: block;
 	}

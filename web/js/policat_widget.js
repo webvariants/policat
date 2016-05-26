@@ -10,6 +10,7 @@ $(document).ready(function($) {
 //		var stage_right = $('.stage_right ');
 		var down_button = $('#down_button');
 		var pledge_ul = $('#pledges');
+		var petition_head = $('#petition_head');
 		var petition_tabs = $('#petition_tabs');
 		var petition_tabs_body = $('.tab_body', petition_tabs);
 		var petition_tabs_left = $('.left_tab', petition_tabs);
@@ -44,8 +45,9 @@ $(document).ready(function($) {
 				petition_tabs.addClass('calc_tab');
 				var left_height = petition_tabs_left.outerHeight();
 				var right_height = petition_tabs_right.outerHeight();
+				var head = petition_head.height();
 
-				if (!isOneColumn && content_right.height() > left_height + right_height) {
+				if (!isOneColumn && (content_right.height() - head) > left_height + right_height) {
 					petition_tabs.addClass('no_tabs');
 					petition_tabs.addClass('left');
 					petition_tabs.removeClass('right');
