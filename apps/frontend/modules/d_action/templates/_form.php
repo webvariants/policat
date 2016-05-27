@@ -11,25 +11,6 @@
             </div>
         </div>
         <?php echo $form->renderRows('status') ?>
-        <div class="control-group">
-            <label class="control-label">Ask</label>
-            <div class="controls">
-                <span class="widget_text">
-                    <?php echo Petition::$NAMETYPE_SHOW[$petition->getNametype()] ?>, <?php
-                    if ($petition->getWithAddress()):
-                      echo Petition::$WITH_ADDRESS_SHOW[$petition->getWithAddress()] . ', ';
-                    endif;
-                    if ($petition->getWithExtra1() == Petition::WITH_EXTRA_YES):
-                      echo 'free text field, ';
-                    endif;
-                    if ($petition->getWithCountry()):
-                      ?>country<?php else: ?> without country<?php
-                    endif;
-                    if ($petition->getWithComments()):
-                      ?>, comments<?php endif ?>
-                </span>
-            </div>
-        </div>
         <div class="row">
             <div class="span4">
                 <?php echo $form->renderRows('start_at') ?>
