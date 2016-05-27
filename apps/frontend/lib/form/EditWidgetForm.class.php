@@ -87,7 +87,17 @@ class EditWidgetForm extends WidgetForm {
       $this->setValidator('styling_button_color', new ValidatorCssColor(array('min_length' => 7, 'max_length' => 7)));
       $this->setDefault('styling_button_color', $this->getObject()->getStyling('button_color', $parent ? $parent->getStyling('button_color') : $petition->getStyleButtonColor()));
       $this->getWidgetSchema()->setLabel('styling_button_color', 'Button');
+
+      $this->setWidget('styling_button_primary_color', new sfWidgetFormInput(array(), array('class' => 'color {hash:true}')));
+      $this->setValidator('styling_button_primary_color', new ValidatorCssColor(array('min_length' => 7, 'max_length' => 7)));
+      $this->setDefault('styling_button_primary_color', $this->getObject()->getStyling('button_primary_color', $parent ? $parent->getStyling('button_primary_color') : $petition->getStyleButtonPrimaryColor()));
+      $this->getWidgetSchema()->setLabel('styling_button_primary_color', 'Sign Button');
     }
+
+      $this->setWidget('styling_label_color', new sfWidgetFormInput(array(), array('class' => 'color {hash:true}')));
+      $this->setValidator('styling_label_color', new ValidatorCssColor(array('min_length' => 7, 'max_length' => 7)));
+      $this->setDefault('styling_label_color', $this->getObject()->getStyling('label_color', $parent ? $parent->getStyling('label_color') : $petition->getStyleLabelColor()));
+      $this->getWidgetSchema()->setLabel('styling_label_color', 'Form label');
 
     $this->setWidget('target', new sfWidgetFormTextarea(array('label' => 'Subtitle'), array('cols' => 90, 'rows' => 3, 'class' => 'markdown')));
     $this->getWidgetSchema()->setHelp('target', 'Keep this short, this area is not scrollable.');

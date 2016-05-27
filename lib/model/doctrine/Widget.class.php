@@ -88,6 +88,14 @@ class Widget extends BaseWidget {
 
   public function getStyling($name, $default = null) {
     $value = $this->utilGetFieldFromArray('stylings', $name, $default);
+    if ($name === 'button_primary_color' && !$value) {
+      $name = 'button_color';
+      $value = $this->utilGetFieldFromArray('stylings', $name, $default);
+    }
+    if ($name === 'label_color' && !$value) {
+      $name = 'body_color';
+      $value = $this->utilGetFieldFromArray('stylings', $name, $default);
+    }
     if ($default === null && $value === null && in_array($name, WidgetTable::$STYLE_COLOR_NAMES)) {
       $petition = $this->getPetition();
       $value = $petition['style_' . $name];

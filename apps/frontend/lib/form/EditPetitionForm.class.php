@@ -302,8 +302,14 @@ class EditPetitionForm extends PetitionFieldsForm {
     $this->setWidget('style_body_color', new sfWidgetFormInput(array('label' => 'Body colour'), array('class' => 'color {hash:true}')));
     $this->setValidator('style_body_color', new ValidatorCssColor(array('min_length' => 7, 'max_length' => 7)));
 
+    $this->setWidget('style_label_color', new sfWidgetFormInput(array('label' => 'Label colour'), array('class' => 'color {hash:true}')));
+    $this->setValidator('style_label_color', new ValidatorCssColor(array('min_length' => 7, 'max_length' => 7)));
+
     $this->setWidget('style_button_color', new sfWidgetFormInput(array('label' => 'Button colour'), array('class' => 'color {hash:true}')));
     $this->setValidator('style_button_color', new ValidatorCssColor(array('min_length' => 7, 'max_length' => 7)));
+
+    $this->setWidget('style_button_primary_color', new sfWidgetFormInput(array('label' => 'Sign Button colour'), array('class' => 'color {hash:true}')));
+    $this->setValidator('style_button_primary_color', new ValidatorCssColor(array('min_length' => 7, 'max_length' => 7)));
 
     $this->setWidget('style_bg_left_color', new sfWidgetFormInput(array('label' => 'Text background'), array('class' => 'color {hash:true}')));
     $this->setValidator('style_bg_left_color', new ValidatorCssColor(array('min_length' => 7, 'max_length' => 7)));

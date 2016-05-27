@@ -71,9 +71,13 @@ class widgetActions extends policatActions
     // hash check
     $id = $request->getParameter('id');
     $hash = $request->getParameter('hash');
-    if (!is_numeric($id) || !is_string($hash)) $this->forward404();
+    if (!is_numeric($id) || !is_string($hash)) {
+      $this->forward404();
+    }
     $id = ltrim($id, ' 0');
-    if (!Widget::isValidLastHash($id, $hash)) $this->forward404();
+    if (!Widget::isValidLastHash($id, $hash)) {
+      $this->forward404();
+    }
 
     $this->setLayout(false);
     $this->fetchWidget();
@@ -116,7 +120,13 @@ class widgetActions extends policatActions
       if ($widget_colors) {
         $this->$style = $this->widget->getStyling($style);
       } else {
-        $this->$style = $this->petition['style_' . $style];
+        if ($style === 'button_primary_color') {
+          $this->$style = $this->petition['style_button_color'];
+        } else if ($style === 'label_color') {
+          $this->$style = $this->petition['body_color'];
+        } else {
+          $this->$style = $this->petition['style_' . $style];
+        }
       }
     }
 

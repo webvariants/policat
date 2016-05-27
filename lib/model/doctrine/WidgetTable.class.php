@@ -41,7 +41,9 @@ class WidgetTable extends Doctrine_Table {
       'button_color',
       'bg_left_color',
       'bg_right_color',
-      'form_title_color'
+      'form_title_color',
+      'button_primary_color',
+      'label_color'
   );
 
   /**

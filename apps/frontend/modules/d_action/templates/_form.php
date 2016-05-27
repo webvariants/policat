@@ -74,10 +74,10 @@
         <legend>Widget adjustability and standard design</legend>
         <div class="row">
             <div class="span4">
-                <?php echo $form->renderRows('widget_individualise', 'style_title_color', 'style_button_color', 'style_bg_right_color') ?>
+                <?php echo $form->renderRows('widget_individualise', 'style_title_color', 'style_button_color', 'style_button_primary_color', 'style_bg_right_color') ?>
             </div>
             <div class="span4">
-                <?php echo $form->renderRows('style_font_family', 'style_body_color', 'style_bg_left_color', 'style_form_title_color') ?>
+                <?php echo $form->renderRows('style_font_family', 'style_body_color', 'style_label_color', 'style_bg_left_color', 'style_form_title_color') ?>
             </div>
         </div>
     </fieldset>
