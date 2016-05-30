@@ -61,43 +61,43 @@ class EditWidgetForm extends WidgetForm {
       $this->setWidget('styling_title_color', new sfWidgetFormInput(array(), array('class' => 'color {hash:true}')));
       $this->setValidator('styling_title_color', new ValidatorCssColor(array('min_length' => 7, 'max_length' => 7)));
       $this->setDefault('styling_title_color', $this->getObject()->getStyling('title_color', $parent ? $parent->getStyling('title_color') : $petition->getStyleTitleColor()));
-      $this->getWidgetSchema()->setLabel('styling_title_color', 'Text title');
+      $this->getWidgetSchema()->setLabel('styling_title_color', 'Title/Kicker');
 
       $this->setWidget('styling_body_color', new sfWidgetFormInput(array(), array('class' => 'color {hash:true}')));
       $this->setValidator('styling_body_color', new ValidatorCssColor(array('min_length' => 7, 'max_length' => 7)));
       $this->setDefault('styling_body_color', $this->getObject()->getStyling('body_color', $parent ? $parent->getStyling('body_color') : $petition->getStyleBodyColor()));
-      $this->getWidgetSchema()->setLabel('styling_body_color', 'Text body');
+      $this->getWidgetSchema()->setLabel('styling_body_color', 'Content');
 
       $this->setWidget('styling_bg_left_color', new sfWidgetFormInput(array(), array('class' => 'color {hash:true}')));
       $this->setValidator('styling_bg_left_color', new ValidatorCssColor(array('min_length' => 7, 'max_length' => 7)));
       $this->setDefault('styling_bg_left_color', $this->getObject()->getStyling('bg_left_color', $parent ? $parent->getStyling('bg_left_color') : $petition->getStyleBgLeftColor()));
-      $this->getWidgetSchema()->setLabel('styling_bg_left_color', 'Text background');
+      $this->getWidgetSchema()->setLabel('styling_bg_left_color', 'Context box background');
 
       $this->setWidget('styling_bg_right_color', new sfWidgetFormInput(array(), array('class' => 'color {hash:true}')));
       $this->setValidator('styling_bg_right_color', new ValidatorCssColor(array('min_length' => 7, 'max_length' => 7)));
       $this->setDefault('styling_bg_right_color', $this->getObject()->getStyling('bg_right_color', $parent ? $parent->getStyling('bg_right_color') : $petition->getStyleBgRightColor()));
-      $this->getWidgetSchema()->setLabel('styling_bg_right_color', 'Form background');
+      $this->getWidgetSchema()->setLabel('styling_bg_right_color', 'Widget background');
 
       $this->setWidget('styling_form_title_color', new sfWidgetFormInput(array(), array('class' => 'color {hash:true}')));
       $this->setValidator('styling_form_title_color', new ValidatorCssColor(array('min_length' => 7, 'max_length' => 7)));
       $this->setDefault('styling_form_title_color', $this->getObject()->getStyling('form_title_color', $parent ? $parent->getStyling('form_title_color') : $petition->getStyleFormTitleColor()));
-      $this->getWidgetSchema()->setLabel('styling_form_title_color', 'Form title');
+      $this->getWidgetSchema()->setLabel('styling_form_title_color', 'Headings');
 
       $this->setWidget('styling_button_color', new sfWidgetFormInput(array(), array('class' => 'color {hash:true}')));
       $this->setValidator('styling_button_color', new ValidatorCssColor(array('min_length' => 7, 'max_length' => 7)));
       $this->setDefault('styling_button_color', $this->getObject()->getStyling('button_color', $parent ? $parent->getStyling('button_color') : $petition->getStyleButtonColor()));
-      $this->getWidgetSchema()->setLabel('styling_button_color', 'Button');
+      $this->getWidgetSchema()->setLabel('styling_button_color', 'Other buttons and visual elements');
 
       $this->setWidget('styling_button_primary_color', new sfWidgetFormInput(array(), array('class' => 'color {hash:true}')));
       $this->setValidator('styling_button_primary_color', new ValidatorCssColor(array('min_length' => 7, 'max_length' => 7)));
       $this->setDefault('styling_button_primary_color', $this->getObject()->getStyling('button_primary_color', $parent ? $parent->getStyling('button_primary_color') : $petition->getStyleButtonPrimaryColor()));
-      $this->getWidgetSchema()->setLabel('styling_button_primary_color', 'Sign Button');
+      $this->getWidgetSchema()->setLabel('styling_button_primary_color', 'Sign button');
     }
 
       $this->setWidget('styling_label_color', new sfWidgetFormInput(array(), array('class' => 'color {hash:true}')));
       $this->setValidator('styling_label_color', new ValidatorCssColor(array('min_length' => 7, 'max_length' => 7)));
       $this->setDefault('styling_label_color', $this->getObject()->getStyling('label_color', $parent ? $parent->getStyling('label_color') : $petition->getStyleLabelColor()));
-      $this->getWidgetSchema()->setLabel('styling_label_color', 'Form label');
+      $this->getWidgetSchema()->setLabel('styling_label_color', 'Other texts and labels');
 
     $this->setWidget('target', new sfWidgetFormTextarea(array('label' => 'Subtitle'), array('cols' => 90, 'rows' => 3, 'class' => 'markdown')));
     $this->getWidgetSchema()->setHelp('target', 'Keep this short, this area is not scrollable.');

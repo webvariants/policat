@@ -120,13 +120,7 @@ class widgetActions extends policatActions
       if ($widget_colors) {
         $this->$style = $this->widget->getStyling($style);
       } else {
-        if ($style === 'button_primary_color') {
-          $this->$style = $this->petition['style_button_color'];
-        } else if ($style === 'label_color') {
-          $this->$style = $this->petition['body_color'];
-        } else {
-          $this->$style = $this->petition['style_' . $style];
-        }
+        $this->$style = $this->petition['style_' . $style];
       }
     }
 

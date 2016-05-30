@@ -48,8 +48,8 @@ if (is_array($target_selectors)) {
         <style type="text/css">
             #html,body,div,span,h1,h2,h3,h4,h5,h6,p,a,em,img,q,dl,dt,dd,ol,ul,li,form,label,input,textarea, select { font-family: <?php echo $font_family ?>;}
             #body_policat_widget, a { color: <?php echo $body_color ?>; }
-            label, #count_target { color: <?php echo $label_color ?>; }
-            h1, h2, #petition_tabs { color: <?php echo $title_color ?>; }
+            label, #count_target, .pet_subtitle, .label_color, .no_tabs .right_tab, .no_tabs .read_more { color: <?php echo $label_color ?>; }
+            h1, h2 { color: <?php echo $title_color ?>; }
             #policat_widget_right .submit, .button_color { background-color: <?php echo $button_color; ?> ; }
             #policat_widget_right .submit_sign { background-color: <?php echo $button_primary_color; ?> ; }
             #policat_widget { background: <?php echo $bg_right_color ?>; }
@@ -65,7 +65,7 @@ if (is_array($target_selectors)) {
               background: <?php echo $bg_left_color ?>;
             }
             <?php if ($form_title_color): ?>
-            h2.form_title, div.error p,
+            h2.form_title,
             #petition_tabs.left .right,
             #petition_tabs.right .left
             { color: <?php echo $form_title_color ?>; }
@@ -296,10 +296,8 @@ if (is_array($target_selectors)) {
                         </div>
                         <div class="thankyou">
                             <h2 class="form_title"><?php echo __('Thank you') ?></h2>
-                            <div class="error">
-                                <p><?php echo __('You verified your email address. Your action is confirmed. Use this moment to tell friends and family.') ?></p>
-                            </div>
-                            <h2 class="form_title"><?php echo __('Tell your friends') ?></h2>
+                            <p class="form_message label_color"><?php echo __('You verified your email address. Your action is confirmed. Use this moment to tell friends and family.') ?></p>
+                            <h2 class="label_color"><?php echo __('Tell your friends') ?></h2>
                         </div>
                         <div class="share">
                             <a href="https://www.facebook.com/sharer/sharer.php?t=<?php echo urlencode($title) ?>&amp;u=" class="newwin sicon facebook" title="Facebook"><img class="no_load" alt="Facebook" src="<?php echo image_path('facebook-32.png') ?>" /></a>
@@ -320,10 +318,10 @@ if (is_array($target_selectors)) {
                         <div class="donate">
                             <?php if ($paypal_email): ?>
                               <?php if ($donate_text): ?>
-                                <div class="external_links"><?php echo UtilMarkdown::transform($sf_data->getRaw('donate_text')) ?></div>
+                                <div class="label_color external_links"><?php echo UtilMarkdown::transform($sf_data->getRaw('donate_text')) ?></div>
                               <?php else: ?>
-                                <h2 class="form_title"><?php echo __('Donate') ?></h2>
-                                <p><?php echo __('Help us fund this campaign. Give whatever you can now using the safe and secure paypal form below.') ?></p>
+                                <h2 class="label_color"><?php echo __('Donate') ?></h2>
+                                <p class="label_color"><?php echo __('Help us fund this campaign. Give whatever you can now using the safe and secure paypal form below.') ?></p>
                               <?php endif ?>
                               <form id="paypal" action="https://www.paypal.com/cgi-bin/webscr" method="post">
                                   <input type="hidden" name="cmd" value="_xclick" />
@@ -352,7 +350,7 @@ if (is_array($target_selectors)) {
                             <?php endif ?>
                             <?php if ($donate_url): ?>
                               <?php if ($donate_text): ?>
-                                <div class="external_links"><?php echo UtilMarkdown::transform($sf_data->getRaw('donate_text')) ?></div>
+                                <div class="label_color external_links"><?php echo UtilMarkdown::transform($sf_data->getRaw('donate_text')) ?></div>
                               <?php endif ?>
                               <form>
                                 <a class="submit button_small" target="_blank" href="<?php echo $donate_url ?>"><?php echo __('Donate') ?></a>

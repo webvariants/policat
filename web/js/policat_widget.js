@@ -668,13 +668,13 @@ $(document).ready(function($) {
 								break;
 						}
 						$.post(window.location.href.split('#', 1)[0], form.serialize() + '&' + refName + '=' + ref, function(data) {
-							var message = '';
-							for (var error in data.errors)
-								message += '<p>' + data.errors[error] + '</p>';
 							switch (formId) {
 								case 'sign':
 									show_thankyou();
-									$('#policat_widget_right .thankyou .error').html(message);
+									$('#policat_widget_right .thankyou .form_message').text('');
+									for (var error in data.errors) {
+										$('#policat_widget_right .thankyou .form_message').append($('<div></div>').text(data.errors[error]));
+									}
 									hasSign = true;
 									policat_widget.addClass('has_sign');
 									resize();

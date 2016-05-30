@@ -296,28 +296,28 @@ class EditPetitionForm extends PetitionFieldsForm {
     $this->setWidget('style_font_family', new sfWidgetFormChoice(array('choices' => array_combine($fonts, $fonts), 'label' => 'Font')));
     $this->setValidator('style_font_family', new sfValidatorChoice(array('choices' => $fonts)));
 
-    $this->setWidget('style_title_color', new sfWidgetFormInput(array('label' => 'Title colour'), array('class' => 'color {hash:true}')));
+    $this->setWidget('style_title_color', new sfWidgetFormInput(array('label' => 'Title/Kicker'), array('class' => 'color {hash:true}')));
     $this->setValidator('style_title_color', new ValidatorCssColor(array('min_length' => 7, 'max_length' => 7)));
 
-    $this->setWidget('style_body_color', new sfWidgetFormInput(array('label' => 'Body colour'), array('class' => 'color {hash:true}')));
+    $this->setWidget('style_body_color', new sfWidgetFormInput(array('label' => 'Content'), array('class' => 'color {hash:true}')));
     $this->setValidator('style_body_color', new ValidatorCssColor(array('min_length' => 7, 'max_length' => 7)));
 
-    $this->setWidget('style_label_color', new sfWidgetFormInput(array('label' => 'Label colour'), array('class' => 'color {hash:true}')));
+    $this->setWidget('style_label_color', new sfWidgetFormInput(array('label' => 'Other texts and labels'), array('class' => 'color {hash:true}')));
     $this->setValidator('style_label_color', new ValidatorCssColor(array('min_length' => 7, 'max_length' => 7)));
 
-    $this->setWidget('style_button_color', new sfWidgetFormInput(array('label' => 'Button colour'), array('class' => 'color {hash:true}')));
+    $this->setWidget('style_button_color', new sfWidgetFormInput(array('label' => 'Other buttons and visual elements'), array('class' => 'color {hash:true}')));
     $this->setValidator('style_button_color', new ValidatorCssColor(array('min_length' => 7, 'max_length' => 7)));
 
-    $this->setWidget('style_button_primary_color', new sfWidgetFormInput(array('label' => 'Sign Button colour'), array('class' => 'color {hash:true}')));
+    $this->setWidget('style_button_primary_color', new sfWidgetFormInput(array('label' => 'Sign button'), array('class' => 'color {hash:true}')));
     $this->setValidator('style_button_primary_color', new ValidatorCssColor(array('min_length' => 7, 'max_length' => 7)));
 
-    $this->setWidget('style_bg_left_color', new sfWidgetFormInput(array('label' => 'Text background'), array('class' => 'color {hash:true}')));
+    $this->setWidget('style_bg_left_color', new sfWidgetFormInput(array('label' => 'Context box background'), array('class' => 'color {hash:true}')));
     $this->setValidator('style_bg_left_color', new ValidatorCssColor(array('min_length' => 7, 'max_length' => 7)));
 
-    $this->setWidget('style_bg_right_color', new sfWidgetFormInput(array('label' => 'Form background'), array('class' => 'color {hash:true}')));
+    $this->setWidget('style_bg_right_color', new sfWidgetFormInput(array('label' => 'Widget background'), array('class' => 'color {hash:true}')));
     $this->setValidator('style_bg_right_color', new ValidatorCssColor(array('min_length' => 7, 'max_length' => 7)));
 
-    $this->setWidget('style_form_title_color', new sfWidgetFormInput(array('label' => 'Form title'), array('class' => 'color {hash:true}')));
+    $this->setWidget('style_form_title_color', new sfWidgetFormInput(array('label' => 'Headings'), array('class' => 'color {hash:true}')));
     $this->setValidator('style_form_title_color', new ValidatorCssColor(array('min_length' => 7, 'max_length' => 7)));
 
     if ($this->getObject()->getKind() == Petition::KIND_PETITION) {
