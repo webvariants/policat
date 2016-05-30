@@ -38,4 +38,18 @@ class UtilFont {
     return null;
   }
 
+  public static function formOptions($empty = false) {
+    $result = array();
+
+    if ($empty) {
+      $result[''] = $empty;
+    }
+
+    foreach (self::$FONTS as $value) {
+      $result[$value] = $value;
+    }
+
+    return $result;
+  }
+
 }

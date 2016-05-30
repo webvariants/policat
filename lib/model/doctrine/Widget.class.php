@@ -108,6 +108,17 @@ class Widget extends BaseWidget {
     $this->utilSetFieldFromArray('stylings', $name, $value);
   }
 
+  public function getFontFamily() {
+    $petition = $this->getPetition();
+    $petition_font_family = $petition->getStyleFontFamily();
+
+    if ($petition->getWidgetIndividualiseDesign()) {
+      return $this->getStyling('font_family', $petition_font_family);
+    } else {
+      return $petition_font_family;
+    }
+  }
+
   public static function genCode() {
     return mt_rand(10000000000, 99999999999);
   }

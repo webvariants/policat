@@ -79,6 +79,10 @@ class WidgetPublicForm extends WidgetForm {
       $this->setValidator('styling_label_color', new ValidatorCssColor(array('min_length' => 7, 'max_length' => 7)));
       $this->setDefault('styling_label_color', $this->getObject()->getStyling('label_color', $parent ? $parent->getStyling('label_color') : '#666666'));
       $this->getWidgetSchema()->setLabel('styling_label_color', 'Form label');
+
+      $this->setWidget('styling_font_family', new sfWidgetFormChoice(array('choices' => UtilFont::formOptions('default'), 'label' => 'Font')));
+      $this->setValidator('styling_font_family', new sfValidatorChoice(array('choices' => UtilFont::$FONTS, 'required' => false)));
+      $this->setDefault('styling_font_family', $this->getObject()->getStyling('font_family', $parent ? $parent->getStyling('font_family') : ''));
     }
 
     $this->setWidget('target', new sfWidgetFormTextarea(array(), array('cols' => 90, 'rows' => 3)));
