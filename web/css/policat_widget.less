@@ -355,35 +355,44 @@ div.form_error.div_select {
 	}
 }
 
-div#count {
-	height: 18px;
+#count {
 	margin-bottom: 10px;
-	margin-left: 3px;
-	overflow: hidden;
-	position: relative;
-	div {
-		height: 18px;
-		left: 0;
-		position: absolute;
-		top: 0;
-		width: 0%;
+
+	.count-bar {
+		height: 10px;
+		margin-left: 3px;
+		overflow: hidden;
+		position: relative;
+		div {
+			height: 18px;
+			left: 0;
+			position: absolute;
+			top: 0;
+			width: 0%;
+			text-indent: -1000px;
+			overflow: hidden;
+		}
+		span {
+			left: 0;
+			padding: 0 2px;
+			position: absolute;
+			top: 0;
+			text-indent: -1000px;
+			overflow: hidden;
+		}
 	}
-	span {
-		left: 0;
-		padding: 0 2px;
-		position: absolute;
-		text-align: right;
-		top: 0;
-	}
-}
-div#count_target {
-	font-size: 9px;
-	height: 10px;
-	line-height: 10px;
-	margin-left: 3px;
-	span {
-		display: block;
-		float: right;
+
+	.count-text {
+		font-size: 10px;
+		height: 12px;
+		line-height: 12px;
+		margin-left: 3px;
+		overflow: hidden;
+		margin-top: 3px;
+
+		.count-target {
+			float: right;
+		}
 	}
 }
 a.back {

@@ -196,22 +196,25 @@ $(document).ready(function($) {
 			if (c.length == 3) {
 				var a = parseInt(c[0]);
 				var b = parseInt(c[1]);
-				var t = c[2];
+				// var t = c[2];
 				var p = Math.ceil(a / b * 100);
-				$('div#count').before($('<div id="count_target"></div>').text(t).append('<span>' + numberWithCommas(b) + '</span>'));
+				var el_count = $('#count .count-count');
+				var el_target = $('#count .count-target');
+				el_count.text(el_count.text().replace('#', numberWithCommas(a)));
+				el_target.text(el_target.text().replace('#', numberWithCommas(b)));
 				if (p > 30) {
-					$('div#count span').css({'color': 'white', 'width': p + '%', 'margin-left': '-4px'});
+					$('#count .count-bar span').css({'color': 'white', 'width': p + '%', 'margin-left': '-4px'});
 				}
 				else {
-					$('div#count span').css({'text-align': 'left', 'margin-left': p + '%'});
+					$('#count .count-bar span').css({'text-align': 'left', 'margin-left': p + '%'});
 				}
-				$('div#count div').animate({'width': p + '%'}, 2500, 'swing', function() {
-					$('div#count span').html(numberWithCommas(a));
+				$('#count .count-bar div').animate({'width': p + '%'}, 2500, 'swing', function() {
+					$('#count .count-bar span').html(numberWithCommas(a));
 				});
 			}
 		}
 		else
-			$('div#count').hide();
+			$('#count').hide();
 
 		$('a.facebook, a.twitter, a.gplus').each(function() {
 			if ($(this).hasClass('twitter'))

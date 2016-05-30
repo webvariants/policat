@@ -45,13 +45,13 @@ if (is_array($target_selectors)) {
         <style type="text/css">
             #html,body,div,span,h1,h2,h3,h4,h5,h6,p,a,em,img,q,dl,dt,dd,ol,ul,li,form,label,input,textarea, select { font-family: <?php echo $font_family ?>;}
             #body_policat_widget, a { color: <?php echo $body_color ?>; }
-            label, #count_target, .pet_subtitle, .label_color, .no_tabs .right_tab, .no_tabs .read_more { color: <?php echo $label_color ?>; }
+            label, .count-text, .pet_subtitle, .label_color, .no_tabs .right_tab, .no_tabs .read_more { color: <?php echo $label_color ?>; }
             h1, h2 { color: <?php echo $title_color ?>; }
             #policat_widget_right .submit, .button_color { background-color: <?php echo $button_color; ?> ; }
             #policat_widget_right .submit_sign { background-color: <?php echo $button_primary_color; ?> ; }
             #policat_widget { background: <?php echo $bg_right_color ?>; }
-            div#count { background: <?php echo $bg_left_color ?>; }
-            div#count div { background: <?php echo $button_color ?>; }
+            #count .count-bar { background: <?php echo $bg_left_color ?>; }
+            #count .count-bar div { background: <?php echo $button_color ?>; }
             #petition_tabs .tab-mid {
               border: 13px solid <?php echo $bg_left_color ?>;
             }
@@ -216,7 +216,7 @@ if (is_array($target_selectors)) {
                                   <a target="_blank" href="<?php echo url_for('homepage') ?>"><?php echo __('More actions') ?></a>
                               </p>
                             <?php endif ?>
-                            <?php if (!$disabled): ?><div id="count"><div></div><span></span></div><?php endif ?>
+                            <?php if (!$disabled): ?><div id="count"><div class="count-bar"><div></div><span></span></div><div class="count-text"><span class="count-count"><?php echo __('# Participants') ?></span><span class="count-target"><?php echo __('Target #') ?></span></div></div><?php endif ?>
                             <?php echo $form->renderGlobalErrors() ?>
                             <form <?php if ($disabled): ?>style="display:none"<?php endif ?> id="sign" action="" method="post" autocomplete="off">
                                 <?php echo $form->renderHiddenFields() ?>
