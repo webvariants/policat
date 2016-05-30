@@ -291,10 +291,8 @@ class EditPetitionForm extends PetitionFieldsForm {
         'choices' => array_keys(PetitionTable::$INDIVIDUALISE)
     )));
 
-    $fonts[] = '"Open Sans", sans-serif';
-
-    $this->setWidget('style_font_family', new sfWidgetFormChoice(array('choices' => array_combine($fonts, $fonts), 'label' => 'Font')));
-    $this->setValidator('style_font_family', new sfValidatorChoice(array('choices' => $fonts)));
+    $this->setWidget('style_font_family', new sfWidgetFormChoice(array('choices' => array_combine(UtilFont::$FONTS, UtilFont::$FONTS), 'label' => 'Font')));
+    $this->setValidator('style_font_family', new sfValidatorChoice(array('choices' => UtilFont::$FONTS)));
 
     $this->setWidget('style_title_color', new sfWidgetFormInput(array('label' => 'Title/Kicker'), array('class' => 'color {hash:true}')));
     $this->setValidator('style_title_color', new ValidatorCssColor(array('min_length' => 7, 'max_length' => 7)));

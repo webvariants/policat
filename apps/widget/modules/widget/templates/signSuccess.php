@@ -41,10 +41,7 @@ if (is_array($target_selectors)) {
         <?php echo '<style type="text/css">' . file_get_contents(sfConfig::get('sf_web_dir') . '/css/dist/policat_widget.css') . "\n</style>"; ?>
         <script type="text/javascript" src="/js/static/jquery-1.10.2.min.js"></script>
         <?php printf("<script type=\"text/javascript\">/* <![CDATA[ */\n%s\n/* ]]> */</script>\n", file_get_contents(sfConfig::get('sf_web_dir') . '/js/dist/policat_widget.js')); ?>
-        <?php if (mb_strpos($sf_data->getRaw('font_family'), 'Open Sans', 0, 'UTF-8') !== false): ?>
-          <?php if (0): ?><link href="//fonts.googleapis.com/css?family=Open+Sans:400,700&subset=latin,cyrillic,greek" rel="stylesheet" type="text/css" /><?php endif ?>
-          <link href="/fonts/OpenSans/OpenSans.css" rel="stylesheet" type="text/css" />
-        <?php endif ?>
+        <?php if ($font_css_file): ?><link href="<?php echo $font_css_file ?>" rel="stylesheet" type="text/css" /><?php endif ?>
         <style type="text/css">
             #html,body,div,span,h1,h2,h3,h4,h5,h6,p,a,em,img,q,dl,dt,dd,ol,ul,li,form,label,input,textarea, select { font-family: <?php echo $font_family ?>;}
             #body_policat_widget, a { color: <?php echo $body_color ?>; }
