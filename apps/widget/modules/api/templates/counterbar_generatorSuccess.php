@@ -27,7 +27,7 @@
 	<h3>Example preview</h3><span class="help">(This example does not show the current count of your e-action.)</span>
 	<div id="counterbar">
 		<div id="count_target">
-			49 people so far
+			49 Participants
 			<span>100</span>
 		</div>
 		<div id="count">

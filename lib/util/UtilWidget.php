@@ -21,7 +21,6 @@ class UtilWidget {
     $stylings['type'] = 'embed';
     $stylings['url'] = $url;
     $stylings['width'] = 'auto';
-    $stylings['count'] = number_format($count, 0, '.', ',') . ' ' . ('people so far');
     $stylings['target'] = $target;
     return
       '<script type="text/javascript">'

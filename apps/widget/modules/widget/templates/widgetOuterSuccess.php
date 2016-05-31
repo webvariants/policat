@@ -4,7 +4,6 @@ $stylings['url'] = $url;
 $stylings['title'] = $title;
 $stylings['keyvisual'] = $keyvisual;
 $stylings['sprite'] = $sprite;
-$stylings['count'] = number_format($count, 0, '.', ',') . ' ' . __('people so far');
 $stylings['target'] = $target;
 $stylings['button_text'] = __('Take action');
 switch ($kind) {
@@ -55,7 +54,7 @@ ob_start();
       <?php echo __('Take action') ?>
   </div>
   <p <?php UtilPolicat::style($css, array('font-size' => '11px', 'line-height' => '11px', 'color' => $stylings['body_color'], 'margin' => '10px', 'float' => 'none')) ?>>
-    <?php echo $stylings['count'] ?>
+    <?php echo __('# Participants', array('#' => number_format($count, 0, '.', ','))) ?>
   </p>
 </div>
 <?php

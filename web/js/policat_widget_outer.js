@@ -118,15 +118,7 @@ var policat = typeof policat === "undefined" ? {widgets: []} : policat;
 			if (width) {
 				widget.width = 'auto';
 			}
-			var hash = verified + '!' + edit + '!' + widget.target + '-' + widget.count + '!' + iframe_no + '!' + ref;
-
-			function checkBrowserName(name) {
-				var agent = navigator.userAgent.toLowerCase();
-				if (agent.indexOf(name.toLowerCase()) > -1) {
-					return true;
-				}
-				return false;
-			}
+			var hash = verified + '!' + edit + '!' + widget.target + '!' + iframe_no + '!' + ref;
 
 			function createIFrame(auto) {
 				var width = (auto || widget.width === 'auto') ? '100%' : (widget.width + 'px');

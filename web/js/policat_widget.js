@@ -178,7 +178,7 @@ $(document).ready(function($) {
 		$('select').wrap('<div class="div_select"/>');
 
 		var hash_parts = window.location.hash.substring(1).split('!');
-		var hasSign = hash_parts[0] == '1' ? true : false;
+		var hasSign = hash_parts[0] === '1' ? true : false;
 		var editMode = hash_parts[1].length > 0;
 		if (editMode)
 			var edit_code = hash_parts[1];
@@ -192,11 +192,10 @@ $(document).ready(function($) {
 		}
 
 		if (count) {
-			var c = count.split('-', 3);
-			if (c.length == 3) {
+			var c = count.split('-');
+			if (c.length >= 2) {
 				var a = parseInt(c[0]);
 				var b = parseInt(c[1]);
-				// var t = c[2];
 				var p = Math.ceil(a / b * 100);
 				var el_count = $('#count .count-count');
 				var el_target = $('#count .count-target');

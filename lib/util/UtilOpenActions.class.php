@@ -133,7 +133,6 @@ class UtilOpenActions {
           $styles[$widget['id']] = array(
               'width' => $style['width'],
               'body_color' => '#818286',
-              'count' => number_format($petition['signings'], 0, '.', ',') . ' people so far',
               'target' => $petition['signings'] . '-' . Petition::calcTarget($petition['signings'], $petition['target_num']),
               'url' => $routing->generate('sign', array('id' => $widget['id'], 'hash' => Widget::calcLastHash(
                     $widget['id'], array(
