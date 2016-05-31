@@ -1,7 +1,7 @@
 jscolor.dir = '/js/dist/';
 
 $(document).ready(function($) {
-	(function($, widget_id, window, Math, target_selectors, CT_extra, t_sel, t_sel_all) {
+	(function($, widget_id, window, Math, target_selectors, CT_extra, t_sel, t_sel_all, petition_id) {
 		var policat_widget = $('#policat_widget');
 		var body_policat_widget = $('#body_policat_widget');
 		var policat_widget_left = $('#policat_widget_left');
@@ -178,7 +178,8 @@ $(document).ready(function($) {
 		$('select').wrap('<div class="div_select"/>');
 
 		var hash_parts = window.location.hash.substring(1).split('!');
-		var hasSign = hash_parts[0] === '1' ? true : false;
+		var verified_id = parseInt(hash_parts[0], 10);
+		var hasSign = verified_id === petition_id;
 		var editMode = hash_parts[1].length > 0;
 		if (editMode)
 			var edit_code = hash_parts[1];
@@ -805,5 +806,5 @@ $(document).ready(function($) {
 		
 		$('.external_links a').attr('target', '_blank');
 
-	})($, widget_id, window, Math, target_selectors, CT_extra, t_sel, t_sel_all);
+	})($, widget_id, window, Math, target_selectors, CT_extra, t_sel, t_sel_all, petition_id);
 });

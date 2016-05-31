@@ -29,6 +29,7 @@ if (is_array($target_selectors)) {
   }
 }
 ?>
+      var petition_id = <?php echo $petition->getId() ?>;
       var target_selectors = <?php echo json_encode($target_selectors) ?>;
       var t_sel = <?php echo json_encode(__('select')) ?>;
       var t_sel_all = <?php echo json_encode($petition->getKind() == Petition::KIND_PLEDGE ? '--' . __('select') . '--' : __('select all')) ?>;
@@ -345,13 +346,10 @@ if (is_array($target_selectors)) {
                                   <button type="button" class="submit button_small"><?php echo __('Donate') ?></button>
                               </form>
                             <?php endif ?>
-                            <?php if ($donate_url): ?>
-                              <?php if ($donate_text): ?>
+                            <?php if ($donate_url && $donate_text): ?>
+                                <h2 class="label_color"><?php echo __('Donate') ?></h2>
                                 <div class="label_color external_links"><?php echo UtilMarkdown::transform($sf_data->getRaw('donate_text')) ?></div>
-                              <?php endif ?>
-                              <form>
                                 <a class="submit button_small" target="_blank" href="<?php echo $donate_url ?>"><?php echo __('Donate') ?></a>
-                              </form>
                             <?php endif ?>
                             <?php if ($paypal_email || $donate_url): ?>
                               <a class="back button_color button_btn"><?php echo __('Back') ?></a>

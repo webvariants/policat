@@ -1,5 +1,5 @@
 var policat = typeof policat === "undefined" ? {widgets: []} : policat;
-(function(policat, window, document, navigator, Math, ref, verified, width, edit) {
+(function(policat, window, document, Math, ref, verified_id, width, edit) {
 	if (policat.widget_here === undefined) {
 		policat.overlay_frame_height = null;
 		policat.iframe_no = 0;
@@ -55,7 +55,7 @@ var policat = typeof policat === "undefined" ? {widgets: []} : policat;
 		}
 
 		var receivePostMsg = function(event) {
-			if (typeof event.data == 'string') {
+			if (typeof event.data === 'string') {
 				if (event.data.match(/^policat_height;\d+;\d+$/)) {
 					var data = event.data.split(';');
 					var no = data[1];
@@ -109,7 +109,7 @@ var policat = typeof policat === "undefined" ? {widgets: []} : policat;
 			}
 			var widget = policat.widgets[id];
 			var iframe_no = policat.iframe_no++;
-			if (verified) {
+			if (verified_id) {
 				widget.type = 'embed';
 			}
 			if (edit) {
@@ -118,7 +118,7 @@ var policat = typeof policat === "undefined" ? {widgets: []} : policat;
 			if (width) {
 				widget.width = 'auto';
 			}
-			var hash = verified + '!' + edit + '!' + widget.target + '!' + iframe_no + '!' + ref;
+			var hash = verified_id + '!' + edit + '!' + widget.target + '!' + iframe_no + '!' + ref;
 
 			function createIFrame(auto) {
 				var width = (auto || widget.width === 'auto') ? '100%' : (widget.width + 'px');
@@ -339,7 +339,7 @@ var policat = typeof policat === "undefined" ? {widgets: []} : policat;
 			}
 		};
 	}
-})(policat, window, document, navigator, Math,
+})(policat, window, document, Math,
 		typeof policat_ref !== 'undefined' ? policat_ref : window.location.href,
 		typeof policat_verified !== 'undefined' ? policat_verified : 0,
 		typeof policat_width !== 'undefined' ? policat_width : null,

@@ -1,8 +1,7 @@
 <script type="text/javascript">
-  var policat_verified = 1;
+  var policat_verified = <?php echo $petition_id ?>;
   var policat_ref = <?php echo json_encode($ref) ?>;
   var policat_width = 'auto';
-  var policat_validate_action_id = <?php echo $petition_id ?>;
 </script>
 <p class="iframe-center">
   <br />

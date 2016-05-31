@@ -15,8 +15,13 @@
   }
   ?>
 
-  if (policat_validate_action_id) {
-    document.getElementById('widget-action-id-' + policat_validate_action_id).style.display = 'none';
+  if (policat_verified) {
+    (function() {
+      var element = document.getElementById('widget-action-id-' + policat_verified);
+      if (element) {
+        element.style.display = 'none';
+      }
+    })(policat_verified);
   }
 
   (function() {
