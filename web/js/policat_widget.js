@@ -525,6 +525,71 @@ $(document).ready(function($) {
 			});
 		});
 
+		function prepareValidate(field, positive) {
+			var input = $(field);
+			var parent =input.parent();
+
+			if (input.is('input[type=text], select')) {
+				parent.addClass('form_indicator');
+			}
+
+			if (input.is('select')) {
+				parent.addClass('form_indicator_select');
+			}
+
+			if (positive) {
+				parent.addClass('form_indicator_positive');
+			}
+		}
+
+		function validate(field) {
+			var input = $(field);
+			var parent =input.parent();
+			var valid = true;
+			var val = $.trim(input.val());
+			if (val === '' && !input.hasClass('not_required')) {
+				valid = false;
+			}
+
+			if (valid && input.is('#petition_signing_email')) {
+				var mail = val.match(/^([^@\s]+)@((?:[-a-z0-9]+\.)+[a-z]{2,})$/i);
+				if (!mail) {
+					valid = false;
+				}
+			}
+
+			parent.toggleClass('form_error', !valid);
+			parent.toggleClass('form_valid', valid);
+
+			var label = parent.prev();
+			if (label.is('label')) {
+				label.toggleClass('form_error', !valid);
+			}
+
+			return valid;
+		}
+
+		var validate_base = $('#sign, #target_selector');
+
+		validate_base.on('blur', 'input, select', function () {
+			validate(this);
+		});
+
+		validate_base.on('keyup', '.form_error input', function () {
+			validate(this);
+		});
+
+		validate_base.on('change', '.form_error select', function () {
+			validate(this);
+		});
+
+		$('#sign input, #sign select').each(function() {
+			prepareValidate(this, true);
+		});
+		$('#target_selector input, #target_selector select').each(function() {
+			prepareValidate(this, false);
+		});
+
 		// Form handling
 		$('#policat_widget_right form').each(function() {
 			var form = $(this);

@@ -1,5 +1,6 @@
 @color-white: #ffffff;
 @color-error: #ed1b24;
+@color-valid: green;
 
 html, body, div, span, h1, h2, h3, h4, h5, h6, p, a, em, img, q, dl, dt, dd, ol, ul, li, form, label, input, textarea  {
 	border: 0;
@@ -23,6 +24,9 @@ a {
 	img {
 		border: none;
 	}
+}
+button {
+	outline: none;
 }
 h1 {
 	font-size: 18px;
@@ -117,6 +121,13 @@ form {
 		margin-bottom: 3px;
 	}
 }
+
+input, select, textarea {
+	&:focus {
+		outline-color: rgba(127, 127, 127, 0.5);
+	}
+}
+
 input[type=text], textarea, select  {
 	-moz-box-sizing: border-box;
 	-webkit-box-sizing: border-box;
@@ -132,26 +143,76 @@ input[type=text], textarea, select  {
 input[type=text], select  {
 	height: 22px;
 }
-div.div_select {
-	border: 0;
-	margin: 0;
+.div_select {
+	border: 1px solid transparent;
+	margin: 2px;
 	padding: 0;
-}
-.form_error input[type=text], .form_error textarea, div.form_error.div_select  {
-	border: 3px solid @color-error;
-}
-div.form_error.div_select select, div.form_error.div_select input  {
-	border: 0;
-	margin: 0;
-}
-div.form_error.div_select {
-	input {
-		height: 20px;
+
+	select, input {
+		margin: 0;
 	}
 }
-.form_error label, label.form_error  {
+
+.form_error {
+	input[type=text],
+	textarea,
+	&.div_select  {
+		border: 1px solid @color-error;
+		box-shadow: 0 0px 2px rgba(255,0,0,0.5);
+	}
+
+	label, {
+		color: @color-error;
+	}
+}
+
+label.form_error {
 	color: @color-error;
 }
+
+.form_valid.form_indicator_positive {
+	input[type=text],
+	textarea,
+	&.div_select  {
+		border: 1px solid @color-valid;
+		box-shadow: 0 0px 2px rgba(0,255,0,0.5);
+	}
+}
+
+.form_indicator {
+	position: relative;
+
+	&.form_valid.form_indicator_positive, &.form_error {
+		input {
+			padding-right: 15px;
+		}
+	}
+	&::after {
+		position: absolute;
+		bottom: 1px;
+		right: 0;
+		display: block;
+		font-size: 16px;
+	}
+
+	&.form_valid.form_indicator_positive::after {
+		content: "\02713"; /* &check; */
+		color: @color-valid;
+	}
+
+	&.form_error::after {
+		content: "\02717"; /* &cross; */
+		color: @color-error;
+	}
+
+	&.form_indicator_select {
+		&::after {
+			bottom: -2px;
+			right: 15px;
+		}
+	}
+}
+
 #policat_widget {
 	clear: left;
 	margin: 0;
@@ -436,12 +497,6 @@ a.back {
 	}
 	form>div.country {
 		height: 27px;
-	}
-	.form_error {
-		span.checkbox {
-			border: 3px solid @color-error;
-			padding: 0;
-		}
 	}
 	.privacy {
 		label {
@@ -736,7 +791,7 @@ div#embed_this_help_head {
 	div.ts_first {
 		margin-right: 2%;
 	}
-	div.div_select {
+	.div_select {
 		position: relative;
 		div.correct {
 			background: @color-white;
