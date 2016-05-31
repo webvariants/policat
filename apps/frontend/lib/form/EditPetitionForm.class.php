@@ -297,7 +297,7 @@ class EditPetitionForm extends PetitionFieldsForm {
     $this->setWidget('style_title_color', new sfWidgetFormInput(array('label' => 'Title/Kicker'), array('class' => 'color {hash:true}')));
     $this->setValidator('style_title_color', new ValidatorCssColor(array('min_length' => 7, 'max_length' => 7)));
 
-    $this->setWidget('style_body_color', new sfWidgetFormInput(array('label' => 'Content'), array('class' => 'color {hash:true}')));
+    $this->setWidget('style_body_color', new sfWidgetFormInput(array('label' => 'Content box'), array('class' => 'color {hash:true}')));
     $this->setValidator('style_body_color', new ValidatorCssColor(array('min_length' => 7, 'max_length' => 7)));
 
     $this->setWidget('style_label_color', new sfWidgetFormInput(array('label' => 'Other texts and labels'), array('class' => 'color {hash:true}')));

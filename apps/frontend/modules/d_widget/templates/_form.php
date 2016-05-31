@@ -13,8 +13,8 @@
   echo $form->renderRows('*background');
   ?>
   <div class="row">
-    <div class="span6"><?php echo $form->renderRows('styling_type', 'styling_width', '*styling_title_color', '*styling_body_color', '*styling_label_color', '*styling_font_family') ?></div>
-    <div class="span6"><?php echo $form->renderRows('*styling_button_primary_color', '*styling_button_color', '*styling_bg_left_color', '*styling_bg_right_color', '*styling_form_title_color') ?></div>
+    <div class="span6"><?php echo $form->renderRows('styling_type', 'styling_width', '*styling_bg_right_color', '*styling_bg_left_color', '*styling_button_primary_color', '*styling_button_color') ?></div>
+    <div class="span6"><?php echo $form->renderRows('*styling_font_family', '*styling_title_color', '*styling_form_title_color', '*styling_body_color', '*styling_label_color') ?></div>
   </div>
   <?php echo $form->renderRows('paypal_email', '*donate_url', '*donate_text', 'landing_url') ?>
   <div class="form-actions">
