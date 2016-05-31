@@ -352,7 +352,7 @@ $(document).ready(function($) {
 					}
 					var option = $('<option></option>');
 					select.append(option);
-					option.text(first ? '--' + t_sel + '--' : t_sel_all).attr('value', (first && !target_selectors.length == 1) ? '' : 'all');
+					option.text(first ? '--' + t_sel + '--' : t_sel_all).attr('value', (first && target_selectors.length !== 1) ? '' : 'all');
 					if (selector['choices'] != undefined) {
 						var is_typefield = selector['typfield'] != undefined && selector['typfield'];
 						var is_contact = selector['id'] != undefined && selector['id'] === 'contact';
