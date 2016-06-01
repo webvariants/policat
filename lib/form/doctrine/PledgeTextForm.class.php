@@ -24,6 +24,7 @@ class PledgeTextForm extends BasePledgeTextForm {
 
     $this->setWidget('text', new sfWidgetFormTextarea(array(), array('cols' => 90, 'rows' => 30, 'class'=>'markdown')));
     $this->getWidgetSchema()->setLabel('text', false);
+    $this->getValidator('text')->setOption('required', true);
 
     unset($this['pledge_item_id'], $this['petition_text_id']);
   }
