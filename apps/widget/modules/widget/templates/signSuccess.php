@@ -80,36 +80,43 @@ if (is_array($target_selectors)) {
                             <div class="pet_subtitle" class="title"><?php echo UtilMarkdown::transform($target) ?></div>
                         </div>
                         <a id="down_button" class="button_color button_btn"><?php echo __($petition->isEmailKind() ? 'Send an Email' : ($petition->getLabelMode() == PetitionTable::LABEL_MODE_PETITION ? 'Sign the Petition' : 'Support the initiative')) ?></a>
-                        <div id="petition_tabs" class="left">
-                            <div class="tab_head">
-                                <div class="left tab"><span><?php
-                                        switch ($petition->getKind()):
-                                          case Petition::KIND_EMAIL_TO_LIST:
-                                          case Petition::KIND_EMAIL_ACTION: echo __('Email action');
-                                            break;
-                                          case Petition::KIND_PLEDGE: echo __('Recipients');
-                                            break;
-                                          default: echo $petition->getLabelMode() == PetitionTable::LABEL_MODE_PETITION ? __('Petition') : __('Initiative');
-                                        endswitch
-                                        ?>
-                                    </span></div>
-                                <div class="tab-mid"></div>
-                                <div class="right tab"><span><?php echo __('Background') ?></span></div>
-                            </div>
-                            <div class="tab_body">
-                                <div class="left_tab">
-                                    <?php include_partial('petition', array('petition_text' => $petition_text, 'widget' => $widget, 'petition' => $petition)) ?>
-                                </div>
-                                <div class="right_tab scroll">
-                                    <div id="background_text" class="right_tab_content" style="width: 100%;">
-                                        <?php echo UtilMarkdown::transform($background); ?>
-                                        <?php if (is_string($read_more_url) && strlen($read_more_url) > 6): ?>
-                                          <br /><a id="readmore" href="<?php echo Util::enc($read_more_url) ?>" class="newwin read_more"><?php echo __('Read more') ?></a>
-                                        <?php endif ?>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
+                        <?php if ($background): ?>
+                          <div id="petition_tabs" class="left">
+                              <div class="tab_head">
+                                  <div class="left tab"><span><?php
+                                          switch ($petition->getKind()):
+                                            case Petition::KIND_EMAIL_TO_LIST:
+                                            case Petition::KIND_EMAIL_ACTION: echo __('Email action');
+                                              break;
+                                            case Petition::KIND_PLEDGE: echo __('Recipients');
+                                              break;
+                                            default: echo $petition->getLabelMode() == PetitionTable::LABEL_MODE_PETITION ? __('Petition') : __('Initiative');
+                                          endswitch
+                                          ?>
+                                      </span></div>
+                                  <div class="tab-mid"></div>
+                                  <div class="right tab"><span><?php echo __('Background') ?></span></div>
+                              </div>
+                              <div class="tab_body">
+                                  <div class="left_tab">
+                                      <?php include_partial('petition', array('petition_text' => $petition_text, 'widget' => $widget, 'petition' => $petition)) ?>
+                                  </div>
+                                  <div class="right_tab scroll">
+                                      <div id="background_text" class="right_tab_content" style="width: 100%;">
+                                          <?php echo UtilMarkdown::transform($background); ?>
+                                          <?php if (is_string($read_more_url) && strlen($read_more_url) > 6): ?>
+                                            <br /><a id="readmore" href="<?php echo Util::enc($read_more_url) ?>" class="newwin read_more"><?php echo __('Read more') ?></a>
+                                          <?php endif ?>
+                                      </div>
+                                  </div>
+                              </div>
+                          </div>
+                        <?php else: ?>
+                          <?php include_partial('petition', array('petition_text' => $petition_text, 'widget' => $widget, 'petition' => $petition)) ?>
+                          <?php if (is_string($read_more_url) && strlen($read_more_url) > 6): ?>
+                            <a id="readmore" href="<?php echo Util::enc($read_more_url) ?>" class="newwin read_more"><?php echo __('Read more') ?></a>
+                          <?php endif ?>
+                        <?php endif ?>
                     </div>
                     <div id="privacy_policy">
                         <div class="scroll">

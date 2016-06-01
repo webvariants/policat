@@ -24,12 +24,6 @@ class TranslationForm extends BasePetitionTextForm {
 
   static $defaults_petition = array
       (
-      'title' => 'Insert a short and movtivating action title',
-      'target' => 'Insert a subheading or the political target(s), e. g. "To the heads of state of the European Union"',
-      'background' => 'Insert a short text about the aim(s) of your campaign, maybe give some explanatory content. You may include links and media.',
-      'intro' => 'The petition text will be split into 3 parts. This part (the intro) and the last part (the footer) should contain contextual information, e. g. references to the political addressee or to a specific event. Your partners and supporters will be able to modify this text for their own widgets. Put the relevant parts of your message into the 2. part of the petition (the body).',
-      'body' => 'Put the relevant parts of your message into this part of the petition (the body). This text will remain the same throughout all widgets created for this campaign. Choose this text carefully. It should be as brief as possible.',
-      'footer' => 'Insert a closing rate here, e. g. a reference to a specific event, your petition hand-over action or simply a complimentary close.',
       'email_validation_subject' => 'Confirm your action --- #TITLE#',
       'email_validation_body' => "Hello,
 
@@ -61,7 +55,6 @@ The petition text: #INTRO# #BODY# #FOOTER#"
   );
   static $defaults_email = array
       (
-      'target' => 'Insert the name and maybe function of your political target(s), e. g. "José Manuel Barroso, president of the European Commission"',
       'email_subject' => 'Insert the standard text for the subject-line of the e-mail that will be sent to your political target.',
       'email_body' => 'Insert the standard text for the e-mail that will be sent to your political target.',
       'email_validation_subject' => 'Confirm your action --- #TITLE#',
@@ -106,12 +99,11 @@ The e-mail text: #EMAIL-SUBJECT# -- #EMAIL-BODY#"
       $this['donate_url'], $this['donate_text']
     );
 
-    $this->setWidget('title', new sfWidgetFormInput(array(), array('size' => 90, 'class' => 'large')));
-    $this->setWidget('target', new sfWidgetFormTextarea(array('label' => 'Subtitle'), array('cols' => 90, 'rows' => 3, 'class' => 'markdown')));
+    $this->setWidget('title', new sfWidgetFormInput(array(), array('size' => 90, 'class' => 'large', 'placeholder' => 'Insert a short and movtivating action title')));
+    $this->setWidget('target', new sfWidgetFormTextarea(array('label' => 'Subtitle'), array('cols' => 90, 'rows' => 3, 'class' => 'markdown', 'placeholder' => 'Optional (you may leave this field empty). Add here a short contextual introduction, or name the targets of your action (e.g. "To the heads of states of the European Union". Keep it very short!')));
     $this->getWidgetSchema()->setHelp('target', 'Keep this short, this area is not scrollable.');
     $this->getValidator('target')->setOption('required', false)->setOption('trim', true);
-    $this->setWidget('background', new sfWidgetFormTextarea(array(), array('cols' => 90, 'rows' => 5, 'class' => 'markdown')));
-    $this->getValidator('background')->setOption('required', true);
+    $this->setWidget('background', new sfWidgetFormTextarea(array(), array('cols' => 90, 'rows' => 5, 'class' => 'markdown', 'placeholder' => 'Optional (you may leave this field empty). Add here further contextual information about this action. You may add external media files (make sure they are hosted on a server with an encrypted SSL connection).')));
 
     $this->setWidget('landing_url', new sfWidgetFormInput(array('label' => 'E-mail Validation Landingpage - auto forwarding to external page'), array(
         'size' => 90,
@@ -121,9 +113,9 @@ The e-mail text: #EMAIL-SUBJECT# -- #EMAIL-BODY#"
     $this->setValidator('landing_url', new ValidatorUrl(array('required' => false, 'trim' => true)));
 
     if (!$petition->isEmailKind()) {
-      $this->setWidget('intro', new sfWidgetFormTextarea(array('label' => 'Introductory part'), array('cols' => 90, 'rows' => 5, 'class' => 'markdown')));
-      $this->setWidget('body', new sfWidgetFormTextarea(array('label' => 'Main part'), array('cols' => 90, 'rows' => 30, 'class' => 'markdown')));
-      $this->setWidget('footer', new sfWidgetFormTextarea(array('label' => 'Closing part'), array('cols' => 90, 'rows' => 5, 'class' => 'markdown')));
+      $this->setWidget('intro', new sfWidgetFormTextarea(array('label' => 'Introductory part'), array('cols' => 90, 'rows' => 5, 'class' => 'markdown', 'placeholder' => 'The petition text will be split into 3 parts. This part (the intro) and the last part (the footer) should contain contextual information, e. g. references to the political addressee or to a specific event. Your partners and supporters will be able to modify this text for their own widgets. Put the relevant parts of your message into the 2. part of the petition (the body).')));
+      $this->setWidget('body', new sfWidgetFormTextarea(array('label' => 'Main part'), array('cols' => 90, 'rows' => 30, 'class' => 'markdown', 'placeholder' => 'Put the relevant parts of your message into this part of the petition (the body). This text will remain the same throughout all widgets created for this campaign. Choose this text carefully. It should be as brief as possible.')));
+      $this->setWidget('footer', new sfWidgetFormTextarea(array('label' => 'Closing part'), array('cols' => 90, 'rows' => 5, 'class' => 'markdown', 'placeholder' => 'Insert a closing rate here, e. g. a reference to a specific event, your petition hand-over action or simply a complimentary close.')));
       $this->getValidator('intro')->setOption('required', false);
       $this->getValidator('body')->setOption('required', true);
       $this->getValidator('footer')->setOption('required', false);
