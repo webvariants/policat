@@ -54,6 +54,8 @@ class d_media_filesActions extends policatActions {
         if (file_exists($filePath)) {
             !unlink($filePath);
         }
+        
+        $file->delete();
 
         $this->redirect($this->generateUrl('media_files_list', array('id' => $this->petition)));
     }
