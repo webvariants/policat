@@ -31,6 +31,7 @@
  * @property integer $validation_status
  * @property string $edit_code
  * @property string $paypal_email
+ * @property integer $share
  * @property integer $user_id
  * @property integer $data_owner
  * @property timestamp $activity_at
@@ -78,6 +79,7 @@
  * @method integer             getValidationStatus()    Returns the current record's "validation_status" value
  * @method string              getEditCode()            Returns the current record's "edit_code" value
  * @method string              getPaypalEmail()         Returns the current record's "paypal_email" value
+ * @method integer             getShare()               Returns the current record's "share" value
  * @method integer             getUserId()              Returns the current record's "user_id" value
  * @method integer             getDataOwner()           Returns the current record's "data_owner" value
  * @method timestamp           getActivityAt()          Returns the current record's "activity_at" value
@@ -124,6 +126,7 @@
  * @method Widget              setValidationStatus()    Sets the current record's "validation_status" value
  * @method Widget              setEditCode()            Sets the current record's "edit_code" value
  * @method Widget              setPaypalEmail()         Sets the current record's "paypal_email" value
+ * @method Widget              setShare()               Sets the current record's "share" value
  * @method Widget              setUserId()              Sets the current record's "user_id" value
  * @method Widget              setDataOwner()           Sets the current record's "data_owner" value
  * @method Widget              setActivityAt()          Sets the current record's "activity_at" value
@@ -262,6 +265,12 @@ abstract class BaseWidget extends myDoctrineRecord
         $this->hasColumn('paypal_email', 'string', 80, array(
              'type' => 'string',
              'length' => 80,
+             ));
+        $this->hasColumn('share', 'integer', 1, array(
+             'type' => 'integer',
+             'notnull' => true,
+             'default' => 1,
+             'length' => 1,
              ));
         $this->hasColumn('user_id', 'integer', 4, array(
              'type' => 'integer',

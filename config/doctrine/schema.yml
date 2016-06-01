@@ -419,6 +419,7 @@ Widget:
     validation_status: { type: integer(1), default: 0}
     edit_code:         { type: string(40) }
     paypal_email:      { type: string(80) }
+    share:             { type: integer(1), notnull: true, default: 1 }
     user_id:           { type: integer(4), notnull: false, default: null }
     data_owner:        { type: integer(1), notnull: true, default: 0 }
     activity_at:       { type: timestamp, notnull: false, default: null }

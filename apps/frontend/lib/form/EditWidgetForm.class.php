@@ -57,6 +57,9 @@ class EditWidgetForm extends WidgetForm {
     $this->setDefault('styling_width', $this->getObject()->getStyling('width', $parent ? $parent->getStyling('width') : 'auto'));
     $this->getWidgetSchema()->setLabel('styling_width', 'Width');
 
+    $this->setWidget('share', new WidgetFormInputCheckbox(array('value_attribute_value' => '1', 'value_checked' => '1', 'value_unchecked' => '0', 'label' => 'Include share buttons underneath sign-button')));
+    $this->setValidator('share', new sfValidatorChoice(array('choices' => array('0', '1'))));
+
     if ($petition->getWidgetIndividualiseDesign()) {
       $this->setWidget('styling_title_color', new sfWidgetFormInput(array(), array('class' => 'color {hash:true}')));
       $this->setValidator('styling_title_color', new ValidatorCssColor(array('min_length' => 7, 'max_length' => 7)));

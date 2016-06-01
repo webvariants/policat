@@ -5,6 +5,8 @@ class WidgetFormInputCheckbox extends sfWidgetFormInput {
   public function __construct($options = array(), $attributes = array())
   {
     $this->addOption('value_attribute_value');
+    $this->addOption('value_unchecked', null);
+    $this->addOption('value_checked', null);
 
     parent::__construct($options, $attributes);
   }
@@ -28,6 +30,18 @@ class WidgetFormInputCheckbox extends sfWidgetFormInput {
       $attributes['value'] = $this->getOption('value_attribute_value');
     }
 
-    return parent::render($name, null, $attributes, $errors);
+    $value_checked = $this->getOption('value_checked');
+    if ($value_checked !== null && $value_checked == $value) {
+      $attributes['checked'] = true;
+    }
+
+    $value_unchecked = $this->getOption('value_unchecked');
+    $before = '';
+
+    if ($value_unchecked !== null) {
+      $before = $this->renderTag('input', array_merge(array('type' => 'hidden', 'name' => $name, 'value' => $value_unchecked)));
+    }
+
+    return $before . parent::render($name, null, $attributes, $errors);
   }
 }

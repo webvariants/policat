@@ -16,7 +16,7 @@
     <div class="span6"><?php echo $form->renderRows('styling_type', 'styling_width', '*styling_bg_right_color', '*styling_bg_left_color', '*styling_button_primary_color', '*styling_button_color') ?></div>
     <div class="span6"><?php echo $form->renderRows('*styling_font_family', '*styling_title_color', '*styling_form_title_color', '*styling_body_color', '*styling_label_color') ?></div>
   </div>
-  <?php echo $form->renderRows('paypal_email', '*donate_url', '*donate_text', 'landing_url') ?>
+  <?php echo $form->renderRows('share', 'paypal_email', '*donate_url', '*donate_text', 'landing_url') ?>
   <div class="form-actions">
     <button class="btn btn-primary" type="submit">Save</button>
     <button class="btn submit" data-submit='{"preview":1}' type="submit">Save &amp; view</button>

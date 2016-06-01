@@ -22,7 +22,7 @@ class WidgetPublicForm extends WidgetForm {
     $petition = $this->getObject()->getPetition();
     $this->getObject()->setStatus(Widget::STATUS_ACTIVE);
 
-    unset($this['id'], $this['status'], $this['origin_widget_id']);
+    unset($this['id'], $this['status'], $this['origin_widget_id'], $this['share']);
 
     $parent = $this->getObject()->getParentId() ? $this->getObject()->getParent() : null;
 
@@ -230,6 +230,11 @@ class WidgetPublicForm extends WidgetForm {
       if ($user) {
         $values['user_id'] = $user->getId();
         $values['validation_status'] = Widget::VALIDATION_STATUS_VERIFIED;
+      }
+
+      $parent = $this->getObject()->getParentId() ? $this->getObject()->getParent() : null;
+      if ($parent) {
+        $values['share'] = $parent->getShare();
       }
     }
 
