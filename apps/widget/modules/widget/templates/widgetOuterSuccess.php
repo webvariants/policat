@@ -6,15 +6,7 @@ $stylings['keyvisual'] = $keyvisual;
 $stylings['sprite'] = $sprite;
 $stylings['target'] = $target;
 $stylings['button_text'] = __('Take action');
-switch ($kind) {
-  case Petition::KIND_EMAIL_TO_LIST:
-  case Petition::KIND_EMAIL_ACTION:
-  case Petition::KIND_PLEDGE:
-    $stylings['headline'] = __('Email action');
-    break;
-  default:
-    $stylings['headline'] = $label_mode == PetitionTable::LABEL_MODE_PETITION ? __('Petition') : __('Initiative');
-}
+$stylings['headline'] = __($headline);
 $css = array(
     'text-align' => 'center',
     'font-weight' => 'normal',

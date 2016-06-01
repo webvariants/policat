@@ -358,7 +358,7 @@ class widgetActions extends policatActions
     $this->kind = $this->widget->getPetition()->getKind();
     $this->lang = $this->widget->getPetitionText()->getLanguageId();
     $this->getUser()->setCulture($this->lang);
-    $this->label_mode = $this->widget->getPetition()->getLabelMode();
+    $this->headline = $this->widget->getPetition()->getLabel(PetitionTable::LABEL_TAB);
 
     $stylings = json_decode($this->widget->getStylings(), true);
     if (!is_array($stylings)) {

@@ -79,7 +79,7 @@ if (is_array($target_selectors)) {
                             <?php if ($title): ?><h1 id="pet_title"><?php echo Util::enc($title) ?></h1><?php endif ?>
                             <div class="pet_subtitle" class="title"><?php echo UtilMarkdown::transform($target) ?></div>
                         </div>
-                        <a id="down_button" class="button_color button_btn"><?php echo __($petition->isEmailKind() ? 'Send an Email' : ($petition->getLabelMode() == PetitionTable::LABEL_MODE_PETITION ? 'Sign the Petition' : 'Support the initiative')) ?></a>
+                        <a id="down_button" class="button_color button_btn"><?php echo __($petition->getLabel(PetitionTable::LABEL_TITLE)) ?></a>
                         <?php if ($background): ?>
                           <div id="petition_tabs" class="left">
                               <div class="tab_head">
@@ -90,7 +90,7 @@ if (is_array($target_selectors)) {
                                               break;
                                             case Petition::KIND_PLEDGE: echo __('Recipients');
                                               break;
-                                            default: echo $petition->getLabelMode() == PetitionTable::LABEL_MODE_PETITION ? __('Petition') : __('Initiative');
+                                            default: echo __($petition->getLabel(PetitionTable::LABEL_TAB));
                                           endswitch
                                           ?>
                                       </span></div>
@@ -202,7 +202,7 @@ if (is_array($target_selectors)) {
                 <div id="content_right">
                     <div class="stage_right">
                         <div class="sign">
-                            <h2 class="form_title"><?php echo __($petition->isEmailKind() ? 'Send an Email' : ($petition->getLabelMode() == PetitionTable::LABEL_MODE_PETITION ? 'Sign the Petition' : 'Support the initiative')) ?></h2>
+                            <h2 class="form_title"><?php echo __($petition->getLabel(PetitionTable::LABEL_TITLE)) ?></h2>
                             <?php
                             $disabled = false;
                             $require_billing_before = $require_billing_after = false;
@@ -238,7 +238,7 @@ if (is_array($target_selectors)) {
                                 if (!isset($form[Petition::FIELD_PRIVACY])): ?>
                                 <div class="privacy"><label style="text-decoration:none"><?php echo UtilBold::format(__('By signing, I agree with the _privacy policy_.')) ?></label></div>
                                 <?php endif; ?>
-                                <button type="button" class="submit submit_sign"><span id="btn_sign"><?php echo strtr(__($petition->isEmailKind() ? 'Send' : 'Sign'), array(' ' => '&nbsp;')) ?></span></button>
+                                <button type="button" class="submit submit_sign"><span id="btn_sign"><?php echo strtr(__($petition->getLabel(PetitionTable::LABEL_BUTTON)), array(' ' => '&nbsp;')) ?></span></button>
                             </form>
                             <?php if ($disabled): ?>
                               <div id="footer_ot"></div>

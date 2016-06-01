@@ -601,4 +601,9 @@ class Petition extends BasePetition {
     return $count;
   }
 
+  public function getLabel($type) {
+    $mode = $this->isEmailKind() ? PetitionTable::LABEL_MODEL_EMAIL : $this->getLabelMode();
+
+    return PetitionTable::$LABELS[$mode][$type];
+  }
 }
