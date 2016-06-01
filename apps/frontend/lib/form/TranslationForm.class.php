@@ -99,7 +99,7 @@ The e-mail text: #EMAIL-SUBJECT# -- #EMAIL-BODY#"
       $this['donate_url'], $this['donate_text']
     );
 
-    $this->setWidget('title', new sfWidgetFormInput(array(), array('size' => 90, 'class' => 'large', 'placeholder' => 'Insert a short and movtivating action title')));
+    $this->setWidget('title', new sfWidgetFormInput(array(), array('size' => 90, 'class' => 'large', 'placeholder' => 'Optional (you may leave this field empty). Add here a short and movtivating action title.')));
     $this->setWidget('target', new sfWidgetFormTextarea(array('label' => 'Subtitle'), array('cols' => 90, 'rows' => 3, 'class' => 'markdown', 'placeholder' => 'Optional (you may leave this field empty). Add here a short contextual introduction, or name the targets of your action (e.g. "To the heads of states of the European Union". Keep it very short!')));
     $this->getWidgetSchema()->setHelp('target', 'Keep this short, this area is not scrollable.');
     $this->getValidator('target')->setOption('required', false)->setOption('trim', true);

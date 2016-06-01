@@ -38,7 +38,7 @@ class EditWidgetForm extends WidgetForm {
 
     $parent = $this->getObject()->getParentId() ? $this->getObject()->getParent() : null;
 
-    $this->setWidget('title', new sfWidgetFormInput(array(), array('size' => 90, 'class' => 'large')));
+    $this->setWidget('title', new sfWidgetFormInput(array(), array('size' => 90, 'class' => 'large', 'placeholder' => 'Optional (you may leave this field empty). Add here a short and movtivating action title.')));
 
     $this->setWidget('styling_type', new sfWidgetFormChoice(array('choices' => array('popup' => 'Popup', 'embed' => 'Embed')), array(
         'class' => 'add_popover',

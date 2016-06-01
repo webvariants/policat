@@ -55,7 +55,7 @@ $(document).ready(function($) {
 					petition_tabs.removeClass('no_tabs');
 				}
 
-				petition_tabs_body.height(Math.max(left_height, right_height));
+//				petition_tabs_body.height(Math.max(left_height, right_height));
 				petition_tabs.removeClass('calc_tab');
 			}
 
