@@ -315,7 +315,7 @@ Petition:
     Language:          {  }
     MailingList:       { onDelete: SET NULL }
     CountryCollection: { onDelete: SET NULL }
-    FollowPetition:    { onDelete: SET NULL, class: Petition, local: follow_petition_id, foreign: id, foreignAlias: FollowedByPetitions }
+    FollowPetition:    { onDelete: SET NULL, class: Petition, local: follow_petition_id, foreign: id, foreignAlias: FollowedByPetitions }    
   indexes:
     petition_status:    { fields: [status] }
     petition_home_stat: { fields: [status, homepage] }
@@ -373,6 +373,24 @@ PetitionText:
     Petition:      { onDelete: CASCADE }
     Language:      { onDelete: CASCADE }
     DefaultWidget: { onDelete: SET NULL, class: Widget, local: widget_id, foreign: id, foreignAlias: usedByPetitionText }
+
+MediaFiles:
+  actAs: { Timestampable: ~ }
+  options:
+    orderBy: sort_order, created_at
+  columns:
+    id:                   { type: integer(4), primary: true, autoincrement: true }  
+    petition_id:    { type: integer(4), notnull: true }
+    filename:       { type: string(255), notnull: false, default: null }
+    name:            { type: string(255), notnull: false, default: null }
+    mimetype:      { type: string(40), notnull: false, default: null }
+    title:               { type: string(255), notnull: false, default: null }
+    path:              { type: string(255), notnull: false, default: null }
+    extention:      { type: string(10), notnull: false, default: null }        
+    size:  { type: integer, notnull: true, default: 1 }
+    sort_order:  { type: integer, notnull: true, default: 1 }
+  relations:
+    Petition:          { local: petition_id, foreign: id, onDelete: CASCADE }    
 
 Widget:
   options:

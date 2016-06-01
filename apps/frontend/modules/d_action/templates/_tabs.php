@@ -9,7 +9,8 @@ if ($petition->isEditableBy($user)) {
       'targets' => null,
       'pledges' => null,
       'translations' => array('title' => 'Translations', 'route' => 'petition_translations'),
-      'widgets' => array('title' => 'Widgets', 'route' => 'petition_widgets')
+      'widgets' => array('title' => 'Widgets', 'route' => 'petition_widgets'),
+      'files' => array('title' => 'Media Files', 'route' => 'media_files_list')
   );
 } else {
   $list = array();

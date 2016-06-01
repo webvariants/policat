@@ -7,7 +7,7 @@
  *
  * @package    policat
  * @subpackage form
- * @author     Martin
+ * @author     developer-docker
  * @version    SVN: $Id$
  */
 abstract class BaseBillItemForm extends BaseFormDoctrine

@@ -116,7 +116,7 @@ class policatActions extends sfActions {
     }
   }
 
-  public function renderJson(array $data, $callback = null) {
+  public function renderJson( $data, $callback = null) {
     $response = $this->getResponse();
 
     if ($callback) {

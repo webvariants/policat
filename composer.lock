@@ -4,8 +4,8 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "00fe7413ac94c701d7e37b20858e208f",
-    "content-hash": "8b51d64e5005a99ab5ec13c38acb2ccc",
+    "hash": "8c705633a3fc76d06b6fff010a8dcaf7",
+    "content-hash": "6887860911e091839ff92f8a179492dd",
     "packages": [
         {
             "name": "amg-dev/amg-sentry-plugin",
@@ -51,17 +51,20 @@
         },
         {
             "name": "composer/installers",
-            "version": "v1.0.21",
+            "version": "v1.0.25",
             "source": {
                 "type": "git",
                 "url": "https://github.com/composer/installers.git",
-                "reference": "d64e23fce42a4063d63262b19b8e7c0f3b5e4c45"
+                "reference": "36e5b5843203d7f1cf6ffb0305a97e014387bd8e"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/composer/installers/zipball/d64e23fce42a4063d63262b19b8e7c0f3b5e4c45",
-                "reference": "d64e23fce42a4063d63262b19b8e7c0f3b5e4c45",
+                "url": "https://api.github.com/repos/composer/installers/zipball/36e5b5843203d7f1cf6ffb0305a97e014387bd8e",
+                "reference": "36e5b5843203d7f1cf6ffb0305a97e014387bd8e",
                 "shasum": ""
+            },
+            "require": {
+                "composer-plugin-api": "^1.0"
             },
             "replace": {
                 "roundcube/plugin-installer": "*",
@@ -71,16 +74,16 @@
                 "composer/composer": "1.0.*@dev",
                 "phpunit/phpunit": "4.1.*"
             },
-            "type": "composer-installer",
+            "type": "composer-plugin",
             "extra": {
-                "class": "Composer\\Installers\\Installer",
+                "class": "Composer\\Installers\\Plugin",
                 "branch-alias": {
                     "dev-master": "1.0-dev"
                 }
             },
             "autoload": {
-                "psr-0": {
-                    "Composer\\Installers\\": "src/"
+                "psr-4": {
+                    "Composer\\Installers\\": "src/Composer/Installers"
                 }
             },
             "notification-url": "https://packagist.org/downloads/",
@@ -95,12 +98,14 @@
                 }
             ],
             "description": "A multi-framework Composer library installer",
-            "homepage": "http://composer.github.com/installers/",
+            "homepage": "https://composer.github.io/installers/",
             "keywords": [
                 "Craft",
                 "Dolibarr",
                 "Hurad",
+                "ImageCMS",
                 "MODX Evo",
+                "Mautic",
                 "OXID",
                 "SMF",
                 "Thelia",
@@ -142,7 +147,7 @@
                 "zend",
                 "zikula"
             ],
-            "time": "2015-02-18 17:17:01"
+            "time": "2016-04-13 19:46:30"
         },
         {
             "name": "dompdf/dompdf",
@@ -230,6 +235,50 @@
             "time": "2015-08-05 01:03:42"
         },
         {
+            "name": "fuelphp/upload",
+            "version": "2.0.1",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/fuelphp/upload.git",
+                "reference": "6310108de98ffdbf1083612db5b15411fc140c90"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/fuelphp/upload/zipball/6310108de98ffdbf1083612db5b15411fc140c90",
+                "reference": "6310108de98ffdbf1083612db5b15411fc140c90",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=5.3"
+            },
+            "require-dev": {
+                "mockery/mockery": "0.7.*"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-0": {
+                    "Fuel\\Upload": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "FuelPHP Development Team",
+                    "email": "team@fuelphp.com"
+                }
+            ],
+            "description": "Uploaded file processing.",
+            "homepage": "https://github.com/fuelphp/upload",
+            "keywords": [
+                "file uploads",
+                "upload"
+            ],
+            "time": "2013-10-11 21:42:58"
+        },
+        {
             "name": "ircmaxell/password-compat",
             "version": "v1.0.4",
             "source": {
@@ -277,12 +326,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/LExpress/doctrine1.git",
-                "reference": "85928dcd03c93127ae07101705875b5f51e05150"
+                "reference": "8204141c44cd7f60c0acb5ffced80e735a51f813"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/LExpress/doctrine1/zipball/85928dcd03c93127ae07101705875b5f51e05150",
-                "reference": "85928dcd03c93127ae07101705875b5f51e05150",
+                "url": "https://api.github.com/repos/LExpress/doctrine1/zipball/8204141c44cd7f60c0acb5ffced80e735a51f813",
+                "reference": "8204141c44cd7f60c0acb5ffced80e735a51f813",
                 "shasum": ""
             },
             "require": {
@@ -315,20 +364,20 @@
                 "database",
                 "orm"
             ],
-            "time": "2015-06-22 14:02:42"
+            "time": "2016-05-21 18:33:07"
         },
         {
             "name": "lexpress/symfony1",
-            "version": "v1.5.6",
+            "version": "v1.5.7",
             "source": {
                 "type": "git",
                 "url": "https://github.com/LExpress/symfony1.git",
-                "reference": "cf86a0f1b57dbca443fa2843ba74cbecee06a9f8"
+                "reference": "aeb49b2f834c9d7ca891bae3f378f63b0149eb60"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/LExpress/symfony1/zipball/cf86a0f1b57dbca443fa2843ba74cbecee06a9f8",
-                "reference": "cf86a0f1b57dbca443fa2843ba74cbecee06a9f8",
+                "url": "https://api.github.com/repos/LExpress/symfony1/zipball/aeb49b2f834c9d7ca891bae3f378f63b0149eb60",
+                "reference": "aeb49b2f834c9d7ca891bae3f378f63b0149eb60",
                 "shasum": ""
             },
             "require": {
@@ -361,7 +410,7 @@
                 "MIT"
             ],
             "description": "Fork of symfony 1.4 with dic, form enhancements, latest swiftmailer and better performance",
-            "time": "2015-07-22 13:05:29"
+            "time": "2016-02-02 14:17:29"
         },
         {
             "name": "lox/xhprof",
@@ -537,16 +586,16 @@
         },
         {
             "name": "raven/raven",
-            "version": "0.13.0",
+            "version": "0.15.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/getsentry/raven-php.git",
-                "reference": "1d5be07afc001df98a3528d1f928eeb2241afce6"
+                "reference": "d544c531a34a1b0f69271a11a887b775be12b3d2"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/getsentry/raven-php/zipball/1d5be07afc001df98a3528d1f928eeb2241afce6",
-                "reference": "1d5be07afc001df98a3528d1f928eeb2241afce6",
+                "url": "https://api.github.com/repos/getsentry/raven-php/zipball/d544c531a34a1b0f69271a11a887b775be12b3d2",
+                "reference": "d544c531a34a1b0f69271a11a887b775be12b3d2",
                 "shasum": ""
             },
             "require": {
@@ -563,7 +612,7 @@
             "type": "library",
             "extra": {
                 "branch-alias": {
-                    "dev-master": "0.13.x-dev"
+                    "dev-master": "0.14.x-dev"
                 }
             },
             "autoload": {
@@ -573,7 +622,7 @@
             },
             "notification-url": "https://packagist.org/downloads/",
             "license": [
-                "BSD"
+                "BSD-3-Clause"
             ],
             "authors": [
                 {
@@ -587,7 +636,8 @@
                 "log",
                 "logging"
             ],
-            "time": "2015-09-09 18:12:58"
+            "abandoned": "sentry/sentry",
+            "time": "2016-04-29 11:50:04"
         },
         {
             "name": "swiftmailer/swiftmailer",
@@ -660,6 +710,8 @@
     },
     "prefer-stable": false,
     "prefer-lowest": false,
-    "platform": [],
+    "platform": {
+        "php": "5.6.*"
+    },
     "platform-dev": []
 }

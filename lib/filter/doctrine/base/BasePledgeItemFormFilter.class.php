@@ -5,7 +5,7 @@
  *
  * @package    policat
  * @subpackage filter
- * @author     Martin
+ * @author     developer-docker
  * @version    SVN: $Id$
  */
 abstract class BasePledgeItemFormFilter extends BaseFormFilterDoctrine
