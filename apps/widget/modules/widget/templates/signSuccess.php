@@ -76,7 +76,7 @@ if (is_array($target_selectors)) {
                 <div id="content_left">
                     <div id="petition">
                         <div id="petition_head">
-                            <h1 id="pet_title"><?php echo htmlentities($title, ENT_COMPAT, 'utf-8') ?></h1>
+                            <?php if ($title): ?><h1 id="pet_title"><?php echo Util::enc($title) ?></h1><?php endif ?>
                             <div class="pet_subtitle" class="title"><?php echo UtilMarkdown::transform($target) ?></div>
                         </div>
                         <a id="down_button" class="button_color button_btn"><?php echo __($petition->isEmailKind() ? 'Send an Email' : ($petition->getLabelMode() == PetitionTable::LABEL_MODE_PETITION ? 'Sign the Petition' : 'Support the initiative')) ?></a>
@@ -330,8 +330,8 @@ if (is_array($target_selectors)) {
                               <?php endif ?>
                               <form id="paypal" action="https://www.paypal.com/cgi-bin/webscr" method="post">
                                   <input type="hidden" name="cmd" value="_xclick" />
-                                  <input type="hidden" name="business" value="<?php echo $paypal_email; ?>" />
-                                  <input type="hidden" name="item_name" value="<?php echo $title; ?>" />
+                                  <input type="hidden" name="business" value="<?php echo Util::enc($paypal_email); ?>" />
+                                  <input type="hidden" name="item_name" value="<?php echo Util::enc($petition_title) ?>" />
                                   <input type="hidden" name="item_number" value="<?php echo $paypal_ref; ?>" />
                                   <input type="hidden" name="lc" value="<?php echo strtoupper($lang) ?>" />
                                   <input type="hidden" name="no_shipping" value="2" />

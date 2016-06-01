@@ -336,7 +336,7 @@ PetitionText:
     language_id:                { type: string(5),  notnull: true }
     petition_id:                { type: integer(4), notnull: true }
 
-    title:                      { type: string,     notnull: true }
+    title:                      { type: string,     notnull: false, default: '' }
     target:                     { type: clob }
     background:                 { type: clob }
 
@@ -394,7 +394,7 @@ Widget:
     origin_widget_id:  { type: integer(4), notnull: false, default: null }
     status:            { type: integer(4), notnull: true, default: 1 }
     ###
-    title:             { type: string,     notnull: true }
+    title:             { type: string,     notnull: false, default: '' }
     target:            { type: clob }
     background:        { type: clob }
 

@@ -55,7 +55,7 @@ abstract class BasePetitionTextForm extends BaseFormDoctrine
       'status'                       => new sfValidatorInteger(array('required' => false)),
       'language_id'                  => new sfValidatorDoctrineChoice(array('model' => $this->getRelatedModelName('Language'), 'column' => 'id')),
       'petition_id'                  => new sfValidatorDoctrineChoice(array('model' => $this->getRelatedModelName('Petition'), 'column' => 'id')),
-      'title'                        => new sfValidatorString(),
+      'title'                        => new sfValidatorString(array('required' => false)),
       'target'                       => new sfValidatorString(array('required' => false)),
       'background'                   => new sfValidatorString(array('required' => false)),
       'intro'                        => new sfValidatorString(array('required' => false)),

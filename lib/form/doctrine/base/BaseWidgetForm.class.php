@@ -58,7 +58,7 @@ abstract class BaseWidgetForm extends BaseFormDoctrine
       'petition_text_id'  => new sfValidatorDoctrineChoice(array('model' => $this->getRelatedModelName('PetitionText'), 'column' => 'id')),
       'origin_widget_id'  => new sfValidatorDoctrineChoice(array('model' => $this->getRelatedModelName('OriginWidget'), 'column' => 'id', 'required' => false)),
       'status'            => new sfValidatorInteger(array('required' => false)),
-      'title'             => new sfValidatorString(),
+      'title'             => new sfValidatorString(array('required' => false)),
       'target'            => new sfValidatorString(array('required' => false)),
       'background'        => new sfValidatorString(array('required' => false)),
       'intro'             => new sfValidatorString(array('required' => false)),

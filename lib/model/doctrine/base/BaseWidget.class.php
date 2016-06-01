@@ -193,7 +193,8 @@ abstract class BaseWidget extends myDoctrineRecord
              ));
         $this->hasColumn('title', 'string', null, array(
              'type' => 'string',
-             'notnull' => true,
+             'notnull' => false,
+             'default' => '',
              ));
         $this->hasColumn('target', 'clob', null, array(
              'type' => 'clob',

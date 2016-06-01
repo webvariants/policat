@@ -146,14 +146,16 @@ $(document).ready(function($) {
 		e.css('line-height', '49px');
 		n = 33;
 		e = $('#pet_title');
-		while (n > 12) {
-			n--;
-			if (n === 20)
-				e.css('font-weight', 'normal');
-			if (e.height() > 72)
-				e.css('font-size', n + 'px');
-			else
-				n = 0;
+		if (e.length) {
+			while (n > 12) {
+				n--;
+				if (n === 20)
+					e.css('font-weight', 'normal');
+				if (e.height() > 72)
+					e.css('font-size', n + 'px');
+				else
+					n = 0;
+			}
 		}
 		n = 16;
 		e = $('#policat_widget_right div.sign h2:first');

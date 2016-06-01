@@ -107,8 +107,8 @@ class EditWidgetForm extends WidgetForm {
 
     $this->setWidget('background', new sfWidgetFormTextarea(array(), array('cols' => 90, 'rows' => 5, 'class' => 'markdown', 'placeholder' => 'Optional (you may leave this field empty). Add here further contextual information about this action. You may add external media files (make sure they are hosted on a server with an encrypted SSL connection).')));
     if (!$petition->isEmailKind()) {
-      $this->setWidget('intro', new sfWidgetFormTextarea(array('label' => 'Introductory part'), array('cols' => 90, 'rows' => 5, 'class' => 'large')));
-      $this->setWidget('footer', new sfWidgetFormTextarea(array('label' => 'Closing part'), array('cols' => 90, 'rows' => 5, 'class' => 'large')));
+      $this->setWidget('intro', new sfWidgetFormTextarea(array('label' => 'Introductory part'), array('cols' => 90, 'rows' => 5, 'class' => 'markdown')));
+      $this->setWidget('footer', new sfWidgetFormTextarea(array('label' => 'Closing part'), array('cols' => 90, 'rows' => 5, 'class' => 'markdown')));
       $this->getValidator('intro')->setOption('required', false);
       $this->getValidator('footer')->setOption('required', false);
       unset($this['email_subject'], $this['email_body']);

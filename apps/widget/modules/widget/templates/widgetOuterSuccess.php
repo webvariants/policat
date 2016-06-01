@@ -41,9 +41,11 @@ ob_start();
       'color' => $stylings['bg_right_color'], 'background-color' => $stylings['title_color'], 'letter-spacing' => '1px', 'float' => 'none'))
   ?>><?php echo $stylings['headline'] ?></p>
   <img alt="" src="<?php echo $keyvisual ?>" <?php UtilPolicat::style($css, array('line-height' => '12px', 'max-width' => '100%', 'float' => 'none')) ?>>
+  <?php if ($title): ?>
   <p <?php UtilPolicat::style($css, array('text-align' => 'left', 'font-weight' => 'bold', 'line-height' => '12px', 'margin' => '10px', 'float' => 'none')) ?>>
     <?php echo $title ?>
   </p>
+  <?php endif ?>
   <div <?php
   UtilPolicat::style($css, array('font-size' => '20px', 'color' => '#fff', 'background-color' => $stylings['button_color'], 'margin' => '0 10px',
       'height' => '40px', 'line-height' => '40px', 'font-weight' => 'bold', 'font-size' => '20px', 'text-transform' => 'uppercase',

@@ -88,6 +88,7 @@ class widgetActions extends policatActions
     $this->getUser()->setCulture($this->lang);
     $widget_texts = $this->petition->getWidgetIndividualiseText();
 
+    $this->petition_title = $this->petition['name'];
     $this->title         = ($widget_texts && !empty($this->widget['title'])) ? $this->widget['title'] : $this->petition_text['title'];
     $this->target        = $widget_texts ? $this->widget['target'] : $this->petition_text['target'];
     $this->background    = $widget_texts ? $this->widget['background'] : $this->petition_text['background'];
