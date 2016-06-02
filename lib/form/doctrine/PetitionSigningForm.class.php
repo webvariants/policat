@@ -169,7 +169,7 @@ class PetitionSigningForm extends BasePetitionSigningForm {
   public function selectFormatter($widget, $inputs) {
     $rows = array();
     foreach ($inputs as $input) {
-      $rows[] = sprintf('<div class="input_checkbox">%s</div>%s%s', $input['input'], $widget->getOption('label_separator'), $input['label']);
+      $rows[] = sprintf('<div class="input-checkbox">%s</div>%s%s', $input['input'], $widget->getOption('label_separator'), $input['label']);
     }
 
     return join('', $rows);

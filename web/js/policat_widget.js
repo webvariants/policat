@@ -2,36 +2,20 @@ jscolor.dir = '/js/dist/';
 
 $(document).ready(function($) {
 	(function($, widget_id, window, Math, target_selectors, CT_extra, t_sel, t_sel_all, petition_id) {
-		var policat_widget = $('#policat_widget');
-		var body_policat_widget = $('#body_policat_widget');
-		var policat_widget_left = $('#policat_widget_left');
-		var policat_widget_right = $('#policat_widget_right');
-		var content_right = $('#content_right');
-//		var stage_right = $('.stage_right ');
-		var down_button = $('#down_button');
+		var widget = $('#widget');
+		var widget_body = $('#widget-body');
+		var widget_left = $('#widget-left');
+		var policat_widget_right = $('#widget-right');
+		var content_right = $('#content-right');
+		var down_button = $('#down-button');
+		var head = $('#head');
 		var pledge_ul = $('#pledges');
-		var petition_head = $('#petition_head');
-		var petition_tabs = $('#petition_tabs');
-		var petition_tabs_body = $('.tab_body', petition_tabs);
-		var petition_tabs_left = $('.left_tab', petition_tabs);
-		var petition_tabs_right = $('.right_tab', petition_tabs);
-//		var availHeight = "availHeight" in window.screen ? window.screen.availHeight : null;
-//		var webkit = window.navigator.userAgent.match(/AppleWebKit\/([0-9]+)/);
-//		var wkversion = webkit && webkit[1];
-//		var wkLte534 = webkit && wkversion >= 534;
-//		var android2 = window.navigator.userAgent.match(/Android ([0-9]+)/) && RegExp.$1 <= 2;
-		var iphone = window.navigator.userAgent.match(/iPhone/i) || window.navigator.userAgent.match(/iPod/i);
-		var useWkScroll = false; // wkLte534 && !android2;
-		var scroll_privacy_policy = $('#privacy_policy_text');
-		var scroll_petition_text = $('#petition_text');
-//		var scroll_petition_text_img = $('img', scroll_petition_text);
-		var scroll_background_text = $('#background_text');
-		var scroll_pledges = $('#scroll_pledges');
-		var scrolls_ = [scroll_privacy_policy, scroll_petition_text, scroll_background_text];
-		if (scroll_pledges) {
-			scrolls_.push(scroll_pledges);
-		}
-		var scrolls = $(scrolls_);
+		var tabs = $('#tabs');
+		var tabs_left = $('.left-tab', tabs);
+		var tabs_right = $('.right-tab', tabs);
+
+		var scroll_pledges = $('#scroll-pledges');
+
 		var old_height = null;
 
 		var numberWithCommas = function numberWithCommas(x) {
@@ -41,36 +25,28 @@ $(document).ready(function($) {
 		function resize() {
 			var isOneColumn = $(window).width() < 440;
 
-			if (petition_tabs.length) {
-				petition_tabs.addClass('calc_tab');
-				var left_height = petition_tabs_left.outerHeight();
-				var right_height = petition_tabs_right.outerHeight();
-				var head = petition_head.height();
+			if (tabs.length) {
+				tabs.addClass('calc-tab');
+				var left_height = tabs_left.outerHeight();
+				var right_height = tabs_right.outerHeight();
 
-				if (!isOneColumn && (content_right.height() - head) > left_height + right_height) {
-					petition_tabs.addClass('no_tabs');
-					petition_tabs.addClass('left');
-					petition_tabs.removeClass('right');
+				if (!isOneColumn && (content_right.height() - head.height()) > left_height + right_height) {
+					tabs.addClass('no-tabs');
+					tabs.addClass('left');
+					tabs.removeClass('right');
 				} else {
-					petition_tabs.removeClass('no_tabs');
+					tabs.removeClass('no-tabs');
 				}
 
-//				petition_tabs_body.height(Math.max(left_height, right_height));
-				petition_tabs.removeClass('calc_tab');
+				tabs.removeClass('calc-tab');
 			}
 
 			if (isOneColumn) {
-				body_policat_widget.addClass('small');
-//				if (availHeight && policat_widget_left.height() < availHeight / 1.5) {
-//					down_button.addClass('hide');
-//				}
-//				else {
-//					down_button.removeClass('hide');
-//				}
+				widget_body.addClass('small');
 			} else {
-				body_policat_widget.removeClass('small');
+				widget_body.removeClass('small');
 			}
-			var height = policat_widget.height();
+			var height = widget.height();
 			if (!old_height || height !== old_height) {
 				if ('postMessage' in window)
 					window.parent.postMessage('policat_height;' + iframe_no + ';' + height, '*');
@@ -79,47 +55,47 @@ $(document).ready(function($) {
 		}
 
 		down_button.click(function() {
-			window.parent.postMessage('policat_scroll;' + iframe_no + ';' + policat_widget_left.height(), '*');
+			window.parent.postMessage('policat_scroll;' + iframe_no + ';' + widget_left.height(), '*');
 			return false;
 		});
 
 		function show_right(name) {
-			policat_widget.removeClass('right_only');
-			policat_widget_right.removeClass('show_sign').removeClass('show_donate').removeClass('show_embed_this').removeClass('show_thankyou');
-			policat_widget_right.addClass('show_' + name);
+			widget.removeClass('right-only');
+			policat_widget_right.removeClass('show-sign').removeClass('show-donate').removeClass('show-embed-this').removeClass('show-thankyou');
+			policat_widget_right.addClass('show-' + name);
 		}
 
 		function show_left(name) {
-			$('#petition, #privacy_policy, #embed_this_left').hide();
+			$('#action, #privacy-policy, #embed-this-left').hide();
 			$('#' + name).show();
 		}
 
 		function show_sign() {
-			show_left('petition');
+			show_left('action');
 			show_right('sign');
 			resize();
 		}
 		function show_donate() {
-			show_left('petition');
+			show_left('action');
 			show_right('donate');
 			resize();
 		}
 		function show_embed_this() {
-			if ($('#embed_this_left').length) {
-				show_left('embed_this_left');
+			if ($('#embed-this-left').length) {
+				show_left('embed-this-left');
 			} else {
-				show_left('petition');
+				show_left('action');
 			}
-			show_right('embed_this');
+			show_right('embed-this');
 			resize();
 		}
 		function show_thankyou() {
 			show_right('thankyou');
-			policat_widget.addClass('right_only');
+			widget.addClass('right-only');
 			resize();
 		}
 		function show_privacy_policy() {
-			show_left('privacy_policy');
+			show_left('privacy-policy');
 			if (hasSign) {
 				show_right('thankyou');
 			}
@@ -130,7 +106,7 @@ $(document).ready(function($) {
 		}
 
 		if (!('postMessage' in window)) {
-			$('#content_right .stage_right').css('max-height', '500px'); // IE7
+			$('.content-right .stage-right').css('max-height', '500px'); // IE7
 		}
 
 		// AUTO SIZE
@@ -145,7 +121,7 @@ $(document).ready(function($) {
 		}
 		e.css('line-height', '49px');
 		n = 33;
-		e = $('#pet_title');
+		e = $('#action-title');
 		if (e.length) {
 			while (n > 12) {
 				n--;
@@ -158,7 +134,7 @@ $(document).ready(function($) {
 			}
 		}
 		n = 16;
-		e = $('#policat_widget_right div.sign h2:first');
+		e = $('#widget-right div.sign h2:first');
 		while (n > 11) {
 			n--;
 			if (e.height() > 20)
@@ -169,15 +145,15 @@ $(document).ready(function($) {
 
 		$('#widget_styling_type').each(function() {
 			var label = $("label", $(this).parent());
-			label.after($('#embed_this_help_type'));
+			label.after($('#embed-this-help-type'));
 			label.html(label.html() + " (?)");
 		});
 		$('#widget_styling_width').each(function() {
 			var label = $("label", $(this).parent());
-			label.after($('#embed_this_help_width'));
+			label.after($('#embed-this-help-width'));
 			label.html(label.html() + " (?)");
 		});
-		$('select').wrap('<div class="div_select"/>');
+		$('select').wrap('<div class="select-wrap"/>');
 
 		var hash_parts = window.location.hash.substring(1).split('!');
 		var verified_id = parseInt(hash_parts[0], 10);
@@ -191,7 +167,7 @@ $(document).ready(function($) {
 
 		if (hasSign) {
 			$('.reload', policat_widget_right).remove();
-			policat_widget.addClass('has_sign');
+			widget.addClass('has_sign');
 		}
 
 		if (count) {
@@ -235,7 +211,7 @@ $(document).ready(function($) {
 		});
 
 		if (target_selectors) {
-			var ts = $('#target_selector');
+			var ts = $('#target-selector');
 			var CT = null;
 			if (CT_extra) {
 				CT = CT_extra;
@@ -333,7 +309,7 @@ $(document).ready(function($) {
 					label.text(selector['name']);
 					var select = $('<select></select>');
 					var div_s = $('<div></div>');
-					div.append(div_s.addClass('div_select'));
+					div.append(div_s.addClass('select-wrap'));
 					div_s.append(select);
 					if (isCountry) {
 						select.addClass('country');
@@ -470,42 +446,28 @@ $(document).ready(function($) {
 			}
 		}
 
-		scrolls.each(function() {
-			var scroll = $(this);
-			if (scroll.length) {
-				if (useWkScroll) {
-					scroll.addClass('wkScroll');
-					if (iphone) {
-						scroll.addClass('wkScroll_iPhone');
-					}
-				} else {
-					// scroll.jScrollPane({mouseWheelSpeed: 30});
-				}
-			}
-		});
-
-		$('#privacy_policy').hide();
+		$('#privacy-policy').hide();
 		if (hasSign) {
 			show_thankyou();
 		}
 		if (editMode) {
-			$('#petition, a.back').hide();
+			$('#action, a.back').hide();
 			$('#widget_edit_code').val(edit_code);
 			$('#widget_id').val(widget_id); // from outer JS
 			$('#widget_email, #widget_organisation').parent().remove();
-			$('#h_widget_reg, #p_widget_reg').remove();
-			$('#p_widget_reg_alt').show();
+			$('#embed-this-register, #embed-this-generate').remove();
+			$('#embed-this-change').show();
 			show_embed_this();
 		}
 		else
 		{
-			$('#embed_this_left').hide();
+			$('#embed-this-left').hide();
 		}
-		$('#policat_widget_loading').hide();
+		$('#policat-widget-loading').hide();
 		if (hasSign)
 			$('#petition_signing_email_subject_copy, #petition_signing_email_body_copy, #petition_signing_ts_1_copy').attr('disabled', 'disabled');
 
-		$('#policat_widget_right input[type=hidden],textarea.original').each(function() {
+		$('#widget-right input[type=hidden],textarea.original').each(function() {
 			var id = $(this).attr('id') + '_copy';
 			var copy = $('#' + id);
 
@@ -532,15 +494,15 @@ $(document).ready(function($) {
 			var parent =input.parent();
 
 			if (input.is('input[type=text], select')) {
-				parent.addClass('form_indicator');
+				parent.addClass('form-indicator');
 			}
 
 			if (input.is('select')) {
-				parent.addClass('form_indicator_select');
+				parent.addClass('form-indicator-select');
 			}
 
 			if (positive) {
-				parent.addClass('form_indicator_positive');
+				parent.addClass('form-indicator-positive');
 			}
 		}
 
@@ -560,40 +522,40 @@ $(document).ready(function($) {
 				}
 			}
 
-			parent.toggleClass('form_error', !valid);
-			parent.toggleClass('form_valid', valid);
+			parent.toggleClass('form-error', !valid);
+			parent.toggleClass('form-valid', valid);
 
 			var label = parent.prev();
 			if (label.is('label')) {
-				label.toggleClass('form_error', !valid);
+				label.toggleClass('form-error', !valid);
 			}
 
 			return valid;
 		}
 
-		var validate_base = $('#sign, #target_selector');
+		var validate_base = $('#sign, #target-selector');
 
 		validate_base.on('blur', 'input, select', function () {
 			validate(this);
 		});
 
-		validate_base.on('keyup', '.form_error input', function () {
+		validate_base.on('keyup', '.form-error input', function () {
 			validate(this);
 		});
 
-		validate_base.on('change', '.form_error select', function () {
+		validate_base.on('change', '.form-error select', function () {
 			validate(this);
 		});
 
 		$('#sign input, #sign select').each(function() {
 			prepareValidate(this, true);
 		});
-		$('#target_selector input, #target_selector select').each(function() {
+		$('#target-selector input, #target-selector select').each(function() {
 			prepareValidate(this, false);
 		});
 
 		// Form handling
-		$('#policat_widget_right form').each(function() {
+		$('#widget-right form').each(function() {
 			var form = $(this);
 			var isClick = false;
 			$('.submit', form).click(function() { // FORM ONCLICK
@@ -602,10 +564,10 @@ $(document).ready(function($) {
 				isClick = true;
 				var form_error = false;
 				var formId = form.attr('id');
-				$('.form_error').removeClass('form_error');
+				$('.form-error').removeClass('form-error');
 
 				if (formId === 'sign') {
-					$('#petition_tabs .left').click();
+					$('#tabs .left').click();
 					show_sign();
 				}
 
@@ -639,10 +601,10 @@ $(document).ready(function($) {
 					var val = $.trim(input.val());
 					if (val === '' && !input.hasClass('not_required')) {
 						if (input.attr('type') === 'text') {
-							input.parent().addClass('form_error');
+							input.parent().addClass('form-error');
 						}
 						else if (input.attr('type') === 'hidden') {
-							$('#' + input.attr('id') + '_copy').parent().addClass('form_error');
+							$('#' + input.attr('id') + '_copy').parent().addClass('form-error');
 						}
 						form_error = true;
 					}
@@ -652,10 +614,10 @@ $(document).ready(function($) {
 				$('select', form).each(function() {
 					if ($('option:selected', this).val() == '') {
 						var error_div = $(this).parent();
-						error_div.addClass('form_error');
+						error_div.addClass('form-error');
 						var prev = error_div.prev();
 						if (prev.is('label')) {
-							prev.addClass('form_error');
+							prev.addClass('form-error');
 						}
 						form_error = true;
 					}
@@ -668,7 +630,7 @@ $(document).ready(function($) {
 					field.val(val);
 					var mail = val.match(/^([^@\s]+)@((?:[-a-z0-9]+\.)+[a-z]{2,})$/i);
 					if (!mail) {
-						field.parent().addClass('form_error');
+						field.parent().addClass('form-error');
 						form_error = true;
 					}
 				});
@@ -677,7 +639,7 @@ $(document).ready(function($) {
 				$('input.color', form).each(function() {
 					var color = $(this).val().match(/#[0-9abcdefABCDEF]{6}/);
 					if (!color) {
-						$(this).parent().addClass('form_error');
+						$(this).parent().addClass('form-error');
 						form_error = true;
 					}
 				});
@@ -687,7 +649,7 @@ $(document).ready(function($) {
 					var val = $(this).val();
 					var url = (val == '') || val.match(/^https?:\/\/[^\"\s]+\.[^\"\s]+$/);
 					if (!url) {
-						$(this).parent().addClass('form_error');
+						$(this).parent().addClass('form-error');
 						form_error = true;
 					}
 				});
@@ -695,7 +657,7 @@ $(document).ready(function($) {
 				$('#paypal_amount', form).each(function() {
 					var amount = $(this).val().match(/^\d+(\.\d\d?)?$/);
 					if (!amount) {
-						$(this).parent().addClass('form_error');
+						$(this).parent().addClass('form-error');
 						form_error = true;
 					}
 				});
@@ -705,9 +667,9 @@ $(document).ready(function($) {
 					var textarea = $(this);
 					if (textarea.val() === '' && !textarea.hasClass('not_required')) {
 						if (textarea.hasClass('original'))
-							$('#' + textarea.attr('id') + '_copy').parent().addClass('form_error');
+							$('#' + textarea.attr('id') + '_copy').parent().addClass('form-error');
 						else
-							textarea.parent().addClass('form_error');
+							textarea.parent().addClass('form-error');
 						form_error = true;
 					}
 				});
@@ -716,7 +678,7 @@ $(document).ready(function($) {
 				$('#petition_signing_privacy:not(:checked)', form).each(function() {
 					if (!$(this).parent().is('span'))
 						$(this).wrap('<span class="checkbox"></span>');
-					$(this).parent().parent().addClass('form_error');
+					$(this).parent().parent().addClass('form-error');
 					form_error = true;
 				});
 
@@ -741,12 +703,12 @@ $(document).ready(function($) {
 							switch (formId) {
 								case 'sign':
 									show_thankyou();
-									$('#policat_widget_right .thankyou .form_message').text('');
+									$('#widget-right .thankyou .form_message').text('');
 									for (var error in data.errors) {
-										$('#policat_widget_right .thankyou .form_message').append($('<div></div>').text(data.errors[error]));
+										$('#widget-right .thankyou .form_message').append($('<div></div>').text(data.errors[error]));
 									}
 									hasSign = true;
-									policat_widget.addClass('has_sign');
+									widget.addClass('has_sign');
 									resize();
 									window.parent.postMessage('policat_scroll;' + iframe_no + ';0', '*');
 									break;
@@ -755,7 +717,7 @@ $(document).ready(function($) {
 										$('#embed_markup').val(data.extra.markup);
 									} else {
 										if ('landing_url' in data.errors) {
-											$('#widget_landing_url_copy').parent().addClass('form_error');
+											$('#widget_landing_url_copy').parent().addClass('form-error');
 										}
 									}
 									break;
@@ -776,10 +738,10 @@ $(document).ready(function($) {
 
 		// disable left side
 		if ($('#footer_ot').length)
-			$('#petition input, #petition select, #petition textarea').attr('disabled', 'disabled');
+			$('#action input, #action select, #action textarea').attr('disabled', 'disabled');
 
 		// TABS
-		petition_tabs.each(function() {
+		tabs.each(function() {
 			var parent = $(this);
 			$('.left', this).click(function() {
 				parent.removeClass('right').addClass('left');
@@ -793,11 +755,11 @@ $(document).ready(function($) {
 		});
 
 		// FOOTER
-		$('#a_embed_this').click(function() {
+		$('#a-embed-this').click(function() {
 			show_embed_this();
 		});
 
-		$('#a_donate, #a_donate2').click(function() {
+		$('#a-donate').click(function() {
 			show_donate();
 		});
 
@@ -805,7 +767,7 @@ $(document).ready(function($) {
 			show_privacy_policy();
 		});
 
-		$('a.newwin, div#policat_widget_left a:not(.back):not(.nonewwin)').click(function() {
+		$('a.newwin, .widget-left a:not(.back):not(.nonewwin)').click(function() {
 			var href = $(this).attr('href');
 			if (href)
 				window.open(href, '_blank');
@@ -816,7 +778,7 @@ $(document).ready(function($) {
 		$('a.back').click(function() {
 			if (hasSign) {
 				show_thankyou();
-				show_left('petition');
+				show_left('action');
 			} else {
 				show_sign();
 			}
@@ -858,7 +820,7 @@ $(document).ready(function($) {
 		resize();
 		$(window).resize(resize);
 
-		$('img:not(.no_load)', policat_widget).each(function() {
+		$('img:not(.no_load)', widget).each(function() {
 			var src = $(this).attr('src');
 			if (!src)
 				return;
