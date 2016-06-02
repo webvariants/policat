@@ -152,8 +152,14 @@ class widgetActions extends policatActions
       $new_widget['PetitionText'] = $this->widget['PetitionText'];
     }
 
+    $subscribe_text = trim($this->petition_text['subscribe_text']);
+    if ($subscribe_text && mb_strpos($subscribe_text, '#')) {
+      $subscribe_text = strtr($subscribe_text, $this->widget->getDataOwnerSubst(' ', $this->petition));
+    }
+
     $this->form          = new PetitionSigningForm($sign, array(
-        'validation_kind'                           => PetitionSigning::VALIDATION_KIND_EMAIL
+        'validation_kind'                           => PetitionSigning::VALIDATION_KIND_EMAIL,
+        'subscribe_text'                            => $subscribe_text
     ));
     $this->form_embed    = new WidgetPublicForm($new_widget);
 

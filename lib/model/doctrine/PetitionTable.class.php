@@ -62,6 +62,14 @@ class PetitionTable extends Doctrine_Table {
       self::POLICY_CHECKBOX_NO => 'no'
   );
 
+  const SUBSCRIBE_CHECKBOX_DEFAULT_NO = 0;
+  const SUBSCRIBE_CHECKBOX_DEFAULT_YES = 1;
+
+  public static $SUBSCRIBE_CHECKBOX_DEFAULT = array(
+      self::SUBSCRIBE_CHECKBOX_DEFAULT_NO => 'no',
+      self::SUBSCRIBE_CHECKBOX_DEFAULT_YES => 'yes (preselected)'
+  );
+
   const LABEL_TAB = 1;
   const LABEL_BUTTON = 2;
   const LABEL_TITLE = 3;

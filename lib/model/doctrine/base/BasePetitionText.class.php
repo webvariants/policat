@@ -35,6 +35,8 @@
  * @property clob $donate_text
  * @property string $label_extra1
  * @property string $placeholder_extra1
+ * @property string $form_title
+ * @property string $subscribe_text
  * @property Petition $Petition
  * @property Language $Language
  * @property Widget $DefaultWidget
@@ -71,6 +73,8 @@
  * @method clob                getDonateText()                   Returns the current record's "donate_text" value
  * @method string              getLabelExtra1()                  Returns the current record's "label_extra1" value
  * @method string              getPlaceholderExtra1()            Returns the current record's "placeholder_extra1" value
+ * @method string              getFormTitle()                    Returns the current record's "form_title" value
+ * @method string              getSubscribeText()                Returns the current record's "subscribe_text" value
  * @method Petition            getPetition()                     Returns the current record's "Petition" value
  * @method Language            getLanguage()                     Returns the current record's "Language" value
  * @method Widget              getDefaultWidget()                Returns the current record's "DefaultWidget" value
@@ -106,6 +110,8 @@
  * @method PetitionText        setDonateText()                   Sets the current record's "donate_text" value
  * @method PetitionText        setLabelExtra1()                  Sets the current record's "label_extra1" value
  * @method PetitionText        setPlaceholderExtra1()            Sets the current record's "placeholder_extra1" value
+ * @method PetitionText        setFormTitle()                    Sets the current record's "form_title" value
+ * @method PetitionText        setSubscribeText()                Sets the current record's "subscribe_text" value
  * @method PetitionText        setPetition()                     Sets the current record's "Petition" value
  * @method PetitionText        setLanguage()                     Sets the current record's "Language" value
  * @method PetitionText        setDefaultWidget()                Sets the current record's "DefaultWidget" value
@@ -238,6 +244,18 @@ abstract class BasePetitionText extends myDoctrineRecord
              'type' => 'string',
              'notnull' => false,
              'length' => 80,
+             ));
+        $this->hasColumn('form_title', 'string', 100, array(
+             'type' => 'string',
+             'notnull' => false,
+             'default' => '',
+             'length' => 100,
+             ));
+        $this->hasColumn('subscribe_text', 'string', 250, array(
+             'type' => 'string',
+             'notnull' => false,
+             'default' => '',
+             'length' => 250,
              ));
 
         $this->option('symfony', array(

@@ -342,6 +342,10 @@ class EditPetitionForm extends PetitionFieldsForm {
     $this->setWidget('policy_checkbox', new sfWidgetFormChoice(array('choices' => PetitionTable::$POLICY_CHECKBOX, 'label' => 'Add privacy policy checkbox')));
     $this->setValidator('policy_checkbox', new sfValidatorChoice(array('choices' => array_keys(PetitionTable::$POLICY_CHECKBOX))));
     $this->getWidgetSchema()->setHelp('policy_checkbox', 'This adds a checkbox to the sign-up form of your action. Activists have to actively tick this box to prove that they accept your privacy policy before they can sign up.');
+
+    $this->setWidget('subscribe_default', new sfWidgetFormChoice(array('choices' => PetitionTable::$SUBSCRIBE_CHECKBOX_DEFAULT, 'label' => 'Keep-me-posted checkbox preselected')));
+    $this->setValidator('subscribe_default', new sfValidatorChoice(array('choices' => array_keys(PetitionTable::$SUBSCRIBE_CHECKBOX_DEFAULT))));
+    $this->getWidgetSchema()->setHelp('subscribe_default', 'You might increase your subscription rate, if you keep the checkbox preselected. Make sure to comply with EU and your national data protection legislation.');
   }
 
   public function processValues($values) {

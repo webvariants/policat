@@ -38,6 +38,7 @@
  * @property integer $with_country
  * @property integer $with_extra1
  * @property string $default_country
+ * @property integer $subscribe_default
  * @property integer $show_keyvisual
  * @property integer $pledge_with_comments
  * @property string $pledge_header_visual
@@ -112,6 +113,7 @@
  * @method integer             getWithCountry()                Returns the current record's "with_country" value
  * @method integer             getWithExtra1()                 Returns the current record's "with_extra1" value
  * @method string              getDefaultCountry()             Returns the current record's "default_country" value
+ * @method integer             getSubscribeDefault()           Returns the current record's "subscribe_default" value
  * @method integer             getShowKeyvisual()              Returns the current record's "show_keyvisual" value
  * @method integer             getPledgeWithComments()         Returns the current record's "pledge_with_comments" value
  * @method string              getPledgeHeaderVisual()         Returns the current record's "pledge_header_visual" value
@@ -185,6 +187,7 @@
  * @method Petition            setWithCountry()                Sets the current record's "with_country" value
  * @method Petition            setWithExtra1()                 Sets the current record's "with_extra1" value
  * @method Petition            setDefaultCountry()             Sets the current record's "default_country" value
+ * @method Petition            setSubscribeDefault()           Sets the current record's "subscribe_default" value
  * @method Petition            setShowKeyvisual()              Sets the current record's "show_keyvisual" value
  * @method Petition            setPledgeWithComments()         Sets the current record's "pledge_with_comments" value
  * @method Petition            setPledgeHeaderVisual()         Sets the current record's "pledge_header_visual" value
@@ -400,6 +403,12 @@ abstract class BasePetition extends myDoctrineRecord
              'notnull' => true,
              'default' => '',
              'length' => 5,
+             ));
+        $this->hasColumn('subscribe_default', 'integer', 1, array(
+             'type' => 'integer',
+             'notnull' => true,
+             'default' => 1,
+             'length' => 1,
              ));
         $this->hasColumn('show_keyvisual', 'integer', 1, array(
              'type' => 'integer',

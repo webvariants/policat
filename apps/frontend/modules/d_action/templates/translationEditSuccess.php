@@ -16,12 +16,12 @@
     <?php echo $form->renderRows(array('*language_id', 'status', 'landing_url')) ?>
 
     <legend>Widget texts</legend>
-    <?php echo $form->renderRows(array('*title', '*target')) ?>
+    <?php echo $form->renderRows(array('*form_title', '*title', '*target')) ?>
     <?php if ($petition->getKind() != Petition::KIND_PLEDGE): ?>
       <?php echo $form->renderRows(array('*intro')) ?>
     <?php endif ?>
     <?php echo $form->renderRows(array('*body', '*footer', '*email_subject', '*email_body', '*background')) ?>
-    <?php echo $form->renderRows(array('*label_extra1', '*placeholder_extra1')) ?>
+    <?php echo $form->renderRows(array('*label_extra1', '*placeholder_extra1', '*subscribe_text')) ?>
 
     <?php if ($petition->getKind() == Petition::KIND_PLEDGE): ?>
       <legend>Pledge Page</legend>

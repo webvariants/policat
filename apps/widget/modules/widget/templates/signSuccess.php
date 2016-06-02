@@ -202,7 +202,7 @@ if (is_array($target_selectors)) {
                 <div id="content_right">
                     <div class="stage_right">
                         <div class="sign">
-                            <h2 class="form_title"><?php echo __($petition->getLabel(PetitionTable::LABEL_TITLE)) ?></h2>
+                            <h2 class="form_title"><?php echo trim(Util::enc($petition_text->getFormTitle())) ? : __($petition->getLabel(PetitionTable::LABEL_TITLE)) ?></h2>
                             <?php
                             $disabled = false;
                             $require_billing_before = $require_billing_after = false;

@@ -270,7 +270,7 @@ class Widget extends BaseWidget {
     return WidgetTable::getInstance()->fetchWidgetIdByOrigin($petition_id, $this->getId());
   }
 
-  public function getDataOwnerSubst($newline = "\n", $petition) {
+  public function getDataOwnerSubst($newline = "\n", $petition = null) {
     if (!$petition) {
       $petition = $this->getPetition();
     }

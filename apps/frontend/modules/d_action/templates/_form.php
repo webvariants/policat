@@ -24,7 +24,7 @@
             <?php if ($petition->isEmailKind() && !$petition->isGeoKind()): ?><legend>Recipient(s) of the email action (your campaign targets)</legend><?php endif ?>
             <?php echo $form->renderRows('*email_target_name_1', '*email_target_email_1', '*email_target_name_2', '*email_target_email_2', '*email_target_name_3', '*email_target_email_3') ?>
         </fieldset>
-        <?php echo $form->renderRows('*label_mode', 'policy_checkbox') ?>
+        <?php echo $form->renderRows('*label_mode', 'policy_checkbox', 'subscribe_default') ?>
     </fieldset>
     <fieldset>
         <legend>Customise sign-up form</legend>

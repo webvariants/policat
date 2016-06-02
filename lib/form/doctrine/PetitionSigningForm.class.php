@@ -80,9 +80,13 @@ class PetitionSigningForm extends BasePetitionSigningForm {
           }
           break;
         case Petition::FIELD_SUBSCRIBE:
-          $widget = new WidgetFormInputCheckbox(array('value_attribute_value' => 1), array('checked' => 'checked'));
+          $widget = new WidgetFormInputCheckbox(array('value_attribute_value' => 1), $petition->getSubscribeDefault() == PetitionTable::SUBSCRIBE_CHECKBOX_DEFAULT_YES ? array('checked' => 'checked') : array());
           $validator = new sfValidatorChoice(array('choices' => array('1'), 'required' => false));
           $label = 'Keep me posted on this and similar campaigns.';
+          $subscribe_text = trim($this->getOption('subscribe_text'));
+          if ($subscribe_text) {
+            $label = Util::enc($subscribe_text);
+          }
           break;
         case Petition::FIELD_TITLE:
           $widget = new sfWidgetFormChoice(array('choices' => array('' => '', 'female' => 'Mrs', 'male' => 'Mr', 'nogender' => 'Hello')));
