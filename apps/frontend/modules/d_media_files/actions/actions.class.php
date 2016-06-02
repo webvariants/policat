@@ -20,7 +20,7 @@ class d_media_filesActions extends policatActions {
 
     public function executeIndex(sfWebRequest $request) {        
         $this->petition = PetitionTable::getInstance()->findById($request->getParameter('id'), $this->userIsAdmin());
-        $this->form = new MediaFilesForm();
+        $this->form = new MediaUploadForm();
 
         $this->includeChosen();
     }
@@ -59,6 +59,47 @@ class d_media_filesActions extends policatActions {
 
         $this->redirect($this->generateUrl('media_files_list', array('id' => $this->petition)));
     }
+    
+    
+      public function executeRename(sfWebRequest $request) {
+        $this->forward404Unless($this->petitionId = $request->getParameter("petition_id"));
+        $this->forward404Unless($this->id = $request->getParameter("id"));
+        $this->petition = PetitionTable::getInstance()->findById($this->petitionId , $this->userIsAdmin());
+
+        if (!($file = MediaFilesTable::getInstance()->queryByPetitionAndId($this->petitionId, $this->id)))
+            $this->redirect($this->generateUrl('media_files_list', array('id' => $this->petitionId)));
+                
+        $this->form = new MediaFilesForm($file);
+        
+        if($request->isMethod(sfRequest::POST)){
+            $data = $request->getParameter($this->form->getName());
+            $data["petition_id"] = $this->petitionId;
+            $data["filename"] = $file->filename;
+            $data["size"] = $file->size;
+            $data["extention"] = $file->extention;
+            $data["mimetype"] = $file->mimetype;
+            $data["path"] = $file->path;
+            $data["created_at"] = $file->created_at;
+            $data["updated_at"] = date("now");
+                        
+            $this->form->bind($data);        
+            if ($this->form->isValid()){
+                                
+                $object = $this->form->save();                
+                $object->setFilename($object->getName().".".$data["extention"]);                                
+                $object->save();
+                
+                $filePath = \sfConfig::get('sf_root_dir') . $data["path"] . '/' . $data["filename"];
+                $filePathNew = \sfConfig::get('sf_root_dir') . $data["path"] . '/' . $object->getFilename();                
+                                                
+                if (file_exists($filePath)) {
+                        rename( $filePath, $filePathNew );
+                }
+                 
+                $this->redirect($this->generateUrl('media_files_list', array('id' => $this->petitionId)));
+           }                                                      
+        }      
+    }
 
     public function executeUpload(sfWebRequest $request) {
         $spaceLimit = MediaFiles::SPACE_LIMIT;
@@ -75,11 +116,12 @@ class d_media_filesActions extends policatActions {
 
         $config = array(
             'path' => \sfConfig::get('sf_root_dir') . $path,
-            'auto_rename' => true,
-            'extension' => 'jpg',
-            'randomize' => true,
-            'max_size' => $limit, // 200kb
-            'ext_whitelist' => array('img', 'jpg', 'jpeg', 'gif', 'png'),
+            'auto_rename'     => false,
+            'extension' => '',
+            'randomize' => false,
+            'max_size' => $limit, // 200kb            
+            'ext_whitelist' => array('svg','img', 'jpg', 'jpeg', 'gif', 'png'),
+            'overwrite'       => false,
         );
 
         $upload = new \Fuel\Upload\Upload($config);

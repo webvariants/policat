@@ -14,7 +14,7 @@ class MediaFiles extends BaseMediaFiles
 {
     const SPACE_LIMIT = 2097152; // 2MB
     const IMAGE_LIMIT = 204800;  // 200kb
-    const FILE_PATH = '/web/uploads/action/';
+    const FILE_PATH = '/web/images/action/';
     
     public function getUrl(){
         $url = $this->getPath().'/'.$this->getFilename();

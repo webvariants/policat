@@ -21,7 +21,8 @@
                     <td><?php echo $file->getName() ?></td>                                                        
                     <td><?php echo formatSize($file->getSize()) ?></td>                                    
                     <td>                                          
-                            <a class="btn btn-mini" href="<?php echo url_for('media_files_delete', array('petition_id' => $petition, "id"=>$file->getId()))  ?>">Delete</a>                                              
+                            <a class="btn btn-mini" href="<?php echo url_for('media_files_rename', array('petition_id' => $petition, "id"=>$file->getId()))  ?>">Rename</a>
+                            <a class="btn btn-mini" href="<?php echo url_for('media_files_delete', array('petition_id' => $petition, "id"=>$file->getId()))  ?>">Delete</a>
                     </td>
             </tr>
         <?php endforeach ?>
