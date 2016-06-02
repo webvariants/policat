@@ -61,7 +61,7 @@ if (is_array($target_selectors)) {
                 background: <?php echo $bg_left_color ?>;
             }
             <?php if ($form_title_color): ?>
-              h2.form_title,
+              h2.title-color,
               .tabs.left .right,
               .tabs.right .left
               { color: <?php echo $form_title_color ?>; }
@@ -193,7 +193,7 @@ if (is_array($target_selectors)) {
             <div id="widget-right" class="widget-right show-sign show-share">
                 <div id="content-right" class="content-right">
                     <div class="sign">
-                        <h2 class="form_title"><?php echo trim(Util::enc($petition_text->getFormTitle())) ? : __($petition->getLabel(PetitionTable::LABEL_TITLE)) ?></h2>
+                        <h2 class="title-color"><?php echo trim(Util::enc($petition_text->getFormTitle())) ? : __($petition->getLabel(PetitionTable::LABEL_TITLE)) ?></h2>
                         <?php
                         $disabled = false;
                         $require_billing_before = $require_billing_after = false;
@@ -239,7 +239,7 @@ if (is_array($target_selectors)) {
                         <?php endif ?>
                     </div>
                     <div class="embed-this">
-                        <h2 class="form_title"><?php echo __('Embed this') ?></h2>
+                        <h2 class="title-color"><?php echo __('Embed this') ?></h2>
                         <?php echo $form_embed->renderGlobalErrors(); ?>
                         <form id="embed" class="embed" action="" method="post">
                             <?php echo $form_embed->renderHiddenFields(); ?>
@@ -294,7 +294,7 @@ if (is_array($target_selectors)) {
                         <a class="back button-color button-btn"><?php echo __('Back') ?></a>
                     </div>
                     <div class="thankyou">
-                        <h2 class="form_title"><?php echo __('Thank you') ?></h2>
+                        <h2 class="title-color"><?php echo __('Thank you') ?></h2>
                         <p class="form_message label_color"><?php echo __('You verified your email address. Your action is confirmed. Use this moment to tell friends and family.') ?></p>
                         <h2 class="label_color"><?php echo __('Tell your friends') ?></h2>
                     </div>
