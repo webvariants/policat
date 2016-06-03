@@ -47,12 +47,18 @@ if (is_array($target_selectors)) {
     </head>
     <body id="widget-body">
         <div id="widget" class="widget">
+            <?php if ($title || $target): ?>
+            <div class="header">
+                <?php if ($title): ?><h1 id="action-title" class="action-title"><?php echo Util::enc($title) ?></h1><?php endif ?>
+                <?php if ($target): ?><div class="subtitle"><?php echo UtilMarkdown::transform($target) ?></div><?php endif ?>
+            </div>
+            <?php endif ?>
             <div id="widget-left" class="widget-left">
                 <div class="content-left">
                     <div id="action" class="action">
-                        <div id="head">
+                        <div id="head" class="head">
                             <?php if ($title): ?><h1 id="action-title" class="action-title"><?php echo Util::enc($title) ?></h1><?php endif ?>
-                            <div class="subtitle"><?php echo UtilMarkdown::transform($target) ?></div>
+                            <?php if ($target): ?><div class="subtitle"><?php echo UtilMarkdown::transform($target) ?></div><?php endif ?>
                         </div>
                         <a id="down-button" class="button-color down-button button-btn"><?php echo __($petition->getLabel(PetitionTable::LABEL_TITLE)) ?></a>
                         <?php if ($background): ?>
