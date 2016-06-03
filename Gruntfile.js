@@ -52,26 +52,42 @@ module.exports = function(grunt) {
 			},
 			frontend: {
 				options: {
-					sourceMapFilename: 'web/css/dist/frontend.less.map',
+					sourceMapFilename: 'web/css/dist/frontend.less.map'
 				},
 				files: {
-					'web/css/dist/frontend.css' : 'web/css/frontend.less',
+					'web/css/dist/frontend.css' : 'web/css/frontend.less'
 				}
 			},
 			frontend_print: {
 				options: {
-					sourceMapFilename: 'web/css/dist/frontend_print.less.map',
+					sourceMapFilename: 'web/css/dist/frontend_print.less.map'
 				},
 				files: {
-					'web/css/dist/frontend_print.css' : 'web/css/frontend_print.less',
+					'web/css/dist/frontend_print.css' : 'web/css/frontend_print.less'
 				}
 			},
 			widget: {
 				options: {
-					sourceMapFilename: 'web/css/dist/policat_widget.less.map',
+					sourceMapFilename: 'web/css/dist/policat_widget.less.map'
 				},
 				files: {
-					'web/css/dist/policat_widget.css': 'web/css/policat_widget.less',
+					'web/css/dist/policat_widget.css': 'web/css/policat_widget.less'
+				}
+			},
+			widget_variables: {
+				options: {
+					sourceMapFilename: 'web/css/dist/policat_widget_variables.less.map'
+				},
+				files: {
+					'web/css/dist/policat_widget_variables.css': 'web/css/policat_widget_variables.less'
+				}
+			},
+			theme_sleek: {
+				options: {
+					sourceMapFilename: 'web/css/dist/theme/sleek.less.map'
+				},
+				files: {
+					'web/css/dist/theme/sleek.css': 'web/css/theme/sleek.less'
 				}
 			}
 		},

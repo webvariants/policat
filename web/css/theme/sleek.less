@@ -1,0 +1,32 @@
+ol {
+	margin-left: 0;
+
+	li {
+		counter-increment: step-counter;
+		list-style-type: none;
+		min-height: 30px;
+		margin: 0 0 10px 0;
+		padding: 10px 0 0 50px;
+		position: relative;
+		line-height: 20px;
+		font-size: 18px;
+
+		&::before {
+			content: counter(step-counter);
+			background: var(--button-color);
+			color: white;
+			position: absolute;
+			top: 0;
+			left: 0;
+			font-size: 30px;
+			text-indent: -1px;
+
+			border-radius: 20px;
+			display: inline-block;
+			width: 40px;
+			height: 40px;
+			line-height: 40px;
+			text-align: center;
+		}
+	}
+}

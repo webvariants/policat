@@ -115,16 +115,7 @@ class widgetActions extends policatActions
     $this->require_billing = $this->widget->getRequireBilling();
 
     $this->width = $this->widget->getStyling('width');
-    $this->font_family = $this->widget->getFontFamily();
-    $this->font_css_file = UtilFont::cssFileByFont($this->font_family);
-    $widget_colors = $this->petition->getWidgetIndividualiseDesign();
-    foreach (WidgetTable::$STYLE_COLOR_NAMES as $style) {
-      if ($widget_colors) {
-        $this->$style = $this->widget->getStyling($style);
-      } else {
-        $this->$style = $this->petition['style_' . $style];
-      }
-    }
+    $this->font_css_file = UtilFont::cssFileByFont($this->widget->getFontFamily());
 
     $sign             = new PetitionSigning();
     $sign['Petition'] = $this->widget['Petition'];

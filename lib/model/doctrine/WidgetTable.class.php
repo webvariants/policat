@@ -46,6 +46,17 @@ class WidgetTable extends Doctrine_Table {
       'label_color'
   );
 
+  public static $STYLE_COLOR_NAMES_CSS = array(
+      'title_color' => 'title-color',
+      'body_color' => 'text-color',
+      'button_color' => 'button-color',
+      'bg_left_color' => 'background-color-box',
+      'bg_right_color' => 'background-color',
+      'form_title_color' => 'heading-color',
+      'button_primary_color' => 'sign-button-color',
+      'label_color' => 'label-color'
+  );
+
   /**
    *
    * @return WidgetTable

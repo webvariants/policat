@@ -43,30 +43,7 @@ if (is_array($target_selectors)) {
         <script type="text/javascript" src="/js/static/jquery-1.10.2.min.js"></script>
         <?php printf("<script type=\"text/javascript\">/* <![CDATA[ */\n%s\n/* ]]> */</script>\n", file_get_contents(sfConfig::get('sf_web_dir') . '/js/dist/policat_widget.js')); ?>
         <?php if ($font_css_file): ?><link href="<?php echo $font_css_file ?>" rel="stylesheet" type="text/css" /><?php endif ?>
-        <style type="text/css">
-            body { font-family: <?php echo $font_family ?>; background: <?php echo $bg_right_color ?>;}
-            body, a { color: <?php echo $body_color ?>; }
-            label, .count-text, .pet_subtitle, .label_color, .no-tabs .right-tab, .no-tabs .read_more { color: <?php echo $label_color ?>; }
-            h1, h2 { color: <?php echo $title_color ?>; }
-            .submit, .button-color { background-color: <?php echo $button_color; ?> ; }
-            .submit-sign { background-color: <?php echo $button_primary_color; ?> ; }
-            .count .count-bar { background: <?php echo $bg_left_color ?>; }
-            .count .count-bar div { background: <?php echo $button_color ?>; }
-            .tabs .tab-mid {
-                border: 13px solid <?php echo $bg_left_color ?>;
-            }
-            .tabs.left .left span,
-            .tabs.right .right span,
-            .tabs .tab-body, .tabs .left-tab {
-                background: <?php echo $bg_left_color ?>;
-            }
-            <?php if ($form_title_color): ?>
-              h2.title-color,
-              .tabs.left .right,
-              .tabs.right .left
-              { color: <?php echo $form_title_color ?>; }
-            <?php endif ?>
-        </style>
+        <?php UtilTheme::printCss($petition['themeId'], $widget, $petition); ?><!-- <?php echo $petition['themeId'] ?> -->
     </head>
     <body id="widget-body">
         <div id="widget" class="widget">

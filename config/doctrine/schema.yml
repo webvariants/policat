@@ -313,6 +313,7 @@ Petition:
     label_mode:              { type: integer(1), notnull: true, default: 1 }
     policy_checkbox:         { type: integer(1), notnull: true, default: 1 }
     thank_you_email:         { type: integer(1), notnull: true, default: 0 }
+    themeId:                 { type: integer(4), notnull: false, default: null }
   relations:
     Campaign:          { onDelete: CASCADE  }
     Language:          {  }
