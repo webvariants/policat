@@ -45,3 +45,29 @@ ol {
 		}
 	}
 }
+
+.readmore {
+	text-decoration: none;
+	color: var(--button-color);
+	font-weight: bold;
+	font-size: 14px;
+
+	&::before {
+		content: "\00BB";
+		margin-right: 5px;
+		font-size: 1.2em
+	}
+}
+
+.small {
+	.readmore {
+		display: none;
+	}
+
+	.sign .readmore-btn  {
+		display: block;
+		margin-bottom: 10px;
+		padding: 3px 8px;
+		text-align: center;
+	}
+}
