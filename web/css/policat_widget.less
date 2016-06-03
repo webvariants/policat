@@ -1,6 +1,7 @@
 @color-white: #ffffff;
 @color-error: #ed1b24;
 @color-valid: green;
+@width-one-column-max: 439px;
 
 body, div, span, h1, h2, h3, h4, h5, h6, p, a, em, img, q, dl, dt, dd, ol, ul, li, form, label, input, textarea  {
 	border: 0;
@@ -254,6 +255,12 @@ label.form-error {
 .tabs {
 	margin: 10px -10px 0 -10px;
 
+	position: relative;
+	z-index: 0;
+	@media (max-width: @width-one-column-max) {
+		z-index: 1;
+	}
+
 	.tab-head {
 		font-size: 12px;
 		line-height: 16px;
@@ -396,7 +403,7 @@ label.form-error {
 	}
 }
 
-.small {
+@media (max-width: @width-one-column-max) {
 	.tab-body {
 		height: auto !important;
 	}
@@ -440,6 +447,10 @@ label.form-error {
 		.count-target {
 			float: right;
 		}
+	}
+
+	.count-text-top {
+		display: none;
 	}
 }
 a.back {
@@ -803,9 +814,11 @@ label:hover + #embed-this-help-type, label:hover + #embed-this-help-width {
 	overflow: auto;
 }
 
-.small .scroll-pledges {
-	max-height: none;
-	height: auto;
+@media (max-width: @width-one-column-max) {
+	.scroll-pledges {
+		max-height: none;
+		height: auto;
+	}
 }
 
 .scroll-pledges.error {
@@ -1086,7 +1099,7 @@ label:hover + #embed-this-help-type, label:hover + #embed-this-help-width {
 	}
 }
 
-.small {
+@media (max-width: @width-one-column-max) {
 	.down-button {
 		display: inline-block;
 	}

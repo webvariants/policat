@@ -23,9 +23,8 @@ $(document).ready(function($) {
 		};
 
 		function resize() {
-			var isOneColumn = $(window).width() < 440;
-
 			if (tabs.length) {
+				var isOneColumn = tabs.css('z-index') === '1';
 				tabs.addClass('calc-tab');
 				var left_height = tabs_left.outerHeight();
 				var right_height = tabs_right.outerHeight();
@@ -41,11 +40,6 @@ $(document).ready(function($) {
 				tabs.removeClass('calc-tab');
 			}
 
-			if (isOneColumn) {
-				widget_body.addClass('small');
-			} else {
-				widget_body.removeClass('small');
-			}
 			var height = widget.height();
 			if (!old_height || height !== old_height) {
 				if ('postMessage' in window)
@@ -178,8 +172,8 @@ $(document).ready(function($) {
 				var p = Math.ceil(a / b * 100);
 				var el_count = $('#count .count-count');
 				var el_target = $('#count .count-target');
-				el_count.text(el_count.text().replace('#', numberWithCommas(a)));
-				el_target.text(el_target.text().replace('#', numberWithCommas(b)));
+				el_count.text(el_count.first().text().replace('#', numberWithCommas(a)));
+				el_target.text(el_target.first().text().replace('#', numberWithCommas(b)));
 				if (p > 30) {
 					$('#count .count-bar span').css({'color': 'white', 'width': p + '%', 'margin-left': '-4px'});
 				}

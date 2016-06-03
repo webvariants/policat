@@ -198,7 +198,13 @@ if (is_array($target_selectors)) {
                               <a target="_blank" href="<?php echo url_for('homepage') ?>"><?php echo __('More actions') ?></a>
                           </p>
                         <?php endif ?>
-                        <?php if (!$disabled): ?><div id="count" class="count"><div class="count-bar"><div></div><span></span></div><div class="count-text"><span class="count-count"><?php echo __('# Participants') ?></span><span class="count-target"><?php echo __('Target #') ?></span></div></div><?php endif ?>
+                        <?php if (!$disabled): ?>
+                            <div id="count" class="count">
+                                <div class="count-text count-text-top"><span class="count-count"><?php echo __('# Participants') ?></span><span class="count-target"><?php echo __('Target #') ?></span></div>
+                                <div class="count-bar"><div></div><span></span></div>
+                                <div class="count-text count-text-bottom"><span class="count-count"><?php echo __('# Participants') ?></span><span class="count-target"><?php echo __('Target #') ?></span></div>
+                            </div>
+                        <?php endif ?>
                         <?php echo $form->renderGlobalErrors() ?>
                         <form <?php if ($disabled): ?>style="display:none"<?php endif ?> id="sign" class="sign-form" action="" method="post" autocomplete="off">
                             <?php echo $form->renderHiddenFields() ?>
