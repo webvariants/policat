@@ -547,6 +547,8 @@ $(document).ready(function($) {
 			prepareValidate(this, false);
 		});
 
+		$('input[type=checkbox]').wrap('<span class="checkbox"></span>');
+
 		// Form handling
 		$('#widget-right form').each(function() {
 			var form = $(this);
@@ -669,8 +671,6 @@ $(document).ready(function($) {
 
 				// privacy validation
 				$('#petition_signing_privacy:not(:checked)', form).each(function() {
-					if (!$(this).parent().is('span'))
-						$(this).wrap('<span class="checkbox"></span>');
 					$(this).parent().parent().addClass('form-error');
 					form_error = true;
 				});

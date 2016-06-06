@@ -53,311 +53,313 @@ if (is_array($target_selectors)) {
                 <?php if ($target): ?><div class="subtitle"><?php echo UtilMarkdown::transform($target) ?></div><?php endif ?>
             </div>
             <?php endif ?>
-            <div id="widget-left" class="widget-left">
-                <div class="content-left">
-                    <div id="action" class="action">
-                        <div id="head" class="head">
-                            <?php if ($title): ?><h1 id="action-title" class="action-title"><?php echo Util::enc($title) ?></h1><?php endif ?>
-                            <?php if ($target): ?><div class="subtitle"><?php echo UtilMarkdown::transform($target) ?></div><?php endif ?>
-                        </div>
-                        <a id="down-button" class="button-color down-button button-btn"><?php echo __($petition->getLabel(PetitionTable::LABEL_TITLE)) ?></a>
-                        <?php if ($background): ?>
-                          <div id="tabs" class="tabs left">
-                              <div class="tab-head">
-                                  <div class="left tab"><span><?php
-                                          switch ($petition->getKind()):
-                                            case Petition::KIND_EMAIL_TO_LIST:
-                                            case Petition::KIND_EMAIL_ACTION: echo __('Email action');
-                                              break;
-                                            case Petition::KIND_PLEDGE: echo __('Recipients');
-                                              break;
-                                            default: echo __($petition->getLabel(PetitionTable::LABEL_TAB));
-                                          endswitch
-                                          ?>
-                                      </span></div>
-                                  <div class="tab-mid"></div>
-                                  <div class="right tab"><span><?php echo __('Background') ?></span></div>
-                              </div>
-                              <div class="tab-body">
-                                  <div class="left-tab">
-                                      <?php include_partial('petition', array('petition_text' => $petition_text, 'widget' => $widget, 'petition' => $petition)) ?>
-                                  </div>
-                                  <div class="right-tab">
-                                      <?php echo UtilMarkdown::transform($background); ?>
-                                      <?php if (is_string($read_more_url) && strlen($read_more_url) > 6): ?>
-                                        <br /><a id="readmore" href="<?php echo Util::enc($read_more_url) ?>" class="newwin readmore"><?php echo __('Read more') ?></a>
-                                      <?php endif ?>
-                                  </div>
-                              </div>
+            <div class="widget-body">
+              <div id="widget-left" class="widget-left">
+                  <div class="content-left">
+                      <div id="action" class="action">
+                          <div id="head" class="head">
+                              <?php if ($title): ?><h1 id="action-title" class="action-title"><?php echo Util::enc($title) ?></h1><?php endif ?>
+                              <?php if ($target): ?><div class="subtitle"><?php echo UtilMarkdown::transform($target) ?></div><?php endif ?>
                           </div>
-                        <?php else: ?>
-                          <?php include_partial('petition', array('petition_text' => $petition_text, 'widget' => $widget, 'petition' => $petition)) ?>
-                          <?php if (is_string($read_more_url) && strlen($read_more_url) > 6): ?>
-                            <a id="readmore" href="<?php echo Util::enc($read_more_url) ?>" class="newwin readmore"><?php echo __('Read more') ?></a>
-                          <?php endif ?>
-                        <?php endif ?>
-                    </div>
-                    <div id="privacy-policy" class="privacy-policy">
-                        <h1><?php echo __('PP Heading') ?></h1>
-                        <?php
-                        $privacy_policy = strtr($petition_text['privacy_policy_body'], $widget->getDataOwnerSubst('<br />', $petition));
-                        echo UtilMarkdown::transform($privacy_policy);
-                        ?>
-                        <a class="back button-color button-btn"><?php echo __('Back') ?></a>
-                    </div>
-                    <?php if (!$form_embed->isOneSide()): ?>
-                      <div id="embed-this-left" class="embed-this embed-this-left">
-                          <h1><?php echo __('Customise your widget') ?> (?)</h1>
-                          <div class ="embed-this-help-head"><?php echo __('Customise contents: use your own words to convince your target group. To change the title, introduction and background texts, copy the texts from the edit fields into a text editor, make your changes and paste them back into the edit fields. Thereafter, adapt the width and the colours to seamlessly integrate the widget into your website design.') ?></div>
-                          <form id="embed2" action="" method="post">
-                              <?php
-                              if (isset($form_embed['petition_text_id']) && !$form_embed->isOneSide()) {
-                                echo $form_embed['petition_text_id']->renderRow(array('id' => 'widget_petition_text_id_copy'));
-                              }
-                              ?>
-                              <?php if (isset($form_embed['title'])): ?>
-                                <div>
-                                    <label><?php echo __('Title') ?></label>
-                                    <input type="text" id="widget_title_copy" />
+                          <a id="down-button" class="button-color down-button button-btn"><?php echo __($petition->getLabel(PetitionTable::LABEL_TITLE)) ?></a>
+                          <?php if ($background): ?>
+                            <div id="tabs" class="tabs left">
+                                <div class="tab-head">
+                                    <div class="left tab"><span><?php
+                                            switch ($petition->getKind()):
+                                              case Petition::KIND_EMAIL_TO_LIST:
+                                              case Petition::KIND_EMAIL_ACTION: echo __('Email action');
+                                                break;
+                                              case Petition::KIND_PLEDGE: echo __('Recipients');
+                                                break;
+                                              default: echo __($petition->getLabel(PetitionTable::LABEL_TAB));
+                                            endswitch
+                                            ?>
+                                        </span></div>
+                                    <div class="tab-mid"></div>
+                                    <div class="right tab"><span><?php echo __('Background') ?></span></div>
                                 </div>
-                              <?php endif ?>
-                              <?php if (isset($form_embed['target'])): ?>
-                                <div>
-                                    <label><?php echo __('Target, Subheading') ?></label>
-                                    <textarea id="widget_target_copy" rows="5" cols="10"></textarea>
+                                <div class="tab-body">
+                                    <div class="left-tab">
+                                        <?php include_partial('petition', array('petition_text' => $petition_text, 'widget' => $widget, 'petition' => $petition)) ?>
+                                    </div>
+                                    <div class="right-tab">
+                                        <?php echo UtilMarkdown::transform($background); ?>
+                                        <?php if (is_string($read_more_url) && strlen($read_more_url) > 6): ?>
+                                          <br /><a id="readmore" href="<?php echo Util::enc($read_more_url) ?>" class="newwin readmore"><?php echo __('Read more') ?></a>
+                                        <?php endif ?>
+                                    </div>
                                 </div>
-                              <?php endif ?>
-                              <?php if (isset($form_embed['background'])): ?>
-                                <div>
-                                    <label><?php echo __('Background') ?></label>
-                                    <textarea id="widget_background_copy" rows="5" cols="10"></textarea>
-                                </div>
-                              <?php endif ?>
-                              <?php if (isset($form_embed['intro'])): ?>
-                                <div>
-                                    <label><?php echo __('Intro') ?></label>
-                                    <textarea id="widget_intro_copy" rows="5" cols="10"></textarea>
-                                </div>
-                                <div>
-                                    <label><?php echo __('Body') ?></label>
-                                    <textarea id="widget_body" cols="1" rows="1" disabled="disabled"><?php echo $petition_text->getBody() ?></textarea>
-                                </div>
-                              <?php endif ?>
-                              <?php if (isset($form_embed['footer'])): ?>
-                                <div>
-                                    <label><?php echo __('Footer') ?></label>
-                                    <textarea id="widget_footer_copy" rows="5" cols="10"></textarea>
-                                </div>
-                              <?php endif ?>
-                              <?php if (isset($form_embed['email_subject'])): ?>
-                                <div>
-                                    <label><?php echo __('Subject') ?></label>
-                                    <textarea id="widget_email_subject_copy" rows="5" cols="10"></textarea>
-                                </div>
-                              <?php endif ?>
-                              <?php if (isset($form_embed['email_body'])): ?>
-                                <div>
-                                    <label><?php echo __('Email body') ?></label>
-                                    <textarea id="widget_email_body_copy" rows="5" cols="10"></textarea>
-                                </div>
-                              <?php endif ?>
-                              <?php if (isset($form_embed['landing_url']) && !$form_embed->isOneSide()): ?>
-                                <div>
-                                    <label><?php echo __('Email Validation Landingpage - auto forwarding to external page') ?></label>
-                                    <input type="text" id="widget_landing_url_copy" class="url not_required" placeholder="http://example.com/" value="<?php echo Util::enc($widget->getInheritLandingUrl()) ?>" />
-                                </div>
-                              <?php endif ?>
-                          </form>
-                      </div>
-                    <?php endif ?>
-                </div>
-            </div>
-
-            <div id="widget-right" class="widget-right show-sign show-share">
-                <div id="content-right" class="content-right">
-                    <div class="sign">
-                        <h2 class="title-color"><?php echo trim(Util::enc($petition_text->getFormTitle())) ? : __($petition->getLabel(PetitionTable::LABEL_TITLE)) ?></h2>
-                        <?php
-                        $disabled = false;
-                        $require_billing_before = $require_billing_after = false;
-                        if ($require_billing) {
-                          if ($petition->countSignings() < 10) { // show begin message when action has some signings
-                            $require_billing_before = true;
-                          } else {
-                            $require_billing_after = true;
-                          }
-                        }
-                        if ($petition->isBefore() || $require_billing_before): $disabled = true
-                          ?>
-                          <?php if ($petition->getKeyVisual()): ?><div class="keyvisual"><img src="<?php echo image_path('keyvisual/' . $petition->getKeyVisual()) ?>" alt="" /></div><?php endif ?>
-                          <p><?php echo __('The action starts on #DATE#. Stay tuned and spread the word!', array('#DATE#' => $petition->getStartAt() ? format_date($petition->getStartAt(), 'D') : 'XX.XX.XXXX')) ?></p>
-                        <?php elseif ($petition->isAfter() || $require_billing_after): $disabled = true ?>
-                          <?php if ($petition->getKeyVisual()): ?><div class="keyvisual"><img src="<?php echo image_path('keyvisual/' . $petition->getKeyVisual()) ?>" alt="" /></div><?php endif ?>
-                          <p>
-                              <?php echo __('This action is over. Thanks to the #COUNTER# people who signed-up!', array('#COUNTER#' => '<b>' . $petition->countSigningsPlus() . '</b>')) ?>
-                              <a target="_blank" href="<?php echo url_for('homepage') ?>"><?php echo __('More actions') ?></a>
-                          </p>
-                        <?php endif ?>
-                        <?php if (!$disabled): ?>
-                            <div id="count" class="count">
-                                <div class="count-text count-text-top"><span class="count-count"><?php echo __('# Participants') ?></span><span class="count-target"><?php echo __('Target #') ?></span></div>
-                                <div class="count-bar"><div></div><span></span></div>
-                                <div class="count-text count-text-bottom"><span class="count-count"><?php echo __('# Participants') ?></span><span class="count-target"><?php echo __('Target #') ?></span></div>
                             </div>
-                        <?php endif ?>
-                        <?php echo $form->renderGlobalErrors() ?>
-                        <form <?php if ($disabled): ?>style="display:none"<?php endif ?> id="sign" class="sign-form" action="" method="post" autocomplete="off">
-                            <?php echo $form->renderHiddenFields() ?>
-                            <fieldset>
-                              <?php
-                              foreach ($form as $fieldname => $fieldwidget) {
-                                $group = $form->isGroupedField($fieldname);
-                                if (!$fieldwidget->isHidden()) {
-                                  printf('<div class="form-row %s%s%s">%s</div>', $fieldname, $group ? ' group' : '', $group === 2 ? ' first' : '', $fieldwidget->renderRow());
-                                }
-                              }
-                              if (!isset($form[Petition::FIELD_PRIVACY])):
-                                ?>
-                                <div class="privacy"><label style="text-decoration:none"><?php echo UtilBold::format(__('By signing, I agree with the _privacy policy_.')) ?></label></div>
-                              <?php endif; ?>
-                            </fieldset>
-                            <button type="button" class="submit submit-sign"><span id="btn_sign"><?php echo strtr(__($petition->getLabel(PetitionTable::LABEL_BUTTON)), array(' ' => '&nbsp;')) ?></span></button>
-                        </form>
-                        <?php if ($disabled): ?>
-                          <div id="footer_ot"></div>
-                        <?php else: ?>
-                          <?php if ($petition->getShowKeyvisual() && $petition->getKeyVisual()): ?><div class="keyvisual keyvisual-bottom"><img src="<?php echo image_path('keyvisual/' . $petition->getKeyVisual()) ?>" alt="" /></div><?php endif ?>
-                        <?php endif ?>
-                        <a href="<?php echo Util::enc($read_more_url) ?>" class="newwin button-color button-btn readmore-btn"><?php echo __('Read more') ?></a>
-                    </div>
-                    <div class="embed-this">
-                        <h2 class="title-color"><?php echo __('Embed this') ?></h2>
-                        <?php echo $form_embed->renderGlobalErrors(); ?>
-                        <form id="embed" class="embed" action="" method="post">
-                            <?php echo $form_embed->renderHiddenFields(); ?>
-                            <fieldset>
-                            <?php
-                            foreach (array('styling_type', 'styling_width', 'styling_title_color', 'styling_body_color', 'styling_bg_left_color', 'styling_bg_right_color', 'styling_form_title_color', 'styling_button_color', 'styling_button_primary_color', 'styling_label_color', 'styling_font_family') as $fieldname):
-                              if (isset($form_embed[$fieldname])):
-                                $group = $form_embed->isGroupedField($fieldname);
-                                printf('<div class="form-row %s%s%s">%s</div>', $fieldname, $group ? ' group' : '', $group === 2 ? ' first' : '', $form_embed[$fieldname]->renderRow());
-                              endif;
-                            endforeach;
-                            ?>
-                            <?php
-                            if (isset($form_embed['petition_text_id'])):
-                              if ($form_embed->isOneSide()):
-                                echo $form_embed['petition_text_id']->renderRow();
-                              else:
-                                $form_embed_name = $form_embed->getName();
-                                $petition_text_id_name = $form_embed['petition_text_id']->getName();
-                                ?>
-                                <input name="<?php echo "{$form_embed_name}[{$petition_text_id_name}]" ?>" id="<?php echo "{$form_embed_name}_{$petition_text_id_name}" ?>" type="hidden" />
-                              <?php
-                              endif;
-                            endif
-                            ?>
-                            <?php
-                            if (isset($form_embed['landing_url']) && $form_embed->isOneSide()) {
-                              echo $form_embed['landing_url']->renderRow();
-                            }
-                            if (isset($form_embed['paypal_email'])):
-                              ?>
-                              <div class="form-row checkbox">
-                                  <?php echo $form_embed['paypal_email'], $form_embed['paypal_email']->renderLabel() ?>
-                              </div>
+                          <?php else: ?>
+                            <?php include_partial('petition', array('petition_text' => $petition_text, 'widget' => $widget, 'petition' => $petition)) ?>
+                            <?php if (is_string($read_more_url) && strlen($read_more_url) > 6): ?>
+                              <a id="readmore" href="<?php echo Util::enc($read_more_url) ?>" class="newwin readmore"><?php echo __('Read more') ?></a>
                             <?php endif ?>
-                            <h2 id="embed-this-register" class="form-row embed-this-register"><?php echo __('Register your widget') ?>:</h2>
-                            <?php
-                            foreach (array('email', 'organisation') as $fieldname) {
-                              printf('<div class="form-row %s">%s</div>', $fieldname, $form_embed[$fieldname]->renderRow());
-                            }
-                            ?>
-                            </fieldset>
-                            <button type="button" class="submit button-small">
-                                <span id="embed-this-generate"><?php echo __('Generate widget') ?></span>
-                                <span id="embed-this-change" style="display:none"><?php echo __('Change widget') ?></span>
-                            </button>
-                        </form>
-                        <div>
-                            <label><?php echo __('Embed this code') ?>:</label>
-                            <input type="text" id="embed_markup" readonly="readonly"/>
-                        </div>
-                        <div id="embed-this-help-type"><span><?php echo __("Choose 'Embed' to have this box (\"widget\") embedded into your webpage, including texts and action-form. Visitors can instantly read all and take action. However, you need at least 440px width to embed the widget. Choose 'Popup' if you lack sufficient space on your webpage. You will get a small box (\"teaser\") with flexible width (at least 150px). If visitors click on the teaser, the big action-widget pops up.") ?></span></div>
-                        <div id="embed-this-help-width"><span><?php echo __("You may define a precise widget width. Select \"auto\" and the widget will adapt to the space available (max: 1000px). Should there be less than 440px width available, contents will display in one column (instead of two) with the sign-on-form below the petition text. On mobile devices with less than 768px device-width, the widget-width is set to 360px for smooth reading on smartphones.") ?></span></div>
-                        <a class="back button-color button-btn"><?php echo __('Back') ?></a>
-                    </div>
-                    <div class="thankyou">
-                        <h2 class="title-color"><?php echo __('Thank you') ?></h2>
-                        <p class="form_message label_color"><?php echo __('You verified your email address. Your action is confirmed. Use this moment to tell friends and family.') ?></p>
-                        <h2 class="label_color"><?php echo __('Tell your friends') ?></h2>
-                    </div>
-                    <div class="share <?php echo $widget['share'] ? 'share-on-sign' : '' ?>">
-                        <a href="https://www.facebook.com/sharer/sharer.php?t=<?php echo urlencode($title) ?>&amp;u=" class="newwin sicon facebook" title="Facebook"><img class="no_load" alt="Facebook" src="<?php echo image_path('facebook-32.png') ?>" /></a>
-                        <a href="https://twitter.com/share?text=<?php echo urlencode($title) ?>&amp;url=" class="newwin sicon twitter" title="Twitter"><img class="no_load" alt="Twitter" src="<?php echo image_path('twitter-32.png') ?>" /></a>
-                        <?php
-                        list($mail_subject, $mail_body) = UtilMail::tellyourmail($widget, $petition, $petition_text, 'UURRLLRREEFF', 'UURRLLMMOORREE');
-                        ?>
-                        <a href="mailto:?subject=<?php echo $mail_subject ?>&amp;body=<?php echo $mail_body ?>" class="sicon mailto" title="Email" target="_top"><img  class="no_load" alt="Email" src="<?php echo image_path('email-32.png') ?>" /></a>
-                        <a id="a-embed-this" class="sicon a-embed-this" title="<?php echo __('Embed this') ?>"><img class="no_load" alt="<?php echo __('Embed this') ?>" src="<?php echo image_path('code-32.png') ?>" /></a>
-                        <?php if ($paypal_email || $donate_url): ?>
-                          <?php if ($donate_direct): ?>
-                            <a class="sicon donate-btn" target="_blank" href="<?php echo $donate_url ?>" title="<?php echo __('Donate') ?>"><img class="no_load" alt="<?php echo __('Donate') ?>" src="<?php echo image_path('charity-32.png') ?>" /></a>
-                          <?php else: ?>
-                            <a id="a-donate" class="sicon donate-btn" title="<?php echo __('Donate') ?>"><img class="no_load" alt="<?php echo __('Donate') ?>" src="<?php echo image_path('charity-32.png') ?>" /></a>
                           <?php endif ?>
-                        <?php endif ?>
-                    </div>
-                    <div class="donate">
-                        <?php if ($paypal_email): ?>
-                          <?php if ($donate_text): ?>
-                            <div class="label_color external_links"><?php echo UtilMarkdown::transform($sf_data->getRaw('donate_text')) ?></div>
-                          <?php else: ?>
-                            <h2 class="label_color"><?php echo __('Donate') ?></h2>
-                            <p class="label_color"><?php echo __('Help us fund this campaign. Give whatever you can now using the safe and secure paypal form below.') ?></p>
-                          <?php endif ?>
-                          <form id="paypal" action="https://www.paypal.com/cgi-bin/webscr" method="post">
-                              <input type="hidden" name="cmd" value="_xclick" />
-                              <input type="hidden" name="business" value="<?php echo Util::enc($paypal_email); ?>" />
-                              <input type="hidden" name="item_name" value="<?php echo Util::enc($petition_title) ?>" />
-                              <input type="hidden" name="item_number" value="<?php echo $paypal_ref; ?>" />
-                              <input type="hidden" name="lc" value="<?php echo strtoupper($lang) ?>" />
-                              <input type="hidden" name="no_shipping" value="2" />
-                              <input type="hidden" name="no_note" value="1" />
-                              <input type="hidden" name="tax" value="0" />
-                              <input type="hidden" name="bn" value="IC_Beispiel" />
-                              <fieldset>
-                              <div class="form-row amount group first">
-                                  <label><?php echo __('Amount') ?></label>
-                                  <input id="paypal_amount" type="text" name="amount" value="" />
-                              </div>
-                              <div class="form-row currency_code group">
-                                  <label>&nbsp;</label>
-                                  <select name="currency_code">
-                                      <option value="EUR">Euro</option>
-                                      <option value="USD">Dollar</option>
-                                      <option value="GBP">Pound</option>
-                                  </select>
-                              </div>
-                              </fieldset>
-                              <button type="button" class="submit button-small"><?php echo __('Donate') ?></button>
-                          </form>
-                        <?php endif ?>
-                        <?php if ($donate_url && $donate_text): ?>
-                          <h2 class="label_color"><?php echo __('Donate') ?></h2>
-                          <div class="label_color external_links"><?php echo UtilMarkdown::transform($sf_data->getRaw('donate_text')) ?></div>
-                          <a class="submit button-small" target="_blank" href="<?php echo $donate_url ?>"><?php echo __('Donate') ?></a>
-                        <?php endif ?>
-                        <?php if ($paypal_email || $donate_url): ?>
+                      </div>
+                      <div id="privacy-policy" class="privacy-policy">
+                          <h1><?php echo __('PP Heading') ?></h1>
+                          <?php
+                          $privacy_policy = strtr($petition_text['privacy_policy_body'], $widget->getDataOwnerSubst('<br />', $petition));
+                          echo UtilMarkdown::transform($privacy_policy);
+                          ?>
                           <a class="back button-color button-btn"><?php echo __('Back') ?></a>
-                        <?php endif ?>
-                    </div>
-                    <div class="reload">
-                        <a class="reload-iframe button-color button-btn"><?php echo __('Back') ?></a>
-                    </div>
-                </div>
-            </div>
-            <div style="clear: both"></div>
+                      </div>
+                      <?php if (!$form_embed->isOneSide()): ?>
+                        <div id="embed-this-left" class="embed-this embed-this-left">
+                            <h1><?php echo __('Customise your widget') ?> (?)</h1>
+                            <div class ="embed-this-help-head"><?php echo __('Customise contents: use your own words to convince your target group. To change the title, introduction and background texts, copy the texts from the edit fields into a text editor, make your changes and paste them back into the edit fields. Thereafter, adapt the width and the colours to seamlessly integrate the widget into your website design.') ?></div>
+                            <form id="embed2" action="" method="post">
+                                <?php
+                                if (isset($form_embed['petition_text_id']) && !$form_embed->isOneSide()) {
+                                  echo $form_embed['petition_text_id']->renderRow(array('id' => 'widget_petition_text_id_copy'));
+                                }
+                                ?>
+                                <?php if (isset($form_embed['title'])): ?>
+                                  <div>
+                                      <label><?php echo __('Title') ?></label>
+                                      <input type="text" id="widget_title_copy" />
+                                  </div>
+                                <?php endif ?>
+                                <?php if (isset($form_embed['target'])): ?>
+                                  <div>
+                                      <label><?php echo __('Target, Subheading') ?></label>
+                                      <textarea id="widget_target_copy" rows="5" cols="10"></textarea>
+                                  </div>
+                                <?php endif ?>
+                                <?php if (isset($form_embed['background'])): ?>
+                                  <div>
+                                      <label><?php echo __('Background') ?></label>
+                                      <textarea id="widget_background_copy" rows="5" cols="10"></textarea>
+                                  </div>
+                                <?php endif ?>
+                                <?php if (isset($form_embed['intro'])): ?>
+                                  <div>
+                                      <label><?php echo __('Intro') ?></label>
+                                      <textarea id="widget_intro_copy" rows="5" cols="10"></textarea>
+                                  </div>
+                                  <div>
+                                      <label><?php echo __('Body') ?></label>
+                                      <textarea id="widget_body" cols="1" rows="1" disabled="disabled"><?php echo $petition_text->getBody() ?></textarea>
+                                  </div>
+                                <?php endif ?>
+                                <?php if (isset($form_embed['footer'])): ?>
+                                  <div>
+                                      <label><?php echo __('Footer') ?></label>
+                                      <textarea id="widget_footer_copy" rows="5" cols="10"></textarea>
+                                  </div>
+                                <?php endif ?>
+                                <?php if (isset($form_embed['email_subject'])): ?>
+                                  <div>
+                                      <label><?php echo __('Subject') ?></label>
+                                      <textarea id="widget_email_subject_copy" rows="5" cols="10"></textarea>
+                                  </div>
+                                <?php endif ?>
+                                <?php if (isset($form_embed['email_body'])): ?>
+                                  <div>
+                                      <label><?php echo __('Email body') ?></label>
+                                      <textarea id="widget_email_body_copy" rows="5" cols="10"></textarea>
+                                  </div>
+                                <?php endif ?>
+                                <?php if (isset($form_embed['landing_url']) && !$form_embed->isOneSide()): ?>
+                                  <div>
+                                      <label><?php echo __('Email Validation Landingpage - auto forwarding to external page') ?></label>
+                                      <input type="text" id="widget_landing_url_copy" class="url not_required" placeholder="http://example.com/" value="<?php echo Util::enc($widget->getInheritLandingUrl()) ?>" />
+                                  </div>
+                                <?php endif ?>
+                            </form>
+                        </div>
+                      <?php endif ?>
+                  </div>
+              </div>
+
+              <div id="widget-right" class="widget-right show-sign show-share">
+                  <div id="content-right" class="content-right">
+                      <div class="sign">
+                          <h2 class="title-color"><?php echo trim(Util::enc($petition_text->getFormTitle())) ? : __($petition->getLabel(PetitionTable::LABEL_TITLE)) ?></h2>
+                          <?php
+                          $disabled = false;
+                          $require_billing_before = $require_billing_after = false;
+                          if ($require_billing) {
+                            if ($petition->countSignings() < 10) { // show begin message when action has some signings
+                              $require_billing_before = true;
+                            } else {
+                              $require_billing_after = true;
+                            }
+                          }
+                          if ($petition->isBefore() || $require_billing_before): $disabled = true
+                            ?>
+                            <?php if ($petition->getKeyVisual()): ?><div class="keyvisual"><img src="<?php echo image_path('keyvisual/' . $petition->getKeyVisual()) ?>" alt="" /></div><?php endif ?>
+                            <p><?php echo __('The action starts on #DATE#. Stay tuned and spread the word!', array('#DATE#' => $petition->getStartAt() ? format_date($petition->getStartAt(), 'D') : 'XX.XX.XXXX')) ?></p>
+                          <?php elseif ($petition->isAfter() || $require_billing_after): $disabled = true ?>
+                            <?php if ($petition->getKeyVisual()): ?><div class="keyvisual"><img src="<?php echo image_path('keyvisual/' . $petition->getKeyVisual()) ?>" alt="" /></div><?php endif ?>
+                            <p>
+                                <?php echo __('This action is over. Thanks to the #COUNTER# people who signed-up!', array('#COUNTER#' => '<b>' . $petition->countSigningsPlus() . '</b>')) ?>
+                                <a target="_blank" href="<?php echo url_for('homepage') ?>"><?php echo __('More actions') ?></a>
+                            </p>
+                          <?php endif ?>
+                          <?php if (!$disabled): ?>
+                              <div id="count" class="count">
+                                  <div class="count-text count-text-top"><span class="count-count"><?php echo __('# Participants') ?></span><span class="count-target"><?php echo __('Target #') ?></span></div>
+                                  <div class="count-bar"><div></div><span></span></div>
+                                  <div class="count-text count-text-bottom"><span class="count-count"><?php echo __('# Participants') ?></span><span class="count-target"><?php echo __('Target #') ?></span></div>
+                              </div>
+                          <?php endif ?>
+                          <?php echo $form->renderGlobalErrors() ?>
+                          <form <?php if ($disabled): ?>style="display:none"<?php endif ?> id="sign" class="sign-form" action="" method="post" autocomplete="off">
+                              <?php echo $form->renderHiddenFields() ?>
+                              <fieldset>
+                                <?php
+                                foreach ($form as $fieldname => $fieldwidget) {
+                                  $group = $form->isGroupedField($fieldname);
+                                  if (!$fieldwidget->isHidden()) {
+                                    printf('<div class="form-row %s%s%s">%s</div>', $fieldname, $group ? ' group' : '', $group === 2 ? ' first' : '', $fieldwidget->renderRow());
+                                  }
+                                }
+                                if (!isset($form[Petition::FIELD_PRIVACY])):
+                                  ?>
+                                  <div class="privacy"><label style="text-decoration:none"><?php echo UtilBold::format(__('By signing, I agree with the _privacy policy_.')) ?></label></div>
+                                <?php endif; ?>
+                              </fieldset>
+                              <button type="button" class="submit submit-sign"><span id="btn_sign"><?php echo strtr(__($petition->getLabel(PetitionTable::LABEL_BUTTON)), array(' ' => '&nbsp;')) ?></span></button>
+                          </form>
+                          <?php if ($disabled): ?>
+                            <div id="footer_ot"></div>
+                          <?php else: ?>
+                            <?php if ($petition->getShowKeyvisual() && $petition->getKeyVisual()): ?><div class="keyvisual keyvisual-bottom"><img src="<?php echo image_path('keyvisual/' . $petition->getKeyVisual()) ?>" alt="" /></div><?php endif ?>
+                          <?php endif ?>
+                          <a href="<?php echo Util::enc($read_more_url) ?>" class="newwin button-color button-btn readmore-btn"><?php echo __('Read more') ?></a>
+                      </div>
+                      <div class="embed-this">
+                          <h2 class="title-color"><?php echo __('Embed this') ?></h2>
+                          <?php echo $form_embed->renderGlobalErrors(); ?>
+                          <form id="embed" class="embed" action="" method="post">
+                              <?php echo $form_embed->renderHiddenFields(); ?>
+                              <fieldset>
+                              <?php
+                              foreach (array('styling_type', 'styling_width', 'styling_title_color', 'styling_body_color', 'styling_bg_left_color', 'styling_bg_right_color', 'styling_form_title_color', 'styling_button_color', 'styling_button_primary_color', 'styling_label_color', 'styling_font_family') as $fieldname):
+                                if (isset($form_embed[$fieldname])):
+                                  $group = $form_embed->isGroupedField($fieldname);
+                                  printf('<div class="form-row %s%s%s">%s</div>', $fieldname, $group ? ' group' : '', $group === 2 ? ' first' : '', $form_embed[$fieldname]->renderRow());
+                                endif;
+                              endforeach;
+                              ?>
+                              <?php
+                              if (isset($form_embed['petition_text_id'])):
+                                if ($form_embed->isOneSide()):
+                                  echo $form_embed['petition_text_id']->renderRow();
+                                else:
+                                  $form_embed_name = $form_embed->getName();
+                                  $petition_text_id_name = $form_embed['petition_text_id']->getName();
+                                  ?>
+                                  <input name="<?php echo "{$form_embed_name}[{$petition_text_id_name}]" ?>" id="<?php echo "{$form_embed_name}_{$petition_text_id_name}" ?>" type="hidden" />
+                                <?php
+                                endif;
+                              endif
+                              ?>
+                              <?php
+                              if (isset($form_embed['landing_url']) && $form_embed->isOneSide()) {
+                                echo $form_embed['landing_url']->renderRow();
+                              }
+                              if (isset($form_embed['paypal_email'])):
+                                ?>
+                                <div class="form-row checkbox">
+                                    <?php echo $form_embed['paypal_email'], $form_embed['paypal_email']->renderLabel() ?>
+                                </div>
+                              <?php endif ?>
+                              <h2 id="embed-this-register" class="form-row embed-this-register"><?php echo __('Register your widget') ?>:</h2>
+                              <?php
+                              foreach (array('email', 'organisation') as $fieldname) {
+                                printf('<div class="form-row %s">%s</div>', $fieldname, $form_embed[$fieldname]->renderRow());
+                              }
+                              ?>
+                              </fieldset>
+                              <button type="button" class="submit button-small">
+                                  <span id="embed-this-generate"><?php echo __('Generate widget') ?></span>
+                                  <span id="embed-this-change" style="display:none"><?php echo __('Change widget') ?></span>
+                              </button>
+                          </form>
+                          <div>
+                              <label><?php echo __('Embed this code') ?>:</label>
+                              <input type="text" id="embed_markup" readonly="readonly"/>
+                          </div>
+                          <div id="embed-this-help-type"><span><?php echo __("Choose 'Embed' to have this box (\"widget\") embedded into your webpage, including texts and action-form. Visitors can instantly read all and take action. However, you need at least 440px width to embed the widget. Choose 'Popup' if you lack sufficient space on your webpage. You will get a small box (\"teaser\") with flexible width (at least 150px). If visitors click on the teaser, the big action-widget pops up.") ?></span></div>
+                          <div id="embed-this-help-width"><span><?php echo __("You may define a precise widget width. Select \"auto\" and the widget will adapt to the space available (max: 1000px). Should there be less than 440px width available, contents will display in one column (instead of two) with the sign-on-form below the petition text. On mobile devices with less than 768px device-width, the widget-width is set to 360px for smooth reading on smartphones.") ?></span></div>
+                          <a class="back button-color button-btn"><?php echo __('Back') ?></a>
+                      </div>
+                      <div class="thankyou">
+                          <h2 class="title-color"><?php echo __('Thank you') ?></h2>
+                          <p class="form_message label_color"><?php echo __('You verified your email address. Your action is confirmed. Use this moment to tell friends and family.') ?></p>
+                          <h2 class="label_color"><?php echo __('Tell your friends') ?></h2>
+                      </div>
+                      <div class="share <?php echo $widget['share'] ? 'share-on-sign' : '' ?>">
+                          <a href="https://www.facebook.com/sharer/sharer.php?t=<?php echo urlencode($title) ?>&amp;u=" class="newwin sicon facebook" title="Facebook"><img class="no_load" alt="Facebook" src="<?php echo image_path('facebook-32.png') ?>" /></a>
+                          <a href="https://twitter.com/share?text=<?php echo urlencode($title) ?>&amp;url=" class="newwin sicon twitter" title="Twitter"><img class="no_load" alt="Twitter" src="<?php echo image_path('twitter-32.png') ?>" /></a>
+                          <?php
+                          list($mail_subject, $mail_body) = UtilMail::tellyourmail($widget, $petition, $petition_text, 'UURRLLRREEFF', 'UURRLLMMOORREE');
+                          ?>
+                          <a href="mailto:?subject=<?php echo $mail_subject ?>&amp;body=<?php echo $mail_body ?>" class="sicon mailto" title="Email" target="_top"><img  class="no_load" alt="Email" src="<?php echo image_path('email-32.png') ?>" /></a>
+                          <a id="a-embed-this" class="sicon a-embed-this" title="<?php echo __('Embed this') ?>"><img class="no_load" alt="<?php echo __('Embed this') ?>" src="<?php echo image_path('code-32.png') ?>" /></a>
+                          <?php if ($paypal_email || $donate_url): ?>
+                            <?php if ($donate_direct): ?>
+                              <a class="sicon donate-btn" target="_blank" href="<?php echo $donate_url ?>" title="<?php echo __('Donate') ?>"><img class="no_load" alt="<?php echo __('Donate') ?>" src="<?php echo image_path('charity-32.png') ?>" /></a>
+                            <?php else: ?>
+                              <a id="a-donate" class="sicon donate-btn" title="<?php echo __('Donate') ?>"><img class="no_load" alt="<?php echo __('Donate') ?>" src="<?php echo image_path('charity-32.png') ?>" /></a>
+                            <?php endif ?>
+                          <?php endif ?>
+                      </div>
+                      <div class="donate">
+                          <?php if ($paypal_email): ?>
+                            <?php if ($donate_text): ?>
+                              <div class="label_color external_links"><?php echo UtilMarkdown::transform($sf_data->getRaw('donate_text')) ?></div>
+                            <?php else: ?>
+                              <h2 class="label_color"><?php echo __('Donate') ?></h2>
+                              <p class="label_color"><?php echo __('Help us fund this campaign. Give whatever you can now using the safe and secure paypal form below.') ?></p>
+                            <?php endif ?>
+                            <form id="paypal" action="https://www.paypal.com/cgi-bin/webscr" method="post">
+                                <input type="hidden" name="cmd" value="_xclick" />
+                                <input type="hidden" name="business" value="<?php echo Util::enc($paypal_email); ?>" />
+                                <input type="hidden" name="item_name" value="<?php echo Util::enc($petition_title) ?>" />
+                                <input type="hidden" name="item_number" value="<?php echo $paypal_ref; ?>" />
+                                <input type="hidden" name="lc" value="<?php echo strtoupper($lang) ?>" />
+                                <input type="hidden" name="no_shipping" value="2" />
+                                <input type="hidden" name="no_note" value="1" />
+                                <input type="hidden" name="tax" value="0" />
+                                <input type="hidden" name="bn" value="IC_Beispiel" />
+                                <fieldset>
+                                <div class="form-row amount group first">
+                                    <label><?php echo __('Amount') ?></label>
+                                    <input id="paypal_amount" type="text" name="amount" value="" />
+                                </div>
+                                <div class="form-row currency_code group">
+                                    <label>&nbsp;</label>
+                                    <select name="currency_code">
+                                        <option value="EUR">Euro</option>
+                                        <option value="USD">Dollar</option>
+                                        <option value="GBP">Pound</option>
+                                    </select>
+                                </div>
+                                </fieldset>
+                                <button type="button" class="submit button-small"><?php echo __('Donate') ?></button>
+                            </form>
+                          <?php endif ?>
+                          <?php if ($donate_url && $donate_text): ?>
+                            <h2 class="label_color"><?php echo __('Donate') ?></h2>
+                            <div class="label_color external_links"><?php echo UtilMarkdown::transform($sf_data->getRaw('donate_text')) ?></div>
+                            <a class="submit button-small" target="_blank" href="<?php echo $donate_url ?>"><?php echo __('Donate') ?></a>
+                          <?php endif ?>
+                          <?php if ($paypal_email || $donate_url): ?>
+                            <a class="back button-color button-btn"><?php echo __('Back') ?></a>
+                          <?php endif ?>
+                      </div>
+                      <div class="reload">
+                          <a class="reload-iframe button-color button-btn"><?php echo __('Back') ?></a>
+                      </div>
+                  </div>
+              </div>
+              <div style="clear: both"></div>
+          </div>
         </div>
         <div id="policat-widget-loading" class="policat-widget-loading"></div>
     </body>

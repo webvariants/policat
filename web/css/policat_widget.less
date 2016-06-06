@@ -133,6 +133,7 @@ fieldset {
 }
 
 input, select, textarea {
+	background: #fff;
 	&:focus {
 		outline-color: rgba(127, 127, 127, 0.5);
 	}
@@ -162,6 +163,7 @@ select {
 	border: 1px solid transparent;
 	margin: 0;
 	padding: 0;
+	box-sizing: border-box;
 
 	select, input {
 		margin: 0;
@@ -187,8 +189,6 @@ label {
 	font-size: 9px;
 	line-height: 14px;
 	margin-bottom: -2px;
-	max-height: 14px;
-	overflow: hidden;
 	text-transform: uppercase;
 }
 

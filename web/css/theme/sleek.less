@@ -1,4 +1,15 @@
 @width-one-column-max: 439px;
+@width-two-column-min: 440px;
+
+body {
+	font-size: 13px;
+}
+
+h1, h1.action-title {
+	font-size: 24px;
+	font-weight: bold;
+	line-height: 40px;
+}
 
 ol {
 	margin-left: 0;
@@ -48,6 +59,28 @@ ol {
 	}
 }
 
+.count {
+	.count-text {
+		font-size: 18px;
+		font-weight: bold;
+		height: 20px;
+		line-height: 20px;
+		margin: 0 0 5px 0;
+	}
+
+	.count-text-top {
+		display: block;
+	}
+
+	.count-text-bottom {
+		display: none;
+	}
+
+	&:first-child {
+		margin-top: 0;
+	}
+}
+
 .readmore {
 	text-decoration: none;
 	color: var(--button-color);
@@ -83,12 +116,146 @@ ol {
 	background: var(--background-color-box);
 }
 
-.count {
-	.count-text-top {
-		display: block;
+label {
+	font-size: 13px;
+	text-transform: none;
+	padding: 5px 0;
+	font-weight: bold;
+	line-height: 20px;
+	box-sizing: border-box;
+}
+
+input[type=checkbox] {
+	height: 15px;
+	width: 15px;
+	top: 5px;
+}
+
+input[type=text] {
+	height: 40px;
+	border-radius: 5px;
+	font-size: 15px;
+	line-height: 20px;
+	padding: 10px 12px;
+}
+
+select {
+	height: 38px;
+	border-radius: 5px;
+}
+.select-wrap, textarea {
+	border-radius: 5px;
+}
+
+.form-row {
+	margin-bottom: 10px;
+}
+
+span.checkbox {
+	width: 19px;
+	height: 19px;
+	border-radius: 15px;
+}
+
+.sign-form {
+	.group.first {
+		clear: left;
+	}
+	.group.title,
+	.group.firstname,
+	.group.city,
+	.group.post_code {
+		width: 100%;
+	}
+	.country {
+		margin-top: 5px;
 	}
 
-	.count-text-bottom {
-		display: none;
+	.subscribe, .privacy  {
+		input {
+			top: 5px;
+			left: 4px;
+		}
+
+		label {
+			padding-left: 25px;
+		}
+	}
+}
+
+
+.form-indicator {
+	&::after {
+		bottom: 3px;
+		right: 6px;
+		font-size: 20px;
+	}
+
+	&.form-indicator-select {
+		&::after {
+			bottom: 5px;
+		}
+	}
+}
+
+.embed-this-left textarea {
+	height: 40px;
+}
+
+.subscribe, .privacy {
+	label {
+		width: 100%;
+		
+		padding: 0;
+		font-weight: normal;
+	}
+}
+
+@media (min-width: 800px) {
+	.form-row {
+		label {
+			width: 30%;
+			box-sizing: border-box;
+			padding: 10px 10px 0 0;
+			max-height: none;
+
+			text-align: right;
+			float: left;
+			text-transform: none;
+		}
+
+		input[type=text], textarea, .select-wrap {
+			width: 70%;
+			float: left;
+		}
+
+		.select-wrap:first-child {
+			margin-left: 30%;
+		}
+	}
+
+	.subscribe, .privacy {
+		label {
+			width: 100%;
+			padding: 0;
+			text-align: left;
+		}
+	}
+}
+
+.widget-body {
+	position: relative;
+
+	@media (min-width: @width-two-column-min) {
+		&::before {
+			content: ' ';
+			display: block;
+			width: 1px;
+			background: rgba(127,127,127,0.5);
+			position: absolute;
+			top: 20px;
+			bottom: 20px;
+			right: 40%;
+		}
 	}
 }
