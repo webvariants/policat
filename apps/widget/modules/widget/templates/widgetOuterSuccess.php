@@ -27,7 +27,7 @@ $css = array(
 
 ob_start();
 ?>
-<div onclick="<?php echo UtilWidget::getWidgetHereJs($widget['id'], true) ?>" <?php UtilPolicat::style($css, array('font-size' => '0', 'line-height' => '0', 'max-width' => '1000px'), $stylings['width'] == 'auto' ? null : array('max-width' => ($stylings['width'] . 'px')) )?>>
+<div onclick="<?php echo UtilWidget::getWidgetHereJs($widget['id'], true) ?>" <?php UtilPolicat::style($css, array('font-size' => '0', 'line-height' => '0', 'max-width' => '1080px'), $stylings['width'] == 'auto' ? null : array('max-width' => ($stylings['width'] . 'px')) )?>>
   <p <?php
   UtilPolicat::style($css, array('line-height' => '18px', 'text-transform' => 'uppercase', 'overflow' => 'visible',
       'color' => $stylings['bg_right_color'], 'background-color' => $stylings['title_color'], 'letter-spacing' => '1px', 'float' => 'none'))

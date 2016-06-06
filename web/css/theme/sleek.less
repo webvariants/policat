@@ -60,6 +60,8 @@ ol {
 }
 
 .count {
+	margin-bottom: 20px;
+
 	.count-text {
 		font-size: 18px;
 		font-weight: bold;
@@ -143,6 +145,15 @@ select {
 	height: 38px;
 	border-radius: 5px;
 }
+
+fieldset {
+	padding-right: 20px;
+}
+
+.submit {
+	border-radius: 5px;
+}
+
 .select-wrap, textarea {
 	border-radius: 5px;
 }
@@ -257,5 +268,15 @@ span.checkbox {
 			bottom: 20px;
 			right: 40%;
 		}
+	}
+}
+
+@media (min-width: @width-two-column-min) {
+	.content-left {
+		padding-right: 30px;
+	}
+
+	.content-right {
+		padding-left: 30px;
 	}
 }

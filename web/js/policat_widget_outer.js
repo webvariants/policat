@@ -93,7 +93,7 @@ var policat = typeof policat === "undefined" ? {widgets: []} : policat;
 			window.attachEvent('onmessage', receivePostMsg);
 
 		policat.widget_here = function(id, click) {
-			var maxWidth = '1000px';
+			var maxWidth = '1080px';
 //			if ('devicePixelRatio' in window && window.devicePixelRatio > 1)
 //				maxWidth = '360px';
 			if ('matchMedia' in window) {
