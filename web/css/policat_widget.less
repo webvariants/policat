@@ -3,7 +3,7 @@
 @color-valid: green;
 @width-one-column-max: 439px;
 
-body, div, span, h1, h2, h3, h4, h5, h6, p, a, em, img, q, dl, dt, dd, ol, ul, li, form, label, input, textarea  {
+body, div, span, h1, h2, h3, h4, h5, h6, p, a, em, img, q, dl, dt, dd, ol, ul, li, form, label, input, textarea, fieldset  {
 	border: 0;
 	font-family: inherit;
 	font-size: 100%;
@@ -118,9 +118,18 @@ form {
 	span.help {
 		font-size: 0.8em;
 	}
-	div {
-		margin-bottom: 3px;
-	}
+}
+
+fieldset {
+	margin: 0 -3px;
+}
+
+.form-row {
+	float: left;
+	box-sizing: border-box;
+	margin: 0 0 5px 0;
+	padding: 0 3px;
+	width: 100%;
 }
 
 input, select, textarea {
@@ -136,17 +145,22 @@ input[type=text], textarea, select  {
 	border-color: #bbb #bbb #ddd #ddd;
 	box-sizing: border-box;
 	font-size: 13px;
-	margin: 3px;
+	margin: 0;
 	overflow: hidden;
 	padding: 1px 0 1px 3px;
 	width: 100%;
 }
-input[type=text], select  {
+input[type=text], {
 	height: 22px;
 }
+
+select {
+	height: 20px;
+}
+
 .select-wrap {
 	border: 1px solid transparent;
-	margin: 2px;
+	margin: 0;
 	padding: 0;
 
 	select, input {
@@ -167,6 +181,22 @@ input[type=text], select  {
 	}
 }
 
+label {
+	display: block;
+	font-size: 9px;
+	line-height: 14px;
+	margin-bottom: -2px;
+	max-height: 14px;
+	overflow: hidden;
+	text-transform: uppercase;
+}
+
+.checkbox {
+	label {
+		text-transform: none;
+	}
+}
+
 label.form-error {
 	color: @color-error;
 }
@@ -183,32 +213,46 @@ label.form-error {
 .form-indicator {
 	position: relative;
 
+	input[type=text],
+	textarea,
+	&.select-wrap {
+		transition: border-color 1s, box-shadow 1s;
+	}
+	label {
+		transition: color 1s;
+	}
+
 	&.form-valid.form-indicator-positive, &.form-error {
 		input {
 			padding-right: 15px;
 		}
 	}
 	&::after {
+		content: ' ';
 		position: absolute;
-		bottom: 1px;
-		right: 0;
+		bottom: -2px;
+		right: 4px;
 		display: block;
 		font-size: 16px;
+		opacity: 0;
+		transition: opacity 1s;
 	}
 
 	&.form-valid.form-indicator-positive::after {
 		content: "\02713"; /* &check; */
 		color: @color-valid;
+		opacity: 1;
 	}
 
 	&.form-error::after {
 		content: "\02717"; /* &cross; */
 		color: @color-error;
+		opacity: 1;
 	}
 
 	&.form-indicator-select {
 		&::after {
-			bottom: -2px;
+			bottom: -3px;
 			right: 15px;
 		}
 	}
@@ -241,11 +285,7 @@ label.form-error {
 		max-height: 80px;
 	}
 }
-/*.email_action > div {
-	float: left;
-	margin-bottom: 6px;
-	width: 303px;
-}*/
+
 .privacy-policy {
 	padding-bottom: 40px;
 }
@@ -414,7 +454,6 @@ label.form-error {
 
 	.count-bar {
 		height: 10px;
-		margin-left: 3px;
 		overflow: hidden;
 		position: relative;
 		div {
@@ -440,7 +479,6 @@ label.form-error {
 		font-size: 10px;
 		height: 12px;
 		line-height: 12px;
-		margin-left: 3px;
 		overflow: hidden;
 		margin-top: 3px;
 
@@ -456,7 +494,7 @@ label.form-error {
 a.back {
 	bottom: 10px;
 	font-size: 9px;
-	left: 0;
+	left: 10px;
 	margin: 0;
 	position: absolute;
 }
@@ -476,16 +514,13 @@ a.back {
 
 	.donate {
 		.back {
-			left: 0;
+			left: 10px;
 		}
 	}
 	.thankyou {
 		.back {
-			left: 0;
+			left: 10px;
 		}
-	}
-	form>div.country {
-		height: 27px;
 	}
 	.privacy {
 		label {
@@ -497,15 +532,6 @@ a.back {
 	}
 	.input-checkbox {
 		width: 19px;
-	}
-	form>div.checkbox {
-		height: auto;
-		margin-left: 1px;
-		margin-top: 2px;
-		width: 190px;
-	}
-	form>div.comment {
-		height: auto;
 	}
 	a.submit {
 		display: block;
@@ -522,6 +548,10 @@ a.back {
 .content-right {
 	overflow: hidden;
 	padding: 20px 20px 10px 10px;
+
+	@media (max-width: @width-one-column-max) {
+		padding-left: 20px;
+	}
 }
 
 .widget-right {
@@ -561,16 +591,6 @@ a.back {
 	}
 }
 
-label {
-	display: block;
-	font-size: 9px;
-	line-height: 14px;
-	margin-bottom: -2px;
-	margin-left: 3px;
-	max-height: 14px;
-	overflow: hidden;
-	text-transform: uppercase;
-}
 .widget-right form .subscribe, .widget-right form .privacy  {
 	clear: left;
 	margin-bottom: 10px;
@@ -604,11 +624,7 @@ div.checkbox label, div.checkbox input[type=checkbox] {
 	display: block;
 	float: left;
 }
-div.checkbox {
-	label {
-		text-transform: none;
-	}
-}
+
 .submit {
 	border: 0;
 	padding: 0;
@@ -676,59 +692,31 @@ input[type=checkbox]+p {
 	line-height: 14px;
 }
 .sign-form {
-	.group {
-		float: left;
-		margin: 0 0 3px 0;
-	}
 	.group.first {
 		clear: left;
 	}
 	.group.title {
-		margin: 0 2% 3px 0;
-		width: 42%;
+		width: 44%;
 	}
 	.group.firstname {
 		width: 56%;
 	}
 	.group.city {
-		margin: 0 2% 3px 0;
-		width: 60%;
+		width: 62%;
 	}
 	.group.post_code {
 		width: 38%;
 	}
-
-	.lastname,
-	.fullname,
-	.email,
-	.address,
-	.extra1  {
-		clear: left;
-	}
-	.country,
-	.comment  {
-		clear: left;
+	.country {
+		margin-top: 5px;
 	}
 }
 .embed, .donate {
 	.group {
-		float: left;
-		margin: 0 0 3px 0;
-		width: 49%;
+		width: 50%;
 	}
 	.group.first {
 		clear: left;
-		margin: 0 2% 3px 0;
-	}
-	.checkbox {
-		clear: left;
-		float: left;
-	}
-	.embed-this-register {
-		clear: left;
-	}
-	.styling_font_family {
-		float: left;
 	}
 }
 .embed-this-left {

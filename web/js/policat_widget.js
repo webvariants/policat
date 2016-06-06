@@ -3,7 +3,6 @@ jscolor.dir = '/js/dist/';
 $(document).ready(function($) {
 	(function($, widget_id, window, Math, target_selectors, CT_extra, t_sel, t_sel_all, petition_id) {
 		var widget = $('#widget');
-		var widget_body = $('#widget-body');
 		var widget_left = $('#widget-left');
 		var policat_widget_right = $('#widget-right');
 		var content_right = $('#content-right');

@@ -45,7 +45,7 @@ if (is_array($target_selectors)) {
         <?php if ($font_css_file): ?><link href="<?php echo $font_css_file ?>" rel="stylesheet" type="text/css" /><?php endif ?>
         <?php UtilTheme::printCss($petition['themeId'], $widget, $petition); ?><!-- <?php echo $petition['themeId'] ?> -->
     </head>
-    <body id="widget-body">
+    <body>
         <div id="widget" class="widget">
             <?php if ($title || $target): ?>
             <div class="header">
@@ -208,17 +208,19 @@ if (is_array($target_selectors)) {
                         <?php echo $form->renderGlobalErrors() ?>
                         <form <?php if ($disabled): ?>style="display:none"<?php endif ?> id="sign" class="sign-form" action="" method="post" autocomplete="off">
                             <?php echo $form->renderHiddenFields() ?>
-                            <?php
-                            foreach ($form as $fieldname => $fieldwidget) {
-                              $group = $form->isGroupedField($fieldname);
-                              if (!$fieldwidget->isHidden()) {
-                                printf('<div class="%s%s%s">%s</div>', $fieldname, $group ? ' group' : '', $group === 2 ? ' first' : '', $fieldwidget->renderRow());
+                            <fieldset>
+                              <?php
+                              foreach ($form as $fieldname => $fieldwidget) {
+                                $group = $form->isGroupedField($fieldname);
+                                if (!$fieldwidget->isHidden()) {
+                                  printf('<div class="form-row %s%s%s">%s</div>', $fieldname, $group ? ' group' : '', $group === 2 ? ' first' : '', $fieldwidget->renderRow());
+                                }
                               }
-                            }
-                            if (!isset($form[Petition::FIELD_PRIVACY])):
-                              ?>
-                              <div class="privacy"><label style="text-decoration:none"><?php echo UtilBold::format(__('By signing, I agree with the _privacy policy_.')) ?></label></div>
-                            <?php endif; ?>
+                              if (!isset($form[Petition::FIELD_PRIVACY])):
+                                ?>
+                                <div class="privacy"><label style="text-decoration:none"><?php echo UtilBold::format(__('By signing, I agree with the _privacy policy_.')) ?></label></div>
+                              <?php endif; ?>
+                            </fieldset>
                             <button type="button" class="submit submit-sign"><span id="btn_sign"><?php echo strtr(__($petition->getLabel(PetitionTable::LABEL_BUTTON)), array(' ' => '&nbsp;')) ?></span></button>
                         </form>
                         <?php if ($disabled): ?>
@@ -233,11 +235,12 @@ if (is_array($target_selectors)) {
                         <?php echo $form_embed->renderGlobalErrors(); ?>
                         <form id="embed" class="embed" action="" method="post">
                             <?php echo $form_embed->renderHiddenFields(); ?>
+                            <fieldset>
                             <?php
                             foreach (array('styling_type', 'styling_width', 'styling_title_color', 'styling_body_color', 'styling_bg_left_color', 'styling_bg_right_color', 'styling_form_title_color', 'styling_button_color', 'styling_button_primary_color', 'styling_label_color', 'styling_font_family') as $fieldname):
                               if (isset($form_embed[$fieldname])):
                                 $group = $form_embed->isGroupedField($fieldname);
-                                printf('<div class="%s%s%s">%s</div>', $fieldname, $group ? ' group' : '', $group === 2 ? ' first' : '', $form_embed[$fieldname]->renderRow());
+                                printf('<div class="form-row %s%s%s">%s</div>', $fieldname, $group ? ' group' : '', $group === 2 ? ' first' : '', $form_embed[$fieldname]->renderRow());
                               endif;
                             endforeach;
                             ?>
@@ -260,16 +263,17 @@ if (is_array($target_selectors)) {
                             }
                             if (isset($form_embed['paypal_email'])):
                               ?>
-                              <div class="checkbox">
+                              <div class="form-row checkbox">
                                   <?php echo $form_embed['paypal_email'], $form_embed['paypal_email']->renderLabel() ?>
                               </div>
                             <?php endif ?>
-                            <h2 id="embed-this-register" class="embed-this-register"><?php echo __('Register your widget') ?>:</h2>
+                            <h2 id="embed-this-register" class="form-row embed-this-register"><?php echo __('Register your widget') ?>:</h2>
                             <?php
                             foreach (array('email', 'organisation') as $fieldname) {
-                              printf('<div class="%s">%s</div>', $fieldname, $form_embed[$fieldname]->renderRow());
+                              printf('<div class="form-row %s">%s</div>', $fieldname, $form_embed[$fieldname]->renderRow());
                             }
                             ?>
+                            </fieldset>
                             <button type="button" class="submit button-small">
                                 <span id="embed-this-generate"><?php echo __('Generate widget') ?></span>
                                 <span id="embed-this-change" style="display:none"><?php echo __('Change widget') ?></span>
@@ -322,11 +326,12 @@ if (is_array($target_selectors)) {
                               <input type="hidden" name="no_note" value="1" />
                               <input type="hidden" name="tax" value="0" />
                               <input type="hidden" name="bn" value="IC_Beispiel" />
-                              <div class="amount group first">
+                              <fieldset>
+                              <div class="form-row amount group first">
                                   <label><?php echo __('Amount') ?></label>
                                   <input id="paypal_amount" type="text" name="amount" value="" />
                               </div>
-                              <div class="currency_code group">
+                              <div class="form-row currency_code group">
                                   <label>&nbsp;</label>
                                   <select name="currency_code">
                                       <option value="EUR">Euro</option>
@@ -334,6 +339,7 @@ if (is_array($target_selectors)) {
                                       <option value="GBP">Pound</option>
                                   </select>
                               </div>
+                              </fieldset>
                               <button type="button" class="submit button-small"><?php echo __('Donate') ?></button>
                           </form>
                         <?php endif ?>
