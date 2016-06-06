@@ -171,8 +171,9 @@ select {
 .form-error {
 	input[type=text],
 	textarea,
-	&.select-wrap  {
-		border: 1px solid @color-error;
+	span.checkbox,
+	&.select-wrap {
+		border-color: @color-error;
 		box-shadow: 0 0px 2px rgba(255,0,0,0.5);
 	}
 
@@ -591,35 +592,26 @@ a.back {
 	}
 }
 
-.widget-right form .subscribe, .widget-right form .privacy  {
-	clear: left;
-	margin-bottom: 10px;
-	position: relative;
-}
-.widget-right .subscribe input, .widget-right .privacy input  {
-	left: 3px;
-	margin: 0 !important;
-	position: absolute;
-	top: 3px;
-}
-.widget-right .subscribe span.checkbox, .widget-right .privacy span.checkbox  {
-	border: 0;
+span.checkbox  {
+	border: 1px solid transparent;
+	border-radius: 10px;
 	left: 0;
-	padding: 3px;
+	padding: 2px;
 	position: absolute;
 	top: 0;
+	display: inline-block;
+	height: 14px;
+	width: 14px;
+
+	input {
+		position: static;
+		left: auto;
+		top: auto;
+		right: auto;
+		bottom: auto;
+	}
 }
-.widget-right .subscribe span.checkbox input, .widget-right .privacy span.checkbox input  {
-	left: auto;
-	position: static;
-	top: auto;
-}
-.widget-right .subscribe label, .widget-right .privacy label  {
-	margin-top: 3px;
-	max-height: none;
-	padding-left: 20px;
-	text-transform: none;
-}
+
 div.checkbox label, div.checkbox input[type=checkbox] {
 	display: block;
 	float: left;
@@ -709,6 +701,26 @@ input[type=checkbox]+p {
 	}
 	.country {
 		margin-top: 5px;
+	}
+
+	.subscribe, .privacy  {
+		clear: left;
+		margin-bottom: 10px;
+		position: relative;
+
+		input {
+			left: 3px;
+			margin: 0 !important;
+			position: absolute;
+			top: 3px;
+		}
+
+		label {
+			margin-top: 3px;
+			max-height: none;
+			padding-left: 20px;
+			text-transform: none;
+		}
 	}
 }
 .embed, .donate {
