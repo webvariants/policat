@@ -1,7 +1,7 @@
 jscolor.dir = '/js/dist/';
 
 $(document).ready(function($) {
-	(function($, widget_id, window, Math, target_selectors, CT_extra, t_sel, t_sel_all, petition_id) {
+	(function($, widget_id, window, Math, target_selectors, CT_extra, t_sel, t_sel_all, petition_id, numberSeparator) {
 		var widget = $('#widget');
 		var widget_left = $('#widget-left');
 		var policat_widget_right = $('#widget-right');
@@ -18,7 +18,7 @@ $(document).ready(function($) {
 		var old_height = null;
 
 		var numberWithCommas = function numberWithCommas(x) {
-			return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+			return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, numberSeparator);
 		};
 
 		function resize() {
@@ -812,5 +812,5 @@ $(document).ready(function($) {
 		
 		$('.external_links a').attr('target', '_blank');
 
-	})($, widget_id, window, Math, target_selectors, CT_extra, t_sel, t_sel_all, petition_id);
+	})($, widget_id, window, Math, target_selectors, CT_extra, t_sel, t_sel_all, petition_id, numberSeparator);
 });

@@ -348,6 +348,7 @@ class widgetActions extends policatActions
     $petition_text = $this->widget['PetitionText'];
     /* @var $petition_text PetitionText */
 
+    $this->numberSeparator = $petition_text->utilCultureInfo()->getNumberFormat()->getGroupSeparator();
     $this->count = $petition->getCount(60);
     $this->target = $this->count . '-' . Petition::calcTarget($this->count, $this->widget->getPetition()->getTargetNum());
     $image_prefix = ($request->isSecure() ? 'https://' : 'http://') . $request->getHost() . '/' . $request->getRelativeUrlRoot() . 'images/';

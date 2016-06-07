@@ -5,6 +5,8 @@
     /* @var $petition Petition */
     /* @var $widget Widget */
     /* @var $form_embed WidgetPublicForm */
+
+    $culture_info = $petition_text->utilCultureInfo();
     ?>
     <head>
         <?php include_http_metas() ?>
@@ -29,12 +31,13 @@ if (is_array($target_selectors)) {
   }
 }
 ?>
+  var numberSeparator = "<?php echo $culture_info->getNumberFormat()->getGroupSeparator() ?>";
   var petition_id = <?php echo $petition->getId() ?>;
   var target_selectors = <?php echo json_encode($target_selectors) ?>;
   var t_sel = <?php echo json_encode(__('select')) ?>;
   var t_sel_all = <?php echo json_encode($petition->getKind() == Petition::KIND_PLEDGE ? '--' . __('select') . '--' : __('select all')) ?>;
 <?php if ($target_selectors && $petition->isGeoKind() && !$petition->getWithCountry()): /* @var $petition_text PetitionText */ ?>
-  var CT_extra = <?php echo json_encode($petition_text->utilCultureInfo()->getCountries($petition_text->utilCountries())) ?>;
+  var CT_extra = <?php echo json_encode($culture_info->getCountries($petition_text->utilCountries())) ?>;
 <?php else: ?>
   var CT_extra = null;
 <?php endif ?>

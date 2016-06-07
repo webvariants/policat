@@ -48,7 +48,7 @@ ob_start();
       <?php echo __('Take action') ?>
   </div>
   <p <?php UtilPolicat::style($css, array('font-size' => '11px', 'line-height' => '11px', 'color' => $stylings['body_color'], 'margin' => '10px', 'float' => 'none')) ?>>
-    <?php echo __('# Participants', array('#' => number_format($count, 0, '.', ','))) ?>
+    <?php echo __('# Participants', array('#' => number_format($count, 0, ',', $numberSeparator))) ?>
   </p>
 </div>
 <?php
