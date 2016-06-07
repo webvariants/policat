@@ -1,6 +1,8 @@
 @width-one-column-max: 439px;
 @width-two-column-min: 440px;
 
+@width-label-left-min: 800px;
+
 body {
 	font-size: 13px;
 }
@@ -8,7 +10,7 @@ body {
 h1, h1.action-title {
 	font-size: 24px;
 	font-weight: bold;
-	line-height: 40px;
+	line-height: 28px;
 }
 
 ol {
@@ -87,7 +89,7 @@ ol {
 	text-decoration: none;
 	color: var(--button-color);
 	font-weight: bold;
-	font-size: 14px;
+	font-size: 13px;
 
 	&::before {
 		content: "\00BB";
@@ -121,10 +123,31 @@ ol {
 label {
 	font-size: 13px;
 	text-transform: none;
-	padding: 5px 0;
+	padding: 7px 0 5px 0;
 	font-weight: bold;
-	line-height: 20px;
+	line-height: 16px;
 	box-sizing: border-box;
+}
+
+
+
+input[type=text], textarea, select {
+	box-shadow: inset -1px 2px 8px -1px rgba(170,170,170,0.7);
+	border-color: rgba(170,170,170,0.7);
+}
+
+.form-error {
+	input[type=text],
+	textarea {
+		box-shadow: 0 0px 2px rgba(255,0,0,0.5), inset -1px 2px 8px -1px rgba(170,170,170,0.7);
+	}
+}
+
+.form-valid.form-indicator-positive {
+	input[type=text],
+	textarea {
+		box-shadow: 0 0px 2px rgba(0,255,0,0.5), inset -1px 2px 8px -1px rgba(170,170,170,0.7);
+	}
 }
 
 input[type=checkbox] {
@@ -147,11 +170,37 @@ select {
 }
 
 fieldset {
-	padding-right: 20px;
+	@media (min-width: (@width-label-left-min + 60px)) {
+		padding-right: 20px;
+	}
 }
 
 .submit {
 	border-radius: 5px;
+
+	&:hover, &:focus {
+		background-image: linear-gradient(to bottom, rgba(255,255,255,0.2) 0%, rgba(255,255,255,0.3) 75%, rgba(255,255,255,0.4) 100%);
+	}
+}
+
+.submit-sign-container {
+	text-align: center;
+}
+
+button.submit-sign {
+	font-size: 22px;
+	font-weight: bold;
+	height: 60px;
+	display: inline-block;
+
+	@media (min-width: 930px) {
+		min-width: 300px;
+		width: auto;
+	}
+
+	span {
+		z-index: 22; /* font resize start */
+	}
 }
 
 .select-wrap, textarea {
@@ -194,6 +243,11 @@ span.checkbox {
 	}
 }
 
+.privacy-no-check {
+	label {
+		color: var(--button-color);
+	}
+}
 
 .form-indicator {
 	&::after {
@@ -222,12 +276,12 @@ span.checkbox {
 	}
 }
 
-@media (min-width: 800px) {
+@media (min-width: @width-label-left-min) {
 	.form-row {
 		label {
 			width: 30%;
 			box-sizing: border-box;
-			padding: 10px 10px 0 0;
+			padding: 12px 10px 0 0;
 			max-height: none;
 
 			text-align: right;

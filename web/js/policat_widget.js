@@ -102,39 +102,23 @@ $(document).ready(function($) {
 			$('.content-right .stage-right').css('max-height', '500px'); // IE7
 		}
 
-		// AUTO SIZE
-		var n = 32;
-		var e = $('#btn_sign');
-		while (n > 12) {
-			n--;
-			if (e.width() >= 170)
-				e.css('font-size', n + 'px');
-			else
-				n = 0;
-		}
-		e.css('line-height', '49px');
-		n = 33;
-		e = $('#action-title');
-		if (e.length) {
-			while (n > 12) {
+		function fontResize(element) {
+			var parent = element.parent();
+			var width = parent.width();
+			var z = element.css('z-index');
+			var n = z ? z : 32;
+			while (n > 11) {
 				n--;
-				if (n === 20)
-					e.css('font-weight', 'normal');
-				if (e.height() > 72)
-					e.css('font-size', n + 'px');
-				else
-					n = 0;
+				if (element.width() >= width) {
+					element.css('font-size', n + 'px');
+				}
+				else {
+					return null;
+				}
 			}
 		}
-		n = 16;
-		e = $('#widget-right div.sign h2:first');
-		while (n > 11) {
-			n--;
-			if (e.height() > 20)
-				e.css('font-size', n + 'px');
-			else
-				n = 0;
-		}
+
+		fontResize($('#btn-sign'));
 
 		$('#widget_styling_type').each(function() {
 			var label = $("label", $(this).parent());

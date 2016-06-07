@@ -49,7 +49,7 @@ if (is_array($target_selectors)) {
         <div id="widget" class="widget">
             <?php if ($title || $target): ?>
             <div class="header">
-                <?php if ($title): ?><h1 id="action-title" class="action-title"><?php echo Util::enc($title) ?></h1><?php endif ?>
+                <?php if ($title): ?><h1 class="action-title"><?php echo Util::enc($title) ?></h1><?php endif ?>
                 <?php if ($target): ?><div class="subtitle"><?php echo UtilMarkdown::transform($target) ?></div><?php endif ?>
             </div>
             <?php endif ?>
@@ -58,7 +58,7 @@ if (is_array($target_selectors)) {
                   <div class="content-left">
                       <div id="action" class="action">
                           <div id="head" class="head">
-                              <?php if ($title): ?><h1 id="action-title" class="action-title"><?php echo Util::enc($title) ?></h1><?php endif ?>
+                              <?php if ($title): ?><h1 class="action-title"><?php echo Util::enc($title) ?></h1><?php endif ?>
                               <?php if ($target): ?><div class="subtitle"><?php echo UtilMarkdown::transform($target) ?></div><?php endif ?>
                           </div>
                           <a id="down-button" class="button-color down-button button-btn"><?php echo __($petition->getLabel(PetitionTable::LABEL_TITLE)) ?></a>
@@ -219,10 +219,12 @@ if (is_array($target_selectors)) {
                                 }
                                 if (!isset($form[Petition::FIELD_PRIVACY])):
                                   ?>
-                                  <div class="privacy"><label style="text-decoration:none"><?php echo UtilBold::format(__('By signing, I agree with the _privacy policy_.')) ?></label></div>
+                                  <div class="privacy privacy-no-check"><label><?php echo UtilBold::format(__('By signing, I agree with the _privacy policy_.')) ?></label></div>
                                 <?php endif; ?>
                               </fieldset>
-                              <button type="button" class="submit submit-sign"><span id="btn_sign"><?php echo strtr(__($petition->getLabel(PetitionTable::LABEL_BUTTON)), array(' ' => '&nbsp;')) ?></span></button>
+                              <div class="submit-sign-container">
+                                <button type="button" class="submit submit-sign"><span id="btn-sign"><?php echo strtr(__($petition->getLabel(PetitionTable::LABEL_BUTTON)), array(' ' => '&nbsp;')) ?></span></button>
+                              </div>
                           </form>
                           <?php if ($disabled): ?>
                             <div id="footer_ot"></div>
