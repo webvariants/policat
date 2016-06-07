@@ -350,7 +350,9 @@ if (is_array($target_selectors)) {
                                     </select>
                                 </div>
                                 </fieldset>
-                                <button type="button" class="submit button-small"><?php echo __('Donate') ?></button>
+                                <div>
+                                  <button type="button" class="submit button-small"><?php echo __('Donate') ?></button>
+                                </div>
                             </form>
                           <?php endif ?>
                           <?php if ($donate_url && $donate_text): ?>

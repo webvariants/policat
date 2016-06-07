@@ -12,8 +12,8 @@ $(document).ready(function($) {
 		var tabs = $('#tabs');
 		var tabs_left = $('.left-tab', tabs);
 		var tabs_right = $('.right-tab', tabs);
-
 		var scroll_pledges = $('#scroll-pledges');
+		var sign_btn = $('#btn-sign');
 
 		var old_height = null;
 
@@ -45,6 +45,8 @@ $(document).ready(function($) {
 					window.parent.postMessage('policat_height;' + iframe_no + ';' + height, '*');
 			}
 			old_height = height;
+
+			fontResize(sign_btn);
 		}
 
 		down_button.click(function() {
@@ -105,8 +107,15 @@ $(document).ready(function($) {
 		function fontResize(element) {
 			var parent = element.parent();
 			var width = parent.width();
+			if (width === element.data('fontResize')) {
+				return null;
+			}
+
+			element.data('fontResize', width);
+
 			var z = element.css('z-index');
 			var n = z ? z : 32;
+			element.css('font-size', n + 'px');
 			while (n > 11) {
 				n--;
 				if (element.width() >= width) {
@@ -118,7 +127,7 @@ $(document).ready(function($) {
 			}
 		}
 
-		fontResize($('#btn-sign'));
+		fontResize(sign_btn);
 
 		$('#widget_styling_type').each(function() {
 			var label = $("label", $(this).parent());
