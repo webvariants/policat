@@ -111,10 +111,6 @@ ol {
 	}
 }
 
-.head {
-	display: none;
-}
-
 .header {
 	display: block;
 	background: var(--background-color-box);
@@ -243,9 +239,34 @@ span.checkbox {
 	}
 }
 
-.privacy-no-check {
-	label {
-		color: var(--button-color);
+.widget-left {
+	.head {
+		.action-title, .subtitle {
+			display: none;
+		}
+	}
+
+	.form-title {
+		display: block;
+	}
+}
+
+.widget-right {
+	.privacy-no-check {
+		label {
+			color: var(--button-color);
+		}
+
+		.short-text {
+			display: block;
+		}
+		.long-text {
+			display: none;
+		}
+	}
+
+	.form-title {
+		display: none;
 	}
 }
 

@@ -61,6 +61,7 @@ if (is_array($target_selectors)) {
                   <div class="content-left">
                       <div id="action" class="action">
                           <div id="head" class="head">
+                              <h1 class="form-title title-color"><?php echo trim(Util::enc($petition_text->getFormTitle())) ? : __($petition->getLabel(PetitionTable::LABEL_TITLE)) ?></h1>
                               <?php if ($title): ?><h1 class="action-title"><?php echo Util::enc($title) ?></h1><?php endif ?>
                               <?php if ($target): ?><div class="subtitle"><?php echo UtilMarkdown::transform($target) ?></div><?php endif ?>
                           </div>
@@ -180,7 +181,7 @@ if (is_array($target_selectors)) {
               <div id="widget-right" class="widget-right show-sign show-share">
                   <div id="content-right" class="content-right">
                       <div class="sign">
-                          <h2 class="title-color"><?php echo trim(Util::enc($petition_text->getFormTitle())) ? : __($petition->getLabel(PetitionTable::LABEL_TITLE)) ?></h2>
+                          <h2 class="form-title title-color"><?php echo trim(Util::enc($petition_text->getFormTitle())) ? : __($petition->getLabel(PetitionTable::LABEL_TITLE)) ?></h2>
                           <?php
                           $disabled = false;
                           $require_billing_before = $require_billing_after = false;
@@ -222,7 +223,10 @@ if (is_array($target_selectors)) {
                                 }
                                 if (!isset($form[Petition::FIELD_PRIVACY])):
                                   ?>
-                                  <div class="privacy privacy-no-check"><label><?php echo UtilBold::format(__('By signing, I agree with the _privacy policy_.')) ?></label></div>
+                                  <div class="privacy privacy-no-check">
+                                      <label class="long-text"><?php echo UtilBold::format(__('By signing, I agree with the _privacy policy_.')) ?></label>
+                                      <label class="short-text">&raquo;&nbsp;<?php echo __('PP Heading') ?></label>
+                                  </div>
                                 <?php endif; ?>
                               </fieldset>
                               <div class="submit-sign-container">
