@@ -18,10 +18,12 @@ class UtilFont {
       'Impact, Charcoal, sans-serif', '"Lucida Sans Unicode", "Lucida Grande", sans-serif', 'Tahoma, Geneva, sans-serif',
       '"Trebuchet MS", Helvetica, sans-serif', 'Verdana, Geneva, sans-serif', '"Courier New", Courier, monospace',
       '"Lucida Console", Monaco, monospace', '"Lucida Sans Unicode", Vardana, Arial',
-      '"Open Sans", sans-serif'
+      '"Open Sans", sans-serif',
+      'Roboto, sans-serif'
   );
   private static $FONT_CSS_FILE = array(
-      'Open Sans' => '/fonts/OpenSans/OpenSans.css'
+      'Open Sans' => '/fonts/OpenSans/OpenSans.css',
+      'Roboto' => '/fonts/Roboto/Roboto.css'
   );
 
   public static function cssFileByFont($font_family) {
