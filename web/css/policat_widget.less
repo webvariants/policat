@@ -580,6 +580,7 @@ a.back {
 		display: none;
 	}
 	&.show-sign .sign,
+	&.show-sign .last-signings,
 	&.show-donate .donate,
 	&.show-embed-this .embed-this,
 	&.show-thankyou .thankyou,
@@ -1037,7 +1038,9 @@ label:hover + #embed-this-help-type, label:hover + #embed-this-help-width {
 }
 
 .last-signers {
-
+	h2 {
+		font-size: 20px;
+	}
 }
 
 .last-signers-exists {
@@ -1053,16 +1056,16 @@ ul.last-signers {
 
 	li {
 		margin: 0;
-		paddign: 0;
+		padding: 0 2px 0 0;
 		display: inline-block;
 
 		&::after {
-			content: ', ';
+			content: ',';
 		}
 
 
 		&:last-child::after {
-			content: '';
+			content: '...';
 		}
 	}
 }

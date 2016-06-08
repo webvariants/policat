@@ -2,6 +2,7 @@
   var policat_verified = <?php echo $petition_id ?>;
   var policat_ref = <?php echo json_encode($ref) ?>;
   var policat_width = 'auto';
+  var policat_name = <?php echo json_encode($name) ?>;
 </script>
 <p class="iframe-center">
   <br />

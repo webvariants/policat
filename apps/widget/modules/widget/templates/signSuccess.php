@@ -302,6 +302,20 @@ if (is_array($target_selectors)) {
                           <p class="form_message label_color"><?php echo __('You verified your email address. Your action is confirmed. Use this moment to tell friends and family.') ?></p>
                           <h2 class="label_color"><?php echo __('Tell your friends') ?></h2>
                       </div>
+                      <?php if ($petition->getLastSignings() !== PetitionTable::LAST_SIGNINGS_NO): ?>
+                      <div class="last-signings">
+                          <div id="last-signers-exists" class="last-signers-exists">
+                            <h2 class="label_color"><?php echo __('Last signers') ?></h2>
+                            <ul id="last-signers" data-show-on="<?php echo $petition->getLastSignings() ?>" class="last-signers">
+                                <?php if ($last_signings): ?>
+                                  <?php foreach ($last_signings as $signer): /* @var $signer PetitionSigning */ ?>
+                                    <li><?php echo Util::enc($signer->getComputedName()) ?></li>
+                                  <?php endforeach ?>
+                                <?php endif ?>
+                            </ul>
+                          </div>
+                      </div>
+                      <?php endif ?>
                       <div class="share <?php echo $widget['share'] ? 'share-on-sign' : '' ?>">
                           <a href="https://www.facebook.com/sharer/sharer.php?t=<?php echo urlencode($title) ?>&amp;u=" class="newwin sicon facebook" title="Facebook"><img class="no_load" alt="Facebook" src="<?php echo image_path('facebook-32.png') ?>" /></a>
                           <a href="https://twitter.com/share?text=<?php echo urlencode($title) ?>&amp;url=" class="newwin sicon twitter" title="Twitter"><img class="no_load" alt="Twitter" src="<?php echo image_path('twitter-32.png') ?>" /></a>
@@ -317,12 +331,6 @@ if (is_array($target_selectors)) {
                               <a id="a-donate" class="sicon donate-btn" title="<?php echo __('Donate') ?>"><img class="no_load" alt="<?php echo __('Donate') ?>" src="<?php echo image_path('charity-32.png') ?>" /></a>
                             <?php endif ?>
                           <?php endif ?>
-                      </div>
-                      <div class="last-signings">
-                          <div id="last-signers-exists" class="last-signers-exists">
-                            <h2 class="label_color"><?php echo __('Recent signers') ?></h2>
-                            <ul id="last-signers" class="last-signers"></ul>
-                          </div>
                       </div>
                       <div class="donate">
                           <?php if ($paypal_email): ?>

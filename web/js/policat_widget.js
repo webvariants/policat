@@ -150,7 +150,8 @@ $(document).ready(function($) {
 			var edit_code = hash_parts[1];
 		var count = decodeURIComponent(hash_parts[2]);
 		var iframe_no = hash_parts[3];
-		var ref = hash_parts[4];
+		var name = hash_parts[4];
+		var ref = hash_parts[5];
 
 		if (hasSign) {
 			$('.reload', policat_widget_right).remove();
@@ -824,8 +825,16 @@ $(document).ready(function($) {
 
 		var lastSigners = $('#last-signers');
 		var lastSignersExists = $('#last-signers-exists');
+
+		if (lastSigners.length && lastSigners.find('li').length) {
+			lastSignersExists.show();
+		}
+
 		function fetchLastSigners(page) {
-			console.log('FFF');
+			if (!lastSigners.length) {
+				return null;
+			}
+
 			$.ajax({
 				type: 'GET',
 				dataType: 'json',
@@ -833,9 +842,16 @@ $(document).ready(function($) {
 				success: function(data) {
 					if (typeof data === 'object' && data.status === 'ok') {
 						lastSigners.empty();
+
+						if (page === 0 && name) {
+							lastSigners.append($('<li class="self"></li>').text(name));
+						}
+
 						for (var i = 0; i < data.signers.length; i++) {
 							var signer = data.signers[i];
-							lastSigners.append($('<li></li>').text(signer.name));
+							if (name !== signer.name) {
+								lastSigners.append($('<li></li>').text(signer.name));
+							}
 						}
 
 						if (data.signers.length) {

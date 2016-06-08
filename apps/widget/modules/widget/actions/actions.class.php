@@ -227,6 +227,12 @@ class widgetActions extends policatActions
 
       return $this->renderPartial('json_form', array('form' => $ajax_response_form, 'extra' => $extra));
     }
+
+    if ($this->petition->getLastSignings() == PetitionTable::LAST_SIGNINGS_SIGN_CONFIRM) {
+      $this->last_signings = PetitionSigningTable::getInstance()->lastSignings($this->petition->getId());
+    } else {
+      $this->last_signings = null;
+    }
   }
   
   public function executeSignHp(sfWebRequest $request) {
@@ -328,6 +334,7 @@ class widgetActions extends policatActions
               $this->setTemplate('landing');
             } else {
               $this->petition_id = $petition->getId();
+              $this->name = strtr((string) $petition_signing->getComputedName(), array('!' => '', '&' => '', ';' => '', '?' => ''));
             }
             return;
           }

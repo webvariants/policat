@@ -349,6 +349,9 @@ class EditPetitionForm extends PetitionFieldsForm {
 
     $this->setWidget('themeId', new sfWidgetFormChoice(array('label' => 'Theme', 'choices' => UtilTheme::$THEMES)));
     $this->setValidator('themeId', new sfValidatorChoice(array('required' => false, 'choices' => array_keys(UtilTheme::$THEMES))));
+
+    $this->setWidget('last_signings', new sfWidgetFormChoice(array('choices' => PetitionTable::$LAST_SINGINGS, 'label' => 'Show participants list')));
+    $this->setValidator('last_signings', new sfValidatorChoice(array('choices' => array_keys(PetitionTable::$LAST_SINGINGS))));
   }
 
   public function processValues($values) {

@@ -107,6 +107,16 @@ class PetitionTable extends Doctrine_Table {
       )
   );
 
+  const LAST_SIGNINGS_NO = 0;
+  const LAST_SIGNINGS_CONFIRM = 1;
+  const LAST_SIGNINGS_SIGN_CONFIRM = 3;
+
+  public static $LAST_SINGINGS = array(
+      self::LAST_SIGNINGS_NO => 'Don\'t show',
+      self::LAST_SIGNINGS_CONFIRM => 'Only confirmation page',
+      self::LAST_SIGNINGS_SIGN_CONFIRM => 'In sign-up form and confirmation page',
+  );
+
   /**
    *
    * @return PetitionTable

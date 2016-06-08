@@ -408,6 +408,14 @@ abstract class BasePetitionSigning extends myDoctrineRecord
               1 => 'email',
              ),
              ));
+        $this->index('signing_last_signers', array(
+             'fields' => 
+             array(
+              0 => 'petition_id',
+              1 => 'status',
+              2 => 'updated_at',
+             ),
+             ));
         $this->option('options', NULL);
         $this->option('type', 'INNODB');
         $this->option('collate', 'utf8_general_ci');

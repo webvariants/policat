@@ -45,7 +45,7 @@
     </fieldset>
     <fieldset>
         <legend>Add-ons (optional)</legend>
-        <?php echo $form->renderRows('read_more_url', 'landing_url', '*paypal_email', 'donate_url', 'donate_widget_edit') ?>
+        <?php echo $form->renderRows('read_more_url', 'landing_url', '*paypal_email', 'donate_url', 'donate_widget_edit', 'last_signings') ?>
     </fieldset>
     <fieldset>
         <legend>Promote your e-action</legend>
