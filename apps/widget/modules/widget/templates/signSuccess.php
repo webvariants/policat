@@ -318,6 +318,12 @@ if (is_array($target_selectors)) {
                             <?php endif ?>
                           <?php endif ?>
                       </div>
+                      <div class="last-signings">
+                          <div id="last-signers-exists" class="last-signers-exists">
+                            <h2 class="label_color"><?php echo __('Recent signers') ?></h2>
+                            <ul id="last-signers" class="last-signers"></ul>
+                          </div>
+                      </div>
                       <div class="donate">
                           <?php if ($paypal_email): ?>
                             <?php if ($donate_text): ?>

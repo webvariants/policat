@@ -224,4 +224,67 @@ class api_v2Actions extends policatActions {
     return $this->renderJson($data, $callback);
   }
 
+  /**
+   * @param sfRequest $request A request object
+   */
+  public function executeActionLastSignings(sfWebRequest $request) {
+    $this->setLayout(false);
+    $response = $this->getResponse();
+
+    // does the client want JSONP?
+    $callback = trim(preg_replace('/[^a-z_.]/i', '', $request->getParameter('callback', null)));
+
+    // determine the requested action (petition)
+    $action_id = $request->getParameter('action_id');
+    if (!is_numeric($action_id) || $action_id < 0) {
+      $response->setStatusCode(400);
+      return $this->renderJson(array('status' => 'error', 'message' => 'bad action ID given'), $callback);
+    }
+
+    $page = $request->getParameter('page');
+    if (!is_numeric($page) || $page < 0) {
+      $response->setStatusCode(400);
+      return $this->renderJson(array('status' => 'error', 'message' => 'bad page given'), $callback);
+    }
+
+    if ($page > 100) {
+      $response->setStatusCode(400);
+      return $this->renderJson(array('status' => 'error', 'message' => 'bad page given'), $callback);
+    }
+
+    $petition = PetitionTable::getInstance()->findByIdCachedActive($action_id);
+    if (!$petition) {
+      $response->setStatusCode(404);
+      return $this->renderJson(array('status' => 'error', 'message' => 'action could not be found'), $callback);
+    }
+
+    $response->addCacheControlHttpHeader('public');
+    $response->addCacheControlHttpHeader('max-age', 60);
+
+    $signings = PetitionSigningTable::getInstance()->lastSignings($action_id, 30, $page);
+    if (!$signings) {
+      $response->setStatusCode(404);
+      return $this->renderJson(array('status' => 'error', 'message' => 'nothing found'), $callback);
+    }
+
+    $data = array('action_id' => (int) $action_id, 'page' => (int) $page);
+
+    $signers = array();
+    foreach ($signings as $signing) {
+      /* @var $signing PetitionSigning  */
+
+      $signers[] = array(
+          'id' => $signing->getId(),
+          'name' => $signing->getComputedName()
+      );
+    }
+
+    $data['status'] = 'ok';
+    $data['signers'] = $signers;
+
+    $response->addCacheControlHttpHeader('public');
+    $response->addCacheControlHttpHeader('max-age', 60);
+
+    return $this->renderJson($data, $callback);
+  }
 }

@@ -61,6 +61,13 @@ api_v2:
   requirements:
     action_id: '\d+'
 
+api_v2_last_signings:
+  url: /api/v2/actions/:action_id/last-signings/:page
+  param: { module: api_v2, action: actionLastSignings }
+  requirements:
+    action_id: '\d+'
+    page: '\d+'
+
 api_v2_doc:
   url: /api/v2
   param: { module: api_v2, action: doc }

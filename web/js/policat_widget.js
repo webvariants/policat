@@ -88,6 +88,7 @@ $(document).ready(function($) {
 			show_right('thankyou');
 			widget.addClass('right-only');
 			resize();
+			fetchLastSigners(0);
 		}
 		function show_privacy_policy() {
 			show_left('privacy-policy');
@@ -820,6 +821,32 @@ $(document).ready(function($) {
 		});
 		
 		$('.external_links a').attr('target', '_blank');
+
+		var lastSigners = $('#last-signers');
+		var lastSignersExists = $('#last-signers-exists');
+		function fetchLastSigners(page) {
+			console.log('FFF');
+			$.ajax({
+				type: 'GET',
+				dataType: 'json',
+				url: '/api/v2/actions/' + petition_id + '/last-signings/' + page,
+				success: function(data) {
+					if (typeof data === 'object' && data.status === 'ok') {
+						lastSigners.empty();
+						for (var i = 0; i < data.signers.length; i++) {
+							var signer = data.signers[i];
+							lastSigners.append($('<li></li>').text(signer.name));
+						}
+
+						if (data.signers.length) {
+							lastSignersExists.show();
+						}
+
+						resize();
+					}
+				}
+			});
+		}
 
 	})($, widget_id, window, Math, target_selectors, CT_extra, t_sel, t_sel_all, petition_id, numberSeparator);
 });

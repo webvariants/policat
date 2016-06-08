@@ -501,6 +501,7 @@ PetitionSigning:
     signing_pending_index2:       { fields: [status, created_at, id] }
     signing_pending_index3:        { fields: [status, mailed_at, updated_at, id] }
     signing_email_duplicate:       { fields: [petition_id, email] }
+    signing_last_signers:         { fields: [petition_id, status, updated_at] }
 
 PetitionSigningSearch:
   options:

@@ -529,4 +529,16 @@ class PetitionSigningTable extends Doctrine_Table {
     return $query;
   }
 
+  /**
+   * @return array
+   */
+  public function lastSignings($petition_id, $limit = 10, $page = 0) {
+    return $this->createQuery('ps')
+      ->where('petition_id = ?', $petition_id)
+      ->andWhere('status = ?', PetitionSigning::STATUS_COUNTED)
+      ->orderBy('ps.updated_at DESC')
+      ->limit($limit)
+      ->offset($limit * $page)
+      ->execute();
+  }
 }
