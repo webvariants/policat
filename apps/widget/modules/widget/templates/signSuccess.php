@@ -61,7 +61,7 @@ if (is_array($target_selectors)) {
                   <div class="content-left">
                       <div id="action" class="action">
                           <div id="head" class="head">
-                              <h1 class="form-title title-color"><?php echo trim(Util::enc($petition_text->getFormTitle())) ? : __($petition->getLabel(PetitionTable::LABEL_TITLE)) ?></h1>
+                              <h1 class="form-title title-color"><?php echo trim(Util::enc($petition_text->getFormTitle(), array('\n' => '<br />'))) ? : __($petition->getLabel(PetitionTable::LABEL_TITLE)) ?></h1>
                               <?php if ($title): ?><h1 class="action-title"><?php echo Util::enc($title) ?></h1><?php endif ?>
                               <?php if ($target): ?><div class="subtitle"><?php echo UtilMarkdown::transform($target) ?></div><?php endif ?>
                           </div>
@@ -181,7 +181,7 @@ if (is_array($target_selectors)) {
               <div id="widget-right" class="widget-right show-sign show-share">
                   <div id="content-right" class="content-right">
                       <div class="sign">
-                          <h2 class="form-title title-color"><?php echo trim(Util::enc($petition_text->getFormTitle())) ? : __($petition->getLabel(PetitionTable::LABEL_TITLE)) ?></h2>
+                          <h2 class="form-title title-color"><?php echo trim(Util::enc($petition_text->getFormTitle(), array('\n' => '<br />'))) ? : __($petition->getLabel(PetitionTable::LABEL_TITLE)) ?></h2>
                           <?php
                           $disabled = false;
                           $require_billing_before = $require_billing_after = false;

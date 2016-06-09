@@ -24,3 +24,21 @@
     font-weight: bold;
     font-style: normal;
 }
+
+@font-face {
+    font-family: 'Roboto';
+    src: url('Roboto-BoldItalic-webfont.eot');
+    src: url('Roboto-BoldItalic-webfont.eot?#iefix') format('embedded-opentype'),
+         url('Roboto-BoldItalic-webfont.woff') format('woff');
+    font-weight: bold;
+    font-style: italic;
+}
+
+@font-face {
+    font-family: 'Roboto';
+    src: url('Roboto-Black-webfont.eot');
+    src: url('Roboto-Black-webfont.eot?#iefix') format('embedded-opentype'),
+         url('Roboto-Black-webfont.woff') format('woff');
+    font-weight: 900;
+    font-style: normal;
+}

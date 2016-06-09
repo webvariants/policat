@@ -11,11 +11,18 @@
 
 class Util {
 
-  static function enc($text) {
+  static function enc($text, $tr = null) {
     if ($text === null)
       return '';
-    if (is_scalar($text))
-      return htmlentities($text, ENT_COMPAT, 'utf-8');
+    if (is_scalar($text)) {
+      $r = htmlentities($text, ENT_COMPAT, 'utf-8');
+
+      if ($tr) {
+        return strtr($r, $tr);
+      }
+
+      return $r;
+    } else
     return '';
   }
 
