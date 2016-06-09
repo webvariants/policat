@@ -247,7 +247,7 @@ class api_v2Actions extends policatActions {
       return $this->renderJson(array('status' => 'error', 'message' => 'bad page given'), $callback);
     }
 
-    if ($page > 100) {
+    if ($page > 10000) {
       $response->setStatusCode(400);
       return $this->renderJson(array('status' => 'error', 'message' => 'bad page given'), $callback);
     }
@@ -271,6 +271,9 @@ class api_v2Actions extends policatActions {
     }
 
     $data = array('action_id' => (int) $action_id, 'page' => (int) $page);
+
+    $data['total'] = PetitionSigningTable::getInstance()->lastSigningsTotal($action_id);
+    $data['pages'] = ceil($data['total'] &  $page_size);
 
     $signers = array();
     foreach ($signings as $signing) {

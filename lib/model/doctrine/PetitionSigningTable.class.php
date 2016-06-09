@@ -541,4 +541,14 @@ class PetitionSigningTable extends Doctrine_Table {
       ->offset($limit * $page)
       ->execute();
   }
+
+  /**
+   * @return int
+   */
+  public function lastSigningsTotal($petition_id) {
+    return $this->createQuery('ps')
+      ->where('ps.petition_id = ?', $petition_id)
+      ->andWhere('ps.status = ?', PetitionSigning::STATUS_COUNTED)
+      ->count();
+  }
 }
