@@ -65,4 +65,25 @@ class PetitionTextTable extends Doctrine_Table {
     return $petition_text;
   }
 
+    /**
+   *
+   * @param int $id
+   * @return PetitionText
+   */
+  public function findByIdCachedActive($id, $timeToLive = 600) {
+    if (!is_numeric($id)) {
+      return false;
+    }
+
+    $query = $this->createQuery('pt')
+      ->where('pt.id = ?', $id)
+      ->andWhere('pt.status = ?', PetitionText::STATUS_ACTIVE)
+      ->useResultCache(true, $timeToLive);
+
+    $res = $query->fetchOne(); /* @var $res PetitionText */
+    $query->free();
+
+    return $res;
+  }
+
 }

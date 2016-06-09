@@ -61,12 +61,23 @@ api_v2:
   requirements:
     action_id: '\d+'
 
+api_v2_last_signings_large:
+  url: /api/v2/actions/:action_id/last-signings/:page/large
+  param: { module: api_v2, action: actionLastSignings, type: large }
+  class: sfRequestRoute
+  requirements:
+    sf_method: [get, head]
+    action_id: '[1-9]\d*'
+    page: '[1-9]\d*'
+
 api_v2_last_signings:
   url: /api/v2/actions/:action_id/last-signings/:page
-  param: { module: api_v2, action: actionLastSignings }
+  param: { module: api_v2, action: actionLastSignings, type: normal }
+  class: sfRequestRoute
   requirements:
-    action_id: '\d+'
-    page: '\d+'
+    sf_method: [get, head]
+    action_id: '[1-9]\d*'
+    page: '[1-9]\d*'
 
 api_v2_doc:
   url: /api/v2
@@ -115,6 +126,15 @@ homepage:         { url: '/',                       param: { module: default, ac
 imprint:          { url: '/imprint',                param: { module: default, action: error404 } }
 widget_edit:      { url: '/widget/edit/:id',        param: { module: default, action: error404 } }
 dashboard:        { url: '/dashboard',              param: { module: default, action: error404 } }
+
+signers:
+  url: /signers/:id/:text_id
+  param: { module: signers, action: index }
+  class: sfRequestRoute
+  requirements:
+    sf_method: [get, head]
+    id: '\d+'
+    text_id: '\d+'
 
 default:
   url: /*

@@ -1,0 +1,1 @@
+<div id="signers" data-signers="<?php echo Util::enc(json_encode($data)) ?>"></div>

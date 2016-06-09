@@ -30,9 +30,10 @@ Options +FollowSymLinks +ExecCGI
   RewriteRule ^api(/v2)?$|^counterbar$ widget.php? [L]
   RewriteRule ^api/jsonp?$|^counterbar/colors$ widget.php [L]
   RewriteRule ^api/v2/actions/\d+/signings$ widget.php [L]
-  RewriteRule ^api/v2/actions/\d+/last-signings/\d+$ widget.php [L]
+  RewriteRule ^api/v2/actions/[1-9]\d*/last-signings/[1-9]\d*(/large)?$ widget.php [L]
   RewriteRule ^pledge/\d+/\d+/.{15}$ widget.php [L]
   RewriteRule ^pledge/\d+/test$ widget.php [L]
+  RewriteRule ^signers/[1-9]\d*/[1-9]\d*$ widget.php [L]
 
   # frontend routes
   RewriteRule ^$ frontend.php [QSA,L]

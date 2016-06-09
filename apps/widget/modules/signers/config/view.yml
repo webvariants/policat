@@ -1,0 +1,6 @@
+default:
+  metas:
+    robots:       noindex, nofollow
+
+indexSuccess:
+  javascripts:    [-*, signers]

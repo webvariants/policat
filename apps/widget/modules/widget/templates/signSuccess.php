@@ -312,6 +312,9 @@ if (is_array($target_selectors)) {
                                   <?php endforeach ?>
                                 <?php endif ?>
                             </div>
+                            <div>
+                              <a class="submit newwin" href="<?php echo url_for('signers', array('id' => $petition->getId(), 'text_id' => $widget->getPetitionTextId())) ?>"><?php echo __('All signers') ?></a>
+                            </div>
                           </div>
                       </div>
                       <?php endif ?>

@@ -1041,9 +1041,24 @@ label:hover + #embed-this-help-type, label:hover + #embed-this-help-width {
 	}
 }
 
-.last-signers {
+.widget-right .last-signings {
 	h2 {
 		font-size: 20px;
+	}
+
+	.submit {
+		height: 40px;
+		line-height: 40px;
+		margin: 10px auto 0 auto;
+		display: none;
+	}
+}
+
+.widget-right.show-thankyou {
+	.last-signings {
+		.submit {
+			display: block;
+		}
 	}
 }
 

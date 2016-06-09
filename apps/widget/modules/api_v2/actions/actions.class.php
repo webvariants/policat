@@ -242,7 +242,7 @@ class api_v2Actions extends policatActions {
     }
 
     $page = $request->getParameter('page');
-    if (!is_numeric($page) || $page < 0) {
+    if (!is_numeric($page) || $page < 1) {
       $response->setStatusCode(400);
       return $this->renderJson(array('status' => 'error', 'message' => 'bad page given'), $callback);
     }
@@ -261,7 +261,10 @@ class api_v2Actions extends policatActions {
     $response->addCacheControlHttpHeader('public');
     $response->addCacheControlHttpHeader('max-age', 60);
 
-    $signings = PetitionSigningTable::getInstance()->lastSignings($action_id, 30, $page);
+    $route_params = $this->getRoute()->getParameters();
+    $page_size = (isset($route_params['type']) && $route_params['type'] === 'large') ? 500 : 30;
+
+    $signings = PetitionSigningTable::getInstance()->lastSignings($action_id, $page_size, $page - 1);
     if (!$signings) {
       $response->setStatusCode(404);
       return $this->renderJson(array('status' => 'error', 'message' => 'nothing found'), $callback);
