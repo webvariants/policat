@@ -13,6 +13,11 @@ h1, h1.action-title {
 	line-height: 28px;
 }
 
+h2 {
+	font-size: 24px;
+	margin-bottom: 10px;
+}
+
 ol {
 	margin-left: 0;
 	list-style-type: none;
@@ -43,19 +48,68 @@ ol {
 			line-height: 36px;
 			text-align: center;
 		}
+	}
+}
 
-		ol {
-			margin-left: 1.5em;
-			list-style-type: decimal;
+ol, ul {
+	ol {
+		margin-left: 1.5em;
+		list-style-type: decimal;
 
-			li {
-				counter-increment: none;
-				padding-left: 0;
-				margin: 0;
+		li {
+			counter-increment: none;
+			padding-left: 0;
+			margin: 0;
 
-				&::before {
-					display: none;
-				}
+			&::before {
+				display: none;
+			}
+		}
+	}
+}
+
+ul {
+	margin-left: 0;
+	list-style-type: none;
+
+	li {
+		margin: 15px 0;
+		padding: 0 0 0 50px;
+		position: relative;
+		line-height: 25px;
+		font-size: 18px;
+
+		&::before {
+			content: ' ';
+			background: var(--button-color);
+			position: absolute;
+			top: 50%;
+			left: 5px;
+			font-size: 30px;
+			text-indent: -1px;
+			margin-top: -13px;
+
+			border-radius: 13px;
+			display: inline-block;
+			width: 26px;
+			height: 26px;
+			line-height: 26px;
+			text-align: center;
+		}
+	}
+}
+
+ul, ol {
+	ul {
+		margin-left: 1.5em;
+		list-style-type: disc;
+
+		li {
+			padding-left: 0;
+			margin: 0;
+
+			&::before {
+				display: none;
 			}
 		}
 	}
@@ -114,6 +168,11 @@ ol {
 .header {
 	display: block;
 	background: var(--background-color-box);
+
+	h1 {
+		font-size: 30px;
+		line-height: 34px;
+	}
 }
 
 label {
@@ -346,13 +405,32 @@ span.checkbox {
 	}
 }
 
+.thankyou {
+	margin-bottom: 30px;
+}
+
 .has_sign {
 
-	text-align: center;
+	.thankyou,
+	.last-signings,
+	.share,
+	.donate,
+	.reload{
+		text-align: center;
+	}
+
+	.share {
+		width: 100%;
+
+		a {
+			float: none;
+			display: inline-block;
+		}
+	}
 
 	.widget-right.show-thankyou .share {
 		display: inline-block;
-		margin: 30px 0;
+		margin: 10px 0 30px 0;
 
 		.sicon {
 			width: 50px;
