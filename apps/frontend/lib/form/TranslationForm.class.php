@@ -327,6 +327,12 @@ The e-mail text: #EMAIL-SUBJECT# -- #EMAIL-BODY#"
     } else {
       unset($this['thank_you_email_subject'], $this['thank_you_email_body']);
     }
+
+    if ($petition->getLastSignings() != PetitionTable::LAST_SIGNINGS_NO) {
+      $this->setWidget('signers_page', new sfWidgetFormTextarea(array('label' => 'Header/context for all signers list (optional)'), array('cols' => 90, 'rows' => 5, 'class' => 'markdown', 'placeholder' => '(optional)')));
+    } else {
+      unset($this['signers_page']);
+    }
   }
 
 }

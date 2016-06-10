@@ -37,6 +37,7 @@
  * @property string $placeholder_extra1
  * @property string $form_title
  * @property string $subscribe_text
+ * @property clob $signers_page
  * @property Petition $Petition
  * @property Language $Language
  * @property Widget $DefaultWidget
@@ -75,6 +76,7 @@
  * @method string              getPlaceholderExtra1()            Returns the current record's "placeholder_extra1" value
  * @method string              getFormTitle()                    Returns the current record's "form_title" value
  * @method string              getSubscribeText()                Returns the current record's "subscribe_text" value
+ * @method clob                getSignersPage()                  Returns the current record's "signers_page" value
  * @method Petition            getPetition()                     Returns the current record's "Petition" value
  * @method Language            getLanguage()                     Returns the current record's "Language" value
  * @method Widget              getDefaultWidget()                Returns the current record's "DefaultWidget" value
@@ -112,6 +114,7 @@
  * @method PetitionText        setPlaceholderExtra1()            Sets the current record's "placeholder_extra1" value
  * @method PetitionText        setFormTitle()                    Sets the current record's "form_title" value
  * @method PetitionText        setSubscribeText()                Sets the current record's "subscribe_text" value
+ * @method PetitionText        setSignersPage()                  Sets the current record's "signers_page" value
  * @method PetitionText        setPetition()                     Sets the current record's "Petition" value
  * @method PetitionText        setLanguage()                     Sets the current record's "Language" value
  * @method PetitionText        setDefaultWidget()                Sets the current record's "DefaultWidget" value
@@ -256,6 +259,9 @@ abstract class BasePetitionText extends myDoctrineRecord
              'notnull' => false,
              'default' => '',
              'length' => 250,
+             ));
+        $this->hasColumn('signers_page', 'clob', null, array(
+             'type' => 'clob',
              ));
 
         $this->option('symfony', array(

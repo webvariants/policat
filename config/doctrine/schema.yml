@@ -377,6 +377,8 @@ PetitionText:
 
     form_title:                 { type: string(100), notnull: false, default: '' }
     subscribe_text:             { type: string(250), notnull: false, default: '' }
+
+    signers_page:               { type: clob }
   relations:
     Petition:      { onDelete: CASCADE }
     Language:      { onDelete: CASCADE }

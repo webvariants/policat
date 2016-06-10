@@ -61,6 +61,22 @@
     <?php echo $form->renderRows(array('donate_url', 'donate_text')) ?>
     <?php endif ?>
 
+    <?php if (isset($form['signers_page'])): ?>
+    <legend>Signers page</legend>
+    <?php if (!$translation->isNew()): ?>
+      <div class="control-group">
+          <label class="control-label"></label>
+          <div class="controls">
+              Link:
+              <a target="_blank" href="<?php echo url_for('signers', array('id' => $petition->getId(), 'text_id' => $translation->getId())) ?>">
+                  <?php echo url_for('signers', array('id' => $petition->getId(), 'text_id' => $translation->getId()), true) ?>
+              </a>
+          </div>
+      </div>
+    <?php endif ?>
+    <?php echo $form->renderRows(array('signers_page')) ?>
+    <?php endif ?>
+
     <?php
     $other_rows = $form->renderOtherRows();
     if ($other_rows):

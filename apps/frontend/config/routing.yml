@@ -10,6 +10,7 @@ sign_hp:                   { url: /sign_hp/:id/:hash,                  param: { 
 feed:                      { url: /feed,                               param: { module: default, action: error404 } }
 pledge_contact_test:       { url: '/pledge/:petition_id/test',         param: { module: default, action: error404 } }
 api_v2_doc:                { url: '/api/v2',                           param: { module: default, action: error404 } }
+signers:                   { url: '/signers/:id/:text_id',             param: { module: default, action: error404 } }
 
 # ############################
 

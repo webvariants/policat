@@ -42,6 +42,8 @@ class signersActions extends policatActions {
         $this->forward404();
       }
 
+      $this->text = trim($petition_text->getSignersPage());
+
       $this->title = $petition_text->getTitle();
 
       $this->data = array(
