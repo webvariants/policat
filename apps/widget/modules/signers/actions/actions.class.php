@@ -30,7 +30,7 @@ class signersActions extends policatActions {
       $this->forward404();
     }
 
-    $this->setLayout('clean');
+    $this->setLayout(false);
 
     if ($petition->getLastSignings() == PetitionTable::LAST_SIGNINGS_NO) {
       $this->disabled = true;
@@ -42,9 +42,15 @@ class signersActions extends policatActions {
         $this->forward404();
       }
 
-      $this->text = trim($petition_text->getSignersPage());
+      if ($response instanceof sfWebResponse) {
+        $response->setTitle($petition_text->getTitle());
+      }
 
+      $this->text = trim($petition_text->getSignersPage());
       $this->title = $petition_text->getTitle();
+      $this->background_color = $petition->getStyleBgRightColor();
+      $this->color = $petition->getStyleLabelColor();
+      $this->button_color = $petition->getStyleButtonColor();
 
       $this->data = array(
           'id' => $petition->getId(),
