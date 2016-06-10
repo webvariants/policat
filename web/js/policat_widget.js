@@ -3,7 +3,6 @@ jscolor.dir = '/js/dist/';
 $(document).ready(function($) {
 	(function($, widget_id, window, Math, target_selectors, CT_extra, t_sel, t_sel_all, petition_id, numberSeparator) {
 		var widget = $('#widget');
-		var widget_left = $('#widget-left');
 		var policat_widget_right = $('#widget-right');
 		var content_right = $('#content-right');
 		var down_button = $('#down-button');
@@ -52,7 +51,8 @@ $(document).ready(function($) {
 		}
 
 		down_button.click(function() {
-			window.parent.postMessage('policat_scroll;' + iframe_no + ';' + widget_left.height(), '*');
+			var top = Math.ceil($('#sign').offset().top);
+			window.parent.postMessage('policat_scroll;' + iframe_no + ';' + top, '*');
 			return false;
 		});
 

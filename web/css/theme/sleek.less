@@ -419,8 +419,7 @@ span.checkbox {
 	.thankyou,
 	.last-signings,
 	.share,
-	.donate,
-	.reload{
+	.donate {
 		text-align: center;
 	}
 
@@ -433,22 +432,28 @@ span.checkbox {
 		}
 	}
 
-	.widget-right.show-thankyou .share {
-		display: inline-block;
-		margin: 10px 0 30px 0;
-
-		.sicon {
-			width: 50px;
-			height: 50px;
-
-			img {
-				width: 50px;
-				height: 50px;
-			}
+	.widget-right.show-thankyou {
+		.reload{
+			display: none;
 		}
 
-		.mailto, .a-embed-this {
-			background-color: var(--button-color);
+		.share {
+			display: inline-block;
+			margin: 10px 0 30px 0;
+
+			.sicon {
+				width: 50px;
+				height: 50px;
+
+				img {
+					width: 50px;
+					height: 50px;
+				}
+			}
+
+			.mailto, .a-embed-this {
+				background-color: var(--button-color);
+			}
 		}
 	}
 
