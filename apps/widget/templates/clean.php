@@ -3,6 +3,7 @@
 ?><!DOCTYPE html>
 <html>
   <head>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <?php
     $portal_name = StoreTable::value(StoreTable::PORTAL_NAME);
     $title = $sf_response->getTitle();
