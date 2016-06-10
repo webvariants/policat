@@ -14,6 +14,12 @@ class PetitionFieldsForm extends BasePetitionForm {
   public function configure_fields() {
     // 'nametype', 'with_comments', 'with_address', 'with_extra1', 'with_country', 'default_country', 'country_collection_id'
 
+    $this->setWidget('titletype', new sfWidgetFormChoice(array(
+        'choices' => Petition::$TITLETYPE_SHOW,
+        'label' => 'Title'
+      )));
+    $this->setValidator('titletype', new sfValidatorChoice(array('choices' => array_keys(Petition::$TITLETYPE_SHOW), 'required' => true)));
+
     $this->setWidget('nametype', new sfWidgetFormChoice(array(
         'choices' => Petition::$NAMETYPE_SHOW,
         'label' => 'Name'

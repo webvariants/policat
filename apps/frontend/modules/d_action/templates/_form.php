@@ -32,7 +32,7 @@
         <div class="global_error">
           <span id="new_petition_customise"></span>
         </div>
-        <?php echo $form->renderRows('nametype', 'with_address', 'with_country', 'default_country', 'country_collection_id', 'with_comments', 'with_extra1') ?>
+        <?php echo $form->renderRows('titletype', 'nametype', 'with_address', 'with_country', 'default_country', 'country_collection_id', 'with_comments', 'with_extra1') ?>
       </fieldset>
     <fieldset>
         <legend>Opt-in (email verification) &amp; thank-you emails</legend>

@@ -25,6 +25,9 @@ class Petition extends BasePetition {
   const KIND_EMAIL_TO_LIST = 10;
   const KIND_EMAIL_ACTION = 11;
   const KIND_PLEDGE = 12;
+  const TITLETYPE_NO = 0;
+  const TITLETYPE_FM = 1; // female, male
+  const TITLETYPE_FMN = 2; // female, male, neutral
   const NAMETYPE_SPLIT = 1;
   const NAMETYPE_FULL = 2;
   const FIELD_FULLNAME = 'fullname';
@@ -53,8 +56,8 @@ class Petition extends BasePetition {
   const THANK_YOU_EMAIL_NO = 0;
 
   static $FIELD_SHOW = array(
-      self::FIELD_FULLNAME => 'fullname',
       self::FIELD_TITLE => 'title',
+      self::FIELD_FULLNAME => 'fullname',
       self::FIELD_FIRSTNAME => 'firstname',
       self::FIELD_LASTNAME => 'lastname',
       self::FIELD_EMAIL => 'e-mail',
@@ -67,16 +70,18 @@ class Petition extends BasePetition {
       self::FIELD_PRIVACY => 'privacy policy accepted',
       self::FIELD_SUBSCRIBE => 'subscribe'
   );
+  static $TITLETYPE_SHOW = array
+      (
+      self::TITLETYPE_NO => 'disabled',
+      self::TITLETYPE_FM => 'Mrs/Mr',
+      self::TITLETYPE_FMN => 'Mrs/Mr/na'
+  );
   static $NAMETYPE_SHOW = array
       (
-      self::NAMETYPE_SPLIT => 'Title, firstname, lastname',
+      self::NAMETYPE_SPLIT => 'firstname, lastname',
       self::NAMETYPE_FULL => 'Fullname'
   );
-  static $NAMETYPE_EXTRA_FIELDS = array
-      (
-      self::NAMETYPE_FULL => array(self::FIELD_FULLNAME),
-      self::NAMETYPE_SPLIT => array(self::FIELD_TITLE, self::FIELD_FIRSTNAME, self::FIELD_LASTNAME)
-  );
+
   static $STATUS_SHOW = array
       (
       self::STATUS_DRAFT => 'draft',
@@ -172,7 +177,19 @@ class Petition extends BasePetition {
   }
 
   public function getFormfields() {
-    $fields = array_merge(array(self::FIELD_EMAIL, self::FIELD_PRIVACY, self::FIELD_SUBSCRIBE), self::$NAMETYPE_EXTRA_FIELDS[$this->getNametype()]);
+    $fields = array(self::FIELD_EMAIL, self::FIELD_PRIVACY, self::FIELD_SUBSCRIBE);
+
+    if ($this->getTitletype() != self::TITLETYPE_NO) {
+      $fields[] = self::FIELD_TITLE;
+    }
+
+    if ($this->getNametype() == self::NAMETYPE_FULL) {
+      $fields[] = self::FIELD_FULLNAME;
+    } else {
+      $fields[] = self::FIELD_FIRSTNAME;
+      $fields[] = self::FIELD_LASTNAME;
+    }
+
     switch ($this->getWithAddress()) {
       case 1:
       case '1':

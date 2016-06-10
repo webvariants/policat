@@ -11,7 +11,9 @@
 class frontendConfiguration extends sfApplicationConfiguration {
 
   public function configure() {
-    $this->getEventDispatcher()->connect('doctrine.configure_connection', array($this, 'configureDoctrineConnection'));
+    $dispatcher = $this->getEventDispatcher();
+    $dispatcher->connect('doctrine.configure_connection', array($this, 'configureDoctrineConnection'));
+    $dispatcher->connect('task.cache.clear', array($this, 'clearQueryCache'));
   }
 
   public function configureDoctrineConnection(sfEvent $event) {
@@ -22,6 +24,13 @@ class frontendConfiguration extends sfApplicationConfiguration {
     $cache = new Doctrine_Cache_Db(array('connection' => $con, 'tableName' => 'query_cache'));
     $con->setAttribute(Doctrine_Core::ATTR_QUERY_CACHE, $cache);
     $con->setAttribute(Doctrine_Core::ATTR_QUERY_CACHE_LIFESPAN, 3600);
+  }
+
+  public function clearQueryCache(sfEvent $event) {
+    $databaseManager = new sfDatabaseManager($this);
+    $con = $databaseManager->getDatabase('doctrine')->getConnection();
+    /* @var $con PDO */
+    $con->exec('TRUNCATE query_cache');
   }
 
   public function initialize() {

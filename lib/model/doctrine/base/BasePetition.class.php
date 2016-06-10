@@ -9,6 +9,7 @@
  * @property integer $campaign_id
  * @property integer $follow_petition_id
  * @property integer $kind
+ * @property integer $titletype
  * @property integer $nametype
  * @property integer $status
  * @property integer $validation_required
@@ -86,6 +87,7 @@
  * @method integer             getCampaignId()                 Returns the current record's "campaign_id" value
  * @method integer             getFollowPetitionId()           Returns the current record's "follow_petition_id" value
  * @method integer             getKind()                       Returns the current record's "kind" value
+ * @method integer             getTitletype()                  Returns the current record's "titletype" value
  * @method integer             getNametype()                   Returns the current record's "nametype" value
  * @method integer             getStatus()                     Returns the current record's "status" value
  * @method integer             getValidationRequired()         Returns the current record's "validation_required" value
@@ -162,6 +164,7 @@
  * @method Petition            setCampaignId()                 Sets the current record's "campaign_id" value
  * @method Petition            setFollowPetitionId()           Sets the current record's "follow_petition_id" value
  * @method Petition            setKind()                       Sets the current record's "kind" value
+ * @method Petition            setTitletype()                  Sets the current record's "titletype" value
  * @method Petition            setNametype()                   Sets the current record's "nametype" value
  * @method Petition            setStatus()                     Sets the current record's "status" value
  * @method Petition            setValidationRequired()         Sets the current record's "validation_required" value
@@ -265,6 +268,12 @@ abstract class BasePetition extends myDoctrineRecord
              'type' => 'integer',
              'notnull' => true,
              'default' => 1,
+             'length' => 1,
+             ));
+        $this->hasColumn('titletype', 'integer', 1, array(
+             'type' => 'integer',
+             'notnull' => true,
+             'default' => 0,
              'length' => 1,
              ));
         $this->hasColumn('nametype', 'integer', 1, array(

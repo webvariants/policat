@@ -258,6 +258,7 @@ Petition:
     campaign_id:          { type: integer(4), notnull: true }
     follow_petition_id:   { type: integer(4), notnull: false, default: null }
     kind:                 { type: integer(1), notnull: true, default: 1 }
+    titletype:            { type: integer(1), notnull: true, default: 0 }
     nametype:             { type: integer(1), notnull: true, default: 2 }
     status:               { type: integer(4), notnull: true, default: 1 }
     validation_required:  { type: integer(4), notnull: true, default: 1 }
