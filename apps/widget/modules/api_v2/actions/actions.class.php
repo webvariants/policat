@@ -1,4 +1,5 @@
 <?php
+
 /*
  * Copyright (c) 2016, webvariants GmbH <?php Co. KG, http://www.webvariants.de
  *
@@ -258,6 +259,11 @@ class api_v2Actions extends policatActions {
       return $this->renderJson(array('status' => 'error', 'message' => 'action could not be found'), $callback);
     }
 
+    if ($petition->getLastSignings() == PetitionTable::LAST_SIGNINGS_NO) {
+      $response->setStatusCode(404);
+      return $this->renderJson(array('status' => 'error', 'message' => 'disabled for this action'), $callback);
+    }
+
     $response->addCacheControlHttpHeader('public');
     $response->addCacheControlHttpHeader('max-age', 60);
 
@@ -270,17 +276,21 @@ class api_v2Actions extends policatActions {
       return $this->renderJson(array('status' => 'error', 'message' => 'nothing found'), $callback);
     }
 
-    $data = array('action_id' => (int) $action_id, 'page' => (int) $page);
+    $data = array(
+        'action_id' => (int) $action_id,
+        'page' => (int) $page,
+        'time' => time(),
+        'total' => PetitionSigningTable::getInstance()->lastSigningsTotal($action_id)
+    );
 
-    $data['total'] = PetitionSigningTable::getInstance()->lastSigningsTotal($action_id);
-    $data['pages'] = ceil($data['total'] &  $page_size);
+    $data['pages'] = ceil($data['total'] / $page_size);
 
     $signers = array();
     foreach ($signings as $signing) {
       /* @var $signing PetitionSigning  */
 
       $signers[] = array(
-          'id' => $signing->getId(),
+//          'id' => $signing->getId(),
           'name' => $signing->getComputedName()
       );
     }
@@ -293,4 +303,5 @@ class api_v2Actions extends policatActions {
 
     return $this->renderJson($data, $callback);
   }
+
 }

@@ -184,8 +184,11 @@ class PetitionTable extends Doctrine_Table {
       ->where('p.id = ?', $id)
       ->andWhere('p.status = ?', Petition::STATUS_ACTIVE)
       ->leftJoin('p.Campaign c')
-      ->andWhere('c.status = ?', CampaignTable::STATUS_ACTIVE)
-      ->useResultCache(true, $timeToLive);
+      ->andWhere('c.status = ?', CampaignTable::STATUS_ACTIVE);
+
+    if ($timeToLive !== false) {
+      $query->useResultCache(true, $timeToLive);
+    }
 
     $res = $query->fetchOne(); /* @var $res Petition */
     $query->free();

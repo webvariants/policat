@@ -91,7 +91,7 @@ $(document).ready(function($) {
 			widget.addClass('right-only');
 			$('.share').after($('.last-signings'));
 			resize();
-			fetchLastSigners(1);
+			fetchLastSigners(1, 30);
 		}
 		function show_privacy_policy() {
 			show_left('privacy-policy');
@@ -826,11 +826,17 @@ $(document).ready(function($) {
 		
 		$('.external_links a').attr('target', '_blank');
 
-		if (lastSigners.length && lastSigners.find('span').length) {
-			lastSignersExists.show();
+		if (lastSigners.length) {
+			if (lastSigners.find('span').length) {
+				lastSignersExists.show();
+			}
+
+			if (lastSigners.data('update')) {
+				fetchLastSigners(1, 10);
+			}
 		}
 
-		function fetchLastSigners(page) {
+		function fetchLastSigners(page, max) {
 			if (!lastSigners.length) {
 				return null;
 			}
@@ -847,7 +853,7 @@ $(document).ready(function($) {
 							lastSigners.append($('<span class="self"></span>').text(name));
 						}
 
-						for (var i = 0; i < data.signers.length; i++) {
+						for (var i = 0; i < data.signers.length && i < max; i++) {
 							var signer = data.signers[i];
 							if (name !== signer.name) {
 								lastSigners.append($('<span></span>').text(signer.name));

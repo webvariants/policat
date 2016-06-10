@@ -17,7 +17,6 @@
   </head>
   <body class="container">
     <?php echo $sf_content ?>
-    <?php include_component('home', 'footer') ?>
     <div id="waiting"><b></b><i></i><div class="progress progress-striped active"><div class="bar" style="width: 100%;"></div></div></div>
   </body>
 </html>

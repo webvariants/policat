@@ -305,11 +305,9 @@ if (is_array($target_selectors)) {
                       <div class="last-signings">
                           <div id="last-signers-exists" class="last-signers-exists">
                             <h2 class="label_color"><?php echo __('Last signers') ?></h2>
-                            <div id="last-signers" data-show-on="<?php echo $petition->getLastSignings() ?>" class="last-signers">
+                            <div id="last-signers" data-update="<?php echo ($petition->getLastSignings() == PetitionTable::LAST_SIGNINGS_SIGN_CONFIRM) ? 1 : 0 ?>" class="last-signers">
                                 <?php if ($last_signings): ?>
-                                  <?php foreach ($last_signings as $signer): /* @var $signer PetitionSigning */ ?>
-                                    <span><?php echo Util::enc($signer->getComputedName()) ?></span>
-                                  <?php endforeach ?>
+                                  <?php foreach ($last_signings as $signer): /* @var $signer PetitionSigning */ ?><span><?php echo Util::enc($signer->getComputedName()) ?></span><?php endforeach ?>
                                 <?php endif ?>
                             </div>
                             <div>

@@ -25,21 +25,30 @@ class signersActions extends policatActions {
       $this->forward404();
     }
 
-    $petition = PetitionTable::getInstance()->findByIdCachedActive($action_id);
+    $petition = PetitionTable::getInstance()->findByIdCachedActive($action_id, false);
     if (!$petition) {
       $this->forward404();
     }
 
-    $petition_text = PetitionTextTable::getInstance()->findByIdCachedActive($text_id);
-    if (!$petition_text) {
-      $this->forward404();
-    }
-
-    $this->data = array(
-        'id' => $petition->getId(),
-        'text_id' => $petition_text->getId(),
-    );
     $this->setLayout('clean');
+
+    if ($petition->getLastSignings() == PetitionTable::LAST_SIGNINGS_NO) {
+      $this->disabled = true;
+    } else {
+      $this->disabled = false;
+
+      $petition_text = PetitionTextTable::getInstance()->findByIdCachedActive($text_id, false);
+      if (!$petition_text) {
+        $this->forward404();
+      }
+
+      $this->title = $petition_text->getTitle();
+
+      $this->data = array(
+          'id' => $petition->getId(),
+          'text_id' => $petition_text->getId(),
+      );
+    }
   }
 
 }

@@ -2,6 +2,11 @@ document.addEventListener('DOMContentLoaded', function () {
 	(function (document, window) {
 		var waiting = document.getElementById('waiting');
 		var signers_div = document.getElementById('signers');
+
+		if (!signers_div) {
+			return;
+		}
+
 		var pager_ul = document.getElementById('pager');
 		var data = JSON.parse(signers_div.dataset.signers);
 
@@ -31,8 +36,13 @@ document.addEventListener('DOMContentLoaded', function () {
 					}
 
 					pager(result.page, result.pages);
-					waiting.style.display = 'none';
 				}
+				
+				if (xhttp.readyState === 4 && xhttp.status === 404) {
+					alert('Got no data from server. Maybe list was disabled. (Status 404)');
+				}
+
+				waiting.style.display = 'none';
 			};
 
 			xhttp.open('GET', '/api/v2/actions/' + data.id + '/last-signings/' + page + '/large', true);

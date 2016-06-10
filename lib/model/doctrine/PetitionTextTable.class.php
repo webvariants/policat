@@ -65,7 +65,7 @@ class PetitionTextTable extends Doctrine_Table {
     return $petition_text;
   }
 
-    /**
+  /**
    *
    * @param int $id
    * @return PetitionText
@@ -77,8 +77,11 @@ class PetitionTextTable extends Doctrine_Table {
 
     $query = $this->createQuery('pt')
       ->where('pt.id = ?', $id)
-      ->andWhere('pt.status = ?', PetitionText::STATUS_ACTIVE)
-      ->useResultCache(true, $timeToLive);
+      ->andWhere('pt.status = ?', PetitionText::STATUS_ACTIVE);
+
+    if ($timeToLive !== false) {
+      $query->useResultCache(true, $timeToLive);
+    }
 
     $res = $query->fetchOne(); /* @var $res PetitionText */
     $query->free();
