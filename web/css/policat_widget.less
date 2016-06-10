@@ -285,9 +285,6 @@ label.form-error {
 .content-left {
 	margin: 0;
 	padding: 20px 20px 10px 20px;
-	a.back {
-		margin: 0 0 0 20px;
-	}
 }
 .subtitle {
 	img {
@@ -295,9 +292,6 @@ label.form-error {
 	}
 }
 
-.privacy-policy {
-	padding-bottom: 40px;
-}
 .widget-left textarea, .widget-left input[type="text"] {
 	width: 100%;
 }
@@ -501,11 +495,8 @@ label.form-error {
 	}
 }
 a.back {
-	bottom: 10px;
 	font-size: 9px;
-	left: 10px;
-	margin: 0;
-	position: absolute;
+	margin: 10px 0 0 0;
 }
 .thankyou {
 	h2 {
@@ -521,16 +512,6 @@ a.back {
 	position: relative;
 	width: 40%;
 
-	.donate {
-		.back {
-			left: 10px;
-		}
-	}
-	.thankyou {
-		.back {
-			left: 10px;
-		}
-	}
 	.privacy {
 		label {
 			cursor: pointer;
@@ -599,19 +580,19 @@ a.back {
 	&.show-thankyou .donate .back  {
 		display: none;
 	}
-
+/*
 	.thankyou, .widget-right .donate  {
 		padding-bottom: 0;
 	}
 	.embed-this,
 	.donate
 	{
-		padding-bottom: 30px;
+		padding-bottom: 0;
 	}
 
 	&.show-thankyou .donate {
 		padding-bottom: 0;
-	}
+	}*/
 }
 
 span.checkbox  {
@@ -1139,7 +1120,6 @@ label:hover + #embed-this-help-type, label:hover + #embed-this-help-width {
 	}
 }
 .button-btn {
-	border-radius: 3px;
 	border-radius: 3px;
 	display: inline-block;
 	height: 15px;

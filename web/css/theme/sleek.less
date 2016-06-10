@@ -226,6 +226,8 @@ input[type=text] {
 select {
 	height: 38px;
 	border-radius: 5px;
+	font-size: 15px;
+	padding-left: 7px;
 }
 
 fieldset {
@@ -261,6 +263,26 @@ button.submit-sign {
 		z-index: 22; /* font resize start */
 	}
 }
+
+.button-btn {
+	border-radius: 5px;
+}
+
+a.back {
+	height: 25px;
+	line-height: 25px;
+	padding: 0 10px;
+	font-size: 13px;
+}
+
+/*.widget-right {
+	.donate,
+	.embed-this {
+		.back {
+			left: 30px;
+		}
+	}
+}*/
 
 .select-wrap, textarea {
 	border-radius: 5px;
@@ -343,7 +365,8 @@ span.checkbox {
 
 	&.form-indicator-select {
 		&::after {
-			bottom: 5px;
+			bottom: 3px;
+			right: 20px;
 		}
 	}
 }
@@ -481,9 +504,11 @@ span.checkbox {
 @media (min-width: @width-two-column-min) {
 	.content-left {
 		padding-right: 30px;
+		padding-bottom: 20px;
 	}
 
 	.content-right {
 		padding-left: 30px;
+		padding-bottom: 20px;
 	}
 }
