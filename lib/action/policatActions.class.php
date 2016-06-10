@@ -23,12 +23,16 @@ class policatActions extends sfActions {
   public static function preExecuteCacheHeaders($request, $response, $user, $is_secure) {
     if ($request instanceof sfWebRequest && $response instanceof sfWebResponse) {
       if (($request->isMethod('GET') || $request->isMethod('HEAD')) && !$request->isXmlHttpRequest()) {
-        $response->addVaryHttpHeader('Cookie');
+        if (sfContext::getInstance()->getConfiguration()->getApplication() === 'frontend') {
+          $response->addVaryHttpHeader('Cookie');
+        }
+
         if (!$user instanceof sfGuardSecurityUser || $user->isAnonymous()) {
           $response->addCacheControlHttpHeader('public');
           $response->addCacheControlHttpHeader('must-revalidate');
           $response->addCacheControlHttpHeader('max_age=60');
         } else {
+          $response->addVaryHttpHeader('Cookie');
           $response->addCacheControlHttpHeader('private');
           $response->addCacheControlHttpHeader('no-store');
           $response->addCacheControlHttpHeader('max_age=0');
