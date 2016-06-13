@@ -42,7 +42,7 @@ var policat = typeof policat === "undefined" ? {widgets: []} : policat;
 			return false;
 		};
 
-		function scrollTo(no, x, y) {
+		function scrollTo(no, x, y, force) {
 			var iframe = document.getElementById('policat_iframe_no_' + no);
 			if (iframe) {
 //				var doc = document.documentElement;
@@ -51,7 +51,7 @@ var policat = typeof policat === "undefined" ? {widgets: []} : policat;
 				var rect = iframe.getBoundingClientRect();
 				var height = Math.max(document.documentElement.clientHeight, window.innerHeight || 0);
 				var diffY = y + rect.top;
-				if (diffY < 0 || diffY > (height * 0.7)) {
+				if (force || diffY < 0 || diffY > (height * 0.7)) {
 					window.scrollBy(x + rect.left, diffY);
 				}
 			}
@@ -82,11 +82,11 @@ var policat = typeof policat === "undefined" ? {widgets: []} : policat;
 
 						policat.overlay_frame_height = height;
 					}
-				} else if (event.data.match(/^policat_scroll;\d+;\d+$/)) {
+				} else if (event.data.match(/^policat_scroll;\d+;\d+;[10]$/)) {
 					var data = event.data.split(';');
 					var no = data[1];
 					var offset = parseInt(data[2], 10);
-					scrollTo(no, 0, offset);
+					scrollTo(no, 0, offset, data[3] === '1' ? true : false);
 				}
 			}
 		};

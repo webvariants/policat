@@ -77,13 +77,13 @@ $(document).ready(function($) {
 		}
 
 		down_button.click(function() {
-			scrollTop($('#sign'));
+			scrollTop($('#sign'), true);
 			return false;
 		});
 
-		function scrollTop(element) {
+		function scrollTop(element,force) {
 			var top = Math.ceil(element.offset().top);
-			window.parent.postMessage('policat_scroll;' + iframe_no + ';' + top, '*');
+			window.parent.postMessage('policat_scroll;' + iframe_no + ';' + top+ ';' + (force ? 1 : 0), '*');
 		}
 
 		function show_right(name) {
@@ -731,7 +731,7 @@ $(document).ready(function($) {
 									hasSign = true;
 									widget.addClass('has_sign');
 									resize();
-									window.parent.postMessage('policat_scroll;' + iframe_no + ';0', '*');
+									window.parent.postMessage('policat_scroll;' + iframe_no + ';0;0', '*');
 									break;
 								case 'embed':
 									if (data.isValid) {
@@ -766,13 +766,13 @@ $(document).ready(function($) {
 			$('.to-left-tab', tabs).click(function() {
 				tabs.removeClass('right').addClass('left');
 				resize();
-				scrollTop(tabs);
+				scrollTop(tabs, false);
 			});
 
 			$('.to-right-tab', tabs).click(function() {
 				tabs.removeClass('left').addClass('right');
 				resize();
-				scrollTop(tabs);
+				scrollTop(tabs, false);
 			});
 		}
 
