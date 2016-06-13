@@ -543,3 +543,20 @@ span.checkbox {
 		padding-bottom: 20px;
 	}
 }
+
+
+// z-index: 0  tabs if right side small
+// z-index: 1  force tabs
+// z-index: 2  disable tabs
+
+.tabs {
+	z-index: 1;
+
+	.tab-head {
+		display: none;
+	}
+
+	.tab-alternate {
+		display: block;
+	}
+}

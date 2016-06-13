@@ -24,20 +24,31 @@ $(document).ready(function($) {
 
 		function resize() {
 			if (tabs.length) {
-				var isOneColumn = tabs.css('z-index') === '1';
-				tabs.addClass('calc-tab');
-				var left_height = tabs_left.outerHeight();
-				var right_height = tabs_right.outerHeight();
+				// z-index: 0  tabs if right side small
+				// z-index: 1  force tabs
+				// z-index: 2  disable tabs
 
-				if (!isOneColumn && (content_right.height() - head.height()) > left_height + right_height) {
+				var mode = parseInt(tabs.css('z-index'), 10);
+				var tabsOn = false;
+
+				if (mode === 0) {
+					tabs.addClass('calc-tab');
+					tabsOn = content_right.height() < tabs_left.outerHeight() + tabs_right.outerHeight() + head.height();
+					tabs.removeClass('calc-tab');
+				} else if (mode === 1) {
+					tabsOn = true;
+				} else if (mode === 2) {
+					tabsOn = false;
+				}
+
+				if (tabsOn) {
+					tabs.removeClass('no-tabs');
+					
+				} else {
 					tabs.addClass('no-tabs');
 					tabs.addClass('left');
 					tabs.removeClass('right');
-				} else {
-					tabs.removeClass('no-tabs');
 				}
-
-				tabs.removeClass('calc-tab');
 			}
 
 			var height = widget.height();
@@ -732,18 +743,17 @@ $(document).ready(function($) {
 			$('#action input, #action select, #action textarea').attr('disabled', 'disabled');
 
 		// TABS
-		tabs.each(function() {
-			var parent = $(this);
-			$('.left', this).click(function() {
-				parent.removeClass('right').addClass('left');
+		if (tabs.length) {
+			$('.to-left-tab', tabs).click(function() {
+				tabs.removeClass('right').addClass('left');
 				resize();
 			});
 
-			$('.right', this).click(function() {
-				parent.removeClass('left').addClass('right');
+			$('.to-right-tab', tabs).click(function() {
+				tabs.removeClass('left').addClass('right');
 				resize();
 			});
-		});
+		}
 
 		// FOOTER
 		$('#a-embed-this').click(function() {
