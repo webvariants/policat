@@ -87,7 +87,7 @@ class languageActions extends policatActions {
       
       $file = $request->getFiles('file');
       if ($file && $file['tmp_name']) {
-        $parser = new sfMessageSource_XLIFF();
+        $parser = new sfMessageSource_XLIFF('');
         if ($parser->loadData($file['tmp_name'])) {
           $dir = dirname($language->i18nFileWidget());
           if (!file_exists($dir)) {
