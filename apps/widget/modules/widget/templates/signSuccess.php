@@ -95,6 +95,7 @@ if (is_array($target_selectors)) {
                                           <?php endif ?>
                                           <div class="tab-alternate"><button class="to-left-tab button-color button-btn"><?php echo __('Back') ?></button></div>
                                       </div>
+                                      <div class="tab-pad"></div>
                                   </div>
                               </div>
                             <?php else: ?>

@@ -2,6 +2,7 @@
 @color-error: #ed1b24;
 @color-valid: green;
 @width-one-column-max: 439px;
+@width-two-column-min: 440px;
 
 body, div, span, h1, h2, h3, h4, h5, h6, p, a, em, img, q, dl, dt, dd, ol, ul, li, form, label, input, textarea, fieldset  {
 	border: 0;
@@ -272,7 +273,7 @@ label.form-error {
 }
 .widget-left {
 	float: left;
-	overflow: hidden;
+	/*overflow: hidden;*/
 	position: relative;
 	width: 60%;
 	textarea {
@@ -385,6 +386,28 @@ label.form-error {
 		}
 	}
 
+	.tab-body {
+		position: relative;
+
+		.tab-pad {
+			content: ' ';
+			display: none;
+			width: 100%;
+			position: absolute;
+			left: 0;
+			padding: 3px 0 0 0;
+			box-sizing: content-box;
+			border-radius: 0 0 3px 3px;
+			margin: -3px 0 0 0;
+			height: 0;
+			bottom: 0;
+
+			@media (min-width: @width-two-column-min) {
+				display: block;
+			}
+		}
+	}
+
 	&.left .tab-body {
 		border-radius: 0 3px 3px 3px;
 
@@ -432,6 +455,10 @@ label.form-error {
 		.tab-body {
 			height: auto !important;
 			background: none;
+
+			.tab-pad {
+				display: none;
+			}
 		}
 
 		.left-tab {

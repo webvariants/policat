@@ -3,7 +3,8 @@ jscolor.dir = '/js/dist/';
 $(document).ready(function($) {
 	(function($, widget_id, window, Math, target_selectors, CT_extra, t_sel, t_sel_all, petition_id, numberSeparator) {
 		var widget = $('#widget');
-		var policat_widget_right = $('#widget-right');
+		var widget_left = $('#widget-left');
+		var widget_right = $('#widget-right');
 		var content_right = $('#content-right');
 		var down_button = $('#down-button');
 		var head = $('#head');
@@ -11,6 +12,7 @@ $(document).ready(function($) {
 		var tabs = $('#tabs');
 		var tabs_left = $('.left-tab', tabs);
 		var tabs_right = $('.right-tab', tabs);
+		var tab_pad = $('.tab-pad', tabs);
 		var scroll_pledges = $('#scroll-pledges');
 		var sign_btn = $('#btn-sign');
 		var lastSigners = $('#last-signers');
@@ -43,7 +45,20 @@ $(document).ready(function($) {
 
 				if (tabsOn) {
 					tabs.removeClass('no-tabs');
-					
+					// tab_pad
+					var diff = widget_right.height() - widget_left.height();
+					if (diff > 0) {
+						tab_pad.css({
+							height: diff,
+							bottom: -diff
+						});
+					} else {
+						tab_pad.css({
+							height: 0,
+							bottom: 0
+						});
+					}
+
 				} else {
 					tabs.addClass('no-tabs');
 					tabs.addClass('left');
@@ -73,8 +88,8 @@ $(document).ready(function($) {
 
 		function show_right(name) {
 			widget.removeClass('right-only');
-			policat_widget_right.removeClass('show-sign').removeClass('show-donate').removeClass('show-embed-this').removeClass('show-thankyou');
-			policat_widget_right.addClass('show-' + name);
+			widget_right.removeClass('show-sign').removeClass('show-donate').removeClass('show-embed-this').removeClass('show-thankyou');
+			widget_right.addClass('show-' + name);
 		}
 
 		function show_left(name) {
@@ -172,7 +187,7 @@ $(document).ready(function($) {
 		var ref = hash_parts[5];
 
 		if (hasSign) {
-			$('.reload', policat_widget_right).remove();
+			$('.reload', widget_right).remove();
 			widget.addClass('has_sign');
 		}
 
