@@ -1,7 +1,8 @@
 @width-one-column-max: 439px;
 @width-two-column-min: 440px;
 
-@width-label-left-min: 800px;
+@width-label-left-1-min: 800px;
+@width-label-left-2-min: 330px;
 
 body {
 	font-size: 13px;
@@ -231,7 +232,7 @@ select {
 }
 
 fieldset {
-	@media (min-width: (@width-label-left-min + 60px)) {
+	@media (min-width: (@width-label-left-1-min + 60px)) {
 		padding-right: 20px;
 	}
 }
@@ -384,10 +385,10 @@ span.checkbox {
 	}
 }
 
-@media (min-width: @width-label-left-min) {
+@media (min-width: @width-label-left-1-min), (min-width: @width-label-left-2-min) and (max-width: @width-one-column-max) {
 	.form-row {
 		label {
-			width: 30%;
+			width: 40%;
 			box-sizing: border-box;
 			padding: 12px 10px 0 0;
 			max-height: none;
@@ -398,12 +399,12 @@ span.checkbox {
 		}
 
 		input[type=text], textarea, .select-wrap {
-			width: 70%;
+			width: 60%;
 			float: left;
 		}
 
 		.select-wrap:first-child {
-			margin-left: 30%;
+			margin-left: 40%;
 		}
 	}
 
