@@ -437,6 +437,40 @@ span.checkbox {
 	margin-bottom: 30px;
 }
 
+.share {
+	.sicon {
+		background-color: var(--button-color);
+		&:hover {
+			background-image: linear-gradient(to bottom, rgba(255,255,255,0.08) 0%, rgba(255,255,255,0.24) 100%);
+		}
+	}
+
+	.sicon + .sicon {
+		background-image: linear-gradient(to bottom, rgba(255,255,255,0.08) 0%, rgba(255,255,255,0.08) 100%);
+		&:hover {
+			background-image: linear-gradient(to bottom, rgba(255,255,255,0.16) 0%, rgba(255,255,255,0.32) 100%);
+		}
+	}
+	.sicon + .sicon + .sicon {
+		background-image: linear-gradient(to bottom, rgba(255,255,255,0.16) 0%, rgba(255,255,255,0.16) 100%);
+		&:hover {
+			background-image: linear-gradient(to bottom, rgba(255,255,255,0.24) 0%, rgba(255,255,255,0.40) 100%);
+		}
+	}
+	.sicon + .sicon + .sicon + .sicon {
+		background-image: linear-gradient(to bottom, rgba(255,255,255,0.24) 0%, rgba(255,255,255,0.23) 100%);
+		&:hover {
+			background-image: linear-gradient(to bottom, rgba(255,255,255,0.32) 0%, rgba(255,255,255,0.48) 100%);
+		}
+	}
+	.sicon + .sicon + .sicon + .sicon + .sicon {
+		background-image: linear-gradient(to bottom, rgba(255,255,255,0.32) 0%, rgba(255,255,255,0.32) 100%);
+		&:hover {
+			background-image: linear-gradient(to bottom, rgba(255,255,255,0.40) 0%, rgba(255,255,255,0.56) 100%);
+		}
+	}
+}
+
 .has_sign {
 
 	.thankyou,
@@ -472,10 +506,6 @@ span.checkbox {
 					width: 50px;
 					height: 50px;
 				}
-			}
-
-			.mailto, .a-embed-this {
-				background-color: var(--button-color);
 			}
 		}
 	}
