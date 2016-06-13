@@ -93,7 +93,7 @@ if (is_array($target_selectors)) {
                                           <?php if (is_string($read_more_url) && strlen($read_more_url) > 6): ?>
                                             <br /><a id="readmore" href="<?php echo Util::enc($read_more_url) ?>" class="newwin readmore"><?php echo __('Read more') ?></a>
                                           <?php endif ?>
-                                          <div class="tab-alternate"><button class="to-left-tab button-color button-btn"><?php echo $left_tab_text ?></button></div>
+                                          <div class="tab-alternate"><button class="to-left-tab button-color button-btn"><?php echo __('Back') ?></button></div>
                                       </div>
                                   </div>
                               </div>

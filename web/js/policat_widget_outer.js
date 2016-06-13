@@ -49,8 +49,11 @@ var policat = typeof policat === "undefined" ? {widgets: []} : policat;
 //				var left = (window.pageXOffset || doc.scrollLeft) - (doc.clientLeft || 0);
 //				var top = (window.pageYOffset || doc.scrollTop)  - (doc.clientTop || 0);
 				var rect = iframe.getBoundingClientRect();
-
-				window.scrollBy(x + rect.left, y + rect.top);
+				var height = Math.max(document.documentElement.clientHeight, window.innerHeight || 0);
+				var diffY = y + rect.top;
+				if (diffY < 0 || diffY > (height * 0.7)) {
+					window.scrollBy(x + rect.left, diffY);
+				}
 			}
 		}
 

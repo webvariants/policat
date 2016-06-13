@@ -62,10 +62,14 @@ $(document).ready(function($) {
 		}
 
 		down_button.click(function() {
-			var top = Math.ceil($('#sign').offset().top);
-			window.parent.postMessage('policat_scroll;' + iframe_no + ';' + top, '*');
+			scrollTop($('#sign'));
 			return false;
 		});
+
+		function scrollTop(element) {
+			var top = Math.ceil(element.offset().top);
+			window.parent.postMessage('policat_scroll;' + iframe_no + ';' + top, '*');
+		}
 
 		function show_right(name) {
 			widget.removeClass('right-only');
@@ -747,11 +751,13 @@ $(document).ready(function($) {
 			$('.to-left-tab', tabs).click(function() {
 				tabs.removeClass('right').addClass('left');
 				resize();
+				scrollTop(tabs);
 			});
 
 			$('.to-right-tab', tabs).click(function() {
 				tabs.removeClass('left').addClass('right');
 				resize();
+				scrollTop(tabs);
 			});
 		}
 

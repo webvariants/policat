@@ -550,7 +550,7 @@ span.checkbox {
 // z-index: 2  disable tabs
 
 .tabs {
-	z-index: 1;
+	z-index: 0;
 
 	.tab-head {
 		display: none;
@@ -558,5 +558,26 @@ span.checkbox {
 
 	.tab-alternate {
 		display: block;
+	}
+
+	.tab-body, .left-tab, .right-tab {
+		background: transparent;
+	}
+
+	.left-tab, .right-tab {
+		padding-top: 0;
+		padding-bottom: 0;
+	}
+
+	&.no-tabs {
+		.tab-alternate {
+			display: none;
+		}
+
+		.left-tab {
+			padding-top: 20px;
+			padding-bottom: 10px;
+			background: var(--background-color-box);
+		}
 	}
 }
