@@ -71,6 +71,9 @@
               <a target="_blank" href="<?php echo url_for('signers', array('id' => $petition->getId(), 'text_id' => $translation->getId())) ?>">
                   <?php echo url_for('signers', array('id' => $petition->getId(), 'text_id' => $translation->getId()), true) ?>
               </a>
+              <br />
+              Embed snippet:
+              <code>&lt;iframe src="<?php echo url_for('signers', array('id' => $petition->getId(), 'text_id' => $translation->getId()), true) ?>" frameborder="0"&gt;&lt;/iframe&gt;</code>
           </div>
       </div>
     <?php endif ?>

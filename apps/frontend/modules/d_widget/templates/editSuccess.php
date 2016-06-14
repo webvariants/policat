@@ -39,5 +39,9 @@ $text_id = $form->getObject()->getPetitionTextId();
       <a target="_blank" href="<?php echo url_for('signers', array('id' => $petition->getId(), 'text_id' => $text_id)) ?>">
           <?php echo url_for('signers', array('id' => $petition->getId(), 'text_id' => $text_id), true) ?>
       </a>
+      <br />
+      Embed snippet:
+      <code>&lt;iframe src="<?php echo url_for('signers', array('id' => $petition->getId(), 'text_id' => $text_id), true) ?>" frameborder="0"&gt;&lt;/iframe&gt;</code>
+
   </p>
 <?php endif ?>
