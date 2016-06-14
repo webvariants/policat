@@ -27,7 +27,7 @@ class PetitionContact extends BasePetitionContact {
   public function checkPassword($password) {
     $crypt = $this->getPassword();
     if ($crypt) {
-      return $crypt === crypt($password, $crypt);
+      return hash_equals($crypt, crypt($password, $crypt));
     }
 
     return false;

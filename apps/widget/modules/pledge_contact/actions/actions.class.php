@@ -32,6 +32,13 @@ class pledge_contactActions extends policatActions {
         return $this->notFound();
       }
 
+      $response = $this->getResponse();
+      if ($response instanceof sfWebResponse) {
+        $response->addCacheControlHttpHeader('private');
+        $response->addCacheControlHttpHeader('no-store');
+        $response->addCacheControlHttpHeader('max_age=0');
+      }
+
       $contact = $petition_contact->getContact();
       $petition = $petition_contact->getPetition();
 
@@ -98,7 +105,7 @@ class pledge_contactActions extends policatActions {
     if ($petition_contact->getPassword()) {
       $session = $request->getPostParameter('session');
 
-      if ($session && is_string($session) && $session == crypt($petition_contact->getPassword(), $session)) {
+      if ($session && is_string($session) && hash_equals($session, crypt($petition_contact->getPassword(), $session))) {
         $this->session = $session;
       } else {
         if ($request->isMethod('post')) {
