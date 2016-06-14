@@ -183,6 +183,15 @@ class d_actionActions extends policatActions {
     $petition->setFromName($this->getGuardUser()->getOrganisation() ? : $this->getGuardUser()->getName());
     $petition->setFromEmail($this->getGuardUser()->getEmailAddress());
     $petition->setPolicyCheckbox(PetitionTable::POLICY_CHECKBOX_NO);
+    $petition->setThemeId(2);
+    $petition->setStyleBgLeftColor('#FFFFFF');
+    $petition->setStyleBgRightColor('#ECEDE7');
+    $petition->setStyleBodyColor('#004672');
+    $petition->setStyleButtonColor('#009EE3');
+    $petition->setStyleButtonPrimaryColor('#76B235');
+    $petition->setStyleFormTitleColor('#004672');
+    $petition->setStyleLabelColor('#004672');
+    $petition->setStyleTitleColor('#004672');
 
     $campaign_id = $request->getGetParameter('campaign');
     if (is_numeric($campaign_id)) {
