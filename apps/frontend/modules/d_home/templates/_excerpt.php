@@ -1,29 +1,18 @@
-<?php
-use_helper('Text');
-
-$title = Util::enc($widget['title'] ? $widget['title'] : $text['title']);
-if (in_array($petition['kind'], Petition::$EMAIL_KINDS, false)) {
-  $body = Util::enc($widget['email_subject'] ? $widget['email_subject'] : $text['email_subject']) . ', ';
-  $body .= Util::enc($widget['email_body'] ? $widget['email_body'] : $text['email_body']);
-}
-else
-  $body =
-    UtilMarkdown::transform(($widget['intro'] ? $widget['intro'] . " \n\n" : '') . $text['body']);
-?>
-<div class="row">
-  <div class="span1"><?php if ($petition['key_visual']): ?><img class="home_teaser" src="<?php echo image_path('keyvisual/' . $petition['key_visual']) ?>" alt="" /><?php else: ?><div>&nbsp;</div><?php endif ?></div>
-  <div class="span3">
-    <p><b><?php echo $title ?></b> <?php echo truncate_text(strip_tags($body), 120) ?></p>
-    <a href="<?php echo $petition['read_more_url'] ?>">Read more</a>
-  </div>
-  <div class="span1 span1_10px">
-    <dl class="well well-small petition_stats">
-      <dt>Total</dt>
-      <dd><?php echo number_format($petition['signings'], 0, '.', ',') ?></dd>
-      <dt>Today</dt>
-      <dd><?php echo number_format($petition['signings24'], 0, '.', ',') ?></dd>
-    </dl>
-    <a class="btn btn-mini show" onclick="<?php echo UtilWidget::getWidgetHereJs($widget['id'], true) ?>">sign!</a>
-  </div>
-  <div class="span5 bottom_line"></div>
+<div class="row" onclick="<?php echo UtilWidget::getWidgetHereJs($excerpt['widget_id'], true) ?>" style="cursor: pointer">
+    <div class="span1"><?php if ($excerpt['key_visual']): ?><img class="home_teaser" src="<?php echo image_path('keyvisual/' . $excerpt['key_visual']) ?>" alt="" /><?php else: ?><div style="background: #f5f5f5; height: 70px">&nbsp;</div><?php endif ?></div>
+    <div class="span4">
+        <div class="petition_stats_container">
+            <p><b><?php echo $excerpt['title'] ?></b> <?php echo $excerpt['text'] ?></p>
+            <div class="petition_stats">
+                <dl class="well well-small">
+                    <dt>Total</dt>
+                    <dd title="<?php echo number_format($excerpt['signings'], 0, '.', ',') ?>"><?php echo Util::readable_number($excerpt['signings']) ?></dd>
+                    <dt>Today</dt>
+                    <dd title="<?php echo number_format($excerpt['signings24'], 0, '.', ',') ?>"><?php echo Util::readable_number($excerpt['signings24']) ?></dd>
+                </dl>
+                <a class="btn btn-mini show">sign!</a>
+            </div>
+        </div>
+    </div>
+    <div class="span5 bottom_line"></div>
 </div>

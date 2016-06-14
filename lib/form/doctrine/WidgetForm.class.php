@@ -69,14 +69,19 @@ class WidgetForm extends BaseWidgetForm {
   }
 
   protected function setWidgetDefaults() {
-    $defaults = $this->getObject()->getPetitionText();
+    $defaults_text = $this->getObject()->getPetitionText();
+    $defaults_parent = null;
     if ($this->getObject()->getParentId()) {
-      $defaults = $this->getObject()->getParent();
+      $defaults_parent = $this->getObject()->getParent();
     }
     if ($this->getObject()->isNew()) {
       foreach (array('title', 'target', 'background', 'intro', 'footer', 'email_subject', 'email_body') as $field) {
         if (isset($this[$field])) {
-          $this->setDefault($field, $defaults[$field]);
+          if ($defaults_parent && $defaults_parent[$field]) {
+            $this->setDefault($field, $defaults_parent[$field]);
+          } else {
+            $this->setDefault($field, $defaults_text[$field]);
+          }
         }
       }
     }
@@ -95,7 +100,7 @@ class WidgetForm extends BaseWidgetForm {
 
   protected function doUpdateObject($values) {
     $stylings = array();
-    foreach (array('type', 'width', 'title_color', 'body_color', 'button_color', 'bg_left_color', 'bg_right_color', 'form_title_color') as $i) {
+    foreach (array('type', 'width', 'title_color', 'body_color', 'button_color', 'bg_left_color', 'bg_right_color', 'form_title_color', 'button_primary_color', 'label_color', 'font_family') as $i) {
       if (array_key_exists('styling_' . $i, $values)) {
         $stylings[$i] = $values['styling_' . $i];
         unset($values['styling_' . $i]);

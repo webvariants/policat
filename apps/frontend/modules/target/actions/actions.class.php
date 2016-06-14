@@ -152,7 +152,7 @@ class targetActions extends policatActions {
             return $this->ajax()->redirectRotue('target_edit', array('id' => $target_list->getId()))->render();
           } else
             return $this->ajax()
-                ->replaceWithPartial('#form', 'form', array('form' => new MailingListForm($target_list)))
+                ->replaceWithPartial('#form', 'form', array('csrf_token' => $this->csrf_token,  'form' => new MailingListForm($target_list)))
                 ->alert('Name updated', '', '#form', 'after')->render();
         } else {
           return $this->ajax()->form($this->form)->render();

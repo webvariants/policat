@@ -10,104 +10,8 @@
 
 class d_homeComponents extends policatComponents {
 
-  const HOTTEST = 'hottest'; // Trending
-  const LARGEST = 'largest'; // Popular
-  const RECENT = 'recent'; // New
-
-  protected function getPetitions($type) {
-    $query = PetitionTable::getInstance()
-      ->createQuery('p')
-      ->where('p.status = ?', Petition::STATUS_ACTIVE)
-      ->andWhere('p.homepage = 1')
-      ->leftJoin('p.Campaign c')
-      ->andWhere('c.status = ?', CampaignTable::STATUS_ACTIVE)
-      ->leftJoin('p.PetitionText pt')
-      ->andWhere('pt.status = ?', PetitionText::STATUS_ACTIVE)
-      ->andWhere('pt.language_id = ?', 'en')
-      ->leftJoin('pt.DefaultWidget w')
-      ->andWhere('w.status = ?', Widget::STATUS_ACTIVE)
-      ->select('p.*, pt.*, w.*')
-      ->addSelect('(SELECT count(z.id) FROM PetitionSigning z WHERE DATE_SUB(NOW(),INTERVAL 1 DAY) <= z.created_at  and z.petition_id = p.id and z.status = ' . PetitionSigning::STATUS_COUNTED . ') as signings24')
-      ->limit(5);
-
-    switch ($type) {
-      case self::LARGEST:
-        $query->addSelect('((SELECT count(s.id) FROM PetitionSigning s WHERE s.petition_id = p.id and s.status = ' . PetitionSigning::STATUS_COUNTED . ') + (SELECT p.addnum FROM Petition p2 where p2.id = p.id)) as signings');
-        $query->orderBy('signings DESC, p.id ASC');
-        break;
-      case self::RECENT:
-        $query->orderBy('p.created_at DESC, p.id ASC');
-        break;
-      case self::HOTTEST:
-      default:
-        $query->orderBy('signings24 DESC, p.id ASC');
-        break;
-    }
-
-    return
-      $query->execute(array(), Doctrine_Core::HYDRATE_ARRAY);
-  }
-
   public function executeOpen_actions() {
-    // Javascript vars
-    $this->tags = array('policat' => '');  // UtilRegistry::get('twitter_tags')
-    $this->widget_styles = array();
-
-    // Open petitions
-    $this->open = array();
-    foreach (array(self::HOTTEST => 'Trending', self::LARGEST => 'Popular', self::RECENT => 'New') as $key => $value) {
-      $data = $this->getPetitions($key);
-      $this->tags[$key] = '';
-      foreach ($data as $k => &$petition) {
-        if ($key == self::HOTTEST && $petition['signings24'] < 1) {
-          unset($data[$k]);
-          continue;
-        }
-        
-        if ($key == self::LARGEST && $petition['signings'] < 10) {
-          unset($data[$k]);
-          continue;
-        }
-        
-        $count = PetitionSigningTable::getInstance()->countByPetition($petition['id'], null, null, 60);
-        $count += PetitionApiTokenTable::getInstance()->sumOffsets($petition['id'], 60);
-        $count += $petition['addnum'];
-
-        $petition['signings'] = $count;
-        $text = $petition['PetitionText'][0];
-        $widget = $text['DefaultWidget'];
-        $style = json_decode($widget['stylings'], true);
-
-        $tags = trim($petition['twitter_tags']);
-        if ($tags) {
-          $this->tags[$key] .= ($this->tags[$key] ? ' OR ' : '') . $petition['twitter_tags'];
-        }
-
-        if (!isset($this->widget_styles[$widget['id']])) {
-          $this->widget_styles[$widget['id']] = array(
-              'width' => $style['width'],
-              'body_color' => '#818286',
-              'count' => number_format($petition['signings'], 0, '.', ',') . ' people so far',
-              'target' => $petition['signings'] . '-' . Petition::calcTarget($petition['signings'], $petition['target_num']),
-              'url' => $this->getContext()->getRouting()->generate('sign', array('id' => $widget['id'], 'hash' => Widget::calcLastHash(
-                    $widget['id'], array(
-                      $petition['object_version'],
-                      $widget['object_version'],
-                      $text['object_version']
-                  ))), true)
-          );
-        }
-      }
-      
-      if (count($data)) {
-        $this->open[$key] =
-          array(
-              'title' => $value,
-              'data' => $data
-        );
-//        $this->js['tags'][$key] .= ($this->js['tags'][$key] ? ' OR ' : '') . $this->js['tags']['policat'];
-      }
-    }
+    $this->data = UtilOpenActions::dataByCache();
   }
 
   public function getKeyvisualUrl($params) {
@@ -134,54 +38,18 @@ class d_homeComponents extends policatComponents {
       return;
     }
 
-    $id = PetitionTable::getInstance()
-      ->createQuery('p')
-      ->where('p.status = ?', Petition::STATUS_ACTIVE)
-      ->andWhere('p.homepage = 1')
-      ->leftJoin('p.Campaign c')
-      ->andWhere('c.status = ?', CampaignTable::STATUS_ACTIVE)
-      ->leftJoin('p.PetitionText pt')
-      ->andWhere('pt.status = ?', PetitionText::STATUS_ACTIVE)
-      ->andWhere('pt.language_id = ?', 'en')
-      ->leftJoin('pt.DefaultWidget w')
-      ->andWhere('w.status = ?', Widget::STATUS_ACTIVE)
-      ->select('p.id')
-      ->addSelect('(SELECT count(z.id) FROM PetitionSigning z WHERE DATE_SUB(NOW(),INTERVAL 1 DAY) <= z.created_at  and z.petition_id = p.id and z.status = ' . PetitionSigning::STATUS_COUNTED . ') as signings24')
-      ->limit(1)
-      ->orderBy('signings24 DESC, p.id ASC')
-      ->fetchArray();
-
-    if ($id) {
-      $id = $id[0]['id'];
-      $petition =
-        PetitionTable::getInstance()
-        ->createQuery('p')
-        ->where('p.id = ?', $id)
-        ->andWhere('p.status = ?', Petition::STATUS_ACTIVE)
-        ->andWhere('p.homepage = 1')
-        ->leftJoin('p.Campaign c')
-        ->andWhere('c.status = ?', CampaignTable::STATUS_ACTIVE)
-        ->leftJoin('p.PetitionText pt')
-        ->andWhere('pt.status = ?', PetitionText::STATUS_ACTIVE)
-        ->andWhere('pt.language_id = ?', 'en')
-        ->leftJoin('pt.DefaultWidget w')
-        ->andWhere('w.status = ?', Widget::STATUS_ACTIVE)
-        ->select('p.name, p.object_version, p.kind, p.language_id, p.twitter_tags, p.key_visual, p.read_more_url, pt.id, pt.object_version, pt.title, pt.target, pt.body, pt.footer, pt.email_subject, pt.email_body, w.id, w.object_version, w.title, w.target, w.intro, w.footer, w.email_subject, w.email_body, w.stylings')
-        ->fetchOne();
-      if ($petition) {
-        /* @var $petition Petition */
-        $text = $petition['PetitionText'][0];
-        $widget = $text['DefaultWidget'];
-        $url = $this->generateUrl('sign_hp', array('id' => $widget['id'], 'hash' => $widget->getLastHash(true)), true);
-
-        $this->count = $petition->getCount(60);
-        $this->target = $this->count . '-' . Petition::calcTarget($this->count, $petition->getTargetNum());
-
-        $this->widget_id = $widget['id'];
-        $this->stylings = json_decode($widget->getStylings(), true);
-        $this->stylings['type'] = 'embed';
-        $this->stylings['url'] = $url;
-        $this->stylings['width'] = 'auto';
+    $data = UtilOpenActions::dataByCache();
+    if ($data && array_key_exists(UtilOpenActions::HOTTEST, $data['open'])) {
+      $recent = $data['open'][UtilOpenActions::HOTTEST];
+      if ($recent && $recent['excerpts']) {
+        $excerpts = $recent['excerpts'];
+        if ($excerpts) {
+          $this->widget_id = $excerpts[0]['widget_id'];
+          $this->stylings = $data['styles'][$this->widget_id];
+          $this->stylings['type'] = 'embed';
+          $this->stylings['width'] = 'auto';
+          $this->stylings['url'] = $this->generateUrl('sign_hp', array('id' => $this->widget_id, 'hash' => $excerpts[0]['widget_last_hash']), true);
+        }
       }
     }
   }

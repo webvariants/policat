@@ -39,12 +39,19 @@ class PetitionTable extends Doctrine_Table {
       self::INDIVIDUALISE_NOTHING => 'Widgets texts and designs cannot be individualised'
   );
 
+  const LABEL_MODEL_EMAIL = 0;
   const LABEL_MODE_PETITION = 1;
   const LABEL_MODE_INITIATIVE = 2;
+  const LABEL_MODE_APPEAL = 3;
+  const LABEL_MODE_COMMUNITY = 4;
+  const LABEL_MODE_NEWSLETTER = 5;
 
   public static $LABEL_MODE = array(
       self::LABEL_MODE_PETITION => 'Petition',
-      self::LABEL_MODE_INITIATIVE => 'Citizen initiative'
+      self::LABEL_MODE_INITIATIVE => 'Citizen initiative',
+      self::LABEL_MODE_APPEAL => 'Appeal',
+      self::LABEL_MODE_COMMUNITY => 'Community',
+      self::LABEL_MODE_NEWSLETTER => 'Newsletter'
   );
 
   const POLICY_CHECKBOX_NO = 0;
@@ -53,6 +60,61 @@ class PetitionTable extends Doctrine_Table {
   public static $POLICY_CHECKBOX = array(
       self::POLICY_CHECKBOX_YES => 'yes',
       self::POLICY_CHECKBOX_NO => 'no'
+  );
+
+  const SUBSCRIBE_CHECKBOX_DEFAULT_NO = 0;
+  const SUBSCRIBE_CHECKBOX_DEFAULT_YES = 1;
+
+  public static $SUBSCRIBE_CHECKBOX_DEFAULT = array(
+      self::SUBSCRIBE_CHECKBOX_DEFAULT_NO => 'no',
+      self::SUBSCRIBE_CHECKBOX_DEFAULT_YES => 'yes (preselected)'
+  );
+
+  const LABEL_TAB = 1;
+  const LABEL_BUTTON = 2;
+  const LABEL_TITLE = 3;
+
+  public static $LABELS = array(
+      self::LABEL_MODEL_EMAIL => array(
+          self::LABEL_TAB => 'Email action',
+          self::LABEL_BUTTON => 'Send',
+          self::LABEL_TITLE => 'Send an Email'
+      ),
+      self::LABEL_MODE_PETITION => array(
+          self::LABEL_TAB => 'Petition',
+          self::LABEL_BUTTON => 'Sign',
+          self::LABEL_TITLE => 'Sign the Petition'
+      ),
+      self::LABEL_MODE_INITIATIVE => array(
+          self::LABEL_TAB => 'Initiative',
+          self::LABEL_BUTTON => 'Sign',
+          self::LABEL_TITLE => 'Support the initiative'
+      ),
+      self::LABEL_MODE_APPEAL => array(
+          self::LABEL_TAB => 'Appeal',
+          self::LABEL_BUTTON => 'Support',
+          self::LABEL_TITLE => 'Support the appeal'
+      ),
+      self::LABEL_MODE_COMMUNITY => array(
+          self::LABEL_TAB => 'Community',
+          self::LABEL_BUTTON => 'Join',
+          self::LABEL_TITLE => 'Join the community'
+      ),
+      self::LABEL_MODE_NEWSLETTER => array(
+          self::LABEL_TAB => 'Newsletter',
+          self::LABEL_BUTTON => 'Sign up',
+          self::LABEL_TITLE => 'Sign up to the newsletter'
+      )
+  );
+
+  const LAST_SIGNINGS_NO = 0;
+  const LAST_SIGNINGS_CONFIRM = 1;
+  const LAST_SIGNINGS_SIGN_CONFIRM = 3;
+
+  public static $LAST_SINGINGS = array(
+      self::LAST_SIGNINGS_NO => 'Don\'t show',
+      self::LAST_SIGNINGS_CONFIRM => 'Only confirmation page',
+      self::LAST_SIGNINGS_SIGN_CONFIRM => 'In sign-up form and confirmation page',
   );
 
   /**
@@ -122,8 +184,11 @@ class PetitionTable extends Doctrine_Table {
       ->where('p.id = ?', $id)
       ->andWhere('p.status = ?', Petition::STATUS_ACTIVE)
       ->leftJoin('p.Campaign c')
-      ->andWhere('c.status = ?', CampaignTable::STATUS_ACTIVE)
-      ->useResultCache(true, $timeToLive);
+      ->andWhere('c.status = ?', CampaignTable::STATUS_ACTIVE);
+
+    if ($timeToLive !== false) {
+      $query->useResultCache(true, $timeToLive);
+    }
 
     $res = $query->fetchOne(); /* @var $res Petition */
     $query->free();

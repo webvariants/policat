@@ -4,7 +4,7 @@
 $widget_texts = $petition->getWidgetIndividualiseText();
 if ($petition->isEmailKind()):
   if ($petition->isGeoKind()):
-    ?><form action=""><div id="target_selector"></div>
+    ?><form action=""><div id="target-selector" class="target-selector"></div>
     <?php
     if ($petition->getKind() == Petition::KIND_PLEDGE):
       $pledge_items = $petition->getPledgeItems();
@@ -27,14 +27,14 @@ if ($petition->isEmailKind()):
           </span>
         </li>
         <?php $template = ob_get_clean(); ?>
-        <div id="scroll_pledges">
-          <ul id="pledges" data-pledge-count="<?php echo $active_plegde_count ?>" data-template='<?php echo htmlentities(json_encode(array('data' => trim(preg_replace('/( +)|\n/', ' ', $template)))), ENT_COMPAT, 'UTF-8') ?>' ></ul>
+        <div id="scroll-pledges" class="scroll-pledges">
+          <ul id="pledges" class="pledges" data-pledge-count="<?php echo $active_plegde_count ?>" data-template='<?php echo htmlentities(json_encode(array('data' => trim(preg_replace('/( +)|\n/', ' ', $template)))), ENT_COMPAT, 'UTF-8') ?>' ></ul>
         </div>
         <?php
         foreach ($pledge_items as $pledge_item): /* @var $pledge_item PledgeItem */
           if ($pledge_item->getStatus() == PledgeItemTable::STATUS_ACTIVE):
             ?>
-            <div id="pledge_text_<?php echo $pledge_item->getId() ?>" style="display: none" class="pledge_text">
+            <div id="pledge_text_<?php echo $pledge_item->getId() ?>" style="display: none" class="pledge-text">
               <?php echo UtilMarkdown::transform($petition_text->getPledgeTextByPledgeItem($pledge_item)) ?>
             </div>
             <?php

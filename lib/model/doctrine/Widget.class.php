@@ -87,11 +87,36 @@ class Widget extends BaseWidget {
   }
 
   public function getStyling($name, $default = null) {
-    return $this->utilGetFieldFromArray('stylings', $name, $default);
+    $value = $this->utilGetFieldFromArray('stylings', $name, $default);
+    if ($name === 'button_primary_color' && !$value) {
+      $name = 'button_color';
+      $value = $this->utilGetFieldFromArray('stylings', $name, $default);
+    }
+    if ($name === 'label_color' && !$value) {
+      $name = 'body_color';
+      $value = $this->utilGetFieldFromArray('stylings', $name, $default);
+    }
+    if ($default === null && $value === null && in_array($name, WidgetTable::$STYLE_COLOR_NAMES)) {
+      $petition = $this->getPetition();
+      $value = $petition['style_' . $name];
+    }
+
+    return $value;
   }
 
   public function setStyling($name, $value) {
     $this->utilSetFieldFromArray('stylings', $name, $value);
+  }
+
+  public function getFontFamily() {
+    $petition = $this->getPetition();
+    $petition_font_family = $petition->getStyleFontFamily();
+
+    if ($petition->getWidgetIndividualiseDesign()) {
+      return $this->getStyling('font_family', $petition_font_family);
+    } else {
+      return $petition_font_family;
+    }
   }
 
   public static function genCode() {
@@ -245,7 +270,7 @@ class Widget extends BaseWidget {
     return WidgetTable::getInstance()->fetchWidgetIdByOrigin($petition_id, $this->getId());
   }
 
-  public function getDataOwnerSubst($newline = "\n", $petition) {
+  public function getDataOwnerSubst($newline = "\n", $petition = null) {
     if (!$petition) {
       $petition = $this->getPetition();
     }

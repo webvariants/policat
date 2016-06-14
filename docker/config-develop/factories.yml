@@ -1,0 +1,77 @@
+prod:
+  logger:
+    class:   sfNoLogger
+    param:
+      level:   err
+      loggers: ~
+
+test:
+  storage:
+    class: sfSessionTestStorage
+    param:
+      session_path: %SF_TEST_CACHE_DIR%/sessions
+
+  response:
+    class: sfWebResponse
+    param:
+      send_http_headers: false
+
+  mailer:
+    param:
+      delivery_strategy: none
+
+all:
+  mailer:
+    param:
+      transport:
+        class: Swift_SmtpTransport
+        param:
+          host: mail
+      delivery_strategy: realtime
+      delivery_strategy: spool
+      spool_class:       Swift_DoctrineSpool
+      spool_arguments:   [ MailMessage, messagePlain, getSpooledMessages ]
+
+  view_cache:
+    class: sfTaggingCache
+    param:
+      storage:
+        class: sfMemcacheTaggingCache
+        param:
+          storeCacheInfo: true
+          host: memcached
+      logger:
+        class: sfNoCacheTagLogger  # sfFileCacheTagLogger
+        param:
+          file: %SF_LOG_DIR%/cache_%SF_ENVIRONMENT%.log
+          format: "%char% %microtime% %key%%EOL%"
+
+  view_cache_manager:
+    class: sfViewCacheTagManager
+
+  routing:
+    class: policatRouting
+    param:
+      load_configuration:               true
+      suffix:                           ''
+      default_module:                   default
+      default_action:                   index
+      debug:                            %SF_DEBUG%
+      logging:                          %SF_LOGGING_ENABLED%
+      generate_shortest_url:            false
+      extra_parameters_as_query_string: false
+      cache:                            ~
+      cli_context:
+        host: localhost
+        is_secure: false
+        prefix: ''
+
+stress:
+  logger:
+    class:   sfNoLogger
+    param:
+      level:   err
+      loggers: ~
+  mailer:
+    param:
+      delivery_strategy: none

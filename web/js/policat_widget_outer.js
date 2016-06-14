@@ -1,5 +1,5 @@
 var policat = typeof policat === "undefined" ? {widgets: []} : policat;
-(function(policat, window, document, navigator, Math, ref, verified, width, edit) {
+(function(policat, window, document, Math, ref, verified_id, width, edit, name) {
 	if (policat.widget_here === undefined) {
 		policat.overlay_frame_height = null;
 		policat.iframe_no = 0;
@@ -42,8 +42,23 @@ var policat = typeof policat === "undefined" ? {widgets: []} : policat;
 			return false;
 		};
 
+		function scrollTo(no, x, y, force) {
+			var iframe = document.getElementById('policat_iframe_no_' + no);
+			if (iframe) {
+//				var doc = document.documentElement;
+//				var left = (window.pageXOffset || doc.scrollLeft) - (doc.clientLeft || 0);
+//				var top = (window.pageYOffset || doc.scrollTop)  - (doc.clientTop || 0);
+				var rect = iframe.getBoundingClientRect();
+				var height = Math.max(document.documentElement.clientHeight, window.innerHeight || 0);
+				var diffY = y + rect.top;
+				if (force || diffY < 0 || diffY > (height * 0.7)) {
+					window.scrollBy(x + rect.left, diffY);
+				}
+			}
+		}
+
 		var receivePostMsg = function(event) {
-			if (typeof event.data == 'string') {
+			if (typeof event.data === 'string') {
 				if (event.data.match(/^policat_height;\d+;\d+$/)) {
 					var data = event.data.split(';');
 					var no = data[1];
@@ -67,14 +82,11 @@ var policat = typeof policat === "undefined" ? {widgets: []} : policat;
 
 						policat.overlay_frame_height = height;
 					}
-				} else if (event.data.match(/^policat_scroll;\d+;\d+$/)) {
+				} else if (event.data.match(/^policat_scroll;\d+;\d+;[10]$/)) {
 					var data = event.data.split(';');
 					var no = data[1];
 					var offset = parseInt(data[2], 10);
-					var iframe = document.getElementById('policat_iframe_no_' + no);
-					if (iframe) {
-						window.scrollBy(iframe.getBoundingClientRect().left, iframe.getBoundingClientRect().top + offset);
-					}
+					scrollTo(no, 0, offset, data[3] === '1' ? true : false);
 				}
 			}
 		};
@@ -84,7 +96,7 @@ var policat = typeof policat === "undefined" ? {widgets: []} : policat;
 			window.attachEvent('onmessage', receivePostMsg);
 
 		policat.widget_here = function(id, click) {
-			var maxWidth = '1000px';
+			var maxWidth = '1080px';
 //			if ('devicePixelRatio' in window && window.devicePixelRatio > 1)
 //				maxWidth = '360px';
 			if ('matchMedia' in window) {
@@ -100,7 +112,7 @@ var policat = typeof policat === "undefined" ? {widgets: []} : policat;
 			}
 			var widget = policat.widgets[id];
 			var iframe_no = policat.iframe_no++;
-			if (verified) {
+			if (verified_id) {
 				widget.type = 'embed';
 			}
 			if (edit) {
@@ -109,15 +121,7 @@ var policat = typeof policat === "undefined" ? {widgets: []} : policat;
 			if (width) {
 				widget.width = 'auto';
 			}
-			var hash = verified + '!' + edit + '!' + widget.target + '-' + widget.count + '!' + iframe_no + '!' + ref;
-
-			function checkBrowserName(name) {
-				var agent = navigator.userAgent.toLowerCase();
-				if (agent.indexOf(name.toLowerCase()) > -1) {
-					return true;
-				}
-				return false;
-			}
+			var hash = verified_id + '!' + edit + '!' + widget.target + '!' + iframe_no + '!' + name + '!' + ref;
 
 			function createIFrame(auto) {
 				var width = (auto || widget.width === 'auto') ? '100%' : (widget.width + 'px');
@@ -217,7 +221,7 @@ var policat = typeof policat === "undefined" ? {widgets: []} : policat;
 				close_x.style.display = 'block';
 				close_x.style.width = '25px';
 				close_x.style.height = '25px';
-				close_x.style.lineHeight = '0.8em';
+				close_x.style.lineHeight = '25px';
 				close_x.style.fontSize = '25px';
 				close_x.appendChild(document.createTextNode("\u00d7"));
 				close_x.style.fontFamily = '"Lucida Sans Unicode"';
@@ -338,9 +342,10 @@ var policat = typeof policat === "undefined" ? {widgets: []} : policat;
 			}
 		};
 	}
-})(policat, window, document, navigator, Math,
+})(policat, window, document, Math,
 		typeof policat_ref !== 'undefined' ? policat_ref : window.location.href,
 		typeof policat_verified !== 'undefined' ? policat_verified : 0,
 		typeof policat_width !== 'undefined' ? policat_width : null,
-		typeof policat_widget_edit_code !== 'undefined' ? policat_widget_edit_code : ''
+		typeof policat_widget_edit_code !== 'undefined' ? policat_widget_edit_code : '',
+		typeof policat_name !== 'undefined' ? policat_name : ''
 		);

@@ -71,9 +71,13 @@ class widgetActions extends policatActions
     // hash check
     $id = $request->getParameter('id');
     $hash = $request->getParameter('hash');
-    if (!is_numeric($id) || !is_string($hash)) $this->forward404();
+    if (!is_numeric($id) || !is_string($hash)) {
+      $this->forward404();
+    }
     $id = ltrim($id, ' 0');
-    if (!Widget::isValidLastHash($id, $hash)) $this->forward404();
+    if (!Widget::isValidLastHash($id, $hash)) {
+      $this->forward404();
+    }
 
     $this->setLayout(false);
     $this->fetchWidget();
@@ -84,7 +88,8 @@ class widgetActions extends policatActions
     $this->getUser()->setCulture($this->lang);
     $widget_texts = $this->petition->getWidgetIndividualiseText();
 
-    $this->title         = ($widget_texts && !empty($this->widget['title'])) ? $this->widget['title'] : $this->petition_text['title'];
+    $this->petition_title = $this->petition['name'];
+    $this->title         = $widget_texts ? $this->widget['title'] : $this->petition_text['title'];
     $this->target        = $widget_texts ? $this->widget['target'] : $this->petition_text['target'];
     $this->background    = $widget_texts ? $this->widget['background'] : $this->petition_text['background'];
 
@@ -110,15 +115,7 @@ class widgetActions extends policatActions
     $this->require_billing = $this->widget->getRequireBilling();
 
     $this->width = $this->widget->getStyling('width');
-    $this->font_family = $this->petition->getStyleFontFamily();
-    $widget_colors = $this->petition->getWidgetIndividualiseDesign();
-    foreach (array('title_color', 'body_color', 'button_color', 'bg_left_color', 'bg_right_color', 'form_title_color') as $style) {
-      if ($widget_colors) {
-        $this->$style = $this->widget->getStyling($style, $this->petition['style_' . $style]);
-      } else {
-        $this->$style = $this->petition['style_' . $style];
-      }
-    }
+    $this->font_css_file = UtilFont::cssFileByFont($this->widget->getFontFamily());
 
     $sign             = new PetitionSigning();
     $sign['Petition'] = $this->widget['Petition'];
@@ -146,8 +143,14 @@ class widgetActions extends policatActions
       $new_widget['PetitionText'] = $this->widget['PetitionText'];
     }
 
+    $subscribe_text = trim($this->petition_text['subscribe_text']);
+    if ($subscribe_text && mb_strpos($subscribe_text, '#') !== false) {
+      $subscribe_text = strtr($subscribe_text, $this->widget->getDataOwnerSubst(' ', $this->petition));
+    }
+
     $this->form          = new PetitionSigningForm($sign, array(
-        'validation_kind'                           => PetitionSigning::VALIDATION_KIND_EMAIL
+        'validation_kind'                           => PetitionSigning::VALIDATION_KIND_EMAIL,
+        'subscribe_text'                            => $subscribe_text
     ));
     $this->form_embed    = new WidgetPublicForm($new_widget);
 
@@ -224,6 +227,12 @@ class widgetActions extends policatActions
 
       return $this->renderPartial('json_form', array('form' => $ajax_response_form, 'extra' => $extra));
     }
+
+    if ($this->petition->getLastSignings() == PetitionTable::LAST_SIGNINGS_SIGN_CONFIRM) {
+      $this->last_signings = PetitionSigningTable::getInstance()->lastSignings($this->petition->getId());
+    } else {
+      $this->last_signings = null;
+    }
   }
   
   public function executeSignHp(sfWebRequest $request) {
@@ -249,7 +258,8 @@ class widgetActions extends policatActions
           $petition      = $petition_signing->getPetition();
           $widget        = $petition_signing->getWidget();
           $campaign      = $petition->getCampaign();
-          $this->lang    = $widget->getPetitionText()->getLanguageId();
+          $petition_text = $widget->getPetitionText();
+          $this->lang    = $petition_text->getLanguageId();
           $this->getContext()->getI18N()->setCulture($this->lang);
           $this->getUser()->setCulture($this->lang);
 
@@ -311,6 +321,7 @@ class widgetActions extends policatActions
               $petition_signing->setStatus(PetitionSigning::STATUS_COUNTED);
               $petition_signing->setVerified(PetitionSigning::VERIFIED_YES);
               $petition_signing->setEmailHash($petition_signing->getEmailHashAuto());
+              UtilThankYouEmail::send($petition_signing);
               $petition_signing->save();
             }
 
@@ -321,6 +332,9 @@ class widgetActions extends policatActions
             if ($this->landing_url) {
               $this->setLayout(false);
               $this->setTemplate('landing');
+            } else {
+              $this->petition_id = $petition->getId();
+              $this->name = strtr((string) $petition_signing->getComputedName(), array('!' => '', '&' => '', ';' => '', '?' => ''));
             }
             return;
           }
@@ -341,6 +355,7 @@ class widgetActions extends policatActions
     $petition_text = $this->widget['PetitionText'];
     /* @var $petition_text PetitionText */
 
+    $this->numberSeparator = $petition_text->utilCultureInfo()->getNumberFormat()->getGroupSeparator();
     $this->count = $petition->getCount(60);
     $this->target = $this->count . '-' . Petition::calcTarget($this->count, $this->widget->getPetition()->getTargetNum());
     $image_prefix = ($request->isSecure() ? 'https://' : 'http://') . $request->getHost() . '/' . $request->getRelativeUrlRoot() . 'images/';
@@ -348,7 +363,7 @@ class widgetActions extends policatActions
     $this->kind = $this->widget->getPetition()->getKind();
     $this->lang = $this->widget->getPetitionText()->getLanguageId();
     $this->getUser()->setCulture($this->lang);
-    $this->label_mode = $this->widget->getPetition()->getLabelMode();
+    $this->headline = $this->widget->getPetition()->getLabel(PetitionTable::LABEL_TAB);
 
     $stylings = json_decode($this->widget->getStylings(), true);
     if (!is_array($stylings)) {
@@ -480,9 +495,46 @@ class widgetActions extends policatActions
           /* @var $petition_signing PetitionSigning */
           /* @var $petition Petition */
 
-          if ($code && $code === $petition_signing->getDeleteCode())
+          if ($code && hash_equals($code, $petition_signing->getDeleteCode()))
           {
             $petition_signing->delete();
+            return;
+          }
+        }
+      }
+    }
+
+    $this->setTemplate('fail');
+  }
+
+  public function executeUnsubscribe(sfWebRequest $request)
+  {
+    $this->setLayout(false);
+    if ($request->hasParameter('code'))
+    {
+      $idcode = $request->getParameter('code');
+      if (is_string($idcode)) $idcode = explode('-', trim($idcode));
+      if (is_array($idcode) && count($idcode) === 2)
+      {
+        list($this->id, $code) = $idcode;
+        $this->id = ltrim($this->id, '0 ');
+        $petition_signing = PetitionSigningTable::getInstance()->fetch($this->id);
+        if (!empty($petition_signing))
+        {
+          $widget        = $petition_signing->getWidget();
+          $this->lang    = $widget->getPetitionText()->getLanguageId();
+          $this->getContext()->getI18N()->setCulture($this->lang);
+          $this->getUser()->setCulture($this->lang);
+
+          /* @var $petition_signing PetitionSigning */
+          /* @var $petition Petition */
+
+          if ($code && hash_equals($code, $petition_signing->getDeleteCode()))
+          {
+            if ($petition_signing->getSubscribe() !== PetitionSigning::SUBSCRIBE_NO) {
+              $petition_signing->setSubscribe(PetitionSigning::SUBSCRIBE_NO);
+              $petition_signing->save();
+            }
             return;
           }
         }

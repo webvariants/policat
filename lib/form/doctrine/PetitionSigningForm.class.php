@@ -63,6 +63,11 @@ class PetitionSigningForm extends BasePetitionSigningForm {
 
           $widget = new sfWidgetFormI18nChoiceCountry(array('countries' => $countries, 'culture' => $culture_info->getName(), 'add_empty' => 'Country'));
           $validator = new sfValidatorI18nChoiceCountry(array('countries' => $countries));
+
+          if ($petition->getDefaultCountry()) {
+            $widget->setDefault($petition->getDefaultCountry());
+          }
+
           $label = false;
           break;
         case Petition::FIELD_PRIVACY:
@@ -75,12 +80,20 @@ class PetitionSigningForm extends BasePetitionSigningForm {
           }
           break;
         case Petition::FIELD_SUBSCRIBE:
-          $widget = new WidgetFormInputCheckbox(array('value_attribute_value' => 1), array('checked' => 'checked'));
+          $widget = new WidgetFormInputCheckbox(array('value_attribute_value' => 1), $petition->getSubscribeDefault() == PetitionTable::SUBSCRIBE_CHECKBOX_DEFAULT_YES ? array('checked' => 'checked') : array());
           $validator = new sfValidatorChoice(array('choices' => array('1'), 'required' => false));
           $label = 'Keep me posted on this and similar campaigns.';
+          $subscribe_text = trim($this->getOption('subscribe_text'));
+          if ($subscribe_text) {
+            $label = Util::enc($subscribe_text);
+          }
           break;
         case Petition::FIELD_TITLE:
-          $widget = new sfWidgetFormChoice(array('choices' => array('' => '', 'female' => 'Mrs', 'male' => 'Mr', 'nogender' => 'Hello')));
+          if ($petition->getTitletype() == Petition::TITLETYPE_FM) {
+            $widget = new sfWidgetFormChoice(array('choices' => array('' => '', 'female' => 'Mrs', 'male' => 'Mr')));
+          } else {
+            $widget = new sfWidgetFormChoice(array('choices' => array('' => '', 'female' => 'Mrs', 'male' => 'Mr', 'nogender' => 'Hello')));
+          }
           $validator = new sfValidatorChoice(array('choices' => array('male', 'female', 'nogender')));
           $label = 'Mrs/Mr';
           break;
@@ -160,7 +173,7 @@ class PetitionSigningForm extends BasePetitionSigningForm {
   public function selectFormatter($widget, $inputs) {
     $rows = array();
     foreach ($inputs as $input) {
-      $rows[] = sprintf('<div class="input_checkbox">%s</div>%s%s', $input['input'], $widget->getOption('label_separator'), $input['label']);
+      $rows[] = sprintf('<div class="input-checkbox">%s</div>%s%s', $input['input'], $widget->getOption('label_separator'), $input['label']);
     }
 
     return join('', $rows);
@@ -184,8 +197,20 @@ class PetitionSigningForm extends BasePetitionSigningForm {
       switch ($name) {
         case Petition::FIELD_CITY: return self::utilPosition($this->fieldNames, Petition::FIELD_CITY, Petition::FIELD_POSTCODE);
         case Petition::FIELD_POSTCODE: return self::utilPosition($this->fieldNames, Petition::FIELD_POSTCODE, Petition::FIELD_CITY);
-        case Petition::FIELD_TITLE: return self::utilPosition($this->fieldNames, Petition::FIELD_TITLE, Petition::FIELD_FIRSTNAME);
-        case Petition::FIELD_FIRSTNAME: return self::utilPosition($this->fieldNames, Petition::FIELD_FIRSTNAME, Petition::FIELD_TITLE);
+        case Petition::FIELD_TITLE:
+          $petition = $this->getObject()->getPetition();
+          if ($petition->getNametype() == Petition::NAMETYPE_SPLIT) {
+            return self::utilPosition($this->fieldNames, Petition::FIELD_TITLE, Petition::FIELD_FIRSTNAME);
+          } else {
+            return false;
+          }
+        case Petition::FIELD_FIRSTNAME: 
+          $petition = $this->getObject()->getPetition();
+          if ($petition->getTitletype() != Petition::TITLETYPE_NO) {
+            return self::utilPosition($this->fieldNames, Petition::FIELD_FIRSTNAME, Petition::FIELD_TITLE);
+          } else {
+            return false;
+          }
       }
     }
     return false;

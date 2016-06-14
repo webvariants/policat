@@ -3,6 +3,7 @@
 $user = $sf_user->getGuardUser()->getRawValue(); /* @var $user sfGuardUser */
 $link_petition = $user->isPetitionMember($petition->getRawValue(), true);
 $link_campaign = $user->isCampaignMember($petition->getCampaign()->getRawValue());
+$text_id = $form->getObject()->getPetitionTextId();
 ?>
 <ul class="breadcrumb">
   <li><a href="<?php echo url_for('dashboard') ?>">Dashboard</a></li><span class="divider">/</span>
@@ -30,3 +31,17 @@ $link_campaign = $user->isCampaignMember($petition->getCampaign()->getRawValue()
     'petition' => $petition,
     'lang' => isset($lang) ? $lang : null
 )) ?>
+
+<?php if ($petition->getLastSignings() != PetitionTable::LAST_SIGNINGS_NO && $text_id): ?>
+  <h2>Signers page</h2>
+  <p>
+      Link:
+      <a target="_blank" href="<?php echo url_for('signers', array('id' => $petition->getId(), 'text_id' => $text_id)) ?>">
+          <?php echo url_for('signers', array('id' => $petition->getId(), 'text_id' => $text_id), true) ?>
+      </a>
+      <br />
+      Embed snippet:
+      <code>&lt;iframe src="<?php echo url_for('signers', array('id' => $petition->getId(), 'text_id' => $text_id), true) ?>" frameborder="0"&gt;&lt;/iframe&gt;</code>
+
+  </p>
+<?php endif ?>

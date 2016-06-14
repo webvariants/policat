@@ -1,4 +1,5 @@
 <?php
+
 /*
  * Copyright (c) 2016, webvariants GmbH <?php Co. KG, http://www.webvariants.de
  *
@@ -34,6 +35,7 @@ class api_v2Actions extends policatActions {
   public function executeActionSignings(sfWebRequest $request) {
     $this->setLayout(false);
     $response = $this->getResponse();
+    /* @var $response sfWebResponse */
 
     // does the client want JSONP?
     $callback = trim(preg_replace('/[^a-z_.]/i', '', $request->getParameter('callback', null)));
@@ -217,6 +219,89 @@ class api_v2Actions extends policatActions {
       }
       $data['signings_total'] = $total;
     }
+
+    $response->setHttpHeader('Cache-Control', null);
+    $response->addCacheControlHttpHeader('public');
+    $response->addCacheControlHttpHeader('max-age', 60);
+
+    return $this->renderJson($data, $callback);
+  }
+
+  /**
+   * @param sfRequest $request A request object
+   */
+  public function executeActionLastSignings(sfWebRequest $request) {
+    $this->setLayout(false);
+    $response = $this->getResponse();
+    /* @var $response sfWebResponse */
+
+    $response->setHttpHeader('Cache-Control', null);
+
+    // does the client want JSONP?
+    $callback = trim(preg_replace('/[^a-z_.]/i', '', $request->getParameter('callback', null)));
+
+    // determine the requested action (petition)
+    $action_id = $request->getParameter('action_id');
+    if (!is_numeric($action_id) || $action_id < 0) {
+      $response->setStatusCode(400);
+      return $this->renderJson(array('status' => 'error', 'message' => 'bad action ID given'), $callback);
+    }
+
+    $page = $request->getParameter('page');
+    if (!is_numeric($page) || $page < 1) {
+      $response->setStatusCode(400);
+      return $this->renderJson(array('status' => 'error', 'message' => 'bad page given'), $callback);
+    }
+
+    if ($page > 10000) {
+      $response->setStatusCode(400);
+      return $this->renderJson(array('status' => 'error', 'message' => 'bad page given'), $callback);
+    }
+
+    $petition = PetitionTable::getInstance()->findByIdCachedActive($action_id);
+    if (!$petition) {
+      $response->setStatusCode(404);
+      return $this->renderJson(array('status' => 'error', 'message' => 'action could not be found'), $callback);
+    }
+
+    if ($petition->getLastSignings() == PetitionTable::LAST_SIGNINGS_NO) {
+      $response->setStatusCode(404);
+      return $this->renderJson(array('status' => 'error', 'message' => 'disabled for this action'), $callback);
+    }
+
+    $response->addCacheControlHttpHeader('public');
+    $response->addCacheControlHttpHeader('max-age', 60);
+
+    $route_params = $this->getRoute()->getParameters();
+    $page_size = (isset($route_params['type']) && $route_params['type'] === 'large') ? 500 : 30;
+
+    $signings = PetitionSigningTable::getInstance()->lastSignings($action_id, $page_size, $page - 1);
+    if (!$signings) {
+      $response->setStatusCode(404);
+      return $this->renderJson(array('status' => 'error', 'message' => 'nothing found'), $callback);
+    }
+
+    $data = array(
+        'action_id' => (int) $action_id,
+        'page' => (int) $page,
+        'time' => time(),
+        'total' => PetitionSigningTable::getInstance()->lastSigningsTotal($action_id)
+    );
+
+    $data['pages'] = ceil($data['total'] / $page_size);
+
+    $signers = array();
+    foreach ($signings as $signing) {
+      /* @var $signing PetitionSigning  */
+
+      $signers[] = array(
+//          'id' => $signing->getId(),
+          'name' => $signing->getComputedName()
+      );
+    }
+
+    $data['status'] = 'ok';
+    $data['signers'] = $signers;
 
     $response->addCacheControlHttpHeader('public');
     $response->addCacheControlHttpHeader('max-age', 60);

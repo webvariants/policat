@@ -1,6 +1,7 @@
 # fake routes from widget ####
 validate:                  { url: '/validate/:code',                   param: { module: default, action: error404 } }
 delete_signing:            { url: '/delete/:code',                     param: { module: default, action: error404 } }
+unsubscribe_signing:       { url: '/unsubscribe/:code',                param: { module: default, action: error404 } }
 api_js_widget:             { url: '/api/js/widget/:id',                param: { module: default, action: error404 } }
 api_js_widget_no_redirect: { url: '/api/js/widget_no_redirect/:id',    param: { module: default, action: error404 } }
 widgetedit:                { url: '/widgetedit/:code',                 param: { module: default, action: error404 } }
@@ -9,6 +10,7 @@ sign_hp:                   { url: /sign_hp/:id/:hash,                  param: { 
 feed:                      { url: /feed,                               param: { module: default, action: error404 } }
 pledge_contact_test:       { url: '/pledge/:petition_id/test',         param: { module: default, action: error404 } }
 api_v2_doc:                { url: '/api/v2',                           param: { module: default, action: error404 } }
+signers:                   { url: '/signers/:id/:text_id',             param: { module: default, action: error404 } }
 
 # ############################
 

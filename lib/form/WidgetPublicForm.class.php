@@ -22,7 +22,7 @@ class WidgetPublicForm extends WidgetForm {
     $petition = $this->getObject()->getPetition();
     $this->getObject()->setStatus(Widget::STATUS_ACTIVE);
 
-    unset($this['id'], $this['status'], $this['origin_widget_id']);
+    unset($this['id'], $this['status'], $this['origin_widget_id'], $this['share']);
 
     $parent = $this->getObject()->getParentId() ? $this->getObject()->getParent() : null;
 
@@ -69,6 +69,20 @@ class WidgetPublicForm extends WidgetForm {
       $this->setValidator('styling_button_color', new ValidatorCssColor(array('min_length' => 7, 'max_length' => 7)));
       $this->setDefault('styling_button_color', $this->getObject()->getStyling('button_color', $parent ? $parent->getStyling('button_color') : '#76b235'));
       $this->getWidgetSchema()->setLabel('styling_button_color', 'Button');
+
+      $this->setWidget('styling_button_primary_color', new sfWidgetFormInput(array(), array('class' => 'color {hash:true}')));
+      $this->setValidator('styling_button_primary_color', new ValidatorCssColor(array('min_length' => 7, 'max_length' => 7)));
+      $this->setDefault('styling_button_primary_color', $this->getObject()->getStyling('button_primary_color', $parent ? $parent->getStyling('button_primary_color') : '#76b235'));
+      $this->getWidgetSchema()->setLabel('styling_button_primary_color', 'Sign Button');
+
+      $this->setWidget('styling_label_color', new sfWidgetFormInput(array(), array('class' => 'color {hash:true}')));
+      $this->setValidator('styling_label_color', new ValidatorCssColor(array('min_length' => 7, 'max_length' => 7)));
+      $this->setDefault('styling_label_color', $this->getObject()->getStyling('label_color', $parent ? $parent->getStyling('label_color') : '#666666'));
+      $this->getWidgetSchema()->setLabel('styling_label_color', 'Form label');
+
+      $this->setWidget('styling_font_family', new sfWidgetFormChoice(array('choices' => UtilFont::formOptions('default'), 'label' => 'Font')));
+      $this->setValidator('styling_font_family', new sfValidatorChoice(array('choices' => UtilFont::$FONTS, 'required' => false)));
+      $this->setDefault('styling_font_family', $this->getObject()->getStyling('font_family', $parent ? $parent->getStyling('font_family') : ''));
     }
 
     $this->setWidget('target', new sfWidgetFormTextarea(array(), array('cols' => 90, 'rows' => 3)));
@@ -182,7 +196,7 @@ class WidgetPublicForm extends WidgetForm {
   }
 
   public function isGroupedField($name) {
-    $fieldNames = array('styling_type', 'styling_width', 'styling_title_color', 'styling_body_color', 'styling_bg_left_color', 'styling_bg_right_color', 'styling_form_title_color', 'styling_button_color');
+    $fieldNames = array('styling_type', 'styling_width', 'styling_title_color', 'styling_body_color', 'styling_bg_left_color', 'styling_bg_right_color', 'styling_form_title_color', 'styling_button_color', 'styling_button_primary_color', 'styling_label_color');
     if (in_array($name, $fieldNames)) {
       switch ($name) {
         case 'styling_type': return self::utilPosition($fieldNames, 'styling_type', 'styling_width');
@@ -196,6 +210,9 @@ class WidgetPublicForm extends WidgetForm {
 
         case 'styling_form_title_color': return self::utilPosition($fieldNames, 'styling_form_title_color', 'styling_button_color');
         case 'styling_button_color': return self::utilPosition($fieldNames, 'styling_button_color', 'styling_form_title_color');
+
+        case 'styling_label_color': return self::utilPosition($fieldNames, 'styling_label_color', 'styling_button_primary_color');
+        case 'styling_button_primary_color': return self::utilPosition($fieldNames, 'styling_button_primary_color', 'styling_label_color');
       }
     }
     return false;
@@ -213,6 +230,11 @@ class WidgetPublicForm extends WidgetForm {
       if ($user) {
         $values['user_id'] = $user->getId();
         $values['validation_status'] = Widget::VALIDATION_STATUS_VERIFIED;
+      }
+
+      $parent = $this->getObject()->getParentId() ? $this->getObject()->getParent() : null;
+      if ($parent) {
+        $values['share'] = $parent->getShare();
       }
     }
 

@@ -17,6 +17,8 @@
  * @property clob $footer
  * @property string $email_subject
  * @property clob $email_body
+ * @property string $thank_you_email_subject
+ * @property clob $thank_you_email_body
  * @property string $email_validation_subject
  * @property clob $email_validation_body
  * @property string $email_tellyour_subject
@@ -33,6 +35,9 @@
  * @property clob $donate_text
  * @property string $label_extra1
  * @property string $placeholder_extra1
+ * @property string $form_title
+ * @property string $subscribe_text
+ * @property clob $signers_page
  * @property Petition $Petition
  * @property Language $Language
  * @property Widget $DefaultWidget
@@ -51,6 +56,8 @@
  * @method clob                getFooter()                       Returns the current record's "footer" value
  * @method string              getEmailSubject()                 Returns the current record's "email_subject" value
  * @method clob                getEmailBody()                    Returns the current record's "email_body" value
+ * @method string              getThankYouEmailSubject()         Returns the current record's "thank_you_email_subject" value
+ * @method clob                getThankYouEmailBody()            Returns the current record's "thank_you_email_body" value
  * @method string              getEmailValidationSubject()       Returns the current record's "email_validation_subject" value
  * @method clob                getEmailValidationBody()          Returns the current record's "email_validation_body" value
  * @method string              getEmailTellyourSubject()         Returns the current record's "email_tellyour_subject" value
@@ -67,6 +74,9 @@
  * @method clob                getDonateText()                   Returns the current record's "donate_text" value
  * @method string              getLabelExtra1()                  Returns the current record's "label_extra1" value
  * @method string              getPlaceholderExtra1()            Returns the current record's "placeholder_extra1" value
+ * @method string              getFormTitle()                    Returns the current record's "form_title" value
+ * @method string              getSubscribeText()                Returns the current record's "subscribe_text" value
+ * @method clob                getSignersPage()                  Returns the current record's "signers_page" value
  * @method Petition            getPetition()                     Returns the current record's "Petition" value
  * @method Language            getLanguage()                     Returns the current record's "Language" value
  * @method Widget              getDefaultWidget()                Returns the current record's "DefaultWidget" value
@@ -84,6 +94,8 @@
  * @method PetitionText        setFooter()                       Sets the current record's "footer" value
  * @method PetitionText        setEmailSubject()                 Sets the current record's "email_subject" value
  * @method PetitionText        setEmailBody()                    Sets the current record's "email_body" value
+ * @method PetitionText        setThankYouEmailSubject()         Sets the current record's "thank_you_email_subject" value
+ * @method PetitionText        setThankYouEmailBody()            Sets the current record's "thank_you_email_body" value
  * @method PetitionText        setEmailValidationSubject()       Sets the current record's "email_validation_subject" value
  * @method PetitionText        setEmailValidationBody()          Sets the current record's "email_validation_body" value
  * @method PetitionText        setEmailTellyourSubject()         Sets the current record's "email_tellyour_subject" value
@@ -100,6 +112,9 @@
  * @method PetitionText        setDonateText()                   Sets the current record's "donate_text" value
  * @method PetitionText        setLabelExtra1()                  Sets the current record's "label_extra1" value
  * @method PetitionText        setPlaceholderExtra1()            Sets the current record's "placeholder_extra1" value
+ * @method PetitionText        setFormTitle()                    Sets the current record's "form_title" value
+ * @method PetitionText        setSubscribeText()                Sets the current record's "subscribe_text" value
+ * @method PetitionText        setSignersPage()                  Sets the current record's "signers_page" value
  * @method PetitionText        setPetition()                     Sets the current record's "Petition" value
  * @method PetitionText        setLanguage()                     Sets the current record's "Language" value
  * @method PetitionText        setDefaultWidget()                Sets the current record's "DefaultWidget" value
@@ -140,15 +155,14 @@ abstract class BasePetitionText extends myDoctrineRecord
              ));
         $this->hasColumn('title', 'string', null, array(
              'type' => 'string',
-             'notnull' => true,
+             'notnull' => false,
+             'default' => '',
              ));
         $this->hasColumn('target', 'clob', null, array(
              'type' => 'clob',
-             'notnull' => true,
              ));
         $this->hasColumn('background', 'clob', null, array(
              'type' => 'clob',
-             'notnull' => true,
              ));
         $this->hasColumn('intro', 'clob', null, array(
              'type' => 'clob',
@@ -165,13 +179,18 @@ abstract class BasePetitionText extends myDoctrineRecord
         $this->hasColumn('email_body', 'clob', null, array(
              'type' => 'clob',
              ));
+        $this->hasColumn('thank_you_email_subject', 'string', null, array(
+             'type' => 'string',
+             ));
+        $this->hasColumn('thank_you_email_body', 'clob', null, array(
+             'type' => 'clob',
+             ));
         $this->hasColumn('email_validation_subject', 'string', null, array(
              'type' => 'string',
              'notnull' => true,
              ));
         $this->hasColumn('email_validation_body', 'clob', null, array(
              'type' => 'clob',
-             'notnull' => true,
              ));
         $this->hasColumn('email_tellyour_subject', 'string', null, array(
              'type' => 'string',
@@ -179,7 +198,6 @@ abstract class BasePetitionText extends myDoctrineRecord
              ));
         $this->hasColumn('email_tellyour_body', 'clob', null, array(
              'type' => 'clob',
-             'notnull' => true,
              ));
         $this->hasColumn('email_targets', 'clob', null, array(
              'type' => 'clob',
@@ -229,6 +247,21 @@ abstract class BasePetitionText extends myDoctrineRecord
              'type' => 'string',
              'notnull' => false,
              'length' => 80,
+             ));
+        $this->hasColumn('form_title', 'string', 100, array(
+             'type' => 'string',
+             'notnull' => false,
+             'default' => '',
+             'length' => 100,
+             ));
+        $this->hasColumn('subscribe_text', 'string', 250, array(
+             'type' => 'string',
+             'notnull' => false,
+             'default' => '',
+             'length' => 250,
+             ));
+        $this->hasColumn('signers_page', 'clob', null, array(
+             'type' => 'clob',
              ));
 
         $this->option('symfony', array(

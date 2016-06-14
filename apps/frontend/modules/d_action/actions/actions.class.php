@@ -183,6 +183,15 @@ class d_actionActions extends policatActions {
     $petition->setFromName($this->getGuardUser()->getOrganisation() ? : $this->getGuardUser()->getName());
     $petition->setFromEmail($this->getGuardUser()->getEmailAddress());
     $petition->setPolicyCheckbox(PetitionTable::POLICY_CHECKBOX_NO);
+    $petition->setThemeId(2);
+    $petition->setStyleBgLeftColor('#FFFFFF');
+    $petition->setStyleBgRightColor('#ECEDE7');
+    $petition->setStyleBodyColor('#004672');
+    $petition->setStyleButtonColor('#009EE3');
+    $petition->setStyleButtonPrimaryColor('#76B235');
+    $petition->setStyleFormTitleColor('#004672');
+    $petition->setStyleLabelColor('#004672');
+    $petition->setStyleTitleColor('#004672');
 
     $campaign_id = $request->getGetParameter('campaign');
     if (is_numeric($campaign_id)) {
@@ -266,7 +275,11 @@ class d_actionActions extends policatActions {
           $con->rollback();
         }
         if ($request->getPostParameter('go_translation')) {
-          return $this->ajax()->redirectRotue('translation_create', array('id' => $petition->getId()))->render();
+          if ($petition->getPetitionText()->count()) {
+            return $this->ajax()->redirectRotue('petition_translations', array('id' => $petition->getId()))->render();
+          } else {
+            return $this->ajax()->redirectRotue('translation_create', array('id' => $petition->getId()))->render();
+          }
         } elseif ($request->getPostParameter('go_pledge')) {
           return $this->ajax()->redirectRotue('pledge_list', array('id' => $petition->getId()))->render();
         } elseif ($request->getPostParameter('go_target')) {
@@ -314,7 +327,11 @@ class d_actionActions extends policatActions {
       $form->save();
 
       if ($request->getPostParameter('go_translation')) {
-        return $this->ajax()->redirectRotue('translation_create', array('id' => $petition->getId()))->render();
+        if ($petition->getPetitionText()->count()) {
+          return $this->ajax()->redirectRotue('petition_translations', array('id' => $petition->getId()))->render();
+        } else {
+          return $this->ajax()->redirectRotue('translation_create', array('id' => $petition->getId()))->render();
+        }
       } elseif ($request->getPostParameter('go_pledge')) {
         return $this->ajax()->redirectRotue('pledge_list', array('id' => $petition->getId()))->render();
       } elseif ($request->getPostParameter('edit_target')) {
@@ -482,7 +499,7 @@ class d_actionActions extends policatActions {
       if ($this->form->isValid()) {
         $this->form->save();
 
-        if ($request->getPostParameter('go_translation')) {
+        if ($request->getPostParameter('go_widget')) {
           if ($translation->getStatus() == PetitionText::STATUS_ACTIVE) {
             return $this->ajax()->redirectPostRoute('widget_create', array('id' => $petition->getId()), array('page' => 1, 'lang' => $translation->getId()))->render();
           } else {
@@ -530,6 +547,12 @@ class d_actionActions extends policatActions {
     if ($validation_email) {
       $this->ajax()->val('#' . $form_name . '_email_validation_subject', $validation_email->getField('subject', ''));
       $this->ajax()->val('#' . $form_name . '_email_validation_body', $validation_email->getField('body', ''));
+    }
+
+    $thankyou_email = StoreTable::getInstance()->findByKeyAndLanguageCached(StoreTable::SIGNING_THANK_YOU_EMAIL, $value);
+    if ($thankyou_email) {
+      $this->ajax()->val('#' . $form_name . '_thank_you_email_subject', $thankyou_email->getField('subject', ''));
+      $this->ajax()->val('#' . $form_name . '_thank_you_email_body', $thankyou_email->getField('body', ''));
     }
 
     $tellyourfriend_email = StoreTable::getInstance()->findByKeyAndLanguageCached(StoreTable::ACTION_TELL_YOUR_FRIEND_EMAIL, $value);

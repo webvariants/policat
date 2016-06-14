@@ -15,6 +15,9 @@
             <div class="span6">
                 <?php echo $form->renderRows('organisation', 'vat', 'website', 'street', 'post_code', 'city', 'country') ?>
             </div>
+            <div class="span12">
+              I have read and accepted the <a target="_blank" href="<?php echo url_for('terms') ?>">terms of service</a>. I will handle any activist data in accordance with the privacy policy, as defined in my campaigns and actions.
+            </div>
         </div>
         <div class="form-actions">
             <button class="btn btn-primary" type="submit">Save</button>

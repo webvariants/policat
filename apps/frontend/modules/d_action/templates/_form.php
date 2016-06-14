@@ -11,25 +11,6 @@
             </div>
         </div>
         <?php echo $form->renderRows('status') ?>
-        <div class="control-group">
-            <label class="control-label">Ask</label>
-            <div class="controls">
-                <span class="widget_text">
-                    <?php echo Petition::$NAMETYPE_SHOW[$petition->getNametype()] ?>, <?php
-                    if ($petition->getWithAddress()):
-                      echo Petition::$WITH_ADDRESS_SHOW[$petition->getWithAddress()] . ', ';
-                    endif;
-                    if ($petition->getWithExtra1() == Petition::WITH_EXTRA_YES):
-                      echo 'free text field, ';
-                    endif;
-                    if ($petition->getWithCountry()):
-                      ?>country<?php else: ?> without country<?php
-                    endif;
-                    if ($petition->getWithComments()):
-                      ?>, comments<?php endif ?>
-                </span>
-            </div>
-        </div>
         <div class="row">
             <div class="span4">
                 <?php echo $form->renderRows('start_at') ?>
@@ -38,23 +19,33 @@
                 <?php echo $form->renderRows('end_at') ?>
             </div>
         </div>
-        <?php echo $form->renderRows('name', 'key_visual', 'show_keyvisual', '*editable', 'country_collection_id') ?>
+        <?php echo $form->renderRows('name', 'key_visual', 'show_keyvisual', '*editable') ?>
         <fieldset>
             <?php if ($petition->isEmailKind() && !$petition->isGeoKind()): ?><legend>Recipient(s) of the email action (your campaign targets)</legend><?php endif ?>
             <?php echo $form->renderRows('*email_target_name_1', '*email_target_email_1', '*email_target_name_2', '*email_target_email_2', '*email_target_name_3', '*email_target_email_3') ?>
         </fieldset>
-        <?php echo $form->renderRows('*label_mode', 'policy_checkbox') ?>
+        <?php echo $form->renderRows('*label_mode', 'policy_checkbox', 'subscribe_default') ?>
     </fieldset>
     <fieldset>
-        <legend>Sign-up verification e-mail (opt-in)</legend>
+        <legend>Customise sign-up form</legend>
+        <p class="alert alert-danger">If you make changes here for a running action you may lose data if you remove fields.</p>
+        <div class="global_error">
+          <span id="new_petition_customise"></span>
+        </div>
+        <?php echo $form->renderRows('titletype', 'nametype', 'with_address', 'with_country', 'default_country', 'country_collection_id', 'with_comments', 'with_extra1') ?>
+      </fieldset>
+    <fieldset>
+        <legend>Opt-in (email verification) &amp; thank-you emails</legend>
         <?php echo $form->renderRows('*validation_required', 'from_name', 'from_email') ?>
         <div class="controls">
             <a data-collect="<?php echo Util::enc(json_encode(array('email' => '#edit_petition_from_email'))) ?>" href="<?php echo url_for('petition_spf') ?>" class="btn ajax_link post">Make SPF check</a>
         </div>
+        <br />
+        <?php echo $form->renderRows('thank_you_email') ?>
     </fieldset>
     <fieldset>
         <legend>Add-ons (optional)</legend>
-        <?php echo $form->renderRows('read_more_url', 'landing_url', '*paypal_email', 'donate_url', 'donate_widget_edit') ?>
+        <?php echo $form->renderRows('read_more_url', 'landing_url', '*paypal_email', 'donate_url', 'donate_widget_edit', 'last_signings') ?>
     </fieldset>
     <fieldset>
         <legend>Promote your e-action</legend>
@@ -64,10 +55,10 @@
         <legend>Widget adjustability and standard design</legend>
         <div class="row">
             <div class="span4">
-                <?php echo $form->renderRows('widget_individualise', 'style_title_color', 'style_button_color', 'style_bg_right_color') ?>
+                <?php echo $form->renderRows('widget_individualise', 'style_bg_right_color', 'style_bg_left_color', 'style_button_primary_color', 'style_button_color', 'themeId') ?>
             </div>
             <div class="span4">
-                <?php echo $form->renderRows('style_font_family', 'style_body_color', 'style_bg_left_color', 'style_form_title_color') ?>
+                <?php echo $form->renderRows('style_font_family', 'style_title_color', 'style_form_title_color', 'style_body_color', 'style_label_color') ?>
             </div>
         </div>
     </fieldset>

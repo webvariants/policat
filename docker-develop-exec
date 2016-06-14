@@ -1,0 +1,5 @@
+#!/bin/bash
+
+POLICAT_CONTAINER=policat-develop
+
+docker exec -u www-data:www-data -ti $POLICAT_CONTAINER $@

@@ -34,3 +34,5 @@ cache/*
 
 /deploy*.sh
 /run*
+
+/docker/data-develop/*

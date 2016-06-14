@@ -8,15 +8,11 @@ module.exports = function(grunt) {
 					sourceMap: true
 				},
 				files: {
-					'web/js/dist/policat_widget.js': ['web/js/policat_widget.js'],
+					'web/js/dist/policat_widget.js': ['bower_components/jscolor/jscolor.js', 'web/js/policat_widget.js'],
 					'web/js/dist/policat_widget_outer.js': ['web/js/policat_widget_outer.js'],
 					'web/js/dist/select2.js' : ['bower_components/select2/select2.js'],
 					'web/js/dist/jscolor.js': [
 						'bower_components/jscolor/jscolor.js'
-					],
-					'web/js/dist/jscrollpane.js': [
-						'bower_components/jscrollpane/script/jquery.jscrollpane.js',
-						'bower_components/jscrollpane/script/jquery.mousewheel.js'
 					]
 				}
 			},
@@ -56,18 +52,42 @@ module.exports = function(grunt) {
 			},
 			frontend: {
 				options: {
-					sourceMapFilename: 'web/css/dist/frontend.less.map',
+					sourceMapFilename: 'web/css/dist/frontend.less.map'
 				},
 				files: {
-					'web/css/dist/frontend.css' : 'web/css/frontend.less',
+					'web/css/dist/frontend.css' : 'web/css/frontend.less'
 				}
 			},
 			frontend_print: {
 				options: {
-					sourceMapFilename: 'web/css/dist/frontend_print.less.map',
+					sourceMapFilename: 'web/css/dist/frontend_print.less.map'
 				},
 				files: {
-					'web/css/dist/frontend_print.css' : 'web/css/frontend_print.less',
+					'web/css/dist/frontend_print.css' : 'web/css/frontend_print.less'
+				}
+			},
+			widget: {
+				options: {
+					sourceMapFilename: 'web/css/dist/policat_widget.less.map'
+				},
+				files: {
+					'web/css/dist/policat_widget.css': 'web/css/policat_widget.less'
+				}
+			},
+			widget_variables: {
+				options: {
+					sourceMapFilename: 'web/css/dist/policat_widget_variables.less.map'
+				},
+				files: {
+					'web/css/dist/policat_widget_variables.css': 'web/css/policat_widget_variables.less'
+				}
+			},
+			theme_sleek: {
+				options: {
+					sourceMapFilename: 'web/css/dist/theme/sleek.less.map'
+				},
+				files: {
+					'web/css/dist/theme/sleek.css': 'web/css/theme/sleek.less'
 				}
 			}
 		},
@@ -79,12 +99,6 @@ module.exports = function(grunt) {
 				shorthandCompacting: false,
 				roundingPrecision: -1,
 				sourceMap: true
-			},
-			widget: {
-				files: {
-					'web/css/dist/policat_widget.css': ['web/css/policat_widget.css'],
-					'web/css/dist/jscrollpane.css': ['bower_components/jscrollpane/style/jquery.jscrollpane.css']
-				}
 			},
 			frontend: {
 				files: {
@@ -146,6 +160,12 @@ module.exports = function(grunt) {
 				cwd: 'bower_components/markitup/markitup/',
 				src: ['**/*.css', '**/*.png'],
 				dest: 'web/css/dist/markitup'
+			},
+			bootstrap_icon: {
+				expand:true,
+				cwd: 'bower_components/bootstrap-2.0/img/',
+				src: ['*.png'],
+				dest: 'web/css/dist/img'
 			}
 		}
 	});

@@ -24,12 +24,6 @@ class TranslationForm extends BasePetitionTextForm {
 
   static $defaults_petition = array
       (
-      'title' => 'Insert a short and movtivating action title',
-      'target' => 'Insert a subheading or the political target(s), e. g. "To the heads of state of the European Union"',
-      'background' => 'Insert a short text about the aim(s) of your campaign, maybe give some explanatory content. You may include links and media.',
-      'intro' => 'The petition text will be split into 3 parts. This part (the intro) and the last part (the footer) should contain contextual information, e. g. references to the political addressee or to a specific event. Your partners and supporters will be able to modify this text for their own widgets. Put the relevant parts of your message into the 2. part of the petition (the body).',
-      'body' => 'Put the relevant parts of your message into this part of the petition (the body). This text will remain the same throughout all widgets created for this campaign. Choose this text carefully. It should be as brief as possible.',
-      'footer' => 'Insert a closing rate here, e. g. a reference to a specific event, your petition hand-over action or simply a complimentary close.',
       'email_validation_subject' => 'Confirm your action --- #TITLE#',
       'email_validation_body' => "Hello,
 
@@ -61,7 +55,6 @@ The petition text: #INTRO# #BODY# #FOOTER#"
   );
   static $defaults_email = array
       (
-      'target' => 'Insert the name and maybe function of your political target(s), e. g. "José Manuel Barroso, president of the European Commission"',
       'email_subject' => 'Insert the standard text for the subject-line of the e-mail that will be sent to your political target.',
       'email_body' => 'Insert the standard text for the e-mail that will be sent to your political target.',
       'email_validation_subject' => 'Confirm your action --- #TITLE#',
@@ -106,11 +99,13 @@ The e-mail text: #EMAIL-SUBJECT# -- #EMAIL-BODY#"
       $this['donate_url'], $this['donate_text']
     );
 
-    $this->setWidget('title', new sfWidgetFormInput(array(), array('size' => 90, 'class' => 'large')));
-    $this->setWidget('target', new sfWidgetFormTextarea(array('label' => 'Subtitle'), array('cols' => 90, 'rows' => 3, 'class' => 'markdown')));
-    $this->getWidgetSchema()->setHelp('target', 'Keep this short, this area is not scrollable.');
+    $this->setWidget('form_title', new sfWidgetFormInput(array('label' => 'Widget heading'), array('size' => 90, 'class' => 'large', 'placeholder' => 'Leave this field empty to use standard texts.')));
+    $this->getWidgetSchema()->setHelp('form_title', 'You may customise the widget heading above the sign-up form (optional). Leave this field empty to use standard texts.');
+
+    $this->setWidget('title', new sfWidgetFormInput(array(), array('size' => 90, 'class' => 'large', 'placeholder' => 'Optional (you may leave this field empty). Add here a short and movtivating action title.')));
+    $this->setWidget('target', new sfWidgetFormTextarea(array('label' => 'Subtitle'), array('cols' => 90, 'rows' => 3, 'class' => 'markdown', 'placeholder' => 'Optional (you may leave this field empty). Add here a short contextual introduction, or name the targets of your action (e.g. "To the heads of states of the European Union". Keep it very short!')));
     $this->getValidator('target')->setOption('required', false)->setOption('trim', true);
-    $this->setWidget('background', new sfWidgetFormTextarea(array(), array('cols' => 90, 'rows' => 5, 'class' => 'markdown')));
+    $this->setWidget('background', new sfWidgetFormTextarea(array(), array('cols' => 90, 'rows' => 5, 'class' => 'markdown', 'placeholder' => 'Optional (you may leave this field empty). Add here further contextual information about this action. You may add external media files (make sure they are hosted on a server with an encrypted SSL connection).')));
 
     $this->setWidget('landing_url', new sfWidgetFormInput(array('label' => 'E-mail Validation Landingpage - auto forwarding to external page'), array(
         'size' => 90,
@@ -120,9 +115,9 @@ The e-mail text: #EMAIL-SUBJECT# -- #EMAIL-BODY#"
     $this->setValidator('landing_url', new ValidatorUrl(array('required' => false, 'trim' => true)));
 
     if (!$petition->isEmailKind()) {
-      $this->setWidget('intro', new sfWidgetFormTextarea(array(), array('cols' => 90, 'rows' => 5, 'class' => 'markdown')));
-      $this->setWidget('body', new sfWidgetFormTextarea(array(), array('cols' => 90, 'rows' => 30, 'class' => 'markdown')));
-      $this->setWidget('footer', new sfWidgetFormTextarea(array(), array('cols' => 90, 'rows' => 5, 'class' => 'markdown')));
+      $this->setWidget('intro', new sfWidgetFormTextarea(array('label' => 'Introductory part'), array('cols' => 90, 'rows' => 5, 'class' => 'markdown', 'placeholder' => 'The petition text will be split into 3 parts. This part (the intro) and the last part (the footer) should contain contextual information, e. g. references to the political addressee or to a specific event. Your partners and supporters will be able to modify this text for their own widgets. Put the relevant parts of your message into the 2. part of the petition (the body).')));
+      $this->setWidget('body', new sfWidgetFormTextarea(array('label' => 'Main part'), array('cols' => 90, 'rows' => 30, 'class' => 'markdown', 'placeholder' => 'Put the relevant parts of your message into this part of the petition (the body). This text will remain the same throughout all widgets created for this campaign. Choose this text carefully. It should be as brief as possible.')));
+      $this->setWidget('footer', new sfWidgetFormTextarea(array('label' => 'Closing part'), array('cols' => 90, 'rows' => 5, 'class' => 'markdown', 'placeholder' => 'Insert a closing rate here, e. g. a reference to a specific event, your petition hand-over action or simply a complimentary close.')));
       $this->getValidator('intro')->setOption('required', false);
       $this->getValidator('body')->setOption('required', true);
       $this->getValidator('footer')->setOption('required', false);
@@ -163,12 +158,14 @@ The e-mail text: #EMAIL-SUBJECT# -- #EMAIL-BODY#"
       $this->getWidgetSchema()->setHelp('email_body', 'You can use the following keywords: ' . implode(', ', $keywords) . '.');
     }
 
+    $email_keywords = '#REFERER-URL#, #READMORE-URL#, #TITLE#, #TARGET#, #BACKGROUND#, #ACTION-TEXT#, #INTRO#,'
+      . ' #FOOTER#, #EMAIL-SUBJECT#, #EMAIL-BODY#, #BODY#, #DATA-OFFICER-NAME#, #DATA-OFFICER-ORGA#, #DATA-OFFICER-EMAIL#, #DATA-OFFICER-WEBSITE#, #DATA-OFFICER-PHONE#, '
+      . '#DATA-OFFICER-MOBILE#, #DATA-OFFICER-STREET#, #DATA-OFFICER-POST-CODE#, #DATA-OFFICER-CITY#, #DATA-OFFICER-COUNTRY#, #DATA-OFFICER-ADDRESS#, ' . implode(', ', PetitionSigningTable::$KEYWORDS);
+
     $this->setWidget('email_validation_subject', new sfWidgetFormInput(array('label' => 'Opt-In Confirmation Email Subject'), array('size' => 90, 'class' => 'large')));
     $this->setWidget('email_validation_body', new sfWidgetFormTextarea(array('label' => 'Opt-In Confirmation Email Body'), array('cols' => 90, 'rows' => 8, 'class' => 'large elastic highlight')));
     $this->setValidator('email_validation_body', new ValidatorKeywords(array('required' => true, 'keywords' => array('#VALIDATION-URL#'))));
-    $this->getWidgetSchema()->setHelp('email_validation_body', '#VALIDATION-URL#, #DISCONFIRMATION-URL#, #REFERER-URL#, #READMORE-URL#, #TITLE#, #TARGET#, #BACKGROUND#, #ACTION-TEXT#, #INTRO#,'
-      . ' #FOOTER#, #EMAIL-SUBJECT#, #EMAIL-BODY#, #BODY#, #DATA-OFFICER-NAME#, #DATA-OFFICER-ORGA#, #DATA-OFFICER-EMAIL#, #DATA-OFFICER-WEBSITE#, #DATA-OFFICER-PHONE#, '
-      . '#DATA-OFFICER-MOBILE#, #DATA-OFFICER-STREET#, #DATA-OFFICER-POST-CODE#, #DATA-OFFICER-CITY#, #DATA-OFFICER-COUNTRY#, #DATA-OFFICER-ADDRESS#, ' . implode(', ', PetitionSigningTable::$KEYWORDS));
+    $this->getWidgetSchema()->setHelp('email_validation_body', '#VALIDATION-URL#, #DISCONFIRMATION-URL#,' . $email_keywords);
     $this->setWidget('email_tellyour_subject', new sfWidgetFormInput(array(), array('size' => 90, 'class' => 'large')));
     $this->setWidget('email_tellyour_body', new sfWidgetFormTextarea(array(), array('cols' => 90, 'rows' => 8, 'class' => 'large elastic highlight')));
     $this->getWidgetSchema()->setHelp('email_tellyour_body', '#REFERER-URL#, #READMORE-URL#, #TITLE#, #TARGET#, #BACKGROUND#, #INTRO#, #FOOTER#, #EMAIL-SUBJECT#, #EMAIL-BODY#, #BODY#');
@@ -212,25 +209,25 @@ The e-mail text: #EMAIL-SUBJECT# -- #EMAIL-BODY#"
       $this->setWidget('updated_at', new sfWidgetFormInputHidden());
       $this->setValidator('updated_at', new ValidatorUnchanged(array('fix' => $petition_text->getUpdatedAt())));
 
-      $this->setWidget('widget_id', new sfWidgetFormDoctrineChoice(array(
-          'model' => $this->getRelatedModelName('DefaultWidget'),
-          'add_empty' => true,
-          'label' => 'Widget for Homepage',
-          'method' => 'getIdentString',
-          'query' => Doctrine_Core::getTable('Widget')
-            ->createQuery('w')
-            ->where('w.petition_text_id = ?', $petition_text->getId())
-            ->andWhere('w.status = ?', Widget::STATUS_ACTIVE)
-      )));
-
-      $this->setValidator('widget_id', new sfValidatorDoctrineChoice(array(
-          'model' => $this->getRelatedModelName('DefaultWidget'),
-          'required' => false,
-          'query' => Doctrine_Core::getTable('Widget')
-            ->createQuery('w')
-            ->where('w.petition_text_id = ?', $petition_text->getId())
-            ->andWhere('w.status = ?', Widget::STATUS_ACTIVE)
-      )));
+//      $this->setWidget('widget_id', new sfWidgetFormDoctrineChoice(array(
+//          'model' => $this->getRelatedModelName('DefaultWidget'),
+//          'add_empty' => true,
+//          'label' => 'Widget for Homepage',
+//          'method' => 'getIdentString',
+//          'query' => Doctrine_Core::getTable('Widget')
+//            ->createQuery('w')
+//            ->where('w.petition_text_id = ?', $petition_text->getId())
+//            ->andWhere('w.status = ?', Widget::STATUS_ACTIVE)
+//      )));
+//
+//      $this->setValidator('widget_id', new sfValidatorDoctrineChoice(array(
+//          'model' => $this->getRelatedModelName('DefaultWidget'),
+//          'required' => false,
+//          'query' => Doctrine_Core::getTable('Widget')
+//            ->createQuery('w')
+//            ->where('w.petition_text_id = ?', $petition_text->getId())
+//            ->andWhere('w.status = ?', Widget::STATUS_ACTIVE)
+//      )));
     }
 
     // static defaults
@@ -246,8 +243,7 @@ The e-mail text: #EMAIL-SUBJECT# -- #EMAIL-BODY#"
 
     if ($petition->getKind() == Petition::KIND_PLEDGE) {
       $this->setWidget('pledge_title', new sfWidgetFormInput(array('label' => 'Title'), array('size' => 90, 'class' => 'large')));
-      $this->setWidget('intro', new sfWidgetFormTextarea(array(), array('cols' => 90, 'rows' => 5, 'class' => 'markdown')));
-      $this->getWidgetSchema()->setLabel('intro', 'Introduction');
+      $this->setWidget('intro', new sfWidgetFormTextarea(array('label' => 'Introduction'), array('cols' => 90, 'rows' => 5, 'class' => 'markdown')));
       $this->getWidgetSchema()->moveField('intro', sfWidgetFormSchema::AFTER, 'pledge_title');
       $this->setValidator('intro', new sfValidatorString(array('required' => false)));
       unset($this['pledge_comment']);
@@ -319,6 +315,23 @@ The e-mail text: #EMAIL-SUBJECT# -- #EMAIL-BODY#"
       unset($this['placeholder_extra1']);
     } else {
       unset($this['label_extra1'], $this['placeholder_extra1']);
+    }
+
+    $this->setWidget('subscribe_text', new sfWidgetFormInput(array('label' => 'Keep-me-posted checkbox'), array('size' => 90, 'class' => 'large', 'placeholder' => 'Leave this field empty to use standard texts.')));
+    $this->getWidgetSchema()->setHelp('subscribe_text', 'You may customise the text of the keep-me-posted checkbox. Leave this field empty to use standard texts. You may use the following keywords to include the name or email of the respective data owner: #DATA-OFFICER-NAME#, #DATA-OFFICER-ORGA#, #DATA-OFFICER-EMAIL#');
+
+    if ($petition->getThankYouEmail() == Petition::THANK_YOU_EMAIL_YES) {
+      $this->setWidget('thank_you_email_subject', new sfWidgetFormInput(array('label' => 'Thank-You Email Subject'), array('size' => 90, 'class' => 'large')));
+      $this->setWidget('thank_you_email_body', new sfWidgetFormTextarea(array('label' => 'Thank-You Email Body'), array('cols' => 90, 'rows' => 30, 'class' => 'markdown highlight')));
+      $this->getWidgetSchema()->setHelp('thank_you_email_body', '#UNSUBSCRIBE-URL#, '. $email_keywords);
+    } else {
+      unset($this['thank_you_email_subject'], $this['thank_you_email_body']);
+    }
+
+    if ($petition->getLastSignings() != PetitionTable::LAST_SIGNINGS_NO) {
+      $this->setWidget('signers_page', new sfWidgetFormTextarea(array('label' => 'Header/context for all signers list (optional)'), array('cols' => 90, 'rows' => 5, 'class' => 'markdown', 'placeholder' => '(optional)')));
+    } else {
+      unset($this['signers_page']);
     }
   }
 

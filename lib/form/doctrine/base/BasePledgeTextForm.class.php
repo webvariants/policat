@@ -23,7 +23,7 @@ abstract class BasePledgeTextForm extends BaseFormDoctrine
     $this->setValidators(array(
       'pledge_item_id'   => new sfValidatorChoice(array('choices' => array($this->getObject()->get('pledge_item_id')), 'empty_value' => $this->getObject()->get('pledge_item_id'), 'required' => false)),
       'petition_text_id' => new sfValidatorChoice(array('choices' => array($this->getObject()->get('petition_text_id')), 'empty_value' => $this->getObject()->get('petition_text_id'), 'required' => false)),
-      'text'             => new sfValidatorString(array('required' => false)),
+      'text'             => new sfValidatorString(),
     ));
 
     $this->widgetSchema->setNameFormat('pledge_text[%s]');

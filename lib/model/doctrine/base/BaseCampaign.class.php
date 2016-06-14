@@ -146,13 +146,9 @@ abstract class BaseCampaign extends myDoctrineRecord
              ));
         $this->hasColumn('privacy_policy', 'clob', null, array(
              'type' => 'clob',
-             'notnull' => true,
-             'default' => '',
              ));
         $this->hasColumn('address', 'clob', null, array(
              'type' => 'clob',
-             'notnull' => true,
-             'default' => '',
              ));
         $this->hasColumn('data_owner_id', 'integer', 4, array(
              'type' => 'integer',

@@ -27,6 +27,11 @@ class UtilLink
     return self::RouteParamIdCode('delete_signing', 'code', $id, $code);
   }
 
+  public static function unsubscribeSigning($id, $code)
+  {
+    return self::RouteParamIdCode('unsubscribe_signing', 'code', $id, $code);
+  }
+
   public static function widgetValidation($id, $code)
   {
     return self::RouteParamIdCode('widgetval', 'code', $id, $code);

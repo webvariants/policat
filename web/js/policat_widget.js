@@ -1,229 +1,220 @@
 jscolor.dir = '/js/dist/';
 
 $(document).ready(function($) {
-	(function($, widget_id, window, Math, target_selectors, CT_extra, t_sel, t_sel_all) {
-		var policat_widget = $('#policat_widget');
-		var body_policat_widget = $('#body_policat_widget');
-		var policat_widget_left = $('#policat_widget_left');
-		var policat_widget_right = $('#policat_widget_right');
-		var content_right = $('#content_right');
-		var stage_right = $('.stage_right ');
-		var down_button = $('#down_button');
+	(function($, widget_id, window, Math, target_selectors, CT_extra, t_sel, t_sel_all, petition_id, numberSeparator) {
+		var widget = $('#widget');
+		var widget_left = $('#widget-left');
+		var widget_right = $('#widget-right');
+		var content_right = $('#content-right');
+		var down_button = $('#down-button');
+		var head = $('#head');
 		var pledge_ul = $('#pledges');
-		var resize_throttleTimeout = 1;
-//		var availHeight = "availHeight" in window.screen ? window.screen.availHeight : null;
-		var webkit = window.navigator.userAgent.match(/AppleWebKit\/([0-9]+)/);
-		var wkversion = webkit && webkit[1];
-		var wkLte534 = webkit && wkversion >= 534;
-		var android2 = window.navigator.userAgent.match(/Android ([0-9]+)/) && RegExp.$1 <= 2;
-		var iphone = window.navigator.userAgent.match(/iPhone/i) || window.navigator.userAgent.match(/iPod/i);
-		var useWkScroll = wkLte534 && !android2;
-		var scroll_privacy_policy = $('#privacy_policy_text');
-		var scroll_petition_text = $('#petition_text');
-		var scroll_petition_text_img = $('img', scroll_petition_text);
-		var scroll_background_text = $('#background_text');
-		var scroll_pledges = $('#scroll_pledges');
-		var scrolls_ = [scroll_privacy_policy, scroll_petition_text, scroll_background_text];
-		if (scroll_pledges) {
-			scrolls_.push(scroll_pledges);
-		}
-		var scrolls = $(scrolls_);
-		var isSmall = false;
+		var tabs = $('#tabs');
+		var tabs_left = $('.left-tab', tabs);
+		var tabs_right = $('.right-tab', tabs);
+		var tab_pad = $('.tab-pad', tabs);
+		var scroll_pledges = $('#scroll-pledges');
+		var sign_btn = $('#btn-sign');
+		var lastSigners = $('#last-signers');
+		var lastSignersExists = $('#last-signers-exists');
+
 		var old_height = null;
 
 		var numberWithCommas = function numberWithCommas(x) {
-			return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+			return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, numberSeparator);
 		};
 
-		var resize_left = function() {
-			var title_height = $('#pet_title').outerHeight(true);
-			var subtitle_height = $('#pet_subtitle').outerHeight(true);
-			var tabs_height = $('#petition_tabs').outerHeight(true);
-			var target_selector_height = $('#target_selector').outerHeight(true);
-			if (!target_selector_height)
-				target_selector_height = 0;
+		function resize() {
+			if (tabs.length) {
+				// z-index: 0  tabs if right side small
+				// z-index: 1  force tabs
+				// z-index: 2  disable tabs
 
-			stage_right.addClass('stage_calc');
-			stage_right.css('height', stage_right.height());
-			stage_right.removeClass('stage_calc');
+				var mode = parseInt(tabs.css('z-index'), 10);
+				var tabsOn = false;
 
-			var content_right_height = content_right.height();
-			if (content_right_height < 400 || isSmall) {
-				content_right_height = 400;
+				if (mode === 0) {
+					tabs.addClass('calc-tab');
+					tabsOn = content_right.height() < tabs_left.outerHeight() + tabs_right.outerHeight() + head.height();
+					tabs.removeClass('calc-tab');
+				} else if (mode === 1) {
+					tabsOn = true;
+				} else if (mode === 2) {
+					tabsOn = false;
+				}
+
+				if (tabsOn) {
+					tabs.removeClass('no-tabs');
+					// tab_pad
+					var diff = widget_right.height() - widget_left.height();
+					if (diff > 0) {
+						tab_pad.css({
+							height: diff,
+							bottom: -diff
+						});
+					} else {
+						tab_pad.css({
+							height: 0,
+							bottom: 0
+						});
+					}
+
+				} else {
+					tabs.addClass('no-tabs');
+					tabs.addClass('left');
+					tabs.removeClass('right');
+				}
 			}
-			$('#petition_text').css('height', content_right_height - (title_height + subtitle_height + tabs_height));
-			$('#petition_signing_email_body_copy').css('height', content_right_height - (61 + target_selector_height + title_height + subtitle_height + tabs_height));
-			$('#right_tab,.right_tab_content').css('height', content_right_height - (title_height + tabs_height));
-			$('#embed_this_left').css('height', content_right_height);
-			$('#privacy_policy_text').css('height', content_right_height - 40);
-			scroll_pledges.css('height', content_right_height - (target_selector_height + title_height + subtitle_height + tabs_height));
-		};
 
-		var resize = function() {
-			var width = $(window).width();
-			if (width < 440) {
-				body_policat_widget.addClass('small');
-				isSmall = true;
-//				if (availHeight && policat_widget_left.height() < availHeight / 1.5) {
-//					down_button.addClass('hide');
-//				}
-//				else {
-//					down_button.removeClass('hide');
-//				}
-			} else {
-				body_policat_widget.removeClass('small');
-				isSmall = false;
-			}
-			var height = policat_widget.height();
+			var height = widget.height();
 			if (!old_height || height !== old_height) {
 				if ('postMessage' in window)
 					window.parent.postMessage('policat_height;' + iframe_no + ';' + height, '*');
 			}
 			old_height = height;
 
-			resize_left();
-			policat_widget.css('background-color', policat_widget_left.height() > policat_widget_right.height() ? policat_widget_right.css('background-color') : policat_widget_left.css('background-color'));
-
-			if (!useWkScroll) {
-				if (!resize_throttleTimeout) {
-					resize_throttleTimeout = setTimeout(function() {
-						scrolls.each(function() {
-							var scroll = $(this);
-							if (scroll.length) {
-								if (scroll_petition_text.length) {
-									scroll_petition_text_img.css('max-width', scroll_petition_text.width() - 10);
-								}
-								scroll.data('jsp').reinitialise();
-							}
-						});
-						resize_throttleTimeout = null;
-					}, 50);
-				}
-			}
-		};
+			fontResize(sign_btn);
+		}
 
 		down_button.click(function() {
-			window.parent.postMessage('policat_scroll;' + iframe_no + ';' + policat_widget_left.height(), '*');
+			scrollTop($('#sign'), true);
 			return false;
 		});
 
+		function scrollTop(element,force) {
+			var top = Math.ceil(element.offset().top);
+			window.parent.postMessage('policat_scroll;' + iframe_no + ';' + top+ ';' + (force ? 1 : 0), '*');
+		}
+
 		function show_right(name) {
-			policat_widget_right.removeClass('show_sign').removeClass('show_donate').removeClass('show_embed_this').removeClass('show_tell');
-			policat_widget_right.addClass('show_' + name);
+			widget.removeClass('right-only');
+			widget_right.removeClass('show-sign').removeClass('show-donate').removeClass('show-embed-this').removeClass('show-thankyou');
+			widget_right.addClass('show-' + name);
 		}
 
 		function show_left(name) {
-			$('#petition, #privacy_policy, #embed_this_left').hide();
+			$('#action, #privacy-policy, #embed-this-left').hide();
 			$('#' + name).show();
-			resize();
 		}
 
 		function show_sign() {
-			show_left('petition');
+			show_left('action');
 			show_right('sign');
+			resize();
 		}
 		function show_donate() {
-			show_left('petition');
+			show_left('action');
 			show_right('donate');
+			resize();
 		}
 		function show_embed_this() {
-			if ($('#embed_this_left').length) {
-				show_left('embed_this_left');
+			if ($('#embed-this-left').length) {
+				show_left('embed-this-left');
 			} else {
-				show_left('petition');
+				show_left('action');
 			}
-			show_right('embed_this');
+			show_right('embed-this');
+			resize();
 		}
-		function show_tell() {
-			show_right('tell');
+		function show_thankyou() {
+			show_right('thankyou');
+			widget.addClass('right-only');
+			$('.share').after($('.last-signings'));
+			resize();
+			fetchLastSigners(1, 30);
 		}
 		function show_privacy_policy() {
-			show_left('privacy_policy');
-			if (!useWkScroll && scroll_privacy_policy.length)
-				scroll_privacy_policy.data('jsp').reinitialise();
-			if (hasSign)
-				show_right('tell');
-			else
+			show_left('privacy-policy');
+			if (hasSign) {
+				show_right('thankyou');
+			}
+			else {
 				show_right('sign');
+			}
+			resize();
+			scrollTop($('#privacy-policy'), false);
 		}
 
-		if (!('postMessage' in window))
-			$('#content_right .stage_right').css('max-height', '500px'); // IE7
+		if (!('postMessage' in window)) {
+			$('.content-right .stage-right').css('max-height', '500px'); // IE7
+		}
 
-		// AUTO SIZE
-		var n = 32;
-		var e = $('#btn_sign');
-		while (n > 12) {
-			n--;
-			if (e.width() >= 170)
-				e.css('font-size', n + 'px');
-			else
-				n = 0;
+		function fontResize(element) {
+			var parent = element.parent();
+			var width = parent.width();
+			if (width === element.data('fontResize')) {
+				return null;
+			}
+
+			element.data('fontResize', width);
+
+			var z = element.css('z-index');
+			var n = z ? z : 32;
+			element.css('font-size', n + 'px');
+			while (n > 11) {
+				n--;
+				if (element.width() >= width) {
+					element.css('font-size', n + 'px');
+				}
+				else {
+					return null;
+				}
+			}
 		}
-		e.css('line-height', '49px');
-		n = 33;
-		e = $('#pet_title');
-		while (n > 12) {
-			n--;
-			if (n === 20)
-				e.css('font-weight', 'normal');
-			if (e.height() > 72)
-				e.css('font-size', n + 'px');
-			else
-				n = 0;
-		}
-		n = 16;
-		e = $('#policat_widget_right div.sign h2:first');
-		while (n > 11) {
-			n--;
-			if (e.height() > 20)
-				e.css('font-size', n + 'px');
-			else
-				n = 0;
-		}
+
+		fontResize(sign_btn);
 
 		$('#widget_styling_type').each(function() {
 			var label = $("label", $(this).parent());
-			label.after($('#embed_this_help_type'));
+			label.after($('#embed-this-help-type'));
 			label.html(label.html() + " (?)");
 		});
 		$('#widget_styling_width').each(function() {
 			var label = $("label", $(this).parent());
-			label.after($('#embed_this_help_width'));
+			label.after($('#embed-this-help-width'));
 			label.html(label.html() + " (?)");
 		});
-		$('select').wrap('<div class="div_select"/>');
+		$('select').wrap('<div class="select-wrap"/>');
 
 		var hash_parts = window.location.hash.substring(1).split('!');
-		var hasSign = hash_parts[0] == '1' ? true : false;
+		var verified_id = parseInt(hash_parts[0], 10);
+		var hasSign = verified_id === petition_id;
 		var editMode = hash_parts[1].length > 0;
 		if (editMode)
 			var edit_code = hash_parts[1];
 		var count = decodeURIComponent(hash_parts[2]);
 		var iframe_no = hash_parts[3];
-		var ref = hash_parts[4];
+		var name = hash_parts[4];
+		var ref = hash_parts[5];
+
+		if (hasSign) {
+			$('.reload', widget_right).remove();
+			widget.addClass('has_sign');
+		}
 
 		if (count) {
-			var c = count.split('-', 3);
-			if (c.length == 3) {
+			var c = count.split('-');
+			if (c.length >= 2) {
 				var a = parseInt(c[0]);
 				var b = parseInt(c[1]);
-				var t = c[2];
 				var p = Math.ceil(a / b * 100);
-				$('div#count').before($('<div id="count_target"></div>').text(t).append('<span>' + numberWithCommas(b) + '</span>'));
+				var el_count = $('#count .count-count');
+				var el_target = $('#count .count-target');
+				el_count.text(el_count.first().text().replace('#', numberWithCommas(a)));
+				el_target.text(el_target.first().text().replace('#', numberWithCommas(b)));
 				if (p > 30) {
-					$('div#count span').css({'color': 'white', 'width': p + '%', 'margin-left': '-4px'});
+					$('#count .count-bar span').css({'color': 'white', 'width': p + '%', 'margin-left': '-4px'});
 				}
 				else {
-					$('div#count span').css({'text-align': 'left', 'margin-left': p + '%'});
+					$('#count .count-bar span').css({'text-align': 'left', 'margin-left': p + '%'});
 				}
-				$('div#count div').animate({'width': p + '%'}, 2500, 'swing', function() {
-					$('div#count span').html(numberWithCommas(a));
+				$('#count .count-bar div').animate({'width': p + '%'}, 2500, 'swing', function() {
+					$('#count .count-bar span').html(numberWithCommas(a));
 				});
 			}
 		}
 		else
-			$('div#count').hide();
+			$('#count').hide();
 
 		$('a.facebook, a.twitter, a.gplus').each(function() {
 			if ($(this).hasClass('twitter'))
@@ -242,7 +233,7 @@ $(document).ready(function($) {
 		});
 
 		if (target_selectors) {
-			var ts = $('#target_selector');
+			var ts = $('#target-selector');
 			var CT = null;
 			if (CT_extra) {
 				CT = CT_extra;
@@ -306,6 +297,8 @@ $(document).ready(function($) {
 						delete list[sk];
 					}
 				} while (sk != null);
+
+				resize();
 			};
 
 			var select_lookup = {};
@@ -338,7 +331,7 @@ $(document).ready(function($) {
 					label.text(selector['name']);
 					var select = $('<select></select>');
 					var div_s = $('<div></div>');
-					div.append(div_s.addClass('div_select'));
+					div.append(div_s.addClass('select-wrap'));
 					div_s.append(select);
 					if (isCountry) {
 						select.addClass('country');
@@ -352,7 +345,7 @@ $(document).ready(function($) {
 					}
 					var option = $('<option></option>');
 					select.append(option);
-					option.text(first ? '--' + t_sel + '--' : t_sel_all).attr('value', (first && !target_selectors.length == 1) ? '' : 'all');
+					option.text(first ? '--' + t_sel + '--' : t_sel_all).attr('value', (first && target_selectors.length !== 1) ? '' : 'all');
 					if (selector['choices'] != undefined) {
 						var is_typefield = selector['typfield'] != undefined && selector['typfield'];
 						var is_contact = selector['id'] != undefined && selector['id'] === 'contact';
@@ -390,13 +383,12 @@ $(document).ready(function($) {
 											if (typeof data.pledges == 'object') {
 												pledge_ul.empty();
 												insert_sort(pledge_ul, data.choices, null, null, data.pledges, pledge_ul.data('template'), data.infos, pledge_ul.data('pledge-count'));
-												if (!useWkScroll && scroll_pledges.length)
-													scroll_pledges.data('jsp').reinitialise();
 											} else {
 												$('option.x', ts_2).remove();
 												insert_sort(ts_2, data.choices, 'x', ts_2.hasClass('country'));
 											}
 											ts_2.attr('disabled', null);
+											resize();
 										}
 									});
 								} else {
@@ -443,8 +435,9 @@ $(document).ready(function($) {
 								if (s_val) {
 									ts_1.attr('disabled', 'disabled');
 									select.attr('disabled', 'disabled');
-									if (pledge_ul.length)
+									if (pledge_ul.length) {
 										pledge_ul.empty();
+									}
 									$.ajax({
 										type: 'POST',
 										dataType: 'json',
@@ -455,12 +448,12 @@ $(document).ready(function($) {
 											insert_sort(pledge_ul, data.choices, null, null, data.pledges, pledge_ul.data('template'), data.infos, pledge_ul.data('pledge-count'));
 											ts_1.attr('disabled', null);
 											select.attr('disabled', null);
-											if (!useWkScroll && scroll_pledges.length)
-												scroll_pledges.data('jsp').reinitialise();
+											resize();
 										}
 									});
 								} else {
 									pledge_ul.empty();
+									resize();
 								}
 							});
 						}
@@ -475,46 +468,28 @@ $(document).ready(function($) {
 			}
 		}
 
-		resize_left();
-
-		scrolls.each(function() {
-			var scroll = $(this);
-			if (scroll.length) {
-				if (useWkScroll) {
-					scroll.addClass('wkScroll');
-					if (iphone) {
-						scroll.addClass('wkScroll_iPhone');
-					}
-				} else {
-					scroll.jScrollPane({mouseWheelSpeed: 30});
-				}
-			}
-		});
-
-		$('#right_tab').hide();
-		$('#privacy_policy').hide();
+		$('#privacy-policy').hide();
 		if (hasSign) {
-			$('.tell .back').remove();
-			show_tell();
+			show_thankyou();
 		}
 		if (editMode) {
-			$('#petition, #policat_widget_footer, a.back').hide();
+			$('#action, a.back').hide();
 			$('#widget_edit_code').val(edit_code);
 			$('#widget_id').val(widget_id); // from outer JS
 			$('#widget_email, #widget_organisation').parent().remove();
-			$('#h_widget_reg, #p_widget_reg').remove();
-			$('#p_widget_reg_alt').show();
+			$('#embed-this-register, #embed-this-generate').remove();
+			$('#embed-this-change').show();
 			show_embed_this();
 		}
 		else
 		{
-			$('#embed_this_left').hide();
+			$('#embed-this-left').hide();
 		}
-		$('#policat_widget_loading').hide();
+		$('#policat-widget-loading').hide();
 		if (hasSign)
 			$('#petition_signing_email_subject_copy, #petition_signing_email_body_copy, #petition_signing_ts_1_copy').attr('disabled', 'disabled');
 
-		$('#policat_widget_right input[type=hidden],textarea.original').each(function() {
+		$('#widget-right input[type=hidden],textarea.original').each(function() {
 			var id = $(this).attr('id') + '_copy';
 			var copy = $('#' + id);
 
@@ -536,8 +511,79 @@ $(document).ready(function($) {
 			});
 		});
 
+		function prepareValidate(field, positive) {
+			var input = $(field);
+			var parent =input.parent();
+
+			if (input.is('input[type=text], select')) {
+				parent.addClass('form-indicator');
+			}
+
+			if (input.is('select')) {
+				parent.addClass('form-indicator-select');
+			}
+
+			if (positive) {
+				parent.addClass('form-indicator-positive');
+			}
+		}
+
+		function validate(field) {
+			var input = $(field);
+			var parent =input.parent();
+			var valid = true;
+			var val = $.trim(input.val());
+			if (val === '' && !input.hasClass('not_required')) {
+				valid = false;
+			}
+
+			if (valid && input.is('#petition_signing_email')) {
+				var mail = val.match(/^([^@\s]+)@((?:[-a-z0-9]+\.)+[a-z]{2,})$/i);
+				if (!mail) {
+					valid = false;
+				}
+			}
+
+			parent.toggleClass('form-error', !valid);
+			parent.toggleClass('form-valid', valid);
+
+			var label = parent.prev();
+			if (label.is('label')) {
+				label.toggleClass('form-error', !valid);
+			}
+
+			return valid;
+		}
+
+		var validate_base = $('#sign, #target-selector');
+
+		validate_base.on('blur', 'input, select', function () {
+			validate(this);
+		});
+
+		validate_base.on('keyup', '.form-error input', function () {
+			validate(this);
+		});
+
+		$('#petition_signing_privacy').on('change', function() {
+			$(this).parent().parent().removeClass('form-error');
+		});
+
+		validate_base.on('change', '.form-error select', function () {
+			validate(this);
+		});
+
+		$('#sign input, #sign select').each(function() {
+			prepareValidate(this, true);
+		});
+		$('#target-selector input, #target-selector select').each(function() {
+			prepareValidate(this, false);
+		});
+
+		$('input[type=checkbox]').wrap('<span class="checkbox"></span>');
+
 		// Form handling
-		$('#policat_widget_right form').each(function() {
+		$('#widget-right form').each(function() {
 			var form = $(this);
 			var isClick = false;
 			$('.submit', form).click(function() { // FORM ONCLICK
@@ -546,10 +592,10 @@ $(document).ready(function($) {
 				isClick = true;
 				var form_error = false;
 				var formId = form.attr('id');
-				$('.form_error').removeClass('form_error');
+				$('.form-error').removeClass('form-error');
 
 				if (formId === 'sign') {
-					$('#petition_tabs .left').click();
+					$('#tabs .left').click();
 					show_sign();
 				}
 
@@ -583,10 +629,10 @@ $(document).ready(function($) {
 					var val = $.trim(input.val());
 					if (val === '' && !input.hasClass('not_required')) {
 						if (input.attr('type') === 'text') {
-							input.parent().addClass('form_error');
+							input.parent().addClass('form-error');
 						}
 						else if (input.attr('type') === 'hidden') {
-							$('#' + input.attr('id') + '_copy').parent().addClass('form_error');
+							$('#' + input.attr('id') + '_copy').parent().addClass('form-error');
 						}
 						form_error = true;
 					}
@@ -596,10 +642,10 @@ $(document).ready(function($) {
 				$('select', form).each(function() {
 					if ($('option:selected', this).val() == '') {
 						var error_div = $(this).parent();
-						error_div.addClass('form_error');
+						error_div.addClass('form-error');
 						var prev = error_div.prev();
 						if (prev.is('label')) {
-							prev.addClass('form_error');
+							prev.addClass('form-error');
 						}
 						form_error = true;
 					}
@@ -612,7 +658,7 @@ $(document).ready(function($) {
 					field.val(val);
 					var mail = val.match(/^([^@\s]+)@((?:[-a-z0-9]+\.)+[a-z]{2,})$/i);
 					if (!mail) {
-						field.parent().addClass('form_error');
+						field.parent().addClass('form-error');
 						form_error = true;
 					}
 				});
@@ -621,7 +667,7 @@ $(document).ready(function($) {
 				$('input.color', form).each(function() {
 					var color = $(this).val().match(/#[0-9abcdefABCDEF]{6}/);
 					if (!color) {
-						$(this).parent().addClass('form_error');
+						$(this).parent().addClass('form-error');
 						form_error = true;
 					}
 				});
@@ -631,7 +677,7 @@ $(document).ready(function($) {
 					var val = $(this).val();
 					var url = (val == '') || val.match(/^https?:\/\/[^\"\s]+\.[^\"\s]+$/);
 					if (!url) {
-						$(this).parent().addClass('form_error');
+						$(this).parent().addClass('form-error');
 						form_error = true;
 					}
 				});
@@ -639,7 +685,7 @@ $(document).ready(function($) {
 				$('#paypal_amount', form).each(function() {
 					var amount = $(this).val().match(/^\d+(\.\d\d?)?$/);
 					if (!amount) {
-						$(this).parent().addClass('form_error');
+						$(this).parent().addClass('form-error');
 						form_error = true;
 					}
 				});
@@ -649,28 +695,16 @@ $(document).ready(function($) {
 					var textarea = $(this);
 					if (textarea.val() === '' && !textarea.hasClass('not_required')) {
 						if (textarea.hasClass('original'))
-							$('#' + textarea.attr('id') + '_copy').parent().addClass('form_error');
+							$('#' + textarea.attr('id') + '_copy').parent().addClass('form-error');
 						else
-							textarea.parent().addClass('form_error');
+							textarea.parent().addClass('form-error');
 						form_error = true;
-					} else if (textarea.attr('id') === 'tellyour_emails') {
-						var emails = textarea.val().split(/[,\s\n\r]+/);
-						for (var i = 0; i < emails.length; i++) {
-							var mail = emails[i].match(/^([^@\s]+)@((?:[-a-z0-9]+\.)+[a-z]{2,})$/i);
-							if (!mail) {
-								textarea.parent().addClass('form_error');
-								form_error = true;
-								break;
-							}
-						}
 					}
 				});
 
 				// privacy validation
 				$('#petition_signing_privacy:not(:checked)', form).each(function() {
-					if (!$(this).parent().is('span'))
-						$(this).wrap('<span class="checkbox"></span>');
-					$(this).parent().parent().addClass('form_error');
+					$(this).parent().parent().addClass('form-error');
 					form_error = true;
 				});
 
@@ -687,34 +721,29 @@ $(document).ready(function($) {
 								refName = 'petition_signing[ref]';
 								$('#petition_signing_email_subject_copy, #petition_signing_email_body_copy').attr('disabled', 'disabled');
 								break;
-							case 'tell':
-								refName = 'tellyour[ref]';
-								break;
 							case 'embed':
 								refName = 'widget[ref]';
 								break;
 						}
 						$.post(window.location.href.split('#', 1)[0], form.serialize() + '&' + refName + '=' + ref, function(data) {
-							var message = '';
-							for (var error in data.errors)
-								message += '<p>' + data.errors[error] + '</p>';
 							switch (formId) {
 								case 'sign':
-									show_tell();
-									$('#policat_widget_right .tell .error').html(message);
-									$('.tell .back').remove();
+									show_thankyou();
+									$('#widget-right .thankyou .form_message').text('');
+									for (var error in data.errors) {
+										$('#widget-right .thankyou .form_message').append($('<div></div>').text(data.errors[error]));
+									}
 									hasSign = true;
-									break;
-								case 'tell':
-									$('#tellyour_emails').val('');
-									$('#policat_widget_right .error').html(message);
+									widget.addClass('has_sign');
+									resize();
+									window.parent.postMessage('policat_scroll;' + iframe_no + ';0;0', '*');
 									break;
 								case 'embed':
 									if (data.isValid) {
 										$('#embed_markup').val(data.extra.markup);
 									} else {
 										if ('landing_url' in data.errors) {
-											$('#widget_landing_url_copy').parent().addClass('form_error');
+											$('#widget_landing_url_copy').parent().addClass('form-error');
 										}
 									}
 									break;
@@ -735,47 +764,37 @@ $(document).ready(function($) {
 
 		// disable left side
 		if ($('#footer_ot').length)
-			$('#petition input, #petition select, #petition textarea').attr('disabled', 'disabled');
+			$('#action input, #action select, #action textarea').attr('disabled', 'disabled');
 
 		// TABS
-		$('#petition_tabs').each(function() {
-			var parent = $(this);
-			$('.left', this).click(function() {
-				parent.removeClass('right').addClass('left');
-				$('#right_tab').hide();
-				$('#left_tab').show();
-				if (!useWkScroll && scroll_petition_text.length)
-					scroll_petition_text.data('jsp').reinitialise();
+		if (tabs.length) {
+			$('.to-left-tab', tabs).click(function() {
+				tabs.removeClass('right').addClass('left');
+				resize();
+				scrollTop(tabs, false);
 			});
 
-			$('.right', this).click(function() {
-				parent.removeClass('left').addClass('right');
-				$('#right_tab').show();
-				$('#left_tab').hide();
-				if (!useWkScroll && scroll_background_text.length)
-					scroll_background_text.data('jsp').reinitialise();
+			$('.to-right-tab', tabs).click(function() {
+				tabs.removeClass('left').addClass('right');
+				resize();
+				scrollTop(tabs, false);
 			});
-		});
+		}
 
 		// FOOTER
-		$('#a_embed_this').click(function() {
+		$('#a-embed-this').click(function() {
 			show_embed_this();
 		});
 
-		$('#a_donate, #a_donate2').click(function() {
+		$('#a-donate').click(function() {
 			show_donate();
-		});
-
-		$('#a_share, #a_share2').click(function() {
-			$('#policat_widget_right div.tell .thankyou').hide();
-			show_tell();
 		});
 
 		$('div.privacy label').attr('for', 'useless').click(function() {
 			show_privacy_policy();
 		});
 
-		$('a.newwin, div#policat_widget_left a:not(.back):not(.nonewwin)').click(function() {
+		$('a.newwin, .widget-left a:not(.back):not(.nonewwin)').click(function() {
 			var href = $(this).attr('href');
 			if (href)
 				window.open(href, '_blank');
@@ -785,17 +804,17 @@ $(document).ready(function($) {
 		// BACK
 		$('a.back').click(function() {
 			if (hasSign) {
-				show_tell();
-				show_left('petition');
-			}
-			else
+				show_thankyou();
+				show_left('action');
+			} else {
 				show_sign();
-
-			if ($(this).parent().is('.tell')) {
-				$('.thankyou').show();
 			}
 
 			return false;
+		});
+
+		$('a.reload-iframe').click(function() {
+			window.location.reload();
 		});
 
 		if (pledge_ul.length) {
@@ -820,18 +839,15 @@ $(document).ready(function($) {
 					$(last_text_for).hide();
 				}
 				last_text_for = text_for;
-				if (!useWkScroll && scroll_pledges.length)
-					scroll_pledges.data('jsp').reinitialise();
 
 				return false;
 			});
 		}
 
 		resize();
-		resize_throttleTimeout = 0;
 		$(window).resize(resize);
 
-		$('img:not(.no_load)', policat_widget).each(function() {
+		$('img:not(.no_load)', widget).each(function() {
 			var src = $(this).attr('src');
 			if (!src)
 				return;
@@ -846,5 +862,49 @@ $(document).ready(function($) {
 		
 		$('.external_links a').attr('target', '_blank');
 
-	})($, widget_id, window, Math, target_selectors, CT_extra, t_sel, t_sel_all);
+		if (lastSigners.length) {
+			if (lastSigners.find('span').length) {
+				lastSignersExists.show();
+			}
+
+			if (lastSigners.data('update')) {
+				fetchLastSigners(1, 10);
+			}
+		}
+
+		function fetchLastSigners(page, max) {
+			if (!lastSigners.length) {
+				return null;
+			}
+
+			$.ajax({
+				type: 'GET',
+				dataType: 'json',
+				url: '/api/v2/actions/' + petition_id + '/last-signings/' + page,
+				success: function(data) {
+					if (typeof data === 'object' && data.status === 'ok') {
+						lastSigners.empty();
+
+						if (page === 1 && name) {
+							lastSigners.append($('<span class="self"></span>').text(name));
+						}
+
+						for (var i = 0; i < data.signers.length && i < max; i++) {
+							var signer = data.signers[i];
+							if (name !== signer.name) {
+								lastSigners.append($('<span></span>').text(signer.name));
+							}
+						}
+
+						if (data.signers.length) {
+							lastSignersExists.show();
+						}
+
+						resize();
+					}
+				}
+			});
+		}
+
+	})($, widget_id, window, Math, target_selectors, CT_extra, t_sel, t_sel_all, petition_id, numberSeparator);
 });

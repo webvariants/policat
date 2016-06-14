@@ -66,6 +66,7 @@ class StoreTable extends Doctrine_Table {
   const MENU_LOGIN = 'menu_login';
   const MENU_JOIN = 'menu_join';
   const SIGNING_VALIDATION_EMAIL = 'signing_validation_email';
+  const SIGNING_THANK_YOU_EMAIL = 'signing_thank_you_email';
   const ACTION_TELL_YOUR_FRIEND_EMAIL = 'action_tellyourfriend_email';
   const ACTION_PRIVACY_POLICY = 'action_privacy_policy';
   const REGISTER_ON = 'register_on';
@@ -79,6 +80,8 @@ class StoreTable extends Doctrine_Table {
   const PRIVACY_AGREEMENT_EMAIL = 'privacy_agreement_email';
   const PRIVACY_AGREEMENT_REPLY = 'privacy_agreement_reply';
   const DONATIONS_PAYPAL = 'donations_paypal';
+
+  const INTERNAL_CACHE_OPEN_ACTIONS = 'internal_cache_open_actions';
   
   static $meta = array(
       'portal' => array(
@@ -388,7 +391,23 @@ class StoreTable extends Doctrine_Table {
               'body' => array(
                   'widget' => array('sfWidgetFormTextarea', array('label' => 'Body'), array('class' => 'span7 elastic highlight')),
                   'validator' => array('ValidatorKeywords', array('keywords' => array('#VALIDATION-URL#'))),
-                  'help' => '#VALIDATION-URL#, #DISCONFIRMATION-URL#, #REFERER-URL#, #READMORE-URL#, #TITLE#, #TARGET#, #BACKGROUND#, #INTRO#, #FOOTER#, #EMAIL-SUBJECT#, #EMAIL-BODY#, #BODY#'
+                  'help' => '#VALIDATION-URL#, #DISCONFIRMATION-URL#,#REFERER-URL#, #READMORE-URL#, #TITLE#, #TARGET#, #BACKGROUND#, #ACTION-TEXT#, #INTRO#, #FOOTER#, #EMAIL-SUBJECT#, #EMAIL-BODY#, #BODY#, #DATA-OFFICER-NAME#, #DATA-OFFICER-ORGA#, #DATA-OFFICER-EMAIL#, #DATA-OFFICER-WEBSITE#, #DATA-OFFICER-PHONE#, #DATA-OFFICER-MOBILE#, #DATA-OFFICER-STREET#, #DATA-OFFICER-POST-CODE#, #DATA-OFFICER-CITY#, #DATA-OFFICER-COUNTRY#, #DATA-OFFICER-ADDRESS#, #SENDER-NAME#, #SENDER-ADDRESS#, #SENDER-COUNTRY#, #SENDER-EMAIL#, #ACTION-TAKEN-DATE#'
+              ),
+          )
+      ),
+      'signing_thankyou' => array(
+          'name' => 'Opt-In Thank You Email',
+          'json' => self::SIGNING_THANK_YOU_EMAIL,
+          'i18n' => true,
+          'fields' => array(
+              'subject' => array(
+                  'widget' => array('sfWidgetFormInputText', array('label' => 'Subject'), array('class' => 'span7')),
+                  'validator' => array('sfValidatorString', array('max_length' => 120)),
+              ),
+              'body' => array(
+                  'widget' => array('sfWidgetFormTextarea', array('label' => 'Body'), array('class' => 'markdown highlight')),
+                  'validator' => array('sfValidatorString'),
+                  'help' => '#UNSUBSCRIBE-URL#, #REFERER-URL#, #READMORE-URL#, #TITLE#, #TARGET#, #BACKGROUND#, #ACTION-TEXT#, #INTRO#, #FOOTER#, #EMAIL-SUBJECT#, #EMAIL-BODY#, #BODY#, #DATA-OFFICER-NAME#, #DATA-OFFICER-ORGA#, #DATA-OFFICER-EMAIL#, #DATA-OFFICER-WEBSITE#, #DATA-OFFICER-PHONE#, #DATA-OFFICER-MOBILE#, #DATA-OFFICER-STREET#, #DATA-OFFICER-POST-CODE#, #DATA-OFFICER-CITY#, #DATA-OFFICER-COUNTRY#, #DATA-OFFICER-ADDRESS#, #SENDER-NAME#, #SENDER-ADDRESS#, #SENDER-COUNTRY#, #SENDER-EMAIL#, #ACTION-TAKEN-DATE#'
               ),
           )
       ),
@@ -537,10 +556,18 @@ class StoreTable extends Doctrine_Table {
   /**
    *
    * @param string $key
+   * @param boolean $createMissing
    * @return Store
    */
-  public function findByKey($key) {
-    return $this->createQuery('s')->where('s.key = ?', $key)->fetchOne();
+  public function findByKey($key, $createMissing = false) {
+    $one = $this->createQuery('s')->where('s.key = ?', $key)->fetchOne();
+
+    if ($createMissing && !$one) {
+      $one = new Store();
+      $one->setKey($key);
+    }
+
+    return $one;
   }
 
   /**

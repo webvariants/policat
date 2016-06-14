@@ -1,4 +1,5 @@
 <?php
+
 /*
  * Copyright (c) 2016, webvariants GmbH <?php Co. KG, http://www.webvariants.de
  *
@@ -8,7 +9,7 @@
  * http://www.opensource.org/licenses/mit-license.php
  */
 
-class EditPetitionForm extends BasePetitionForm {
+class EditPetitionForm extends PetitionFieldsForm {
 
   const USER = 'user';
 
@@ -27,11 +28,13 @@ class EditPetitionForm extends BasePetitionForm {
 
     unset($this['created_at'], $this['updated_at'], $this['campaign_id'], $this['object_version'], $this['email_targets']);
     unset($this['addnote'], $this['mailing_list_id'], $this['editable'], $this['auto_greeting'], $this['key_visual'], $this['kind']);
-    unset($this['nametype'], $this['language_id'], $this['paypal_email'], $this['with_comments'], $this['with_address']);
-    unset($this['with_country'], $this['default_country'], $this['pledge_header_visual'], $this['pledge_key_visual']);
+    unset($this['language_id'], $this['paypal_email']);
+    unset($this['pledge_header_visual'], $this['pledge_key_visual']);
     unset($this['pledge_background_color'], $this['pledge_color'], $this['pledge_head_color'], $this['pledge_font']);
     unset($this['pledge_info_columns'], $this['pledge_with_comments'], $this['activity_at'], $this['deleted_pendings']);
-    unset($this['label_mode'], $this['follow_petition_id'], $this['with_extra1'], $this['addnum'], $this['target_num']);
+    unset($this['label_mode'], $this['follow_petition_id'], $this['addnum'], $this['target_num']);
+
+    $this->configure_fields();
 
     $this->setWidget('name', new sfWidgetFormTextarea(array('label' => 'Action name'), array(
         'cols' => 90,
@@ -103,15 +106,17 @@ class EditPetitionForm extends BasePetitionForm {
         'placeholder' => 'john.doe@example.com'
     )));
     $this->setValidator('from_email', new ValidatorEmail(array('required' => true, 'max_length' => 80)));
-    $this->getWidgetSchema()->setHelp('from_email', 'Please check if the e-mail domain server of the e-mail you provided allows PoliCAT to send e-mails with your address. Do not use an address if the SPF check result is "fail". You may use an e-mail address if the SPF check result is "none" or "softfail". However, be aware that in these cases a certain percentage of your validation and action e-mails might be considered spam by some e-mail clients. Ideally, ask your e-mail server admin to add ' . sfConfig::get('app_spf_ip') . ' in their SPF record, sample code: your.mail.domain. 3600 IN TXT "v=spf1 mx ip4:' . sfConfig::get('app_spf_ip') . '/32 -all"' );
+    $this->getWidgetSchema()->setHelp('from_email', 'Please check if the e-mail domain server of the e-mail you provided allows PoliCAT to send e-mails with your address. Do not use an address if the SPF check result is "fail". You may use an e-mail address if the SPF check result is "none" or "softfail". However, be aware that in these cases a certain percentage of your validation and action e-mails might be considered spam by some e-mail clients. Ideally, ask your e-mail server admin to add ' . sfConfig::get('app_spf_ip') . ' in their SPF record, sample code: your.mail.domain. 3600 IN TXT "v=spf1 mx ip4:' . sfConfig::get('app_spf_ip') . '/32 -all"');
 
     $this->setWidget('homepage', new sfWidgetFormChoice(array(
         'label' => 'Feature on e-action portal',
         'choices' => array('0' => 'no', '1' => 'yes')), array(
         'class' => 'add_popover',
-        'data-content' => 'Select "yes" to feature your e-action on the homepage of our e-action community. Note that for each translation, you need to create at least one widget (in the translations tab) and assign it to the homepage (in the settings of each language), otherwise your action will not be featured! Disclaimer: our friendly admin will cast her or his meticulous eyes over your action and reserves the right to take your action off the portal homepage. We guess that\'s quite unlikely :-)'
+        'data-content' => 'Select "yes" to feature your e-action on the homepage of our e-action community. Note that for each translation, you need to create at least one widget (in the translations tab), otherwise your action will not be featured! Disclaimer: our friendly admin will cast her or his meticulous eyes over your action and reserves the right to take your action off the portal homepage. We guess that\'s quite unlikely :-)'
     )));
     $this->setValidator('homepage', new sfValidatorChoice(array('choices' => array('0', '1'))));
+    $home = sfContext::getInstance()->getRouting()->generate('homepage', array(), true);
+    $this->getWidgetSchema()->setHelp('homepage', "The action will be featured on $home if it has 1 or more participants.");
 
     $this->setWidget('twitter_tags', new sfWidgetFormInput(array(
         'label' => 'Twitter hashtags'
@@ -152,12 +157,12 @@ class EditPetitionForm extends BasePetitionForm {
         '"Trebuchet MS", Helvetica, sans-serif', 'Verdana, Geneva, sans-serif', '"Courier New", Courier, monospace',
         '"Lucida Console", Monaco, monospace', '"Lucida Sans Unicode", Vardana, Arial'
     );
-    
+
     if ($this->getObject()->getKind() == Petition::KIND_PETITION) {
       $this->setWidget('validation_required', new sfWidgetFormChoice(array(
           'choices' => array(Petition::VALIDATION_REQUIRED_NO => 'no', Petition::VALIDATION_REQUIRED_YES => 'yes'),
           'label' => 'Validation required to count signing.'
-      ), array(
+        ), array(
           'class' => 'add_popover',
           'data-content' => 'PoliCAT sends this email to each signee, asking to validate the stated email address. This is to improve the credibility of your data: it confirms that the stated email address exists and belongs to the participant. Sometimes, participants will not click this link (e.g. because they forget or the verification email lands in their spam filter). Thus, we recommend that you count signatures immediately (i.e. select "no"). This will also give you access to non-verified data, and may improve your overall participation count. The verification email always includes an "opt-out" link, allowing participants to revoke their participation and delete their data.',
       )));
@@ -165,6 +170,13 @@ class EditPetitionForm extends BasePetitionForm {
     } else {
       unset($this['validation_required']);
     }
+
+    $this->setWidget('thank_you_email', new sfWidgetFormChoice(array(
+        'choices' => array(Petition::THANK_YOU_EMAIL_NO => 'no', Petition::THANK_YOU_EMAIL_YES => 'yes'),
+        'label' => 'Thank-you email after successful validation.'
+      )));
+    $this->setValidator('thank_you_email', new sfValidatorChoice(array('choices' => array(Petition::VALIDATION_REQUIRED_NO, Petition::VALIDATION_REQUIRED_YES), 'required' => true)));
+    $this->getWidgetSchema()->setHelp('thank_you_email', 'Note that this option generates one additional email per participant which will be charged onto your campaign\'s package.');
 
     if ($this->getObject()->isEmailKind()) { // EMAIL, GEO, GEO_EXTRA => editable
       $this->setWidget('editable', new sfWidgetFormChoice(array('choices' => Petition::$EDITABLE_SHOW, 'label' => 'Text editable'), array(
@@ -279,31 +291,32 @@ class EditPetitionForm extends BasePetitionForm {
         'choices' => array_keys(PetitionTable::$INDIVIDUALISE)
     )));
 
-    $fonts[] = '"Open Sans", sans-serif';
+    $this->setWidget('style_font_family', new sfWidgetFormChoice(array('choices' => array_combine(UtilFont::$FONTS, UtilFont::$FONTS), 'label' => 'Font')));
+    $this->setValidator('style_font_family', new sfValidatorChoice(array('choices' => UtilFont::$FONTS)));
 
-    $this->setWidget('style_font_family', new sfWidgetFormChoice(array('choices' => array_combine($fonts, $fonts), 'label' => 'Font')));
-    $this->setValidator('style_font_family', new sfValidatorChoice(array('choices' => $fonts)));
-
-    $this->setWidget('style_title_color', new sfWidgetFormInput(array('label' => 'Title colour'), array('class' => 'color {hash:true}')));
+    $this->setWidget('style_title_color', new sfWidgetFormInput(array('label' => 'Title/Kicker'), array('class' => 'color {hash:true}')));
     $this->setValidator('style_title_color', new ValidatorCssColor(array('min_length' => 7, 'max_length' => 7)));
 
-    $this->setWidget('style_body_color', new sfWidgetFormInput(array('label' => 'Body colour'), array('class' => 'color {hash:true}')));
+    $this->setWidget('style_body_color', new sfWidgetFormInput(array('label' => 'Context box'), array('class' => 'color {hash:true}')));
     $this->setValidator('style_body_color', new ValidatorCssColor(array('min_length' => 7, 'max_length' => 7)));
 
-    $this->setWidget('style_button_color', new sfWidgetFormInput(array('label' => 'Button colour'), array('class' => 'color {hash:true}')));
+    $this->setWidget('style_label_color', new sfWidgetFormInput(array('label' => 'Other texts and labels'), array('class' => 'color {hash:true}')));
+    $this->setValidator('style_label_color', new ValidatorCssColor(array('min_length' => 7, 'max_length' => 7)));
+
+    $this->setWidget('style_button_color', new sfWidgetFormInput(array('label' => 'Other buttons and visual elements'), array('class' => 'color {hash:true}')));
     $this->setValidator('style_button_color', new ValidatorCssColor(array('min_length' => 7, 'max_length' => 7)));
 
-    $this->setWidget('style_bg_left_color', new sfWidgetFormInput(array('label' => 'Background left colour'), array('class' => 'color {hash:true}')));
+    $this->setWidget('style_button_primary_color', new sfWidgetFormInput(array('label' => 'Sign button'), array('class' => 'color {hash:true}')));
+    $this->setValidator('style_button_primary_color', new ValidatorCssColor(array('min_length' => 7, 'max_length' => 7)));
+
+    $this->setWidget('style_bg_left_color', new sfWidgetFormInput(array('label' => 'Context box background'), array('class' => 'color {hash:true}')));
     $this->setValidator('style_bg_left_color', new ValidatorCssColor(array('min_length' => 7, 'max_length' => 7)));
 
-    $this->setWidget('style_bg_right_color', new sfWidgetFormInput(array('label' => 'Background right colour'), array('class' => 'color {hash:true}')));
+    $this->setWidget('style_bg_right_color', new sfWidgetFormInput(array('label' => 'Widget background'), array('class' => 'color {hash:true}')));
     $this->setValidator('style_bg_right_color', new ValidatorCssColor(array('min_length' => 7, 'max_length' => 7)));
 
-    $this->setWidget('style_form_title_color', new sfWidgetFormInput(array('label' => 'Form title'), array('class' => 'color {hash:true}')));
+    $this->setWidget('style_form_title_color', new sfWidgetFormInput(array('label' => 'Headings'), array('class' => 'color {hash:true}')));
     $this->setValidator('style_form_title_color', new ValidatorCssColor(array('min_length' => 7, 'max_length' => 7)));
-
-    $this->getWidgetSchema()->setLabel('country_collection_id', 'Restrict Countries');
-    $this->getWidgetSchema()->setHelp('country_collection_id', 'As a standard, activists can select their home country from a list of all countries in the world. You may restrict the number of country options shown, so activists can pick their country faster.');
 
     if ($this->getObject()->getKind() == Petition::KIND_PETITION) {
       $this->setWidget('label_mode', new sfWidgetFormChoice(array('choices' => PetitionTable::$LABEL_MODE, 'label' => 'Petition labelling')));
@@ -317,7 +330,7 @@ class EditPetitionForm extends BasePetitionForm {
         'placeholder' => 'https://www.example.com/donate',
     )));
     $this->setValidator('donate_url', new ValidatorUrl(array('required' => false)));
-    
+
     $this->setWidget('donate_widget_edit', new sfWidgetFormChoice(array(
         'label' => 'Widget owner can edit donation',
         'choices' => array('0' => 'no', '1' => 'yes')), array(
@@ -325,10 +338,20 @@ class EditPetitionForm extends BasePetitionForm {
         'data-content' => 'Select "yes" to allow widget owners to edit donation text and link.'
     )));
     $this->setValidator('donate_widget_edit', new sfValidatorChoice(array('choices' => array('0', '1'))));
-    
+
     $this->setWidget('policy_checkbox', new sfWidgetFormChoice(array('choices' => PetitionTable::$POLICY_CHECKBOX, 'label' => 'Add privacy policy checkbox')));
     $this->setValidator('policy_checkbox', new sfValidatorChoice(array('choices' => array_keys(PetitionTable::$POLICY_CHECKBOX))));
     $this->getWidgetSchema()->setHelp('policy_checkbox', 'This adds a checkbox to the sign-up form of your action. Activists have to actively tick this box to prove that they accept your privacy policy before they can sign up.');
+
+    $this->setWidget('subscribe_default', new sfWidgetFormChoice(array('choices' => PetitionTable::$SUBSCRIBE_CHECKBOX_DEFAULT, 'label' => 'Keep-me-posted checkbox preselected')));
+    $this->setValidator('subscribe_default', new sfValidatorChoice(array('choices' => array_keys(PetitionTable::$SUBSCRIBE_CHECKBOX_DEFAULT))));
+    $this->getWidgetSchema()->setHelp('subscribe_default', 'You might increase your subscription rate, if you keep the checkbox preselected. Make sure to comply with EU and your national data protection legislation.');
+
+    $this->setWidget('themeId', new sfWidgetFormChoice(array('label' => 'Theme', 'choices' => UtilTheme::$THEMES)));
+    $this->setValidator('themeId', new sfValidatorChoice(array('required' => false, 'choices' => array_keys(UtilTheme::$THEMES))));
+
+    $this->setWidget('last_signings', new sfWidgetFormChoice(array('choices' => PetitionTable::$LAST_SINGINGS, 'label' => 'Show participants list')));
+    $this->setValidator('last_signings', new sfValidatorChoice(array('choices' => array_keys(PetitionTable::$LAST_SINGINGS))));
   }
 
   public function processValues($values) {

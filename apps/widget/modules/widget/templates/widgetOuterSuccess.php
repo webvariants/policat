@@ -4,18 +4,9 @@ $stylings['url'] = $url;
 $stylings['title'] = $title;
 $stylings['keyvisual'] = $keyvisual;
 $stylings['sprite'] = $sprite;
-$stylings['count'] = number_format($count, 0, '.', ',') . ' ' . __('people so far');
 $stylings['target'] = $target;
 $stylings['button_text'] = __('Take action');
-switch ($kind) {
-  case Petition::KIND_EMAIL_TO_LIST:
-  case Petition::KIND_EMAIL_ACTION:
-  case Petition::KIND_PLEDGE:
-    $stylings['headline'] = __('Email action');
-    break;
-  default:
-    $stylings['headline'] = $label_mode == PetitionTable::LABEL_MODE_PETITION ? __('Petition') : __('Initiative');
-}
+$stylings['headline'] = __($headline);
 $css = array(
     'text-align' => 'center',
     'font-weight' => 'normal',
@@ -36,15 +27,17 @@ $css = array(
 
 ob_start();
 ?>
-<div onclick="<?php echo UtilWidget::getWidgetHereJs($widget['id'], true) ?>" <?php UtilPolicat::style($css, array('font-size' => '0', 'line-height' => '0', 'max-width' => '1000px'), $stylings['width'] == 'auto' ? null : array('max-width' => ($stylings['width'] . 'px')) )?>>
+<div onclick="<?php echo UtilWidget::getWidgetHereJs($widget['id'], true) ?>" <?php UtilPolicat::style($css, array('font-size' => '0', 'line-height' => '0', 'max-width' => '1080px'), $stylings['width'] == 'auto' ? null : array('max-width' => ($stylings['width'] . 'px')) )?>>
   <p <?php
   UtilPolicat::style($css, array('line-height' => '18px', 'text-transform' => 'uppercase', 'overflow' => 'visible',
       'color' => $stylings['bg_right_color'], 'background-color' => $stylings['title_color'], 'letter-spacing' => '1px', 'float' => 'none'))
   ?>><?php echo $stylings['headline'] ?></p>
   <img alt="" src="<?php echo $keyvisual ?>" <?php UtilPolicat::style($css, array('line-height' => '12px', 'max-width' => '100%', 'float' => 'none')) ?>>
+  <?php if ($title): ?>
   <p <?php UtilPolicat::style($css, array('text-align' => 'left', 'font-weight' => 'bold', 'line-height' => '12px', 'margin' => '10px', 'float' => 'none')) ?>>
     <?php echo $title ?>
   </p>
+  <?php endif ?>
   <div <?php
   UtilPolicat::style($css, array('font-size' => '20px', 'color' => '#fff', 'background-color' => $stylings['button_color'], 'margin' => '0 10px',
       'height' => '40px', 'line-height' => '40px', 'font-weight' => 'bold', 'font-size' => '20px', 'text-transform' => 'uppercase',
@@ -55,7 +48,7 @@ ob_start();
       <?php echo __('Take action') ?>
   </div>
   <p <?php UtilPolicat::style($css, array('font-size' => '11px', 'line-height' => '11px', 'color' => $stylings['body_color'], 'margin' => '10px', 'float' => 'none')) ?>>
-    <?php echo $stylings['count'] ?>
+    <?php echo __('# Participants', array('#' => number_format($count, 0, ',', $numberSeparator))) ?>
   </p>
 </div>
 <?php

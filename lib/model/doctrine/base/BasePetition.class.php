@@ -9,6 +9,7 @@
  * @property integer $campaign_id
  * @property integer $follow_petition_id
  * @property integer $kind
+ * @property integer $titletype
  * @property integer $nametype
  * @property integer $status
  * @property integer $validation_required
@@ -38,6 +39,7 @@
  * @property integer $with_country
  * @property integer $with_extra1
  * @property string $default_country
+ * @property integer $subscribe_default
  * @property integer $show_keyvisual
  * @property integer $pledge_with_comments
  * @property string $pledge_header_visual
@@ -56,10 +58,15 @@
  * @property string $style_bg_left_color
  * @property string $style_bg_right_color
  * @property string $style_form_title_color
+ * @property string $style_button_primary_color
+ * @property string $style_label_color
  * @property integer $country_collection_id
  * @property integer $deleted_pendings
  * @property integer $label_mode
  * @property integer $policy_checkbox
+ * @property integer $thank_you_email
+ * @property integer $themeId
+ * @property integer $last_signings
  * @property Campaign $Campaign
  * @property Language $Language
  * @property MailingList $MailingList
@@ -76,146 +83,160 @@
  * @property Doctrine_Collection $ApiTokens
  * @property Doctrine_Collection $Downloads
  * 
- * @method integer             getId()                      Returns the current record's "id" value
- * @method integer             getCampaignId()              Returns the current record's "campaign_id" value
- * @method integer             getFollowPetitionId()        Returns the current record's "follow_petition_id" value
- * @method integer             getKind()                    Returns the current record's "kind" value
- * @method integer             getNametype()                Returns the current record's "nametype" value
- * @method integer             getStatus()                  Returns the current record's "status" value
- * @method integer             getValidationRequired()      Returns the current record's "validation_required" value
- * @method string              getName()                    Returns the current record's "name" value
- * @method integer             getAddnum()                  Returns the current record's "addnum" value
- * @method clob                getAddnote()                 Returns the current record's "addnote" value
- * @method string              getReadMoreUrl()             Returns the current record's "read_more_url" value
- * @method string              getLandingUrl()              Returns the current record's "landing_url" value
- * @method string              getKeyVisual()               Returns the current record's "key_visual" value
- * @method string              getPaypalEmail()             Returns the current record's "paypal_email" value
- * @method string              getDonateUrl()               Returns the current record's "donate_url" value
- * @method integer             getDonateWidgetEdit()        Returns the current record's "donate_widget_edit" value
- * @method string              getFromName()                Returns the current record's "from_name" value
- * @method string              getFromEmail()               Returns the current record's "from_email" value
- * @method clob                getEmailTargets()            Returns the current record's "email_targets" value
- * @method integer             getHomepage()                Returns the current record's "homepage" value
- * @method string              getTwitterTags()             Returns the current record's "twitter_tags" value
- * @method string              getLanguageId()              Returns the current record's "language_id" value
- * @method integer             getMailingListId()           Returns the current record's "mailing_list_id" value
- * @method integer             getEditable()                Returns the current record's "editable" value
- * @method integer             getTargetNum()               Returns the current record's "target_num" value
- * @method integer             getAutoGreeting()            Returns the current record's "auto_greeting" value
- * @method date                getStartAt()                 Returns the current record's "start_at" value
- * @method date                getEndAt()                   Returns the current record's "end_at" value
- * @method integer             getWithComments()            Returns the current record's "with_comments" value
- * @method integer             getWithAddress()             Returns the current record's "with_address" value
- * @method integer             getWithCountry()             Returns the current record's "with_country" value
- * @method integer             getWithExtra1()              Returns the current record's "with_extra1" value
- * @method string              getDefaultCountry()          Returns the current record's "default_country" value
- * @method integer             getShowKeyvisual()           Returns the current record's "show_keyvisual" value
- * @method integer             getPledgeWithComments()      Returns the current record's "pledge_with_comments" value
- * @method string              getPledgeHeaderVisual()      Returns the current record's "pledge_header_visual" value
- * @method string              getPledgeKeyVisual()         Returns the current record's "pledge_key_visual" value
- * @method string              getPledgeBackgroundColor()   Returns the current record's "pledge_background_color" value
- * @method string              getPledgeColor()             Returns the current record's "pledge_color" value
- * @method string              getPledgeHeadColor()         Returns the current record's "pledge_head_color" value
- * @method string              getPledgeFont()              Returns the current record's "pledge_font" value
- * @method clob                getPledgeInfoColumns()       Returns the current record's "pledge_info_columns" value
- * @method timestamp           getActivityAt()              Returns the current record's "activity_at" value
- * @method integer             getWidgetIndividualise()     Returns the current record's "widget_individualise" value
- * @method string              getStyleFontFamily()         Returns the current record's "style_font_family" value
- * @method string              getStyleTitleColor()         Returns the current record's "style_title_color" value
- * @method string              getStyleBodyColor()          Returns the current record's "style_body_color" value
- * @method string              getStyleButtonColor()        Returns the current record's "style_button_color" value
- * @method string              getStyleBgLeftColor()        Returns the current record's "style_bg_left_color" value
- * @method string              getStyleBgRightColor()       Returns the current record's "style_bg_right_color" value
- * @method string              getStyleFormTitleColor()     Returns the current record's "style_form_title_color" value
- * @method integer             getCountryCollectionId()     Returns the current record's "country_collection_id" value
- * @method integer             getDeletedPendings()         Returns the current record's "deleted_pendings" value
- * @method integer             getLabelMode()               Returns the current record's "label_mode" value
- * @method integer             getPolicyCheckbox()          Returns the current record's "policy_checkbox" value
- * @method Campaign            getCampaign()                Returns the current record's "Campaign" value
- * @method Language            getLanguage()                Returns the current record's "Language" value
- * @method MailingList         getMailingList()             Returns the current record's "MailingList" value
- * @method CountryCollection   getCountryCollection()       Returns the current record's "CountryCollection" value
- * @method Petition            getFollowPetition()          Returns the current record's "FollowPetition" value
- * @method Doctrine_Collection getPetitionRights()          Returns the current record's "PetitionRights" collection
- * @method Doctrine_Collection getFollowedByPetitions()     Returns the current record's "FollowedByPetitions" collection
- * @method Doctrine_Collection getPetitionText()            Returns the current record's "PetitionText" collection
- * @method Doctrine_Collection getWidget()                  Returns the current record's "Widget" collection
- * @method Doctrine_Collection getPetitionSigning()         Returns the current record's "PetitionSigning" collection
- * @method Doctrine_Collection getTickets()                 Returns the current record's "Tickets" collection
- * @method Doctrine_Collection getPledgeItems()             Returns the current record's "PledgeItems" collection
- * @method Doctrine_Collection getPetitionContacts()        Returns the current record's "PetitionContacts" collection
- * @method Doctrine_Collection getApiTokens()               Returns the current record's "ApiTokens" collection
- * @method Doctrine_Collection getDownloads()               Returns the current record's "Downloads" collection
- * @method Petition            setId()                      Sets the current record's "id" value
- * @method Petition            setCampaignId()              Sets the current record's "campaign_id" value
- * @method Petition            setFollowPetitionId()        Sets the current record's "follow_petition_id" value
- * @method Petition            setKind()                    Sets the current record's "kind" value
- * @method Petition            setNametype()                Sets the current record's "nametype" value
- * @method Petition            setStatus()                  Sets the current record's "status" value
- * @method Petition            setValidationRequired()      Sets the current record's "validation_required" value
- * @method Petition            setName()                    Sets the current record's "name" value
- * @method Petition            setAddnum()                  Sets the current record's "addnum" value
- * @method Petition            setAddnote()                 Sets the current record's "addnote" value
- * @method Petition            setReadMoreUrl()             Sets the current record's "read_more_url" value
- * @method Petition            setLandingUrl()              Sets the current record's "landing_url" value
- * @method Petition            setKeyVisual()               Sets the current record's "key_visual" value
- * @method Petition            setPaypalEmail()             Sets the current record's "paypal_email" value
- * @method Petition            setDonateUrl()               Sets the current record's "donate_url" value
- * @method Petition            setDonateWidgetEdit()        Sets the current record's "donate_widget_edit" value
- * @method Petition            setFromName()                Sets the current record's "from_name" value
- * @method Petition            setFromEmail()               Sets the current record's "from_email" value
- * @method Petition            setEmailTargets()            Sets the current record's "email_targets" value
- * @method Petition            setHomepage()                Sets the current record's "homepage" value
- * @method Petition            setTwitterTags()             Sets the current record's "twitter_tags" value
- * @method Petition            setLanguageId()              Sets the current record's "language_id" value
- * @method Petition            setMailingListId()           Sets the current record's "mailing_list_id" value
- * @method Petition            setEditable()                Sets the current record's "editable" value
- * @method Petition            setTargetNum()               Sets the current record's "target_num" value
- * @method Petition            setAutoGreeting()            Sets the current record's "auto_greeting" value
- * @method Petition            setStartAt()                 Sets the current record's "start_at" value
- * @method Petition            setEndAt()                   Sets the current record's "end_at" value
- * @method Petition            setWithComments()            Sets the current record's "with_comments" value
- * @method Petition            setWithAddress()             Sets the current record's "with_address" value
- * @method Petition            setWithCountry()             Sets the current record's "with_country" value
- * @method Petition            setWithExtra1()              Sets the current record's "with_extra1" value
- * @method Petition            setDefaultCountry()          Sets the current record's "default_country" value
- * @method Petition            setShowKeyvisual()           Sets the current record's "show_keyvisual" value
- * @method Petition            setPledgeWithComments()      Sets the current record's "pledge_with_comments" value
- * @method Petition            setPledgeHeaderVisual()      Sets the current record's "pledge_header_visual" value
- * @method Petition            setPledgeKeyVisual()         Sets the current record's "pledge_key_visual" value
- * @method Petition            setPledgeBackgroundColor()   Sets the current record's "pledge_background_color" value
- * @method Petition            setPledgeColor()             Sets the current record's "pledge_color" value
- * @method Petition            setPledgeHeadColor()         Sets the current record's "pledge_head_color" value
- * @method Petition            setPledgeFont()              Sets the current record's "pledge_font" value
- * @method Petition            setPledgeInfoColumns()       Sets the current record's "pledge_info_columns" value
- * @method Petition            setActivityAt()              Sets the current record's "activity_at" value
- * @method Petition            setWidgetIndividualise()     Sets the current record's "widget_individualise" value
- * @method Petition            setStyleFontFamily()         Sets the current record's "style_font_family" value
- * @method Petition            setStyleTitleColor()         Sets the current record's "style_title_color" value
- * @method Petition            setStyleBodyColor()          Sets the current record's "style_body_color" value
- * @method Petition            setStyleButtonColor()        Sets the current record's "style_button_color" value
- * @method Petition            setStyleBgLeftColor()        Sets the current record's "style_bg_left_color" value
- * @method Petition            setStyleBgRightColor()       Sets the current record's "style_bg_right_color" value
- * @method Petition            setStyleFormTitleColor()     Sets the current record's "style_form_title_color" value
- * @method Petition            setCountryCollectionId()     Sets the current record's "country_collection_id" value
- * @method Petition            setDeletedPendings()         Sets the current record's "deleted_pendings" value
- * @method Petition            setLabelMode()               Sets the current record's "label_mode" value
- * @method Petition            setPolicyCheckbox()          Sets the current record's "policy_checkbox" value
- * @method Petition            setCampaign()                Sets the current record's "Campaign" value
- * @method Petition            setLanguage()                Sets the current record's "Language" value
- * @method Petition            setMailingList()             Sets the current record's "MailingList" value
- * @method Petition            setCountryCollection()       Sets the current record's "CountryCollection" value
- * @method Petition            setFollowPetition()          Sets the current record's "FollowPetition" value
- * @method Petition            setPetitionRights()          Sets the current record's "PetitionRights" collection
- * @method Petition            setFollowedByPetitions()     Sets the current record's "FollowedByPetitions" collection
- * @method Petition            setPetitionText()            Sets the current record's "PetitionText" collection
- * @method Petition            setWidget()                  Sets the current record's "Widget" collection
- * @method Petition            setPetitionSigning()         Sets the current record's "PetitionSigning" collection
- * @method Petition            setTickets()                 Sets the current record's "Tickets" collection
- * @method Petition            setPledgeItems()             Sets the current record's "PledgeItems" collection
- * @method Petition            setPetitionContacts()        Sets the current record's "PetitionContacts" collection
- * @method Petition            setApiTokens()               Sets the current record's "ApiTokens" collection
- * @method Petition            setDownloads()               Sets the current record's "Downloads" collection
+ * @method integer             getId()                         Returns the current record's "id" value
+ * @method integer             getCampaignId()                 Returns the current record's "campaign_id" value
+ * @method integer             getFollowPetitionId()           Returns the current record's "follow_petition_id" value
+ * @method integer             getKind()                       Returns the current record's "kind" value
+ * @method integer             getTitletype()                  Returns the current record's "titletype" value
+ * @method integer             getNametype()                   Returns the current record's "nametype" value
+ * @method integer             getStatus()                     Returns the current record's "status" value
+ * @method integer             getValidationRequired()         Returns the current record's "validation_required" value
+ * @method string              getName()                       Returns the current record's "name" value
+ * @method integer             getAddnum()                     Returns the current record's "addnum" value
+ * @method clob                getAddnote()                    Returns the current record's "addnote" value
+ * @method string              getReadMoreUrl()                Returns the current record's "read_more_url" value
+ * @method string              getLandingUrl()                 Returns the current record's "landing_url" value
+ * @method string              getKeyVisual()                  Returns the current record's "key_visual" value
+ * @method string              getPaypalEmail()                Returns the current record's "paypal_email" value
+ * @method string              getDonateUrl()                  Returns the current record's "donate_url" value
+ * @method integer             getDonateWidgetEdit()           Returns the current record's "donate_widget_edit" value
+ * @method string              getFromName()                   Returns the current record's "from_name" value
+ * @method string              getFromEmail()                  Returns the current record's "from_email" value
+ * @method clob                getEmailTargets()               Returns the current record's "email_targets" value
+ * @method integer             getHomepage()                   Returns the current record's "homepage" value
+ * @method string              getTwitterTags()                Returns the current record's "twitter_tags" value
+ * @method string              getLanguageId()                 Returns the current record's "language_id" value
+ * @method integer             getMailingListId()              Returns the current record's "mailing_list_id" value
+ * @method integer             getEditable()                   Returns the current record's "editable" value
+ * @method integer             getTargetNum()                  Returns the current record's "target_num" value
+ * @method integer             getAutoGreeting()               Returns the current record's "auto_greeting" value
+ * @method date                getStartAt()                    Returns the current record's "start_at" value
+ * @method date                getEndAt()                      Returns the current record's "end_at" value
+ * @method integer             getWithComments()               Returns the current record's "with_comments" value
+ * @method integer             getWithAddress()                Returns the current record's "with_address" value
+ * @method integer             getWithCountry()                Returns the current record's "with_country" value
+ * @method integer             getWithExtra1()                 Returns the current record's "with_extra1" value
+ * @method string              getDefaultCountry()             Returns the current record's "default_country" value
+ * @method integer             getSubscribeDefault()           Returns the current record's "subscribe_default" value
+ * @method integer             getShowKeyvisual()              Returns the current record's "show_keyvisual" value
+ * @method integer             getPledgeWithComments()         Returns the current record's "pledge_with_comments" value
+ * @method string              getPledgeHeaderVisual()         Returns the current record's "pledge_header_visual" value
+ * @method string              getPledgeKeyVisual()            Returns the current record's "pledge_key_visual" value
+ * @method string              getPledgeBackgroundColor()      Returns the current record's "pledge_background_color" value
+ * @method string              getPledgeColor()                Returns the current record's "pledge_color" value
+ * @method string              getPledgeHeadColor()            Returns the current record's "pledge_head_color" value
+ * @method string              getPledgeFont()                 Returns the current record's "pledge_font" value
+ * @method clob                getPledgeInfoColumns()          Returns the current record's "pledge_info_columns" value
+ * @method timestamp           getActivityAt()                 Returns the current record's "activity_at" value
+ * @method integer             getWidgetIndividualise()        Returns the current record's "widget_individualise" value
+ * @method string              getStyleFontFamily()            Returns the current record's "style_font_family" value
+ * @method string              getStyleTitleColor()            Returns the current record's "style_title_color" value
+ * @method string              getStyleBodyColor()             Returns the current record's "style_body_color" value
+ * @method string              getStyleButtonColor()           Returns the current record's "style_button_color" value
+ * @method string              getStyleBgLeftColor()           Returns the current record's "style_bg_left_color" value
+ * @method string              getStyleBgRightColor()          Returns the current record's "style_bg_right_color" value
+ * @method string              getStyleFormTitleColor()        Returns the current record's "style_form_title_color" value
+ * @method string              getStyleButtonPrimaryColor()    Returns the current record's "style_button_primary_color" value
+ * @method string              getStyleLabelColor()            Returns the current record's "style_label_color" value
+ * @method integer             getCountryCollectionId()        Returns the current record's "country_collection_id" value
+ * @method integer             getDeletedPendings()            Returns the current record's "deleted_pendings" value
+ * @method integer             getLabelMode()                  Returns the current record's "label_mode" value
+ * @method integer             getPolicyCheckbox()             Returns the current record's "policy_checkbox" value
+ * @method integer             getThankYouEmail()              Returns the current record's "thank_you_email" value
+ * @method integer             getThemeId()                    Returns the current record's "themeId" value
+ * @method integer             getLastSignings()               Returns the current record's "last_signings" value
+ * @method Campaign            getCampaign()                   Returns the current record's "Campaign" value
+ * @method Language            getLanguage()                   Returns the current record's "Language" value
+ * @method MailingList         getMailingList()                Returns the current record's "MailingList" value
+ * @method CountryCollection   getCountryCollection()          Returns the current record's "CountryCollection" value
+ * @method Petition            getFollowPetition()             Returns the current record's "FollowPetition" value
+ * @method Doctrine_Collection getPetitionRights()             Returns the current record's "PetitionRights" collection
+ * @method Doctrine_Collection getFollowedByPetitions()        Returns the current record's "FollowedByPetitions" collection
+ * @method Doctrine_Collection getPetitionText()               Returns the current record's "PetitionText" collection
+ * @method Doctrine_Collection getWidget()                     Returns the current record's "Widget" collection
+ * @method Doctrine_Collection getPetitionSigning()            Returns the current record's "PetitionSigning" collection
+ * @method Doctrine_Collection getTickets()                    Returns the current record's "Tickets" collection
+ * @method Doctrine_Collection getPledgeItems()                Returns the current record's "PledgeItems" collection
+ * @method Doctrine_Collection getPetitionContacts()           Returns the current record's "PetitionContacts" collection
+ * @method Doctrine_Collection getApiTokens()                  Returns the current record's "ApiTokens" collection
+ * @method Doctrine_Collection getDownloads()                  Returns the current record's "Downloads" collection
+ * @method Petition            setId()                         Sets the current record's "id" value
+ * @method Petition            setCampaignId()                 Sets the current record's "campaign_id" value
+ * @method Petition            setFollowPetitionId()           Sets the current record's "follow_petition_id" value
+ * @method Petition            setKind()                       Sets the current record's "kind" value
+ * @method Petition            setTitletype()                  Sets the current record's "titletype" value
+ * @method Petition            setNametype()                   Sets the current record's "nametype" value
+ * @method Petition            setStatus()                     Sets the current record's "status" value
+ * @method Petition            setValidationRequired()         Sets the current record's "validation_required" value
+ * @method Petition            setName()                       Sets the current record's "name" value
+ * @method Petition            setAddnum()                     Sets the current record's "addnum" value
+ * @method Petition            setAddnote()                    Sets the current record's "addnote" value
+ * @method Petition            setReadMoreUrl()                Sets the current record's "read_more_url" value
+ * @method Petition            setLandingUrl()                 Sets the current record's "landing_url" value
+ * @method Petition            setKeyVisual()                  Sets the current record's "key_visual" value
+ * @method Petition            setPaypalEmail()                Sets the current record's "paypal_email" value
+ * @method Petition            setDonateUrl()                  Sets the current record's "donate_url" value
+ * @method Petition            setDonateWidgetEdit()           Sets the current record's "donate_widget_edit" value
+ * @method Petition            setFromName()                   Sets the current record's "from_name" value
+ * @method Petition            setFromEmail()                  Sets the current record's "from_email" value
+ * @method Petition            setEmailTargets()               Sets the current record's "email_targets" value
+ * @method Petition            setHomepage()                   Sets the current record's "homepage" value
+ * @method Petition            setTwitterTags()                Sets the current record's "twitter_tags" value
+ * @method Petition            setLanguageId()                 Sets the current record's "language_id" value
+ * @method Petition            setMailingListId()              Sets the current record's "mailing_list_id" value
+ * @method Petition            setEditable()                   Sets the current record's "editable" value
+ * @method Petition            setTargetNum()                  Sets the current record's "target_num" value
+ * @method Petition            setAutoGreeting()               Sets the current record's "auto_greeting" value
+ * @method Petition            setStartAt()                    Sets the current record's "start_at" value
+ * @method Petition            setEndAt()                      Sets the current record's "end_at" value
+ * @method Petition            setWithComments()               Sets the current record's "with_comments" value
+ * @method Petition            setWithAddress()                Sets the current record's "with_address" value
+ * @method Petition            setWithCountry()                Sets the current record's "with_country" value
+ * @method Petition            setWithExtra1()                 Sets the current record's "with_extra1" value
+ * @method Petition            setDefaultCountry()             Sets the current record's "default_country" value
+ * @method Petition            setSubscribeDefault()           Sets the current record's "subscribe_default" value
+ * @method Petition            setShowKeyvisual()              Sets the current record's "show_keyvisual" value
+ * @method Petition            setPledgeWithComments()         Sets the current record's "pledge_with_comments" value
+ * @method Petition            setPledgeHeaderVisual()         Sets the current record's "pledge_header_visual" value
+ * @method Petition            setPledgeKeyVisual()            Sets the current record's "pledge_key_visual" value
+ * @method Petition            setPledgeBackgroundColor()      Sets the current record's "pledge_background_color" value
+ * @method Petition            setPledgeColor()                Sets the current record's "pledge_color" value
+ * @method Petition            setPledgeHeadColor()            Sets the current record's "pledge_head_color" value
+ * @method Petition            setPledgeFont()                 Sets the current record's "pledge_font" value
+ * @method Petition            setPledgeInfoColumns()          Sets the current record's "pledge_info_columns" value
+ * @method Petition            setActivityAt()                 Sets the current record's "activity_at" value
+ * @method Petition            setWidgetIndividualise()        Sets the current record's "widget_individualise" value
+ * @method Petition            setStyleFontFamily()            Sets the current record's "style_font_family" value
+ * @method Petition            setStyleTitleColor()            Sets the current record's "style_title_color" value
+ * @method Petition            setStyleBodyColor()             Sets the current record's "style_body_color" value
+ * @method Petition            setStyleButtonColor()           Sets the current record's "style_button_color" value
+ * @method Petition            setStyleBgLeftColor()           Sets the current record's "style_bg_left_color" value
+ * @method Petition            setStyleBgRightColor()          Sets the current record's "style_bg_right_color" value
+ * @method Petition            setStyleFormTitleColor()        Sets the current record's "style_form_title_color" value
+ * @method Petition            setStyleButtonPrimaryColor()    Sets the current record's "style_button_primary_color" value
+ * @method Petition            setStyleLabelColor()            Sets the current record's "style_label_color" value
+ * @method Petition            setCountryCollectionId()        Sets the current record's "country_collection_id" value
+ * @method Petition            setDeletedPendings()            Sets the current record's "deleted_pendings" value
+ * @method Petition            setLabelMode()                  Sets the current record's "label_mode" value
+ * @method Petition            setPolicyCheckbox()             Sets the current record's "policy_checkbox" value
+ * @method Petition            setThankYouEmail()              Sets the current record's "thank_you_email" value
+ * @method Petition            setThemeId()                    Sets the current record's "themeId" value
+ * @method Petition            setLastSignings()               Sets the current record's "last_signings" value
+ * @method Petition            setCampaign()                   Sets the current record's "Campaign" value
+ * @method Petition            setLanguage()                   Sets the current record's "Language" value
+ * @method Petition            setMailingList()                Sets the current record's "MailingList" value
+ * @method Petition            setCountryCollection()          Sets the current record's "CountryCollection" value
+ * @method Petition            setFollowPetition()             Sets the current record's "FollowPetition" value
+ * @method Petition            setPetitionRights()             Sets the current record's "PetitionRights" collection
+ * @method Petition            setFollowedByPetitions()        Sets the current record's "FollowedByPetitions" collection
+ * @method Petition            setPetitionText()               Sets the current record's "PetitionText" collection
+ * @method Petition            setWidget()                     Sets the current record's "Widget" collection
+ * @method Petition            setPetitionSigning()            Sets the current record's "PetitionSigning" collection
+ * @method Petition            setTickets()                    Sets the current record's "Tickets" collection
+ * @method Petition            setPledgeItems()                Sets the current record's "PledgeItems" collection
+ * @method Petition            setPetitionContacts()           Sets the current record's "PetitionContacts" collection
+ * @method Petition            setApiTokens()                  Sets the current record's "ApiTokens" collection
+ * @method Petition            setDownloads()                  Sets the current record's "Downloads" collection
  * 
  * @package    policat
  * @subpackage model
@@ -247,6 +268,12 @@ abstract class BasePetition extends myDoctrineRecord
              'type' => 'integer',
              'notnull' => true,
              'default' => 1,
+             'length' => 1,
+             ));
+        $this->hasColumn('titletype', 'integer', 1, array(
+             'type' => 'integer',
+             'notnull' => true,
+             'default' => 0,
              'length' => 1,
              ));
         $this->hasColumn('nametype', 'integer', 1, array(
@@ -392,6 +419,12 @@ abstract class BasePetition extends myDoctrineRecord
              'default' => '',
              'length' => 5,
              ));
+        $this->hasColumn('subscribe_default', 'integer', 1, array(
+             'type' => 'integer',
+             'notnull' => true,
+             'default' => 1,
+             'length' => 1,
+             ));
         $this->hasColumn('show_keyvisual', 'integer', 1, array(
              'type' => 'integer',
              'notnull' => true,
@@ -493,6 +526,18 @@ abstract class BasePetition extends myDoctrineRecord
              'default' => '#181716',
              'length' => 7,
              ));
+        $this->hasColumn('style_button_primary_color', 'string', 7, array(
+             'type' => 'string',
+             'notnull' => true,
+             'default' => '#76b235',
+             'length' => 7,
+             ));
+        $this->hasColumn('style_label_color', 'string', 7, array(
+             'type' => 'string',
+             'notnull' => true,
+             'default' => '#666666',
+             'length' => 7,
+             ));
         $this->hasColumn('country_collection_id', 'integer', 4, array(
              'type' => 'integer',
              'notnull' => false,
@@ -514,6 +559,23 @@ abstract class BasePetition extends myDoctrineRecord
              'type' => 'integer',
              'notnull' => true,
              'default' => 1,
+             'length' => 1,
+             ));
+        $this->hasColumn('thank_you_email', 'integer', 1, array(
+             'type' => 'integer',
+             'notnull' => true,
+             'default' => 0,
+             'length' => 1,
+             ));
+        $this->hasColumn('themeId', 'integer', 4, array(
+             'type' => 'integer',
+             'notnull' => false,
+             'length' => 4,
+             ));
+        $this->hasColumn('last_signings', 'integer', 1, array(
+             'type' => 'integer',
+             'notnull' => true,
+             'default' => 0,
              'length' => 1,
              ));
 
