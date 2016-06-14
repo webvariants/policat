@@ -565,6 +565,10 @@ $(document).ready(function($) {
 			validate(this);
 		});
 
+		$('#petition_signing_privacy').on('change', function() {
+			$(this).parent().parent().removeClass('form-error');
+		});
+
 		validate_base.on('change', '.form-error select', function () {
 			validate(this);
 		});

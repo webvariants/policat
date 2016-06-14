@@ -307,7 +307,7 @@ if (is_array($target_selectors)) {
                             <h2 class="title-color"><?php echo __('Thank you') ?></h2>
                             <p class="form_message label_color"><?php echo __('You verified your email address. Your action is confirmed. Use this moment to tell friends and family.') ?></p>
                         </div>
-                        <?php if ($petition->getLastSignings() !== PetitionTable::LAST_SIGNINGS_NO): ?>
+                        <?php if ($petition->getLastSignings() != PetitionTable::LAST_SIGNINGS_NO): ?>
                           <div class="last-signings">
                               <div id="last-signers-exists" class="last-signers-exists">
                                   <h2 class="label_color"><?php echo __('Last signers') ?></h2>
