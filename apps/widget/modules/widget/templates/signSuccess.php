@@ -86,14 +86,15 @@ if (is_array($target_selectors)) {
                                   <div class="tab-body">
                                       <div class="left-tab">
                                           <?php include_partial('petition', array('petition_text' => $petition_text, 'widget' => $widget, 'petition' => $petition)) ?>
-                                          <div class="tab-alternate"><button class="to-right-tab button-color button-btn"><?php echo __('Read more') ?></button></div>
+                                          <div class="tab-alternate"><a class="readmore to-right-tab"><?php echo __('Read more') ?></a></div>
                                       </div>
                                       <div class="right-tab">
                                           <?php echo UtilMarkdown::transform($background); ?>
+                                          <br />
+                                          <div class="tab-alternate"><a class="to-left-tab tab-back"><?php echo __('Back') ?></a></div>
                                           <?php if (is_string($read_more_url) && strlen($read_more_url) > 6): ?>
-                                            <br /><a id="readmore" href="<?php echo Util::enc($read_more_url) ?>" class="newwin readmore"><?php echo __('Read more') ?></a>
+                                              <a id="readmore" href="<?php echo Util::enc($read_more_url) ?>" class="newwin readmore readmore-background"><?php echo __('Read more') ?></a>
                                           <?php endif ?>
-                                          <div class="tab-alternate"><button class="to-left-tab button-color button-btn"><?php echo __('Back') ?></button></div>
                                       </div>
                                       <div class="tab-pad"></div>
                                   </div>
@@ -108,11 +109,12 @@ if (is_array($target_selectors)) {
                         </div>
                         <div id="privacy-policy" class="privacy-policy">
                             <h1><?php echo __('PP Heading') ?></h1>
+                            <a class="back back-priv-1 button-color button-btn"><?php echo __('Back') ?></a>
                             <?php
                             $privacy_policy = strtr($petition_text['privacy_policy_body'], $widget->getDataOwnerSubst('<br />', $petition));
                             echo UtilMarkdown::transform($privacy_policy);
                             ?>
-                            <a class="back button-color button-btn"><?php echo __('Back') ?></a>
+                            <a class="back back-priv-2 button-color button-btn"><?php echo __('Back') ?></a>
                         </div>
                         <?php if (!$form_embed->isOneSide()): ?>
                           <div id="embed-this-left" class="embed-this embed-this-left">
