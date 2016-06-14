@@ -35,6 +35,7 @@ class api_v2Actions extends policatActions {
   public function executeActionSignings(sfWebRequest $request) {
     $this->setLayout(false);
     $response = $this->getResponse();
+    /* @var $response sfWebResponse */
 
     // does the client want JSONP?
     $callback = trim(preg_replace('/[^a-z_.]/i', '', $request->getParameter('callback', null)));
@@ -219,6 +220,7 @@ class api_v2Actions extends policatActions {
       $data['signings_total'] = $total;
     }
 
+    $response->setHttpHeader('Cache-Control', null);
     $response->addCacheControlHttpHeader('public');
     $response->addCacheControlHttpHeader('max-age', 60);
 
@@ -231,6 +233,9 @@ class api_v2Actions extends policatActions {
   public function executeActionLastSignings(sfWebRequest $request) {
     $this->setLayout(false);
     $response = $this->getResponse();
+    /* @var $response sfWebResponse */
+
+    $response->setHttpHeader('Cache-Control', null);
 
     // does the client want JSONP?
     $callback = trim(preg_replace('/[^a-z_.]/i', '', $request->getParameter('callback', null)));
