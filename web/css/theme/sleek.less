@@ -164,9 +164,17 @@ ul, ol {
 
 	.sign .readmore-btn  {
 		display: block;
-		margin-bottom: 10px;
-		padding: 3px 8px;
+		margin-bottom: 15px;
+		text-decoration: none;
 		text-align: center;
+		color: var(--button-color);
+		font-weight: bold;
+
+		&::before {
+			content: "\00BB";
+			margin-right: 5px;
+			font-size: 1.2em
+		}
 	}
 }
 
@@ -586,4 +594,10 @@ span.checkbox {
 			background: var(--background-color-box);
 		}
 	}
+}
+
+.readmore + .tab-alternate {
+	float: left;
+	padding-top: 0;
+	margin-right: 10px;
 }

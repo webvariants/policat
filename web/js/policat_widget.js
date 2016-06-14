@@ -132,6 +132,7 @@ $(document).ready(function($) {
 				show_right('sign');
 			}
 			resize();
+			scrollTop($('#privacy-policy'), false);
 		}
 
 		if (!('postMessage' in window)) {

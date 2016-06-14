@@ -104,6 +104,7 @@ if (is_array($target_selectors)) {
                                 <a id="readmore" href="<?php echo Util::enc($read_more_url) ?>" class="newwin readmore"><?php echo __('Read more') ?></a>
                               <?php endif ?>
                             <?php endif ?>
+                            <div style="clear: both"></div>
                         </div>
                         <div id="privacy-policy" class="privacy-policy">
                             <h1><?php echo __('PP Heading') ?></h1>
@@ -242,7 +243,7 @@ if (is_array($target_selectors)) {
                               <?php if ($petition->getShowKeyvisual() && $petition->getKeyVisual()): ?><div class="keyvisual keyvisual-bottom"><img src="<?php echo image_path('keyvisual/' . $petition->getKeyVisual()) ?>" alt="" /></div><?php endif ?>
                             <?php endif ?>
                             <?php if (is_string($read_more_url) && strlen($read_more_url) > 6 && !$background): ?>
-                            <a href="<?php echo Util::enc($read_more_url) ?>" class="newwin button-color button-btn readmore-btn"><?php echo __('Read more') ?></a>
+                            <a href="<?php echo Util::enc($read_more_url) ?>" class="newwin readmore-btn"><?php echo __('Read more') ?></a>
                             <?php endif ?>
                         </div>
                         <div class="embed-this">
