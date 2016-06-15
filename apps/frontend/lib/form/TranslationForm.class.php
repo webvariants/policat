@@ -1,4 +1,5 @@
 <?php
+
 /*
  * Copyright (c) 2016, webvariants GmbH <?php Co. KG, http://www.webvariants.de
  *
@@ -95,8 +96,7 @@ The e-mail text: #EMAIL-SUBJECT# -- #EMAIL-BODY#"
     $petition = $petition_text->getPetition();
 
     unset(
-      $this['created_at'], $this['updated_at'], $this['petition_id'], $this['object_version'], $this['email_targets'], $this['widget_id'],
-      $this['donate_url'], $this['donate_text']
+      $this['created_at'], $this['updated_at'], $this['petition_id'], $this['object_version'], $this['email_targets'], $this['widget_id'], $this['donate_url'], $this['donate_text']
     );
 
     $this->setWidget('form_title', new sfWidgetFormInput(array('label' => 'Widget heading'), array('size' => 90, 'class' => 'large', 'placeholder' => 'Leave this field empty to use standard texts.')));
@@ -150,7 +150,6 @@ The e-mail text: #EMAIL-SUBJECT# -- #EMAIL-BODY#"
         }
 
         $keywords[] = PetitionTable::KEYWORD_PERSONAL_SALUTATION;
-
       } else {
         $keywords = PetitionSigningTable::$KEYWORDS;
       }
@@ -288,10 +287,10 @@ The e-mail text: #EMAIL-SUBJECT# -- #EMAIL-BODY#"
         }
       }
     }
-    
+
     // donate_url on petition enables/disabled donate_url and donate_text feature
     if ($petition->getDonateUrl()) {
-    
+
       $this->setWidget('donate_url', new sfWidgetFormInput(array('label' => 'Optional: Link to language-specific donation page'
           . ''), array(
           'size' => 90,
@@ -306,7 +305,7 @@ The e-mail text: #EMAIL-SUBJECT# -- #EMAIL-BODY#"
       $this->setValidator('donate_text', new sfValidatorString(array('max_length' => 1800, 'required' => false)));
       $this->getWidgetSchema()->setHelp('donate_text', 'This may contain explanatory text and will be displayed in the widget, on click of the \'Donate\' button. It necessitates two clicks to open the donation page in a new browser tab. For a single click workflow, leave this field empty.');
     }
-    
+
     if ($petition->getWithExtra1() == Petition::WITH_EXTRA_YES) {
       $this->getWidgetSchema()->setLabel('label_extra1', 'Extra input field label (title text)');
 //  placeholder disabled
@@ -323,15 +322,26 @@ The e-mail text: #EMAIL-SUBJECT# -- #EMAIL-BODY#"
     if ($petition->getThankYouEmail() == Petition::THANK_YOU_EMAIL_YES) {
       $this->setWidget('thank_you_email_subject', new sfWidgetFormInput(array('label' => 'Thank-You Email Subject'), array('size' => 90, 'class' => 'large')));
       $this->setWidget('thank_you_email_body', new sfWidgetFormTextarea(array('label' => 'Thank-You Email Body'), array('cols' => 90, 'rows' => 30, 'class' => 'markdown highlight')));
-      $this->getWidgetSchema()->setHelp('thank_you_email_body', '#UNSUBSCRIBE-URL#, '. $email_keywords);
+      $this->getWidgetSchema()->setHelp('thank_you_email_body', '#UNSUBSCRIBE-URL#, ' . $email_keywords);
     } else {
       unset($this['thank_you_email_subject'], $this['thank_you_email_body']);
     }
 
     if ($petition->getLastSignings() != PetitionTable::LAST_SIGNINGS_NO) {
       $this->setWidget('signers_page', new sfWidgetFormTextarea(array('label' => 'Header/context for all signers list (optional)'), array('cols' => 90, 'rows' => 5, 'class' => 'markdown', 'placeholder' => '(optional)')));
+
+      $this->setWidget('signers_url', new sfWidgetFormInput(array('label' => 'Link to external signers page (optional)'
+          . ''), array(
+          'size' => 90,
+          'class' => 'large',
+          'placeholder' => 'https://www.example.com/signers/' . $this->getObject()->getLanguageId(),
+      )));
+
+      $this->getWidgetSchema()->setHelp('signers_url', 'Optional (you may leave this field empty). As a standard, the "All signers" button in the widget opens a new tab with just the list. This option allows you to link the button to your own website. Make sure to embed the correct language version of the "All signers" on this page. For this, simply add an iframe with the above link as source.');
+
+      $this->setValidator('signers_url', new ValidatorUrl(array('required' => false)));
     } else {
-      unset($this['signers_page']);
+      unset($this['signers_page'], $this['signers_url']);
     }
   }
 

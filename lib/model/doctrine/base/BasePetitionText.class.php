@@ -33,6 +33,7 @@
  * @property clob $pledge_thank_you
  * @property string $donate_url
  * @property clob $donate_text
+ * @property string $signers_url
  * @property string $label_extra1
  * @property string $placeholder_extra1
  * @property string $form_title
@@ -72,6 +73,7 @@
  * @method clob                getPledgeThankYou()               Returns the current record's "pledge_thank_you" value
  * @method string              getDonateUrl()                    Returns the current record's "donate_url" value
  * @method clob                getDonateText()                   Returns the current record's "donate_text" value
+ * @method string              getSignersUrl()                   Returns the current record's "signers_url" value
  * @method string              getLabelExtra1()                  Returns the current record's "label_extra1" value
  * @method string              getPlaceholderExtra1()            Returns the current record's "placeholder_extra1" value
  * @method string              getFormTitle()                    Returns the current record's "form_title" value
@@ -110,6 +112,7 @@
  * @method PetitionText        setPledgeThankYou()               Sets the current record's "pledge_thank_you" value
  * @method PetitionText        setDonateUrl()                    Sets the current record's "donate_url" value
  * @method PetitionText        setDonateText()                   Sets the current record's "donate_text" value
+ * @method PetitionText        setSignersUrl()                   Sets the current record's "signers_url" value
  * @method PetitionText        setLabelExtra1()                  Sets the current record's "label_extra1" value
  * @method PetitionText        setPlaceholderExtra1()            Sets the current record's "placeholder_extra1" value
  * @method PetitionText        setFormTitle()                    Sets the current record's "form_title" value
@@ -237,6 +240,11 @@ abstract class BasePetitionText extends myDoctrineRecord
         $this->hasColumn('donate_text', 'clob', null, array(
              'type' => 'clob',
              'notnull' => false,
+             ));
+        $this->hasColumn('signers_url', 'string', 200, array(
+             'type' => 'string',
+             'notnull' => false,
+             'length' => 200,
              ));
         $this->hasColumn('label_extra1', 'string', 80, array(
              'type' => 'string',

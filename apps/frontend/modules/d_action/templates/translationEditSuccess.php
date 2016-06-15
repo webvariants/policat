@@ -77,7 +77,7 @@
           </div>
       </div>
     <?php endif ?>
-    <?php echo $form->renderRows(array('signers_page')) ?>
+    <?php echo $form->renderRows(array('signers_page', 'signers_url')) ?>
     <?php endif ?>
 
     <?php

@@ -373,6 +373,8 @@ PetitionText:
     donate_url:                 { type: string(200), notnull: false, default: null }
     donate_text:                { type: clob,        notnull: false }
 
+    signers_url:                { type: string(200), notnull: false, default: null }
+
     label_extra1:               { type: string(80), notnull: false, default: null }
     placeholder_extra1:         { type: string(80), notnull: false, default: null }
 

@@ -319,7 +319,11 @@ if (is_array($target_selectors)) {
                                       <?php endif ?>
                                   </div>
                                   <div>
+                                      <?php if ($petition_text->getSignersUrl()): ?>
+                                      <a class="submit" target="_parent" href="<?php echo Util::enc($petition_text->getSignersUrl()) ?>"><?php echo __('All signers') ?></a>
+                                      <?php else: ?>
                                       <a class="submit newwin" href="<?php echo url_for('signers', array('id' => $petition->getId(), 'text_id' => $widget->getPetitionTextId())) ?>"><?php echo __('All signers') ?></a>
+                                      <?php endif ?>
                                   </div>
                               </div>
                           </div>

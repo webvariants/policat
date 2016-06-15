@@ -32,16 +32,21 @@ $text_id = $form->getObject()->getPetitionTextId();
     'lang' => isset($lang) ? $lang : null
 )) ?>
 
-<?php if ($petition->getLastSignings() != PetitionTable::LAST_SIGNINGS_NO && $text_id): ?>
+<?php if ($petition->getLastSignings() != PetitionTable::LAST_SIGNINGS_NO && $text_id):
+  $text = $form->getObject()->getPetitionText(); ?>
   <h2>Signers page</h2>
   <p>
       Link:
       <a target="_blank" href="<?php echo url_for('signers', array('id' => $petition->getId(), 'text_id' => $text_id)) ?>">
           <?php echo url_for('signers', array('id' => $petition->getId(), 'text_id' => $text_id), true) ?>
       </a>
+      <?php if ($text->getSignersUrl()): ?>
+      <strong>But the widget links to the external page: </strong>
+      <a target="_blank" href="<?php echo $text->getSignersUrl() ?>"><?php echo $text->getSignersUrl() ?></a>
+      <?php endif ?>
       <br />
       Embed snippet:
       <code>&lt;iframe src="<?php echo url_for('signers', array('id' => $petition->getId(), 'text_id' => $text_id), true) ?>" frameborder="0"&gt;&lt;/iframe&gt;</code>
-
+      
   </p>
 <?php endif ?>
