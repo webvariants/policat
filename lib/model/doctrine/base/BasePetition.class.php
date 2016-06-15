@@ -60,6 +60,7 @@
  * @property string $style_form_title_color
  * @property string $style_button_primary_color
  * @property string $style_label_color
+ * @property integer $share
  * @property integer $country_collection_id
  * @property integer $deleted_pendings
  * @property integer $label_mode
@@ -138,6 +139,7 @@
  * @method string              getStyleFormTitleColor()        Returns the current record's "style_form_title_color" value
  * @method string              getStyleButtonPrimaryColor()    Returns the current record's "style_button_primary_color" value
  * @method string              getStyleLabelColor()            Returns the current record's "style_label_color" value
+ * @method integer             getShare()                      Returns the current record's "share" value
  * @method integer             getCountryCollectionId()        Returns the current record's "country_collection_id" value
  * @method integer             getDeletedPendings()            Returns the current record's "deleted_pendings" value
  * @method integer             getLabelMode()                  Returns the current record's "label_mode" value
@@ -215,6 +217,7 @@
  * @method Petition            setStyleFormTitleColor()        Sets the current record's "style_form_title_color" value
  * @method Petition            setStyleButtonPrimaryColor()    Sets the current record's "style_button_primary_color" value
  * @method Petition            setStyleLabelColor()            Sets the current record's "style_label_color" value
+ * @method Petition            setShare()                      Sets the current record's "share" value
  * @method Petition            setCountryCollectionId()        Sets the current record's "country_collection_id" value
  * @method Petition            setDeletedPendings()            Sets the current record's "deleted_pendings" value
  * @method Petition            setLabelMode()                  Sets the current record's "label_mode" value
@@ -537,6 +540,12 @@ abstract class BasePetition extends myDoctrineRecord
              'notnull' => true,
              'default' => '#666666',
              'length' => 7,
+             ));
+        $this->hasColumn('share', 'integer', 1, array(
+             'type' => 'integer',
+             'notnull' => true,
+             'default' => 1,
+             'length' => 1,
              ));
         $this->hasColumn('country_collection_id', 'integer', 4, array(
              'type' => 'integer',

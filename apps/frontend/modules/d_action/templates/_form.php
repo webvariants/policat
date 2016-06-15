@@ -53,14 +53,16 @@
     </fieldset>
     <fieldset>
         <legend>Widget adjustability and standard design</legend>
+        <?php echo $form->renderRows('widget_individualise') ?>
         <div class="row">
             <div class="span4">
-                <?php echo $form->renderRows('widget_individualise', 'style_bg_right_color', 'style_bg_left_color', 'style_button_primary_color', 'style_button_color', 'themeId') ?>
+                <?php echo $form->renderRows('themeId', 'style_bg_right_color', 'style_bg_left_color', 'style_button_primary_color', 'style_button_color') ?>
             </div>
             <div class="span4">
                 <?php echo $form->renderRows('style_font_family', 'style_title_color', 'style_form_title_color', 'style_body_color', 'style_label_color') ?>
             </div>
         </div>
+        <?php echo $form->renderRows('share') ?>
     </fieldset>
     <?php if ($petition->getKind() == Petition::KIND_PLEDGE): ?>
       <fieldset>

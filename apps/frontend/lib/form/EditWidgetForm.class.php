@@ -27,7 +27,11 @@ class EditWidgetForm extends WidgetForm {
     $this->getWidgetSchema()->setFormFormatterName('bootstrap');
     $this->getWidgetSchema()->setNameFormat('edit_widget[%s]');
     $petition = $this->getObject()->getPetition();
-    
+
+    if (isset($this['paypal_email'])) {
+      $this->getWidgetSchema()->setLabel('paypal_email', 'Include donation form');
+    }
+
     if ($this->isNew()) {
       $this->setWidget('id', new sfWidgetFormInput(array(), array('size' => 4)));
       $this->setValidator('id', new ValidatorFreeId(array('required' => false, ValidatorFreeId::OPTION_MODEL => $this->getModelName())));

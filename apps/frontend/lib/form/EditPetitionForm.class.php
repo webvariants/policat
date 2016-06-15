@@ -283,7 +283,7 @@ class EditPetitionForm extends PetitionFieldsForm {
 
     $this->setWidget('widget_individualise', new sfWidgetFormChoice(array(
         'choices' => PetitionTable::$INDIVIDUALISE,
-        'label' => 'Setup'
+        'label' => 'Adjustability'
     )));
 
     $this->setValidator('widget_individualise', new sfValidatorChoice(array(
@@ -352,6 +352,9 @@ class EditPetitionForm extends PetitionFieldsForm {
 
     $this->setWidget('last_signings', new sfWidgetFormChoice(array('choices' => PetitionTable::$LAST_SINGINGS, 'label' => 'Show participants list')));
     $this->setValidator('last_signings', new sfValidatorChoice(array('choices' => array_keys(PetitionTable::$LAST_SINGINGS))));
+
+    $this->setWidget('share', new WidgetFormInputCheckbox(array('value_attribute_value' => '1', 'value_checked' => '1', 'value_unchecked' => '0', 'label' => 'Include share buttons underneath sign-button')));
+    $this->setValidator('share', new sfValidatorChoice(array('choices' => array('0', '1'))));
   }
 
   public function processValues($values) {

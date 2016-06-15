@@ -11,7 +11,7 @@ $ php symfony cc
 $ php symfony doctrine:create-db            (optional, only if symfony should create the database)
 $ php symfony doctrine:insert-sql
 $ nano data/fixtures/010_profiles.yml       (optional, change the default accounts)
-$ php symfony doctrine:data-load
+$ php symfony doctrine:data-load --application=frontend
 $ bower install
 $ npm install
 $ grunt

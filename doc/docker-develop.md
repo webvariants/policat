@@ -29,7 +29,7 @@ Policat is based on Symfony 1.4 (legacy) http://symfony.com/legacy/doc . For API
 
 ### clear symfony cache
 
-    ./docker-develop-exec php symfony
+    ./docker-develop-exec php symfony cc
 
 ## cron tasks
 

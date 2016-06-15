@@ -309,6 +309,7 @@ Petition:
     style_form_title_color:  { type: string(7), notnull: true, default: '#181716' }
     style_button_primary_color: { type: string(7), notnull: true, default: '#76b235' }
     style_label_color:       { type: string(7), notnull: true, default: '#666666' }
+    share:                   { type: integer(1), notnull: true, default: 1 }
     country_collection_id:   { type: integer(4), notnull: false, default: null }
     deleted_pendings:        { type: integer(4), notnull: true, default: 0 }
     label_mode:              { type: integer(1), notnull: true, default: 1 }
