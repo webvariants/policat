@@ -17,6 +17,7 @@ $(document).ready(function($) {
 		var lastSigners = $('#last-signers');
 		var lastSignersExists = $('#last-signers-exists');
 		var font_size_auto_elements = $('.font-size-auto');
+		var textarea_email = $('#petition_signing_email_body_copy');
 
 		var old_height = null;
 
@@ -24,7 +25,34 @@ $(document).ready(function($) {
 			return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, numberSeparator);
 		};
 
+		if (textarea_email.length) {
+			textarea_email.data('baseHeight', textarea_email.height());
+		}
+		function resetTextareaEmail() {
+			if (textarea_email.length) {
+				var baseHeight = textarea_email.data('baseHeight');
+				textarea_email.height(baseHeight);
+			}
+		}
+		function resizeTextareaEmail() {
+			// pretty experimental stuff, disable on problems
+
+			if (textarea_email.length) {
+				if (widget_right.width() === widget_left.width()) {
+					// detected one column
+					return null;
+				}
+
+				var diff = widget_right.height() - widget_left.height();
+				if (diff > 2) {
+					textarea_email.height(textarea_email.height() + diff - 2);
+				}
+			}
+		}
+
 		function resize() {
+			resetTextareaEmail();
+
 			if (tabs.length) {
 				// z-index: 0  tabs if right side small
 				// z-index: 1  force tabs
@@ -47,6 +75,8 @@ $(document).ready(function($) {
 
 				if (tabsOn) {
 					tabs.removeClass('no-tabs');
+					resizeTextareaEmail();
+
 					// tab_pad
 					var diff = widget_right.height() - widget_left.height();
 					if (diff > 0) {
@@ -65,7 +95,11 @@ $(document).ready(function($) {
 					tabs.addClass('no-tabs');
 					tabs.addClass('left');
 					tabs.removeClass('right');
+
+					resizeTextareaEmail();
 				}
+			} else {
+				resizeTextareaEmail();
 			}
 
 			var height = widget.height();
