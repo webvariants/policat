@@ -45,12 +45,13 @@ var policat = typeof policat === "undefined" ? {widgets: []} : policat;
 		function scrollTo(no, x, y, force) {
 			var iframe = document.getElementById('policat_iframe_no_' + no);
 			if (iframe) {
+				var topOffset = window.policat_scroll_offset || 0;
 //				var doc = document.documentElement;
 //				var left = (window.pageXOffset || doc.scrollLeft) - (doc.clientLeft || 0);
 //				var top = (window.pageYOffset || doc.scrollTop)  - (doc.clientTop || 0);
 				var rect = iframe.getBoundingClientRect();
 				var height = Math.max(document.documentElement.clientHeight, window.innerHeight || 0);
-				var diffY = y + rect.top;
+				var diffY = y + rect.top - topOffset;
 				if (force || diffY < 0 || diffY > (height * 0.7)) {
 					window.scrollBy(x + rect.left, diffY);
 				}
