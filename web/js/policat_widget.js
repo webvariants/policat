@@ -14,9 +14,9 @@ $(document).ready(function($) {
 		var tabs_right = $('.right-tab', tabs);
 		var tab_pad = $('.tab-pad', tabs);
 		var scroll_pledges = $('#scroll-pledges');
-		var sign_btn = $('#btn-sign');
 		var lastSigners = $('#last-signers');
 		var lastSignersExists = $('#last-signers-exists');
+		var font_size_auto_elements = $('.font-size-auto');
 
 		var old_height = null;
 
@@ -29,6 +29,8 @@ $(document).ready(function($) {
 				// z-index: 0  tabs if right side small
 				// z-index: 1  force tabs
 				// z-index: 2  disable tabs
+
+				fontResize(font_size_auto_elements);
 
 				var mode = parseInt(tabs.css('z-index'), 10);
 				var tabsOn = false;
@@ -72,8 +74,6 @@ $(document).ready(function($) {
 					window.parent.postMessage('policat_height;' + iframe_no + ';' + height, '*');
 			}
 			old_height = height;
-
-			fontResize(sign_btn);
 		}
 
 		down_button.click(function() {
@@ -140,6 +140,18 @@ $(document).ready(function($) {
 		}
 
 		function fontResize(element) {
+			if (!element || !element.length) {
+				return null;
+			}
+
+			if (element.length > 1) {
+				element.each(function() {
+					fontResize($(this));
+				});
+
+				return null;
+			}
+
 			var parent = element.parent();
 			var width = parent.width();
 			if (width === element.data('fontResize')) {
@@ -148,12 +160,21 @@ $(document).ready(function($) {
 
 			element.data('fontResize', width);
 
-			var z = element.css('z-index');
-			var n = z ? z : 32;
+			var baseSize = element.data('fontBaseSize');
+
+			if (!baseSize) {
+				baseSize = parseInt(element.css('font-size'), 10);
+				if (!baseSize || baseSize < 10) {
+					baseSize = 32;
+				}
+				element.data('fontBaseSize', baseSize);
+			}
+
+			var n = baseSize;
 			element.css('font-size', n + 'px');
 			while (n > 11) {
 				n--;
-				if (element.width() >= width) {
+				if (element.width() > width || element.width() < (element.height() * 2)) {
 					element.css('font-size', n + 'px');
 				}
 				else {
@@ -162,7 +183,7 @@ $(document).ready(function($) {
 			}
 		}
 
-		fontResize(sign_btn);
+		fontResize(font_size_auto_elements);
 
 		$('#widget_styling_type').each(function() {
 			var label = $("label", $(this).parent());

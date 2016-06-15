@@ -62,7 +62,7 @@ if (is_array($target_selectors)) {
                         <div id="action" class="action">
                             <div id="head" class="head">
                                 <h1 class="form-title title-color"><?php echo trim(Util::enc($petition_text->getFormTitle(), array('\n' => '<br />'))) ? : __($petition->getLabel(PetitionTable::LABEL_TITLE)) ?></h1>
-                                <?php if ($title): ?><h1 class="action-title"><?php echo Util::enc($title) ?></h1><?php endif ?>
+                                <?php if ($title): ?><h1 class="action-title font-size-auto"><?php echo Util::enc($title) ?></h1><?php endif ?>
                                 <?php if ($target): ?><div class="subtitle"><?php echo UtilMarkdown::transform($target) ?></div><?php endif ?>
                             </div>
                             <a id="down-button" class="button-color down-button button-btn"><?php echo __($petition->getLabel(PetitionTable::LABEL_TITLE)) ?></a>
@@ -236,7 +236,7 @@ if (is_array($target_selectors)) {
                                     <?php endif; ?>
                                 </fieldset>
                                 <div class="submit-sign-container">
-                                    <button type="button" class="submit submit-sign"><span id="btn-sign"><?php echo strtr(__($petition->getLabel(PetitionTable::LABEL_BUTTON)), array(' ' => '&nbsp;')) ?></span></button>
+                                    <button type="button" class="submit submit-sign"><span class="font-size-auto"><?php echo strtr(__($petition->getLabel(PetitionTable::LABEL_BUTTON)), array(' ' => '&nbsp;')) ?></span></button>
                                 </div>
                             </form>
                             <?php if ($disabled): ?>
