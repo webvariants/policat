@@ -702,8 +702,10 @@ $(document).ready(function($) {
 
 				// field validation select
 				$('select', form).each(function() {
-					if ($('option:selected', this).val() == '') {
-						var error_div = $(this).parent();
+					var select = $(this);
+
+					if ($('option:selected', this).val() == '' && !select.hasClass('not_required')) {
+						var error_div = select.parent();
 						error_div.addClass('form-error');
 						var prev = error_div.prev();
 						if (prev.is('label')) {

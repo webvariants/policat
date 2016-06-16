@@ -80,7 +80,7 @@ class WidgetPublicForm extends WidgetForm {
       $this->setDefault('styling_label_color', $this->getObject()->getStyling('label_color', $parent ? $parent->getStyling('label_color') : '#666666'));
       $this->getWidgetSchema()->setLabel('styling_label_color', 'Form label');
 
-      $this->setWidget('styling_font_family', new sfWidgetFormChoice(array('choices' => UtilFont::formOptions('default'), 'label' => 'Font')));
+      $this->setWidget('styling_font_family', new sfWidgetFormChoice(array('choices' => UtilFont::formOptions('default'), 'label' => 'Font'), array('class' => 'not_required')));
       $this->setValidator('styling_font_family', new sfValidatorChoice(array('choices' => UtilFont::$FONTS, 'required' => false)));
       $this->setDefault('styling_font_family', $this->getObject()->getStyling('font_family', $parent ? $parent->getStyling('font_family') : ''));
     }
@@ -138,13 +138,13 @@ class WidgetPublicForm extends WidgetForm {
     }
 
     if (isset($this['title'])) {
-      $this->setWidget('title', new sfWidgetFormInputHidden(array(), array('class' => 'original')));
+      $this->setWidget('title', new sfWidgetFormInputHidden(array(), array('class' => 'original not_required')));
     }
     if (isset($this['target'])) {
       $this->setWidget('target', new sfWidgetFormTextarea(array('is_hidden' => true), array('class' => 'original not_required')));
     }
     if (isset($this['background'])) {
-      $this->setWidget('background', new sfWidgetFormTextarea(array('is_hidden' => true), array('class' => 'original')));
+      $this->setWidget('background', new sfWidgetFormTextarea(array('is_hidden' => true), array('class' => 'original not_required')));
     }
     if (isset($this['intro'])) {
       $this->setWidget('intro', new sfWidgetFormTextarea(array('is_hidden' => true), array('class' => 'original')));

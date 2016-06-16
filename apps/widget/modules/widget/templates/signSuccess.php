@@ -118,7 +118,7 @@ if (is_array($target_selectors)) {
                         </div>
                         <?php if (!$form_embed->isOneSide()): ?>
                           <div id="embed-this-left" class="embed-this embed-this-left">
-                              <h1><?php echo __('Customise your widget') ?> (?)</h1>
+                              <h2><?php echo __('Customise your widget') ?> (?)</h2>
                               <div class ="embed-this-help-head"><?php echo __('Customise contents: use your own words to convince your target group. To change the title, introduction and background texts, copy the texts from the edit fields into a text editor, make your changes and paste them back into the edit fields. Thereafter, adapt the width and the colours to seamlessly integrate the widget into your website design.') ?></div>
                               <form id="embed2" action="" method="post">
                                   <?php
