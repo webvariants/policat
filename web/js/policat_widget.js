@@ -599,6 +599,13 @@ $(document).ready(function($) {
 				}
 			}
 
+			if (valid && input.is('#paypal_amount')) {
+				var number = val.match(/^\d+([.,]\d*)$/i);
+				if (!number) {
+					valid = false;
+				}
+			}
+
 			parent.toggleClass('form-error', !valid);
 			parent.toggleClass('form-valid', valid);
 
@@ -610,7 +617,7 @@ $(document).ready(function($) {
 			return valid;
 		}
 
-		var validate_base = $('#sign, #target-selector');
+		var validate_base = $('#sign, #target-selector, #paypal');
 
 		validate_base.on('blur', 'input, select', function () {
 			validate(this);
@@ -628,7 +635,7 @@ $(document).ready(function($) {
 			validate(this);
 		});
 
-		$('#sign input, #sign select').each(function() {
+		$('#sign input, #sign select, #paypal_amount').each(function() {
 			prepareValidate(this, true);
 		});
 		$('#target-selector input, #target-selector select').each(function() {
