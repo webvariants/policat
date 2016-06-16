@@ -26,7 +26,7 @@
 
   (function() {
   if (document.querySelectorAll) {
-    var max = 4;
+    var max = 8;
     var list = document.querySelectorAll('.excerpt');
     
     for (var i = 0; i < list.length; i++) {

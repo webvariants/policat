@@ -15,6 +15,8 @@ class UtilOpenActions {
   const LARGEST = 'largest'; // Popular
   const RECENT = 'recent'; // New
 
+  const MAX = 10;
+
   /**
    *
    * @param integer $id
@@ -56,7 +58,7 @@ class UtilOpenActions {
 //      ->andWhere('w.status = ?', Widget::STATUS_ACTIVE)
       ->select('p.*, pt.*, c.id, c.object_version')
       ->addSelect('(SELECT count(z.id) FROM PetitionSigning z WHERE DATE_SUB(NOW(),INTERVAL 1 DAY) <= z.created_at  and z.petition_id = p.id and z.status = ' . PetitionSigning::STATUS_COUNTED . ') as signings24')
-      ->limit(10);
+      ->limit(self::MAX * 2);
 
     switch ($type) {
       case self::LARGEST:
@@ -91,7 +93,7 @@ class UtilOpenActions {
       $exerpts = array();
       $tags[$key] = '';
       foreach ($data as $k => &$petition) {
-        if (count($exerpts) >= 5) {
+        if (count($exerpts) >= self::MAX) {
           break;
         }
 
