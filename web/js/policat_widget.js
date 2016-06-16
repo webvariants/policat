@@ -600,7 +600,7 @@ $(document).ready(function($) {
 			}
 
 			if (valid && input.is('#paypal_amount')) {
-				var number = val.match(/^\d+([.,]\d*)$/i);
+				var number = val.match(/^\d+([.,]\d*)?$/i);
 				if (!number) {
 					valid = false;
 				}
@@ -877,6 +877,15 @@ $(document).ready(function($) {
 
 		$('a.reload-iframe').click(function() {
 			window.location.reload();
+		});
+
+		$('#embed-copy').on('click', function () {
+			$('#embed_markup').select();
+
+			try {
+				document.execCommand('copy');
+			} catch (err) {
+			}
 		});
 
 		if (pledge_ul.length) {

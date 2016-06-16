@@ -297,9 +297,10 @@ if (is_array($target_selectors)) {
                                     <span id="embed-this-change" style="display:none"><?php echo __('Change widget') ?></span>
                                 </button>
                             </form>
-                            <div>
+                            <div class="embed-code">
                                 <label><?php echo __('Embed this code') ?>:</label>
                                 <input type="text" id="embed_markup" readonly="readonly"/>
+                                <a id="embed-copy" class="embed-copy button-color" title="<?php echo __('Copy to clipboard') ?>"><img class="no_load" src="<?php echo image_path('clipboard-64.png') ?>" /></a>
                             </div>
                             <div id="embed-this-help-type"><span><?php echo __("Choose 'Embed' to have this box (\"widget\") embedded into your webpage, including texts and action-form. Visitors can instantly read all and take action. However, you need at least 440px width to embed the widget. Choose 'Popup' if you lack sufficient space on your webpage. You will get a small box (\"teaser\") with flexible width (at least 150px). If visitors click on the teaser, the big action-widget pops up.") ?></span></div>
                             <div id="embed-this-help-width"><span><?php echo __("You may define a precise widget width. Select \"auto\" and the widget will adapt to the space available (max: 1000px). Should there be less than 440px width available, contents will display in one column (instead of two) with the sign-on-form below the petition text. On mobile devices with less than 768px device-width, the widget-width is set to 360px for smooth reading on smartphones.") ?></span></div>
