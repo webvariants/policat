@@ -592,7 +592,7 @@ $(document).ready(function($) {
 				valid = false;
 			}
 
-			if (valid && input.is('#petition_signing_email')) {
+			if (valid && input.is('#petition_signing_email, #widget_email')) {
 				var mail = val.match(/^([^@\s]+)@((?:[-a-z0-9]+\.)+[a-z]{2,})$/i);
 				if (!mail) {
 					valid = false;
@@ -617,7 +617,7 @@ $(document).ready(function($) {
 			return valid;
 		}
 
-		var validate_base = $('#sign, #target-selector, #paypal');
+		var validate_base = $('#sign, #target-selector, #paypal, #embed');
 
 		validate_base.on('blur', 'input, select', function () {
 			validate(this);
@@ -635,7 +635,7 @@ $(document).ready(function($) {
 			validate(this);
 		});
 
-		$('#sign input, #sign select, #paypal_amount').each(function() {
+		$('#sign input, #sign select, #paypal_amount, #embed input').each(function() {
 			prepareValidate(this, true);
 		});
 		$('#target-selector input, #target-selector select').each(function() {
