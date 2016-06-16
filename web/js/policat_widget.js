@@ -805,6 +805,10 @@ $(document).ready(function($) {
 								case 'embed':
 									if (data.isValid) {
 										$('#embed_markup').val(data.extra.markup);
+										$('.embed-code').show();
+										$('#embed button').hide();
+										$('#embed input, #embed select, #embed2 input, #embed2 textarea').attr('disabled', 'disabled');
+										resize();
 									} else {
 										if ('landing_url' in data.errors) {
 											$('#widget_landing_url_copy').parent().addClass('form-error');
