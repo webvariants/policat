@@ -1,0 +1,5 @@
+#!/bin/bash
+
+POLICAT_CONTAINER=policat-develop
+
+docker exec -ti $POLICAT_CONTAINER $@
