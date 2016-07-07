@@ -72,7 +72,7 @@
     <?php endif ?>
     <?php echo $form->renderHiddenFields() ?>
     <div class="form-actions">
-        <button class="btn btn-primary" type="submit">Save</button>
+        <button accesskey="s" title="[Accesskey] + S" class="btn btn-primary" type="submit">Save</button>
         <?php if ($petition->isGeoKind()): ?>
           <a class="btn submit" data-submit='{"go_target":1}'>Save &amp; select target list</a>
         <?php elseif ($petition->getKind() == Petition::KIND_PLEDGE): ?>

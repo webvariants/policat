@@ -36,9 +36,8 @@ class EditPetitionForm extends PetitionFieldsForm {
 
     $this->configure_fields();
 
-    $this->setWidget('name', new sfWidgetFormTextarea(array('label' => 'Action name'), array(
-        'cols' => 90,
-        'rows' => 2,
+    $this->setWidget('name', new sfWidgetFormInput(array('label' => 'Action name'), array(
+        'size' => 90,
         'class' => 'add_popover',
         'data-content' => 'Give your action a short and memorisable name. It won\'t be shown to your supporters. It\'s only for your and your colleague\'s overview.'
     )));

@@ -177,6 +177,7 @@ class d_actionActions extends policatActions {
     $petition = new Petition();
     $petition->setHomepage(1);
     $petition->setWithCountry(1);
+    $petition->setStatus(Petition::STATUS_ACTIVE);
     $petition->setKind(Petition::KIND_PETITION);
     $petition->setStartAt(gmdate('Y-m-d'));
     $petition->setEndAt(gmdate('Y-m-d', strtotime('next year')));

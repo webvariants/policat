@@ -52,12 +52,11 @@ class NewPetitionForm extends PetitionFieldsForm {
     $this->setValidator('kind', new sfValidatorChoice(array('choices' => array_keys(Petition::$KIND_SHOW), 'required' => true)));
     $this->getWidgetSchema()->setLabel('kind', 'E-action type');
 
-    $this->setWidget('name', new sfWidgetFormTextarea(array(
+    $this->setWidget('name', new sfWidgetFormInput(array(
         'label' => 'Action name'
       ), array(
         'class' => 'add_popover',
-        'cols' => 90,
-        'rows' => 2,
+        'size' => 90,
         'data-content' => 'Give your action a short and memorisable name. It won\'t be shown to your supporters. It\'s only for your and your colleague\'s overview.',
         'rel' => 'popover'
     )));

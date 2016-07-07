@@ -18,7 +18,7 @@
         <?php echo $form->renderRows('titletype', 'nametype', 'with_address', 'with_country', 'default_country', 'country_collection_id', 'with_comments', 'with_extra1') ?>
       </fieldset>
       <div class="form-actions">
-        <button class="btn btn-primary" type="submit">Save &amp; continue</button>
+        <button accesskey="s" title="[Accesskey] + S" class="btn btn-primary" type="submit">Save &amp; go to optional settings</button>
         <a class="btn" href="<?php echo url_for('homepage') ?>">Cancel</a>
       </div>
     </form>

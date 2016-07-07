@@ -18,7 +18,7 @@
   </div>
   <?php echo $form->renderRows('share', 'paypal_email', '*donate_url', '*donate_text', 'landing_url') ?>
   <div class="form-actions">
-    <button class="btn btn-primary" type="submit">Save</button>
+    <button accesskey="s" title="[Accesskey] + S" class="btn btn-primary" type="submit">Save</button>
     <button class="btn submit" data-submit='{"preview":1}' type="submit">Save &amp; view</button>
     <?php if (!$form->getObject()->isNew()): ?>
     <a class="btn ajax_link" href="<?php echo url_for('widget_view', array('id' => $form->getObject()->getId())) ?>">view</a>
