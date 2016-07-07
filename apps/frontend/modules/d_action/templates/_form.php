@@ -10,16 +10,7 @@
                 <span class="widget_text"><?php echo $petition->getKindName() ?></span>
             </div>
         </div>
-        <?php echo $form->renderRows('status') ?>
-        <div class="row">
-            <div class="span4">
-                <?php echo $form->renderRows('start_at') ?>
-            </div>
-            <div class="span4">
-                <?php echo $form->renderRows('end_at') ?>
-            </div>
-        </div>
-        <?php echo $form->renderRows('name', '*editable') ?>
+        <?php echo $form->renderRows('status', 'start_at', 'end_at', 'name', '*editable') ?>
         <fieldset>
             <?php if ($petition->isEmailKind() && !$petition->isGeoKind()): ?><legend>Recipient(s) of the email action (your campaign targets)</legend><?php endif ?>
             <?php echo $form->renderRows('*email_target_name_1', '*email_target_email_1', '*email_target_name_2', '*email_target_email_2', '*email_target_name_3', '*email_target_email_3') ?>
@@ -41,7 +32,7 @@
             <a data-collect="<?php echo Util::enc(json_encode(array('email' => '#edit_petition_from_email'))) ?>" href="<?php echo url_for('petition_spf') ?>" class="btn ajax_link post">Make SPF check</a>
         </div>
         <br />
-        <?php echo $form->renderRows('*validation_required', 'thank_you_email', 'landing_url') ?>
+        <?php echo $form->renderRows('*validation_required', 'landing_url', 'thank_you_email') ?>
     </fieldset>
     <fieldset>
         <legend>Donation module (optional)</legend>

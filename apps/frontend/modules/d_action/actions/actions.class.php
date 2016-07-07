@@ -226,6 +226,10 @@ class d_actionActions extends policatActions {
           $con->rollback();
         }
 
+        if ($request->getPostParameter('go_translation')) {
+          return $this->ajax()->redirectRotue('translation_create', array('id' => $petition->getId()))->render();
+        }
+
         return $this->ajax()->redirectRotue('petition_edit_', array('id' => $petition->getId()))->render();
       } else {
         return $this->ajax()->form($this->form)->render();
