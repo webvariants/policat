@@ -5,7 +5,7 @@ $user = $sf_user->getGuardUser()->getRawValue();
 if ($petition->isEditableBy($user)) {
   $list = array(
       'overview' => array('title' => 'Overview', 'route' => 'petition_overview'),
-      'edit' => array('title' => 'Edit', 'route' => 'petition_edit_'),
+      'edit' => array('title' => 'Settings', 'route' => 'petition_edit_'),
       'targets' => null,
       'pledges' => null,
       'translations' => array('title' => 'Translations', 'route' => 'petition_translations'),

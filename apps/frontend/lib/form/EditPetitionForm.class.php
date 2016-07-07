@@ -44,7 +44,7 @@ class EditPetitionForm extends PetitionFieldsForm {
 
     $this->setWidget('read_more_url', new sfWidgetFormInput(array('label' => '"Read more" link'), array(
         'size' => 90,
-        'class' => 'add_popover large',
+        'class' => 'add_popover',
         'data-content' => 'Add the URL of your campaign site (if you have a central one), including "https://" or https://www. ".  A "Read more" link will appear underneath your e-action. You may leave this field free.',
         'placeholder' => 'https://www.example.com/'
     )));
