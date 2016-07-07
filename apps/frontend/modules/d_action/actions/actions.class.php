@@ -517,6 +517,10 @@ class d_actionActions extends policatActions {
     $this->translation = $translation;
     $this->petition = $petition;
 
+    if ($translation->isNew()) {
+      $this->topLanguages = PetitionTextTable::getInstance()->fetchTopLanguage();
+    }
+
     $this->includeMarkdown();
     $this->includeHighlight();
   }

@@ -450,4 +450,23 @@ $(function($) {
 
 		return false;
 	});
+
+	$('.select-order').each(function() {
+		var options = $(this).data('options');
+		var target = $(options.target);
+		var option;
+
+		if (target.length) {
+			for (var i = options.keys.length - 1; i >= 0; i--) {
+				option = $('option[value=' + options.keys[i] + ']', target);
+				if (option.length) {
+					target.prepend(option);
+				}
+			}
+
+			if (options.selectFirst) {
+				target.val($('option:first', target).val());
+			}
+		}
+	});
 });

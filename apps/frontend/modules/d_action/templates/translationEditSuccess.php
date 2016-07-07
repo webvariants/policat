@@ -14,6 +14,13 @@
 
     <legend>Settings</legend>
     <?php echo $form->renderRows(array('*language_id', 'status', 'landing_url')) ?>
+    <?php if (isset($topLanguages)): ?>
+    <div class="select-order" data-options="<?php echo Util::enc(json_encode(array(
+        'keys' => $topLanguages->getRawValue(),
+        'target' => '#translation_language_id',
+        'selectFirst' => true
+      ))) ?>"></div>
+    <?php endif ?>
 
     <legend>Widget texts</legend>
     <?php echo $form->renderRows(array('*form_title', '*title', '*target')) ?>
