@@ -97,7 +97,13 @@
     </div>
   </div>
   <div class="span4">
-    <?php include_component('d_action', 'members', array('petition' => $petition, 'no_admin' => true)) ?>
+      <?php if ($petition->getStatus() == Petition::STATUS_DELETED && $sf_user->hasCredential(myUser::CREDENTIAL_ADMIN)): ?>
+          <div class="well">
+          <a class="btn btn-danger btn-mini ajax_link" href="<?php echo url_for('petition_delete_', array('id' => $petition->getId())) ?>">Wipe Action</a>
+          </div>
+        <?php endif ?>
+      <?php include_component('d_action', 'members', array('petition' => $petition, 'no_admin' => false)) ?>
+      <?php include_component('d_action', 'editFollow', array('petition' => $petition)) ?>
       <div class="well">
           <a href="<?php echo url_for('api_v2_doc') ?>" target="_blank">API documentation</a>
       </div>

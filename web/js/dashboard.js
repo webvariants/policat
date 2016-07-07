@@ -74,6 +74,8 @@ var tryEdits = function(prefix) {
 
 	if ($.fn.chosen != undefined) { 
 		try { $(prefix + 'select:not(.no-chosen)').chosen({'allow_single_deselect': true}); } catch (e) {}
+
+		$('.show-before-chosen-init').removeClass('show-before-chosen-init');
 	}
 	if ($.fn.select2 != undefined) {
 		try { $(prefix + 'select.select2').select2(); } catch (e) {}
@@ -259,6 +261,7 @@ var wvAjax = function(options) {
 						var form_prefix = action_data.form_prefix != undefined ? action_data.form_prefix : '';
 						$('.form_error_message.' + form_prefix + 'form_error').remove();
 						$('.control-group.error.' + form_prefix + 'group_error').removeClass('error').removeClass(form_prefix + 'group_error');
+						$('a.' + form_prefix + 'tab_error').removeClass('error').removeClass(form_prefix + 'tab_error');
 						if (action_data.form_errors != undefined) {
 							$.each(action_data.form_errors, function(error_field, error_message) {
 								var fieldname = error_field;
@@ -277,6 +280,11 @@ var wvAjax = function(options) {
 									if (target.hasClass('highlight')) target = target.parents('.highlightTextarea');
 									target.after($('<p class="help-block form_error_message"></p>').text(error_message).addClass(form_prefix + 'form_error'));
 									target.parents('.control-group').addClass('error').addClass(form_prefix + 'group_error');
+									var pane = target.parents('.tab-pane');
+									if (pane.length) {
+										var pane_link = $('a[href=#' + pane.attr('id') + ']', pane.parents('.tabbable'));
+										pane_link.addClass('error').addClass(form_prefix + 'tab_error');
+									}
 								}
 							});
 						}

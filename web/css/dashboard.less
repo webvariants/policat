@@ -53,7 +53,9 @@ th.approve_decline {
 }
 
 input.large, textarea.large {
-	width: 690px;
+	@media (min-width: 769px) {
+		width: 690px;
+	}
 }
 
 .widget_text {
@@ -545,4 +547,12 @@ div .markItUpEditor {
 			content: '\02026';
 		}
 	}
+}
+
+.show-before-chosen-init {
+	display: block !important;
+}
+
+a.error {
+	color: #b94a48;
 }
