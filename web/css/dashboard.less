@@ -53,9 +53,11 @@ th.approve_decline {
 }
 
 input.large, textarea.large {
-	@media (min-width: 769px) {
-		width: 690px;
-	}
+	width: 95%;
+}
+
+input.color {
+	width: 60px;
 }
 
 .widget_text {
@@ -527,8 +529,36 @@ button.button-medium {
 	}
 }
 
+.markItUp {
+	width: 100% !important;
+	box-sizing: border-box;
+	min-width: 450px;
+}
+
+textarea.markItUpEditor {
+	width: 100%;
+	box-sizing: border-box;
+}
+
 div .markItUpEditor {
 	height: 160px;
+}
+
+.highlightTextarea {
+	width: 100% !important;
+}
+
+.highlightTextarea.elastic-fix {
+	height: auto !important;
+
+	textarea {
+		position: relative;
+		z-index: 1;
+	}
+
+	.highlighterContainer {
+		height: auto !important;
+	}
 }
 
 .signers-list {

@@ -69,6 +69,10 @@ var tryEdits = function(prefix) {
 			var help = that.hasClass('markItUpEditor') ? that.parents('.markItUp').parent() : that;
 			help = help.next('.help-block').text();
 			if (help) that.highlightTextarea({'words': help.match(/#[^#, ]+#/g)});
+
+			if (that.hasClass('elastic')) {
+				that.parents('.highlightTextarea').addClass('elastic-fix');
+			}
 		});
 	} catch (e) {}
 
@@ -108,6 +112,8 @@ var tryEdits = function(prefix) {
 		var trigger = $this.hasClass('popover_hover') ? 'hover' : 'focus';
 		if ($this.is('button')) {
 			trigger = 'hover';
+			placement = 'top';
+		} else if (!$this.hasClass('popover_left') && $this.hasClass('large')) {
 			placement = 'top';
 		}
 		if (!$this.next().hasClass('chosen-container')) {
