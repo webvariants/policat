@@ -443,6 +443,7 @@ $(document).ready(function($) {
 												insert_sort(ts_2, data.choices, 'x', ts_2.hasClass('country'));
 											}
 											ts_2.attr('disabled', null);
+											ts_2.change(); // trigger load of contacts
 											resize();
 										}
 									});
@@ -679,7 +680,15 @@ $(document).ready(function($) {
 					pledges.val(pledges_val.join(','));
 					if (!pledges_val.length) {
 						form_error = true;
-						scroll_pledges.addClass('error');
+
+						if ($('li', pledge_ul).length) {
+							scroll_pledges.addClass('error');
+						} else {
+							scroll_pledges.removeClass('error');
+							$('select', ts).each(function() {
+								validate(this);
+							});
+						}
 					} else {
 						scroll_pledges.removeClass('error');
 					}
