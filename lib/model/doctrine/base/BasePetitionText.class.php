@@ -25,6 +25,7 @@
  * @property clob $email_tellyour_body
  * @property clob $email_targets
  * @property clob $privacy_policy_body
+ * @property string $read_more_url
  * @property string $landing_url
  * @property integer $widget_id
  * @property string $pledge_title
@@ -65,6 +66,7 @@
  * @method clob                getEmailTellyourBody()            Returns the current record's "email_tellyour_body" value
  * @method clob                getEmailTargets()                 Returns the current record's "email_targets" value
  * @method clob                getPrivacyPolicyBody()            Returns the current record's "privacy_policy_body" value
+ * @method string              getReadMoreUrl()                  Returns the current record's "read_more_url" value
  * @method string              getLandingUrl()                   Returns the current record's "landing_url" value
  * @method integer             getWidgetId()                     Returns the current record's "widget_id" value
  * @method string              getPledgeTitle()                  Returns the current record's "pledge_title" value
@@ -104,6 +106,7 @@
  * @method PetitionText        setEmailTellyourBody()            Sets the current record's "email_tellyour_body" value
  * @method PetitionText        setEmailTargets()                 Sets the current record's "email_targets" value
  * @method PetitionText        setPrivacyPolicyBody()            Sets the current record's "privacy_policy_body" value
+ * @method PetitionText        setReadMoreUrl()                  Sets the current record's "read_more_url" value
  * @method PetitionText        setLandingUrl()                   Sets the current record's "landing_url" value
  * @method PetitionText        setWidgetId()                     Sets the current record's "widget_id" value
  * @method PetitionText        setPledgeTitle()                  Sets the current record's "pledge_title" value
@@ -207,6 +210,9 @@ abstract class BasePetitionText extends myDoctrineRecord
              ));
         $this->hasColumn('privacy_policy_body', 'clob', null, array(
              'type' => 'clob',
+             ));
+        $this->hasColumn('read_more_url', 'string', null, array(
+             'type' => 'string',
              ));
         $this->hasColumn('landing_url', 'string', null, array(
              'type' => 'string',

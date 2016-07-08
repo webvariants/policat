@@ -362,6 +362,8 @@ PetitionText:
     ###
     email_targets:              { type: clob }
     privacy_policy_body:        { type: clob }
+
+    read_more_url:              { type: string }
     landing_url:                { type: string }
 
     widget_id:                  { type: integer(4), notnull: false }

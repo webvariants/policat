@@ -107,10 +107,19 @@ The e-mail text: #EMAIL-SUBJECT# -- #EMAIL-BODY#"
     $this->getValidator('target')->setOption('required', false)->setOption('trim', true);
     $this->setWidget('background', new sfWidgetFormTextarea(array(), array('cols' => 90, 'rows' => 5, 'class' => 'markdown', 'placeholder' => 'Optional (you may leave this field empty). Add here further contextual information about this action. You may add external media files (make sure they are hosted on a server with an encrypted SSL connection).')));
 
+    $this->setWidget('read_more_url', new sfWidgetFormInput(array('label' => '"Read more" link'), array(
+        'size' => 90,
+        'class' => 'add_popover large',
+        'data-content' => 'Enter the URL of your campaign site for this language, including "https://" or https://www. ". A "Read more" link will appear underneath your e-action. Leave empty for standard "Read more" page.',
+        'placeholder' => 'https://www.example.com/-language-/info'
+    )));
+    $this->setValidator('read_more_url', new ValidatorUrl(array('required' => false)));
+
     $this->setWidget('landing_url', new sfWidgetFormInput(array('label' => 'E-mail Validation Landingpage - auto forwarding to external page'), array(
         'size' => 90,
         'class' => 'add_popover large',
-        'data-content' => 'Enter URL of external landing page, including \'http://\'. Leave empty for standard landing page'
+        'data-content' => 'Enter URL of external landing page, including \'http://\'. Leave empty for standard landing page',
+        'placeholder' => 'https://www.example.com/-language-/thank-you'
     )));
     $this->setValidator('landing_url', new ValidatorUrl(array('required' => false, 'trim' => true)));
 
