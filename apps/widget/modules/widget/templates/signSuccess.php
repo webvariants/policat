@@ -184,7 +184,7 @@ if (is_array($target_selectors)) {
                     </div>
                 </div>
 
-                <div id="widget-right" class="widget-right show-sign show-share">
+                <div id="widget-right" class="widget-right show-sign">
                     <div id="content-right" class="content-right">
                         <div class="sign">
                             <h2 class="form-title title-color"><?php echo trim(Util::enc($petition_text->getFormTitle(), array('\n' => '<br />'))) ? : __($petition->getLabel(PetitionTable::LABEL_TITLE)) ?></h2>
