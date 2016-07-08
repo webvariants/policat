@@ -46,7 +46,7 @@ if (is_array($target_selectors)) {
         <script type="text/javascript" src="/js/static/jquery-1.10.2.min.js"></script>
         <?php printf("<script type=\"text/javascript\">/* <![CDATA[ */\n%s\n/* ]]> */</script>\n", file_get_contents(sfConfig::get('sf_web_dir') . '/js/dist/policat_widget.js')); ?>
         <?php if ($font_css_file): ?><link href="<?php echo $font_css_file ?>" rel="stylesheet" type="text/css" /><?php endif ?>
-        <?php UtilTheme::printCss($petition['themeId'], $widget, $petition); ?><!-- <?php echo $petition['themeId'] ?> -->
+        <?php UtilTheme::printCss($widget, $petition); ?><!-- <?php echo $petition['themeId'] ?> -->
     </head>
     <body>
         <div id="widget" class="widget">

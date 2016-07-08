@@ -20,6 +20,7 @@
  * @property string $email_subject
  * @property clob $email_body
  * @property clob $stylings
+ * @property integer $themeId
  * @property string $email
  * @property string $organisation
  * @property string $landing_url
@@ -68,6 +69,7 @@
  * @method string              getEmailSubject()        Returns the current record's "email_subject" value
  * @method clob                getEmailBody()           Returns the current record's "email_body" value
  * @method clob                getStylings()            Returns the current record's "stylings" value
+ * @method integer             getThemeId()             Returns the current record's "themeId" value
  * @method string              getEmail()               Returns the current record's "email" value
  * @method string              getOrganisation()        Returns the current record's "organisation" value
  * @method string              getLandingUrl()          Returns the current record's "landing_url" value
@@ -115,6 +117,7 @@
  * @method Widget              setEmailSubject()        Sets the current record's "email_subject" value
  * @method Widget              setEmailBody()           Sets the current record's "email_body" value
  * @method Widget              setStylings()            Sets the current record's "stylings" value
+ * @method Widget              setThemeId()             Sets the current record's "themeId" value
  * @method Widget              setEmail()               Sets the current record's "email" value
  * @method Widget              setOrganisation()        Sets the current record's "organisation" value
  * @method Widget              setLandingUrl()          Sets the current record's "landing_url" value
@@ -220,6 +223,11 @@ abstract class BaseWidget extends myDoctrineRecord
         $this->hasColumn('stylings', 'clob', null, array(
              'type' => 'clob',
              'notnull' => true,
+             ));
+        $this->hasColumn('themeId', 'integer', 4, array(
+             'type' => 'integer',
+             'notnull' => false,
+             'length' => 4,
              ));
         $this->hasColumn('email', 'string', 80, array(
              'type' => 'string',

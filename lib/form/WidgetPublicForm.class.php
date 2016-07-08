@@ -236,6 +236,15 @@ class WidgetPublicForm extends WidgetForm {
       if ($parent) {
         $values['share'] = $parent->getShare();
       }
+
+      /* @var $parent Widget */
+      $petition = $this->getObject()->getPetition();
+
+      if ($parent && $petition->getWidgetIndividualiseDesign()) {
+        $values['themeId'] =  $parent->getThemeId();
+      } else {
+        $values['themeId'] = $petition->getThemeId();
+      }
     }
 
     parent::doUpdateObject($values);

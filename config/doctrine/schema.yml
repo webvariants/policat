@@ -419,6 +419,7 @@ Widget:
     email_body:        { type: clob }
 
     stylings:          { type: clob,       notnull: true }
+    themeId:           { type: integer(4), notnull: false, default: null }
 
     email:             { type: string(80) }
     organisation:      { type: string(200) }

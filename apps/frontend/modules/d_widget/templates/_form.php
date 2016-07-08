@@ -10,7 +10,7 @@
   } else {
     echo $form->renderRows('*intro', '*footer');
   }
-  echo $form->renderRows('*background', 'styling_type', 'styling_width', '*styling_font_family');
+  echo $form->renderRows('*background', 'styling_type', 'styling_width', '*themeId', '*styling_font_family');
   ?>
   <div class="row">
     <div class="span6"><?php echo $form->renderRows('*styling_bg_right_color', '*styling_bg_left_color', '*styling_button_primary_color', '*styling_button_color') ?></div>

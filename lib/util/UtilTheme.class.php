@@ -19,11 +19,18 @@ class UtilTheme {
       2 => 'sleek.css'
   );
 
-  public static function printCss($theme, $widget = null, $petition = null) {
+  /**
+   * @param Widget $widget
+   * @param Petition $petition
+   */
+  public static function printCss($widget, $petition) {
+
     $variables = null;
     if ($widget && $petition) {
       $variables = self::variables($widget, $petition);
     }
+
+    $theme = $petition->getWidgetIndividualiseDesign() ? $widget->getThemeId() : $petition->getThemeId();
 
     $baseCss = file_get_contents(sfConfig::get('sf_web_dir') . '/css/dist/policat_widget_variables.css');
     if ($variables) {
