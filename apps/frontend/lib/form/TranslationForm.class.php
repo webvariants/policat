@@ -111,7 +111,7 @@ The e-mail text: #EMAIL-SUBJECT# -- #EMAIL-BODY#"
         'size' => 90,
         'class' => 'add_popover large',
         'data-content' => 'Enter the URL of your campaign site for this language, including "https://" or https://www. ". A "Read more" link will appear underneath your e-action. Leave empty for standard "Read more" page.',
-        'placeholder' => 'https://www.example.com/-language-/info'
+        'placeholder' => $petition->getReadMoreUrl() ? :  'https://www.example.com/-language-/info'
     )));
     $this->setValidator('read_more_url', new ValidatorUrl(array('required' => false)));
 
@@ -119,7 +119,7 @@ The e-mail text: #EMAIL-SUBJECT# -- #EMAIL-BODY#"
         'size' => 90,
         'class' => 'add_popover large',
         'data-content' => 'Enter URL of external landing page, including \'http://\'. Leave empty for standard landing page',
-        'placeholder' => 'https://www.example.com/-language-/thank-you'
+        'placeholder' => $petition->getLandingUrl() ? : 'https://www.example.com/-language-/thank-you'
     )));
     $this->setValidator('landing_url', new ValidatorUrl(array('required' => false, 'trim' => true)));
 
