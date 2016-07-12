@@ -118,7 +118,7 @@ if (!isset($no_filter)):
                     ?>
                   <?php endif ?>
                   <?php if ($widget->getDataOwner() == WidgetTable::DATA_OWNER_YES && $user->isDataOwnerOfCampaign($petition->getCampaign()->getRawValue())): ?>
-                    <a class="btn btn-mini ajax_link post" data-submit='<?php echo json_encode(array('csrf_token' => $csrf_token_revoke, 'id' => $widget->getId())) ?>' href="<?php echo url_for('widget_revoke_data') ?>">Revoke Data-owner</a>
+                    <a class="btn btn-mini ajax_link post" data-submit='<?php echo json_encode(array('csrf_token' => $csrf_token_revoke, 'id' => $widget->getId())) ?>' href="<?php echo url_for('widget_revoke_data') ?>">Re-integrate data</a>
                   <?php endif ?>
                   <?php if ($widget->getUserId() && $user->hasPermission(myUser::CREDENTIAL_ADMIN)): ?><a class="btn btn-mini" href="<?php echo url_for('user_edit', array('id' => $widget->getUserId())) ?>">user account</a><?php endif ?>
                   <?php if (($user->getId() == $widget->getUserId() || $user->isPetitionMember($petition->getRawValue()) || $user->hasPermission(myUser::CREDENTIAL_ADMIN)) && $widget->getOriginWidgetId()): ?>
