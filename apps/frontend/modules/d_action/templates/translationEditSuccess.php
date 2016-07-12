@@ -46,6 +46,11 @@
       </div>
     </div>
     <?php echo $form->renderRows(array('*email_tellyour_subject', '*email_tellyour_body', '*thank_you_email_subject', '*thank_you_email_body')) ?>
+    <div class="control-group">
+      <div class="controls">
+        <p class="help-block">Note: Email text will be limited to approx. 2000 characters.</p>
+      </div>
+    </div>
     <?php if (isset($form['thank_you_email_body'])): ?>
     <div class="control-group">
       <div class="controls">

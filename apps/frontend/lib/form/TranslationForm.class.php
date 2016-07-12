@@ -178,8 +178,8 @@ The e-mail text: #EMAIL-SUBJECT# -- #EMAIL-BODY#"
     $this->setWidget('email_tellyour_body', new sfWidgetFormTextarea(array(), array('cols' => 90, 'rows' => 8, 'class' => 'large elastic highlight')));
     $this->getWidgetSchema()->setHelp('email_tellyour_body', '#REFERER-URL#, #READMORE-URL#, #TITLE#, #TARGET#, #BACKGROUND#, #INTRO#, #FOOTER#, #EMAIL-SUBJECT#, #EMAIL-BODY#, #BODY#');
     $this->setValidator('email_tellyour_body', new sfValidatorString(array('max_length' => 1800)));
-    $this->getWidgetSchema()->setLabel('email_tellyour_subject', 'E-mail "tell your friends" subject');
-    $this->getWidgetSchema()->setLabel('email_tellyour_body', 'E-mail "tell your friends" body (the final e-mail will be cut after approx. 2000 characters)');
+    $this->getWidgetSchema()->setLabel('email_tellyour_subject', 'Tell-Your-Friend Email Subject');
+    $this->getWidgetSchema()->setLabel('email_tellyour_body', 'Tell-Your-Friend Email Body');
 
     $possible_statuses = array_keys(PetitionText::$STATUS_SHOW);
     $this->state_count = count($possible_statuses);

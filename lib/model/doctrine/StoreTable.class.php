@@ -424,7 +424,7 @@ class StoreTable extends Doctrine_Table {
           )
       ),
       'tell_your_friend' => array(
-          'name' => 'Default Tell-your-friend Mail',
+          'name' => 'Tell-Your-Friend Email',
           'json' => self::ACTION_TELL_YOUR_FRIEND_EMAIL,
           'i18n' => true,
           'fields' => array(
