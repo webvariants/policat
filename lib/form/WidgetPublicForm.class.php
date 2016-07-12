@@ -28,17 +28,6 @@ class WidgetPublicForm extends WidgetForm {
 
     $this->setWidget('title', new sfWidgetFormInput(array(), array('size' => 90)));
 
-    $this->setWidget('styling_type', new sfWidgetFormChoice(array('choices' => array('popup' => 'Popup', 'embed' => 'Embed'))));
-    $this->setValidator('styling_type', new sfValidatorChoice(array('choices' => array('popup', 'embed'))));
-    $this->setDefault('styling_type', $this->getObject()->getStyling('type', 'embed'));
-    $this->getWidgetSchema()->setLabel('styling_type', 'Widget type');
-
-    $choices = $this->getWidthChoices();
-    $this->setWidget('styling_width', new sfWidgetFormChoice(array('choices' => $choices)));
-    $this->setValidator('styling_width', new sfValidatorChoice(array('choices' => array_keys($choices))));
-    $this->setDefault('styling_width', $this->getObject()->getStyling('width', 'auto'));
-    $this->getWidgetSchema()->setLabel('styling_width', 'Width');
-
     if ($petition->getWidgetIndividualiseDesign()) {
       $this->setWidget('styling_title_color', new sfWidgetFormInput(array(), array('class' => 'color {hash:true}')));
       $this->setValidator('styling_title_color', new ValidatorCssColor(array('min_length' => 7, 'max_length' => 7)));
@@ -196,11 +185,9 @@ class WidgetPublicForm extends WidgetForm {
   }
 
   public function isGroupedField($name) {
-    $fieldNames = array('styling_type', 'styling_width', 'styling_title_color', 'styling_body_color', 'styling_bg_left_color', 'styling_bg_right_color', 'styling_form_title_color', 'styling_button_color', 'styling_button_primary_color', 'styling_label_color');
+    $fieldNames = array('styling_title_color', 'styling_body_color', 'styling_bg_left_color', 'styling_bg_right_color', 'styling_form_title_color', 'styling_button_color', 'styling_button_primary_color', 'styling_label_color');
     if (in_array($name, $fieldNames)) {
       switch ($name) {
-        case 'styling_type': return self::utilPosition($fieldNames, 'styling_type', 'styling_width');
-        case 'styling_width': return self::utilPosition($fieldNames, 'styling_width', 'styling_type');
 
         case 'styling_title_color': return self::utilPosition($fieldNames, 'styling_title_color', 'styling_body_color');
         case 'styling_body_color': return self::utilPosition($fieldNames, 'styling_body_color', 'styling_title_color');
@@ -225,6 +212,8 @@ class WidgetPublicForm extends WidgetForm {
       $values['validation_status'] = Widget::VALIDATION_STATUS_PENDING;
       $values['edit_code'] = Widget::genCode();
       $values['donate_text'] = $this->getDefaultDonationText();
+      $values['styling_width'] = 'auto';
+      $values['styling_type'] = 'embed';
 
       $user = sfGuardUserTable::getInstance()->retrieveByUsername($values['email']);
       if ($user) {

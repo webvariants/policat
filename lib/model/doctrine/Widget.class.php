@@ -308,4 +308,7 @@ class Widget extends BaseWidget {
     );
   }
 
+  public function getStylingsArray() {
+    $this->utilGetAsJsonArray('stylings');
+  }
 }

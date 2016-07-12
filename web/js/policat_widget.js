@@ -219,16 +219,6 @@ $(document).ready(function($) {
 
 		fontResize(font_size_auto_elements);
 
-		$('#widget_styling_type').each(function() {
-			var label = $("label", $(this).parent());
-			label.after($('#embed-this-help-type'));
-			label.html(label.html() + " (?)");
-		});
-		$('#widget_styling_width').each(function() {
-			var label = $("label", $(this).parent());
-			label.after($('#embed-this-help-width'));
-			label.html(label.html() + " (?)");
-		});
 		$('select').wrap('<div class="select-wrap"/>');
 
 		var hash_parts = window.location.hash.substring(1).split('!');

@@ -35,9 +35,6 @@ h1 {
 	font-weight: normal;
 	line-height: 1.45em;
 	margin-bottom: 0.5em;
-	&:hover + .embed-this-help-head {
-		display: block;
-	}
 }
 h1.action-title {
 	font-size: 33px;
@@ -809,21 +806,11 @@ input[type=checkbox]+p {
 #widget_petition_text_id_copy {
 	margin-left: 0;
 }
-#embed-this-help-type, #embed-this-help-width {
-	background-color: gray;
-	color: white;
-	display: none;
-	left: 0;
-	overflow: hidden;
-	padding: 10px;
-	position: absolute;
-	right: -3px;
-	top: 70px;
-	z-index: 1;
-}
-label:hover + #embed-this-help-type, label:hover + #embed-this-help-width {
+
+h2:hover + .embed-this-help-head {
 	display: block;
 }
+
 .embed-this-help-head {
 	background-color: gray;
 	color: white;

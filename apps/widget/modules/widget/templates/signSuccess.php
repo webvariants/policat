@@ -255,7 +255,7 @@ if (is_array($target_selectors)) {
                                 <?php echo $form_embed->renderHiddenFields(); ?>
                                 <fieldset>
                                     <?php
-                                    foreach (array('styling_type', 'styling_width', 'styling_title_color', 'styling_body_color', 'styling_bg_left_color', 'styling_bg_right_color', 'styling_form_title_color', 'styling_button_color', 'styling_button_primary_color', 'styling_label_color', 'styling_font_family') as $fieldname):
+                                    foreach (array('styling_title_color', 'styling_body_color', 'styling_bg_left_color', 'styling_bg_right_color', 'styling_form_title_color', 'styling_button_color', 'styling_button_primary_color', 'styling_label_color', 'styling_font_family') as $fieldname):
                                       if (isset($form_embed[$fieldname])):
                                         $group = $form_embed->isGroupedField($fieldname);
                                         printf('<div class="form-row %s%s%s">%s</div>', $fieldname, $group ? ' group' : '', $group === 2 ? ' first' : '', $form_embed[$fieldname]->renderRow());

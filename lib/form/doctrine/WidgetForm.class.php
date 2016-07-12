@@ -99,7 +99,7 @@ class WidgetForm extends BaseWidgetForm {
   }
 
   protected function doUpdateObject($values) {
-    $stylings = array();
+    $stylings = $this->getObject()->getStylingsArray();
     foreach (array('type', 'width', 'title_color', 'body_color', 'button_color', 'bg_left_color', 'bg_right_color', 'form_title_color', 'button_primary_color', 'label_color', 'font_family') as $i) {
       if (array_key_exists('styling_' . $i, $values)) {
         $stylings[$i] = $values['styling_' . $i];
@@ -107,6 +107,14 @@ class WidgetForm extends BaseWidgetForm {
       }
     }
     $values['stylings'] = json_encode($stylings);
+
+    if (!array_key_exists('type', $values)) {
+      $values['type'] = 'embed';
+    }
+
+    if (!array_key_exists('width', $values)) {
+      $values['width'] = 'auto';
+    }
 
     parent::doUpdateObject($values);
   }
