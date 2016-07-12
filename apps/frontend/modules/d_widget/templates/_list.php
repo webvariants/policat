@@ -110,7 +110,7 @@ if (!isset($no_filter)):
                     <?php if ($widget->getDataOwner() == WidgetTable::DATA_OWNER_YES): ?>
                       <a class="btn btn-mini" href="<?php echo url_for('widget_data', array('id' => $widget->getId())) ?>">Participants</a>
                       <a class="btn btn-mini" href="<?php echo url_for('widget_data_email', array('id' => $widget->getId())) ?>">Mailing addresses</a>
-                    <?php else: if ($petition->getCampaign()->getOwnerRegister()): ?>
+                    <?php else: if ($petition->getCampaign()->getOwnerRegister() && !$user->isDataOwnerOfCampaign($petition->getCampaign()->getRawValue())): ?>
                         <a class="btn btn-mini ajax_link post" data-submit='<?php echo json_encode(array('csrf_token' => $csrf_token, 'id' => $widget->getId())) ?>' href="<?php echo url_for('widget_data_owner') ?>">Become Data-owner</a>
                         <?php
                       endif;
