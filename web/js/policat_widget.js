@@ -390,7 +390,7 @@ $(document).ready(function($) {
 					}
 					var option = $('<option></option>');
 					select.append(option);
-					option.text(first ? '--' + t_sel + '--' : t_sel_all).attr('value', (first && target_selectors.length !== 1) ? '' : 'all');
+					option.text(first ? '--' + t_sel + '--' : t_sel_all).attr('value', (first /* && target_selectors.length !== 1 */) ? '' : 'all');
 					if (selector['choices'] != undefined) {
 						var is_typefield = selector['typfield'] != undefined && selector['typfield'];
 						var is_contact = selector['id'] != undefined && selector['id'] === 'contact';
@@ -417,6 +417,7 @@ $(document).ready(function($) {
 								var s_val = select.val();
 								if (s_val) {
 									ts_2.attr('disabled', 'disabled');
+									scroll_pledges.removeClass('error');
 									if (pledge_ul.length)
 										pledge_ul.empty();
 									$.ajax({
@@ -476,6 +477,7 @@ $(document).ready(function($) {
 
 						if (pledge_ul.length) {
 							select.change(function() {
+								scroll_pledges.removeClass('error');
 								var ts_1 = $('#petition_signing_ts_1_copy');
 								var s_val = select.val();
 								if (s_val) {
