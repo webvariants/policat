@@ -6,7 +6,7 @@
         "ircmaxell/password-compat": "1.0.*",
         "dompdf/dompdf": "0.6.1",
         "paypal/rest-api-sdk-php": "1.3.*",
-        "swiftmailer/swiftmailer": "v5.4.1 as 5.2.1",
+        "swiftmailer/swiftmailer": "v5.4.3 as 5.2.1",
         "lox/xhprof": "*@dev",
         "amg-dev/amg-sentry-plugin": "dev-master",
         "ezyang/htmlpurifier": "^4.7",

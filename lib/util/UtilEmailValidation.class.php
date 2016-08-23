@@ -52,7 +52,7 @@ class UtilEmailValidation {
       $subject = $translated . ' ' . $subject;
     }
 
-    UtilMail::sendWithSubst(null, $from, $to, $subject, $body, $petition_text, $widget, $subst, $signing->getSubst());
+    UtilMail::sendWithSubst($from, $to, $subject, $body, $petition_text, $widget, $subst, $signing->getSubst());
   }
 
 }

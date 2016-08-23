@@ -70,7 +70,7 @@ class Ticket extends BaseTicket {
       $body .= "\n\n" . sfContext::getInstance()->getRouting()->generate('dashboard', array(), true);
 
       foreach ($tos as $to) {
-        \UtilMail::send(null, null, $to, $subject, $body, null, null, null, $replyTo);
+        \UtilMail::send(null, $to, $subject, $body, null, null, null, $replyTo);
       }
     }
   }

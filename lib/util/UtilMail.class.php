@@ -1,4 +1,5 @@
 <?php
+
 /*
  * Copyright (c) 2016, webvariants GmbH <?php Co. KG, http://www.webvariants.de
  *
@@ -23,22 +24,55 @@ class UtilMail {
     return StoreTable::getInstance()->getValueCached(StoreTable::EMAIL_SENDER) ? true : false;
   }
 
-  public static function send($sender, $from, $to, $subject, $body, $contentType = null, $subst = null, $subst_2nd = null, $replyTo = null, $attachments = array(), $markdown = false) {
+  private static function fromOnlyVerified() {
+    return StoreTable::getInstance()->getValueCached(StoreTable::EMAIL_FROM_ONLY_VERIFIED) ? true : false;
+  }
+
+  private static $verified_cache = null;
+
+  private static function isVerified($email) {
+    $fullemail = is_array($email) ? key($email) : $email;
+
+    if (!$fullemail) {
+      return false;
+    }
+
+    $parts = explode('@', $fullemail);
+    if (count($parts) !== 2) {
+      return false;
+    }
+
+    $domain = $parts[1];
+
+    if (self::$verified_cache === null) {
+      $addressesStr = StoreTable::getInstance()->getValueCached(StoreTable::EMAIL_VERIFIED, '');
+      if (!$addressesStr) {
+        self::$verified_cache = array();
+        return false;
+      }
+
+      self::$verified_cache = preg_split('/\r\n|[\r\n]/', $addressesStr);
+    }
+
+    return in_array($fullemail, self::$verified_cache) || in_array($domain, self::$verified_cache);
+  }
+
+  public static function send($from, $to, $subject, $body, $contentType = null, $subst = null, $subst_2nd = null, $replyTo = null, $attachments = array(), $markdown = false) {
     $message = Swift_Message::newInstance();
     if ($from == null) {
       $message->setFrom(self::getDefaultFrom());
-      if ($sender) {
-        $message->setSender($sender);
-      }
     } else {
-      $message->setFrom($from);
-      $message->setReplyTo($from);
-      if ($sender == null) {
-        if (self::useSender())
-          $message->setSender(self::getDefaultFrom());
+      if (!self::fromOnlyVerified() || self::isVerified($from)) {
+        $message->setFrom($from);
+      } else {
+        $message->setFrom(self::getDefaultFrom());
+        if (!$replyTo) {
+          $message->setReplyTo($from);
+        }
       }
-      else {
-        $message->setSender($sender);
+
+      if (self::useSender()) {
+        $message->setSender(self::getDefaultFrom());
       }
     }
 
@@ -58,7 +92,7 @@ class UtilMail {
 
         foreach ($subst_2nd as $subst_key => $subst_value) {
           $i++;
-          $forth[$subst_key] = 'PC123' . $subst_key .$hash . $i . 'PC123';
+          $forth[$subst_key] = 'PC123' . $subst_key . $hash . $i . 'PC123';
           $back[$forth[$subst_key]] = Util::enc($subst_value);
         }
 
@@ -94,13 +128,13 @@ class UtilMail {
     sfContext::getInstance()->getMailer()->send($message);
   }
 
-  public static function sendWithSubst($sender, $from, $to, $subject, $body, $petition_text, $widget = null, $additional_subst = array(), $subst_2nd = array(), $markdown = false) {
+  public static function sendWithSubst($from, $to, $subject, $body, $petition_text, $widget = null, $additional_subst = array(), $subst_2nd = array(), $markdown = false) {
     $subst = self::createSubstArray($petition_text, $widget);
     if (is_array($additional_subst)) {
       $subst = array_merge($subst, $additional_subst);
     }
 
-    self::send($sender, $from, $to, $subject, $body, null, $subst, $subst_2nd, null, array(), $markdown);
+    self::send($from, $to, $subject, $body, null, $subst, $subst_2nd, null, array(), $markdown);
   }
 
   public static function isEmpty($object, $field) {
@@ -124,13 +158,13 @@ class UtilMail {
   public static function createSubstArray($petition_text, $widget = null) {
     $subst = array();
     foreach (array(
-      'TITLE' => 'title',  // deprecated
-      'TARGET' => 'target',  // deprecated
-      'BACKGROUND' => 'background',  // deprecated
-      'INTRO' => 'intro',  // deprecated
-      'FOOTER' => 'footer',  // deprecated
-      'EMAIL-SUBJECT' => 'email_subject',  // deprecated
-      'EMAIL-BODY' => 'email_body',  // deprecated
+      'TITLE' => 'title', // deprecated
+      'TARGET' => 'target', // deprecated
+      'BACKGROUND' => 'background', // deprecated
+      'INTRO' => 'intro', // deprecated
+      'FOOTER' => 'footer', // deprecated
+      'EMAIL-SUBJECT' => 'email_subject', // deprecated
+      'EMAIL-BODY' => 'email_body', // deprecated
       '#TITLE#' => 'title',
       '#TARGET#' => 'target',
       '#BACKGROUND#' => 'background',
@@ -157,19 +191,18 @@ class UtilMail {
     return $subst;
   }
 
-  public static function tellyourmail($widget, $petition, $petition_text, $url_ref, $url_readmore)
-  {
+  public static function tellyourmail($widget, $petition, $petition_text, $url_ref, $url_readmore) {
     /* @var $widget Widget */
     /* @var $petition Petition */
     /* @var $petition_text PetitionText */
-    $subject          = $petition_text->getEmailTellyourSubject();
-    $body             = $petition_text->getEmailTellyourBody();
+    $subject = $petition_text->getEmailTellyourSubject();
+    $body = $petition_text->getEmailTellyourBody();
 
     $subst = array_merge(self::createSubstArray($petition_text, $widget), array(
-      'URL-REFERER'  => $url_ref,  // deprecated
-      'URL-READMORE' => $url_readmore,  // deprecated
-      '#REFERER-URL#'  => $url_ref,
-      '#READMORE-URL#' => $url_readmore,
+        'URL-REFERER' => $url_ref, // deprecated
+        'URL-READMORE' => $url_readmore, // deprecated
+        '#REFERER-URL#' => $url_ref,
+        '#READMORE-URL#' => $url_readmore,
     ));
 
     $subject = strtr(strtr($subject, $subst), array("\n" => ' ', "\r" => ' ', "\t" => ' ', "\0" => '', "\x0B" => ' '));

@@ -81,7 +81,7 @@ class userActions extends policatActions {
                 '#USER-NAME#' => $user->getFullName()
             );
 
-            UtilMail::send(null, null, $user->getEmailAddress(), $subject, $body, null, $subst);
+            UtilMail::send(null, $user->getEmailAddress(), $subject, $body, null, $subst);
           } else
             $user->save();
 

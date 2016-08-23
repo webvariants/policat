@@ -162,7 +162,7 @@ class billActions extends policatActions {
     
     $attachments = array(new Swift_Attachment($this->pdf($bill, false, true), 'invoice_' . $bill->getId() . '.pdf', 'application/pdf'));
     
-    UtilMail::send(null, null, $user->getSwiftEmail(), $subject, $body, 'text/html', null, null, null, $attachments);
+    UtilMail::send(null, $user->getSwiftEmail(), $subject, $body, 'text/html', null, null, null, $attachments);
     
     return $this->ajax()->alert('Mail sent', '')->render();
   }

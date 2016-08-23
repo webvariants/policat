@@ -34,7 +34,7 @@ class testMailTask extends sfBaseTask {
 
     $body = "Monitoring mail\nDate: " . date(DATE_RFC3339) . "\n\nBye.\n";
 
-    UtilMail::send(null, null, $options['to'], $options['subject'], $body);
+    UtilMail::send(null, $options['to'], $options['subject'], $body);
 
     if (!$silent) {
       echo "done.\n";

@@ -40,6 +40,8 @@ class StoreTable extends Doctrine_Table {
   const EMAIL_ADDRESS = 'email_address';
   const EMAIL_NAME = 'email_name';
   const EMAIL_SENDER = 'email_sender';
+  const EMAIL_FROM_ONLY_VERIFIED = 'email_from_only_verified';
+  const EMAIL_VERIFIED = 'email_verified';
   const TERMS_TITLE = 'terms_title';
   const TERMS_CONTENT = 'terms_content';
   const TERMS_FOOTER = 'terms_footer';
@@ -263,8 +265,18 @@ class StoreTable extends Doctrine_Table {
                   'validator' => array('ValidatorEmail', array()),
               ),
               self::EMAIL_SENDER => array(
-                  'widget' => array('WidgetBoolean', array('label' => 'Use as "Sender" for Action E-mails')),
+                  'widget' => array('WidgetBoolean', array('label' => 'Use as "Sender" for all E-mails')),
                   'validator' => array('sfValidatorBoolean')
+              ),
+              self::EMAIL_FROM_ONLY_VERIFIED => array(
+                  'widget' => array('WidgetBoolean', array('label' => 'Set FROM only for verified addresses')),
+                  'validator' => array('sfValidatorBoolean'),
+                  'help' => 'When enabled FROM E-mail field is only set if it is in the next list. If it is not verified the E-mail-address is used as Reply-To field.'
+              ),
+              self::EMAIL_VERIFIED => array(
+                  'widget' => array('sfWidgetFormTextarea', array('label' => 'Verified E-mail-addresses or domains'), array('rows' => 10)),
+                  'validator' => array('ValidatorVerifiedEmails', array('required' => false)),
+                  'help' => 'Enter one E-mail-address or domain main per line.'
               )
           )
       ),

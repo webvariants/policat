@@ -70,7 +70,7 @@ class accountActions extends policatActions {
             '#USER-NAME#' => $user->getFullName()
         );
 
-        UtilMail::send(null, null, $user->getEmailAddress(), $subject, $body, null, $subst);
+        UtilMail::send(null, $user->getEmailAddress(), $subject, $body, null, $subst);
 
         return $this->ajax()
             ->form($this->form)
@@ -337,7 +337,7 @@ class accountActions extends policatActions {
             '#USER-NAME#' => $form->user->getFullName()
         );
 
-        UtilMail::send(null, null, $form->user->getEmailAddress(), $subject, $body, null, $subst);
+        UtilMail::send(null, $form->user->getEmailAddress(), $subject, $body, null, $subst);
 
         return
             $this->ajax()

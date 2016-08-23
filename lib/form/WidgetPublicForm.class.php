@@ -296,7 +296,7 @@ class WidgetPublicForm extends WidgetForm {
           '#EDIT-URL#' => $edit_code,
       );
 
-      UtilMail::sendWithSubst(null, $from, $to, $subject, $body, $petition_text, $widget, $additional_subst);
+      UtilMail::sendWithSubst($from, $to, $subject, $body, $petition_text, $widget, $additional_subst);
     }
   }
 

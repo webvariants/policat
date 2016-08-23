@@ -48,7 +48,7 @@ class UtilThankYouEmail {
 
     $subst = array_merge($additional_subst, $widget->getDataOwnerSubst("\n", $petition));
 
-    UtilMail::sendWithSubst(null, $from, $to, $subject, $body, $petition_text, $widget, $subst, $signing->getSubst(), true);
+    UtilMail::sendWithSubst($from, $to, $subject, $body, $petition_text, $widget, $subst, $signing->getSubst(), true);
 
     QuotaTable::getInstance()->useQuota($campaign->getQuotaId(), 1);
     $signing->setQuotaThankYouId($campaign->getQuotaId());
