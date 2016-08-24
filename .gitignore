@@ -36,3 +36,4 @@ cache/*
 /run*
 
 /docker/data-develop/*
+/docker/config-develop/data/*

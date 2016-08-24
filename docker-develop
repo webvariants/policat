@@ -26,11 +26,14 @@ else
     MAILDEV_RUN="-e VIRTUAL_HOST=$2 -e VIRTUAL_PORT=80 -l traefik.port=80 -l traefik.frontend.rule=Host:$2 -l traefik.frontend.passHostHeader=true"
 fi
 
-
+POLICAT_IMAGE=policat-develop
 POLICAT_CONTAINER=policat-develop
 MYSQL_CONTAINER=policat-develop-mysql
 MEMCACHED_CONTAINER=policat-develop-memcached
 MAILDEV_CONTAINER=policat-develop-maildev
+
+set +e
+docker build --pull --force-rm -t $POLICAT_IMAGE ./docker/php/
 
 set +e
 RUNNING=$(docker inspect --format="{{ .State.Running }}" $MYSQL_CONTAINER 2> /dev/null)
@@ -73,6 +76,7 @@ fi
 docker start $MYSQL_CONTAINER $MEMCACHED_CONTAINER $MAILDEV_CONTAINER
 
 mkdir -p \
+    docker/data-develop/data \
     docker/data-develop/csv_uploads \
     docker/data-develop/csv_downloads \
     docker/data-develop/keyvisual \
@@ -82,20 +86,22 @@ mkdir -p \
 
 docker run \
     --rm \
-    -w "${PWD}" \
-    -v "${PWD}/:${PWD}" \
-    -v "${PWD}/docker/config-develop/app.yml:${PWD}/config/app.yml:ro" \
-    -v "${PWD}/docker/config-develop/databases.yml:${PWD}/config/databases.yml:ro" \
-    -v "${PWD}/docker/config-develop/factories.yml:${PWD}/config/factories.yml:ro" \
-    -v "${PWD}/docker/config-develop/properties.ini:${PWD}/config/properties.ini:ro" \
-    -v "${PWD}/docker/data-develop/csv_uploads/:${PWD}/data/csv_uploads" \
-    -v "${PWD}/docker/data-develop/csv_downloads/:${PWD}/data/csv_downloads" \
-    -v "${PWD}/docker/data-develop/keyvisual/:${PWD}/web/images/keyvisual" \
-    -v "${PWD}/docker/data-develop/pledge_header_visual/:${PWD}/web/images/pledge_header_visual" \
-    -v "${PWD}/docker/data-develop/pledge_key_visual/:${PWD}/web/images/pledge_key_visual" \
-    -v "${PWD}/docker/data-develop/store/:${PWD}/web/images/store" \
-    --tmpfs ${PWD}/cache \
-    -e "WEB_ROOT=${PWD}/web" \
+    -v "${PWD}/:/app/:ro" \
+    -v "${PWD}/docker/config-develop/data/:/app/data/" \
+    -v "${PWD}/data/fixtures/:/app/data/fixtures/:ro" \
+    -v "${PWD}/docker/config-develop/app.yml:/app/config/app.yml:ro" \
+    -v "${PWD}/docker/config-develop/databases.yml:/app/config/databases.yml:ro" \
+    -v "${PWD}/docker/config-develop/factories.yml:/app/config/factories.yml:ro" \
+    -v "${PWD}/docker/config-develop/properties.ini:/app/config/properties.ini:ro" \
+    -v "${PWD}/docker/data-develop/csv_uploads/:/app/data/csv_uploads" \
+    -v "${PWD}/docker/data-develop/csv_downloads/:/app/data/csv_downloads" \
+    -v "${PWD}/docker/data-develop/keyvisual/:/app/web/images/keyvisual" \
+    -v "${PWD}/docker/data-develop/pledge_header_visual/:/app/web/images/pledge_header_visual" \
+    -v "${PWD}/docker/data-develop/pledge_key_visual/:/app/web/images/pledge_key_visual" \
+    -v "${PWD}/docker/data-develop/store/:/app/web/images/store" \
+    --tmpfs /app/cache \
+    --tmpfs /app/log \
+    -e "WEB_ROOT=/app/web" \
     -e "WWW_DATA_UID=${UID}" \
     -e "WWW_DATA_GID=`id -g $USER`" \
     --link "$MAILDEV_CONTAINER:mail" \
@@ -103,7 +109,7 @@ docker run \
     --link "$MYSQL_CONTAINER:mysql" \
     --name $POLICAT_CONTAINER \
     $POLICAT_RUN \
-    mcnilz/php-develop
+    $POLICAT_IMAGE
 
 echo "Stopping side containers..."
 docker stop $MYSQL_CONTAINER
