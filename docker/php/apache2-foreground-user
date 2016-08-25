@@ -24,5 +24,6 @@ fi
 
 chown -R www-data:www-data $WEB_ROOT/../data/csv_uploads $WEB_ROOT/../data/csv_downloads $WEB_ROOT/images/keyvisual $WEB_ROOT/images/pledge_header_visual $WEB_ROOT/images/pledge_key_visual $WEB_ROOT/images/store
 chown -R www-data:www-data $WEB_ROOT/../cache $WEB_ROOT/../log
+chown -R www-data:www-data /app/data/upload_tmp /app/data/session
 
 exec /usr/local/bin/apache2-foreground
