@@ -39,6 +39,11 @@
  * @property integer $quota_emails
  * @property integer $thank_sent
  * @property integer $quota_thank_you_id
+ * @property timestamp $bounce_at
+ * @property integer $bounce_blocked
+ * @property integer $bounce_hard
+ * @property string $bounce_related_to
+ * @property string $bounce_error
  * @property Petition $Petition
  * @property Widget $Widget
  * @property Doctrine_Collection $Contact
@@ -82,6 +87,11 @@
  * @method integer             getQuotaEmails()            Returns the current record's "quota_emails" value
  * @method integer             getThankSent()              Returns the current record's "thank_sent" value
  * @method integer             getQuotaThankYouId()        Returns the current record's "quota_thank_you_id" value
+ * @method timestamp           getBounceAt()               Returns the current record's "bounce_at" value
+ * @method integer             getBounceBlocked()          Returns the current record's "bounce_blocked" value
+ * @method integer             getBounceHard()             Returns the current record's "bounce_hard" value
+ * @method string              getBounceRelatedTo()        Returns the current record's "bounce_related_to" value
+ * @method string              getBounceError()            Returns the current record's "bounce_error" value
  * @method Petition            getPetition()               Returns the current record's "Petition" value
  * @method Widget              getWidget()                 Returns the current record's "Widget" value
  * @method Doctrine_Collection getContact()                Returns the current record's "Contact" collection
@@ -124,6 +134,11 @@
  * @method PetitionSigning     setQuotaEmails()            Sets the current record's "quota_emails" value
  * @method PetitionSigning     setThankSent()              Sets the current record's "thank_sent" value
  * @method PetitionSigning     setQuotaThankYouId()        Sets the current record's "quota_thank_you_id" value
+ * @method PetitionSigning     setBounceAt()               Sets the current record's "bounce_at" value
+ * @method PetitionSigning     setBounceBlocked()          Sets the current record's "bounce_blocked" value
+ * @method PetitionSigning     setBounceHard()             Sets the current record's "bounce_hard" value
+ * @method PetitionSigning     setBounceRelatedTo()        Sets the current record's "bounce_related_to" value
+ * @method PetitionSigning     setBounceError()            Sets the current record's "bounce_error" value
  * @method PetitionSigning     setPetition()               Sets the current record's "Petition" value
  * @method PetitionSigning     setWidget()                 Sets the current record's "Widget" value
  * @method PetitionSigning     setContact()                Sets the current record's "Contact" collection
@@ -311,6 +326,32 @@ abstract class BasePetitionSigning extends myDoctrineRecord
              'type' => 'integer',
              'notnull' => false,
              'length' => 4,
+             ));
+        $this->hasColumn('bounce_at', 'timestamp', null, array(
+             'type' => 'timestamp',
+             'notnull' => false,
+             ));
+        $this->hasColumn('bounce_blocked', 'integer', 1, array(
+             'type' => 'integer',
+             'notnull' => true,
+             'default' => 0,
+             'length' => 1,
+             ));
+        $this->hasColumn('bounce_hard', 'integer', 1, array(
+             'type' => 'integer',
+             'notnull' => true,
+             'default' => 0,
+             'length' => 1,
+             ));
+        $this->hasColumn('bounce_related_to', 'string', 20, array(
+             'type' => 'string',
+             'notnull' => false,
+             'length' => 20,
+             ));
+        $this->hasColumn('bounce_error', 'string', 20, array(
+             'type' => 'string',
+             'notnull' => false,
+             'length' => 20,
              ));
 
 

@@ -301,7 +301,7 @@ class widgetActions extends policatActions
                     }
 
                     /* Email to target */
-                    UtilMail::send($petition_signing->getEmailContact($petition->getFromEmail(), true), $email_targets, $subject, /* email problem */
+                    UtilMail::send('Target-' . $petition->getCampaignId(), 'Targets-' . $petition->getId(), $petition_signing->getEmailContact($petition->getFromEmail(), true), $email_targets, $subject, /* email problem */
                       $body, null, $petition_signing->getSubst($this->lang), null, $petition_signing->getEmailContact());
                     
                     $quota_emails = count($email_targets);

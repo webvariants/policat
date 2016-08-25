@@ -119,6 +119,10 @@ counterbar:
   url: /counterbar/:id
   param: { module: api, action: counterbar }
 
+api_incomming_bounce:
+  url: /api/v2/incomming/bounce
+  param: { module: api_v2_incomming, action: bounce }
+
 terms:            { url: '/terms',                  param: { module: default, action: error404 } }
 contact:          { url: '/contact',                param: { module: default, action: error404 } }
 widgetval:        { url: '/widgetval/:code',        param: { module: default, action: error404 } }

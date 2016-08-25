@@ -120,6 +120,43 @@ class policatActions extends sfActions {
     }
   }
 
+  protected function getJsonRequestData($nonJson404 = true, $request = null) {
+    if ($request === null) {
+      $request = $this->getRequest();
+    }
+
+    if (!$request instanceof sfWebRequest) {
+      throw new Exception('Expected web request');
+    }
+
+    $contentType = $request->getContentType();
+    $content = $request->getContent();
+
+    if ($contentType === 'application/json') {
+      $data = json_decode($content, true);
+
+      if (is_array($data)) {
+        return $data;
+      }
+    }
+
+    if ($nonJson404) {
+      $this->forward404();
+    }
+
+    return false;
+  }
+
+  protected function forward403($denied_message = 'Access denied.', $code = 403) {
+    $response = $this->getResponse();
+    $response->setContent($denied_message);
+    if ($response instanceof sfWebResponse) {
+      $response->setStatusCode($code);
+      $response->send();
+    }
+    throw new sfStopException();
+  }
+
   public function renderJson(array $data, $callback = null) {
     $response = $this->getResponse();
 

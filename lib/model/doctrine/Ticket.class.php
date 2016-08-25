@@ -37,16 +37,18 @@ class Ticket extends BaseTicket {
 
     if ($this->getToId()) {
       $email = $this->getTo()->getSwiftEmail();
-      if ($email)
-        $tos[] = $email;
+      if ($email) {
+        $tos[] = array($email, $this->getTo());
+      }
     }
 
     if (!$tos && $this->getCampaignId()) {
       $crs = CampaignRightsTable::getInstance()->queryByCampaignAndAdmin($this->getCampaign())->execute();
       foreach ($crs as $cr) { /* @var $cr CampaignRights */
         $email = $cr->getUser()->getSwiftEmail();
-        if ($email)
-          $tos[] = $email;
+        if ($email) {
+          $tos[] = array($email, $cr->getUser()->getId());
+        }
       }
     }
 
@@ -70,7 +72,7 @@ class Ticket extends BaseTicket {
       $body .= "\n\n" . sfContext::getInstance()->getRouting()->generate('dashboard', array(), true);
 
       foreach ($tos as $to) {
-        \UtilMail::send(null, $to, $subject, $body, null, null, null, $replyTo);
+        \UtilMail::send('Ticket', 'User-' . $to[1], null, $to[0], $subject, $body, null, null, null, $replyTo);
       }
     }
   }

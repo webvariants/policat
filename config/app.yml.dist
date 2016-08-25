@@ -23,6 +23,26 @@ all:
     cmd: spfquery
     ip: # INSERT IP OF YOUR MAILSERVER #
 
+#  mail:
+#    tracking:
+#      header:
+#        id: X-MJ-CUSTOMID
+#        campaign: X-MAILJET-CAMPAIGN
+#    api:
+#      token: # INSERT HERE #
+#      bounce:
+#        log_file: 'bounce.log'
+#        grouping: true
+#        match:
+#          event: bounce
+#        id: CustomID
+#        campaign: customcampaign
+#        email: email
+#        blocked: blocked
+#        hard_bounce: hard_bounce
+#        error_related_to: error_related_to
+#        error: error
+
 #prod:
 #  amg_sentry:
 #    enabled: true

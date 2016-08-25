@@ -46,7 +46,7 @@ class dashboardActions extends policatActions {
     if ($request->isMethod('post')) {
       $form->bind($request->getPostParameter($form->getName()));
       if ($form->isValid()) {
-        UtilMail::send($form->getValue('from'), $form->getValue('to'), $form->getValue('subject'), $form->getValue('body'));
+        UtilMail::send('Testmail', null, $form->getValue('from'), $form->getValue('to'), $form->getValue('subject'), $form->getValue('body'));
         
         return $this->ajax()->form($form)->alert('Mail sent.', '', '#testmail', 'after')->render();
       }

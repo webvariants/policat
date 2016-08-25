@@ -76,6 +76,8 @@ fi
 docker start $MYSQL_CONTAINER $MEMCACHED_CONTAINER $MAILDEV_CONTAINER
 
 mkdir -p \
+    log \
+    cache \
     docker/data-develop/data \
     docker/data-develop/csv_uploads \
     docker/data-develop/csv_downloads \

@@ -159,7 +159,7 @@ class geoCronTask extends sfBaseTask {
           $i++;
           try {
             /* Email to target  */
-            UtilMail::send($wave->getEmailContact($petition->getFromEmail(), true), array($contact['email'] => $contact['firstname'] . ' ' . $contact['lastname']), $subject, $body, null, $subst, null, $wave->getEmailContact()); /* email problem */
+            UtilMail::send('Email-To-List-' . $petition->getCampaignId(), 'Contact-' . $contact['id'], $wave->getEmailContact($petition->getFromEmail(), true), array($contact['email'] => $contact['firstname'] . ' ' . $contact['lastname']), $subject, $body, null, $subst, null, $wave->getEmailContact()); /* email problem */
           } catch (Swift_RfcComplianceException $e) {
             // ignore invalid emails
           }

@@ -57,7 +57,7 @@ class UtilMail {
     return in_array($fullemail, self::$verified_cache) || in_array($domain, self::$verified_cache);
   }
 
-  public static function send($from, $to, $subject, $body, $contentType = null, $subst = null, $subst_2nd = null, $replyTo = null, $attachments = array(), $markdown = false) {
+  public static function send($trackCampaign, $trackId, $from, $to, $subject, $body, $contentType = null, $subst = null, $subst_2nd = null, $replyTo = null, $attachments = array(), $markdown = false) {
     $message = Swift_Message::newInstance();
     if ($from == null) {
       $message->setFrom(self::getDefaultFrom());
@@ -125,16 +125,36 @@ class UtilMail {
       $message->attach($attachment);
     }
 
+    // add tracking headers
+    $tacking = sfConfig::get('app_mail_tracking');
+    if ($trackCampaign) {
+      $trackCampaignHeader = (is_array($tacking) && array_key_exists('header', $tacking) && array_key_exists('campaign', $tacking['header'])) ? $tacking['header']['campaign'] : null;
+      if ($trackCampaignHeader) {
+        if (is_numeric($trackCampaign)) {
+          $trackCampaign = 'Campaign-' . $trackCampaign;
+        }
+
+        $message->getHeaders()->addTextHeader($trackCampaignHeader, $trackCampaign);
+      }
+    }
+
+    if ($trackId) {
+      $trackIdHeader = (is_array($tacking) && array_key_exists('header', $tacking) && array_key_exists('id', $tacking['header'])) ? $tacking['header']['id'] : null;
+      if ($trackIdHeader) {
+        $message->getHeaders()->addTextHeader($trackIdHeader, $trackId);
+      }
+    }
+
     sfContext::getInstance()->getMailer()->send($message);
   }
 
-  public static function sendWithSubst($from, $to, $subject, $body, $petition_text, $widget = null, $additional_subst = array(), $subst_2nd = array(), $markdown = false) {
+  public static function sendWithSubst($trackCampaign, $trackId, $from, $to, $subject, $body, $petition_text, $widget = null, $additional_subst = array(), $subst_2nd = array(), $markdown = false) {
     $subst = self::createSubstArray($petition_text, $widget);
     if (is_array($additional_subst)) {
       $subst = array_merge($subst, $additional_subst);
     }
 
-    self::send($from, $to, $subject, $body, null, $subst, $subst_2nd, null, array(), $markdown);
+    self::send($trackCampaign, $trackId, $from, $to, $subject, $body, null, $subst, $subst_2nd, null, array(), $markdown);
   }
 
   public static function isEmpty($object, $field) {
