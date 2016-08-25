@@ -84,6 +84,7 @@ class StoreTable extends Doctrine_Table {
   const DONATIONS_PAYPAL = 'donations_paypal';
 
   const INTERNAL_CACHE_OPEN_ACTIONS = 'internal_cache_open_actions';
+  const INTERNAL_LAST_TESTING_BOUNCE = 'internal_last_testing_bounce';
   
   static $meta = array(
       'portal' => array(

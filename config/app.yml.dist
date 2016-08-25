@@ -26,22 +26,24 @@ all:
 #  mail:
 #    tracking:
 #      header:
-#        id: X-MJ-CUSTOMID
-#        campaign: X-MAILJET-CAMPAIGN
+#        id: X-MJ-CUSTOMID                       # optional, but important
+#        campaign: X-MAILJET-CAMPAIGN            # optional, but important
+#        campaign_prefix: testing                # optional
 #    api:
-#      token: # INSERT HERE #
+#      token: # INSERT HERE #                    # required  -> https://token:#TOKEN#@policat.org/api/v2/incomming/bounce
 #      bounce:
-#        log_file: 'bounce.log'
-#        grouping: true
-#        match:
+#        log_file: 'bounce.log'                  # optional
+#        grouping: true                          # optional, allow multiple events as array
+#        match:                                  # optional
 #          event: bounce
-#        id: CustomID
-#        campaign: customcampaign
-#        email: email
-#        blocked: blocked
-#        hard_bounce: hard_bounce
-#        error_related_to: error_related_to
-#        error: error
+#        id: CustomID                            # required
+#        campaign: customcampaign                # required
+#        campaign_prefix: testing                # optional
+#        email: email                            # optional
+#        blocked: blocked                        # optional, but important
+#        hard_bounce: hard_bounce                # optional, but important
+#        error_related_to: error_related_to      # optional
+#        error: error                            # optional
 
 #prod:
 #  amg_sentry:

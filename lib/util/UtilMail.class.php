@@ -126,12 +126,16 @@ class UtilMail {
     }
 
     // add tracking headers
-    $tacking = sfConfig::get('app_mail_tracking');
+    $tracking = sfConfig::get('app_mail_tracking');
     if ($trackCampaign) {
-      $trackCampaignHeader = (is_array($tacking) && array_key_exists('header', $tacking) && array_key_exists('campaign', $tacking['header'])) ? $tacking['header']['campaign'] : null;
+      $trackCampaignHeader = (is_array($tracking) && array_key_exists('header', $tracking) && array_key_exists('campaign', $tracking['header'])) ? $tracking['header']['campaign'] : null;
       if ($trackCampaignHeader) {
         if (is_numeric($trackCampaign)) {
           $trackCampaign = 'Campaign-' . $trackCampaign;
+        }
+
+        if (array_key_exists('campaign_prefix', $tracking['header']) && $tracking['header']['campaign_prefix']) {
+          $trackCampaign = $tracking['header']['campaign_prefix'] . '-' . $trackCampaign;
         }
 
         $message->getHeaders()->addTextHeader($trackCampaignHeader, $trackCampaign);
@@ -139,7 +143,7 @@ class UtilMail {
     }
 
     if ($trackId) {
-      $trackIdHeader = (is_array($tacking) && array_key_exists('header', $tacking) && array_key_exists('id', $tacking['header'])) ? $tacking['header']['id'] : null;
+      $trackIdHeader = (is_array($tracking) && array_key_exists('header', $tracking) && array_key_exists('id', $tracking['header'])) ? $tracking['header']['id'] : null;
       if ($trackIdHeader) {
         $message->getHeaders()->addTextHeader($trackIdHeader, $trackId);
       }

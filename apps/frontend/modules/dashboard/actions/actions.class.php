@@ -54,6 +54,8 @@ class dashboardActions extends policatActions {
       return $this->ajax()->form($form)->render();
     }
 
+    $this->last_bounce = StoreTable::getInstance()->getValueCached(StoreTable::INTERNAL_LAST_TESTING_BOUNCE);
+
     $this->form = $form;
   }
 

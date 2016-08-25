@@ -6,3 +6,8 @@
     <button class="btn btn-primary">Send</button>
   </div>
 </form>
+
+<?php if ($last_bounce): ?>
+<label>Last bounce of testmails</label>
+<code><?php echo $last_bounce ?></code>
+<?php endif; ?>

@@ -79,6 +79,15 @@ class api_v2_incommingActions extends policatActions {
       file_put_contents($dir . '/' . $config['log_file'], date('Y-m-d H:i:s') . " $email, id: $id, camapign: $campaign, blocked: $blocked, hard: $hard_bounce, related: $error_related_to, error: $error\n", FILE_APPEND);
     }
 
+    $campaign_prefix = $config['campaign_prefix'];
+    if ($campaign_prefix) {
+      if (!$campaign || strpos($campaign, $campaign_prefix . '-') !== 0) {
+        return false;
+      }
+
+      $campaign = substr($campaign, strlen($campaign_prefix) + 1);
+    }
+
     $this->parse($id, $idKey, $idNumber);
     switch ($idKey) {
       case 'Signing':
@@ -92,6 +101,16 @@ class api_v2_incommingActions extends policatActions {
           $signing->setBounceError($error);
           $signing->save();
         }
+
+        break;
+    }
+
+    switch ($campaign) {
+      case 'Testmail':
+        $store_entry = StoreTable::getInstance()->findByKey(StoreTable::INTERNAL_LAST_TESTING_BOUNCE, true);
+        $store_entry->setValue(date('Y-m-d H:i:s') . " $email, blocked: $blocked, hard: $hard_bounce, related: $error_related_to, error: $error");
+        $store_entry->save();
+        break;
     }
 
     return true;
@@ -138,7 +157,7 @@ class api_v2_incommingActions extends policatActions {
 
     $bounce = $api['bounce'];
 
-    foreach (array('match', 'token', 'grouping', 'log_file', 'email', 'id', 'campaign', 'blocked', 'hard_bounce', 'error_related_to', 'error') as $field) {
+    foreach (array('match', 'token', 'grouping', 'log_file', 'email', 'id', 'campaign', 'campaign_prefix', 'blocked', 'hard_bounce', 'error_related_to', 'error') as $field) {
       if (!array_key_exists($field, $bounce)) {
         $bounce[$field] = null;
       }
