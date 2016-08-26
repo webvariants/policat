@@ -32,11 +32,11 @@ class api_v2_incommingActions extends policatActions {
     $this->checkAuthToken();
 
     $time = time();
-    $data = $this->getJsonRequestData();
+    $data = $this->getJsonRequestData(false);
 
     $config = $this->getBounceConfig();
-    if (!$config) {
-      $this->forward404('Missing config.');
+    if (!$config || !$data) {
+      return $this->renderJson(array('status' => 'no data'));
     }
 
     if ($config['grouping']) {

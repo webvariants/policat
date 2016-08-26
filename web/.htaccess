@@ -4,6 +4,9 @@ Options +FollowSymLinks +ExecCGI
   RewriteEngine On
   #RewriteBase /
 
+  # enable AUTH for API
+  RewriteRule .* - [E=HTTP_AUTHORIZATION:%{HTTP:Authorization}]
+
   # no SSL/REDIRECT for fb_tab and fb_canvas
   # RewriteRule ^fb_tab$|^fb_canvas$ $1?no_redirect=TGBTGBTGB
 
