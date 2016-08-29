@@ -91,16 +91,23 @@ class api_v2_incommingActions extends policatActions {
     $this->parse($id, $idKey, $idNumber);
     switch ($idKey) {
       case 'Signing':
-        $signing = PetitionSigningTable::getInstance()->findOneById($idNumber);
+        $table = PetitionSigningTable::getInstance();
+        $signing = $table->findOneById($idNumber);
+        $con = $table->getConnection();
+        /* @var $signing PetitionSigning */
         if ($signing && $signing->getId()) {
-          /* @var $signing PetitionSigning */
-          $signing->setBounce(1);
-          $signing->setBounceAt(gmdate('Y-m-d H:i:s', $time));
-          $signing->setBounceBlocked($blocked ? 1 : 0);
-          $signing->setBounceHard($hard_bounce ? 1 : 0);
-          $signing->setBounceRelatedTo($error_related_to);
-          $signing->setBounceError($error);
-          $signing->save();
+          if ($hard_bounce && ($signing->getVerified() != PetitionSigning::VERIFIED_YES) && StoreTable::getInstance()->findByKeyCached(StoreTable::EMAIL_DELETE_HARD_BOUCNE_IMMEDIATELY)) {
+            $signing->delete();
+            $con->exec('update petition set deleted_hard_bounces = deleted_hard_bounces + 1 where id = ?', array($signing->getPetitionId()));
+          } else {
+            $signing->setBounce(1);
+            $signing->setBounceAt(gmdate('Y-m-d H:i:s', $time));
+            $signing->setBounceBlocked($blocked ? 1 : 0);
+            $signing->setBounceHard($hard_bounce ? 1 : 0);
+            $signing->setBounceRelatedTo($error_related_to);
+            $signing->setBounceError($error);
+            $signing->save();
+          }
         }
 
         break;

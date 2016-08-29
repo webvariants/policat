@@ -31,7 +31,7 @@ class EditPetitionForm extends PetitionFieldsForm {
     unset($this['language_id'], $this['paypal_email']);
     unset($this['pledge_header_visual'], $this['pledge_key_visual']);
     unset($this['pledge_background_color'], $this['pledge_color'], $this['pledge_head_color'], $this['pledge_font']);
-    unset($this['pledge_info_columns'], $this['pledge_with_comments'], $this['activity_at'], $this['deleted_pendings']);
+    unset($this['pledge_info_columns'], $this['pledge_with_comments'], $this['activity_at'], $this['deleted_pendings'], $this['deleted_hard_bounces']);
     unset($this['label_mode'], $this['follow_petition_id'], $this['addnum'], $this['target_num']);
 
     $this->configure_fields();

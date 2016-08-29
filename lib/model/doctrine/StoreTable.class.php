@@ -1,4 +1,5 @@
 <?php
+
 /*
  * Copyright (c) 2016, webvariants GmbH <?php Co. KG, http://www.webvariants.de
  *
@@ -42,6 +43,7 @@ class StoreTable extends Doctrine_Table {
   const EMAIL_SENDER = 'email_sender';
   const EMAIL_FROM_ONLY_VERIFIED = 'email_from_only_verified';
   const EMAIL_VERIFIED = 'email_verified';
+  const EMAIL_DELETE_HARD_BOUCNE_IMMEDIATELY = 'email_delete_hard_bounce_immediately';
   const TERMS_TITLE = 'terms_title';
   const TERMS_CONTENT = 'terms_content';
   const TERMS_FOOTER = 'terms_footer';
@@ -82,10 +84,9 @@ class StoreTable extends Doctrine_Table {
   const PRIVACY_AGREEMENT_EMAIL = 'privacy_agreement_email';
   const PRIVACY_AGREEMENT_REPLY = 'privacy_agreement_reply';
   const DONATIONS_PAYPAL = 'donations_paypal';
-
   const INTERNAL_CACHE_OPEN_ACTIONS = 'internal_cache_open_actions';
   const INTERNAL_LAST_TESTING_BOUNCE = 'internal_last_testing_bounce';
-  
+
   static $meta = array(
       'portal' => array(
           'name' => 'Portal',
@@ -278,7 +279,11 @@ class StoreTable extends Doctrine_Table {
                   'widget' => array('sfWidgetFormTextarea', array('label' => 'Verified E-mail-addresses or domains'), array('rows' => 10)),
                   'validator' => array('ValidatorVerifiedEmails', array('required' => false)),
                   'help' => 'Enter one E-mail-address or domain main per line.'
-              )
+              ),
+              self::EMAIL_DELETE_HARD_BOUCNE_IMMEDIATELY => array(
+                  'widget' => array('WidgetBoolean', array('label' => 'Delete hard bounced signings immediately')),
+                  'validator' => array('sfValidatorBoolean')
+              ),
           )
       ),
       'menu' => array(
@@ -664,12 +669,13 @@ class StoreTable extends Doctrine_Table {
   }
 
   public static function metaOrdered() {
-      $meta = self::$meta;
-      
-      uasort($meta, function($page1, $page2) {
-        return strcasecmp($page1['name'], $page2['name']);
-      });
-      
-      return $meta;
+    $meta = self::$meta;
+
+    uasort($meta, function($page1, $page2) {
+      return strcasecmp($page1['name'], $page2['name']);
+    });
+
+    return $meta;
   }
+
 }
