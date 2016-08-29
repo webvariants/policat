@@ -128,6 +128,14 @@ class Download extends BaseDownload {
     $blank = array('', '', '');
     $widget_id_to_language_id = array();
 
+    if ($subscribers) {
+      $used_fields['bounce_at'] = count($used_fields);
+      $used_fields['bounce_blocked'] = count($used_fields);
+      $used_fields['bounce_hard'] = count($used_fields);
+      $used_fields['bounce_error'] = count($used_fields);
+      $used_fields['bounce_related_to'] = count($used_fields);
+    }
+
     ini_set('max_execution_time', 600);
     set_time_limit(120);
 
@@ -141,6 +149,15 @@ class Download extends BaseDownload {
       $status = (int) $petition_signing['status'];
       $cell[2] = array_key_exists($status, PetitionSigning::$STATUS_SHOW) ? PetitionSigning::$STATUS_SHOW[$status] : $status;
       $cell[3] = $petition_signing['verified'] == Petition::VALIDATION_REQUIRED_YES ? 'yes' : 'no';
+
+      if ($subscribers) {
+        $cell[$used_fields['bounce_at']] = $petition_signing['bounce_at'];
+        $cell[$used_fields['bounce_blocked']] = $petition_signing['bounce_blocked'];
+        $cell[$used_fields['bounce_hard']] = $petition_signing['bounce_hard'];
+        $cell[$used_fields['bounce_error']] = $petition_signing['bounce_related_to'];
+        $cell[$used_fields['bounce_related_to']] = $petition_signing['bounce_error'];
+      }
+
       foreach ($formfields as $formfield) {
         if (!in_array($formfield, $exclude)) {
           $value = $petition_signing[$formfield];

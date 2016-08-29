@@ -1,4 +1,5 @@
-<?php /* @var $signings policatPager */ 
+<?php
+/* @var $signings policatPager */
 use_helper('Number');
 ?>
 <?php if (!isset($no_filter)): ?>
@@ -16,7 +17,7 @@ use_helper('Number');
           <p class="span6" style="text-align: right">
               Signings with pending verification (not shown): <span class="label label-important"><?php echo format_number($pending) ?></span>
               <?php if (isset($petition)): /* @var $petition Petition */ ?>
-              Auto deleted: <span class="label label-warning"><?php echo format_number($petition->getDeletedPendings()) ?></span>
+                Auto deleted: <span class="label label-warning"><?php echo format_number($petition->getDeletedPendings()) ?></span>
               <?php endif ?>
           </p>
         <?php endif ?>
@@ -28,8 +29,11 @@ use_helper('Number');
                   <?php if ($show_petition): ?><th>Action</th><?php endif ?>
                   <th>Date</th>
                   <?php if ($show_status): ?><th>Status</th><?php endif ?>
-                  <?php if ($show_email): ?><th>E-mail</th><?php endif ?>
-                  <?php if ($show_subscriber): ?><th>Subscriber</th><?php endif ?>
+                  <?php if ($show_email): ?>
+                    <th>E-mail</th>
+                    <th>Bounce</th>
+                  <?php endif ?>
+                      <?php if ($show_subscriber): ?><th>Subscriber</th><?php endif ?>
                   <th>Country</th>
                   <th>Name</th>
                   <?php if ($show_email): ?><th>Address</th><?php endif ?>
@@ -44,9 +48,19 @@ use_helper('Number');
                     <?php if ($show_status): ?><td><?php echo $signing->getStatusName() ?></td><?php endif ?>
                     <?php if ($show_email): ?>
                       <td>
-                        <?php echo $signing->getEmailScramble() ?>
-                        <?php if ($signing->getVerified() == PetitionSigning::VERIFIED_YES): ?><span class="label label-success">verified</span><?php endif ?>
-                        <?php if ($signing->getVerified() == PetitionSigning::VERIFIED_NO): ?><span class="label label-warning">not verified</span><?php endif ?>
+                          <?php echo $signing->getEmailScramble() ?>
+                          <?php if ($signing->getVerified() == PetitionSigning::VERIFIED_YES): ?><span class="label label-success">verified</span><?php endif ?>
+                          <?php if ($signing->getVerified() == PetitionSigning::VERIFIED_NO): ?><span class="label label-warning">not verified</span><?php endif ?>
+                      </td>
+                      <td>
+                          <?php if ($signing->getBounce()): ?>
+                            <?php echo $signing->getBounceAt() ?>
+                            <?php if ($signing->getBounceBlocked()): ?><span class="label label-warning">blocked</span><?php endif ?>
+                            <?php if ($signing->getBounceBlocked()): ?><span title="hard bounce" class="label label-important">hard</span><?php endif ?>
+                            <br />
+                            <code title="bounce error"><?php echo $signing->getBounceError() ?></code>
+                            <code title="bounce error related to"><?php echo $signing->getBounceRelatedTo() ?></code>
+                          <?php endif ?>
                       </td>
                     <?php endif ?>
                     <?php if ($show_subscriber): ?>
