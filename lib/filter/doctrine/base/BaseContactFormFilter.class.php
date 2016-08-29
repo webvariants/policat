@@ -21,6 +21,12 @@ abstract class BaseContactFormFilter extends BaseFormFilterDoctrine
       'lastname'              => new sfWidgetFormFilterInput(array('with_empty' => false)),
       'country'               => new sfWidgetFormFilterInput(),
       'language_id'           => new sfWidgetFormDoctrineChoice(array('model' => $this->getRelatedModelName('Language'), 'add_empty' => true)),
+      'bounce'                => new sfWidgetFormFilterInput(array('with_empty' => false)),
+      'bounce_at'             => new sfWidgetFormFilterDate(array('from_date' => new sfWidgetFormDate(), 'to_date' => new sfWidgetFormDate())),
+      'bounce_blocked'        => new sfWidgetFormFilterInput(array('with_empty' => false)),
+      'bounce_hard'           => new sfWidgetFormFilterInput(array('with_empty' => false)),
+      'bounce_related_to'     => new sfWidgetFormFilterInput(),
+      'bounce_error'          => new sfWidgetFormFilterInput(),
       'petition_signing_list' => new sfWidgetFormDoctrineChoice(array('multiple' => true, 'model' => 'PetitionSigning')),
     ));
 
@@ -33,6 +39,12 @@ abstract class BaseContactFormFilter extends BaseFormFilterDoctrine
       'lastname'              => new sfValidatorPass(array('required' => false)),
       'country'               => new sfValidatorPass(array('required' => false)),
       'language_id'           => new sfValidatorDoctrineChoice(array('required' => false, 'model' => $this->getRelatedModelName('Language'), 'column' => 'id')),
+      'bounce'                => new sfValidatorSchemaFilter('text', new sfValidatorInteger(array('required' => false))),
+      'bounce_at'             => new sfValidatorDateRange(array('required' => false, 'from_date' => new sfValidatorDateTime(array('required' => false, 'datetime_output' => 'Y-m-d 00:00:00')), 'to_date' => new sfValidatorDateTime(array('required' => false, 'datetime_output' => 'Y-m-d 23:59:59')))),
+      'bounce_blocked'        => new sfValidatorSchemaFilter('text', new sfValidatorInteger(array('required' => false))),
+      'bounce_hard'           => new sfValidatorSchemaFilter('text', new sfValidatorInteger(array('required' => false))),
+      'bounce_related_to'     => new sfValidatorPass(array('required' => false)),
+      'bounce_error'          => new sfValidatorPass(array('required' => false)),
       'petition_signing_list' => new sfValidatorDoctrineChoice(array('multiple' => true, 'model' => 'PetitionSigning', 'required' => false)),
     ));
 
@@ -80,6 +92,12 @@ abstract class BaseContactFormFilter extends BaseFormFilterDoctrine
       'lastname'              => 'Text',
       'country'               => 'Text',
       'language_id'           => 'ForeignKey',
+      'bounce'                => 'Number',
+      'bounce_at'             => 'Date',
+      'bounce_blocked'        => 'Number',
+      'bounce_hard'           => 'Number',
+      'bounce_related_to'     => 'Text',
+      'bounce_error'          => 'Text',
       'petition_signing_list' => 'ManyKey',
     );
   }

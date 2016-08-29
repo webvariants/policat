@@ -23,7 +23,8 @@ class ContactForm extends BaseContactForm {
     $this->widgetSchema->setNameFormat('contact_' . $this->getObject()->getId() . '_[%s]');
 
     unset(
-      $this['status'], $this['mailing_list_id'], $this['petition_signing_list']
+      $this['status'], $this['mailing_list_id'], $this['petition_signing_list'],
+      $this['bounce'], $this['bounce_at'], $this['bounce_blocked'], $this['bounce_hard'], $this['bounce_related_to'], $this['bounce_error']
     );
 
     $countries_false = array_keys(sfCultureInfo::getInstance()->getCountries());

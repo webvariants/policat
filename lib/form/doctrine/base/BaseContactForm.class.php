@@ -24,6 +24,12 @@ abstract class BaseContactForm extends BaseFormDoctrine
       'lastname'              => new sfWidgetFormInputText(),
       'country'               => new sfWidgetFormInputText(),
       'language_id'           => new sfWidgetFormDoctrineChoice(array('model' => $this->getRelatedModelName('Language'), 'add_empty' => true)),
+      'bounce'                => new sfWidgetFormInputText(),
+      'bounce_at'             => new sfWidgetFormDateTime(),
+      'bounce_blocked'        => new sfWidgetFormInputText(),
+      'bounce_hard'           => new sfWidgetFormInputText(),
+      'bounce_related_to'     => new sfWidgetFormInputText(),
+      'bounce_error'          => new sfWidgetFormInputText(),
       'petition_signing_list' => new sfWidgetFormDoctrineChoice(array('multiple' => true, 'model' => 'PetitionSigning')),
     ));
 
@@ -37,6 +43,12 @@ abstract class BaseContactForm extends BaseFormDoctrine
       'lastname'              => new sfValidatorString(array('max_length' => 100)),
       'country'               => new sfValidatorString(array('max_length' => 5, 'required' => false)),
       'language_id'           => new sfValidatorDoctrineChoice(array('model' => $this->getRelatedModelName('Language'), 'column' => 'id', 'required' => false)),
+      'bounce'                => new sfValidatorInteger(array('required' => false)),
+      'bounce_at'             => new sfValidatorDateTime(array('required' => false)),
+      'bounce_blocked'        => new sfValidatorInteger(array('required' => false)),
+      'bounce_hard'           => new sfValidatorInteger(array('required' => false)),
+      'bounce_related_to'     => new sfValidatorString(array('max_length' => 20, 'required' => false)),
+      'bounce_error'          => new sfValidatorString(array('max_length' => 20, 'required' => false)),
       'petition_signing_list' => new sfValidatorDoctrineChoice(array('multiple' => true, 'model' => 'PetitionSigning', 'required' => false)),
     ));
 

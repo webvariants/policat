@@ -14,6 +14,12 @@
  * @property string $lastname
  * @property string $country
  * @property string $language_id
+ * @property integer $bounce
+ * @property timestamp $bounce_at
+ * @property integer $bounce_blocked
+ * @property integer $bounce_hard
+ * @property string $bounce_related_to
+ * @property string $bounce_error
  * @property MailingList $MailingList
  * @property Doctrine_Collection $PetitionSigning
  * @property Language $Language
@@ -31,6 +37,12 @@
  * @method string              getLastname()               Returns the current record's "lastname" value
  * @method string              getCountry()                Returns the current record's "country" value
  * @method string              getLanguageId()             Returns the current record's "language_id" value
+ * @method integer             getBounce()                 Returns the current record's "bounce" value
+ * @method timestamp           getBounceAt()               Returns the current record's "bounce_at" value
+ * @method integer             getBounceBlocked()          Returns the current record's "bounce_blocked" value
+ * @method integer             getBounceHard()             Returns the current record's "bounce_hard" value
+ * @method string              getBounceRelatedTo()        Returns the current record's "bounce_related_to" value
+ * @method string              getBounceError()            Returns the current record's "bounce_error" value
  * @method MailingList         getMailingList()            Returns the current record's "MailingList" value
  * @method Doctrine_Collection getPetitionSigning()        Returns the current record's "PetitionSigning" collection
  * @method Language            getLanguage()               Returns the current record's "Language" value
@@ -47,6 +59,12 @@
  * @method Contact             setLastname()               Sets the current record's "lastname" value
  * @method Contact             setCountry()                Sets the current record's "country" value
  * @method Contact             setLanguageId()             Sets the current record's "language_id" value
+ * @method Contact             setBounce()                 Sets the current record's "bounce" value
+ * @method Contact             setBounceAt()               Sets the current record's "bounce_at" value
+ * @method Contact             setBounceBlocked()          Sets the current record's "bounce_blocked" value
+ * @method Contact             setBounceHard()             Sets the current record's "bounce_hard" value
+ * @method Contact             setBounceRelatedTo()        Sets the current record's "bounce_related_to" value
+ * @method Contact             setBounceError()            Sets the current record's "bounce_error" value
  * @method Contact             setMailingList()            Sets the current record's "MailingList" value
  * @method Contact             setPetitionSigning()        Sets the current record's "PetitionSigning" collection
  * @method Contact             setLanguage()               Sets the current record's "Language" value
@@ -110,6 +128,38 @@ abstract class BaseContact extends myDoctrineRecord
              'type' => 'string',
              'notnull' => false,
              'length' => 5,
+             ));
+        $this->hasColumn('bounce', 'integer', 1, array(
+             'type' => 'integer',
+             'notnull' => true,
+             'default' => 0,
+             'length' => 1,
+             ));
+        $this->hasColumn('bounce_at', 'timestamp', null, array(
+             'type' => 'timestamp',
+             'notnull' => false,
+             ));
+        $this->hasColumn('bounce_blocked', 'integer', 1, array(
+             'type' => 'integer',
+             'notnull' => true,
+             'default' => 0,
+             'length' => 1,
+             ));
+        $this->hasColumn('bounce_hard', 'integer', 1, array(
+             'type' => 'integer',
+             'notnull' => true,
+             'default' => 0,
+             'length' => 1,
+             ));
+        $this->hasColumn('bounce_related_to', 'string', 20, array(
+             'type' => 'string',
+             'notnull' => false,
+             'length' => 20,
+             ));
+        $this->hasColumn('bounce_error', 'string', 20, array(
+             'type' => 'string',
+             'notnull' => false,
+             'length' => 20,
              ));
 
 

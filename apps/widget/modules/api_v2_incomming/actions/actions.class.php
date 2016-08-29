@@ -111,6 +111,21 @@ class api_v2_incommingActions extends policatActions {
         }
 
         break;
+
+      case 'Contact':
+        $contact = ContactTable::getInstance()->findOneById($idNumber);
+        /* @var $contact Contact */
+        if ($contact && $contact->getId()) {
+            $contact->setBounce(1);
+            $contact->setBounceAt(gmdate('Y-m-d H:i:s', $time));
+            $contact->setBounceBlocked($blocked ? 1 : 0);
+            $contact->setBounceHard($hard_bounce ? 1 : 0);
+            $contact->setBounceRelatedTo($error_related_to);
+            $contact->setBounceError($error);
+            $contact->save();
+        }
+
+        break;
     }
 
     switch ($campaign) {
