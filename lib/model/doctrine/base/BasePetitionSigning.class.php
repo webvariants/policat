@@ -39,6 +39,7 @@
  * @property integer $quota_emails
  * @property integer $thank_sent
  * @property integer $quota_thank_you_id
+ * @property integer $bounce
  * @property timestamp $bounce_at
  * @property integer $bounce_blocked
  * @property integer $bounce_hard
@@ -87,6 +88,7 @@
  * @method integer             getQuotaEmails()            Returns the current record's "quota_emails" value
  * @method integer             getThankSent()              Returns the current record's "thank_sent" value
  * @method integer             getQuotaThankYouId()        Returns the current record's "quota_thank_you_id" value
+ * @method integer             getBounce()                 Returns the current record's "bounce" value
  * @method timestamp           getBounceAt()               Returns the current record's "bounce_at" value
  * @method integer             getBounceBlocked()          Returns the current record's "bounce_blocked" value
  * @method integer             getBounceHard()             Returns the current record's "bounce_hard" value
@@ -134,6 +136,7 @@
  * @method PetitionSigning     setQuotaEmails()            Sets the current record's "quota_emails" value
  * @method PetitionSigning     setThankSent()              Sets the current record's "thank_sent" value
  * @method PetitionSigning     setQuotaThankYouId()        Sets the current record's "quota_thank_you_id" value
+ * @method PetitionSigning     setBounce()                 Sets the current record's "bounce" value
  * @method PetitionSigning     setBounceAt()               Sets the current record's "bounce_at" value
  * @method PetitionSigning     setBounceBlocked()          Sets the current record's "bounce_blocked" value
  * @method PetitionSigning     setBounceHard()             Sets the current record's "bounce_hard" value
@@ -327,6 +330,12 @@ abstract class BasePetitionSigning extends myDoctrineRecord
              'notnull' => false,
              'length' => 4,
              ));
+        $this->hasColumn('bounce', 'integer', 1, array(
+             'type' => 'integer',
+             'notnull' => true,
+             'default' => 0,
+             'length' => 1,
+             ));
         $this->hasColumn('bounce_at', 'timestamp', null, array(
              'type' => 'timestamp',
              'notnull' => false,
@@ -455,6 +464,15 @@ abstract class BasePetitionSigning extends myDoctrineRecord
               0 => 'petition_id',
               1 => 'status',
               2 => 'updated_at',
+             ),
+             ));
+        $this->index('signing_bounce', array(
+             'fields' => 
+             array(
+              0 => 'petition_id',
+              1 => 'bounce',
+              2 => 'verified',
+              3 => 'bounce_at',
              ),
              ));
         $this->option('options', NULL);

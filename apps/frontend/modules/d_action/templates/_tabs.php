@@ -22,6 +22,7 @@ if ($user->isPetitionMember($petition->getRawValue(), true)) {
   $list['data'] = array('title' => 'Participants', 'route' => 'petition_data');
   if ($user->isDataOwnerOfCampaign($petition->getRawValue()->getCampaign())) {
     $list['dataSubscriptions'] = array('title' => 'Mailing addresses', 'route' => 'petition_data_email');
+    $list['bounces'] = array('title' => 'Bounces', 'route' => 'petition_bounces');
   }
 }
 if ($petition->getKind() == Petition::KIND_PLEDGE) {

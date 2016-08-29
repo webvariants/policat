@@ -94,6 +94,7 @@ class api_v2_incommingActions extends policatActions {
         $signing = PetitionSigningTable::getInstance()->findOneById($idNumber);
         if ($signing && $signing->getId()) {
           /* @var $signing PetitionSigning */
+          $signing->setBounce(1);
           $signing->setBounceAt(gmdate('Y-m-d H:i:s', $time));
           $signing->setBounceBlocked($blocked ? 1 : 0);
           $signing->setBounceHard($hard_bounce ? 1 : 0);

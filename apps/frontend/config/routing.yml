@@ -77,6 +77,8 @@ petition_follow:   {      url: '/action/follow/:id',                param: { mod
 petition_data:         {  url: '/action/data/:id',                  param: { module: d_action,   action: data, type: participant },    requirements: { sf_method: [get, head], id: '\d+' } }
 petition_data_email:   {  url: '/action/data_email/:id',            param: { module: d_action,   action: data, type: email },          requirements: { sf_method: [get, head], id: '\d+' } }
 petition_delete_:   {      url: '/action/delete/:id',               param: { module: d_action,   action: hardDelete },                 requirements: { sf_method: [get, head, post], id: '\d+' } }
+petition_bounces: {       url: '/action/bounces/:id',               param: { module: bounce,     action: list },                       requirements: { sf_method: [get, head], id: '\d+' } , class: sfRequestRoute }
+petition_bounces_pager: { url: '/action/bounces/:id/:page',         param: { module: bounce,     action: pager },                      requirements: { sf_method: [get, head], id: '\d+', page: '\d+' } , class: sfRequestRoute }
 data_petition_pager:   {  url: '/action/data/:id/:page',            param: { module: data,       action: pager, type: petition },      requirements: { sf_method: [get, head], id: '\d+', page: '\d+' } }
 data_petition_download: { url: '/action/data/download/:id',         param: { module: data,       action: download, type: petition },   requirements: { sf_method: [post], id: '\d+' } }
 data_petition_prepare:  { url: '/action/data/prepare/:id',          param: { module: data,       action: prepare, type: petition },    requirements: { sf_method: [post], id: '\d+' } }

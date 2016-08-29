@@ -28,6 +28,7 @@ class PetitionSigningTable extends Doctrine_Table {
   const USER = 'user';
   const SEARCH = 'search';
   const ORDER = 'order';
+  const BOUNCE = 'bounce';
   const WIDGET_FILTER = 'widget_filter';
   const KEYWORD_NAME = '#SENDER-NAME#';
   const KEYWORD_COUNTRY = '#SENDER-COUNTRY#';
@@ -36,6 +37,8 @@ class PetitionSigningTable extends Doctrine_Table {
   const KEYWORD_DATE = '#ACTION-TAKEN-DATE#';
   const ORDER_ASC = '1';
   const ORDER_DESC = '2';
+  const ORDER_BOUNCE_AT_ASC = '3';
+  const ORDER_BOUNCE_AT_DESC = '4';
 
   static $DEFAULT_OPTIONS = array(
       self::CAMPAIGN => null,
@@ -48,7 +51,8 @@ class PetitionSigningTable extends Doctrine_Table {
       self::USER => null,
       self::SEARCH => '',
       self::ORDER => null,
-      self::WIDGET_FILTER => ''
+      self::WIDGET_FILTER => '',
+      self::BOUNCE => false
   );
   static $KEYWORDS = array(
       self::KEYWORD_NAME,
@@ -82,9 +86,15 @@ class PetitionSigningTable extends Doctrine_Table {
     $search = $options[self::SEARCH];
     $order = $options[self::ORDER];
     $widget_filter = $options[self::WIDGET_FILTER];
+    $bounce = $options[self::BOUNCE];
 
     if ($status) {
       $query->andWhere('ps.status = ?', $status);
+    }
+
+    if ($bounce) {
+      $query->andWhere('ps.bounce = 1');
+      $query->andWhere('ps.verified = ?', PetitionSigning::VERIFIED_NO);
     }
 
     if (!($petition || $campaign || $widget))
@@ -209,6 +219,12 @@ class PetitionSigningTable extends Doctrine_Table {
         break;
       case self::ORDER_DESC:
         $query->orderBy('ps.id DESC');
+        break;
+      case self::ORDER_BOUNCE_AT_ASC:
+        $query->orderBy('ps.bounceAt ASC');
+        break;
+      case self::ORDER_BOUNCE_AT_DESC:
+        $query->orderBy('ps.bounceAt DESC');
         break;
     }
 

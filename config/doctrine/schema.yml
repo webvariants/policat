@@ -491,6 +491,7 @@ PetitionSigning:
     quota_emails:    { type: integer(2),  notnull: false, default: null }
     thank_sent:      { type: integer(1),  notnull: true, default: 0 }
     quota_thank_you_id: { type: integer(4),  notnull: false, default: null }
+    bounce:             { type: integer(1),  notnull: true, default: 0 }
     bounce_at:          { type: timestamp,   notnull: false, default: null }
     bounce_blocked:     { type: integer(1),  notnull: true, default: 0 }
     bounce_hard:        { type: integer(1),  notnull: true, default: 0 }
@@ -517,6 +518,7 @@ PetitionSigning:
     signing_pending_index3:        { fields: [status, mailed_at, updated_at, id] }
     signing_email_duplicate:       { fields: [petition_id, email] }
     signing_last_signers:         { fields: [petition_id, status, updated_at] }
+    signing_bounce:               { fields: [petition_id, bounce, verified, bounce_at] }
 
 PetitionSigningSearch:
   options:
