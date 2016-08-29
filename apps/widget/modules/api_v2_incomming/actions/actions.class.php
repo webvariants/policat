@@ -123,6 +123,19 @@ class api_v2_incommingActions extends policatActions {
             $contact->setBounceRelatedTo($error_related_to);
             $contact->setBounceError($error);
             $contact->save();
+            /* @var $contact Contact */
+
+            $ticket = TicketTable::getInstance()->generate(array(
+                TicketTable::CREATE_TARGET_LIST => $contact->getMailingList(),
+                TicketTable::CREATE_KIND => TicketTable::KIND_TARGET_LIST_BOUNCE,
+                TicketTable::CREATE_CHECK_DUPLICATE => true,
+            ));
+            if ($ticket) {
+              $ticket->save();
+              $ticket->notifyAdmin();
+            } else {
+              return $this->ajax()->alert('Application already pending', '')->render();
+            }
         }
 
         break;

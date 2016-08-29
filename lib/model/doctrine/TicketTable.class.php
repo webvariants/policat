@@ -52,6 +52,7 @@ class TicketTable extends Doctrine_Table {
   const KIND_QUOTA_MISSING = 13;
   const KIND_CONTACT_MESSAGE = 14;
   const KIND_WIDGET_CREATED = 15;
+  const KIND_TARGET_LIST_BOUNCE = 16;
 
   static $KIND_NAME = array(
       self::KIND_DEFAULT => 'Default',
@@ -68,7 +69,8 @@ class TicketTable extends Doctrine_Table {
       self::KIND_PAID => 'Payment received',
       self::KIND_QUOTA_MISSING => 'Package required',
       self::KIND_CONTACT_MESSAGE => 'Contact message',
-      self::KIND_WIDGET_CREATED => 'Widget created'
+      self::KIND_WIDGET_CREATED => 'Widget created',
+      self::KIND_TARGET_LIST_BOUNCE => 'Target-list has bounces',
   );
   static $KIND_HANDLER = array(
       self::KIND_DEFAULT => 'default',
@@ -86,6 +88,7 @@ class TicketTable extends Doctrine_Table {
       self::KIND_QUOTA_MISSING => 'none',
       self::KIND_CONTACT_MESSAGE => 'none',
       self::KIND_WIDGET_CREATED => 'none',
+      self::KIND_TARGET_LIST_BOUNCE => 'none',
   );
   
   static $KIND_HANDLER_DENY = array(
@@ -103,7 +106,8 @@ class TicketTable extends Doctrine_Table {
       self::KIND_PAID => 'none',
       self::KIND_QUOTA_MISSING => 'none',
       self::KIND_CONTACT_MESSAGE => 'none',
-      self::KIND_WIDGET_CREATED => 'widgetDeny'
+      self::KIND_WIDGET_CREATED => 'widgetDeny',
+      self::KIND_TARGET_LIST_BOUNCE => 'none',
   );
   
     static $KIND_TEMPLATE = array(
@@ -121,7 +125,8 @@ class TicketTable extends Doctrine_Table {
       self::KIND_PAID => 'Payment for campaign #CAMPAIGN# received. (#DATE#)<br />#TEXT#',
       self::KIND_QUOTA_MISSING => 'You need to buy a package to (re-)start your action(s) in campaign #CAMPAIGN#. #BUY-PACKAGE# (#DATE#)<br />#TEXT#',
       self::KIND_CONTACT_MESSAGE => '<strong>Contact message:</strong> (#DATE#)<br />#TEXT#',
-      self::KIND_WIDGET_CREATED => 'Widget #WIDGET# created. (#DATE#)<br />#TEXT#'
+      self::KIND_WIDGET_CREATED => 'Widget #WIDGET# created. (#DATE#)<br />#TEXT#',
+      self::KIND_TARGET_LIST_BOUNCE => 'Email-to-list target list #TARGETLIST# got email bounces. (#DATE#)'
   );
 
   const STATUS_NEW = 1;

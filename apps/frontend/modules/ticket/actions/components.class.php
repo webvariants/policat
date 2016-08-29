@@ -56,7 +56,7 @@ class ticketComponents extends policatComponents {
         '#CAMPAIGN#' => $ticket->getCampaignId() ? Util::enc($ticket->getCampaign()->getName()) : '',
         '#PETITION#' => $ticket->getPetitionId() ? Util::enc($ticket->getPetition()->getName()) : '',
         '#WIDGET#' => $ticket->getWidgetId() ? sprintf('<a href="%s">%s</a>', $routing->generate('widget_edit', array('id' => $ticket->getWidgetId())), $ticket->getWidgetId()) : '',
-        '#TARGETLIST#' => $ticket->getTargetListId() ? Util::enc($ticket->getTargetList()->getName()) : '',
+        '#TARGETLIST#' => $ticket->getTargetListId() ? sprintf('<a href="%s">%s</a>', $routing->generate('target_edit', array('id' => $ticket->getTargetListId())), Util::enc($ticket->getTargetList()->getName())): '',
         '#TEXT#' => $ticket->getText() ? sprintf('<blockquote style="white-space:pre-line;margin:0">%s</blockquote>', Util::enc($ticket->getText())) : '',
         '#DATE#' => format_date($ticket->getCreatedAt(), 'yyyy-MM-dd HH:mm'),
         '#BUY-PACKAGE#' => $this->packageLink($ticket)
