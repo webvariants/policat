@@ -396,6 +396,8 @@ $(document).ready(function($) {
 						var is_contact = selector['id'] != undefined && selector['id'] === 'contact';
 						if (is_contact) {
 							option.text(t_sel_all);
+							select.addClass('not_required');
+							$('#petition_signing_ts_1').addClass('not_required');
 						}
 						select.attr('id', 'petition_signing_ts_1_copy');
 						select.attr('name', 'petition_signing_[ts_1]');
