@@ -483,4 +483,11 @@ $(function($) {
 			}
 		}
 	});
+
+	$('input[type=checkbox].checkbox-all').on('change', function () {
+		var target = $($(this).data('target'));
+		if (target.length) {
+			target.prop('checked', $(this).prop('checked'));
+		}
+	});
 });

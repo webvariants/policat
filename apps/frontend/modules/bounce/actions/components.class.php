@@ -26,6 +26,11 @@ class bounceComponents extends policatComponents {
     $query = PetitionSigningTable::getInstance()->query($options);
 
     $this->signings = new policatPager($query, $page, 'petition_bounces_pager', array('id' => $this->petition->getId()), true, 1);
+    $this->delete_token = $this->deleteCSRFToken($this->petition->getId());
+  }
+
+  private function deleteCSRFToken($id) {
+    return UtilCSRF::gen('delete_signing_bounce', $id, $this->getGuardUser()->getId());
   }
 
 }

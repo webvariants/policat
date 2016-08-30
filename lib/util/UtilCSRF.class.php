@@ -19,7 +19,7 @@ class UtilCSRF {
   }
 
   protected static function hash($data) {
-    return base_convert(sha1($data), 16, 36);
+    return base_convert(hash('sha256', $data), 16, 36);
   }
 
   public static function gen($related_data = null) {
