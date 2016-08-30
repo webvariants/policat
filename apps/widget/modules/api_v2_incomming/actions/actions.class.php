@@ -96,6 +96,10 @@ class api_v2_incommingActions extends policatActions {
         $con = $table->getConnection();
         /* @var $signing PetitionSigning */
         if ($signing && $signing->getId()) {
+          if (!$this->equalEmail($signing->getEmail(), $email)) {
+            break;
+          }
+
           if ($hard_bounce && ($signing->getVerified() != PetitionSigning::VERIFIED_YES) && StoreTable::getInstance()->findByKeyCached(StoreTable::EMAIL_DELETE_HARD_BOUCNE_IMMEDIATELY)) {
             $signing->delete();
             $con->exec('update petition set deleted_hard_bounces = deleted_hard_bounces + 1 where id = ?', array($signing->getPetitionId()));
@@ -116,26 +120,30 @@ class api_v2_incommingActions extends policatActions {
         $contact = ContactTable::getInstance()->findOneById($idNumber);
         /* @var $contact Contact */
         if ($contact && $contact->getId()) {
-            $contact->setBounce(1);
-            $contact->setBounceAt(gmdate('Y-m-d H:i:s', $time));
-            $contact->setBounceBlocked($blocked ? 1 : 0);
-            $contact->setBounceHard($hard_bounce ? 1 : 0);
-            $contact->setBounceRelatedTo($error_related_to);
-            $contact->setBounceError($error);
-            $contact->save();
-            /* @var $contact Contact */
+          if (!$this->equalEmail($contact->getEmail(), $email)) {
+            break;
+          }
 
-            $ticket = TicketTable::getInstance()->generate(array(
-                TicketTable::CREATE_TARGET_LIST => $contact->getMailingList(),
-                TicketTable::CREATE_KIND => TicketTable::KIND_TARGET_LIST_BOUNCE,
-                TicketTable::CREATE_CHECK_DUPLICATE => true,
-            ));
-            if ($ticket) {
-              $ticket->save();
-              $ticket->notifyAdmin();
-            } else {
-              return $this->ajax()->alert('Application already pending', '')->render();
-            }
+          $contact->setBounce(1);
+          $contact->setBounceAt(gmdate('Y-m-d H:i:s', $time));
+          $contact->setBounceBlocked($blocked ? 1 : 0);
+          $contact->setBounceHard($hard_bounce ? 1 : 0);
+          $contact->setBounceRelatedTo($error_related_to);
+          $contact->setBounceError($error);
+          $contact->save();
+          /* @var $contact Contact */
+
+          $ticket = TicketTable::getInstance()->generate(array(
+              TicketTable::CREATE_TARGET_LIST => $contact->getMailingList(),
+              TicketTable::CREATE_KIND => TicketTable::KIND_TARGET_LIST_BOUNCE,
+              TicketTable::CREATE_CHECK_DUPLICATE => true,
+          ));
+          if ($ticket) {
+            $ticket->save();
+            $ticket->notifyAdmin();
+          } else {
+            return $this->ajax()->alert('Application already pending', '')->render();
+          }
         }
 
         break;
@@ -200,6 +208,10 @@ class api_v2_incommingActions extends policatActions {
     }
 
     return $bounce;
+  }
+
+  private function equalEmail($a, $b) {
+    return strcasecmp(trim($a), trim($b)) === 0;
   }
 
 }
