@@ -11,9 +11,17 @@
 
 class UtilMail {
 
-  public static function getDefaultFrom() {
+  public static function getDefaultFrom($overwrite_name = null) {
     $mail = StoreTable::getInstance()->getValueCached(StoreTable::EMAIL_ADDRESS);
     $name = StoreTable::getInstance()->getValueCached(StoreTable::EMAIL_NAME);
+
+
+    if ($overwrite_name && is_array($overwrite_name)) {
+      $possible_name = reset($overwrite_name);
+      if ($possible_name) {
+        $name = $possible_name;
+      }
+    }
 
     if ($name)
       return array($mail => $name);
@@ -65,7 +73,7 @@ class UtilMail {
       if (!self::fromOnlyVerified() || self::isVerified($from)) {
         $message->setFrom($from);
       } else {
-        $message->setFrom(self::getDefaultFrom());
+        $message->setFrom(self::getDefaultFrom($from));
         if (!$replyTo) {
           $message->setReplyTo($from);
         }

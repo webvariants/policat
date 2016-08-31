@@ -100,7 +100,7 @@ class api_v2_incommingActions extends policatActions {
             break;
           }
 
-          if ($hard_bounce && ($signing->getVerified() != PetitionSigning::VERIFIED_YES) && StoreTable::getInstance()->findByKeyCached(StoreTable::EMAIL_DELETE_HARD_BOUCNE_IMMEDIATELY)) {
+          if ($hard_bounce && ($signing->getVerified() != PetitionSigning::VERIFIED_YES) && StoreTable::value(StoreTable::EMAIL_DELETE_HARD_BOUCNE_IMMEDIATELY)) {
             $signing->delete();
             $con->exec('update petition set deleted_hard_bounces = deleted_hard_bounces + 1 where id = ?', array($signing->getPetitionId()));
           } else {

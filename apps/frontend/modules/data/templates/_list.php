@@ -57,10 +57,10 @@ use_helper('Number');
                           <?php if ($signing->getBounce()): ?>
                             <?php echo $signing->getBounceAt() ?>
                             <?php if ($signing->getBounceBlocked()): ?><span class="label label-warning">blocked</span><?php endif ?>
-                            <?php if ($signing->getBounceBlocked()): ?><span title="hard bounce" class="label label-important">hard</span><?php endif ?>
+                            <?php if ($signing->getBounceHard()): ?><span title="hard bounce" class="label label-important">hard</span><?php endif ?>
                             <br />
-                            <code title="bounce error"><?php echo $signing->getBounceError() ?></code>
-                            <code title="bounce error related to"><?php echo $signing->getBounceRelatedTo() ?></code>
+                            <?php if ($signing->getBounceError()): ?><code title="bounce error"><?php echo $signing->getBounceError() ?></code><?php endif ?>
+                            <?php if ($signing->getBounceRelatedTo()): ?><code title="bounce error related to"><?php echo $signing->getBounceRelatedTo() ?></code><?php endif ?>
                           <?php endif ?>
                       </td>
                     <?php endif ?>
@@ -74,7 +74,7 @@ use_helper('Number');
                     <?php endif ?>
                     <td><?php echo $signing->getCountry() ?></td>
                     <td><?php echo $signing->getComputedName() ?></td>
-                    <?php if ($show_email): ?><td><?php echo $signing->getComputedAddress('en', ", ") ?></td><?php endif ?>
+                    <?php if ($show_email): ?><td><?php echo $signing->getComputedAddress('en', ", ", false, false) ?></td><?php endif ?>
                     <?php if ($can_delete): ?><td><a class="btn btn-mini ajax_link" href="<?php echo url_for('data_delete', array('id' => $signing->getId())) ?>">delete</a></td><?php endif ?>
                 </tr>
               <?php endforeach ?>

@@ -127,16 +127,16 @@ class PetitionSigning extends BasePetitionSigning {
       $ret = '';
     }
     if ($address)
-      $ret .= $glue . $address;
+      $ret .= ($ret ? $glue : '') . $address;
     if ($city) {
       if ($postcode)
-        $ret .= $glue . $postcode . ' ' . $city;
+        $ret .= ($ret ? $glue : '') . $postcode . ' ' . $city;
       else
-        $ret .= $glue . $city;
+        $ret .= ($ret ? $glue : '') . $city;
     }
     else {
       if ($postcode)
-        $ret .= $glue . $postcode;
+        $ret .= ($ret ? $glue : '') . $postcode;
     }
 
     if (!$with_country) {
