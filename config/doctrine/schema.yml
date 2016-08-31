@@ -313,6 +313,7 @@ Petition:
     country_collection_id:   { type: integer(4), notnull: false, default: null }
     deleted_pendings:        { type: integer(4), notnull: true, default: 0 }
     deleted_hard_bounces:    { type: integer(4), notnull: true, default: 0 }
+    deleted_bounces_manually: { type: integer(4), notnull: true, default: 0 }
     label_mode:              { type: integer(1), notnull: true, default: 1 }
     policy_checkbox:         { type: integer(1), notnull: true, default: 1 }
     thank_you_email:         { type: integer(1), notnull: true, default: 0 }

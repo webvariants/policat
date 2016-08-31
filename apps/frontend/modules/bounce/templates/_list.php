@@ -1,11 +1,15 @@
 <?php
 /* @var $signings policatPager */
+/* @var $petition Petition */
 use_helper('Number');
 ?>
 
 <div id="data">
     <div class="row">
-        <p class="span6">Total bounces: <span class="label label-warning"><?php echo format_number($signings->getNbResults()) ?></span></p>
+        <p class="span6">
+            Bounces pending review (see list below): <span class="label label-info"><?php echo format_number($signings->getNbResults()) ?></span>
+            Deleted bounces (manually and auto deleted): <span class="label label-info"><?php echo format_number($petition->getDeletedHardBounces() + $petition->getDeletedBouncesManually()) ?></span>
+        </p>
     </div>
     <?php if (isset($signings) && $signings->count()): ?>
     <form class="ajax_form" method="post" action="<?php echo url_for('petition_bounce_delete', array('id' => $petition->getId())) ?>">
@@ -22,7 +26,6 @@ use_helper('Number');
                       <th>Hard bounce</th>
                       <th>Reason</th>
                       <th>Related to</th>
-                      <th></th>
                   </tr>
               </thead>
               <tbody>
@@ -37,7 +40,6 @@ use_helper('Number');
                         <td><?php echo $signing->getBounceHard() ? 'yes' : 'no' ?></td>
                         <td><?php echo $signing->getBounceError() ?></td>
                         <td><?php echo $signing->getBounceRelatedTo() ?></td>
-                        <td><a class="btn btn-mini ajax_link" href="<?php echo url_for('data_delete', array('id' => $signing->getId())) ?>">delete</a></td>
                     </tr>
                   <?php endforeach ?>
               </tbody>

@@ -64,6 +64,7 @@
  * @property integer $country_collection_id
  * @property integer $deleted_pendings
  * @property integer $deleted_hard_bounces
+ * @property integer $deleted_bounces_manually
  * @property integer $label_mode
  * @property integer $policy_checkbox
  * @property integer $thank_you_email
@@ -144,6 +145,7 @@
  * @method integer             getCountryCollectionId()        Returns the current record's "country_collection_id" value
  * @method integer             getDeletedPendings()            Returns the current record's "deleted_pendings" value
  * @method integer             getDeletedHardBounces()         Returns the current record's "deleted_hard_bounces" value
+ * @method integer             getDeletedBouncesManually()     Returns the current record's "deleted_bounces_manually" value
  * @method integer             getLabelMode()                  Returns the current record's "label_mode" value
  * @method integer             getPolicyCheckbox()             Returns the current record's "policy_checkbox" value
  * @method integer             getThankYouEmail()              Returns the current record's "thank_you_email" value
@@ -223,6 +225,7 @@
  * @method Petition            setCountryCollectionId()        Sets the current record's "country_collection_id" value
  * @method Petition            setDeletedPendings()            Sets the current record's "deleted_pendings" value
  * @method Petition            setDeletedHardBounces()         Sets the current record's "deleted_hard_bounces" value
+ * @method Petition            setDeletedBouncesManually()     Sets the current record's "deleted_bounces_manually" value
  * @method Petition            setLabelMode()                  Sets the current record's "label_mode" value
  * @method Petition            setPolicyCheckbox()             Sets the current record's "policy_checkbox" value
  * @method Petition            setThankYouEmail()              Sets the current record's "thank_you_email" value
@@ -562,6 +565,12 @@ abstract class BasePetition extends myDoctrineRecord
              'length' => 4,
              ));
         $this->hasColumn('deleted_hard_bounces', 'integer', 4, array(
+             'type' => 'integer',
+             'notnull' => true,
+             'default' => 0,
+             'length' => 4,
+             ));
+        $this->hasColumn('deleted_bounces_manually', 'integer', 4, array(
              'type' => 'integer',
              'notnull' => true,
              'default' => 0,
