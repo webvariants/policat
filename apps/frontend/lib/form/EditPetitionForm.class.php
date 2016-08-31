@@ -108,7 +108,9 @@ class EditPetitionForm extends PetitionFieldsForm {
     if (sfConfig::get('app_spf_ip')) {
       $this->getWidgetSchema()->setHelp('from_email', 'Please check if the e-mail domain server of the e-mail you provided allows PoliCAT to send e-mails with your address. Do not use an address if the SPF check result is "fail". You may use an e-mail address if the SPF check result is "none" or "softfail". However, be aware that in these cases a certain percentage of your validation and action e-mails might be considered spam by some e-mail clients. Ideally, ask your e-mail server admin to add ' . sfConfig::get('app_spf_ip') . ' in their SPF record, sample code: your.mail.domain. 3600 IN TXT "v=spf1 mx ip4:' . sfConfig::get('app_spf_ip') . '/32 -all"');
     } else {
-      $this->getWidgetSchema()->setHelp('from_email', 'This address is used as "Reply-To" in emails.');
+      if (StoreTable::getInstance()->value(StoreTable::EMAIL_FROM_ONLY_VERIFIED)) {
+        $this->getWidgetSchema()->setHelp('from_email', 'This address is used as "Reply-To" in emails.');
+      }
     }
 
     $this->setWidget('homepage', new sfWidgetFormChoice(array(

@@ -38,7 +38,7 @@ use_helper('Number');
                         <td><?php echo $signing->getSubscribe() ? 'yes' : 'no' ?></td>
                         <td><?php echo $signing->getBounceBlocked() ? 'yes' : 'no' ?></td>
                         <td><?php echo $signing->getBounceHard() ? 'yes' : 'no' ?></td>
-                        <td><?php echo $signing->getBounceError() ?></td>
+                        <td><?php if ($signing->getBounceError()): ?><?php echo $signing->getBounceError() ?><?php else: ?><i>unknown</i><?php endif ?></td>
                         <td><?php echo $signing->getBounceRelatedTo() ?></td>
                     </tr>
                   <?php endforeach ?>

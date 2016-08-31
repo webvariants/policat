@@ -221,10 +221,10 @@ class PetitionSigningTable extends Doctrine_Table {
         $query->orderBy('ps.id DESC');
         break;
       case self::ORDER_BOUNCE_AT_ASC:
-        $query->orderBy('ps.bounceAt ASC');
+        $query->orderBy('ps.bounce_at ASC');
         break;
       case self::ORDER_BOUNCE_AT_DESC:
-        $query->orderBy('ps.bounceAt DESC');
+        $query->orderBy('ps.bounce_at DESC');
         break;
     }
 

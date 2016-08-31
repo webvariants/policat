@@ -20,7 +20,8 @@ class bounceComponents extends policatComponents {
     $options = array(
         PetitionSigningTable::PETITION => $this->petition->getId(),
         PetitionSigningTable::STATUS => null,
-        PetitionSigningTable::BOUNCE => true
+        PetitionSigningTable::BOUNCE => true,
+        PetitionSigningTable::ORDER => PetitionSigningTable::ORDER_BOUNCE_AT_DESC
     );
 
     $query = PetitionSigningTable::getInstance()->query($options);
