@@ -27,8 +27,8 @@
                   <?php if ($contact->getBounceBlocked()): ?><span class="label label-warning">blocked</span><?php endif ?>
                   <?php if ($contact->getBounceBlocked()): ?><span title="hard bounce" class="label label-important">hard</span><?php endif ?>
                   <br />
-                  <code title="bounce error"><?php echo $contact->getBounceError() ?></code>
-                  <code title="bounce error related to"><?php echo $contact->getBounceRelatedTo() ?></code>
+                  <?php if ($contact->getBounceError()): ?><code title="bounce error"><?php echo $contact->getBounceError() ?></code><?php endif ?>
+                  <?php if ($contact->getBounceRelatedTo()): ?><code title="bounce error related to"><?php echo $contact->getBounceRelatedTo() ?></code><?php endif ?>
                 <?php endif ?>
           </td>
           <td>
