@@ -5,17 +5,24 @@
 <header/>
 <body>
 <trans-unit id="1"><source>Petition</source><target>Petycja</target></trans-unit>
-<trans-unit id="2"><source>Email action</source><target>działania e-mail </target></trans-unit>
+<trans-unit id="2"><source>Email action</source><target>Apel</target></trans-unit>
 <trans-unit id="3"><source>Initiative</source><target>Inicjatywa </target></trans-unit>
-<trans-unit id="4"><source>Network-News</source><target>koalicja aktualności </target></trans-unit>
+<trans-unit id="4"><source>Appeal</source><target>Apel</target></trans-unit>
+<trans-unit id="5"><source>Community</source><target>Społeczność</target></trans-unit>
+<trans-unit id="6"><source>Newsletter</source><target>Biuletyn</target></trans-unit>
+<trans-unit id="7"><source>Join</source><target>przyłączyć się</target></trans-unit>
+<trans-unit id="8"><source>Sign up</source><target>Zapisz się</target></trans-unit>
+<trans-unit id="9"><source>Sign up to the newsletter</source><target>Zapisz się do newslettera</target></trans-unit>
 <trans-unit id="11"><source>Sign the Petition</source><target>Podpisz petycję</target></trans-unit>
-<trans-unit id="12"><source>Send an Email</source><target>Akcja</target></trans-unit>
+<trans-unit id="12"><source>Send an Email</source><target>Wyślij apel</target></trans-unit>
 <trans-unit id="13"><source>Support</source><target>Wyraź poparcie</target></trans-unit>
-<trans-unit id="14"><source>Take action</source><target>Akcja</target></trans-unit>
+<trans-unit id="14"><source>Take action</source><target>DZIAŁAJ</target></trans-unit>
 <trans-unit id="15"><source>Sign</source><target>PODPISZ!</target></trans-unit>
 <trans-unit id="16"><source>Send</source><target>Wyślij</target></trans-unit>
 <trans-unit id="17"><source>Subscribe</source><target>Zapisanie się</target></trans-unit>
 <trans-unit id="18"><source>Support the initiative</source><target>Podpisz inicjatywę</target></trans-unit>
+<trans-unit id="19"><source>Support the appeal</source><target>Popieram apel</target></trans-unit>
+<trans-unit id="20"><source>Join the community</source><target>Dołącz do społeczności</target></trans-unit>
 <trans-unit id="21"><source>Name</source><target>Nazwa</target></trans-unit>
 <trans-unit id="22"><source>Full name</source><target>Imię i nazwisko</target></trans-unit>
 <trans-unit id="23"><source>First name</source><target>Imię</target></trans-unit>
@@ -30,10 +37,11 @@
 <trans-unit id="32"><source>Email address</source><target>Adres e-mail</target></trans-unit>
 <trans-unit id="33"><source>Comment</source><target>Komentarz</target></trans-unit>
 <trans-unit id="34"><source>Privacy policy</source><target>Akceptuję politykę prywatności</target></trans-unit>
-<trans-unit id="35"><source>Keep me posted on this and similar campaigns.</source><target>Informuj mniej o tej i podobnych akcjach.</target></trans-unit>
+<trans-unit id="35"><source>Keep me posted on this and similar campaigns.</source><target>Informuj mnie o tej i podobnych akcjach.</target></trans-unit>
 <trans-unit id="36"><source>Reminder:</source><target>Przypomnienie:</target></trans-unit>
+<trans-unit id="37"><source>By signing, I agree with the _privacy policy_.</source><target>Akceptuję _politykę prywatności_.</target></trans-unit>
 <trans-unit id="41"><source>Thank you</source><target>Dziękujemy</target></trans-unit>
-<trans-unit id="42"><source>Attention: You will receive a confirmation email. Check your email inbox (and junk folder) now! To confirm your action, click the link given in the email.</source><target>Uwaga: Otrzymasz e-mail z potwierdzeniem. Sprawdź teraz skrzynkę pocztową (i folder ze spamami)! Aby potwierdzić swoje działanie,  kliknij link podany w e-mailu.</target></trans-unit>
+<trans-unit id="42"><source>Attention: You will receive a confirmation email. Check your email inbox (and junk folder) now! To confirm your action, click the link given in the email.</source><target>Uwaga: Otrzymasz e-mail z potwierdzeniem. Sprawdź swoją skrzynkę pocztową (i folder spam)! Aby potwierdzić swój głos, kliknij w link podany w e-mailu.</target></trans-unit>
 <trans-unit id="43"><source>Attention: You've already taken part in this action (maybe on another website).</source><target>Uwaga: wziąleś już udział w tej akcji (być może na innej stronie internetowej).</target></trans-unit>
 <trans-unit id="44"><source>Your email is being validated, please wait!</source><target>Twój e-mail jest potwierdzany, prosimy czekać!</target></trans-unit>
 <trans-unit id="45"><source>You verified your email address. Your action is confirmed. Use this moment to tell friends and family.</source><target>Zweryfikowałeś swój adres e-mal. Twój udział w akcji jest potwierdzony. Wykorzystaj ten moment, aby powiadomić przyjaciół i rodzinę.</target></trans-unit>
@@ -43,14 +51,16 @@
 <trans-unit id="49"><source>We have sent an email with information about this campaign to the address(es) specified.</source><target>Wysłaliśmy e-mail z informacją o tej kampanii na podane adresy.</target></trans-unit>
 <trans-unit id="50"><source>Donate</source><target>Wesprzyj finansowo</target></trans-unit>
 <trans-unit id="51"><source>Help us fund this campaign. Give whatever you can now using the safe and secure paypal form below.</source><target>Nazwa</target></trans-unit>
-<trans-unit id="52"><source>Amount</source><target>Imię</target></trans-unit>
+<trans-unit id="52"><source>Amount</source><target>Kwota</target></trans-unit>
+<trans-unit id="53"><source>Last signers</source><target>Ostatnio sygnatariusze</target></trans-unit>
+<trans-unit id="54"><source>All signers</source><target>wszyscy sygnatariusze</target></trans-unit>
 <trans-unit id="61"><source>Back</source><target>Wstecz</target></trans-unit>
 <trans-unit id="62"><source>Background</source><target>Więcej</target></trans-unit>
 <trans-unit id="63"><source>Read more</source><target>Czytaj więcej</target></trans-unit>
 <trans-unit id="64"><source>More actions</source><target>Rozpocznik swoją petycję!</target></trans-unit>
 <trans-unit id="65"><source>PP Heading</source><target>Polityka prywatności</target></trans-unit>
-<trans-unit id="66"><source>people so far</source><target>uczestników</target></trans-unit>
-<trans-unit id="67"><source>emails sent</source><target>e-maile wysłane</target></trans-unit>
+<trans-unit id="66"><source># Participants</source><target># uczestników</target></trans-unit>
+<trans-unit id="67"><source># emails sent</source><target># e-maile wysłane</target></trans-unit>
 <trans-unit id="68"><source>The action starts on #DATE#. Stay tuned and spread the word!</source><target>Ta akcja rozpoczyna się w dniu #DATE#. Bądź na bieżąco i zmobilizuj innych!</target></trans-unit>
 <trans-unit id="69"><source>This action is over. Thanks to the #COUNTER# people who signed-up!</source><target>Ta akcja jest zakończona. Podziękowania dla #COUNTER# osób, które się podpisały!</target></trans-unit>
 <trans-unit id="70"><source>select</source><target>Wybierz</target></trans-unit>
@@ -84,6 +94,7 @@
 <trans-unit id="129"><source>Subject</source><target>Temat </target></trans-unit>
 <trans-unit id="130"><source>Email body</source><target>Treść wiadomości </target></trans-unit>
 <trans-unit id="131"><source>Choose 'Embed' to have this box ("widget") embedded into your webpage, including texts and action-form. Visitors can instantly read all and take action. However, you need at least 440px width to embed the widget. Choose 'Popup' if you lack sufficient space on your webpage. You will get a small box ("teaser") with flexible width (at least 150px). If visitors click on the teaser, the big action-widget pops up.</source><target>Wybierz 'Embed', aby osadzić tę ramkę ("widget") na swojej stronie internetowej, włącznie z tekstami i formularzem akcji. Odwiedzający mogą natychmiast przeczytać wszystko i podjąć działanie. Jednak potrzebujesz przynajmniej 440px na szerokości, aby wstawić widget. Wybierz 'Popup', jeśli nie masz dostatecznego miejsca na swojej stronie internetowej. Uzyskasz małą ramkę ("teaser") o elastycznej szerokości (przynajmniej 150px). Jeśli odwiedzający kliknie na "teasera", wyskoczy duży widget.</target></trans-unit>
+<trans-unit id="166"><source>Target #</source><target>Cel #</target></trans-unit>
 <trans-unit id="201"><source>Hello</source><target>Witaj</target></trans-unit>
 <trans-unit id="202"><source>Dear Madam %F %L,</source><target>Szanowna Pani %L,</target></trans-unit>
 <trans-unit id="203"><source>Dear Sir %F %L,</source><target>Szanowny Panie %L,</target></trans-unit>
@@ -106,7 +117,6 @@
 <trans-unit id="316"><source>Password again</source><target>Hasło jeszcze raz </target></trans-unit>
 <trans-unit id="317"><source>Enter</source><target>Wprowadź </target></trans-unit>
 <trans-unit id="318"><source>I pledged on #DATE#</source><target>Postanowiłem na #DATE#</target></trans-unit>
-
 </body>
 </file>
 </xliff>

@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE xliff PUBLIC "-//XLIFF//DTD XLIFF//EN" "http://www.oasis-open.org/committees/xliff/documents/xliff.dtd">
 <xliff version="1.0">
-<file source-language="EN" target-language="hr" datatype="plaintext" original="messages" date="2015-07-21T13:53:17Z" product-name="messages">
+<file source-language="EN" target-language="sr_ME" datatype="plaintext" original="messages" date="2015-07-21T13:53:17Z" product-name="messages">
 <header/>
 <body>
 <trans-unit id="1"><source>Petition</source><target>Peticija</target></trans-unit>
@@ -20,45 +20,45 @@
 <trans-unit id="22"><source>Full name</source><target>Ime i prezime</target></trans-unit>
 <trans-unit id="23"><source>First name</source><target>Ime</target></trans-unit>
 <trans-unit id="24"><source>Last name</source><target>Prezime</target></trans-unit>
-<trans-unit id="25"><source>Mr</source><target>G.</target></trans-unit>
+<trans-unit id="25"><source>Mr</source><target>Gdin</target></trans-unit>
 <trans-unit id="26"><source>Mrs</source><target>Gđa</target></trans-unit>
-<trans-unit id="27"><source>Mrs/Mr</source><target>Gđa/G.</target></trans-unit>
+<trans-unit id="27"><source>Mrs/Mr</source><target>Gđa/Gdin</target></trans-unit>
 <trans-unit id="28"><source>City</source><target>Grad</target></trans-unit>
 <trans-unit id="29"><source>Post code</source><target>Poštanski broj</target></trans-unit>
 <trans-unit id="30"><source>Country</source><target>Država</target></trans-unit>
 <trans-unit id="31"><source>Address</source><target>Adresa</target></trans-unit>
 <trans-unit id="32"><source>Email address</source><target>E-mail adresa</target></trans-unit>
 <trans-unit id="33"><source>Comment</source><target>Komentar</target></trans-unit>
-<trans-unit id="34"><source>Privacy policy</source><target>Prihvaćam odredbu o privatnosti podataka</target></trans-unit>
+<trans-unit id="34"><source>Privacy policy</source><target>Prihvatam odredbu o privatnosti podataka</target></trans-unit>
 <trans-unit id="35"><source>Keep me posted on this and similar campaigns.</source><target>Obavještavaj me o ovoj i sličnim kampanjama</target></trans-unit>
 <trans-unit id="36"><source>Reminder:</source><target>Podsjetnik</target></trans-unit>
 <trans-unit id="41"><source>Thank you</source><target>Hvala</target></trans-unit>
-<trans-unit id="42"><source>Attention: You will receive a confirmation email. Check your email inbox (and junk folder) now! To confirm your action, click the link given in the email.</source><target>Pažnja: Primit ćete e-mail potvrde. Provjerite svoj mail, uključujući i junk mail folder. Za potvrdu potpisa kliknite na link koji se nalazi u mailu.</target></trans-unit>
-<trans-unit id="43"><source>Attention: You've already taken part in this action (maybe on another website).</source><target>Pažnja: Već ste sudjelovali u ovoj akciji (možda na drugoj internet stranici).</target></trans-unit>
+<trans-unit id="42"><source>Attention: You will receive a confirmation email. Check your email inbox (and junk folder) now! To confirm your action, click the link given in the email.</source><target>Pažnja: Primićete e-mail potvrde. Provjerite svoj mail, uključujući i junk mail folder. Za potvrdu potpisa kliknite na link koji se nalazi u mailu.</target></trans-unit>
+<trans-unit id="43"><source>Attention: You've already taken part in this action (maybe on another website).</source><target>Pažnja: Već ste učestvovalii u ovoj akciji (možda na drugoj internet stranici).</target></trans-unit>
 <trans-unit id="44"><source>Your email is being validated, please wait!</source><target>U toku je potvrda Vaše e-mail adrese. Molimo pričekajte!</target></trans-unit>
-<trans-unit id="45"><source>You verified your email address. Your action is confirmed. Use this moment to tell friends and family.</source><target>Vaša e-mail adresa je potvrđena. Vaša akcija je potvrđena. Iskoristite ovaj trenutak da ovoj akciji obavijestite obitelj i prijatelje.</target></trans-unit>
+<trans-unit id="45"><source>You verified your email address. Your action is confirmed. Use this moment to tell friends and family.</source><target>Vaša e-mail adresa je potvrđena. Vaša akcija je potvrđena. Iskoristite ovaj trenutak da ovoj akciji obavijestite porodicu i prijatelje/ice.</target></trans-unit>
 <trans-unit id="46"><source>Share</source><target>Podijeli</target></trans-unit>
 <trans-unit id="47"><source>Tell your friends</source><target>Pošalji prijateljima/icama</target></trans-unit>
-<trans-unit id="48"><source>Separate email addresses with a comma.</source><target>Različite e-mail adrese odvojite zarezom.</target></trans-unit>
-<trans-unit id="49"><source>We have sent an email with information about this campaign to the address(es) specified.</source><target>E-mail s informacijama o ovoj kampanji smo poslali na navedene adrese.</target></trans-unit>
+<trans-unit id="48"><source>Separate email addresses with a comma.</source><target>Različite e-mail adrese odvojite zarezom</target></trans-unit>
+<trans-unit id="49"><source>We have sent an email with information about this campaign to the address(es) specified.</source><target>E-mail sa informacijama o ovoj kampanji smo poslali na navedene adrese.</target></trans-unit>
 <trans-unit id="50"><source>Donate</source><target>Doniraj</target></trans-unit>
-<trans-unit id="51"><source>Help us fund this campaign. Give whatever you can now using the safe and secure paypal form below.</source><target>Pomozite nam u financiranju ove kampanje. Donirajte koliko možete putem Paypala (sigurnog servisa za plaćanje putem interneta) tako što ćete ispuniti formular koji se nalazi ispod.</target></trans-unit>
+<trans-unit id="51"><source>Help us fund this campaign. Give whatever you can now using the safe and secure paypal form below.</source><target>Pomozitei nam u finansiranju ove kampanje. Donirajte koliko možete putem Paypala (sigurnog servisa za plaćanje putem interneta) tako što ćete ispuniti formular koji se nalazi ispod.</target></trans-unit>
 <trans-unit id="52"><source>Amount</source><target>Iznos</target></trans-unit>
 <trans-unit id="61"><source>Back</source><target>Nazad</target></trans-unit>
 <trans-unit id="62"><source>Background</source><target>Pozadina</target></trans-unit>
 <trans-unit id="63"><source>Read more</source><target>Pročitaj više</target></trans-unit>
-<trans-unit id="64"><source>More actions</source><target>Započni vlastitu peticiju!</target></trans-unit>
+<trans-unit id="64"><source>More actions</source><target>Započni sopstvenu peticiju!</target></trans-unit>
 <trans-unit id="65"><source>PP Heading</source><target>Odredba o privatnosti podataka</target></trans-unit>
 <trans-unit id="66"><source>people so far</source><target>Potpisalo do sad</target></trans-unit>
 <trans-unit id="67"><source>emails sent</source><target>Poslani e-mailovi</target></trans-unit>
 <trans-unit id="68"><source>The action starts on #DATE#. Stay tuned and spread the word!</source><target>Ova akcija započinje #DATE#. Nastavite pratiti i pokrenite druge!</target></trans-unit>
-<trans-unit id="69"><source>This action is over. Thanks to the #COUNTER# people who signed-up!</source><target>Ova akcija je završena. #COUNTER# osoba je sudjelovalo. Hvala svima!</target></trans-unit>
+<trans-unit id="69"><source>This action is over. Thanks to the #COUNTER# people who signed-up!</source><target>Ova akcija je završena. #COUNTER# osoba je učestvovalo Hvala svima!</target></trans-unit>
 <trans-unit id="70"><source>select</source><target>Odaberi</target></trans-unit>
 <trans-unit id="71"><source>select all</source><target>Pošalji svima</target></trans-unit>
-<trans-unit id="72"><source>Recipient(s)</source><target>Primatelj(i)</target></trans-unit>
+<trans-unit id="72"><source>Recipient(s)</source><target>Primaoc(i)</target></trans-unit>
 <trans-unit id="81"><source>Embed this</source><target>Ugradi ovo</target></trans-unit>
 <trans-unit id="82"><source>Organisation</source><target>Organizacija</target></trans-unit>
-<trans-unit id="83"><source>Register your widget</source><target>Registriraj svoj widget</target></trans-unit>
+<trans-unit id="83"><source>Register your widget</source><target>Registruj svoj widget</target></trans-unit>
 <trans-unit id="84"><source>Generate widget</source><target>Napravi widget</target></trans-unit>
 <trans-unit id="85"><source>Change widget</source><target>Izmijeni widget</target></trans-unit>
 <trans-unit id="86"><source>Embed this code</source><target>Ugradi ovaj kod</target></trans-unit>
@@ -68,10 +68,10 @@
 <trans-unit id="104"><source>Popup</source><target>Popup</target></trans-unit>
 <trans-unit id="105"><source>Email Validation Landingpage - auto forwarding to external page</source><target>Automatsko prosljeđivanje na stranicu za potvrdu e-maila</target></trans-unit>
 <trans-unit id="106"><source>Width</source><target>Širina</target></trans-unit>
-<trans-unit id="107"><source>You may define a precise widget width. Select "auto" and the widget will adapt to the space available (max: 1000px). Should there be less than 440px width available, contents will display in one column (instead of two) with the sign-on-form below the petition text. On mobile devices with less than 768px device-width, the widget-width is set to 360px for smooth reading on smartphones.</source><target>Možete odrediti točnu širinu widgeta. Odaberite "Auto" i widget će se prilagoditi raspoloživom prostoru (max: 1000px). Ako je dostupno manje od 440px širine, sadržaj će se prikazati u jednom stupcu (umjesto dva) uz prijavu na obrazac peticije teksta. Na mobilnim uređajima s manje od 768px širine uređaja,  širina je postavljena na 360px za bolje čitanje na pametnim telefonima.</target></trans-unit>
+<trans-unit id="107"><source>You may define a precise widget width. Select "auto" and the widget will adapt to the space available (max: 1000px). Should there be less than 440px width available, contents will display in one column (instead of two) with the sign-on-form below the petition text. On mobile devices with less than 768px device-width, the widget-width is set to 360px for smooth reading on smartphones.</source><target>Možete odrediti tačnu širinu widgeta. Odaberite "Auto" i widget će se prilagoditi raspoloživom prostoru (max: 1000px). Ako je dostupno manje od 440px širine, sadržaj će se prikazati u jednom stupcu (umjesto dva) uz prijavu na obrazac peticije teksta. Na mobilnim uređajima s manje od 768px širine uređaja,  širina je postavljena na 360px za bolje čitanje na pametnim telefonima.</target></trans-unit>
 <trans-unit id="108"><source>Text title</source><target>Naslov, lijevo</target></trans-unit>
 <trans-unit id="109"><source>Text body</source><target>Tekst </target></trans-unit>
-<trans-unit id="110"><source>Button</source><target>Gumb</target></trans-unit>
+<trans-unit id="110"><source>Button</source><target>Dugme</target></trans-unit>
 <trans-unit id="111"><source>Backgr left</source><target>Pozadina lijevo</target></trans-unit>
 <trans-unit id="121"><source>Backgr right</source><target>Pozadina desno</target></trans-unit>
 <trans-unit id="122"><source>Form title</source><target>Naslov, desno</target></trans-unit>
@@ -83,29 +83,29 @@
 <trans-unit id="128"><source>Footer</source><target>Podnožje</target></trans-unit>
 <trans-unit id="129"><source>Subject</source><target>Naslov</target></trans-unit>
 <trans-unit id="130"><source>Email body</source><target>Tekst e-mail poruke</target></trans-unit>
-<trans-unit id="131"><source>Choose 'Embed' to have this box ("widget") embedded into your webpage, including texts and action-form. Visitors can instantly read all and take action. However, you need at least 440px width to embed the widget. Choose 'Popup' if you lack sufficient space on your webpage. You will get a small box ("teaser") with flexible width (at least 150px). If visitors click on the teaser, the big action-widget pops up.</source><target>Izaberite "ugradi" ukoliko želite ovaj widget uklopiti u svoju web stranicu uključujuči tekst i aktivni formular za akciju. Posjetitelji/ce mogu odmah pročitati sve i djelovati. Međutim, potrebno je najmanje 440px širine da bi se widget ugradio. Izaberite 'Popup' ako nema dovoljno prostora na web stranici. Dobit ćete mali box ('teaser') s fleksibilnom širinom (najmanje 150px). Ako posjetitelji/ce kliknu na teaser, iskočit će veliki widget za akciju. </target></trans-unit>
+<trans-unit id="131"><source>Choose 'Embed' to have this box ("widget") embedded into your webpage, including texts and action-form. Visitors can instantly read all and take action. However, you need at least 440px width to embed the widget. Choose 'Popup' if you lack sufficient space on your webpage. You will get a small box ("teaser") with flexible width (at least 150px). If visitors click on the teaser, the big action-widget pops up.</source><target>Izaberite "ugradi" ukoliko želite ovaj widget uklopiti u svoju web stranicu uključujuči tekst i aktivni formular za akciju. Posjetioci/teljke mogu odmah pročitati sve i djelovati. Međutim, potrebno je najmanje 440px širine da bi se widget ugradio. Izaberite 'Popup' ako nema dovoljno prostora na web stranici. Dobit ćete mali box ('teaser') sa fleksibilnom širinom (najmanje 150px). Ako posjetioci/teljke kliknu na teaser, iskočit će veliki widget za akciju. </target></trans-unit>
 <trans-unit id="201"><source>Hello</source><target>Bez titule</target></trans-unit>
-<trans-unit id="202"><source>Dear Madam %F %L,</source><target>Poštovana gospođo %L,</target></trans-unit>
-<trans-unit id="203"><source>Dear Sir %F %L,</source><target>Poštovani gospodine %L,</target></trans-unit>
-<trans-unit id="204"><source>Dear Sir/Madam %F %L,</source><target>Poštovana/poštovani %F %L,</target></trans-unit>
+<trans-unit id="202"><source>Dear Madam %F %L,</source><target>Poštovana %F %L,</target></trans-unit>
+<trans-unit id="203"><source>Dear Sir %F %L,</source><target>Poštovani %F %L,</target></trans-unit>
+<trans-unit id="204"><source>Dear Sir/Madam %F %L,</source><target>Poštovani/a %F %L,</target></trans-unit>
 <trans-unit id="301"><source>Yes</source><target>Da </target></trans-unit>
 <trans-unit id="302"><source>No</source><target>Ne</target></trans-unit>
 <trans-unit id="303"><source>No comment</source><target>Bez komentara</target></trans-unit>
-<trans-unit id="304"><source>Secure your pledge page with a password (optional).</source><target>Osigurajte svoju stranicu za zaloge lozinkom (opcionalno). </target></trans-unit>
-<trans-unit id="305"><source>Change your password (optional).</source><target>Promijenite svoju lozinku (opcionalno). </target></trans-unit>
+<trans-unit id="304"><source>Secure your pledge page with a password (optional).</source><target>Osigurajte svoju stranicu za zaloge sa lozinkom (opciono). </target></trans-unit>
+<trans-unit id="305"><source>Change your password (optional).</source><target>Promijenite svoju lozinku (opciono). </target></trans-unit>
 <trans-unit id="306"><source>Passwords do not match.</source><target>Lozinke se ne podudaraju. </target></trans-unit>
 <trans-unit id="307"><source>Password is too short. Use at least 8 characters.</source><target>Lozinka je prekratka. Koristite najmanje 8 znakova. </target></trans-unit>
-<trans-unit id="308"><source>Save &amp; submit my pledges</source><target>Spremi i dostavi moja obećanja. </target></trans-unit>
+<trans-unit id="308"><source>Save &amp; submit my pledges</source><target>Sačuvaj i pošalji moja obećanja. </target></trans-unit>
 <trans-unit id="309"><source>Please enter your password.</source><target>Unesite svoju lozinku. </target></trans-unit>
-<trans-unit id="310"><source>Company</source><target>Tvrtka</target></trans-unit>
+<trans-unit id="310"><source>Company</source><target>Kompanija</target></trans-unit>
 <trans-unit id="311"><source>Party</source><target>Politička stranka </target></trans-unit>
 <trans-unit id="312"><source>Electorate</source><target>Biračko tijelo </target></trans-unit>
-<trans-unit id="313"><source>Recipients</source><target>Primatelji/ce </target></trans-unit>
+<trans-unit id="313"><source>Recipients</source><target>Primaoci</target></trans-unit>
 <trans-unit id="314"><source>Read pledge text</source><target>Pročitajte tekst obećanja</target></trans-unit>
 <trans-unit id="315"><source>Password</source><target>Lozinka </target></trans-unit>
 <trans-unit id="316"><source>Password again</source><target>Ponovo lozinka </target></trans-unit>
 <trans-unit id="317"><source>Enter</source><target>Unesite </target></trans-unit>
-<trans-unit id="318"><source>I pledged on #DATE#</source><target>Obećanje dano #DATE#</target></trans-unit>
+<trans-unit id="318"><source>I pledged on #DATE#</source><target>Obećao sam na #DATE#</target></trans-unit>
 </body>
 </file>
 </xliff>

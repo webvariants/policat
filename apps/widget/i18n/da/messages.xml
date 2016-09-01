@@ -1,21 +1,21 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE xliff PUBLIC "-//XLIFF//DTD XLIFF//EN" "http://www.oasis-open.org/committees/xliff/documents/xliff.dtd">
 <xliff version="1.0">
-<file source-language="EN" target-language="dk" datatype="plaintext" original="messages" date="2010-04-08T13:53:17Z" product-name="messages">
+<file source-language="EN" target-language="da" datatype="plaintext" original="messages" date="2010-04-08T13:53:17Z" product-name="messages">
 <header/>
 <body>
-<trans-unit id="1"><source>Petition</source><target>Petition</target></trans-unit>
+<trans-unit id="1"><source>Petition</source><target>Underskriftsindsamling</target></trans-unit>
 <trans-unit id="2"><source>Email action</source><target>E-mail handling </target></trans-unit>
 <trans-unit id="3"><source>Initiative</source><target>Initiativ</target></trans-unit>
 <trans-unit id="4"><source>Network-News</source><target>koalition nyheder </target></trans-unit>
-<trans-unit id="11"><source>Sign the Petition</source><target>Underskriv petition</target></trans-unit>
+<trans-unit id="11"><source>Sign the Petition</source><target>Skriv under</target></trans-unit>
 <trans-unit id="12"><source>Send an Email</source><target>Send en e-mail </target></trans-unit>
 <trans-unit id="13"><source>Support</source><target>Støt</target></trans-unit>
 <trans-unit id="14"><source>Take action</source><target>Deltag</target></trans-unit>
-<trans-unit id="15"><source>Sign</source><target>Underskriv</target></trans-unit>
+<trans-unit id="15"><source>Sign</source><target>Skriv under</target></trans-unit>
 <trans-unit id="16"><source>Send</source><target>Send</target></trans-unit>
 <trans-unit id="17"><source>Subscribe</source><target>Indtast</target></trans-unit>
-<trans-unit id="18"><source>Support the initiative</source><target>Underskriv initiatief</target></trans-unit>
+<trans-unit id="18"><source>Support the initiative</source><target>Underskriv initiativet</target></trans-unit>
 <trans-unit id="21"><source>Name</source><target>Navn</target></trans-unit>
 <trans-unit id="22"><source>Full name</source><target>For- og efternavn</target></trans-unit>
 <trans-unit id="23"><source>First name</source><target>Fornavn</target></trans-unit>
@@ -24,17 +24,17 @@
 <trans-unit id="26"><source>Mrs</source><target>Fru</target></trans-unit>
 <trans-unit id="27"><source>Mrs/Mr</source><target>Fru/Hr./Hej</target></trans-unit>
 <trans-unit id="28"><source>City</source><target>By</target></trans-unit>
-<trans-unit id="29"><source>Post code</source><target>Post nr.</target></trans-unit>
+<trans-unit id="29"><source>Post code</source><target>Postnummer</target></trans-unit>
 <trans-unit id="30"><source>Country</source><target>Land</target></trans-unit>
 <trans-unit id="31"><source>Address</source><target>Adresse</target></trans-unit>
 <trans-unit id="32"><source>Email address</source><target>E-mailadresse</target></trans-unit>
 <trans-unit id="33"><source>Comment</source><target>Kommentar</target></trans-unit>
-<trans-unit id="34"><source>Privacy policy</source><target>Jeg accepterer databeskyttelsesbestemmelserne</target></trans-unit>
-<trans-unit id="35"><source>Keep me posted on this and similar campaigns.</source><target>Informér mig om denne eller lignende kampagners forløb.</target></trans-unit>
+<trans-unit id="34"><source>Privacy policy</source><target>Jeg accepterer bestemmelserne for databeskyttelse</target></trans-unit>
+<trans-unit id="35"><source>Keep me posted on this and similar campaigns.</source><target>Ja tak, hold mig gerne informeret om denne og lignende kampagner.</target></trans-unit>
 <trans-unit id="36"><source>Reminder:</source><target>Reminder:</target></trans-unit>
-<trans-unit id="41"><source>Thank you</source><target>Mange tak</target></trans-unit>
-<trans-unit id="42"><source>Attention: You will receive a confirmation email. Check your email inbox (and junk folder) now! To confirm your action, click the link given in the email.</source><target>OBS: Nu får du en bekræftelses e-mail. Tjek din indbakke (og evt. spam mappe)! For at bekræfte en aktion, klikker du på bekræftelses-linket i e-mailen.</target></trans-unit>
-<trans-unit id="43"><source>Attention: You've already taken part in this action (maybe on another website).</source><target>OBS: Du har allerede deltaget i denne kampagne (måske på en anden hjemmeside).</target></trans-unit>
+<trans-unit id="41"><source>Thank you</source><target>Tusind tak!</target></trans-unit>
+<trans-unit id="42"><source>Attention: You will receive a confirmation email. Check your email inbox (and junk folder) now! To confirm your action, click the link given in the email.</source><target>Du vil nu modtage en e-mail. For at bekræfte din deltagelse i underskriftsindsamlingen beder vi dig klikke på linket i e-mailen.</target></trans-unit>
+<trans-unit id="43"><source>Attention: You've already taken part in this action (maybe on another website).</source><target>Du har allerede deltaget i denne underskriftsindsamling. Tak fordi, du er med!</target></trans-unit>
 <trans-unit id="44"><source>Your email is being validated, please wait!</source><target>Din e-mailadresse bliver bekræftet, vent!</target></trans-unit>
 <trans-unit id="45"><source>You verified your email address. Your action is confirmed. Use this moment to tell friends and family.</source><target>Du har bekræftet din e-mail-adresse. Din deltagelse bliver registreret. Nu bør du informere venner og familie.</target></trans-unit>
 <trans-unit id="46"><source>Share</source><target>Sig det videre</target></trans-unit>
@@ -56,7 +56,7 @@
 <trans-unit id="70"><source>select</source><target>vælg</target></trans-unit>
 <trans-unit id="71"><source>select all</source><target>Send til alle</target></trans-unit>
 <trans-unit id="72"><source>Recipient(s)</source><target>Modtager</target></trans-unit>
-<trans-unit id="81"><source>Embed this</source><target>Embed</target></trans-unit>
+<trans-unit id="81"><source>Embed this</source><target>Del på din hjemmeside</target></trans-unit>
 <trans-unit id="82"><source>Organisation</source><target>Organisation</target></trans-unit>
 <trans-unit id="83"><source>Register your widget</source><target>Registrer widget</target></trans-unit>
 <trans-unit id="84"><source>Generate widget</source><target>Opret widget</target></trans-unit>
@@ -64,7 +64,7 @@
 <trans-unit id="86"><source>Embed this code</source><target>Embedcode</target></trans-unit>
 <trans-unit id="101"><source>Customise your widget</source><target>Tilpas din widget </target></trans-unit>
 <trans-unit id="102"><source>Widget type</source><target>Widget type</target></trans-unit>
-<trans-unit id="103"><source>Embed</source><target>Embed</target></trans-unit>
+<trans-unit id="103"><source>Embed</source><target>Del på din hjemmeside</target></trans-unit>
 <trans-unit id="104"><source>Popup</source><target>Popup</target></trans-unit>
 <trans-unit id="105"><source>Email Validation Landingpage - auto forwarding to external page</source><target>E-mail bekræftelsesside - der ledes automatisk videre til her</target></trans-unit>
 <trans-unit id="106"><source>Width</source><target>Bredde</target></trans-unit>

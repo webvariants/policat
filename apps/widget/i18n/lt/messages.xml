@@ -84,7 +84,7 @@
 <trans-unit id="129"><source>Subject</source><target>Tema </target></trans-unit>
 <trans-unit id="130"><source>Email body</source><target>paštas kūnas </target></trans-unit>
 <trans-unit id="131"><source>Choose 'Embed' to have this box ("widget") embedded into your webpage, including texts and action-form. Visitors can instantly read all and take action. However, you need at least 440px width to embed the widget. Choose 'Popup' if you lack sufficient space on your webpage. You will get a small box ("teaser") with flexible width (at least 150px). If visitors click on the teaser, the big action-widget pops up.</source><target>Pasirinkite „Įterpti“, kad šis laukas („piktograma“) būtų įterpta jūsų tinklalapyje, įskaitant tekstus ir akcijos formą. Lankytojai gali iš karto viską perskaityti ir dalyvauti. Tačiau, jums reikia ne mažesnio nei 440 px pločio, kad galėtumėte įterpti piktogramą. Pasirinkite „Laikinas langas“ (angl. Popup), jei jums nepakanka vietos jūsų tinklalapyje. Jums bus pateiktas mažas laukas  („trumpas skelbimas“) su kintamu pločiu (ne mažiau nei 150 px). Lankytojams spustelėjus ant trumpo skelbimo, pasirodys didelė akcijos piktograma.</target></trans-unit>
-<trans-unit id="201"><source>Hello</source><target>Sveiki</target></trans-unit>
+<trans-unit id="201"><source>Hello</source><target>Be titulo</target></trans-unit>
 <trans-unit id="202"><source>Dear Madam %F %L,</source><target>Gerbiamoji ponia %F %L ,</target></trans-unit>
 <trans-unit id="203"><source>Dear Sir %F %L,</source><target>Gerbiamasis %F %L ,</target></trans-unit>
 <trans-unit id="204"><source>Dear Sir/Madam %F %L,</source><target>Gerbiamoji/Gerbiamasis %F %L ,</target></trans-unit>

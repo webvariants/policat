@@ -84,7 +84,7 @@
 <trans-unit id="129"><source>Subject</source><target>Ämne </target></trans-unit>
 <trans-unit id="130"><source>Email body</source><target>E-post kropp </target></trans-unit>
 <trans-unit id="131"><source>Choose 'Embed' to have this box ("widget") embedded into your webpage, including texts and action-form. Visitors can instantly read all and take action. However, you need at least 440px width to embed the widget. Choose 'Popup' if you lack sufficient space on your webpage. You will get a small box ("teaser") with flexible width (at least 150px). If visitors click on the teaser, the big action-widget pops up.</source><target>Välj "bädda in" för att lägga in denna ruta ("widget") i din webbsida, inklusive texter och åtgärder. Besökare kan omedelbart läsa och agera. Du behöver dock minst 440 px bredd för att bädda in din widget. Välj "popup", om du har för litet utrymme i din webbsida. Du får då en liten ruta ("teaser") med flexibel bredd (minst 150 px). Om besökare klickar på denna teaser, kommer en stor åtgärds-widget upp.</target></trans-unit>
-<trans-unit id="201"><source>Hello</source><target>Hallo</target></trans-unit>
+<trans-unit id="201"><source>Hello</source><target>ingen titel</target></trans-unit>
 <trans-unit id="202"><source>Dear Madam %F %L,</source><target>Ärade fru %F %L,</target></trans-unit>
 <trans-unit id="203"><source>Dear Sir %F %L,</source><target>Ärade herr %F %L,</target></trans-unit>
 <trans-unit id="204"><source>Dear Sir/Madam %F %L,</source><target>Ärade herr / fru %F %L,</target></trans-unit>

@@ -7,7 +7,12 @@
 <trans-unit id="1"><source>Petition</source><target>La pétition</target></trans-unit>
 <trans-unit id="2"><source>Email action</source><target>Action e-mail</target></trans-unit>
 <trans-unit id="3"><source>Initiative</source><target>Initiative</target></trans-unit>
-<trans-unit id="4"><source>Network-News</source><target>Nouvelles du réseau</target></trans-unit>
+<trans-unit id="4"><source>Appeal</source><target>Appel</target></trans-unit>
+<trans-unit id="5"><source>Community</source><target>Communauté</target></trans-unit>
+<trans-unit id="6"><source>Newsletter</source><target>Bulletin</target></trans-unit>
+<trans-unit id="7"><source>Join</source><target>Joindre</target></trans-unit>
+<trans-unit id="8"><source>Sign up</source><target>S'inscrire</target></trans-unit>
+<trans-unit id="9"><source>Sign up to the newsletter</source><target>Inscrivez-vous à la newsletter</target></trans-unit>
 <trans-unit id="11"><source>Sign the Petition</source><target>Signer la pétition</target></trans-unit>
 <trans-unit id="12"><source>Send an Email</source><target>Envoyer un e-mail</target></trans-unit>
 <trans-unit id="13"><source>Support</source><target>Soutenir</target></trans-unit>
@@ -16,13 +21,15 @@
 <trans-unit id="16"><source>Send</source><target>Envoyer</target></trans-unit>
 <trans-unit id="17"><source>Subscribe</source><target>Inscrivez-vous</target></trans-unit>
 <trans-unit id="18"><source>Support the initiative</source><target>Signer l'initiative</target></trans-unit>
+<trans-unit id="19"><source>Support the appeal</source><target>Soutenir l'appel</target></trans-unit>
+<trans-unit id="20"><source>Join the community</source><target>Rejoignez la communauté</target></trans-unit>
 <trans-unit id="21"><source>Name</source><target>Nom</target></trans-unit>
 <trans-unit id="22"><source>Full name</source><target>Nom complet</target></trans-unit>
 <trans-unit id="23"><source>First name</source><target>Prénom</target></trans-unit>
 <trans-unit id="24"><source>Last name</source><target>Nom de famille</target></trans-unit>
-<trans-unit id="25"><source>Mr</source><target>Mr</target></trans-unit>
-<trans-unit id="26"><source>Mrs</source><target>Me</target></trans-unit>
-<trans-unit id="27"><source>Mrs/Mr</source><target>Me/Mr</target></trans-unit>
+<trans-unit id="25"><source>Mr</source><target>Monsieur</target></trans-unit>
+<trans-unit id="26"><source>Mrs</source><target>Madame</target></trans-unit>
+<trans-unit id="27"><source>Mrs/Mr</source><target>Titre</target></trans-unit>
 <trans-unit id="28"><source>City</source><target>Ville</target></trans-unit>
 <trans-unit id="29"><source>Post code</source><target>Code postal</target></trans-unit>
 <trans-unit id="30"><source>Country</source><target>Pays</target></trans-unit>
@@ -30,12 +37,13 @@
 <trans-unit id="32"><source>Email address</source><target>Adresse e-mail</target></trans-unit>
 <trans-unit id="33"><source>Comment</source><target>Commentaire</target></trans-unit>
 <trans-unit id="34"><source>Privacy policy</source><target>J'accepte la politique de confidentialité</target></trans-unit>
-<trans-unit id="35"><source>Keep me posted on this and similar campaigns.</source><target>Informez-moi sur les nouveautés et campagnes similaires.</target></trans-unit>
+<trans-unit id="35"><source>Keep me posted on this and similar campaigns.</source><target>Informez-moi de la suite de cette campagne ou de l'actualité liée.</target></trans-unit>
 <trans-unit id="36"><source>Reminder:</source><target>Rappel:</target></trans-unit>
+<trans-unit id="37"><source>By signing, I agree with the _privacy policy_.</source><target>En signant, je suis d'accord avec la _politique de protection de la vie privée_.</target></trans-unit>
 <trans-unit id="41"><source>Thank you</source><target>Merci</target></trans-unit>
 <trans-unit id="42"><source>Attention: You will receive a confirmation email. Check your email inbox (and junk folder) now! To confirm your action, click the link given in the email.</source><target>Attention: vous allez recevoir un e-mail de confirmation. Vérifiez dès à présent votre boîte de réception. Pour confirmer votre action, cliquez sur le lien qui vous a été transmis par e-mail</target></trans-unit>
 <trans-unit id="43"><source>Attention: You've already taken part in this action (maybe on another website).</source><target>Attention: vous avez déjà signe la pétition (peut-être via un autre site web)</target></trans-unit>
-<trans-unit id="44"><source>Your email is being validated, please wait!</source><target>Votre e-mail est en cours de validation, s'il vous plaît patienter!</target></trans-unit>
+<trans-unit id="44"><source>Your email is being validated, please wait!</source><target>Votre e-mail est en cours de validation, s'il vous plaît patientez!</target></trans-unit>
 <trans-unit id="45"><source>You verified your email address. Your action is confirmed. Use this moment to tell friends and family.</source><target>Vous avez vérifié votre adresse e-mail. Votre action est confirmée. Parlez-en à un ami.</target></trans-unit>
 <trans-unit id="46"><source>Share</source><target>Envoyer à un ami</target></trans-unit>
 <trans-unit id="47"><source>Tell your friends</source><target>Parlez-en à un ami</target></trans-unit>
@@ -44,13 +52,15 @@
 <trans-unit id="50"><source>Donate</source><target>Faire un don</target></trans-unit>
 <trans-unit id="51"><source>Help us fund this campaign. Give whatever you can now using the safe and secure paypal form below.</source><target>Aidez-nous à financer cette campagne. Faites un don en remplissant le formulaire sécurisé Paypal ci-dessous</target></trans-unit>
 <trans-unit id="52"><source>Amount</source><target>Montant</target></trans-unit>
+<trans-unit id="53"><source>Last signers</source><target>Derniers signataires</target></trans-unit>
+<trans-unit id="54"><source>All signers</source><target>Tous les signataires</target></trans-unit>
 <trans-unit id="61"><source>Back</source><target>Retour accueil</target></trans-unit>
 <trans-unit id="62"><source>Background</source><target>Contexte</target></trans-unit>
 <trans-unit id="63"><source>Read more</source><target>En savoir plus</target></trans-unit>
 <trans-unit id="64"><source>More actions</source><target>Commencez votre pétition!</target></trans-unit>
 <trans-unit id="65"><source>PP Heading</source><target>Politique de protection de la vie privée</target></trans-unit>
-<trans-unit id="66"><source>people so far</source><target>participants</target></trans-unit>
-<trans-unit id="67"><source>emails sent</source><target>messages envoyés</target></trans-unit>
+<trans-unit id="66"><source># Participants</source><target># participants</target></trans-unit>
+<trans-unit id="67"><source># emails sent</source><target># messages envoyés</target></trans-unit>
 <trans-unit id="68"><source>The action starts on #DATE#. Stay tuned and spread the word!</source><target>L'action débute sur #DATE#. Restez à l'écoute et passez le mot!</target></trans-unit>
 <trans-unit id="69"><source>This action is over. Thanks to the #COUNTER# people who signed-up!</source><target>Cette action est terminée. Merci aux #COUNTER# personnes qui ont signé!</target></trans-unit>
 <trans-unit id="70"><source>select</source><target>Selectionner</target></trans-unit>
@@ -84,7 +94,8 @@
 <trans-unit id="129"><source>Subject</source><target>Sujet</target></trans-unit>
 <trans-unit id="130"><source>Email body</source><target>Texte de l'e-mail</target></trans-unit>
 <trans-unit id="131"><source>Choose 'Embed' to have this box ("widget") embedded into your webpage, including texts and action-form. Visitors can instantly read all and take action. However, you need at least 440px width to embed the widget. Choose 'Popup' if you lack sufficient space on your webpage. You will get a small box ("teaser") with flexible width (at least 150px). If visitors click on the teaser, the big action-widget pops up.</source><target>Choisissez 'Embed' pour avoir le widget directement dans vos pages (largeur minimum : 440px). choisissez 'Popup' pour intégrer un visuel cliquable (largeur minimum : 150px) ouvrant une fenêtre avec le wideget</target></trans-unit>
-<trans-unit id="201"><source>Hello</source><target>Salut</target></trans-unit>
+<trans-unit id="166"><source>Target #</source><target>Objectif #</target></trans-unit>
+<trans-unit id="201"><source>Hello</source><target>Bonjour</target></trans-unit>
 <trans-unit id="202"><source>Dear Madam %F %L,</source><target>Chère Madame %L,</target></trans-unit>
 <trans-unit id="203"><source>Dear Sir %F %L,</source><target>Cher Monsieur %L,</target></trans-unit>
 <trans-unit id="204"><source>Dear Sir/Madam %F %L,</source><target>Cher(e) %F %L,</target></trans-unit>
@@ -106,7 +117,6 @@
 <trans-unit id="316"><source>Password again</source><target>Répétez mot de passe</target></trans-unit>
 <trans-unit id="317"><source>Enter</source><target>Entrer</target></trans-unit>
 <trans-unit id="318"><source>I pledged on #DATE#</source><target>Livré à la #DATE#.</target></trans-unit>
-
 </body>
 </file>
 </xliff>

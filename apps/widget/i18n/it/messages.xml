@@ -7,7 +7,12 @@
 <trans-unit id="1"><source>Petition</source><target>Petizione</target></trans-unit>
 <trans-unit id="2"><source>Email action</source><target>Invia email</target></trans-unit>
 <trans-unit id="3"><source>Initiative</source><target>Iniziativa </target></trans-unit>
-<trans-unit id="4"><source>Network-News</source><target>Notizie di rete</target></trans-unit>
+<trans-unit id="4"><source>Appeal</source><target>Appello</target></trans-unit>
+<trans-unit id="5"><source>Community</source><target>Comunità</target></trans-unit>
+<trans-unit id="6"><source>Newsletter</source><target>Newsletter</target></trans-unit>
+<trans-unit id="7"><source>Join</source><target>Aderire</target></trans-unit>
+<trans-unit id="8"><source>Sign up</source><target>Registrazione</target></trans-unit>
+<trans-unit id="9"><source>Sign up to the newsletter</source><target>Iscriviti alla newsletter</target></trans-unit>
 <trans-unit id="11"><source>Sign the Petition</source><target>Firma la petizione</target></trans-unit>
 <trans-unit id="12"><source>Send an Email</source><target>Invia una email</target></trans-unit>
 <trans-unit id="13"><source>Support</source><target>Sostegno</target></trans-unit>
@@ -16,6 +21,8 @@
 <trans-unit id="16"><source>Send</source><target>Invia</target></trans-unit>
 <trans-unit id="17"><source>Subscribe</source><target>Registrati</target></trans-unit>
 <trans-unit id="18"><source>Support the initiative</source><target>Firma l'iniziativa</target></trans-unit>
+<trans-unit id="19"><source>Support the appeal</source><target>Sostenere l'appello</target></trans-unit>
+<trans-unit id="20"><source>Join the community</source><target>Entra nella community</target></trans-unit>
 <trans-unit id="21"><source>Name</source><target>Nome</target></trans-unit>
 <trans-unit id="22"><source>Full name</source><target>Nome completo</target></trans-unit>
 <trans-unit id="23"><source>First name</source><target>Nome</target></trans-unit>
@@ -32,6 +39,7 @@
 <trans-unit id="34"><source>Privacy policy</source><target>Accetto la politica sulla privacy</target></trans-unit>
 <trans-unit id="35"><source>Keep me posted on this and similar campaigns.</source><target>Tenetemi informato su questa e altre campagne simili.</target></trans-unit>
 <trans-unit id="36"><source>Reminder:</source><target>Sollecito:</target></trans-unit>
+<trans-unit id="37"><source>By signing, I agree with the _privacy policy_.</source><target>Con la firma, sono d'accordo con la _politica sulla privacy_.</target></trans-unit>
 <trans-unit id="41"><source>Thank you</source><target>Grazie</target></trans-unit>
 <trans-unit id="42"><source>Attention: You will receive a confirmation email. Check your email inbox (and junk folder) now! To confirm your action, click the link given in the email.</source><target>Attenzione: riceverai un’email di conferma. Controlla la tua posta in entrata (e la casella spam) adesso!  Per confermare la tua partecipazione, clicca sul link indicato nell’e-mail.</target></trans-unit>
 <trans-unit id="43"><source>Attention: You've already taken part in this action (maybe on another website).</source><target>Attenzione: hai già partecipato a questa campagna (forse da un altro sito)</target></trans-unit>
@@ -44,13 +52,15 @@
 <trans-unit id="50"><source>Donate</source><target>Dona</target></trans-unit>
 <trans-unit id="51"><source>Help us fund this campaign. Give whatever you can now using the safe and secure paypal form below.</source><target>Aiutaci a finanziare questa campagna. Dai quello che puoi adesso utilizzando la form sicura di paypal.</target></trans-unit>
 <trans-unit id="52"><source>Amount</source><target>Importo</target></trans-unit>
+<trans-unit id="53"><source>Last signers</source><target>Ultimi firmatari</target></trans-unit>
+<trans-unit id="54"><source>All signers</source><target>Tutti i firmatari</target></trans-unit>
 <trans-unit id="61"><source>Back</source><target>Indietro</target></trans-unit>
 <trans-unit id="62"><source>Background</source><target>Contesto</target></trans-unit>
 <trans-unit id="63"><source>Read more</source><target>Leggi ancora</target></trans-unit>
 <trans-unit id="64"><source>More actions</source><target>Inizia la tua petizione!</target></trans-unit>
 <trans-unit id="65"><source>PP Heading</source><target>Informativa sulla privacy</target></trans-unit>
-<trans-unit id="66"><source>people so far</source><target>Partecipanti</target></trans-unit>
-<trans-unit id="67"><source>emails sent</source><target>email spedite</target></trans-unit>
+<trans-unit id="66"><source># Participants</source><target># Partecipanti</target></trans-unit>
+<trans-unit id="67"><source># emails sent</source><target># email spedite</target></trans-unit>
 <trans-unit id="68"><source>The action starts on #DATE#. Stay tuned and spread the word!</source><target>La campagna inizia il #DATE#. Continua a seguirci e diffondi la notizia!</target></trans-unit>
 <trans-unit id="69"><source>This action is over. Thanks to the #COUNTER# people who signed-up!</source><target>La presente campagna si è conclusa. Grazie alle #COUNTER# persone che hanno aderito!</target></trans-unit>
 <trans-unit id="70"><source>select</source><target>Seleziona</target></trans-unit>
@@ -84,6 +94,7 @@
 <trans-unit id="129"><source>Subject</source><target>Oggetto</target></trans-unit>
 <trans-unit id="130"><source>Email body</source><target>Corpo della email</target></trans-unit>
 <trans-unit id="131"><source>Choose 'Embed' to have this box ("widget") embedded into your webpage, including texts and action-form. Visitors can instantly read all and take action. However, you need at least 440px width to embed the widget. Choose 'Popup' if you lack sufficient space on your webpage. You will get a small box ("teaser") with flexible width (at least 150px). If visitors click on the teaser, the big action-widget pops up.</source><target>Scegli “Includi” per avere questo riquadro (“widget”) integrato nella tua pagina web, inclusi testi e modulo della campagna. I visitatori potranno leggere immediatamente e partecipare. Comunque, hai bisogno di almeno 440px di larghezza per includere il widget.  Scegli “Popup” se non hai sufficiente spazio a disposizione sulla tua pagina web. Attiverai un riquadro più piccolo (“teaser”) con larghezza flessibile (almeno 150 px). Se i visitatori cliccano sul teaser, compare il widget grande</target></trans-unit>
+<trans-unit id="166"><source>Target #</source><target>Obiettivo #</target></trans-unit>
 <trans-unit id="201"><source>Hello</source><target>Ciao</target></trans-unit>
 <trans-unit id="202"><source>Dear Madam %F %L,</source><target>Spettabile %F %L,</target></trans-unit>
 <trans-unit id="203"><source>Dear Sir %F %L,</source><target>Spettabile %F %L,</target></trans-unit>
@@ -106,7 +117,6 @@
 <trans-unit id="316"><source>Password again</source><target>di nuovo la password </target></trans-unit>
 <trans-unit id="317"><source>Enter</source><target>entrare </target></trans-unit>
 <trans-unit id="318"><source>I pledged on #DATE#</source><target>Ho promesso su #DATE#</target></trans-unit>
-
 </body>
 </file>
 </xliff>

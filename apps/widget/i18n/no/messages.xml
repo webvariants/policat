@@ -29,7 +29,7 @@
 <trans-unit id="31"><source>Address</source><target>Adresse</target></trans-unit>
 <trans-unit id="32"><source>Email address</source><target>Epostadresse</target></trans-unit>
 <trans-unit id="33"><source>Comment</source><target>Kommenter</target></trans-unit>
-<trans-unit id="34"><source>Privacy policy</source><target>Personvern</target></trans-unit>
+<trans-unit id="34"><source>Privacy policy</source><target>Jeg har lest og akseptert personvernerklæringen</target></trans-unit>
 <trans-unit id="35"><source>Keep me posted on this and similar campaigns.</source><target>Send meg informasjon om denne og tilsvarende kampanjer</target></trans-unit>
 <trans-unit id="36"><source>Reminder:</source><target>Reminder:</target></trans-unit>
 <trans-unit id="41"><source>Thank you</source><target>Takk</target></trans-unit>

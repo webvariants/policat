@@ -84,7 +84,7 @@
 <trans-unit id="129"><source>Subject</source><target>téma </target></trans-unit>
 <trans-unit id="130"><source>Email body</source><target>Email test </target></trans-unit>
 <trans-unit id="131"><source>Choose 'Embed' to have this box ("widget") embedded into your webpage, including texts and action-form. Visitors can instantly read all and take action. However, you need at least 440px width to embed the widget. Choose 'Popup' if you lack sufficient space on your webpage. You will get a small box ("teaser") with flexible width (at least 150px). If visitors click on the teaser, the big action-widget pops up.</source><target>Ennek a doboznak (widget) a szöveggel és a kitöltendő űrlappal együtt, a saját weboldalába történő beágyazásához válassza a 'Beágyazás' gombot. A látogatók azonnal olvashatják és cselekedhetnek. A beágyazáshoze legalább 440 px széles helyre lesz szüksége. Ha kevés a hely a weblapján, válassza a "Popup' opciót. Ekkor kis dobozt (teaser) kap, aminek szélessége rugalmas (legalább 150 px). Ha a látogatók erre kattintanak, felugrik a teljes méretű ablak.</target></trans-unit>
-<trans-unit id="201"><source>Hello</source><target>Üdvözöljük</target></trans-unit>
+<trans-unit id="201"><source>Hello</source><target>Nincs megszólítás</target></trans-unit>
 <trans-unit id="202"><source>Dear Madam %F %L,</source><target>Kedves %F %L%!</target></trans-unit>
 <trans-unit id="203"><source>Dear Sir %F %L,</source><target>Kedves %F %L%!</target></trans-unit>
 <trans-unit id="204"><source>Dear Sir/Madam %F %L,</source><target>Kedves %F %L%!</target></trans-unit>

@@ -22,7 +22,7 @@
 <trans-unit id="24"><source>Last name</source><target>Priezvisko</target></trans-unit>
 <trans-unit id="25"><source>Mr</source><target>Pán</target></trans-unit>
 <trans-unit id="26"><source>Mrs</source><target>Pani</target></trans-unit>
-<trans-unit id="27"><source>Mrs/Mr</source><target>Pani/Pán/Ahoj</target></trans-unit>
+<trans-unit id="27"><source>Mrs/Mr</source><target>Pani/Pán</target></trans-unit>
 <trans-unit id="28"><source>City</source><target>Mesto</target></trans-unit>
 <trans-unit id="29"><source>Post code</source><target>PSČ</target></trans-unit>
 <trans-unit id="30"><source>Country</source><target>Krajina</target></trans-unit>
@@ -84,7 +84,7 @@
 <trans-unit id="129"><source>Subject</source><target>predmet </target></trans-unit>
 <trans-unit id="130"><source>Email body</source><target>email telo </target></trans-unit>
 <trans-unit id="131"><source>Choose 'Embed' to have this box ("widget") embedded into your webpage, including texts and action-form. Visitors can instantly read all and take action. However, you need at least 440px width to embed the widget. Choose 'Popup' if you lack sufficient space on your webpage. You will get a small box ("teaser") with flexible width (at least 150px). If visitors click on the teaser, the big action-widget pops up.</source><target>Stiahnite 'Embed', pokiaľ je to možné: Potrebujete minimálne 440px miesta na svojej internetovej stránke. Typ 'Embed' je lepšia voľba, lebo vaši návštevníci/návštevníčky môžu ihneď vidieť kompletný obsah  "Nástroja". Ak nemáte k dospzícii minimálne 440px miesta, stiahnite si 'Roletové menu'. Táto funkcia vytvorí malú schránku "Teaser" (flexibilná šírka, minimálne 150px). Kliknutím na Teaser sa otvorí veľký akčný nástroj v roletovom menu.</target></trans-unit>
-<trans-unit id="201"><source>Hello</source><target>Ahoj</target></trans-unit>
+<trans-unit id="201"><source>Hello</source><target>bez oslovenia</target></trans-unit>
 <trans-unit id="202"><source>Dear Madam %F %L,</source><target>Vážená pani %L,</target></trans-unit>
 <trans-unit id="203"><source>Dear Sir %F %L,</source><target>Vážený pán %L,</target></trans-unit>
 <trans-unit id="204"><source>Dear Sir/Madam %F %L,</source><target>Vážená/Vážený %F %L,</target></trans-unit>

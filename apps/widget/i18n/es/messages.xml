@@ -7,8 +7,13 @@
 <trans-unit id="1"><source>Petition</source><target>Petición</target></trans-unit>
 <trans-unit id="2"><source>Email action</source><target>Acción email</target></trans-unit>
 <trans-unit id="3"><source>Initiative</source><target>Iniciativa </target></trans-unit>
-<trans-unit id="4"><source>Network-News</source><target>Noticias de la Red</target></trans-unit>
-<trans-unit id="11"><source>Sign the Petition</source><target>Firmar la Petición</target></trans-unit>
+<trans-unit id="4"><source>Appeal</source><target>Apelación</target></trans-unit>
+<trans-unit id="5"><source>Community</source><target>Comunidad</target></trans-unit>
+<trans-unit id="6"><source>Newsletter</source><target>Hoja informativa</target></trans-unit>
+<trans-unit id="7"><source>Join</source><target>Unirse</target></trans-unit>
+<trans-unit id="8"><source>Sign up</source><target>Regístrate</target></trans-unit>
+<trans-unit id="9"><source>Sign up to the newsletter</source><target>Regístrese para el boletín informativo</target></trans-unit>
+<trans-unit id="11"><source>Sign the Petition</source><target>Firmar la petición</target></trans-unit>
 <trans-unit id="12"><source>Send an Email</source><target>Enviar email</target></trans-unit>
 <trans-unit id="13"><source>Support</source><target>Apoyar</target></trans-unit>
 <trans-unit id="14"><source>Take action</source><target>Participa</target></trans-unit>
@@ -16,6 +21,8 @@
 <trans-unit id="16"><source>Send</source><target>Enviar</target></trans-unit>
 <trans-unit id="17"><source>Subscribe</source><target>Suscripción</target></trans-unit>
 <trans-unit id="18"><source>Support the initiative</source><target>Firmar la iniciativa</target></trans-unit>
+<trans-unit id="19"><source>Support the appeal</source><target>Apoyar la apelación</target></trans-unit>
+<trans-unit id="20"><source>Join the community</source><target>Únete a la comunidad</target></trans-unit>
 <trans-unit id="21"><source>Name</source><target>Nombre</target></trans-unit>
 <trans-unit id="22"><source>Full name</source><target>Nombre Completo</target></trans-unit>
 <trans-unit id="23"><source>First name</source><target>Nombre</target></trans-unit>
@@ -30,8 +37,9 @@
 <trans-unit id="32"><source>Email address</source><target>Dirección de email</target></trans-unit>
 <trans-unit id="33"><source>Comment</source><target>Comentario</target></trans-unit>
 <trans-unit id="34"><source>Privacy policy</source><target>Protección de datos</target></trans-unit>
-<trans-unit id="35"><source>Keep me posted on this and similar campaigns.</source><target>Manténganme informado sobre esta campaña y otras similares</target></trans-unit>
+<trans-unit id="35"><source>Keep me posted on this and similar campaigns.</source><target>Manténganme informado/informada sobre esta campaña y otras similares</target></trans-unit>
 <trans-unit id="36"><source>Reminder:</source><target>Notificación:</target></trans-unit>
+<trans-unit id="37"><source>By signing, I agree with the _privacy policy_.</source><target>Al firmar, estoy de acuerdo con la _política de privacidad_.</target></trans-unit>
 <trans-unit id="41"><source>Thank you</source><target>Muchas Gracias</target></trans-unit>
 <trans-unit id="42"><source>Attention: You will receive a confirmation email. Check your email inbox (and junk folder) now! To confirm your action, click the link given in the email.</source><target>Aviso: Recibirá un email de confirmación en su bandeja de entrada o spam. Para validar su firma pinche sobre el link que aparece en el email.</target></trans-unit>
 <trans-unit id="43"><source>Attention: You've already taken part in this action (maybe on another website).</source><target>Aviso: Ya ha participado en esta acción (quizás a través de otra página).</target></trans-unit>
@@ -44,13 +52,15 @@
 <trans-unit id="50"><source>Donate</source><target>Donación</target></trans-unit>
 <trans-unit id="51"><source>Help us fund this campaign. Give whatever you can now using the safe and secure paypal form below.</source><target>Ayúdanos a financiar esta campaña con cualquier cantidad usando el servicio paypal seguro de abajo.</target></trans-unit>
 <trans-unit id="52"><source>Amount</source><target>Cantidad</target></trans-unit>
+<trans-unit id="53"><source>Last signers</source><target>Últimos firmantes</target></trans-unit>
+<trans-unit id="54"><source>All signers</source><target>Todos los firmantes</target></trans-unit>
 <trans-unit id="61"><source>Back</source><target>Volver</target></trans-unit>
 <trans-unit id="62"><source>Background</source><target>Qué pedimos</target></trans-unit>
 <trans-unit id="63"><source>Read more</source><target>Más Información</target></trans-unit>
 <trans-unit id="64"><source>More actions</source><target>¡Inicie su petición!</target></trans-unit>
 <trans-unit id="65"><source>PP Heading</source><target>Política de privacidad</target></trans-unit>
-<trans-unit id="66"><source>people so far</source><target>participantes</target></trans-unit>
-<trans-unit id="67"><source>emails sent</source><target>mensajes enviados</target></trans-unit>
+<trans-unit id="66"><source># Participants</source><target># participantes</target></trans-unit>
+<trans-unit id="67"><source># emails sent</source><target># mensajes enviados</target></trans-unit>
 <trans-unit id="68"><source>The action starts on #DATE#. Stay tuned and spread the word!</source><target>La acción comienza el #DATE#. Permanezca atento y corra la voz.</target></trans-unit>
 <trans-unit id="69"><source>This action is over. Thanks to the #COUNTER# people who signed-up!</source><target>Esta acción ha finalizado. ¡Muchas gracias a las #COUNTER# personas que se han registrado!</target></trans-unit>
 <trans-unit id="70"><source>select</source><target>Seleccionar</target></trans-unit>
@@ -84,6 +94,7 @@
 <trans-unit id="129"><source>Subject</source><target>Asunto</target></trans-unit>
 <trans-unit id="130"><source>Email body</source><target>Texto email</target></trans-unit>
 <trans-unit id="131"><source>Choose 'Embed' to have this box ("widget") embedded into your webpage, including texts and action-form. Visitors can instantly read all and take action. However, you need at least 440px width to embed the widget. Choose 'Popup' if you lack sufficient space on your webpage. You will get a small box ("teaser") with flexible width (at least 150px). If visitors click on the teaser, the big action-widget pops up.</source><target>Elija ‘Introducir’ para acoplar esta ventana (“widget”) a su página web, incluyendo los textos y el formulario de la acción. Así sus visitantes podrán leer todo de una vez y participar en la acción. De todas formas, para introducir el widget necesita por lo menos 440px de ancho. Elija ‘Popup’ si no tiene suficiente espacio en su página web. Va a aparecer una pequeña ventana (“teaser”) con un ancho flexible (de por lo menos 150px). Cuando los visitantes pinchen en el teaser, les aparecerá el widget de la acción.</target></trans-unit>
+<trans-unit id="166"><source>Target #</source><target>Objetivo #</target></trans-unit>
 <trans-unit id="201"><source>Hello</source><target>¡Hola!</target></trans-unit>
 <trans-unit id="202"><source>Dear Madam %F %L,</source><target>Muy estimada Señora %F %L,</target></trans-unit>
 <trans-unit id="203"><source>Dear Sir %F %L,</source><target>Muy estimado Señor %F %L,</target></trans-unit>
@@ -106,7 +117,6 @@
 <trans-unit id="316"><source>Password again</source><target>Contraseña de nuevo </target></trans-unit>
 <trans-unit id="317"><source>Enter</source><target>Ingrese </target></trans-unit>
 <trans-unit id="318"><source>I pledged on #DATE#</source><target>Me comprometí en #DATE#</target></trans-unit>
-
 </body>
 </file>
 </xliff>
