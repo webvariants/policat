@@ -37,7 +37,7 @@ class dataActions extends policatActions {
     if ($right) {
       return $petition;
     } else {
-      return $right === false ? $this->notFound() : $this->noAccess();
+      return $right === false ? $this->notFound() : $this->noAccess('Access denied.', 'Access denied', true);
     }
   }
 
@@ -65,7 +65,7 @@ class dataActions extends policatActions {
     if ($right) {
       return $campaign;
     } else {
-      return $right === false ? $this->notFound() : $this->noAccess();
+      return $right === false ? $this->notFound() : $this->noAccess('Access denied.', 'Access denied', true);
     }
   }
 
@@ -100,7 +100,7 @@ class dataActions extends policatActions {
     if ($right) {
       return $widget;
     } else {
-      return $right === false ? $this->notFound() : $this->noAccess('You are not Data-owner of this widget.');
+      return $right === false ? $this->notFound() : $this->noAccess('You are not Data-owner of this widget.', 'Access denied', true);
     }
   }
 
@@ -149,7 +149,7 @@ class dataActions extends policatActions {
 
     $query = $this->buildQuery($type, $request->getParameter('id'), $subscriptions, $this->getRequest()->getGetParameter('_'), $form, $object);
     /* @var $form sfForm */
-    if (!$form->isValid()) {
+    if (!$form || !$form->isValid()) {
       return null;
     }
 

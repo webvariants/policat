@@ -192,15 +192,26 @@ class policatActions extends sfActions {
     return $this->forward404($message);
   }
 
-  public function noAccess($message = 'Access denied.', $heading = 'Access denied') {
+  public function noAccess($message = 'Access denied.', $heading = 'Access denied', $stop = false) {
     $request = $this->getRequest();
-    if ($request instanceof sfWebRequest && $request->isXmlHttpRequest())
-      return $this->ajax()->alert($message, $heading)->render();
+    if ($request instanceof sfWebRequest && $request->isXmlHttpRequest()) {
+      $render = $this->ajax()->alert($message, $heading)->render();
+      if ($stop) {
+        $this->getResponse()->send();
+        throw new \sfStopException();
+      }
+      return $render;
+    }
     $this->message = $message;
     $this->heading = $heading;
     $this->getResponse()->setStatusCode(403);
     $this->setLayout('dashboard');
     $this->setTemplate('secure', 'sfGuardAuth');
+
+    if ($stop) {
+      $this->getResponse()->send();
+      throw new \sfStopException();
+    }
   }
 
   public function includeMarkdown() {
