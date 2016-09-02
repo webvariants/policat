@@ -29,6 +29,7 @@ class PetitionSigningTable extends Doctrine_Table {
   const SEARCH = 'search';
   const ORDER = 'order';
   const BOUNCE = 'bounce';
+  const DOWNLOAD = 'download';
   const WIDGET_FILTER = 'widget_filter';
   const KEYWORD_NAME = '#SENDER-NAME#';
   const KEYWORD_COUNTRY = '#SENDER-COUNTRY#';
@@ -52,7 +53,8 @@ class PetitionSigningTable extends Doctrine_Table {
       self::SEARCH => '',
       self::ORDER => null,
       self::WIDGET_FILTER => '',
-      self::BOUNCE => false
+      self::BOUNCE => false,
+      self::DOWNLOAD => null
   );
   static $KEYWORDS = array(
       self::KEYWORD_NAME,
@@ -87,6 +89,7 @@ class PetitionSigningTable extends Doctrine_Table {
     $order = $options[self::ORDER];
     $widget_filter = $options[self::WIDGET_FILTER];
     $bounce = $options[self::BOUNCE];
+    $download = $options[self::DOWNLOAD];
 
     if ($status) {
       $query->andWhere('ps.status = ?', $status);
@@ -95,6 +98,19 @@ class PetitionSigningTable extends Doctrine_Table {
     if ($bounce) {
       $query->andWhere('ps.bounce = 1');
       $query->andWhere('ps.verified = ?', PetitionSigning::VERIFIED_NO);
+    }
+
+    if ($download) {
+      /* @var $download Download */
+      if (!$download->getId() || !$download->getIncremental()) {
+        throw new Exception('missing download id or not incremental');
+      }
+
+      if ($download->getSubscriber()) {
+        $query->andWhere('ps.download_subscriber_id = ?', $download->getId());
+      } else {
+        $query->andWhere('ps.download_data_id = ?', $download->getId());
+      }
     }
 
     if (!($petition || $campaign || $widget))
@@ -165,34 +181,7 @@ class PetitionSigningTable extends Doctrine_Table {
         $query->andWhere('ps.country = ?', $country);
     }
 
-    if ($subscriber) {
-      $query->andWhere('ps.subscribe = ?', PetitionSigning::SUBSCRIBE_YES);
-
-      $widget_ids_sub_query = $query->copy()
-        ->orderBy('ps.widget_id')
-        ->removeSqlQueryPart('orderby')
-        ->select('DISTINCT ps.widget_id');
-
-      $widget_filter_query = WidgetTable::getInstance()->createQuery('wfq')
-        ->where('wfq.id IN (' . $widget_ids_sub_query->getDql() . ')', $widget_ids_sub_query)
-        ->removeSqlQueryPart('orderby')
-        ->select('DISTINCT wfq.id');
-      $widget_filter_query->setParams($widget_ids_sub_query->getParams());
-
-      if ($user) {
-        $user_id = is_object($user) ? $user->getId() : $user;
-        $widget_filter_query->andWhere('wfq.user_id = ? AND wfq.data_owner = ?', array($user_id, WidgetTable::DATA_OWNER_YES));
-      } else {
-        $widget_filter_query->andWhere('wfq.user_id is null OR wfq.data_owner = ?', WidgetTable::DATA_OWNER_NO);
-      }
-
-      $widget_ids = (array) $widget_filter_query->execute(array(), Doctrine_Core::HYDRATE_SINGLE_SCALAR);
-      if (count($widget_ids)) {
-        $query->andWhereIn('ps.widget_id', $widget_ids);
-      } else {
-        $query->andWhere('ps.widget_id = -1'); // force to return nothing
-      }
-    }
+    $this->andQuerySubscriber($query, $user, $subscriber, 'ps');
 
     if ($search) {
       $search_normalized = PetitionSigningSearchTable::normalize($search);
@@ -239,6 +228,37 @@ class PetitionSigningTable extends Doctrine_Table {
     }
 
     return $query;
+  }
+
+  private function andQuerySubscriber($query, $user = null, $subscriber = true, $alias = 'ps') {
+    if ($subscriber) {
+      $query->andWhere("$alias.subscribe = ?", PetitionSigning::SUBSCRIBE_YES);
+
+      $widget_ids_sub_query = $query->copy()
+        ->orderBy("$alias.widget_id")
+        ->removeSqlQueryPart('orderby')
+        ->select("DISTINCT $alias.widget_id");
+
+      $widget_filter_query = WidgetTable::getInstance()->createQuery('wfq')
+        ->where('wfq.id IN (' . $widget_ids_sub_query->getDql() . ')', $widget_ids_sub_query)
+        ->removeSqlQueryPart('orderby')
+        ->select('DISTINCT wfq.id');
+      $widget_filter_query->setParams($widget_ids_sub_query->getParams());
+
+      if ($user) {
+        $user_id = is_object($user) ? $user->getId() : $user;
+        $widget_filter_query->andWhere('wfq.user_id = ? AND wfq.data_owner = ?', array($user_id, WidgetTable::DATA_OWNER_YES));
+      } else {
+        $widget_filter_query->andWhere('wfq.user_id is null OR wfq.data_owner = ?', WidgetTable::DATA_OWNER_NO);
+      }
+
+      $widget_ids = (array) $widget_filter_query->execute(array(), Doctrine_Core::HYDRATE_SINGLE_SCALAR);
+      if (count($widget_ids)) {
+        $query->andWhereIn("$alias.widget_id", $widget_ids);
+      } else {
+        $query->andWhere("$alias.widget_id = -1"); // force to return nothing
+      }
+    }
   }
 
   public function countByPetition($petition, $min_date = null, $max_date = null, $timeToLive = 600, $refresh = false) {
@@ -550,12 +570,12 @@ class PetitionSigningTable extends Doctrine_Table {
    */
   public function lastSignings($petition_id, $limit = 10, $page = 0) {
     return $this->createQuery('ps')
-      ->where('ps.petition_id = ?', $petition_id)
-      ->andWhere('ps.status = ?', PetitionSigning::STATUS_COUNTED)
-      ->orderBy('ps.updated_at DESC')
-      ->limit($limit)
-      ->offset($limit * $page)
-      ->execute();
+        ->where('ps.petition_id = ?', $petition_id)
+        ->andWhere('ps.status = ?', PetitionSigning::STATUS_COUNTED)
+        ->orderBy('ps.updated_at DESC')
+        ->limit($limit)
+        ->offset($limit * $page)
+        ->execute();
   }
 
   /**
@@ -563,8 +583,25 @@ class PetitionSigningTable extends Doctrine_Table {
    */
   public function lastSigningsTotal($petition_id) {
     return $this->createQuery('ps')
-      ->where('ps.petition_id = ?', $petition_id)
-      ->andWhere('ps.status = ?', PetitionSigning::STATUS_COUNTED)
-      ->count();
+        ->where('ps.petition_id = ?', $petition_id)
+        ->andWhere('ps.status = ?', PetitionSigning::STATUS_COUNTED)
+        ->count();
+  }
+
+  public function updateByDownload(Download $download) {
+    if (!$download->getId() || !$download->getIncremental() || !$download->getPetition()->getId() || !$download->getUser()->getId()) {
+      throw new Exception('error on updateByDownload');
+    }
+
+    $field = $download->getSubscriber() ? 'download_subscriber_id' : 'download_data_id';
+    $query = $this->createQuery()->update('PetitionSigning ps');
+    $query->where("$field IS NULL");
+    $query->set($field, $download->getId());
+    $this->andQuerySubscriber($query, null, $download->getSubscriber());
+    $query->andWhere('ps.petition_id = ?', $download->getPetition()->getId());
+
+    $rows = $query->execute();
+
+    return $rows;
   }
 }

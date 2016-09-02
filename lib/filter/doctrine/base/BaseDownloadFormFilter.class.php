@@ -24,6 +24,7 @@ abstract class BaseDownloadFormFilter extends BaseFormFilterDoctrine
       'count'           => new sfWidgetFormFilterInput(array('with_empty' => false)),
       'pages'           => new sfWidgetFormFilterInput(array('with_empty' => false)),
       'pages_processed' => new sfWidgetFormFilterInput(array('with_empty' => false)),
+      'incremental'     => new sfWidgetFormFilterInput(array('with_empty' => false)),
       'created_at'      => new sfWidgetFormFilterDate(array('from_date' => new sfWidgetFormDate(), 'to_date' => new sfWidgetFormDate(), 'with_empty' => false)),
       'updated_at'      => new sfWidgetFormFilterDate(array('from_date' => new sfWidgetFormDate(), 'to_date' => new sfWidgetFormDate(), 'with_empty' => false)),
     ));
@@ -40,6 +41,7 @@ abstract class BaseDownloadFormFilter extends BaseFormFilterDoctrine
       'count'           => new sfValidatorSchemaFilter('text', new sfValidatorInteger(array('required' => false))),
       'pages'           => new sfValidatorSchemaFilter('text', new sfValidatorInteger(array('required' => false))),
       'pages_processed' => new sfValidatorSchemaFilter('text', new sfValidatorInteger(array('required' => false))),
+      'incremental'     => new sfValidatorSchemaFilter('text', new sfValidatorInteger(array('required' => false))),
       'created_at'      => new sfValidatorDateRange(array('required' => false, 'from_date' => new sfValidatorDateTime(array('required' => false, 'datetime_output' => 'Y-m-d 00:00:00')), 'to_date' => new sfValidatorDateTime(array('required' => false, 'datetime_output' => 'Y-m-d 23:59:59')))),
       'updated_at'      => new sfValidatorDateRange(array('required' => false, 'from_date' => new sfValidatorDateTime(array('required' => false, 'datetime_output' => 'Y-m-d 00:00:00')), 'to_date' => new sfValidatorDateTime(array('required' => false, 'datetime_output' => 'Y-m-d 23:59:59')))),
     ));
@@ -73,6 +75,7 @@ abstract class BaseDownloadFormFilter extends BaseFormFilterDoctrine
       'count'           => 'Number',
       'pages'           => 'Number',
       'pages_processed' => 'Number',
+      'incremental'     => 'Number',
       'created_at'      => 'Date',
       'updated_at'      => 'Date',
     );

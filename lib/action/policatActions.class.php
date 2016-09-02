@@ -184,10 +184,16 @@ class policatActions extends sfActions {
     return $this->ajax_instance = new Ajax($this);
   }
 
-  public function notFound($message = 'Not found.') {
+  public function notFound($message = 'Not found.', $stop = false) {
     $request = $this->getRequest();
-    if ($request instanceof sfWebRequest && $request->isXmlHttpRequest())
-      return $this->ajax()->alert($message)->render();
+    if ($request instanceof sfWebRequest && $request->isXmlHttpRequest()) {
+      $render = $this->ajax()->alert($message)->render();
+      if ($stop) {
+        $this->getResponse()->send();
+        throw new \sfStopException();
+      }
+      return $render;
+    }
     $this->message = $message;
     return $this->forward404($message);
   }

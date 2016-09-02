@@ -17,43 +17,52 @@
  * @property integer $count
  * @property integer $pages
  * @property integer $pages_processed
+ * @property integer $incremental
  * @property sfGuardUser $User
  * @property Widget $Widget
  * @property Petition $Petition
  * @property Campaign $Campaign
+ * @property Doctrine_Collection $SigningsSuberscriber
+ * @property Doctrine_Collection $SigningsData
  * 
- * @method integer     getId()              Returns the current record's "id" value
- * @method integer     getUserId()          Returns the current record's "user_id" value
- * @method integer     getWidgetId()        Returns the current record's "widget_id" value
- * @method integer     getPetitionId()      Returns the current record's "petition_id" value
- * @method integer     getCampaignId()      Returns the current record's "campaign_id" value
- * @method string      getFilename()        Returns the current record's "filename" value
- * @method clob        getFilter()          Returns the current record's "filter" value
- * @method string      getType()            Returns the current record's "type" value
- * @method integer     getSubscriber()      Returns the current record's "subscriber" value
- * @method integer     getCount()           Returns the current record's "count" value
- * @method integer     getPages()           Returns the current record's "pages" value
- * @method integer     getPagesProcessed()  Returns the current record's "pages_processed" value
- * @method sfGuardUser getUser()            Returns the current record's "User" value
- * @method Widget      getWidget()          Returns the current record's "Widget" value
- * @method Petition    getPetition()        Returns the current record's "Petition" value
- * @method Campaign    getCampaign()        Returns the current record's "Campaign" value
- * @method Download    setId()              Sets the current record's "id" value
- * @method Download    setUserId()          Sets the current record's "user_id" value
- * @method Download    setWidgetId()        Sets the current record's "widget_id" value
- * @method Download    setPetitionId()      Sets the current record's "petition_id" value
- * @method Download    setCampaignId()      Sets the current record's "campaign_id" value
- * @method Download    setFilename()        Sets the current record's "filename" value
- * @method Download    setFilter()          Sets the current record's "filter" value
- * @method Download    setType()            Sets the current record's "type" value
- * @method Download    setSubscriber()      Sets the current record's "subscriber" value
- * @method Download    setCount()           Sets the current record's "count" value
- * @method Download    setPages()           Sets the current record's "pages" value
- * @method Download    setPagesProcessed()  Sets the current record's "pages_processed" value
- * @method Download    setUser()            Sets the current record's "User" value
- * @method Download    setWidget()          Sets the current record's "Widget" value
- * @method Download    setPetition()        Sets the current record's "Petition" value
- * @method Download    setCampaign()        Sets the current record's "Campaign" value
+ * @method integer             getId()                   Returns the current record's "id" value
+ * @method integer             getUserId()               Returns the current record's "user_id" value
+ * @method integer             getWidgetId()             Returns the current record's "widget_id" value
+ * @method integer             getPetitionId()           Returns the current record's "petition_id" value
+ * @method integer             getCampaignId()           Returns the current record's "campaign_id" value
+ * @method string              getFilename()             Returns the current record's "filename" value
+ * @method clob                getFilter()               Returns the current record's "filter" value
+ * @method string              getType()                 Returns the current record's "type" value
+ * @method integer             getSubscriber()           Returns the current record's "subscriber" value
+ * @method integer             getCount()                Returns the current record's "count" value
+ * @method integer             getPages()                Returns the current record's "pages" value
+ * @method integer             getPagesProcessed()       Returns the current record's "pages_processed" value
+ * @method integer             getIncremental()          Returns the current record's "incremental" value
+ * @method sfGuardUser         getUser()                 Returns the current record's "User" value
+ * @method Widget              getWidget()               Returns the current record's "Widget" value
+ * @method Petition            getPetition()             Returns the current record's "Petition" value
+ * @method Campaign            getCampaign()             Returns the current record's "Campaign" value
+ * @method Doctrine_Collection getSigningsSuberscriber() Returns the current record's "SigningsSuberscriber" collection
+ * @method Doctrine_Collection getSigningsData()         Returns the current record's "SigningsData" collection
+ * @method Download            setId()                   Sets the current record's "id" value
+ * @method Download            setUserId()               Sets the current record's "user_id" value
+ * @method Download            setWidgetId()             Sets the current record's "widget_id" value
+ * @method Download            setPetitionId()           Sets the current record's "petition_id" value
+ * @method Download            setCampaignId()           Sets the current record's "campaign_id" value
+ * @method Download            setFilename()             Sets the current record's "filename" value
+ * @method Download            setFilter()               Sets the current record's "filter" value
+ * @method Download            setType()                 Sets the current record's "type" value
+ * @method Download            setSubscriber()           Sets the current record's "subscriber" value
+ * @method Download            setCount()                Sets the current record's "count" value
+ * @method Download            setPages()                Sets the current record's "pages" value
+ * @method Download            setPagesProcessed()       Sets the current record's "pages_processed" value
+ * @method Download            setIncremental()          Sets the current record's "incremental" value
+ * @method Download            setUser()                 Sets the current record's "User" value
+ * @method Download            setWidget()               Sets the current record's "Widget" value
+ * @method Download            setPetition()             Sets the current record's "Petition" value
+ * @method Download            setCampaign()             Sets the current record's "Campaign" value
+ * @method Download            setSigningsSuberscriber() Sets the current record's "SigningsSuberscriber" collection
+ * @method Download            setSigningsData()         Sets the current record's "SigningsData" collection
  * 
  * @package    policat
  * @subpackage model
@@ -73,7 +82,7 @@ abstract class BaseDownload extends myDoctrineRecord
              ));
         $this->hasColumn('user_id', 'integer', 4, array(
              'type' => 'integer',
-             'notnull' => true,
+             'notnull' => false,
              'length' => 4,
              ));
         $this->hasColumn('widget_id', 'integer', 4, array(
@@ -129,6 +138,12 @@ abstract class BaseDownload extends myDoctrineRecord
              'default' => 0,
              'length' => 4,
              ));
+        $this->hasColumn('incremental', 'integer', 1, array(
+             'type' => 'integer',
+             'notnull' => true,
+             'default' => 0,
+             'length' => 1,
+             ));
 
         $this->option('form', false);
         $this->option('filter', false);
@@ -140,7 +155,7 @@ abstract class BaseDownload extends myDoctrineRecord
         $this->hasOne('sfGuardUser as User', array(
              'local' => 'user_id',
              'foreign' => 'id',
-             'onDelete' => 'CASCADE'));
+             'onDelete' => 'SET NULL'));
 
         $this->hasOne('Widget', array(
              'local' => 'widget_id',
@@ -156,6 +171,14 @@ abstract class BaseDownload extends myDoctrineRecord
              'local' => 'campaign_id',
              'foreign' => 'id',
              'onDelete' => 'CASCADE'));
+
+        $this->hasMany('PetitionSigning as SigningsSuberscriber', array(
+             'local' => 'id',
+             'foreign' => 'download_subscriber_id'));
+
+        $this->hasMany('PetitionSigning as SigningsData', array(
+             'local' => 'id',
+             'foreign' => 'download_data_id'));
 
         $timestampable0 = new Doctrine_Template_Timestampable(array(
              ));

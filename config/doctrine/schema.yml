@@ -499,12 +499,16 @@ PetitionSigning:
     bounce_hard:        { type: integer(1),  notnull: true, default: 0 }
     bounce_related_to:  { type: string(20), notnull: false, default: null }
     bounce_error:       { type: string(20), notnull: false, default: null }
+    download_subscriber_id: { type: integer(4), notnull: false, default: null }
+    download_data_id:       { type: integer(4), notnull: false, default: null }
   relations:
     Petition: { onDelete: CASCADE }
     Widget:   { onDelete: SET NULL }
     Contact:  { refClass: PetitionSigningContact, local: petition_signing_id, foreign: contact_id, type: many }
     Quota:    { onDelete: SET NULL }
     QuotaThankYou: { class: Quota, local: quota_thank_you_id, onDelete: SET NULL, foreignAlias: PetitionSigningThankYous }
+    DownloadSubscriber: { class: Download, local: download_subscriber_id, onDelete: SET NULL, foreignAlias: SigningsSuberscriber }
+    DownloadData:       { class: Download, local: download_data_id,       onDelete: SET NULL, foreignAlias: SigningsData }
   indexes:
     signing_petition_count_index2: { fields: [petition_id, status, created_at] }
     signing_petition_count_index3: { fields: [petition_id, status, country, created_at] }
@@ -1002,7 +1006,7 @@ Download:
   actAs: [ Timestampable ]
   columns:
     id:                   { type: integer(4), primary: true, autoincrement: true }
-    user_id:              { type: integer(4), notnull: true }
+    user_id:              { type: integer(4), notnull: false, default: null }
     widget_id:            { type: integer(4), notnull: false, default: null }
     petition_id:          { type: integer(4), notnull: false, default: null }
     campaign_id:          { type: integer(4), notnull: false, default: null }
@@ -1013,9 +1017,10 @@ Download:
     count:                { type: integer(4), notnull: true, default: 0 }
     pages:                { type: integer(4), notnull: true, default: 0 }
     pages_processed:      { type: integer(4), notnull: true, default: 0 }
+    incremental:          { type: integer(1), notnull: true, default: 0 }
   relations:
     User:
-      onDelete: CASCADE
+      onDelete: SET NULL
       class: sfGuardUser
       local: user_id
       foreignAlias: Downloads

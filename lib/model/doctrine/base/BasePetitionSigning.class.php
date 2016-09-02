@@ -45,11 +45,15 @@
  * @property integer $bounce_hard
  * @property string $bounce_related_to
  * @property string $bounce_error
+ * @property integer $download_subscriber_id
+ * @property integer $download_data_id
  * @property Petition $Petition
  * @property Widget $Widget
  * @property Doctrine_Collection $Contact
  * @property Quota $Quota
  * @property Quota $QuotaThankYou
+ * @property Download $DownloadSubscriber
+ * @property Download $DownloadData
  * @property Doctrine_Collection $Search
  * @property Doctrine_Collection $PetitionSigningContact
  * @property Doctrine_Collection $PetitionSigningWave
@@ -94,11 +98,15 @@
  * @method integer             getBounceHard()             Returns the current record's "bounce_hard" value
  * @method string              getBounceRelatedTo()        Returns the current record's "bounce_related_to" value
  * @method string              getBounceError()            Returns the current record's "bounce_error" value
+ * @method integer             getDownloadSubscriberId()   Returns the current record's "download_subscriber_id" value
+ * @method integer             getDownloadDataId()         Returns the current record's "download_data_id" value
  * @method Petition            getPetition()               Returns the current record's "Petition" value
  * @method Widget              getWidget()                 Returns the current record's "Widget" value
  * @method Doctrine_Collection getContact()                Returns the current record's "Contact" collection
  * @method Quota               getQuota()                  Returns the current record's "Quota" value
  * @method Quota               getQuotaThankYou()          Returns the current record's "QuotaThankYou" value
+ * @method Download            getDownloadSubscriber()     Returns the current record's "DownloadSubscriber" value
+ * @method Download            getDownloadData()           Returns the current record's "DownloadData" value
  * @method Doctrine_Collection getSearch()                 Returns the current record's "Search" collection
  * @method Doctrine_Collection getPetitionSigningContact() Returns the current record's "PetitionSigningContact" collection
  * @method Doctrine_Collection getPetitionSigningWave()    Returns the current record's "PetitionSigningWave" collection
@@ -142,11 +150,15 @@
  * @method PetitionSigning     setBounceHard()             Sets the current record's "bounce_hard" value
  * @method PetitionSigning     setBounceRelatedTo()        Sets the current record's "bounce_related_to" value
  * @method PetitionSigning     setBounceError()            Sets the current record's "bounce_error" value
+ * @method PetitionSigning     setDownloadSubscriberId()   Sets the current record's "download_subscriber_id" value
+ * @method PetitionSigning     setDownloadDataId()         Sets the current record's "download_data_id" value
  * @method PetitionSigning     setPetition()               Sets the current record's "Petition" value
  * @method PetitionSigning     setWidget()                 Sets the current record's "Widget" value
  * @method PetitionSigning     setContact()                Sets the current record's "Contact" collection
  * @method PetitionSigning     setQuota()                  Sets the current record's "Quota" value
  * @method PetitionSigning     setQuotaThankYou()          Sets the current record's "QuotaThankYou" value
+ * @method PetitionSigning     setDownloadSubscriber()     Sets the current record's "DownloadSubscriber" value
+ * @method PetitionSigning     setDownloadData()           Sets the current record's "DownloadData" value
  * @method PetitionSigning     setSearch()                 Sets the current record's "Search" collection
  * @method PetitionSigning     setPetitionSigningContact() Sets the current record's "PetitionSigningContact" collection
  * @method PetitionSigning     setPetitionSigningWave()    Sets the current record's "PetitionSigningWave" collection
@@ -362,6 +374,16 @@ abstract class BasePetitionSigning extends myDoctrineRecord
              'notnull' => false,
              'length' => 20,
              ));
+        $this->hasColumn('download_subscriber_id', 'integer', 4, array(
+             'type' => 'integer',
+             'notnull' => false,
+             'length' => 4,
+             ));
+        $this->hasColumn('download_data_id', 'integer', 4, array(
+             'type' => 'integer',
+             'notnull' => false,
+             'length' => 4,
+             ));
 
 
         $this->index('signing_petition_count_index2', array(
@@ -506,6 +528,16 @@ abstract class BasePetitionSigning extends myDoctrineRecord
 
         $this->hasOne('Quota as QuotaThankYou', array(
              'local' => 'quota_thank_you_id',
+             'foreign' => 'id',
+             'onDelete' => 'SET NULL'));
+
+        $this->hasOne('Download as DownloadSubscriber', array(
+             'local' => 'download_subscriber_id',
+             'foreign' => 'id',
+             'onDelete' => 'SET NULL'));
+
+        $this->hasOne('Download as DownloadData', array(
+             'local' => 'download_data_id',
              'foreign' => 'id',
              'onDelete' => 'SET NULL'));
 

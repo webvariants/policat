@@ -1,4 +1,5 @@
 <?php
+
 /*
  * Copyright (c) 2016, webvariants GmbH <?php Co. KG, http://www.webvariants.de
  *
@@ -122,6 +123,15 @@ class dataComponents extends policatComponents {
       $this->download_url = $this->getContext()->getRouting()->generate($download_route, array(
             'id' => $download_route_id
         )) . '?' . http_build_query($download_params, null, '&');
+
+      if (isset($this->petition) && $download_route === 'data_petition_download') {
+        $this->download_incremental_url = $this->getContext()->getRouting()->generate($download_route, array(
+              'id' => $this->petition->getId()
+          )) . '?' . http_build_query(array(
+              's' => $this->subscriptions ? 1 : 0,
+              'incremental' => 1
+          ), null, '&');
+      }
     }
   }
 

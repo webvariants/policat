@@ -1,4 +1,5 @@
 <?php
+
 /*
  * Copyright (c) 2016, webvariants GmbH <?php Co. KG, http://www.webvariants.de
  *
@@ -141,7 +142,12 @@ class dataActions extends policatActions {
     }
   }
 
-  private function buildQueryByRequest(sfWebRequest $request, &$download) {
+  /**
+   *
+   * @param sfWebRequest $request
+   * @return \Download
+   */
+  private function buildDownloadByRequest(sfWebRequest $request) {
     $route_params = $this->getRoute()->getParameters();
     $type = isset($route_params['type']) ? $route_params['type'] : null;
 
@@ -149,45 +155,60 @@ class dataActions extends policatActions {
 
     $query = $this->buildQuery($type, $request->getParameter('id'), $subscriptions, $this->getRequest()->getGetParameter('_'), $form, $object);
     /* @var $form sfForm */
-    if (!$form || !$form->isValid()) {
+    if (!$form || !$form->isValid() || !$query) {
       return null;
     }
 
-    if ($query instanceof Doctrine_Query && $download instanceof Download) {
-      $download->setType($type);
-      $download->setSubscriber($subscriptions ? true : false);
-      $download->setQuery($query);
-      $download->setCount($query->count());
-      $download->setUser($this->getGuardUser());
+    $download = new Download();
+    $download->setSubscriber($subscriptions ? true : false);
+    $download->setUser($this->getGuardUser());
 
-      $download->setPages($download->calcPages());
-      if ($download->getPages() === 0) {
-        die('0 pages.');
-      }
-      $download->setPagesProcessed(0);
+    if ($type === 'petition' && $request->getGetParameter('incremental')) {
+      $download->setIncremental(true);
+      $download->setType('petition');
+      $download->setPetition($object);
+      $download->setCampaign($object->getCampaign());
       $download->setFilename(mt_rand());
       $download->save();
-      $download->setFilename($download->getId() . '_' . $this->getGuardUser()->getId() . '_' . $download->getType() . '_' . $object->getId() . '_' . time() . '.csv');
-
-      switch ($download->getType()) {
-        case 'petition':
-          $download->setPetition($object);
-          $download->setCampaign($object->getCampaign());
-          break;
-        case 'campaign':
-          $download->setCampaign($object);
-          break;
-        case 'widget':
-          $download->setPetition($object->getPetition());
-          $download->setCampaign($object->getCampaign());
-          $download->setWidget($object);
-          break;
-      }
-
-      $download->save();
+      $rows = PetitionSigningTable::getInstance()->updateByDownload($download);
+      $download->setCount($rows);
+      $download->setQuery(PetitionSigningTable::getInstance()->query(array(
+          PetitionSigningTable::DOWNLOAD => $download,
+          PetitionSigningTable::PETITION => $object
+        )));
+    } else {
+      $download->setType($type);
+      $download->setQuery($query);
+      $download->setCount($query->count());
     }
 
-    return $query;
+    $download->setPages($download->calcPages());
+    if ($download->getPages() === 0) {
+      die('0 pages.');
+    }
+    $download->setPagesProcessed(0);
+    $download->setFilename(mt_rand());
+    $download->save();
+    $download->setFilename($download->getId() . '_' . $this->getGuardUser()->getId() . '_' . $download->getType() . '_' . $object->getId() . '_' . time() . '.csv');
+
+    switch ($download->getType()) {
+      case 'petition':
+        $download->setPetition($object);
+        $download->setCampaign($object->getCampaign());
+        break;
+      case 'campaign':
+        $download->setCampaign($object);
+        break;
+      case 'widget':
+        $download->setPetition($object->getPetition());
+        $download->setCampaign($object->getCampaign());
+        $download->setWidget($object);
+        break;
+    }
+
+    $download->save();
+
+    return $download;
   }
 
   private function buildQuery($type, $id, &$subscriptions, $form_data, &$form = null, &$object = null) {
@@ -195,7 +216,7 @@ class dataActions extends policatActions {
       case 'petition':
         $petition = $this->getPetition($id);
         if (!$petition instanceof Petition) {
-          return $petition;
+          return null;
         }
 
         // check the rights for subscriptions
@@ -225,7 +246,7 @@ class dataActions extends policatActions {
       case 'campaign':
         $campaign = $this->getCampaign($id);
         if (!$campaign instanceof Campaign) {
-          return $campaign;
+          return null;
         }
 
         // check the rights for subscriptions
@@ -255,7 +276,7 @@ class dataActions extends policatActions {
       case 'widget': // this is for widget owners only
         $widget = $this->getWidget($id);
         if (!$widget instanceof Widget) {
-          return $widget;
+          return null;
         }
 
         $base_query_options = array(
@@ -278,14 +299,13 @@ class dataActions extends policatActions {
         return $query;
 
       default:
-        return $this->notFound();
+        $this->notFound('Not found.', true);
     }
   }
 
   public function executeDownload(sfWebRequest $request) {
-    $download = new Download();
-    $query = $this->buildQueryByRequest($request, $download);
-    if (!$query || !$query instanceof Doctrine_Query) {
+    $download = $this->buildDownloadByRequest($request);
+    if (!$download) {
       return null;
     }
 

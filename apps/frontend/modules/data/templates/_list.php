@@ -84,13 +84,20 @@ use_helper('Number');
       <?php if (isset($count)): ?>
         <div class="well">
             <?php if (isset($download_url)): ?>
-              Download data (utf-8 encoded .csv):
+              <h3>Download data (utf-8 encoded .csv)</h3>
               <a class="btn btn-mini ajax_link post" href="<?php echo $download_url ?>">Download</a>
             <?php endif ?>
             <p class="top15 bottom0">
                 The participant list exports contain hashes to compare or deduplicate signings with other lists. Input: e-mail address, utf-8 encoded, white spaces
                 removed front and tail, all letters converted to lowercase. Function: bcrypt, parameters cost=10 and salt='POLICAT1234567890ABCDE'
             </p>
+        </div>
+      <?php endif ?>
+      <?php if (isset($petition) && isset($download_incremental_url)): ?>
+        <div class="well">
+            <h3>Incremental download</h3>
+            <p>Filters will be ignored.</p>
+            <a class="btn btn-mini ajax_link post" href="<?php echo $download_incremental_url ?>">Download</a>
         </div>
       <?php endif ?>
     <?php else: ?>
