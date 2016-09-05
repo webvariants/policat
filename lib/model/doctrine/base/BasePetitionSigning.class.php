@@ -497,6 +497,25 @@ abstract class BasePetitionSigning extends myDoctrineRecord
               3 => 'bounce_at',
              ),
              ));
+        $this->index('signing_inc_dl_sub', array(
+             'fields' => 
+             array(
+              0 => 'petition_id',
+              1 => 'download_subscriber_id',
+              2 => 'status',
+              3 => 'subscribe',
+              4 => 'id',
+             ),
+             ));
+        $this->index('signing_inc_dl_data', array(
+             'fields' => 
+             array(
+              0 => 'petition_id',
+              1 => 'download_data_id',
+              2 => 'status',
+              3 => 'id',
+             ),
+             ));
         $this->option('options', NULL);
         $this->option('type', 'INNODB');
         $this->option('collate', 'utf8_general_ci');
