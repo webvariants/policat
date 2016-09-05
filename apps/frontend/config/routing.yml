@@ -81,7 +81,8 @@ petition_bounces: {       url: '/action/bounces/:id',               param: { mod
 petition_bounces_pager: { url: '/action/bounces/:id/:page',         param: { module: bounce,     action: pager },                      requirements: { sf_method: [get, head], id: '\d+', page: '\d+' } , class: sfRequestRoute }
 petition_bounce_delete: { url: '/action/bounces/delete/:id',        param: { module: bounce,     action: delete },                     requirements: { sf_method: [post], id: '\d+' }, class: sfRequestRoute }
 data_petition_pager:   {  url: '/action/data/:id/:page',            param: { module: data,       action: pager, type: petition },      requirements: { sf_method: [get, head], id: '\d+', page: '\d+' } }
-data_petition_download: { url: '/action/data/download/:id',         param: { module: data,       action: download, type: petition },   requirements: { sf_method: [post], id: '\d+' } }
+data_petition_download: { url: '/action/data/download/:id',         param: { module: data,       action: download, type: petition },   requirements: { sf_method: [post], id: '\d+' }, class: sfRequestRoute }
+data_petition_dl_inc: {   url: '/action/data/download/:id/:dl',     param: { module: data,       action: downloadIncrement, type: petition }, requirements: { sf_method: [post], id: '\d+', dl: '\d+' } , class: sfRequestRoute }
 data_petition_prepare:  { url: '/action/data/prepare/:id',          param: { module: data,       action: prepare, type: petition },    requirements: { sf_method: [post], id: '\d+' } }
 pledge_list:            { url: '/action/pledge/:id',                param: { module: pledge,     action: list },                       requirements: { sf_method: [get, head], id: '\d+' } }
 pledge_stats:           { url: '/action/pledge_stats/:id',          param: { module: pledge,     action: stats },                      requirements: { sf_method: [get, head], id: '\d+' } }

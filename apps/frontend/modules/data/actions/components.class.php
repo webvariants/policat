@@ -125,12 +125,16 @@ class dataComponents extends policatComponents {
         )) . '?' . http_build_query($download_params, null, '&');
 
       if (isset($this->petition) && $download_route === 'data_petition_download') {
+        $this->new_increment = PetitionSigningTable::getInstance()->countNewIncrement($this->petition, $this->subscriptions);
+
         $this->download_incremental_url = $this->getContext()->getRouting()->generate($download_route, array(
               'id' => $this->petition->getId()
           )) . '?' . http_build_query(array(
               's' => $this->subscriptions ? 1 : 0,
               'incremental' => 1
-          ), null, '&');
+            ), null, '&');
+
+        $this->incremental_downloads = DownloadTable::getInstance()->queryIncrementalDownloads($this->petition, $this->subscriptions)->execute();
       }
     }
   }

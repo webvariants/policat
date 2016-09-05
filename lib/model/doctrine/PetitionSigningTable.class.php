@@ -30,6 +30,7 @@ class PetitionSigningTable extends Doctrine_Table {
   const ORDER = 'order';
   const BOUNCE = 'bounce';
   const DOWNLOAD = 'download';
+  const DOWNLOAD_NULL = 'download_null';
   const WIDGET_FILTER = 'widget_filter';
   const KEYWORD_NAME = '#SENDER-NAME#';
   const KEYWORD_COUNTRY = '#SENDER-COUNTRY#';
@@ -54,7 +55,8 @@ class PetitionSigningTable extends Doctrine_Table {
       self::ORDER => null,
       self::WIDGET_FILTER => '',
       self::BOUNCE => false,
-      self::DOWNLOAD => null
+      self::DOWNLOAD => null,
+      self::DOWNLOAD_NULL => null,
   );
   static $KEYWORDS = array(
       self::KEYWORD_NAME,
@@ -90,6 +92,7 @@ class PetitionSigningTable extends Doctrine_Table {
     $widget_filter = $options[self::WIDGET_FILTER];
     $bounce = $options[self::BOUNCE];
     $download = $options[self::DOWNLOAD];
+    $download_null = $options[self::DOWNLOAD_NULL];
 
     if ($status) {
       $query->andWhere('ps.status = ?', $status);
@@ -110,6 +113,14 @@ class PetitionSigningTable extends Doctrine_Table {
         $query->andWhere('ps.download_subscriber_id = ?', $download->getId());
       } else {
         $query->andWhere('ps.download_data_id = ?', $download->getId());
+      }
+    }
+
+    if ($download_null !== null) {
+      if ($download_null) {
+        $query->andWhere('ps.download_subscriber_id IS NULL');
+      } else {
+        $query->andWhere('ps.download_data_id IS NULL');
       }
     }
 
@@ -588,7 +599,7 @@ class PetitionSigningTable extends Doctrine_Table {
         ->count();
   }
 
-  public function updateByDownload(Download $download) {
+  public function updateByDownload(Download $download, $limit = 100000) {
     if (!$download->getId() || !$download->getIncremental() || !$download->getPetition()->getId() || !$download->getUser()->getId()) {
       throw new Exception('error on updateByDownload');
     }
@@ -597,11 +608,30 @@ class PetitionSigningTable extends Doctrine_Table {
     $query = $this->createQuery()->update('PetitionSigning ps');
     $query->where("$field IS NULL");
     $query->set($field, $download->getId());
+    $query->andWhere('ps.status = ?', PetitionSigning::STATUS_COUNTED);
     $this->andQuerySubscriber($query, null, $download->getSubscriber());
     $query->andWhere('ps.petition_id = ?', $download->getPetition()->getId());
+    $query->limit($limit);
+    $query->orderBy('ps.id ASC');
 
     $rows = $query->execute();
 
     return $rows;
+  }
+
+  public function countNewIncrement(Petition $petition, $subscriber = false) {
+    return $this->query(array(
+        self::PETITION => $petition,
+        self::SUBSCRIBER => $subscriber ? true : false,
+        self::DOWNLOAD_NULL => $subscriber ? true : false
+    ))->count();
+  }
+
+  public function countOldIncrement(Download $download) {
+    return $this->query(array(
+        self::PETITION => $download->getPetition(),
+        self::SUBSCRIBER => $download->getSubscriber() ? true : false,
+        self::DOWNLOAD => $download
+    ))->count();
   }
 }

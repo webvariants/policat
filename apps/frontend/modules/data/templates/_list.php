@@ -97,7 +97,34 @@ use_helper('Number');
         <div class="well">
             <h3>Incremental download</h3>
             <p>Filters will be ignored.</p>
-            <a class="btn btn-mini ajax_link post" href="<?php echo $download_incremental_url ?>">Download</a>
+            <?php if ($new_increment): ?>
+              <p><?php echo format_number($new_increment) ?> new entries ready for download.</p>
+              <a class="btn btn-mini ajax_link post" href="<?php echo $download_incremental_url ?>">Download (<?php echo format_number(min(100000, $new_increment)) ?>)</a>
+            <?php else: ?>
+              <p>No new downloads.</p>
+            <?php endif ?>
+            <?php if ($incremental_downloads->count()): ?>
+              <br /><br />
+              <h4>History of incremental downloads</h4>
+              <table class="table table-condensed">
+                  <thead>
+                      <tr><th>Date</th><th>Count</th><th></th></tr>
+                  </thead>
+                  <tbody>
+                      <?php foreach ($incremental_downloads as $incremental_download): /* @var $incremental_download Download */ ?>
+                        <tr>
+                            <td><?php echo $incremental_download->getCreatedAt() ?></td>
+                            <td><?php echo format_number($incremental_download->getCount()) ?></td>
+                            <td><a href="<?php
+                                echo url_for('data_petition_dl_inc', array(
+                                    'id' => $petition->getId(), 'dl' => $incremental_download->getId()
+                                ))
+                                ?>" class="btn btn-mini ajax_link post">Download</a></td>
+                        </tr>
+                      <?php endforeach ?>
+                  </tbody>
+              </table>
+            <?php endif ?>
         </div>
       <?php endif ?>
     <?php else: ?>

@@ -1,4 +1,5 @@
 <?php
+
 /*
  * Copyright (c) 2016, webvariants GmbH <?php Co. KG, http://www.webvariants.de
  *
@@ -55,8 +56,22 @@ class Download extends BaseDownload {
     }
   }
 
+  public function createFilename() {
+    $this->setFilename($this->getId() . '_' . $this->getUser()->getId() . '_' . $this->getType() . '_' . $this->getIdForType() . '_' . time() . '.csv');
+  }
+
   public function getFilepath() {
     return self::buildFilepath($this->getFilename());
+  }
+
+  public function fileExists() {
+    return $this->getFilename() && file_exists($this->getFilepath());
+  }
+
+  public function fileDelete() {
+    if ($this->fileExists()) {
+      unlink($this->getFilepath());
+    }
   }
 
   private static function buildFilepath($filename) {

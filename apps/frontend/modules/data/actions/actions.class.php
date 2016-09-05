@@ -170,12 +170,14 @@ class dataActions extends policatActions {
       $download->setCampaign($object->getCampaign());
       $download->setFilename(mt_rand());
       $download->save();
+      $download->createFilename();
+      $download->setQuery(PetitionSigningTable::getInstance()->query(array(
+            PetitionSigningTable::DOWNLOAD => $download,
+            PetitionSigningTable::PETITION => $object
+      )));
+      $download->save();
       $rows = PetitionSigningTable::getInstance()->updateByDownload($download);
       $download->setCount($rows);
-      $download->setQuery(PetitionSigningTable::getInstance()->query(array(
-          PetitionSigningTable::DOWNLOAD => $download,
-          PetitionSigningTable::PETITION => $object
-        )));
     } else {
       $download->setType($type);
       $download->setQuery($query);
@@ -184,12 +186,15 @@ class dataActions extends policatActions {
 
     $download->setPages($download->calcPages());
     if ($download->getPages() === 0) {
+      if ($download->getId()) {
+        $download->delete();
+      }
       die('0 pages.');
     }
     $download->setPagesProcessed(0);
     $download->setFilename(mt_rand());
     $download->save();
-    $download->setFilename($download->getId() . '_' . $this->getGuardUser()->getId() . '_' . $download->getType() . '_' . $object->getId() . '_' . time() . '.csv');
+    $download->createFilename();
 
     switch ($download->getType()) {
       case 'petition':
@@ -324,6 +329,62 @@ class dataActions extends policatActions {
     return $this->ajax()->render();
   }
 
+  public function executeDownloadIncrement(sfWebRequest $request) {
+    $route_params = $this->getRoute()->getParameters();
+    $type = isset($route_params['type']) ? $route_params['type'] : null;
+    if ($type !== 'petition') {
+      $this->notFound('Not found.', true);
+    }
+
+    $petition = $this->getPetition($request->getParameter('id'));
+
+    $download = DownloadTable::getInstance()->createQuery('d')
+      ->where('d.petition_id = ?', $request->getParameter('id'))
+      ->andWhere('d.id = ?', $request->getParameter('dl'))
+      ->fetchOne();
+
+    /* @var $download Download */
+    if (!$download) {
+      $this->notFound('Not found.', true);
+    }
+
+    if ($download->getSubscriber() && !$this->getGuardUser()->isDataOwnerOfCampaign($petition->getCampaign())) {
+      $this->forward403();
+      return;
+    }
+
+    $ready = false;
+    if ($download->fileExists()) {
+      if ($download->getPages() === $download->getPagesProcessed()) {
+        $ready = true;
+      } else {
+        $download->fileDelete();
+      }
+    }
+
+    if (!$ready) {
+      $download->setCount(PetitionSigningTable::getInstance()->countOldIncrement($download));
+      $download->setPages($download->calcPages());
+      $download->setPagesProcessed(0);
+      $download->save();
+    }
+
+    $this->ajax()
+      ->remove('#prepare-download')
+      ->appendPartial('body', 'prepare_modal', array(
+          'submit' => array('pages' => $download->calcPages()),
+          'count' => $download->getCount(),
+          'prepare_route' => 'data_' . $download->getType() . '_prepare',
+          'batch' => $download->getId(),
+          'id' => $download->getId(),
+          'ready' => $ready
+      ))
+      ->modal('#prepare-download')
+      ->click('#prepare-download .download-prepare');
+
+    return $this->ajax()->render();
+  }
+
   public function executePrepare(sfWebRequest $request) {
     $download = DownloadTable::getInstance()->find((int) $request->getParameter('id'));
     /* @var $download Download */
@@ -336,6 +397,10 @@ class dataActions extends policatActions {
       if ($page < 0) {
         if ($download->getPagesProcessed() != $download->getPages()) {
           return $this->renderText('error');
+        }
+
+        if (!$download->fileExists()) {
+          return $this->forward404();
         }
 
         header('Content-Description: File Transfer');

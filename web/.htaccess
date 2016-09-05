@@ -51,7 +51,7 @@ Options +FollowSymLinks +ExecCGI
 
   RewriteRule ^action((/by_campaign)|(/join)|(/leave)|(/new)|(/spf))?$ frontend.php [QSA,L]
   RewriteRule ^action/\d+$ frontend.php [QSA,L]
-  RewriteRule ^action/((edit)|(edit_target)|(widget)|(widget_copy)|(translation)|(todo)|(target)|(pager)|(members)|(follow)|(delete)|(data)|(data_email)|(data/download)|(data/prepare)|(bounces/delete)|(bounces(/\d+)?))/\d+$ frontend.php [QSA,L]
+  RewriteRule ^action/((edit)|(edit_target)|(widget)|(widget_copy)|(translation)|(todo)|(target)|(pager)|(members)|(follow)|(delete)|(data)|(data_email)|(data/download(/\d+)?)|(data/prepare)|(bounces/delete)|(bounces(/\d+)?))/\d+$ frontend.php [QSA,L]
   RewriteRule ^action/((pager)|(data))/\d+/\d+$ frontend.php [QSA,L]
   RewriteRule ^action/((pledge)|(pledge_download)|(pledge_edit(/\d+)?)|(pledge_new)|(pledge_stats(/\d+)?))/\d+$ frontend.php [QSA,L]
 
