@@ -479,7 +479,7 @@ $(function($) {
 			}
 
 			if (options.selectFirst) {
-				target.val($('option:first', target).val());
+				target.val($('option:first', target).val()).change();
 			}
 		}
 	});

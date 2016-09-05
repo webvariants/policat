@@ -23,71 +23,6 @@ class TranslationForm extends BasePetitionTextForm {
     return $this->state_count;
   }
 
-  static $defaults_petition = array
-      (
-      'email_validation_subject' => 'Confirm your action --- #TITLE#',
-      'email_validation_body' => "Hello,
-
-you just signed the petition #TITLE# . To confirm your action, click here:
-
-#VALIDATION-URL#
-
-We count your signature only if you click this link! After you confirmed your signature, please take a minute and forward the following e-mail to your friends and family:
-
---
-
-Hello, I just took part in this action: #TITLE# - #TARGET#.
-
-Take action too: #REFERER-URL#
-
-More information about the petition: #BACKGROUND#
-
-The petition text: #INTRO# #BODY# #FOOTER#",
-      'email_tellyour_subject' => 'Sign the petition --- #TITLE# ',
-      'email_tellyour_body' => "Hello,
-
-I just took part in this action: TITLE - TARGET.
-
-Take action too: #REFERER-URL#
-
-More information about the petition: #BACKGROUND#
-
-The petition text: #INTRO# #BODY# #FOOTER#"
-  );
-  static $defaults_email = array
-      (
-      'email_subject' => 'Insert the standard text for the subject-line of the e-mail that will be sent to your political target.',
-      'email_body' => 'Insert the standard text for the e-mail that will be sent to your political target.',
-      'email_validation_subject' => 'Confirm your action --- #TITLE#',
-      'email_validation_body' => "Hello,
-
-thank you for taking action. Before your e-mail will be sent out to TARGET, you need to confirm your action. Click here:
-
-#VALIDATION-URL#
-
-We will send your e-mail to #TARGET# only if you click this link! After you confirmed your action, please take a minute and forward the following e-mail to your friends and family:
-
---
-
-Hello, I just took part in this e-mail-action -- #TITLE# -- to #TARGET#.
-
-Take action too: #REFERER-URL#
-
-More information about the action: #BACKGROUND#
-
-The e-mail text: #EMAIL-SUBJECT# -- #EMAIL-BODY#",
-      'email_tellyour_subject' => 'Sign the petition --- #TITLE#',
-      'email_tellyour_body' => "Hello,
-
-I just took part in this e-mail-action -- #TITLE# -- to #TARGET#.
-
-Take action too: #REFERER-URL#
-
-More information about the action: #BACKGROUND#
-
-The e-mail text: #EMAIL-SUBJECT# -- #EMAIL-BODY#"
-  );
-
   public function configure() {
     $this->widgetSchema->setFormFormatterName('bootstrap');
     $this->widgetSchema->setNameFormat('translation[%s]');
@@ -216,37 +151,6 @@ The e-mail text: #EMAIL-SUBJECT# -- #EMAIL-BODY#"
     if (!$petition_text->isNew()) {
       $this->setWidget('updated_at', new sfWidgetFormInputHidden());
       $this->setValidator('updated_at', new ValidatorUnchanged(array('fix' => $petition_text->getUpdatedAt())));
-
-//      $this->setWidget('widget_id', new sfWidgetFormDoctrineChoice(array(
-//          'model' => $this->getRelatedModelName('DefaultWidget'),
-//          'add_empty' => true,
-//          'label' => 'Widget for Homepage',
-//          'method' => 'getIdentString',
-//          'query' => Doctrine_Core::getTable('Widget')
-//            ->createQuery('w')
-//            ->where('w.petition_text_id = ?', $petition_text->getId())
-//            ->andWhere('w.status = ?', Widget::STATUS_ACTIVE)
-//      )));
-//
-//      $this->setValidator('widget_id', new sfValidatorDoctrineChoice(array(
-//          'model' => $this->getRelatedModelName('DefaultWidget'),
-//          'required' => false,
-//          'query' => Doctrine_Core::getTable('Widget')
-//            ->createQuery('w')
-//            ->where('w.petition_text_id = ?', $petition_text->getId())
-//            ->andWhere('w.status = ?', Widget::STATUS_ACTIVE)
-//      )));
-    }
-
-    // static defaults
-    $defaults = self::$defaults_petition;
-    if ($petition->isEmailKind()) {
-      $defaults = array_merge($defaults, self::$defaults_email);
-    }
-    foreach ($defaults as $def_key => $def_value) {
-      if (isset($this[$def_key])) {
-        $this->setDefault($def_key, $def_value);
-      }
     }
 
     if ($petition->getKind() == Petition::KIND_PLEDGE) {
@@ -255,7 +159,6 @@ The e-mail text: #EMAIL-SUBJECT# -- #EMAIL-BODY#"
       $this->getWidgetSchema()->moveField('intro', sfWidgetFormSchema::AFTER, 'pledge_title');
       $this->setValidator('intro', new sfValidatorString(array('required' => false)));
       unset($this['pledge_comment']);
-//      $this->setWidget('pledge_comment',               new sfWidgetFormTextarea(array(), array('cols' => 90, 'rows' => 5, 'class'=>'markdown')));
       $this->setWidget('pledge_explantory_annotation', new sfWidgetFormTextarea(array(), array('cols' => 90, 'rows' => 5, 'class' => 'markdown')));
       $this->getWidgetSchema()->setLabel('pledge_explantory_annotation', 'Explantory annotation and contact information');
       $this->setWidget('pledge_thank_you', new sfWidgetFormTextarea(array(), array('cols' => 90, 'rows' => 5, 'class' => 'markdown')));
@@ -317,9 +220,6 @@ The e-mail text: #EMAIL-SUBJECT# -- #EMAIL-BODY#"
 
     if ($petition->getWithExtra1() == Petition::WITH_EXTRA_YES) {
       $this->getWidgetSchema()->setLabel('label_extra1', 'Extra input field label (title text)');
-//  placeholder disabled
-//      $this->getWidgetSchema()->setLabel('placeholder_extra1', 'Extra field placeholder');
-//      $this->getWidget('placeholder_extra1')->setAttribute('placeholder', 'placeholder');
       unset($this['placeholder_extra1']);
     } else {
       unset($this['label_extra1'], $this['placeholder_extra1']);
