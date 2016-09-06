@@ -34,6 +34,7 @@ Options +FollowSymLinks +ExecCGI
   RewriteRule ^api/jsonp?$|^counterbar/colors$ widget.php [L]
   RewriteRule ^api/v2/actions/\d+/signings$ widget.php [L]
   RewriteRule ^api/v2/actions/[1-9]\d*/last-signings/[1-9]\d*(/large)?$ widget.php [L]
+  RewriteRule ^api/v2/actions/[1-9]\d*/list-signings/((date)|(name)|(city)|(country))_((asc)|(desc))/[1-9]\d*$ widget.php [L]
   RewriteRule ^pledge/\d+/\d+/.{15}$ widget.php [L]
   RewriteRule ^pledge/\d+/test$ widget.php [L]
   RewriteRule ^signers/[1-9]\d*/[1-9]\d*$ widget.php [L]

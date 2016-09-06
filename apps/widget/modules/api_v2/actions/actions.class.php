@@ -272,10 +272,17 @@ class api_v2Actions extends policatActions {
     $response->addCacheControlHttpHeader('public');
     $response->addCacheControlHttpHeader('max-age', 60);
 
+    $order = 'date_desc';
     $route_params = $this->getRoute()->getParameters();
-    $page_size = (isset($route_params['type']) && $route_params['type'] === 'large') ? 500 : 30;
+    $type = isset($route_params['type']) ? $route_params['type'] : null;
+    $page_size = $type === 'large' ? 500 : 30;
 
-    $signings = PetitionSigningTable::getInstance()->lastSignings($action_id, $page_size, $page - 1);
+    if ($type === 'list') {
+      $order = $request->getParameter('order');
+      $page_size = 500;
+    }
+
+    $signings = PetitionSigningTable::getInstance()->lastSignings($action_id, $page_size, $page - 1, $order, $petition->getNametype());
     if (!$signings) {
       $response->setStatusCode(404);
       return $this->renderJson(array('status' => 'error', 'message' => 'nothing found'), $callback);
@@ -290,18 +297,46 @@ class api_v2Actions extends policatActions {
 
     $data['pages'] = ceil($data['total'] / $page_size);
 
+    $with_city = $petition->getWithAddress();
+    $with_country = $petition->getWithCountry();
+
     $signers = array();
     foreach ($signings as $signing) {
       /* @var $signing PetitionSigning  */
 
-      $signers[] = array(
-//          'id' => $signing->getId(),
-          'name' => $signing->getComputedName()
-      );
+      if ($type === 'list') {
+        $entry = array(
+            'name' => $signing->getComputedName(),
+            'date' => $signing->getCreatedAt()
+        );
+
+        if ($with_city) {
+          $entry['city'] = $signing->getCity();
+        }
+        if ($with_country) {
+          $entry['country'] = $signing->getCountry();
+        }
+        $signers[] = $entry;
+      } else {
+        $signers[] = array(
+            'name' => $signing->getComputedName()
+        );
+      }
     }
 
     $data['status'] = 'ok';
     $data['signers'] = $signers;
+    $data['fields'] = array('name');
+
+    if ($type === 'list') {
+      $data['fields'][] = 'date';
+      if ($with_city) {
+        $data['fields'][] = 'city';
+      }
+      if ($with_country) {
+        $data['fields'][] = 'country';
+      }
+    }
 
     $response->addCacheControlHttpHeader('public');
     $response->addCacheControlHttpHeader('max-age', 60);

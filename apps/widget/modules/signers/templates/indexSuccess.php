@@ -15,6 +15,12 @@
         <?php
         include_stylesheets();
         include_javascripts();
+        $data['translations'] = array(
+            'date' => __('Date'),
+            'name' => __('Name'),
+            'city' => __('City'),
+            'country' => __('Country')
+        );
         ?>
         <style type="text/css">
             body {

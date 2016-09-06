@@ -79,6 +79,16 @@ api_v2_last_signings:
     action_id: '[1-9]\d*'
     page: '[1-9]\d*'
 
+api_v2_list_signings:
+  url: /api/v2/actions/:action_id/list-signings/:order/:page
+  param: { module: api_v2, action: actionLastSignings, type: list }
+  class: sfRequestRoute
+  requirements:
+    sf_method: [get, head]
+    action_id: '[1-9]\d*'
+    page: '[1-9]\d*'
+    order: '((date)|(name)|(city)|(country))_((asc)|(desc))'
+
 api_v2_doc:
   url: /api/v2
   param: { module: api_v2, action: doc }

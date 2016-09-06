@@ -579,14 +579,48 @@ class PetitionSigningTable extends Doctrine_Table {
   /**
    * @return array
    */
-  public function lastSignings($petition_id, $limit = 10, $page = 0) {
-    return $this->createQuery('ps')
-        ->where('ps.petition_id = ?', $petition_id)
-        ->andWhere('ps.status = ?', PetitionSigning::STATUS_COUNTED)
-        ->orderBy('ps.updated_at DESC')
-        ->limit($limit)
-        ->offset($limit * $page)
-        ->execute();
+  public function lastSignings($petition_id, $limit = 10, $page = 0, $order = 'date_desc', $name_type) {
+    $query = $this->createQuery('ps')
+      ->where('ps.petition_id = ?', $petition_id)
+      ->andWhere('ps.status = ?', PetitionSigning::STATUS_COUNTED)
+      ->limit($limit)
+      ->offset($limit * $page);
+
+    switch ($order) {
+      case 'name_asc':
+        if ($name_type === Petition::NAMETYPE_SPLIT) {
+          $query->orderBy('ps.lastname ASC, ps.id ASC');
+        } else {
+          $query->orderBy('ps.fullname ASC, ps.id ASC');
+        }
+        break;
+      case 'name_desc':
+        if ($name_type === Petition::NAMETYPE_SPLIT) {
+          $query->orderBy('ps.lastname DESC, ps.id DESC');
+        } else {
+          $query->orderBy('ps.fullname DESC, ps.id DESC');
+        }
+        break;
+      case 'city_asc':
+        $query->orderBy('ps.city ASC, ps.id ASC');
+        break;
+      case 'city_desc':
+        $query->orderBy('ps.city DESC, ps.id DESC');
+        break;
+      case 'country_asc':
+        $query->orderBy('ps.country ASC, ps.city ASC, ps.id ASC');
+        break;
+      case 'country_desc':
+        $query->orderBy('ps.country DESC, ps.city DESC, ps.id DESC');
+        break;
+      case 'date_asc':
+        $query->orderBy('ps.updated_at ASC');
+        break;
+      default:
+        $query->orderBy('ps.updated_at DESC');
+    }
+
+    return $query->execute();
   }
 
   /**
@@ -621,17 +655,18 @@ class PetitionSigningTable extends Doctrine_Table {
 
   public function countNewIncrement(Petition $petition, $subscriber = false) {
     return $this->query(array(
-        self::PETITION => $petition,
-        self::SUBSCRIBER => $subscriber ? true : false,
-        self::DOWNLOAD_NULL => $subscriber ? true : false
-    ))->count();
+          self::PETITION => $petition,
+          self::SUBSCRIBER => $subscriber ? true : false,
+          self::DOWNLOAD_NULL => $subscriber ? true : false
+      ))->count();
   }
 
   public function countOldIncrement(Download $download) {
     return $this->query(array(
-        self::PETITION => $download->getPetition(),
-        self::SUBSCRIBER => $download->getSubscriber() ? true : false,
-        self::DOWNLOAD => $download
-    ))->count();
+          self::PETITION => $download->getPetition(),
+          self::SUBSCRIBER => $download->getSubscriber() ? true : false,
+          self::DOWNLOAD => $download
+      ))->count();
   }
+
 }

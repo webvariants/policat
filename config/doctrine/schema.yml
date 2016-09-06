@@ -524,6 +524,10 @@ PetitionSigning:
     signing_pending_index3:        { fields: [status, mailed_at, updated_at, id] }
     signing_email_duplicate:       { fields: [petition_id, email] }
     signing_last_signers:         { fields: [petition_id, status, updated_at] }
+    signing_list_name1:           { fields: [petition_id, status, fullname, id] }
+    signing_list_name2:           { fields: [petition_id, status, lastname, id] }
+    signing_list_city:            { fields: [petition_id, status, city, id] }
+    signing_list_country:         { fields: [petition_id, status, country, city, id] }
     signing_bounce:               { fields: [petition_id, bounce, verified, bounce_at] }
     signing_inc_dl_sub:           { fields: [petition_id, download_subscriber_id, status, subscribe, id] }
     signing_inc_dl_data:           { fields: [petition_id, download_data_id, status, id] }

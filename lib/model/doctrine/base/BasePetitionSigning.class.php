@@ -488,6 +488,43 @@ abstract class BasePetitionSigning extends myDoctrineRecord
               2 => 'updated_at',
              ),
              ));
+        $this->index('signing_list_name1', array(
+             'fields' => 
+             array(
+              0 => 'petition_id',
+              1 => 'status',
+              2 => 'fullname',
+              3 => 'id',
+             ),
+             ));
+        $this->index('signing_list_name2', array(
+             'fields' => 
+             array(
+              0 => 'petition_id',
+              1 => 'status',
+              2 => 'lastname',
+              3 => 'id',
+             ),
+             ));
+        $this->index('signing_list_city', array(
+             'fields' => 
+             array(
+              0 => 'petition_id',
+              1 => 'status',
+              2 => 'city',
+              3 => 'id',
+             ),
+             ));
+        $this->index('signing_list_country', array(
+             'fields' => 
+             array(
+              0 => 'petition_id',
+              1 => 'status',
+              2 => 'country',
+              3 => 'city',
+              4 => 'id',
+             ),
+             ));
         $this->index('signing_bounce', array(
              'fields' => 
              array(
