@@ -1,4 +1,5 @@
 <?php
+
 /*
  * Copyright (c) 2016, webvariants GmbH <?php Co. KG, http://www.webvariants.de
  *
@@ -552,31 +553,41 @@ class d_actionActions extends policatActions {
       return $this->notFound();
     }
 
-    $validation_email = StoreTable::getInstance()->findByKeyAndLanguageCached(StoreTable::SIGNING_VALIDATION_EMAIL, $value);
+    $validation_email = StoreTable::getInstance()->findByKeyAndLanguage(StoreTable::SIGNING_VALIDATION_EMAIL, $value);
     if ($validation_email) {
       $this->ajax()->val('#' . $form_name . '_email_validation_subject', $validation_email->getField('subject', ''));
-      $this->ajax()->val('#' . $form_name . '_email_validation_body', $validation_email->getField('body', ''));
+      $this->ajax()
+        ->val('#' . $form_name . '_email_validation_body', $validation_email->getField('body', ''))
+        ->trigger('#' . $form_name . '_email_validation_body', 'change'); // resize
     }
 
-    $thankyou_email = StoreTable::getInstance()->findByKeyAndLanguageCached(StoreTable::SIGNING_THANK_YOU_EMAIL, $value);
+    $thankyou_email = StoreTable::getInstance()->findByKeyAndLanguage(StoreTable::SIGNING_THANK_YOU_EMAIL, $value);
     if ($thankyou_email) {
       $this->ajax()->val('#' . $form_name . '_thank_you_email_subject', $thankyou_email->getField('subject', ''));
-      $this->ajax()->val('#' . $form_name . '_thank_you_email_body', $thankyou_email->getField('body', ''));
+      $this->ajax()
+        ->val('#' . $form_name . '_thank_you_email_body', $thankyou_email->getField('body', ''))
+        ->trigger('#' . $form_name . '_thank_you_email_body', 'change'); // resize
     }
 
-    $tellyourfriend_email = StoreTable::getInstance()->findByKeyAndLanguageCached(StoreTable::ACTION_TELL_YOUR_FRIEND_EMAIL, $value);
+    $tellyourfriend_email = StoreTable::getInstance()->findByKeyAndLanguage(StoreTable::ACTION_TELL_YOUR_FRIEND_EMAIL, $value);
     if ($tellyourfriend_email) {
       $this->ajax()->val('#' . $form_name . '_email_tellyour_subject', $tellyourfriend_email->getField('subject', ''));
-      $this->ajax()->val('#' . $form_name . '_email_tellyour_body', $tellyourfriend_email->getField('body', ''));
+      $this->ajax()
+        ->val('#' . $form_name . '_email_tellyour_body', $tellyourfriend_email->getField('body', ''))
+        ->trigger('#' . $form_name . '_email_tellyour_body', 'change'); // resize
     }
 
     $default_campaign_privacy = CampaignStoreTable::getInstance()->findByCampaignLanguageKey($campaign, $language, CampaignStoreTable::KEY_PRIVACY_POLICY);
     if ($default_campaign_privacy) {
-      $this->ajax()->val('#' . $form_name . '_privacy_policy_body', $default_campaign_privacy->getValue());
+      $this->ajax()
+        ->val('#' . $form_name . '_privacy_policy_body', $default_campaign_privacy->getValue())
+        ->trigger('#' . $form_name . '_privacy_policy_body', 'change'); // resize
     } else {
-      $privacy = StoreTable::getInstance()->findByKeyAndLanguageCached(StoreTable::ACTION_PRIVACY_POLICY, $value);
+      $privacy = StoreTable::getInstance()->findByKeyAndLanguage(StoreTable::ACTION_PRIVACY_POLICY, $value);
       if ($privacy) {
-        $this->ajax()->val('#' . $form_name . '_privacy_policy_body', $privacy->getField('body', ''));
+        $this->ajax()
+          ->val('#' . $form_name . '_privacy_policy_body', $privacy->getField('body', ''))
+          ->trigger('#' . $form_name . '_privacy_policy_body', 'change'); // resize
       }
     }
 
