@@ -42,6 +42,9 @@ class signersActions extends policatActions {
         $this->forward404();
       }
 
+      $this->lang = $petition_text->getLanguageId();
+      $this->getUser()->setCulture($petition_text->getLanguageId());
+
       if ($response instanceof sfWebResponse) {
         $response->setTitle($petition_text->getTitle());
       }
@@ -52,9 +55,13 @@ class signersActions extends policatActions {
       $this->color = $petition->getStyleLabelColor();
       $this->button_color = $petition->getStyleButtonColor();
 
+      $culture_info = $petition_text->utilCultureInfo();
+      $countries = $culture_info->getCountries($petition_text->utilCountries());
+
       $this->data = array(
           'id' => $petition->getId(),
           'text_id' => $petition_text->getId(),
+          'countries' => $countries
       );
     }
   }

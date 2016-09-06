@@ -47,6 +47,10 @@ document.addEventListener('DOMContentLoaded', function () {
 			span.appendChild(e('span', '↓', 'order-asc'));
 			span.setAttribute('data-toogle-order', type);
 
+			if (type === 'date') {
+				th.style.width = '135px';
+			}
+
 			span.addEventListener('click', toogleOrder);
 		}
 
@@ -88,7 +92,7 @@ document.addEventListener('DOMContentLoaded', function () {
 				tr.appendChild(e('td', signer.city));
 			}
 			if (with_country) {
-				tr.appendChild(e('td', signer.country));
+				tr.appendChild(e('td', signer.country + (signer.country in data.countries ? ' ' + data.countries[signer.country] : '')));
 			}
 		}
 
@@ -103,8 +107,8 @@ document.addEventListener('DOMContentLoaded', function () {
 					var result = JSON.parse(xhttp.responseText);
 					fields = result.fields;
 					table = fields.length > 2;
-					with_country = fields.indexOf('country') !== false;
-					with_city = fields.indexOf('city') !== false;
+					with_country = fields.indexOf('country') > -1;
+					with_city = fields.indexOf('city') > -1;
 
 					while (signers_div.firstChild) {
 						signers_div.removeChild(signers_div.firstChild);

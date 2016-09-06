@@ -2,7 +2,7 @@
 <?php
 /* @var $sf_content string */
 ?><!DOCTYPE html>
-<html>
+<html lang="<?php echo $lang ?>">
     <head>
         <?php
         $title = $sf_response->getTitle();
