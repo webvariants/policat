@@ -90,9 +90,9 @@ class PetitionTextTable extends Doctrine_Table {
   }
 
   public function fetchTopLanguage() {
-    $result = array();
+    $result = array('en'); // english is always top language
     $data = (array) $this->getConnection()
-      ->query('SELECT language_id FROM PetitionText GROUP BY language_id ORDER BY count(id) DESC LIMIT 10', array(), Doctrine_Core::HYDRATE_ARRAY);
+      ->query('SELECT language_id FROM PetitionText WHERE language_id != "en" GROUP BY language_id ORDER BY count(id) DESC LIMIT 10', array(), Doctrine_Core::HYDRATE_ARRAY);
 
     foreach ($data as $row) {
       if (is_array($row) && array_key_exists('language_id', $row)) {
