@@ -357,6 +357,11 @@ $(function($) {
 		}
 	});
 
+	$('select.toggle-on-value').on('change', function() {
+		var data = $(this).data('toggle-on-value');
+		$(data.target).toggleClass(data.class, data.values.indexOf($(this).val()) > -1);
+	}).change();
+
 	var target_selector_1 = $('#edit_petition_target_selector_1');
 	if (target_selector_1.length) {
 		var target_selector_2 = $('#edit_petition_target_selector_2');

@@ -3,4 +3,4 @@ default:
     robots:       noindex, nofollow
 
 indexSuccess:
-  javascripts:    [-*, signers]
+  javascripts:    [-*, dist/signers]

@@ -11,9 +11,8 @@ module.exports = function(grunt) {
 					'web/js/dist/policat_widget.js': ['bower_components/jscolor/jscolor.js', 'web/js/policat_widget.js'],
 					'web/js/dist/policat_widget_outer.js': ['web/js/policat_widget_outer.js'],
 					'web/js/dist/select2.js' : ['bower_components/select2/select2.js'],
-					'web/js/dist/jscolor.js': [
-						'bower_components/jscolor/jscolor.js'
-					]
+					'web/js/dist/jscolor.js': ['bower_components/jscolor/jscolor.js'],
+					'web/js/dist/signers.js': ['web/js/signers.js']
 				}
 			},
 			frontend: {

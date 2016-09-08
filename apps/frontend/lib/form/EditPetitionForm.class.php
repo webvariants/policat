@@ -179,7 +179,7 @@ class EditPetitionForm extends PetitionFieldsForm {
     $this->setWidget('thank_you_email', new sfWidgetFormChoice(array(
         'choices' => array(Petition::THANK_YOU_EMAIL_NO => 'no', Petition::THANK_YOU_EMAIL_YES => 'yes'),
         'label' => 'Thank-you email after successful validation.'
-      )));
+    )));
     $this->setValidator('thank_you_email', new sfValidatorChoice(array('choices' => array(Petition::VALIDATION_REQUIRED_NO, Petition::VALIDATION_REQUIRED_YES), 'required' => true)));
     $this->getWidgetSchema()->setHelp('thank_you_email', 'Note that this option generates one additional email per participant which will be charged onto your campaign\'s package.');
 
@@ -355,8 +355,25 @@ class EditPetitionForm extends PetitionFieldsForm {
     $this->setWidget('themeId', new sfWidgetFormChoice(array('label' => 'Theme', 'choices' => UtilTheme::$THEMES)));
     $this->setValidator('themeId', new sfValidatorChoice(array('required' => false, 'choices' => array_keys(UtilTheme::$THEMES))));
 
-    $this->setWidget('last_signings', new sfWidgetFormChoice(array('choices' => PetitionTable::$LAST_SINGINGS, 'label' => 'Show participants list')));
+    $this->setWidget('last_signings', new sfWidgetFormChoice(array('choices' => PetitionTable::$LAST_SINGINGS, 'label' => 'Show participants list'), array(
+        'class' => 'toggle-on-value',
+        'data-toggle-on-value' => json_encode(array('class' => 'hide', 'target' => '#last-signings-options', 'values' => array((string) PetitionTable::LAST_SIGNINGS_NO)))
+    )));
     $this->setValidator('last_signings', new sfValidatorChoice(array('choices' => array_keys(PetitionTable::$LAST_SINGINGS))));
+
+    $this->setWidget('last_signings_city', new sfWidgetFormChoice(array(
+        'choices' => array(0 => 'no', 1 => 'yes'),
+        'label' => 'Show city in participants list'
+      ), array(
+    )));
+    $this->setValidator('last_signings_city', new sfValidatorChoice(array('choices' => array(0, 1), 'required' => true)));
+
+    $this->setWidget('last_signings_country', new sfWidgetFormChoice(array(
+        'choices' => array(0 => 'no', 1 => 'yes'),
+        'label' => 'Show country in participants list'
+      ), array(
+    )));
+    $this->setValidator('last_signings_country', new sfValidatorChoice(array('choices' => array(0, 1), 'required' => true)));
 
     $this->setWidget('share', new WidgetFormInputCheckbox(array('value_attribute_value' => '1', 'value_checked' => '1', 'value_unchecked' => '0', 'label' => 'Include share buttons underneath sign-button')));
     $this->setValidator('share', new sfValidatorChoice(array('choices' => array('0', '1'))));

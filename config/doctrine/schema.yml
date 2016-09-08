@@ -319,6 +319,8 @@ Petition:
     thank_you_email:         { type: integer(1), notnull: true, default: 0 }
     themeId:                 { type: integer(4), notnull: false, default: null }
     last_signings:           { type: integer(1), notnull: true, default: 0 }
+    last_signings_city:      { type: integer(1), notnull: true, default: 0 }
+    last_signings_country:   { type: integer(1), notnull: true, default: 0 }
   relations:
     Campaign:          { onDelete: CASCADE  }
     Language:          {  }

@@ -48,7 +48,13 @@ document.addEventListener('DOMContentLoaded', function () {
 			span.setAttribute('data-toogle-order', type);
 
 			if (type === 'date') {
-				th.style.width = '135px';
+				th.style.width = '165px';
+			}
+			if (type === 'city') {
+				th.style.width = '25%';
+			}
+			if (type === 'country') {
+				th.style.width = '25%';
 			}
 
 			span.addEventListener('click', toogleOrder);
@@ -82,11 +88,10 @@ document.addEventListener('DOMContentLoaded', function () {
 				thOrder(tr, 'country');
 			}
 		}
-
 		function addSignerRow(signer) {
 			var tr = e('tr');
 			table_body.appendChild(tr);
-			tr.appendChild(e('td', signer.date));
+			tr.appendChild(e('td', (new Date(signer.date + 'Z')).toLocaleString()));
 			tr.appendChild(e('td', signer.name));
 			if (with_city) {
 				tr.appendChild(e('td', signer.city));
