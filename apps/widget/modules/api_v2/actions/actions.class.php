@@ -304,38 +304,28 @@ class api_v2Actions extends policatActions {
     foreach ($signings as $signing) {
       /* @var $signing PetitionSigning  */
 
-      if ($type === 'list') {
-        $entry = array(
-            'name' => $signing->getComputedName(),
-            'date' => $signing->getCreatedAt()
-        );
+      $entry = array(
+          'name' => $signing->getComputedName(),
+          'date' => $signing->getCreatedAt()
+      );
 
-        if ($with_city) {
-          $entry['city'] = $signing->getCity();
-        }
-        if ($with_country) {
-          $entry['country'] = $signing->getCountry();
-        }
-        $signers[] = $entry;
-      } else {
-        $signers[] = array(
-            'name' => $signing->getComputedName()
-        );
+      if ($with_city) {
+        $entry['city'] = $signing->getCity();
       }
+      if ($with_country) {
+        $entry['country'] = $signing->getCountry();
+      }
+      $signers[] = $entry;
     }
 
     $data['status'] = 'ok';
     $data['signers'] = $signers;
-    $data['fields'] = array('name');
-
-    if ($type === 'list') {
-      $data['fields'][] = 'date';
-      if ($with_city) {
-        $data['fields'][] = 'city';
-      }
-      if ($with_country) {
-        $data['fields'][] = 'country';
-      }
+    $data['fields'] = array('name', 'date');
+    if ($with_city) {
+      $data['fields'][] = 'city';
+    }
+    if ($with_country) {
+      $data['fields'][] = 'country';
     }
 
     $response->addCacheControlHttpHeader('public');

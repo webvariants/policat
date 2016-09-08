@@ -277,23 +277,24 @@ $(document).ready(function($) {
 			$(this).attr('href', h);
 		});
 
+		var country_names = null;
+		if (CT_extra) {
+			country_names = CT_extra;
+		} else {
+			country_names = new Array();
+			$('#petition_signing_country option').each(function() {
+				country_names[$(this).val()] = $(this).text();
+			});
+		}
+
 		if (target_selectors) {
 			var ts = $('#target-selector');
-			var CT = null;
-			if (CT_extra) {
-				CT = CT_extra;
-			} else {
-				CT = new Array();
-				$('#petition_signing_country option').each(function() {
-					CT[$(this).val()] = $(this).text();
-				});
-			}
 			var insert_sort = function(dom, list, add_class, is_country, pledges, template, infos, pledge_count) {
 				var k, sk, option, element, i;
 				if (is_country != undefined && is_country) {
 					for (k in list) {
-						if (CT[k] != undefined)
-							list[k] = CT[k];
+						if (country_names[k] != undefined)
+							list[k] = country_names[k];
 					}
 				}
 				do {
@@ -350,8 +351,8 @@ $(document).ready(function($) {
 			var insert = function(list, is_country) {
 				if (is_country != undefined && is_country) {
 					for (var k in list) {
-						if (CT[k] != undefined)
-							list[k] = CT[k];
+						if (country_names[k] != undefined)
+							list[k] = country_names[k];
 					}
 				}
 				for (var k in list) {
@@ -952,6 +953,24 @@ $(document).ready(function($) {
 			}
 		}
 
+		function signerText(signer, fields) {
+			var ret = signer.name;
+			var extra = [];
+			if (fields.indexOf('city') > -1 && signer.city) {
+				extra.push(signer.city);
+			}
+			if (fields.indexOf('country') > -1 && signer.country) {
+				var country = signer.country;
+				if (country_names && country in country_names) {
+					country = country_names[country];
+				}
+				extra.push(country);
+			}
+
+			ret = ret + (extra.length ? ' (' + extra.join(', ') + ')' : '');
+			return ret;
+		}
+
 		function fetchLastSigners(page, max) {
 			if (!lastSigners.length) {
 				return null;
@@ -972,7 +991,7 @@ $(document).ready(function($) {
 						for (var i = 0; i < data.signers.length && i < max; i++) {
 							var signer = data.signers[i];
 							if (name !== signer.name) {
-								lastSigners.append($('<span></span>').text(signer.name));
+								lastSigners.append($('<span></span>').text(signerText(signer, data.fields)));
 							}
 						}
 

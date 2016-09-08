@@ -35,7 +35,6 @@ class PetitionSigning extends BasePetitionSigning {
 
   const SUBSCRIBE_NO = 0;
   const SUBSCRIBE_YES = 1;
-  
   const VERIFIED_NO = 0;
   const VERIFIED_YES = 1;
 
@@ -94,9 +93,9 @@ class PetitionSigning extends BasePetitionSigning {
   }
 
   public function getComputedName() {
-    $firstname = $this->getField(Petition::FIELD_FIRSTNAME);
-    $lastname = $this->getField(Petition::FIELD_LASTNAME);
-    $fullname = $this->getField(Petition::FIELD_FULLNAME);
+    $firstname = $this->getFirstname();
+    $lastname = $this->getLastname();
+    $fullname = $this->getFullname();
     $name = array();
     if (!empty($firstname))
       $name[] = $firstname;
@@ -108,12 +107,18 @@ class PetitionSigning extends BasePetitionSigning {
   }
 
   public function getCountryName($culture = 'en') {
-    try {
-      $country = sfCultureInfo::getInstance($culture)->getCountry($this->getField(Petition::FIELD_COUNTRY));
-    } catch (Exception $e) {
-      $country = $this->getField(Petition::FIELD_COUNTRY);
+    $code = $this->getCountry();
+    if (!$code) {
+      return '';
     }
-    return $country;
+    if (!$culture) {
+      return $code;
+    }
+    try {
+      return sfCultureInfo::getInstance($culture)->getCountry($code);
+    } catch (Exception $e) {
+      return $code;
+    }
   }
 
   public function getComputedAddress($culture = 'en', $glue = "\n", $with_country = true, $with_name = true) {
@@ -198,6 +203,27 @@ class PetitionSigning extends BasePetitionSigning {
     }
 
     return null;
+  }
+
+  public function getSignersListEntry($petition, $culture) {
+    $with_city = $petition->getLastSigningsCity() && $petition->getWithAddress();
+    $with_country = $petition->getLastSigningsCountry() && $petition->getWithCountry();
+
+    $ret = $this->getComputedName();
+    $extra = '';
+
+    if ($with_city) {
+      $extra = trim($this->getCity());
+    }
+
+    if ($with_country) {
+      $country = $this->getCountryName($culture);
+      if ($country) {
+        $extra .= ($extra ? ', ' : '') . $country;
+      }
+    }
+
+    return $ret . ($extra ? " ($extra)" : '');
   }
 
 }
