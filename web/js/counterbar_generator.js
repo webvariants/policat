@@ -43,7 +43,7 @@ $(function() {
 									$options.append(buildInput(i, stylings[i]));
 
 									if (inputs[i]['color']) {
-										var myPicker = new jscolor.color(document.getElementById(inputs[i]['name']), {})
+										var myPicker = new jscolor.color(document.getElementById(inputs[i]['name']), {hash:true})
 										var color    = stylings[i].substr(1);
 
 										myPicker.fromString(color);
