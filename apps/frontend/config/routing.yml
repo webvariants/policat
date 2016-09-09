@@ -92,6 +92,12 @@ pledge_edit:            { url: '/action/pledge_edit/:id',           param: { mod
 pledge_contact_edit:    { url: '/action/pledge_edit/:petition_id/:id', param: { module: pledge,  action: contactEdit },                requirements: { sf_method: [get, head, post], petition_id: '\d+', id: '\d+' } }
 pledge_download:        { url: '/action/pledge_download/:id',       param: { module: pledge,     action: download },                   requirements: { sf_method: [get, head], id: '\d+' } }
 
+media_files_list:       { url: '/action/files/:id',                 param: { module: d_media_files,     action: index },               requirements: { sf_method: [get, head] } }
+media_files_pager:      { url: '/action/files/:id/:page',           param: { module: d_media_files,     action: pager },               requirements: { sf_method: [get, head], id: '\d+', page: '\d+' } }
+media_files_upload:     { url: '/action/files_upload/:id',          param: { module: d_media_files,     action: upload },              requirements: { sf_method: [post], id: '\d+' }, class: sfRequestRoute }
+media_files_delete:     { url: '/action/files_delete/:id',          param: { module: d_media_files,     action: delete },              requirements: { sf_method: [get, head, post], id: '\d+' } }
+media_files_rename:     { url: '/action/files_rename/:id',          param: { module: d_media_files,     action: rename },              requirements: { sf_method: [get, head, post], id: '\d+' } }
+
 petition_tokens:        { url: '/action/token/:id',                 param: { module: api_token,  action: index },                      requirements: { sf_method: [get, head], id: '\d+'}, class: sfRequestRoute }
 petition_token_new:     { url: '/action/token_new/:id',             param: { module: api_token,  action: new },                        requirements: { sf_method: [get, head, post], id: '\d+'}, class: sfRequestRoute }
 petition_token_edit:    { url: '/action/token_edit/:id',            param: { module: api_token,  action: edit },                       requirements: { sf_method: [get, head, post], id: '\d+'}, class: sfRequestRoute }

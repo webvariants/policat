@@ -14,6 +14,8 @@
 /web/images/pledge_key_visual/*
 /web/images/store
 /web/images/store/*
+/web/images/action/
+/web/images/action/*
 /apps/widget/i18n/*
 
 # SCM files

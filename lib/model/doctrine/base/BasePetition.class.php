@@ -80,6 +80,7 @@
  * @property Doctrine_Collection $PetitionRights
  * @property Doctrine_Collection $FollowedByPetitions
  * @property Doctrine_Collection $PetitionText
+ * @property Doctrine_Collection $MediaFile
  * @property Doctrine_Collection $Widget
  * @property Doctrine_Collection $PetitionSigning
  * @property Doctrine_Collection $Tickets
@@ -163,6 +164,7 @@
  * @method Doctrine_Collection getPetitionRights()             Returns the current record's "PetitionRights" collection
  * @method Doctrine_Collection getFollowedByPetitions()        Returns the current record's "FollowedByPetitions" collection
  * @method Doctrine_Collection getPetitionText()               Returns the current record's "PetitionText" collection
+ * @method Doctrine_Collection getMediaFile()                  Returns the current record's "MediaFile" collection
  * @method Doctrine_Collection getWidget()                     Returns the current record's "Widget" collection
  * @method Doctrine_Collection getPetitionSigning()            Returns the current record's "PetitionSigning" collection
  * @method Doctrine_Collection getTickets()                    Returns the current record's "Tickets" collection
@@ -245,6 +247,7 @@
  * @method Petition            setPetitionRights()             Sets the current record's "PetitionRights" collection
  * @method Petition            setFollowedByPetitions()        Sets the current record's "FollowedByPetitions" collection
  * @method Petition            setPetitionText()               Sets the current record's "PetitionText" collection
+ * @method Petition            setMediaFile()                  Sets the current record's "MediaFile" collection
  * @method Petition            setWidget()                     Sets the current record's "Widget" collection
  * @method Petition            setPetitionSigning()            Sets the current record's "PetitionSigning" collection
  * @method Petition            setTickets()                    Sets the current record's "Tickets" collection
@@ -703,6 +706,10 @@ abstract class BasePetition extends myDoctrineRecord
              'foreign' => 'follow_petition_id'));
 
         $this->hasMany('PetitionText', array(
+             'local' => 'id',
+             'foreign' => 'petition_id'));
+
+        $this->hasMany('MediaFile', array(
              'local' => 'id',
              'foreign' => 'petition_id'));
 
