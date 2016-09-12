@@ -1,0 +1,123 @@
+a {
+	color: #0033DD;
+}
+
+a[href="#VALIDATION-URL#"],
+a[href="#PLEDGE-URL#"],
+a[href="#DISCONFIRMATION-URL#"],
+a[href="#UNSUBSCRIBE-URL#"],
+a[href="#EDIT-URL#"],
+a[href^="http://POLICAT-HOST/validate/"],
+a[href^="http://POLICAT-HOST/pledge/"],
+a[href^="http://POLICAT-HOST/delete/"],
+a[href^="http://POLICAT-HOST/widgetval/"],
+a[href^="http://POLICAT-HOST/register/"],
+a[href^="http://POLICAT-HOST/forgotten/"],
+a[href^="http://POLICAT-HOST/unsubscribe/"],
+a[href^="http://POLICAT-HOST/widgetedit/"]
+{
+	padding: 2px 4px;
+	display: inline-block;
+	color: #333;
+	background-color: #f5f5f5;
+	text-decoration: none;
+	border-radius: 4px;
+	border: 1px solid #ccc;
+	border-bottom-color: #b3b3b3;
+	text-align: center;
+
+	background: linear-gradient(#fff, #e6e6e6);
+	box-shadow: inset 0 1px 0 rgba(255,255,255,0.2),0 1px 2px rgba(0,0,0,0.05);
+}
+
+a[href="#VALIDATION-URL#"],
+a[href="#PLEDGE-URL#"],
+a[href^="http://POLICAT-HOST/validate/"],
+a[href^="http://POLICAT-HOST/pledge/"]
+{
+	padding: 5px 9px !important;
+	font-size: 14px;
+
+	border: 1px solid #b7d9f9 !important;
+	border-bottom-color: #d3e8fb !important;
+
+	background: #b7d9f9 !important;
+	background: linear-gradient(#fff, #b7d9f9) !important;
+}
+
+body {
+	background: #fff;
+	color: #111;
+	font-family: "Helvetica Neue",Helvetica,Arial,sans-serif;
+	font-size: 14px;
+	line-height: 1.6em;
+
+	outline: 0;
+	margin: 5px;
+	padding: 10px;
+	max-width: 600px;
+	border: 1px solid #eee;
+	box-shadow: 0px 1px 4px 1px rgba(0, 0, 0, 0.1);
+}
+
+img {
+	max-width: 100%;
+
+	border:0 none;
+	height:auto;
+	line-height:100%;
+	outline:none;
+	text-decoration:none;
+}
+
+a img{
+	border:0 none;
+}
+
+table, td{
+	border-collapse:collapse;
+}
+
+p {
+	margin: 1em 0;
+}
+
+h2, h3, h4, h5, h6 {
+	margin: 1em 0;
+}
+
+h1 {
+	margin: 0 0 1em 0;
+	font-size: 24px;
+	font-weight: normal;
+}
+
+h2 {
+	font-size: 22px;
+	font-weight: normal;
+}
+
+h3 {
+	font-size: 20px;
+	font-weight: normal;
+}
+
+h4, h5 {
+	font-size: 18px;
+	font-weight: normal;
+}
+
+h4 {
+	font-weight: bold;
+}
+
+h6 {
+	font-size: 14px;
+	font-weight: bold;
+}
+
+blockquote {
+	margin: 1em;
+	padding: 0 0 0 10px;
+	border-left: 2px solid #111;
+}

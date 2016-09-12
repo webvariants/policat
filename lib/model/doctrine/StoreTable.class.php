@@ -407,9 +407,10 @@ class StoreTable extends Doctrine_Table {
                   'validator' => array('sfValidatorString', array('max_length' => 120)),
               ),
               'body' => array(
-                  'widget' => array('sfWidgetFormTextarea', array('label' => 'Body'), array('class' => 'span7 elastic highlight')),
+                  'widget' => array('sfWidgetFormTextarea', array('label' => 'Body'), array('class' => 'markdown highlight email-template markItUp-higher')),
                   'validator' => array('ValidatorKeywords', array('keywords' => array('#VALIDATION-URL#'))),
-                  'help' => '#VALIDATION-URL#, #DISCONFIRMATION-URL#,#REFERER-URL#, #READMORE-URL#, #TITLE#, #TARGET#, #BACKGROUND#, #ACTION-TEXT#, #INTRO#, #FOOTER#, #EMAIL-SUBJECT#, #EMAIL-BODY#, #BODY#, #DATA-OFFICER-NAME#, #DATA-OFFICER-ORGA#, #DATA-OFFICER-EMAIL#, #DATA-OFFICER-WEBSITE#, #DATA-OFFICER-PHONE#, #DATA-OFFICER-MOBILE#, #DATA-OFFICER-STREET#, #DATA-OFFICER-POST-CODE#, #DATA-OFFICER-CITY#, #DATA-OFFICER-COUNTRY#, #DATA-OFFICER-ADDRESS#, #SENDER-NAME#, #SENDER-ADDRESS#, #SENDER-COUNTRY#, #SENDER-EMAIL#, #ACTION-TAKEN-DATE#'
+                  'help' => '#VALIDATION-URL#, #DISCONFIRMATION-URL#,#REFERER-URL#, #READMORE-URL#, #TITLE#, #TARGET#, #BACKGROUND#, #ACTION-TEXT#, #INTRO#, #FOOTER#, #EMAIL-SUBJECT#, #EMAIL-BODY#, #BODY#, #DATA-OFFICER-NAME#, #DATA-OFFICER-ORGA#, #DATA-OFFICER-EMAIL#, #DATA-OFFICER-WEBSITE#, #DATA-OFFICER-PHONE#, #DATA-OFFICER-MOBILE#, #DATA-OFFICER-STREET#, #DATA-OFFICER-POST-CODE#, #DATA-OFFICER-CITY#, #DATA-OFFICER-COUNTRY#, #DATA-OFFICER-ADDRESS#, #SENDER-NAME#, #SENDER-ADDRESS#, #SENDER-COUNTRY#, #SENDER-EMAIL#, #ACTION-TAKEN-DATE#',
+                  'data-markup-set' => array(UtilEmailLinks::VALIDATION, UtilEmailLinks::DISCONFIRMATION, UtilEmailLinks::REFERER, UtilEmailLinks::READMORE)
               ),
           )
       ),

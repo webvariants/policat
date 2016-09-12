@@ -227,7 +227,6 @@ class policatActions extends sfActions {
       $response->addStylesheet('markdown/style.css', 'last');
       $response->addJavascript('dist/showdown.js', 'last');
       $response->addJavascript('dist/markitup/jquery.markitup.js', 'last');
-      $response->addJavascript('markdown/set.js', 'last');
     }
   }
 

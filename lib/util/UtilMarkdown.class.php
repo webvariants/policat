@@ -15,7 +15,7 @@ class UtilMarkdown
     if (strlen($text) <= 1) {
       return '';
     }
-    // include_once sfConfig::get('sf_lib_dir') . '/vendor/markdown/markdown.php';
+
     $html = \Michelf\Markdown::defaultTransform($text);
     if ($xssSafe) {
       $html = UtilHtmlPurifier::xssSafe($html, $lessSafe);

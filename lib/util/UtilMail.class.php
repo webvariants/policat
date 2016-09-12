@@ -106,8 +106,12 @@ class UtilMail {
 
         $body_html = strtr(UtilMarkdown::transform(strtr($body, $forth), true, false), $back);
       } else {
-        UtilMarkdown::transform($body, true, false);
+        $body_html = UtilMarkdown::transform($body, true, false);
       }
+
+      $inline = new \InlineStyle\InlineStyle($body_html);
+      $inline->applyStylesheet(UtilEmailLinks::generateEmailCss());
+      $body_html = $inline->getHTML();
     }
 
     if ($subst_2nd && is_array($subst_2nd)) {

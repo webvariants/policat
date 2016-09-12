@@ -10,7 +10,8 @@
         "lox/xhprof": "*@dev",
         "amg-dev/amg-sentry-plugin": "dev-master",
         "ezyang/htmlpurifier": "^4.7",
-        "michelf/php-markdown": "^1.6"
+        "michelf/php-markdown": "^1.6",
+        "inlinestyle/inlinestyle": "^1.2"
     },
     "config": {
         "vendor-dir": "lib/vendor"

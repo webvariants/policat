@@ -145,7 +145,7 @@ module.exports = function(grunt) {
 				dest: 'web/css/dist/'
 			},
 			showdown: {
-				src: ['bower_components/showdown/compressed/showdown.min.js'],
+				src: ['bower_components/showdown/dist/showdown.min.js'],
 				dest: 'web/js/dist/showdown.js'
 			},
 			markitup_js: {
