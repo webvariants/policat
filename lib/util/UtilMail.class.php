@@ -109,9 +109,14 @@ class UtilMail {
         $body_html = UtilMarkdown::transform($body, true, false);
       }
 
-      $inline = new \InlineStyle\InlineStyle($body_html);
+      $xml_utf8 = '<?xml version="1.0" encoding="utf-8"?>'; // force utf8 for umlauts
+      $inline = new \InlineStyle\InlineStyle($xml_utf8 . $body_html);
       $inline->applyStylesheet(UtilEmailLinks::generateEmailCss());
       $body_html = $inline->getHTML();
+      $body_split = explode($xml_utf8, $body_html, 2);
+      if (count($body_split) === 2) {
+        $body_html = $body_split[1];
+      }
     }
 
     if ($subst_2nd && is_array($subst_2nd)) {
