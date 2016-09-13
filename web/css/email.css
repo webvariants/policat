@@ -4,16 +4,12 @@ a {
 
 a[href="#VALIDATION-URL#"],
 a[href="#PLEDGE-URL#"],
-a[href="#DISCONFIRMATION-URL#"],
-a[href="#UNSUBSCRIBE-URL#"],
 a[href="#EDIT-URL#"],
 a[href^="http://POLICAT-HOST/validate/"],
 a[href^="http://POLICAT-HOST/pledge/"],
-a[href^="http://POLICAT-HOST/delete/"],
 a[href^="http://POLICAT-HOST/widgetval/"],
 a[href^="http://POLICAT-HOST/register/"],
 a[href^="http://POLICAT-HOST/forgotten/"],
-a[href^="http://POLICAT-HOST/unsubscribe/"],
 a[href^="http://POLICAT-HOST/widgetedit/"]
 {
 	padding: 2px 4px;

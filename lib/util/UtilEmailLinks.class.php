@@ -39,11 +39,11 @@ class UtilEmailLinks {
   );
   static $SHORTCUT = array(
       self::VALIDATION => '#VALIDATION-URL#', // LARGE BUTTON
-      self::DISCONFIRMATION => '#DISCONFIRMATION-URL#', // BUTTON
+      self::DISCONFIRMATION => '#DISCONFIRMATION-URL#', // LINK
       self::REFERER => '#REFERER-URL#', // LINK
       self::READMORE => '#READMORE-URL#', // LINK
       self::PLEDGE => '#PLEDGE-URL#', // LARGE BUTTON
-      self::UNSUBSCRIBE => '#UNSUBSCRIBE-URL#', // BUTTON
+      self::UNSUBSCRIBE => '#UNSUBSCRIBE-URL#', // LINK
       self::EDIT => '#EDIT-URL#'  // BUTTON
   );
   static $PATH = array(

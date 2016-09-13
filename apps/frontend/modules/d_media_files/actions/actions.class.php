@@ -101,7 +101,7 @@ class d_media_filesActions extends policatActions {
       $form->bind($request->getPostParameter($form->getName()));
 
       if (!$form->isValid()) {
-        return $this->ajax()->form($form)->render(true);
+        return $this->ajax()->form($form)->render();
       }
 
       $form->save();
@@ -111,6 +111,7 @@ class d_media_filesActions extends policatActions {
     return $this->ajax()
         ->appendPartial('body', 'rename', array('form' => $form))
         ->modal('#media_file_rename_modal')
+        ->focus('#media_file_title')
         ->render();
   }
 
