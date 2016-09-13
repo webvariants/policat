@@ -131,4 +131,34 @@ class d_media_filesActions extends policatActions {
     return $this->ajax()->redirectRotue('media_files_list', array('id' => $petition->getId()))->render(true);
   }
 
+  public function executeInternal(sfWebRequest $request) {
+    $petition = $this->getPetition($request);
+
+    $media_file = MediaFileTable::getInstance()->createQuery()
+      ->where('petition_id = ?', $petition->getId())
+      ->andWhere('title = ?', $request->getParameter('title'))
+      ->fetchOne();
+
+    /* @var $media_file MediaFile */
+
+    if (!$media_file) {
+      $this->forward404('Media not found.');
+    }
+
+    $response = $this->getResponse();
+
+    if ($response instanceof sfWebResponse) {
+      $response->setContent($media_file->getContents());
+      $response->setContentType($media_file->getMimetype());
+      $response->setHttpHeader('Cache-Control', null);
+      $response->addCacheControlHttpHeader('max-age', 60);
+      $response->addCacheControlHttpHeader('private');
+
+      $response->send();
+      throw new sfStopException();
+    }
+
+    $this->forward404();
+  }
+
 }

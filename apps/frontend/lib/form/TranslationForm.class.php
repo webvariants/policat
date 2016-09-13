@@ -110,7 +110,8 @@ class TranslationForm extends BasePetitionTextForm {
         'cols' => 90,
         'rows' => 16,
         'class' => 'markdown highlight email-template markItUp-higher',
-        'data-markup-set' => UtilEmailLinks::dataMarkupSet(array(UtilEmailLinks::VALIDATION, UtilEmailLinks::DISCONFIRMATION, UtilEmailLinks::REFERER, UtilEmailLinks::READMORE))
+        'data-markup-set-1' => UtilEmailLinks::dataMarkupSet(array(UtilEmailLinks::VALIDATION, UtilEmailLinks::DISCONFIRMATION, UtilEmailLinks::REFERER, UtilEmailLinks::READMORE)),
+        'data-markup-set-2' => MediaFileTable::getInstance()->dataMarkupSet($petition)
     )));
     $this->setValidator('email_validation_body', new ValidatorKeywords(array('required' => true, 'keywords' => array('#VALIDATION-URL#'))));
     $this->getWidgetSchema()->setHelp('email_validation_body', '#VALIDATION-URL#, #DISCONFIRMATION-URL#,' . $email_keywords);

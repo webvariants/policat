@@ -82,14 +82,17 @@ var tryEdits = function(prefix) {
 
 	$(prefix + 'textarea.markdown').each(function() {
 		var textarea = $(this);
-		var extraSet = textarea.data('markup-set');
-		var markupSet = defaultSet;
+		var extraSets = [textarea.data('markup-set-1'), textarea.data('markup-set-2'), textarea.data('markup-set-3')];
+		var markupSet = defaultSet.slice();
 		var template = null;
+		var extraSet;
 
-		if (extraSet) {
-			markupSet = defaultSet.slice();
-			while (extraSet.length) {
-				markupSet.push(extraSet.shift());
+		for (var i = 0; i < extraSets.length; i++) {
+			extraSet = extraSets[i];
+			if (extraSet) {
+				while (extraSet.length) {
+					markupSet.push(extraSet.shift());
+				}
 			}
 		}
 

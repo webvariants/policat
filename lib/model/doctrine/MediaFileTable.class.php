@@ -33,4 +33,40 @@ class MediaFileTable extends Doctrine_Table {
     return $this->queryAll()->where('m.petition_id = ?', $petitionId);
   }
 
+  public function dataMarkupSet(Petition $petition) {
+    $files = $this->createQuery()
+      ->where('petition_id = ?', $petition->getId())
+      ->orderBy('title asc')
+      ->execute();
+
+    $menu = array();
+    foreach ($files as $file) { /* @var $file MediaFile */
+      $menu[] = array(
+          'name' => $file->getTitle(),
+          'openWith' => '![',
+          'placeHolder' => '',
+          'closeWith' => '](/media/' . $petition->getId() . '/' . $file->getTitle() . ')'
+      );
+    }
+
+    return json_encode(array(
+        array('name' => 'Images', 'className' => 'policat-media', 'dropMenu' => $menu
+        )
+    ));
+  }
+
+  public function substInternalToExternal(Petition $petition, $subst = array()) {
+    $files = $this->createQuery()
+      ->where('petition_id = ?', $petition->getId())
+      ->execute();
+
+    $home = rtrim(sfContext::getInstance()->getRouting()->generate('homepage', array(), true), '/');
+
+    foreach ($files as $file) { /* @var $file MediaFile */
+      $subst['/media/' . $petition->getId() . '/' . $file->getTitle()] = $home . $file->getUrl();
+    }
+
+    return $subst;
+  }
+
 }

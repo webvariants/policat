@@ -59,4 +59,13 @@ class MediaFile extends BaseMediaFile {
     return true;
   }
 
+  public function getContents() {
+    $f = $this->getFilePathname();
+    if (file_exists($f)) {
+      return file_get_contents($f);
+    }
+
+    return null;
+  }
+
 }

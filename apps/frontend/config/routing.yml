@@ -97,6 +97,7 @@ media_files_pager:      { url: '/action/files/:id/:page',           param: { mod
 media_files_upload:     { url: '/action/files_upload/:id',          param: { module: d_media_files,     action: upload },              requirements: { sf_method: [post], id: '\d+' }, class: sfRequestRoute }
 media_files_delete:     { url: '/action/files_delete/:id',          param: { module: d_media_files,     action: delete },              requirements: { sf_method: [get, head, post], id: '\d+' } }
 media_files_rename:     { url: '/action/files_rename/:id',          param: { module: d_media_files,     action: rename },              requirements: { sf_method: [get, head, post], id: '\d+' } }
+media_files_internal:   { url: '/media/:id/:title',                 param: { module: d_media_files,     action: internal },            requirements: { sf_method: [get], id: '\d+', title: '[a-z0-9_]{2,30}(\.[a-z0-9]{1,5})' }, class: sfRequestRoute }
 
 petition_tokens:        { url: '/action/token/:id',                 param: { module: api_token,  action: index },                      requirements: { sf_method: [get, head], id: '\d+'}, class: sfRequestRoute }
 petition_token_new:     { url: '/action/token_new/:id',             param: { module: api_token,  action: new },                        requirements: { sf_method: [get, head, post], id: '\d+'}, class: sfRequestRoute }
