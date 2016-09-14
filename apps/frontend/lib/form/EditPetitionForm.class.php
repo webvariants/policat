@@ -379,7 +379,7 @@ class EditPetitionForm extends PetitionFieldsForm {
     $this->setValidator('share', new sfValidatorChoice(array('choices' => array('0', '1'))));
 
     $this->setWidget('email_button_color', new sfWidgetFormInput(array('label' => 'Button color'), array('class' => 'luma-light color {hash:true}')));
-    $this->setValidator('email_button_color', new ValidatorCssColor(array('min_length' => 7, 'max_length' => 7)));
+    $this->setValidator('email_button_color', new ValidatorCssColor(array('min-luma' => 0.5, 'min_length' => 7, 'max_length' => 7)));
     $this->getWidgetSchema()->setHelp('email_button_color', 'This is the background color of buttons in outgoing E-mails. The font color is always black.');
   }
 
