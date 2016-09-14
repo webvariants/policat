@@ -60,6 +60,7 @@
  * @property string $style_form_title_color
  * @property string $style_button_primary_color
  * @property string $style_label_color
+ * @property string $email_button_color
  * @property integer $share
  * @property integer $country_collection_id
  * @property integer $deleted_pendings
@@ -144,6 +145,7 @@
  * @method string              getStyleFormTitleColor()        Returns the current record's "style_form_title_color" value
  * @method string              getStyleButtonPrimaryColor()    Returns the current record's "style_button_primary_color" value
  * @method string              getStyleLabelColor()            Returns the current record's "style_label_color" value
+ * @method string              getEmailButtonColor()           Returns the current record's "email_button_color" value
  * @method integer             getShare()                      Returns the current record's "share" value
  * @method integer             getCountryCollectionId()        Returns the current record's "country_collection_id" value
  * @method integer             getDeletedPendings()            Returns the current record's "deleted_pendings" value
@@ -227,6 +229,7 @@
  * @method Petition            setStyleFormTitleColor()        Sets the current record's "style_form_title_color" value
  * @method Petition            setStyleButtonPrimaryColor()    Sets the current record's "style_button_primary_color" value
  * @method Petition            setStyleLabelColor()            Sets the current record's "style_label_color" value
+ * @method Petition            setEmailButtonColor()           Sets the current record's "email_button_color" value
  * @method Petition            setShare()                      Sets the current record's "share" value
  * @method Petition            setCountryCollectionId()        Sets the current record's "country_collection_id" value
  * @method Petition            setDeletedPendings()            Sets the current record's "deleted_pendings" value
@@ -554,6 +557,12 @@ abstract class BasePetition extends myDoctrineRecord
              'type' => 'string',
              'notnull' => true,
              'default' => '#666666',
+             'length' => 7,
+             ));
+        $this->hasColumn('email_button_color', 'string', 7, array(
+             'type' => 'string',
+             'notnull' => true,
+             'default' => '#b7d9f9',
              'length' => 7,
              ));
         $this->hasColumn('share', 'integer', 1, array(

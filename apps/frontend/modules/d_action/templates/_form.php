@@ -50,7 +50,7 @@
                       </div>
                       <br />
                     <?php endif ?>
-                    <?php echo $form->renderRows('*validation_required', 'landing_url', 'thank_you_email') ?>
+                    <?php echo $form->renderRows('*validation_required', 'landing_url', 'thank_you_email', 'email_button_color') ?>
                 </fieldset>
                 <fieldset  class="tab-pane show-before-chosen-init" id="sec4">
                     <legend>Donation module (optional)</legend>

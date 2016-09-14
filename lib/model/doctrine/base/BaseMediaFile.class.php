@@ -92,7 +92,11 @@ abstract class BaseMediaFile extends myDoctrineRecord
              'foreign' => 'id',
              'onDelete' => 'CASCADE'));
 
-        $timestampable0 = new Doctrine_Template_Timestampable();
+        $timestampable0 = new Doctrine_Template_Timestampable(array(
+             ));
+        $cachetaggable0 = new Doctrine_Template_Cachetaggable(array(
+             ));
         $this->actAs($timestampable0);
+        $this->actAs($cachetaggable0);
     }
 }

@@ -309,6 +309,7 @@ Petition:
     style_form_title_color:  { type: string(7), notnull: true, default: '#181716' }
     style_button_primary_color: { type: string(7), notnull: true, default: '#76b235' }
     style_label_color:       { type: string(7), notnull: true, default: '#666666' }
+    email_button_color:      { type: string(7), notnull: true, default: '#b7d9f9' }
     share:                   { type: integer(1), notnull: true, default: 1 }
     country_collection_id:   { type: integer(4), notnull: false, default: null }
     deleted_pendings:        { type: integer(4), notnull: true, default: 0 }
@@ -395,7 +396,7 @@ PetitionText:
     DefaultWidget: { onDelete: SET NULL, class: Widget, local: widget_id, foreign: id, foreignAlias: usedByPetitionText }
 
 MediaFile:
-  actAs: { Timestampable: ~ }
+  actAs: [Timestampable, Cachetaggable]
   columns:
     id:                   { type: integer(4),  primary: true, autoincrement: true }
     petition_id:          { type: integer(4),  notnull: true }

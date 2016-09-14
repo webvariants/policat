@@ -54,7 +54,9 @@ class UtilEmailValidation {
 
     $subst = MediaFileTable::getInstance()->substInternalToExternal($petition, $subst);
 
-    UtilMail::sendWithSubst($petition->getCampaignId(), 'Signing-' . $signing->getId(), $from, $to, $subject, $body, $petition_text, $widget, $subst, $signing->getSubst(), true);
+    UtilMail::sendWithSubst($petition->getCampaignId(), 'Signing-' . $signing->getId(), $from, $to, $subject, $body, $petition_text, $widget, $subst, $signing->getSubst(), array(
+        'petition' => $petition
+    ));
   }
 
 }

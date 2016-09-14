@@ -111,7 +111,7 @@ class UtilMail {
 
       $xml_utf8 = '<?xml version="1.0" encoding="utf-8"?>'; // force utf8 for umlauts
       $inline = new \InlineStyle\InlineStyle($xml_utf8 . $body_html);
-      $inline->applyStylesheet(UtilEmailLinks::generateEmailCss());
+      $inline->applyStylesheet(UtilEmailLinks::generateEmailCss($markdown));
       $body_html = $inline->getHTML();
       $body_split = explode($xml_utf8, $body_html, 2);
       if (count($body_split) === 2) {

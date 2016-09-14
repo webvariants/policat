@@ -29,13 +29,13 @@ class UtilEmailLinks {
       self::EDIT => 'Edit URL'
   );
   static $TEXT = array(
-      self::VALIDATION => 'Click here to validate',
-      self::DISCONFIRMATION => 'Click here to revoke and delete your data',
-      self::REFERER => 'Links to referer',
+      self::VALIDATION => 'Confirm your email address',
+      self::DISCONFIRMATION => 'Revoke participation & delete my data',
+      self::REFERER => 'Take action',
       self::READMORE => 'Read more',
-      self::PLEDGE => 'Pledge',
-      self::UNSUBSCRIBE => 'Click here to unsubscribe',
-      self::EDIT => 'Click here to edit'
+      self::PLEDGE => 'Pledge now',
+      self::UNSUBSCRIBE => 'Unsubscribe',
+      self::EDIT => 'Edit widget'
   );
   static $SHORTCUT = array(
       self::VALIDATION => '#VALIDATION-URL#', // LARGE BUTTON
@@ -74,10 +74,21 @@ class UtilEmailLinks {
     ));
   }
 
-  public static function generateEmailCss() {
+  public static function generateEmailCss($options) {
     $homeurl = sfContext::getInstance()->getRouting()->generate('homepage', array(), true);
+
+    $subst = array('http://POLICAT-HOST/' => $homeurl);
+    if (is_array($options)) {
+      if (array_key_exists('petition', $options)) {
+        $petition = $options['petition'];
+        /* @var $petition Petition */
+        $subst['#b7d9f9'] = $petition->getEmailButtonColor();
+      }
+    }
+
     $css = file_get_contents(sfConfig::get('sf_web_dir') . '/css/email.css');
-    return strtr($css, array('http://POLICAT-HOST/' => $homeurl));
+
+    return strtr($css, $subst);
   }
 
 }

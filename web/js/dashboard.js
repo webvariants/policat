@@ -544,4 +544,32 @@ $(function($) {
 			target.prop('checked', $(this).prop('checked'));
 		}
 	});
+
+	function luma(hexCode) {
+		hexCode = hexCode.replace('#', '');
+
+		var r = parseInt(hexCode.substr(0, 2),16) / 255;
+		var g = parseInt(hexCode.substr(2, 2),16) / 255;
+		var b = parseInt(hexCode.substr(4, 2),16) / 255;
+
+		return (0.213 * r + 0.715 * g + 0.072 * b);
+	}
+
+	$('input.luma-light').on('change', function() {
+		var val = $(this).val();
+		var l = luma(val);
+		var info = $(this).data('luma-info');
+		if (!info) {
+			info = $('<span style="margin-left: 5px;color: red;"></span>');
+			$(this).data('luma-info', info);
+			$(this).after(info);
+		}
+
+		if (l < 0.5) {
+			info.text('Please select a darker color.');
+		} else {
+			info.text('');
+		}
+	}).change();
+
 });

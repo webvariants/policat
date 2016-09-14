@@ -34,17 +34,14 @@ class MediaFileTable extends Doctrine_Table {
   }
 
   public function dataMarkupSet(Petition $petition) {
-    $files = $this->createQuery()
-      ->where('petition_id = ?', $petition->getId())
-      ->orderBy('title asc')
-      ->execute();
+    $files = $this->queryFilesByPetition($petition)->execute();
 
     $menu = array();
     foreach ($files as $file) { /* @var $file MediaFile */
       $menu[] = array(
           'name' => $file->getTitle(),
           'openWith' => '![',
-          'placeHolder' => '',
+          'placeHolder' => $file->getTitle(),
           'closeWith' => '](/media/' . $petition->getId() . '/' . $file->getTitle() . ')'
       );
     }
@@ -55,10 +52,15 @@ class MediaFileTable extends Doctrine_Table {
     ));
   }
 
+  public function queryFilesByPetition(Petition $petition) {
+    return $this->createQuery()
+        ->where('petition_id = ?', $petition->getId())
+        ->orderBy('title asc')
+        ->useResultCache();
+  }
+
   public function substInternalToExternal(Petition $petition, $subst = array()) {
-    $files = $this->createQuery()
-      ->where('petition_id = ?', $petition->getId())
-      ->execute();
+    $files = $this->queryFilesByPetition($petition)->execute();
 
     $home = rtrim(sfContext::getInstance()->getRouting()->generate('homepage', array(), true), '/');
 

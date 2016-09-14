@@ -12,33 +12,22 @@ a[href^="http://POLICAT-HOST/register/"],
 a[href^="http://POLICAT-HOST/forgotten/"],
 a[href^="http://POLICAT-HOST/widgetedit/"]
 {
-	padding: 2px 4px;
+	font-size: 14px;
+	padding: 5px 9px;
 	display: inline-block;
-	color: #333;
-	background-color: #f5f5f5;
+	color: #111;
 	text-decoration: none;
-	border-radius: 4px;
-	border: 1px solid #ccc;
-	border-bottom-color: #b3b3b3;
 	text-align: center;
 
-	background: linear-gradient(#fff, #e6e6e6);
-	box-shadow: inset 0 1px 0 rgba(255,255,255,0.2),0 1px 2px rgba(0,0,0,0.05);
-}
-
-a[href="#VALIDATION-URL#"],
-a[href="#PLEDGE-URL#"],
-a[href^="http://POLICAT-HOST/validate/"],
-a[href^="http://POLICAT-HOST/pledge/"]
-{
-	padding: 5px 9px !important;
-	font-size: 14px;
+	border-radius: 4px;
 
 	border: 1px solid #b7d9f9 !important;
 	border-bottom-color: #d3e8fb !important;
 
-	background: #b7d9f9 !important;
-	background: linear-gradient(#fff, #b7d9f9) !important;
+	background: #b7d9f9;
+	background: linear-gradient(#fff, #b7d9f9);
+
+	box-shadow: inset 0 1px 0 rgba(255,255,255,0.2),0 1px 2px rgba(0,0,0,0.05);
 }
 
 body {
