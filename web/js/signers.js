@@ -15,6 +15,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
 		var pager_ul = document.getElementById('pager');
 		var data = JSON.parse(signers_div.dataset.signers);
+		var locale = data.locale;
 
 		function e(tag, text, cssClass) {
 			var el = document.createElement(tag);
@@ -90,8 +91,16 @@ document.addEventListener('DOMContentLoaded', function () {
 		}
 		function addSignerRow(signer) {
 			var tr = e('tr');
+			var date = new Date(signer.date + 'Z');
+			var dateLocale = date.toLocaleString ? date.toLocaleString(locale, {
+				year: 'numeric',
+				month: '2-digit',
+				day: '2-digit',
+				hour: '2-digit',
+				minute: '2-digit'
+			}) : signer.date;
 			table_body.appendChild(tr);
-			tr.appendChild(e('td', (new Date(signer.date + 'Z')).toLocaleString()));
+			tr.appendChild(e('td', dateLocale));
 			tr.appendChild(e('td', signer.name));
 			if (with_city) {
 				tr.appendChild(e('td', signer.city));
@@ -125,6 +134,10 @@ document.addEventListener('DOMContentLoaded', function () {
 						table_body = e('tbody');
 						t.appendChild(table_body);
 						addHeadRow(t);
+					} else {
+						var t2 = e('table', null, 'table table-condensed');
+						signers_div.appendChild(t2);
+						addHeadRow(t2);
 					}
 
 					for (var i = 0; i < result.signers.length; i++) {

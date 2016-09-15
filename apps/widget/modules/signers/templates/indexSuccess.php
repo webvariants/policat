@@ -15,6 +15,7 @@
         <?php
         include_stylesheets();
         include_javascripts();
+        $data['locale'] = $lang;
         $data['translations'] = array(
             'date' => __('Date'),
             'name' => __('Name'),
