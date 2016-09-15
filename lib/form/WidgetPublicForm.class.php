@@ -289,14 +289,16 @@ class WidgetPublicForm extends WidgetForm {
 
       $from = $petition->getFrom();
       $to = $this->getObject()->getEmail();
-      $additional_subst = array(
+      $subst_escape = array(
           'VALIDATION' => $validation, // deprecated
           'EDITCODE' => $edit_code, // deprecated
           '#VALIDATION-URL#' => $validation,
           '#EDIT-URL#' => $edit_code,
       );
 
-      UtilMail::sendWithSubst('Widget-created-' . $widget->getPetition()->getCampaignId(), null, $from, $to, $subject, $body, $petition_text, $widget, $additional_subst);
+      UtilMail::send('Widget-created-' . $widget->getPetition()->getCampaignId(), null, $from, $to, $subject, $body, null, $widget->getSubst(), $subst_escape, null, array(), array(
+          'petition' => $petition
+      ));
     }
   }
 

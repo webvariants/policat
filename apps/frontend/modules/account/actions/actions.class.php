@@ -65,12 +65,12 @@ class accountActions extends policatActions {
           $body = $store->getField('body');
         }
 
-        $subst = array(
+        $subst_escape = array(
             '#VALIDATION-URL#' => $this->generateUrl('register_validation', array('id' => $user->getId(), 'code' => $user->getValidationCode()), true),
             '#USER-NAME#' => $user->getFullName()
         );
 
-        UtilMail::send('Register', 'User-' . $user->getId(), null, $user->getEmailAddress(), $subject, $body, null, $subst);
+        UtilMail::send('Register', 'User-' . $user->getId(), null, $user->getEmailAddress(), $subject, $body, null, null, $subst_escape, null, array(), true);
 
         return $this->ajax()
             ->form($this->form)
@@ -332,12 +332,12 @@ class accountActions extends policatActions {
           $body = $store->getField('body');
         }
 
-        $subst = array(
+        $subst_escape = array(
             '#VALIDATION-URL#' => $this->generateUrl('password_reset', array('id' => $form->user->getId(), 'code' => $code), true),
             '#USER-NAME#' => $form->user->getFullName()
         );
 
-        UtilMail::send('Password', 'User-' . $form->user->getId(), null, $form->user->getEmailAddress(), $subject, $body, null, $subst);
+        UtilMail::send('Password', 'User-' . $form->user->getId(), null, $form->user->getEmailAddress(), $subject, $body, null, null, $subst_escape, null, array(), true);
 
         return
             $this->ajax()

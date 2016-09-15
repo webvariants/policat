@@ -76,11 +76,14 @@ class UtilEmailLinks {
         array('name' => 'Image center', 'openWith' => "\n<div markdown=\"1\" class=\"image-center\">\n", 'closeWith' => "\n</div>\n")
     );
 
-    return json_encode(array(
-        array('separator' => '---------------'),
-        array('name' => 'Links', 'className' => 'policat-links', 'dropMenu' => $menu),
-        array('name' => 'Blocks', 'className' => 'policat-blocks', 'dropMenu' => $menuBlocks)
-    ));
+    $set = array(array('separator' => '---------------'));
+
+    if ($menu) {
+      $set[] = array('name' => 'Links', 'className' => 'policat-links', 'dropMenu' => $menu);
+    }
+
+    $set[] = array('name' => 'Blocks', 'className' => 'policat-blocks', 'dropMenu' => $menuBlocks);
+    return json_encode($set);
   }
 
   public static function generateEmailCss($options) {

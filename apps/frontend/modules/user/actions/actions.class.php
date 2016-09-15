@@ -76,12 +76,12 @@ class userActions extends policatActions {
               $body = $store->getField('body');
             }
 
-            $subst = array(
+            $subst_escape = array(
                 '#VALIDATION-URL#' => $this->generateUrl('user_validation', array('id' => $user->getId(), 'code' => $user->getValidationCode()), true),
                 '#USER-NAME#' => $user->getFullName()
             );
 
-            UtilMail::send('Register-Backend', 'User-' . $user->getId(), null, $user->getEmailAddress(), $subject, $body, null, $subst);
+            UtilMail::send('Register-Backend', 'User-' . $user->getId(), null, $user->getEmailAddress(), $subject, $body, null, null, $subst_escape, null, array(), true);
           } else
             $user->save();
 

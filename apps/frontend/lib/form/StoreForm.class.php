@@ -15,8 +15,8 @@ class StoreForm extends BaseForm {
 
     foreach ($meta['fields'] as $key => $field) {
       list($class, $options, $attribues) = self::getTriple($field['widget']);
-      if (array_key_exists('data-markup-set', $field)) {
-        $attribues['data-markup-set'] = UtilEmailLinks::dataMarkupSet($field['data-markup-set']);
+      if (array_key_exists('data-markup-set-1', $field)) {
+        $attribues['data-markup-set-1'] = UtilEmailLinks::dataMarkupSet($field['data-markup-set-1']);
       }
 
       $widget = new $class($options, $attribues);

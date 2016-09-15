@@ -311,4 +311,62 @@ class Widget extends BaseWidget {
   public function getStylingsArray() {
     $this->utilGetAsJsonArray('stylings');
   }
+
+  private static function firstValue($widget, $petition_text, $field) {
+    if (!self::isEmpty($widget, $field))
+      return $widget[$field];
+    if (!self::isEmpty($petition_text, $field))
+      return $petition_text[$field];
+    return '';
+  }
+
+  public static function isEmpty($object, $field) {
+    if (is_object($object) || is_array($object) && isset($object[$field])) {
+      $field = $object[$field];
+      if (!empty($field) && is_scalar($field)) {
+        return !(strlen(trim($field)) > 0);
+      }
+    }
+    return true;
+  }
+
+  public function getSubst() {
+    $petition_text = $this->getPetitionText();
+
+    $subst = array();
+    foreach (array(
+      'TITLE' => 'title', // deprecated
+      'TARGET' => 'target', // deprecated
+      'BACKGROUND' => 'background', // deprecated
+      'INTRO' => 'intro', // deprecated
+      'FOOTER' => 'footer', // deprecated
+      'EMAIL-SUBJECT' => 'email_subject', // deprecated
+      'EMAIL-BODY' => 'email_body', // deprecated
+      '#TITLE#' => 'title',
+      '#TARGET#' => 'target',
+      '#BACKGROUND#' => 'background',
+      '#INTRO#' => 'intro',
+      '#FOOTER#' => 'footer',
+      '#EMAIL-SUBJECT#' => 'email_subject',
+      '#EMAIL-BODY#' => 'email_body'
+    ) as $keyword => $field) {
+      $subst[$keyword] = self::firstValue($this, $petition_text, $field);
+    }
+    $subst['BODY'] = $petition_text['body'];  // deprecated
+    $subst['#BODY#'] = $petition_text['body'];
+
+    /* @var $petition_text PetitionText */
+    $petition = $petition_text->getPetition();
+    /* @var $petition Petition */
+    if ($petition->isEmailKind()) {
+      $action_text = $subst['#EMAIL-SUBJECT#'] . "\n\n" . $subst['#EMAIL-BODY#'] . "\n";
+    } else {
+      $action_text = $subst['#INTRO#'] . "\n\n" . $subst['#BODY#'] . "\n\n" . $subst['#FOOTER#'] . "\n";
+    }
+
+    $subst['#ACTION-TEXT#'] = $action_text;
+
+    return $subst;
+  }
+
 }

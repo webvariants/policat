@@ -1,4 +1,5 @@
 <?php
+
 /*
  * Copyright (c) 2016, webvariants GmbH <?php Co. KG, http://www.webvariants.de
  *
@@ -53,26 +54,30 @@ class Ticket extends BaseTicket {
     }
 
     if ($tos) {
+      $subst_escape = array();
+
       $subject = $forceSubject ? $forceSubject : 'Ticket-Notification';
       $body = "A new ticket about the following subject has been created:\n\n";
       $body.= "   Topic: " . $this->getKindName() . "\n";
       if ($this->getCampaignId())
-        $body.= "Campaign: " . $this->getCampaign()->getName() . "\n";
+        $body.= "Campaign: " . Util::enc($this->getCampaign()->getName()) . "\n";
       if ($this->getPetitionId())
-        $body.= "  Action: " . $this->getPetition()->getName() . "\n";
+        $body.= "  Action: " . Util::enc($this->getPetition()->getName()) . "\n";
       if ($this->getWidgetId())
         $body.= "  Widget: " . $this->getWidgetId() . "\n";
       if ($this->getFromId())
-        $body.= "    User: " . $this->getFrom()->getFullName() . "\n";
+        $body.= "    User: " . Util::enc($this->getFrom()->getFullName()) . "\n";
 
       if ($this->getText()) {
-        $body .= "  Text:\n\n\n" . $this->getText() . "\n\n";
+        $body .= "  Text:\n\n\n<blockquote><pre>#TEXT#</pre></blockquote>\n\n";
+        $subst_escape['#TEXT#'] = $this->getText();
       }
 
-      $body .= "\n\n" . sfContext::getInstance()->getRouting()->generate('dashboard', array(), true);
+      // [Click here to validate](#VALIDATION-URL#)
+      $body .= "\n\n[Go to dashboard](" . sfContext::getInstance()->getRouting()->generate('dashboard', array(), true) . ")\n";
 
       foreach ($tos as $to) {
-        \UtilMail::send('Ticket', 'User-' . $to[1], null, $to[0], $subject, $body, null, null, null, $replyTo);
+        \UtilMail::send('Ticket', 'User-' . $to[1], null, $to[0], $subject, $body, null, null, $subst_escape, $replyTo, array(), true);
       }
     }
   }

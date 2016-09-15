@@ -236,7 +236,13 @@ class TranslationForm extends BasePetitionTextForm {
 
     if ($petition->getThankYouEmail() == Petition::THANK_YOU_EMAIL_YES) {
       $this->setWidget('thank_you_email_subject', new sfWidgetFormInput(array('label' => 'Thank-You Email Subject'), array('size' => 90, 'class' => 'large')));
-      $this->setWidget('thank_you_email_body', new sfWidgetFormTextarea(array('label' => 'Thank-You Email Body'), array('cols' => 90, 'rows' => 30, 'class' => 'markdown highlight')));
+      $this->setWidget('thank_you_email_body', new sfWidgetFormTextarea(array('label' => 'Thank-You Email Body'), array(
+        'cols' => 90,
+        'rows' => 16,
+        'class' => 'markdown highlight email-template markItUp-higher',
+        'data-markup-set-1' => UtilEmailLinks::dataMarkupSet(array(UtilEmailLinks::UNSUBSCRIBE, UtilEmailLinks::REFERER, UtilEmailLinks::READMORE)),
+        'data-markup-set-2' => MediaFileTable::getInstance()->dataMarkupSet($petition)
+    )));
       $this->getWidgetSchema()->setHelp('thank_you_email_body', '#UNSUBSCRIBE-URL#, ' . $email_keywords);
     } else {
       unset($this['thank_you_email_subject'], $this['thank_you_email_body']);
