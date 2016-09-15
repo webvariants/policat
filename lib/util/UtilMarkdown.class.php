@@ -10,13 +10,17 @@
 
 class UtilMarkdown
 {
-  public static function transform($text, $xssSafe = true, $lessSafe = false)
+  public static function transform($text, $xssSafe = true, $lessSafe = false, $extra = false)
   {
     if (strlen($text) <= 1) {
       return '';
     }
 
-    $html = \Michelf\Markdown::defaultTransform($text);
+    if ($extra) {
+      $html = \Michelf\MarkdownExtra::defaultTransform($text);
+    } else {
+      $html = \Michelf\Markdown::defaultTransform($text);
+    }
     if ($xssSafe) {
       $html = UtilHtmlPurifier::xssSafe($html, $lessSafe);
     }

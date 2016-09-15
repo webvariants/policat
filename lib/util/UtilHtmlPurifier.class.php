@@ -1,4 +1,5 @@
 <?php
+
 /*
  * Copyright (c) 2016, webvariants GmbH <?php Co. KG, http://www.webvariants.de
  *
@@ -14,7 +15,6 @@ class UtilHtmlPurifier {
   protected static $purifier_less_safe = null;
 
   public static function xssSafe($html, $lessSafe = false) {
-    // require_once sfConfig::get('sf_lib_dir') . '/vendor/htmlpurifier/HTMLPurifier.standalone.php';
 
     if ($lessSafe) {
       if (!isset(self::$purifier_less_safe)) {
@@ -23,7 +23,7 @@ class UtilHtmlPurifier {
         $config->set('Output.FlashCompat', true);
         $config->set('HTML.SafeIframe', true);
         $config->set('URI.SafeIframeRegexp', '%^https://(www.youtube.com/embed)|(player.vimeo.com)/%');
-        
+
         self::$purifier_less_safe = new HTMLPurifier($config);
       }
 

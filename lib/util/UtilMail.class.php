@@ -104,9 +104,9 @@ class UtilMail {
           $back[$forth[$subst_key]] = Util::enc($subst_value);
         }
 
-        $body_html = strtr(UtilMarkdown::transform(strtr($body, $forth), true, false), $back);
+        $body_html = strtr(UtilMarkdown::transform(strtr($body, $forth), true, false, true), $back);
       } else {
-        $body_html = UtilMarkdown::transform($body, true, false);
+        $body_html = UtilMarkdown::transform($body, true, false, true);
       }
 
       $xml_utf8 = '<?xml version="1.0" encoding="utf-8"?>'; // force utf8 for umlauts

@@ -67,10 +67,19 @@ class UtilEmailLinks {
       );
     }
 
+    $menuBlocks = array(
+        array('name' => 'Footer', 'openWith' => "\n<div markdown=\"1\" class=\"footer\">\n", 'closeWith' => "\n</div>\n"),
+        array('name' => 'Align right', 'openWith' => "\n<div markdown=\"1\" class=\"align-right\">\n", 'closeWith' => "\n</div>\n"),
+        array('name' => 'Align justify', 'openWith' => "\n<div markdown=\"1\" class=\"align-justify\">\n", 'closeWith' => "\n</div>\n"),
+        array('name' => 'Image left', 'openWith' => "\n<div markdown=\"1\" class=\"image-left\">\n", 'closeWith' => "\n</div>\n"),
+        array('name' => 'Image right', 'openWith' => "\n<div markdown=\"1\" class=\"image-right\">\n", 'closeWith' => "\n</div>\n"),
+        array('name' => 'Image center', 'openWith' => "\n<div markdown=\"1\" class=\"image-center\">\n", 'closeWith' => "\n</div>\n")
+    );
+
     return json_encode(array(
         array('separator' => '---------------'),
-        array('name' => 'Links', 'className' => 'policat-links', 'dropMenu' => $menu
-        )
+        array('name' => 'Links', 'className' => 'policat-links', 'dropMenu' => $menu),
+        array('name' => 'Blocks', 'className' => 'policat-blocks', 'dropMenu' => $menuBlocks)
     ));
   }
 
