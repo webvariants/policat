@@ -92,11 +92,12 @@ class UtilMail {
     $body_html = null;
 
     if ($markdown) {
+      $hash = md5($body);
+
       if ($subst_escape && is_array($subst_escape)) {
         $forth = array();
         $back = array();
         $i = 0;
-        $hash = mt_srand();
 
         foreach ($subst_escape as $subst_key => $subst_value) {
           $i++;
@@ -104,9 +105,9 @@ class UtilMail {
           $back[$forth[$subst_key]] = Util::enc($subst_value);
         }
 
-        $body_html = strtr(UtilMarkdown::transform(strtr($body, $forth), true, false, true), $back);
+        $body_html = strtr(self::cacheMarkdown(strtr($body, $forth), $hash . 's', $forth), $back);
       } else {
-        $body_html = UtilMarkdown::transform($body, true, false, true);
+        $body_html = self::cacheMarkdown($body, $hash);
       }
 
       $xml_utf8 = '<?xml version="1.0" encoding="utf-8"?>'; // force utf8 for umlauts
@@ -217,6 +218,30 @@ class UtilMail {
         }
       }
     }
+  }
+
+  private static function cacheMarkdown($body, $key, $subst_keys = array()) {
+    $cache_key = null;
+    $vcm = sfContext::getInstance()->getViewCacheManager();
+    if ($vcm instanceof sfViewCacheTagManager) {
+      $tc = $vcm->getTaggingCache();
+
+      if ($tc) {
+        $cache_key = 'mailmarkdown_' . $key . '_' . md5(json_encode($subst_keys));
+        $cached = $tc->get($cache_key);
+        if ($cached) {
+          return $cached;
+        }
+      }
+    }
+
+    $html = UtilMarkdown::transform($body, true, false, true);
+
+    if ($cache_key) {
+      $tc->set($cache_key, $html, 600);
+    }
+
+    return $html;
   }
 
 }
