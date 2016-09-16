@@ -7,6 +7,7 @@ document.addEventListener('DOMContentLoaded', function () {
 		var with_country = false;
 		var table = false;
 		var table_body = null;
+		var table_single_td = null;
 		var order = 'date_desc';
 
 		if (!signers_div) {
@@ -29,7 +30,7 @@ document.addEventListener('DOMContentLoaded', function () {
 		}
 
 		function addSigner(signer) {
-			signers_div.appendChild(e('span', signer.name));
+			table_single_td.appendChild(e('span', signer.name));
 		}
 
 		function thOrder(tr, type) {
@@ -135,9 +136,16 @@ document.addEventListener('DOMContentLoaded', function () {
 						t.appendChild(table_body);
 						addHeadRow(t);
 					} else {
-						var t2 = e('table', null, 'table table-condensed');
+						var t2 = e('table', null, 'table table-condensed no-tr-hover');
 						signers_div.appendChild(t2);
+						table_body = e('tbody');
 						addHeadRow(t2);
+						t2.appendChild(table_body);
+						var tr = e('tr');
+						table_single_td = e('td');
+						table_body.appendChild(tr);
+						table_single_td.setAttribute('colspan', 2);
+						tr.appendChild(table_single_td);
 					}
 
 					for (var i = 0; i < result.signers.length; i++) {
