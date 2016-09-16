@@ -74,7 +74,7 @@ class Ticket extends BaseTicket {
       }
 
       // [Click here to validate](#VALIDATION-URL#)
-      $body .= "\n\n[Go to dashboard](" . sfContext::getInstance()->getRouting()->generate('dashboard', array(), true) . ")\n";
+      $body .= "\n\n[Go to dashboard](" . sfContext::getInstance()->getRouting()->generate('dashboard', array(), true) . ")\n\n<div markdown=\"1\" style=\"height: 1px\"></div>";
 
       foreach ($tos as $to) {
         \UtilMail::send('Ticket', 'User-' . $to[1], null, $to[0], $subject, $body, null, null, $subst_escape, $replyTo, array(), true);

@@ -9,7 +9,8 @@ a[href^="http://POLICAT-HOST/pledge/"],
 a[href^="http://POLICAT-HOST/widgetval/"],
 a[href^="http://POLICAT-HOST/register/"],
 a[href^="http://POLICAT-HOST/forgotten/"],
-a[href^="http://POLICAT-HOST/widget/edit/"]
+a[href^="http://POLICAT-HOST/widget/edit/"],
+a[href^="http://POLICAT-HOST/dashboard"]
 {
 	font-size: 14px;
 	padding: 5px 9px;

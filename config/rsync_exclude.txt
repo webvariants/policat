@@ -2,6 +2,7 @@
 /cache/*
 /lib/vendor/ezyang/htmlpurifier/library/HTMLPurifier/DefinitionCache/Serializer/HTML/*.ser
 /lib/vendor/ezyang/htmlpurifier/library/HTMLPurifier/DefinitionCache/Serializer/URI/*.ser
+/lib/vendor/ezyang/htmlpurifier/library/HTMLPurifier/DefinitionCache/Serializer/CSS/*.ser
 /log/*
 /web/*_dev.php
 /web/*_stress.php
