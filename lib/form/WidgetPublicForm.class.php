@@ -272,8 +272,9 @@ class WidgetPublicForm extends WidgetForm {
       $edit_code = UtilLink::widgetEdit($this->getObject()->getId(), $this->getObject()->getEditCode());
 
       if ($widget->getUserId()) {
-        $validation = 'Your widget is linked to the user with the e-mail-address "' . $widget->getEmail() . '".';
+        // $validation = 'Your widget is linked to the user with the e-mail-address "' . $widget->getEmail() . '".';
         $edit_code = sfContext::getInstance()->getRouting()->generate('widget_edit', array('id' => $widget->getId()), true);
+        $validation = $edit_code;
 
         $ticket = TicketTable::getInstance()->create(array(
             TicketTable::CREATE_TO => $widget->getUser(),

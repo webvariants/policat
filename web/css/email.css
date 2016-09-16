@@ -4,13 +4,12 @@ a {
 
 a[href="#VALIDATION-URL#"],
 a[href="#PLEDGE-URL#"],
-a[href="#EDIT-URL#"],
 a[href^="http://POLICAT-HOST/validate/"],
 a[href^="http://POLICAT-HOST/pledge/"],
 a[href^="http://POLICAT-HOST/widgetval/"],
 a[href^="http://POLICAT-HOST/register/"],
 a[href^="http://POLICAT-HOST/forgotten/"],
-a[href^="http://POLICAT-HOST/widgetedit/"]
+a[href^="http://POLICAT-HOST/widget/edit/"]
 {
 	font-size: 14px;
 	padding: 5px 9px;
@@ -121,6 +120,10 @@ blockquote {
 	margin: 1em;
 	padding: 0 0 0 10px;
 	border-left: 2px solid #111;
+}
+
+pre {
+	white-space: pre-wrap;
 }
 
 .align-left {
