@@ -111,13 +111,17 @@ class UtilMail {
       }
 
       $xml_utf8 = '<?xml version="1.0" encoding="utf-8"?>'; // force utf8 for umlauts
-      $inline = new \InlineStyle\InlineStyle($xml_utf8 . $body_html);
+      $in = '<div class="main-out"><div class="main-in"><div class="main-start"></div>';
+      $out = '</div></div>';
+      $inline = new \InlineStyle\InlineStyle($xml_utf8 . $in . $body_html . $out);
       $inline->applyStylesheet(UtilEmailLinks::generateEmailCss($markdown));
       $body_html = $inline->getHTML();
       $body_split = explode($xml_utf8, $body_html, 2);
       if (count($body_split) === 2) {
         $body_html = $body_split[1];
       }
+
+      $body = strip_tags($body);
     }
 
     if ($subst_escape && is_array($subst_escape)) {

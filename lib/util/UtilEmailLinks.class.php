@@ -20,13 +20,13 @@ class UtilEmailLinks {
   const EDIT = 7;
 
   static $NAME = array(
-      self::VALIDATION => 'Validation URL',
-      self::DISCONFIRMATION => 'Disconfirmation URL',
-      self::REFERER => 'Referer URL',
-      self::READMORE => 'Read more URL',
-      self::PLEDGE => 'Pledge URL',
-      self::UNSUBSCRIBE => 'Unsubscribe URL',
-      self::EDIT => 'Edit URL'
+      self::VALIDATION => 'Validation Button',
+      self::DISCONFIRMATION => 'Disconfirmation Link',
+      self::REFERER => 'Referer Link',
+      self::READMORE => 'Read more Link',
+      self::PLEDGE => 'Pledge Button',
+      self::UNSUBSCRIBE => 'Unsubscribe Link',
+      self::EDIT => 'Edit Button'
   );
   static $TEXT = array(
       self::VALIDATION => 'Confirm your email address',
@@ -69,6 +69,7 @@ class UtilEmailLinks {
 
     $menuBlocks = array(
         array('name' => 'Footer', 'openWith' => "\n<div markdown=\"1\" class=\"footer\">\n", 'closeWith' => "\n</div>\n"),
+        array('name' => 'Frame', 'openWith' => "\n<div markdown=\"1\" class=\"frame\">\n", 'closeWith' => "\n</div>\n"),
         array('name' => 'Align right', 'openWith' => "\n<div markdown=\"1\" class=\"align-right\">\n", 'closeWith' => "\n</div>\n"),
         array('name' => 'Align justify', 'openWith' => "\n<div markdown=\"1\" class=\"align-justify\">\n", 'closeWith' => "\n</div>\n"),
         array('name' => 'Image left', 'openWith' => "\n<div markdown=\"1\" class=\"image-left\">\n", 'closeWith' => "\n</div>\n"),

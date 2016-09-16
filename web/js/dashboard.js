@@ -36,10 +36,10 @@ var tryEdits = function(prefix) {
 			var converter = new showdown.Converter();
 			var html = converter.makeHtml(content);
 			if (template === 'email') {
-				html = '<link type="text/css" rel="stylesheet" href="/css/email.css" />' + html;
+				html = '<link type="text/css" rel="stylesheet" href="/css/email.css" /><div class="main-out"><div class="main-in"><div class="main-start"></div>' + html + '</div></div>';
 			}
 			return html;
-		}
+		};
 	}
 
 	function markdownTitle(markItUp, char) {
@@ -566,7 +566,7 @@ $(function($) {
 		}
 
 		if (l < 0.5) {
-			info.text('Please select a darker color.');
+			info.text('Please select a lighter color.');
 		} else {
 			info.text('');
 		}
