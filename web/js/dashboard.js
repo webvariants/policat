@@ -36,7 +36,7 @@ var tryEdits = function(prefix) {
 			var converter = new showdown.Converter();
 			var html = converter.makeHtml(content);
 			if (template === 'email') {
-				html = '<link type="text/css" rel="stylesheet" href="/css/email.css" /><div class="main-out"><div class="main-in"><div class="main-start"></div>' + html + '</div></div>';
+				html = '<link type="text/css" rel="stylesheet" href="/css/email.css" /><div class="spacer10"></div><div class="main-out"><div class="main-in"><div class="main-start"></div>' + html + '</div></div><div class="spacer10"></div>';
 			}
 			return html;
 		};
