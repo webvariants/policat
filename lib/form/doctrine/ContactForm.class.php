@@ -1,4 +1,5 @@
 <?php
+
 /*
  * Copyright (c) 2016, webvariants GmbH <?php Co. KG, http://www.webvariants.de
  *
@@ -23,8 +24,7 @@ class ContactForm extends BaseContactForm {
     $this->widgetSchema->setNameFormat('contact_' . $this->getObject()->getId() . '_[%s]');
 
     unset(
-      $this['status'], $this['mailing_list_id'], $this['petition_signing_list'],
-      $this['bounce'], $this['bounce_at'], $this['bounce_blocked'], $this['bounce_hard'], $this['bounce_related_to'], $this['bounce_error']
+      $this['status'], $this['mailing_list_id'], $this['petition_signing_list'], $this['bounce'], $this['bounce_at'], $this['bounce_blocked'], $this['bounce_hard'], $this['bounce_related_to'], $this['bounce_error']
     );
 
     $countries_false = array_keys(sfCultureInfo::getInstance()->getCountries());
@@ -105,6 +105,22 @@ class ContactForm extends BaseContactForm {
           break;
       }
     }
+  }
+
+  public function processValues($values) {
+    $contact = $this->getObject();
+    if (!$contact->isNew() && array_key_exists('email', $values)) {
+      if ($contact->getEmail() !== $values['email']) {
+        $values['bounce'] = 0;
+        $values['bounce_at'] = null;
+        $values['bounce_blocked'] = 0;
+        $values['bounce_hard'] = 0;
+        $values['bounce_related_to'] = null;
+        $values['bounce_error'] = null;
+      }
+    }
+
+    return parent::processValues($values);
   }
 
   protected function doSave($con = null) {
