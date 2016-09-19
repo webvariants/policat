@@ -141,8 +141,6 @@ class api_v2_incommingActions extends policatActions {
           if ($ticket) {
             $ticket->save();
             $ticket->notifyAdmin();
-          } else {
-            return $this->ajax()->alert('Application already pending', '')->render();
           }
         }
 
