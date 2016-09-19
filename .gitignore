@@ -12,6 +12,7 @@ cache/*
 /web/images/pledge_header_visual/*
 /web/images/pledge_key_visual/*
 /web/images/store/*
+/web/images/action/*
 /web/uploads/*
 /web/google*html
 /data/*.lck

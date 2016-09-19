@@ -46,7 +46,7 @@ class dashboardActions extends policatActions {
     if ($request->isMethod('post')) {
       $form->bind($request->getPostParameter($form->getName()));
       if ($form->isValid()) {
-        UtilMail::send('Testmail', null, $form->getValue('from'), $form->getValue('to'), $form->getValue('subject'), $form->getValue('body'));
+        UtilMail::send('Testmail', null, $form->getValue('from'), $form->getValue('to'), $form->getValue('subject'), $form->getValue('body'), null, null, null, null, array(), true);
         
         return $this->ajax()->form($form)->alert('Mail sent.', '', '#testmail', 'after')->render();
       }
@@ -57,6 +57,8 @@ class dashboardActions extends policatActions {
     $this->last_bounce = StoreTable::getInstance()->getValueCached(StoreTable::INTERNAL_LAST_TESTING_BOUNCE);
 
     $this->form = $form;
+
+    $this->includeMarkdown();
   }
 
 }

@@ -55,6 +55,8 @@ Options +FollowSymLinks +ExecCGI
   RewriteRule ^action/((edit)|(edit_target)|(widget)|(widget_copy)|(translation)|(todo)|(target)|(pager)|(members)|(follow)|(delete)|(data)|(data_email)|(data/download(/\d+)?)|(data/prepare)|(bounces/delete)|(bounces(/\d+)?))/\d+$ frontend.php [QSA,L]
   RewriteRule ^action/((pager)|(data))/\d+/\d+$ frontend.php [QSA,L]
   RewriteRule ^action/((pledge)|(pledge_download)|(pledge_edit(/\d+)?)|(pledge_new)|(pledge_stats(/\d+)?))/\d+$ frontend.php [QSA,L]
+  RewriteRule ^action/((files(/\d+)?)|(files_upload)|(files_delete(/\d+)?)|(files_rename(/\d+)?))/\d+$ frontend.php [QSA,L]
+  RewriteRule ^media/[1-9]\d*/[a-z0-9_]{2,30}(\.[a-z0-9]{1,5})$ frontend.php [L]
 
   RewriteRule ^action/((token)|(token_new)|(token_edit)|(token_data)|(token_addnum))/\d+$ frontend.php [QSA,L]
 

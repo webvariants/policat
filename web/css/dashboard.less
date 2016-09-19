@@ -28,6 +28,12 @@ th.approve_decline {
 	width: 150px;
 }
 
+.no-tr-hover tbody tr:hover {
+	td, th {
+		background-color: transparent;
+	}
+}
+
 #waiting, #waiting b {
 	position: fixed;
 	z-index: 9999;
@@ -542,6 +548,26 @@ textarea.markItUpEditor {
 
 div .markItUpEditor {
 	height: 160px;
+
+	&.markItUp-higher {
+		height: 320px;
+	}
+}
+
+.markItUpHeader ul li {
+	z-index: 1;
+}
+
+.policat-links a {
+	background-image: url(../../images/markitup-policat-link.png);
+}
+
+.policat-media a {
+	background-image: url(../../images/markitup-policat-media.png);
+}
+
+.policat-blocks a {
+	background-image: url(../../images/markitup-policat-block.png);
 }
 
 .highlightTextarea {

@@ -60,6 +60,7 @@
  * @property string $style_form_title_color
  * @property string $style_button_primary_color
  * @property string $style_label_color
+ * @property string $email_button_color
  * @property integer $share
  * @property integer $country_collection_id
  * @property integer $deleted_pendings
@@ -80,6 +81,7 @@
  * @property Doctrine_Collection $PetitionRights
  * @property Doctrine_Collection $FollowedByPetitions
  * @property Doctrine_Collection $PetitionText
+ * @property Doctrine_Collection $MediaFile
  * @property Doctrine_Collection $Widget
  * @property Doctrine_Collection $PetitionSigning
  * @property Doctrine_Collection $Tickets
@@ -143,6 +145,7 @@
  * @method string              getStyleFormTitleColor()        Returns the current record's "style_form_title_color" value
  * @method string              getStyleButtonPrimaryColor()    Returns the current record's "style_button_primary_color" value
  * @method string              getStyleLabelColor()            Returns the current record's "style_label_color" value
+ * @method string              getEmailButtonColor()           Returns the current record's "email_button_color" value
  * @method integer             getShare()                      Returns the current record's "share" value
  * @method integer             getCountryCollectionId()        Returns the current record's "country_collection_id" value
  * @method integer             getDeletedPendings()            Returns the current record's "deleted_pendings" value
@@ -163,6 +166,7 @@
  * @method Doctrine_Collection getPetitionRights()             Returns the current record's "PetitionRights" collection
  * @method Doctrine_Collection getFollowedByPetitions()        Returns the current record's "FollowedByPetitions" collection
  * @method Doctrine_Collection getPetitionText()               Returns the current record's "PetitionText" collection
+ * @method Doctrine_Collection getMediaFile()                  Returns the current record's "MediaFile" collection
  * @method Doctrine_Collection getWidget()                     Returns the current record's "Widget" collection
  * @method Doctrine_Collection getPetitionSigning()            Returns the current record's "PetitionSigning" collection
  * @method Doctrine_Collection getTickets()                    Returns the current record's "Tickets" collection
@@ -225,6 +229,7 @@
  * @method Petition            setStyleFormTitleColor()        Sets the current record's "style_form_title_color" value
  * @method Petition            setStyleButtonPrimaryColor()    Sets the current record's "style_button_primary_color" value
  * @method Petition            setStyleLabelColor()            Sets the current record's "style_label_color" value
+ * @method Petition            setEmailButtonColor()           Sets the current record's "email_button_color" value
  * @method Petition            setShare()                      Sets the current record's "share" value
  * @method Petition            setCountryCollectionId()        Sets the current record's "country_collection_id" value
  * @method Petition            setDeletedPendings()            Sets the current record's "deleted_pendings" value
@@ -245,6 +250,7 @@
  * @method Petition            setPetitionRights()             Sets the current record's "PetitionRights" collection
  * @method Petition            setFollowedByPetitions()        Sets the current record's "FollowedByPetitions" collection
  * @method Petition            setPetitionText()               Sets the current record's "PetitionText" collection
+ * @method Petition            setMediaFile()                  Sets the current record's "MediaFile" collection
  * @method Petition            setWidget()                     Sets the current record's "Widget" collection
  * @method Petition            setPetitionSigning()            Sets the current record's "PetitionSigning" collection
  * @method Petition            setTickets()                    Sets the current record's "Tickets" collection
@@ -553,6 +559,12 @@ abstract class BasePetition extends myDoctrineRecord
              'default' => '#666666',
              'length' => 7,
              ));
+        $this->hasColumn('email_button_color', 'string', 7, array(
+             'type' => 'string',
+             'notnull' => true,
+             'default' => '#b7d9f9',
+             'length' => 7,
+             ));
         $this->hasColumn('share', 'integer', 1, array(
              'type' => 'integer',
              'notnull' => true,
@@ -703,6 +715,10 @@ abstract class BasePetition extends myDoctrineRecord
              'foreign' => 'follow_petition_id'));
 
         $this->hasMany('PetitionText', array(
+             'local' => 'id',
+             'foreign' => 'petition_id'));
+
+        $this->hasMany('MediaFile', array(
              'local' => 'id',
              'foreign' => 'petition_id'));
 

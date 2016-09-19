@@ -332,7 +332,7 @@ if (is_array($target_selectors)) {
                             <a href="https://www.facebook.com/sharer/sharer.php?t=<?php echo urlencode($title) ?>&amp;u=" class="newwin sicon facebook" title="Facebook"><img class="no_load" alt="Facebook" src="<?php echo image_path('facebook-64.png') ?>" /></a>
                             <a href="https://twitter.com/share?text=<?php echo urlencode($title) ?>&amp;url=" class="newwin sicon twitter" title="Twitter"><img class="no_load" alt="Twitter" src="<?php echo image_path('twitter-64.png') ?>" /></a>
                             <?php
-                            list($mail_subject, $mail_body) = UtilMail::tellyourmail($widget, $petition, $petition_text, 'UURRLLRREEFF', 'UURRLLMMOORREE');
+                            list($mail_subject, $mail_body) = UtilMail::tellyourmail($widget, $petition_text, 'UURRLLRREEFF', 'UURRLLMMOORREE');
                             ?>
                             <a href="mailto:?subject=<?php echo $mail_subject ?>&amp;body=<?php echo $mail_body ?>" class="sicon mailto" title="Email" target="_top"><img  class="no_load" alt="Email" src="<?php echo image_path('email-64.png') ?>" /></a>
                             <a id="a-embed-this" class="sicon a-embed-this" title="<?php echo __('Embed this') ?>"><img class="no_load" alt="<?php echo __('Embed this') ?>" src="<?php echo image_path('code-64.png') ?>" /></a>

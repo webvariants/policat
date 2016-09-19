@@ -1,3 +1,5 @@
+/* global showdown */
+
 var initRecaptcha_ids = 1;
 var initRecaptcha = function() {
 	var recaptchas = $('.recaptcha');
@@ -21,47 +23,94 @@ var initRecaptcha = function() {
 	});	
 }};
 
+
+
 var tryEdits = function(prefix) {
 	if (!prefix) {
 		prefix = '';
 	}
-	try {
-		$(prefix + 'textarea.markdown').markItUp({
-		previewParser: function(content) {
-				var converter = new Showdown.converter();
-				return converter.makeHtml(content);
-			},
-			onShiftEnter: {keepDefault: false, openWith: '\n\n'},
-			markupSet: [
-				{name: 'First Level Heading', key: '1', placeHolder: 'Your title here...', closeWith: function (markItUp) {
-						return miu.markdownTitle(markItUp, '=')
-					}},
-				{name: 'Second Level Heading', key: '2', placeHolder: 'Your title here...', closeWith: function (markItUp) {
-						return miu.markdownTitle(markItUp, '-')
-					}},
-				{name: 'Heading 3', key: '3', openWith: '### ', placeHolder: 'Your title here...'},
-				{name: 'Heading 4', key: '4', openWith: '#### ', placeHolder: 'Your title here...'},
-				{name: 'Heading 5', key: '5', openWith: '##### ', placeHolder: 'Your title here...'},
-				{name: 'Heading 6', key: '6', openWith: '###### ', placeHolder: 'Your title here...'},
-				{separator: '---------------'},
-				{name: 'Bold', key: 'B', openWith: '**', closeWith: '**'},
-				{name: 'Italic', key: 'I', openWith: '_', closeWith: '_'},
-				{separator: '---------------'},
-				{name: 'Bulleted List', openWith: '- '},
-				{name: 'Numeric List', openWith: function (markItUp) {
-						return markItUp.line + '. ';
-					}},
-				{separator: '---------------'},
-				{name: 'Picture', key: 'P', replaceWith: '![[![Alternative text]!]]([![Url:!:http://]!] "[![Title]!]")'},
-				{name: 'Link', key: 'L', openWith: '[', closeWith: ']([![Url:!:http://]!] "[![Title]!]")', placeHolder: 'Your text to link here...'},
-				{separator: '---------------'},
-				{name: 'Quotes', openWith: '> '},
-//				{name: 'Code Block / Code', openWith: '(!(\t|!|`)!)', closeWith: '(!(`)!)'},
-				{separator: '---------------'},
-				{name: 'Preview', call: 'preview', className: "preview"}
-			]
-		});
-	} catch (e) {}
+
+	function previewParser(template) {
+		return function(content) {
+			showdown.setOption('smoothLivePreview', true);
+			var converter = new showdown.Converter();
+			var html = converter.makeHtml(content);
+			if (template === 'email') {
+				html = '<link type="text/css" rel="stylesheet" href="/css/email.css" /><div class="spacer10"></div><div class="main-out"><div class="main-in"><div class="main-start"></div>' + html + '</div></div><div class="spacer10"></div>';
+			}
+			return html;
+		};
+	}
+
+	function markdownTitle(markItUp, char) {
+		var heading = '';
+		var n = $.trim(markItUp.selection||markItUp.placeHolder).length;
+		for(var i = 0; i < n; i++) {
+			heading += char;
+		}
+		return '\n'+heading;
+	}
+
+	var defaultSet = [
+		{name: 'First Level Heading', key: '1', placeHolder: 'Your title here...', closeWith: function (markItUp) {
+				return markdownTitle(markItUp, '=')
+			}},
+		{name: 'Second Level Heading', key: '2', placeHolder: 'Your title here...', closeWith: function (markItUp) {
+				return markdownTitle(markItUp, '-')
+			}},
+		{name: 'Heading 3', key: '3', openWith: '### ', placeHolder: 'Your title here...'},
+		{name: 'Heading 4', key: '4', openWith: '#### ', placeHolder: 'Your title here...'},
+		{name: 'Heading 5', key: '5', openWith: '##### ', placeHolder: 'Your title here...'},
+		{name: 'Heading 6', key: '6', openWith: '###### ', placeHolder: 'Your title here...'},
+		{separator: '---------------'},
+		{name: 'Bold', key: 'B', openWith: '**', closeWith: '**'},
+		{name: 'Italic', key: 'I', openWith: '_', closeWith: '_'},
+		{separator: '---------------'},
+		{name: 'Bulleted List', openWith: '- '},
+		{name: 'Numeric List', openWith: function (markItUp) {
+				return markItUp.line + '. ';
+			}},
+		{separator: '---------------'},
+		{name: 'Picture', key: 'P', replaceWith: '![[![Alternative text]!]]([![Url:!:http://]!] "[![Title]!]")'},
+		{name: 'Link', key: 'L', openWith: '[', closeWith: ']([![Url:!:http://]!] "[![Title]!]")', placeHolder: 'Your text to link here...'},
+//		{separator: '---------------'},
+		{name: 'Quotes', openWith: '> '},
+//		{name: 'Code Block / Code', openWith: '(!(\t|!|`)!)', closeWith: '(!(`)!)'},
+		{separator: '---------------'},
+		{name: 'Preview', call: 'preview', className: "preview"}
+	];
+
+	$(prefix + 'textarea.markdown').each(function() {
+		var textarea = $(this);
+		var extraSets = [textarea.data('markup-set-1'), textarea.data('markup-set-2'), textarea.data('markup-set-3')];
+		var markupSet = defaultSet.slice();
+		var template = null;
+		var extraSet;
+
+		for (var i = 0; i < extraSets.length; i++) {
+			extraSet = extraSets[i];
+			if (extraSet) {
+				while (extraSet.length) {
+					markupSet.push(extraSet.shift());
+				}
+			}
+		}
+
+		if (textarea.is('.email-template')) {
+			template = 'email';
+		}
+
+		try {
+			textarea.markItUp({
+				previewParser: previewParser(template),
+				previewAutoRefresh: true,
+				onShiftEnter: {keepDefault: false, openWith: '\n\n'},
+				markupSet: markupSet,
+				resizeHandle: !textarea.is('.highlight')
+			});
+		} catch (e) {
+		}
+	});
 	try {$(prefix + 'textarea.elastic, ' + prefix + 'textarea.markItUpEditor:not(.highlight)').elastic();} catch (e) {}
 	try {
 		$('textarea.highlight').each(function() {
@@ -495,4 +544,32 @@ $(function($) {
 			target.prop('checked', $(this).prop('checked'));
 		}
 	});
+
+	function luma(hexCode) {
+		hexCode = hexCode.replace('#', '');
+
+		var r = parseInt(hexCode.substr(0, 2),16) / 255;
+		var g = parseInt(hexCode.substr(2, 2),16) / 255;
+		var b = parseInt(hexCode.substr(4, 2),16) / 255;
+
+		return (0.213 * r + 0.715 * g + 0.072 * b);
+	}
+
+	$('input.luma-light').on('change', function() {
+		var val = $(this).val();
+		var l = luma(val);
+		var info = $(this).data('luma-info');
+		if (!info) {
+			info = $('<span style="margin-left: 5px;color: red;"></span>');
+			$(this).data('luma-info', info);
+			$(this).after(info);
+		}
+
+		if (l < 0.5) {
+			info.text('Please select a lighter color.');
+		} else {
+			info.text('');
+		}
+	}).change();
+
 });

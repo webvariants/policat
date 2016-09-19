@@ -67,7 +67,7 @@ class EditPetitionForm extends PetitionFieldsForm {
     )));
     $this->setValidator('key_visual', new sfValidatorFile(array(
         'required' => false,
-        'mime_categories' => 'web_images',
+        'mime_types' => 'web_images',
         'path' => sfConfig::get('sf_web_dir') . DIRECTORY_SEPARATOR . 'images' . DIRECTORY_SEPARATOR . 'keyvisual'
     )));
     $this->getWidgetSchema()->setHelp('key_visual', 'Your key visual should be a strong visual expression of what your action is about. It should not contain text in case your action will be multi-lingual. Make sure, your image wider than 150 pixel but not bigger than 20kB in size. Note: portrait images will be cropped to square format!');
@@ -244,7 +244,7 @@ class EditPetitionForm extends PetitionFieldsForm {
         $this->getWidgetSchema()->setHelp('pledge_header_visual', 'Width should be 1170px and height about 180px. Keep the file small (<80KB). Compress PNGs with tools like http://optipng.sourceforge.net/');
         $this->setValidator('pledge_header_visual', new sfValidatorFile(array(
             'required' => false,
-            'mime_categories' => 'web_images',
+            'mime_types' => 'web_images',
             'path' => sfConfig::get('sf_web_dir') . '/images/pledge_header_visual'
         )));
         $this->setWidget('pledge_key_visual', new sfWidgetFormInputFileEditable(array(
@@ -257,7 +257,7 @@ class EditPetitionForm extends PetitionFieldsForm {
         $this->getWidgetSchema()->setHelp('pledge_key_visual', 'Dimensions should be about 140x140px. Keep the file small (<80KB).');
         $this->setValidator('pledge_key_visual', new sfValidatorFile(array(
             'required' => false,
-            'mime_categories' => 'web_images',
+            'mime_types' => 'web_images',
             'path' => sfConfig::get('sf_web_dir') . '/images/pledge_key_visual'
         )));
 
@@ -377,6 +377,10 @@ class EditPetitionForm extends PetitionFieldsForm {
 
     $this->setWidget('share', new WidgetFormInputCheckbox(array('value_attribute_value' => '1', 'value_checked' => '1', 'value_unchecked' => '0', 'label' => 'Include share buttons underneath sign-button')));
     $this->setValidator('share', new sfValidatorChoice(array('choices' => array('0', '1'))));
+
+    $this->setWidget('email_button_color', new sfWidgetFormInput(array('label' => 'Button color'), array('class' => 'luma-light color {hash:true}')));
+    $this->setValidator('email_button_color', new ValidatorCssColor(array('min-luma' => 0.5, 'min_length' => 7, 'max_length' => 7)));
+    $this->getWidgetSchema()->setHelp('email_button_color', 'This is the background color of buttons in outgoing E-mails. The font color is always black.');
   }
 
   public function processValues($values) {

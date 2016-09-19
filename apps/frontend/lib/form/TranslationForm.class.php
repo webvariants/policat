@@ -106,7 +106,13 @@ class TranslationForm extends BasePetitionTextForm {
       . '#DATA-OFFICER-MOBILE#, #DATA-OFFICER-STREET#, #DATA-OFFICER-POST-CODE#, #DATA-OFFICER-CITY#, #DATA-OFFICER-COUNTRY#, #DATA-OFFICER-ADDRESS#, ' . implode(', ', PetitionSigningTable::$KEYWORDS);
 
     $this->setWidget('email_validation_subject', new sfWidgetFormInput(array('label' => 'Opt-In Confirmation Email Subject'), array('size' => 90, 'class' => 'large')));
-    $this->setWidget('email_validation_body', new sfWidgetFormTextarea(array('label' => 'Opt-In Confirmation Email Body'), array('cols' => 90, 'rows' => 8, 'class' => 'large elastic highlight')));
+    $this->setWidget('email_validation_body', new sfWidgetFormTextarea(array('label' => 'Opt-In Confirmation Email Body'), array(
+        'cols' => 90,
+        'rows' => 16,
+        'class' => 'markdown highlight email-template markItUp-higher',
+        'data-markup-set-1' => UtilEmailLinks::dataMarkupSet(array(UtilEmailLinks::VALIDATION, UtilEmailLinks::DISCONFIRMATION, UtilEmailLinks::REFERER, UtilEmailLinks::READMORE)),
+        'data-markup-set-2' => MediaFileTable::getInstance()->dataMarkupSet($petition)
+    )));
     $this->setValidator('email_validation_body', new ValidatorKeywords(array('required' => true, 'keywords' => array('#VALIDATION-URL#'))));
     $this->getWidgetSchema()->setHelp('email_validation_body', '#VALIDATION-URL#, #DISCONFIRMATION-URL#,' . $email_keywords);
     $this->setWidget('email_tellyour_subject', new sfWidgetFormInput(array(), array('size' => 90, 'class' => 'large')));
@@ -230,7 +236,13 @@ class TranslationForm extends BasePetitionTextForm {
 
     if ($petition->getThankYouEmail() == Petition::THANK_YOU_EMAIL_YES) {
       $this->setWidget('thank_you_email_subject', new sfWidgetFormInput(array('label' => 'Thank-You Email Subject'), array('size' => 90, 'class' => 'large')));
-      $this->setWidget('thank_you_email_body', new sfWidgetFormTextarea(array('label' => 'Thank-You Email Body'), array('cols' => 90, 'rows' => 30, 'class' => 'markdown highlight')));
+      $this->setWidget('thank_you_email_body', new sfWidgetFormTextarea(array('label' => 'Thank-You Email Body'), array(
+        'cols' => 90,
+        'rows' => 16,
+        'class' => 'markdown highlight email-template markItUp-higher',
+        'data-markup-set-1' => UtilEmailLinks::dataMarkupSet(array(UtilEmailLinks::UNSUBSCRIBE, UtilEmailLinks::REFERER, UtilEmailLinks::READMORE)),
+        'data-markup-set-2' => MediaFileTable::getInstance()->dataMarkupSet($petition)
+    )));
       $this->getWidgetSchema()->setHelp('thank_you_email_body', '#UNSUBSCRIBE-URL#, ' . $email_keywords);
     } else {
       unset($this['thank_you_email_subject'], $this['thank_you_email_body']);

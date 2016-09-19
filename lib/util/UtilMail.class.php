@@ -65,7 +65,7 @@ class UtilMail {
     return in_array($fullemail, self::$verified_cache) || in_array($domain, self::$verified_cache);
   }
 
-  public static function send($trackCampaign, $trackId, $from, $to, $subject, $body, $contentType = null, $subst = null, $subst_2nd = null, $replyTo = null, $attachments = array(), $markdown = false) {
+  public static function send($trackCampaign, $trackId, $from, $to, $subject, $body, $contentType = null, $subst = null, $subst_escape = null, $replyTo = null, $attachments = array(), $markdown = false) {
     $message = Swift_Message::newInstance();
     if ($from == null) {
       $message->setFrom(self::getDefaultFrom());
@@ -92,27 +92,41 @@ class UtilMail {
     $body_html = null;
 
     if ($markdown) {
-      if ($subst_2nd && is_array($subst_2nd)) {
+      $hash = md5($body);
+
+      if ($subst_escape && is_array($subst_escape)) {
         $forth = array();
         $back = array();
         $i = 0;
-        $hash = mt_srand();
 
-        foreach ($subst_2nd as $subst_key => $subst_value) {
+        foreach ($subst_escape as $subst_key => $subst_value) {
           $i++;
-          $forth[$subst_key] = 'PC123' . $subst_key . $hash . $i . 'PC123';
+          $forth[$subst_key] = 'PC123p0LiC4t' . $hash . $i . 'PC123';
           $back[$forth[$subst_key]] = Util::enc($subst_value);
         }
 
-        $body_html = strtr(UtilMarkdown::transform(strtr($body, $forth), true, false), $back);
+        $body_html = strtr(self::cacheMarkdown(strtr($body, $forth), $hash . 's', $forth), $back);
       } else {
-        UtilMarkdown::transform($body, true, false);
+        $body_html = self::cacheMarkdown($body, $hash);
       }
+
+      $xml_utf8 = '<?xml version="1.0" encoding="utf-8"?>'; // force utf8 for umlauts
+      $in = '<div class="spacer10"></div><div class="main-out"><div class="main-in"><div class="main-start"></div>';
+      $out = '</div></div><div class="spacer10"></div>';
+      $inline = new \InlineStyle\InlineStyle($xml_utf8 . $in . $body_html . $out);
+      $inline->applyStylesheet(UtilEmailLinks::generateEmailCss($markdown));
+      $body_html = $inline->getHTML();
+      $body_split = explode($xml_utf8, $body_html, 2);
+      if (count($body_split) === 2) {
+        $body_html = $body_split[1];
+      }
+
+      $body = strip_tags($body);
     }
 
-    if ($subst_2nd && is_array($subst_2nd)) {
-      $body = strtr($body, $subst_2nd);
-      $subject = strtr($subject, $subst_2nd);
+    if ($subst_escape && is_array($subst_escape)) {
+      $body = strtr($body, $subst_escape);
+      $subject = strtr($subject, $subst_escape);
     }
 
     if ($replyTo) {
@@ -160,77 +174,13 @@ class UtilMail {
     sfContext::getInstance()->getMailer()->send($message);
   }
 
-  public static function sendWithSubst($trackCampaign, $trackId, $from, $to, $subject, $body, $petition_text, $widget = null, $additional_subst = array(), $subst_2nd = array(), $markdown = false) {
-    $subst = self::createSubstArray($petition_text, $widget);
-    if (is_array($additional_subst)) {
-      $subst = array_merge($subst, $additional_subst);
-    }
-
-    self::send($trackCampaign, $trackId, $from, $to, $subject, $body, null, $subst, $subst_2nd, null, array(), $markdown);
-  }
-
-  public static function isEmpty($object, $field) {
-    if (is_object($object) || is_array($object) && isset($object[$field])) {
-      $field = $object[$field];
-      if (!empty($field) && is_scalar($field)) {
-        return !(strlen(trim($field)) > 0);
-      }
-    }
-    return true;
-  }
-
-  public static function firstValue($widget, $petition_text, $field) {
-    if (!self::isEmpty($widget, $field))
-      return $widget[$field];
-    if (!self::isEmpty($petition_text, $field))
-      return $petition_text[$field];
-    return '';
-  }
-
-  public static function createSubstArray($petition_text, $widget = null) {
-    $subst = array();
-    foreach (array(
-      'TITLE' => 'title', // deprecated
-      'TARGET' => 'target', // deprecated
-      'BACKGROUND' => 'background', // deprecated
-      'INTRO' => 'intro', // deprecated
-      'FOOTER' => 'footer', // deprecated
-      'EMAIL-SUBJECT' => 'email_subject', // deprecated
-      'EMAIL-BODY' => 'email_body', // deprecated
-      '#TITLE#' => 'title',
-      '#TARGET#' => 'target',
-      '#BACKGROUND#' => 'background',
-      '#INTRO#' => 'intro',
-      '#FOOTER#' => 'footer',
-      '#EMAIL-SUBJECT#' => 'email_subject',
-      '#EMAIL-BODY#' => 'email_body'
-    ) as $keyword => $field)
-      $subst[$keyword] = self::firstValue($widget, $petition_text, $field);
-    $subst['BODY'] = $petition_text['body'];  // deprecated
-    $subst['#BODY#'] = $petition_text['body'];
-
-    /* @var $petition_text PetitionText */
-    $petition = $petition_text->getPetition();
-    /* @var $petition Petition */
-    if ($petition->isEmailKind()) {
-      $action_text = $subst['#EMAIL-SUBJECT#'] . "\n\n" . $subst['#EMAIL-BODY#'] . "\n";
-    } else {
-      $action_text = $subst['#INTRO#'] . "\n\n" . $subst['#BODY#'] . "\n\n" . $subst['#FOOTER#'] . "\n";
-    }
-
-    $subst['#ACTION-TEXT#'] = $action_text;
-
-    return $subst;
-  }
-
-  public static function tellyourmail($widget, $petition, $petition_text, $url_ref, $url_readmore) {
+  public static function tellyourmail($widget, $petition_text, $url_ref, $url_readmore) {
     /* @var $widget Widget */
-    /* @var $petition Petition */
     /* @var $petition_text PetitionText */
     $subject = $petition_text->getEmailTellyourSubject();
     $body = $petition_text->getEmailTellyourBody();
 
-    $subst = array_merge(self::createSubstArray($petition_text, $widget), array(
+    $subst = array_merge($widget->getSubst(), array(
         'URL-REFERER' => $url_ref, // deprecated
         'URL-READMORE' => $url_readmore, // deprecated
         '#REFERER-URL#' => $url_ref,
@@ -272,6 +222,30 @@ class UtilMail {
         }
       }
     }
+  }
+
+  private static function cacheMarkdown($body, $key, $subst_keys = array()) {
+    $cache_key = null;
+    $vcm = sfContext::getInstance()->getViewCacheManager();
+    if ($vcm instanceof sfViewCacheTagManager) {
+      $tc = $vcm->getTaggingCache();
+
+      if ($tc) {
+        $cache_key = 'mailmarkdown_' . $key . '_' . md5(json_encode($subst_keys));
+        $cached = $tc->get($cache_key);
+        if ($cached) {
+          return $cached;
+        }
+      }
+    }
+
+    $html = UtilMarkdown::transform($body, true, false, true);
+
+    if ($cache_key) {
+      $tc->set($cache_key, $html, 600);
+    }
+
+    return $html;
   }
 
 }

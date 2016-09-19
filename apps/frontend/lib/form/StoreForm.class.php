@@ -15,6 +15,10 @@ class StoreForm extends BaseForm {
 
     foreach ($meta['fields'] as $key => $field) {
       list($class, $options, $attribues) = self::getTriple($field['widget']);
+      if (array_key_exists('data-markup-set-1', $field)) {
+        $attribues['data-markup-set-1'] = UtilEmailLinks::dataMarkupSet($field['data-markup-set-1']);
+      }
+
       $widget = new $class($options, $attribues);
       if ($widget instanceof WidgetLogo && $this->getStoreValue($key))
         $widget->setOption('file_src', $widget->getOption('file_src') . '/' . $this->getStoreValue($key) . '?' . $this->getStoreVersion($key));

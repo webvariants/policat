@@ -1,4 +1,5 @@
 <?php
+
 /*
  * Copyright (c) 2016, webvariants GmbH <?php Co. KG, http://www.webvariants.de
  *
@@ -33,7 +34,7 @@ class UtilEmailValidation {
     $url_readmore = UtilPolicat::firstString(array($url_readmore_, $url_ref_));
     $from = $petition->getFrom();
     $to = $signing->getEmail();
-    $additional_subst = array(
+    $subst_base = array(
         'URL-REFERER' => $url_ref, // deprecated
         'URL-READMORE' => $url_readmore, // deprecated
         'VALIDATION' => $validation, // deprecated
@@ -43,8 +44,6 @@ class UtilEmailValidation {
         '#DISCONFIRMATION-URL#' => $delete
     );
 
-    $subst = array_merge($additional_subst, $widget->getDataOwnerSubst("\n", $petition));
-
     if ($subject_prefix) {
       $i18n = sfContext::getInstance()->getI18N();
       $i18n->setCulture($signing->getWidget()->getPetitionText()->getLanguageId());
@@ -52,7 +51,13 @@ class UtilEmailValidation {
       $subject = $translated . ' ' . $subject;
     }
 
-    UtilMail::sendWithSubst($petition->getCampaignId(), 'Signing-' . $signing->getId(), $from, $to, $subject, $body, $petition_text, $widget, $subst, $signing->getSubst());
+    $subst_escape = array_merge(
+      $subst_base, $widget->getDataOwnerSubst("\n", $petition), MediaFileTable::getInstance()->substInternalToExternal($petition), $signing->getSubst()
+    );
+
+    UtilMail::send($petition->getCampaignId(), 'Signing-' . $signing->getId(), $from, $to, $subject, $body, null,  $widget->getSubst(), $subst_escape, null, array(), array(
+        'petition' => $petition
+    ));
   }
 
 }

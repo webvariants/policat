@@ -1,4 +1,5 @@
 <?php
+
 /*
  * Copyright (c) 2016, webvariants GmbH <?php Co. KG, http://www.webvariants.de
  *
@@ -16,7 +17,7 @@ class TestmailForm extends BaseForm {
 
     $this->setWidget('from', new sfWidgetFormInputText());
     $this->setValidator('from', new ValidatorEmail(array('required' => false)));
-    
+
     $this->setWidget('to', new sfWidgetFormInputText());
     $this->setValidator('to', new ValidatorEmail());
 
@@ -24,9 +25,14 @@ class TestmailForm extends BaseForm {
     $this->setValidator('subject', new sfValidatorString());
     $this->setDefault('subject', 'Testmail ' . gmdate(DATE_RSS));
 
-    $this->setWidget('body', new sfWidgetFormTextarea());
+    $this->setWidget('body', new sfWidgetFormTextarea(array('label' => 'Body'), array(
+        'cols' => 90,
+        'rows' => 16,
+        'class' => 'markdown email-template markItUp-higher',
+        'data-markup-set-1' => UtilEmailLinks::dataMarkupSet(),
+    )));
     $this->setValidator('body', new sfValidatorString(array('min_length' => 1, 'max_length' => 500, 'required' => true)));
-    $this->setDefault('body', "Testmail " . mt_rand(10000, 99999));
+    $this->setDefault('body', "Testmail\n========\n\n " . mt_rand(10000, 99999));
   }
 
 }

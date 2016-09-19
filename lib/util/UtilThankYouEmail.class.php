@@ -46,9 +46,11 @@ class UtilThankYouEmail {
         '#UNSUBSCRIBE-URL#' => $unsubscribe
     );
 
-    $subst = array_merge($additional_subst, $widget->getDataOwnerSubst("\n", $petition));
+    $subst_escape = array_merge($additional_subst, $widget->getDataOwnerSubst("\n", $petition), $signing->getSubst());
 
-    UtilMail::sendWithSubst($campaign->getId(), 'Signing-' . $signing->getId(), $from, $to, $subject, $body, $petition_text, $widget, $subst, $signing->getSubst(), true);
+    UtilMail::send($campaign->getId(), 'Signing-' . $signing->getId(), $from, $to, $subject, $body, null, $widget->getSubst(), $subst_escape, null, array(), array(
+        'petition' => $petition
+    ));
 
     QuotaTable::getInstance()->useQuota($campaign->getQuotaId(), 1);
     $signing->setQuotaThankYouId($campaign->getQuotaId());
