@@ -201,7 +201,7 @@ class api_v2Actions extends policatActions {
           $total[$country] = $num;
         }
 
-        if (array_key_exists('unknown', $total)) {
+        if (!array_key_exists('unknown', $total)) {
           $total['unknown'] = 0;
         }
 

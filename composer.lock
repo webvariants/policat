@@ -4,8 +4,8 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "69cbf7e01ffff92f1f5c5f4f012412b4",
-    "content-hash": "f0847906597d9d2a70dd8f92fb4f4881",
+    "hash": "66e6383188b0c69014798847410b67ab",
+    "content-hash": "a64a45af4a52f9b024bec67315553311",
     "packages": [
         {
             "name": "amg-dev/amg-sentry-plugin",
@@ -455,22 +455,23 @@
         },
         {
             "name": "paypal/rest-api-sdk-php",
-            "version": "v1.3.2",
+            "version": "1.7.4",
             "source": {
                 "type": "git",
                 "url": "https://github.com/paypal/PayPal-PHP-SDK.git",
-                "reference": "0a32a6323c829e0e424e9f4d15e7b346c8472c08"
+                "reference": "d62e8db407827229c6c7aabfa54792d0113b99e4"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/paypal/PayPal-PHP-SDK/zipball/0a32a6323c829e0e424e9f4d15e7b346c8472c08",
-                "reference": "0a32a6323c829e0e424e9f4d15e7b346c8472c08",
+                "url": "https://api.github.com/repos/paypal/PayPal-PHP-SDK/zipball/d62e8db407827229c6c7aabfa54792d0113b99e4",
+                "reference": "d62e8db407827229c6c7aabfa54792d0113b99e4",
                 "shasum": ""
             },
             "require": {
                 "ext-curl": "*",
                 "ext-json": "*",
-                "php": ">=5.3.0"
+                "php": ">=5.3.0",
+                "psr/log": "1.0.0"
             },
             "require-dev": {
                 "phpunit/phpunit": "3.7.*"
@@ -492,14 +493,14 @@
                 }
             ],
             "description": "PayPal's PHP SDK for REST APIs",
-            "homepage": "https://github.com/paypal/rest-api-sdk-php",
+            "homepage": "http://paypal.github.io/PayPal-PHP-SDK/",
             "keywords": [
                 "payments",
                 "paypal",
                 "rest",
                 "sdk"
             ],
-            "time": "2015-03-18 20:40:42"
+            "time": "2016-07-15 20:42:18"
         },
         {
             "name": "phenx/php-font-lib",
@@ -534,6 +535,44 @@
             "description": "A library to read, parse, export and make subsets of different types of font files.",
             "homepage": "https://github.com/PhenX/php-font-lib",
             "time": "2014-02-01 15:22:28"
+        },
+        {
+            "name": "psr/log",
+            "version": "1.0.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/php-fig/log.git",
+                "reference": "fe0936ee26643249e916849d48e3a51d5f5e278b"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/php-fig/log/zipball/fe0936ee26643249e916849d48e3a51d5f5e278b",
+                "reference": "fe0936ee26643249e916849d48e3a51d5f5e278b",
+                "shasum": ""
+            },
+            "type": "library",
+            "autoload": {
+                "psr-0": {
+                    "Psr\\Log\\": ""
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "PHP-FIG",
+                    "homepage": "http://www.php-fig.org/"
+                }
+            ],
+            "description": "Common interface for logging libraries",
+            "keywords": [
+                "log",
+                "psr",
+                "psr-3"
+            ],
+            "time": "2012-12-21 11:40:51"
         },
         {
             "name": "raven/raven",
