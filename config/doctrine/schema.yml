@@ -300,7 +300,7 @@ Petition:
     pledge_info_columns:     { type: clob, notnull: false }
     activity_at:             { type: timestamp, notnull: false, default: null }
     widget_individualise:    { type: integer(1), notnull: true, default: 1 }
-    style_font_family:       { type: string(80), notnull: true, default: '"Lucida Sans Unicode", Vardana, Arial' }
+    style_font_family:       { type: string(80), notnull: true, default: '"Lucida Sans Unicode", Verdana, Arial' }
     style_title_color:       { type: string(7), notnull: true, default: '#181716' }
     style_body_color:        { type: string(7), notnull: true, default: '#666666' }
     style_button_color:      { type: string(7), notnull: true, default: '#76b235' }

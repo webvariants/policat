@@ -508,7 +508,7 @@ abstract class BasePetition extends myDoctrineRecord
         $this->hasColumn('style_font_family', 'string', 80, array(
              'type' => 'string',
              'notnull' => true,
-             'default' => '"Lucida Sans Unicode", Vardana, Arial',
+             'default' => '"Lucida Sans Unicode", Verdana, Arial',
              'length' => 80,
              ));
         $this->hasColumn('style_title_color', 'string', 7, array(
