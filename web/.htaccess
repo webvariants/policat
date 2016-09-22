@@ -38,7 +38,7 @@ Options +FollowSymLinks +ExecCGI
   RewriteRule ^pledge/\d+/\d+/.{15}$ widget.php [L]
   RewriteRule ^pledge/\d+/test$ widget.php [L]
   RewriteRule ^signers/[1-9]\d*/[1-9]\d*$ widget.php [L]
-  RewriteRule ^api/v2/incomming/bounce$ widget.php? [L]
+  RewriteRule ^api/v2/incomming/((bounce)|(blocked)|(mixed))$ widget.php? [L]
 
   # frontend routes
   RewriteRule ^$ frontend.php [QSA,L]

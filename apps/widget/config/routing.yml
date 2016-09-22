@@ -133,6 +133,14 @@ api_incomming_bounce:
   url: /api/v2/incomming/bounce
   param: { module: api_v2_incomming, action: bounce }
 
+api_incomming_blocked:
+  url: /api/v2/incomming/blocked
+  param: { module: api_v2_incomming, action: blocked }
+
+api_incomming_mixed:
+  url: /api/v2/incomming/mixed
+  param: { module: api_v2_incomming, action: mixed }
+
 terms:            { url: '/terms',                  param: { module: default, action: error404 } }
 contact:          { url: '/contact',                param: { module: default, action: error404 } }
 widgetval:        { url: '/widgetval/:code',        param: { module: default, action: error404 } }

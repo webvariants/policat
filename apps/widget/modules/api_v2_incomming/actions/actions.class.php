@@ -52,13 +52,57 @@ class api_v2_incommingActions extends policatActions {
     return $this->renderJson(array('status' => 'ok'));
   }
 
-  private function handleBounceData($data, $config, $time) {
+  /**
+   * Block
+   *
+   * @param sfRequest $request A request object
+   */
+  public function executeBlocked(sfWebRequest $request) {
+    $response = $this->getResponse();
+    if ($response instanceof sfWebResponse) {
+      $response->addCacheControlHttpHeader('no-cache');
+    }
+
+    $this->checkAuthToken();
+
+    $time = time();
+    $data = $this->getJsonRequestData(false);
+
+    $config = $this->getBlockedConfig();
+    if (!$config || !$data) {
+      return $this->renderJson(array('status' => 'no data'));
+    }
+
+    if ($config['grouping']) {
+      foreach ($data as $data_i) {
+        if (is_array($data_i)) {
+          $this->handleBlockedData($data_i, $config, $time);
+        }
+      }
+    } else {
+      $this->handleBlockedData($data, $config, $time);
+    }
+
+    return $this->renderJson(array('status' => 'ok'));
+  }
+
+  private function isMatch($config, $data, $required = false) {
     if ($config['match'] && is_array($config['match'])) {
       foreach ($config['match'] as $key => $value) {
         if (!array_key_exists($key, $data) || $data[$key] !== $value) {
           return false;
         }
       }
+
+      return true;
+    }
+
+    return !$required;
+  }
+
+  private function handleBounceData($data, $config, $time, $match_required = false) {
+    if (!$this->isMatch($config, $data, $match_required)) {
+      return false;
     }
 
     $emailField = $config['email'];
@@ -74,9 +118,34 @@ class api_v2_incommingActions extends policatActions {
     $error_related_to = $config['error_related_to'] && array_key_exists($config['error_related_to'], $data) && is_scalar($data[$config['error_related_to']]) ? $data[$config['error_related_to']] : null;
     $error = $config['error'] && array_key_exists($config['error'], $data) && is_scalar($data[$config['error']]) ? $data[$config['error']] : null;
 
+    return $this->persist($config, $id, $email, $campaign, $blocked, $hard_bounce, $error_related_to, $error, $time);
+  }
+
+  private function handleBlockedData($data, $config, $time, $match_required = false) {
+    if (!$this->isMatch($config, $data, $match_required)) {
+      return false;
+    }
+
+    $emailField = $config['email'];
+    if (!$emailField) {
+      return false;
+    }
+
+    $email = array_key_exists($emailField, $data) && is_string($data[$emailField]) ? $data[$emailField] : null;
+    $id = $config['id'] && array_key_exists($config['id'], $data) && is_string($data[$config['id']]) ? $data[$config['id']] : null;
+    $campaign = $config['campaign'] && array_key_exists($config['campaign'], $data) && is_string($data[$config['campaign']]) ? $data[$config['campaign']] : null;
+    $blocked = true;
+    $hard_bounce = false;
+    $error_related_to = $config['error_related_to'] && array_key_exists($config['error_related_to'], $data) && is_scalar($data[$config['error_related_to']]) ? $data[$config['error_related_to']] : null;
+    $error = $config['error'] && array_key_exists($config['error'], $data) && is_scalar($data[$config['error']]) ? $data[$config['error']] : null;
+
+    return $this->persist($config, $id, $email, $campaign, $blocked, $hard_bounce, $error_related_to, $error, $time);
+  }
+
+  private function persist($config, $id, $email, $campaign, $blocked, $hard_bounce, $error_related_to, $error, $time) {
     if ($config['log_file']) {
       $dir = sfConfig::get('sf_log_dir');
-      file_put_contents($dir . '/' . $config['log_file'], date('Y-m-d H:i:s') . " $email, id: $id, camapign: $campaign, blocked: $blocked, hard: $hard_bounce, related: $error_related_to, error: $error\n", FILE_APPEND);
+      file_put_contents($dir . '/' . $config['log_file'], date('Y-m-d H:i:s', $time) . " $email, id: $id, camapign: $campaign, blocked: $blocked, hard: $hard_bounce, related: $error_related_to, error: $error\n", FILE_APPEND);
     }
 
     $campaign_prefix = $config['campaign_prefix'];
@@ -208,8 +277,62 @@ class api_v2_incommingActions extends policatActions {
     return $bounce;
   }
 
+  private function getBlockedConfig() {
+    $api = sfConfig::get('app_mail_api');
+    if (!is_array($api) || !array_key_exists('blocked', $api) || !is_array($api['blocked'])) {
+      return false;
+    }
+
+    $block = $api['blocked'];
+
+    foreach (array('match', 'token', 'grouping', 'log_file', 'email', 'id', 'campaign', 'campaign_prefix', 'error_related_to', 'error') as $field) {
+      if (!array_key_exists($field, $block)) {
+        $block[$field] = null;
+      }
+    }
+
+    return $block;
+  }
+
   private function equalEmail($a, $b) {
     return strcasecmp(trim($a), trim($b)) === 0;
+  }
+
+  /**
+   * Mixed
+   *
+   * @param sfRequest $request A request object
+   */
+  public function executeMixed(sfWebRequest $request) {
+    $response = $this->getResponse();
+    if ($response instanceof sfWebResponse) {
+      $response->addCacheControlHttpHeader('no-cache');
+    }
+
+    $this->checkAuthToken();
+
+    $time = time();
+    $data = $this->getJsonRequestData(false);
+    if (!$data) {
+      return $this->renderJson(array('status' => 'no data'));
+    }
+
+    $config_bounce = $this->getBounceConfig();
+    $config_blocked = $this->getBlockedConfig();
+
+    foreach ($data as $data_i) {
+      if (is_array($data_i)) {
+        if ($config_bounce) {
+          $this->handleBounceData($data_i, $config_bounce, $time, true);
+        }
+        if ($config_blocked) {
+          $this->handleBlockedData($data_i, $config_blocked, $time, true);
+        }
+      }
+    }
+
+
+    return $this->renderJson(array('status' => 'ok'));
   }
 
 }

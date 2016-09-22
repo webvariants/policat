@@ -44,6 +44,17 @@ all:
 #        hard_bounce: hard_bounce                # optional, but important
 #        error_related_to: error_related_to      # optional
 #        error: error                            # optional
+#      blocked:  # is always tracked as blocked = true, hard_bounce = false
+#        log_file: 'blocked.log'                  # optional
+#        grouping: true                          # optional, allow multiple events as array
+#        match:                                  # optional
+#          event: blocked
+#        id: CustomID                            # required
+#        campaign: customcampaign                # required
+#        campaign_prefix: testing                # optional
+#        email: email                            # optional
+#        error_related_to: error_related_to      # optional
+#        error: error                            # optional
 
 #prod:
 #  amg_sentry:
