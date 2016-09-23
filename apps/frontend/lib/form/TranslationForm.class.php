@@ -37,16 +37,30 @@ class TranslationForm extends BasePetitionTextForm {
     $this->setWidget('form_title', new sfWidgetFormInput(array('label' => 'Widget heading'), array('size' => 90, 'class' => 'large', 'placeholder' => 'Leave this field empty to use standard texts.')));
     $this->getWidgetSchema()->setHelp('form_title', 'You may customise the widget heading above the sign-up form (optional). Leave this field empty to use standard texts.');
 
+    $mediaMarkupSet = MediaFileTable::getInstance()->dataMarkupSet($petition);
+
     $this->setWidget('title', new sfWidgetFormInput(array(), array('size' => 90, 'class' => 'large', 'placeholder' => 'Optional (you may leave this field empty). Add here a short and movtivating action title.')));
-    $this->setWidget('target', new sfWidgetFormTextarea(array('label' => 'Subtitle'), array('cols' => 90, 'rows' => 3, 'class' => 'markdown', 'placeholder' => 'Optional (you may leave this field empty). Add here a short contextual introduction, or name the targets of your action (e.g. "To the heads of states of the European Union". Keep it very short!')));
+    $this->setWidget('target', new sfWidgetFormTextarea(array('label' => 'Subtitle'), array(
+        'cols' => 90,
+        'rows' => 3,
+        'class' => 'markdown',
+        'placeholder' => 'Optional (you may leave this field empty). Add here a short contextual introduction, or name the targets of your action (e.g. "To the heads of states of the European Union". Keep it very short!',
+        'data-markup-set-1' => $mediaMarkupSet
+    )));
     $this->getValidator('target')->setOption('required', false)->setOption('trim', true);
-    $this->setWidget('background', new sfWidgetFormTextarea(array(), array('cols' => 90, 'rows' => 5, 'class' => 'markdown', 'placeholder' => 'Optional (you may leave this field empty). Add here further contextual information about this action. You may add external media files (make sure they are hosted on a server with an encrypted SSL connection).')));
+    $this->setWidget('background', new sfWidgetFormTextarea(array(), array(
+        'cols' => 90,
+        'rows' => 5,
+        'class' => 'markdown',
+        'placeholder' => 'Optional (you may leave this field empty). Add here further contextual information about this action. You may add external media files (make sure they are hosted on a server with an encrypted SSL connection).',
+        'data-markup-set-1' => $mediaMarkupSet
+    )));
 
     $this->setWidget('read_more_url', new sfWidgetFormInput(array('label' => '"Read more" link'), array(
         'size' => 90,
         'class' => 'add_popover large',
         'data-content' => 'Enter the URL of your campaign site for this language, including "https://" or https://www. ". A "Read more" link will appear underneath your e-action. Leave empty for standard "Read more" page.',
-        'placeholder' => $petition->getReadMoreUrl() ? :  'https://www.example.com/-language-/info'
+        'placeholder' => $petition->getReadMoreUrl() ? : 'https://www.example.com/-language-/info'
     )));
     $this->setValidator('read_more_url', new ValidatorUrl(array('required' => false)));
 
@@ -59,9 +73,27 @@ class TranslationForm extends BasePetitionTextForm {
     $this->setValidator('landing_url', new ValidatorUrl(array('required' => false, 'trim' => true)));
 
     if (!$petition->isEmailKind()) {
-      $this->setWidget('intro', new sfWidgetFormTextarea(array('label' => 'Introductory part'), array('cols' => 90, 'rows' => 5, 'class' => 'markdown', 'placeholder' => 'The petition text will be split into 3 parts. This part (the intro) and the last part (the footer) should contain contextual information, e. g. references to the political addressee or to a specific event. Your partners and supporters will be able to modify this text for their own widgets. Put the relevant parts of your message into the 2. part of the petition (the body).')));
-      $this->setWidget('body', new sfWidgetFormTextarea(array('label' => 'Main part'), array('cols' => 90, 'rows' => 30, 'class' => 'markdown', 'placeholder' => 'Put the relevant parts of your message into this part of the petition (the body). This text will remain the same throughout all widgets created for this campaign. Choose this text carefully. It should be as brief as possible.')));
-      $this->setWidget('footer', new sfWidgetFormTextarea(array('label' => 'Closing part'), array('cols' => 90, 'rows' => 5, 'class' => 'markdown', 'placeholder' => 'Insert a closing rate here, e. g. a reference to a specific event, your petition hand-over action or simply a complimentary close.')));
+      $this->setWidget('intro', new sfWidgetFormTextarea(array('label' => 'Introductory part'), array(
+          'cols' => 90,
+          'rows' => 5,
+          'class' => 'markdown',
+          'placeholder' => 'The petition text will be split into 3 parts. This part (the intro) and the last part (the footer) should contain contextual information, e. g. references to the political addressee or to a specific event. Your partners and supporters will be able to modify this text for their own widgets. Put the relevant parts of your message into the 2. part of the petition (the body).',
+          'data-markup-set-1' => $mediaMarkupSet
+      )));
+      $this->setWidget('body', new sfWidgetFormTextarea(array('label' => 'Main part'), array(
+          'cols' => 90,
+          'rows' => 30,
+          'class' => 'markdown',
+          'placeholder' => 'Put the relevant parts of your message into this part of the petition (the body). This text will remain the same throughout all widgets created for this campaign. Choose this text carefully. It should be as brief as possible.',
+          'data-markup-set-1' => $mediaMarkupSet
+      )));
+      $this->setWidget('footer', new sfWidgetFormTextarea(array('label' => 'Closing part'), array(
+          'cols' => 90,
+          'rows' => 5,
+          'class' => 'markdown',
+          'placeholder' => 'Insert a closing rate here, e. g. a reference to a specific event, your petition hand-over action or simply a complimentary close.',
+          'data-markup-set-1' => $mediaMarkupSet
+      )));
       $this->getValidator('intro')->setOption('required', false);
       $this->getValidator('body')->setOption('required', true);
       $this->getValidator('footer')->setOption('required', false);
@@ -111,7 +143,7 @@ class TranslationForm extends BasePetitionTextForm {
         'rows' => 16,
         'class' => 'markdown highlight email-template markItUp-higher',
         'data-markup-set-1' => UtilEmailLinks::dataMarkupSet(array(UtilEmailLinks::VALIDATION, UtilEmailLinks::DISCONFIRMATION, UtilEmailLinks::REFERER, UtilEmailLinks::READMORE)),
-        'data-markup-set-2' => MediaFileTable::getInstance()->dataMarkupSet($petition)
+        'data-markup-set-2' => $mediaMarkupSet
     )));
     $this->setValidator('email_validation_body', new ValidatorKeywords(array('required' => true, 'keywords' => array('#VALIDATION-URL#'))));
     $this->getWidgetSchema()->setHelp('email_validation_body', '#VALIDATION-URL#, #DISCONFIRMATION-URL#,' . $email_keywords);
@@ -237,12 +269,12 @@ class TranslationForm extends BasePetitionTextForm {
     if ($petition->getThankYouEmail() == Petition::THANK_YOU_EMAIL_YES) {
       $this->setWidget('thank_you_email_subject', new sfWidgetFormInput(array('label' => 'Thank-You Email Subject'), array('size' => 90, 'class' => 'large')));
       $this->setWidget('thank_you_email_body', new sfWidgetFormTextarea(array('label' => 'Thank-You Email Body'), array(
-        'cols' => 90,
-        'rows' => 16,
-        'class' => 'markdown highlight email-template markItUp-higher',
-        'data-markup-set-1' => UtilEmailLinks::dataMarkupSet(array(UtilEmailLinks::UNSUBSCRIBE, UtilEmailLinks::REFERER, UtilEmailLinks::READMORE)),
-        'data-markup-set-2' => MediaFileTable::getInstance()->dataMarkupSet($petition)
-    )));
+          'cols' => 90,
+          'rows' => 16,
+          'class' => 'markdown highlight email-template markItUp-higher',
+          'data-markup-set-1' => UtilEmailLinks::dataMarkupSet(array(UtilEmailLinks::UNSUBSCRIBE, UtilEmailLinks::REFERER, UtilEmailLinks::READMORE)),
+          'data-markup-set-2' => $mediaMarkupSet
+      )));
       $this->getWidgetSchema()->setHelp('thank_you_email_body', '#UNSUBSCRIBE-URL#, ' . $email_keywords);
     } else {
       unset($this['thank_you_email_subject'], $this['thank_you_email_body']);

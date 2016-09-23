@@ -1,4 +1,5 @@
 <?php
+
 /*
  * Copyright (c) 2016, webvariants GmbH <?php Co. KG, http://www.webvariants.de
  *
@@ -113,12 +114,36 @@ class EditWidgetForm extends WidgetForm {
       $this->setDefault('styling_font_family', $this->getObject()->getStyling('font_family', ''));
     }
 
-    $this->setWidget('target', new sfWidgetFormTextarea(array('label' => 'Subtitle'), array('cols' => 90, 'rows' => 3, 'class' => 'markdown', 'placeholder' => 'Optional (you may leave this field empty). Add here a short contextual introduction, or name the targets of your action (e.g. "To the heads of states of the European Union". Keep it very short!')));
+    $mediaMarkupSet = MediaFileTable::getInstance()->dataMarkupSet($petition);
 
-    $this->setWidget('background', new sfWidgetFormTextarea(array(), array('cols' => 90, 'rows' => 5, 'class' => 'markdown', 'placeholder' => 'Optional (you may leave this field empty). Add here further contextual information about this action. You may add external media files (make sure they are hosted on a server with an encrypted SSL connection).')));
+    $this->setWidget('target', new sfWidgetFormTextarea(array('label' => 'Subtitle'), array(
+        'cols' => 90,
+        'rows' => 3,
+        'class' => 'markdown',
+        'placeholder' => 'Optional (you may leave this field empty). Add here a short contextual introduction, or name the targets of your action (e.g. "To the heads of states of the European Union". Keep it very short!',
+        'data-markup-set-1' => $mediaMarkupSet
+    )));
+
+    $this->setWidget('background', new sfWidgetFormTextarea(array(), array(
+        'cols' => 90,
+        'rows' => 5,
+        'class' => 'markdown',
+        'placeholder' => 'Optional (you may leave this field empty). Add here further contextual information about this action. You may add external media files (make sure they are hosted on a server with an encrypted SSL connection).',
+        'data-markup-set-1' => $mediaMarkupSet
+    )));
     if (!$petition->isEmailKind()) {
-      $this->setWidget('intro', new sfWidgetFormTextarea(array('label' => 'Introductory part'), array('cols' => 90, 'rows' => 5, 'class' => 'markdown')));
-      $this->setWidget('footer', new sfWidgetFormTextarea(array('label' => 'Closing part'), array('cols' => 90, 'rows' => 5, 'class' => 'markdown')));
+      $this->setWidget('intro', new sfWidgetFormTextarea(array('label' => 'Introductory part'), array(
+          'cols' => 90,
+          'rows' => 5,
+          'class' => 'markdown',
+          'data-markup-set-1' => $mediaMarkupSet
+      )));
+      $this->setWidget('footer', new sfWidgetFormTextarea(array('label' => 'Closing part'), array(
+          'cols' => 90,
+          'rows' => 5,
+          'class' => 'markdown',
+          'data-markup-set-1' => $mediaMarkupSet
+      )));
       $this->getValidator('intro')->setOption('required', false);
       $this->getValidator('footer')->setOption('required', false);
       unset($this['email_subject'], $this['email_body']);

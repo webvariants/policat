@@ -7,6 +7,8 @@
  */
 class MediaFileTable extends Doctrine_Table {
 
+  private $cache_subst = array();
+
   /**
    * Returns an instance of this class.
    *
@@ -60,6 +62,10 @@ class MediaFileTable extends Doctrine_Table {
   }
 
   public function substInternalToExternal(Petition $petition, $subst = array()) {
+    if (array_key_exists($petition->getId(), $this->cache_subst)) {
+      return $this->cache_subst[$petition->getId()];
+    }
+
     $files = $this->queryFilesByPetition($petition)->execute();
 
     $home = rtrim(sfContext::getInstance()->getRouting()->generate('homepage', array(), true), '/');
@@ -67,6 +73,8 @@ class MediaFileTable extends Doctrine_Table {
     foreach ($files as $file) { /* @var $file MediaFile */
       $subst['/media/' . $petition->getId() . '/' . $file->getTitle()] = $home . $file->getUrl();
     }
+
+    $this->cache_subst[$petition->getId()] = $subst;
 
     return $subst;
   }

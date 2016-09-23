@@ -67,7 +67,7 @@ else:
         $value = ($widget_texts && isset($widget[$field])) ? $widget[$field] : $petition_text[$field];
         $markdown[] = $value;
       }
-      echo trim(UtilMarkdown::transform(implode("\n\n", $markdown)), "\n") . "\n";
+      echo trim(UtilMarkdown::transformMedia(implode("\n\n", $markdown), $petition), "\n") . "\n";
       ?>
     </div>
   </div>

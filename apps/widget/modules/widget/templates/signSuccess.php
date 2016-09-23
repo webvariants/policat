@@ -53,7 +53,7 @@ if (is_array($target_selectors)) {
             <?php if ($title || $target): ?>
               <div class="header">
                   <?php if ($title): ?><h1 class="action-title"><?php echo Util::enc($title) ?></h1><?php endif ?>
-                  <?php if ($target): ?><div class="subtitle"><?php echo UtilMarkdown::transform($target) ?></div><?php endif ?>
+                  <?php if ($target): ?><div class="subtitle"><?php echo UtilMarkdown::transformMedia($target, $petition) ?></div><?php endif ?>
               </div>
             <?php endif ?>
             <div class="widget-body">
@@ -63,7 +63,7 @@ if (is_array($target_selectors)) {
                             <div id="head" class="head">
                                 <h1 class="form-title title-color"><?php echo trim(Util::enc($petition_text->getFormTitle(), array('\n' => '<br />'))) ? : __($petition->getLabel(PetitionTable::LABEL_TITLE)) ?></h1>
                                 <?php if ($title): ?><h1 class="action-title font-size-auto"><?php echo Util::enc($title) ?></h1><?php endif ?>
-                                <?php if ($target): ?><div class="subtitle"><?php echo UtilMarkdown::transform($target) ?></div><?php endif ?>
+                                <?php if ($target): ?><div class="subtitle"><?php echo UtilMarkdown::transformMedia($target, $petition) ?></div><?php endif ?>
                             </div>
                             <a id="down-button" class="button-color down-button button-btn"><?php echo __($petition->getLabel(PetitionTable::LABEL_TITLE)) ?></a>
                             <?php
@@ -89,7 +89,7 @@ if (is_array($target_selectors)) {
                                           <div class="tab-alternate"><a class="readmore to-right-tab"><?php echo __('Read more') ?></a></div>
                                       </div>
                                       <div class="right-tab">
-                                          <?php echo UtilMarkdown::transform($background); ?>
+                                          <?php echo UtilMarkdown::transformMedia($background, $petition); ?>
                                           <br />
                                           <div class="tab-alternate"><a class="to-left-tab tab-back"><?php echo __('Back') ?></a></div>
                                           <?php if (is_string($read_more_url) && strlen($read_more_url) > 6): ?>
