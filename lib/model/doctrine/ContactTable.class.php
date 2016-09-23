@@ -268,4 +268,11 @@ class ContactTable extends Doctrine_Table {
 
     return $query;
   }
+
+  public function hasBouncedContacts($mailing_list_id) {
+    return $this->createQuery('c')
+      ->where('c.mailing_list_id = ?', $mailing_list_id)
+      ->andWhere('c.bounce != 0')
+      ->count();
+  }
 }

@@ -700,7 +700,12 @@ class targetActions extends policatActions {
         return $this->ajax()->alert('CSRF Attack detected, please relogin.', 'Error', '#contact_delete_modal .modal-body')->render();
 
       $id = $contact->getId();
+      $ml = $contact->getMailingList();
+
       $contact->delete();
+
+      $ml->removeObsolteBouceTicket();
+
       return $this->ajax()->remove('#contact_' . $id)->modal('#contact_delete_modal', 'hide')->render();
     }
 

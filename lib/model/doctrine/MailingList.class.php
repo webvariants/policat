@@ -124,4 +124,15 @@ class MailingList extends BaseMailingList {
     return $choices;
   }
 
+  public function removeObsolteBouceTicket() {
+
+    if (!ContactTable::getInstance()->hasBouncedContacts($this->getId())) {
+
+      TicketTable::getInstance()->removeTickets(array(
+          TicketTable::CREATE_TARGET_LIST => $this,
+          TicketTable::CREATE_KIND => TicketTable::KIND_TARGET_LIST_BOUNCE,
+      ));
+    }
+  }
+
 }

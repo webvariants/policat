@@ -1,4 +1,5 @@
 <?php
+
 /*
  * Copyright (c) 2016, webvariants GmbH <?php Co. KG, http://www.webvariants.de
  *
@@ -90,7 +91,6 @@ class TicketTable extends Doctrine_Table {
       self::KIND_WIDGET_CREATED => 'none',
       self::KIND_TARGET_LIST_BOUNCE => 'none',
   );
-  
   static $KIND_HANDLER_DENY = array(
       self::KIND_DEFAULT => 'default',
       self::KIND_JOIN_CAMPAIGN => 'none',
@@ -109,8 +109,7 @@ class TicketTable extends Doctrine_Table {
       self::KIND_WIDGET_CREATED => 'widgetDeny',
       self::KIND_TARGET_LIST_BOUNCE => 'none',
   );
-  
-    static $KIND_TEMPLATE = array(
+  static $KIND_TEMPLATE = array(
       self::KIND_DEFAULT => 'Default (#DATE#)',
       self::KIND_JOIN_CAMPAIGN => '#FROM# wants to be member of the campaign #CAMPAIGN#. (#DATE#)',
       self::KIND_JOIN_PETITION => '#FROM# wants to be member of the action #PETITION#. (#DATE#)',
@@ -246,7 +245,7 @@ class TicketTable extends Doctrine_Table {
       $ors[] = 't.campaign_id IN ?';
       $params[] = $campaign_admin_ids;
     }
-    
+
     if ($user->hasPermission(myUser::CREDENTIAL_ADMIN)) {
       $ors[] = '(t.petition_id IS NULL AND t.campaign_id IS NULL AND t.to_id IS NULL)';
     }
@@ -295,6 +294,26 @@ class TicketTable extends Doctrine_Table {
       $query->andWhere('t.id != ?', $not_id);
 
     return $query;
+  }
+
+  public function removeTickets($options = array()) {
+    if (count($options) < 2) {
+      throw new \Exception('missing options');
+    }
+
+    $query = $this->createQuery('t');
+
+    $query->andWhereIn('t.status', array(TicketTable::STATUS_NEW, TicketTable::STATUS_READ, TicketTable::STATUS_WAIT));
+
+    if (array_key_exists(TicketTable::CREATE_KIND, $options)) {
+      $query->andWhere('t.kind = ?', $options[TicketTable::CREATE_KIND]);
+    }
+
+    if (array_key_exists(TicketTable::CREATE_TARGET_LIST, $options)) {
+      $query->andWhere('t.target_list_id = ?', $options[TicketTable::CREATE_TARGET_LIST]->getId());
+    }
+
+    $query->delete()->execute();
   }
 
 }

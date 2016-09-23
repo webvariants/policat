@@ -19,6 +19,8 @@
  */
 class ContactForm extends BaseContactForm {
 
+  private $removedBounce = false;
+
   public function configure() {
     $this->widgetSchema->setFormFormatterName('bootstrap');
     $this->widgetSchema->setNameFormat('contact_' . $this->getObject()->getId() . '_[%s]');
@@ -117,6 +119,8 @@ class ContactForm extends BaseContactForm {
         $values['bounce_hard'] = 0;
         $values['bounce_related_to'] = null;
         $values['bounce_error'] = null;
+
+        $this->removedBounce = true;
       }
     }
 
@@ -182,6 +186,17 @@ class ContactForm extends BaseContactForm {
         $contact_meta->save($con);
       }
     }
+  }
+
+  public function save($con = null) {
+    $object = parent::save($con);
+    /* @var $object Contact */
+
+    if ($this->removedBounce) {
+      $object->getMailingList()->removeObsolteBouceTicket();
+    }
+
+    return $object;
   }
 
 }
