@@ -1,4 +1,5 @@
 <?php
+
 /*
  * Copyright (c) 2016, webvariants GmbH <?php Co. KG, http://www.webvariants.de
  *
@@ -81,7 +82,6 @@ class Petition extends BasePetition {
       self::NAMETYPE_SPLIT => 'firstname, lastname',
       self::NAMETYPE_FULL => 'Fullname'
   );
-
   static $STATUS_SHOW = array
       (
       self::STATUS_DRAFT => 'draft',
@@ -623,4 +623,13 @@ class Petition extends BasePetition {
 
     return PetitionTable::$LABELS[$mode][$type];
   }
+
+  public function forceUpdate() {
+    // force widget update, ->state(Doctrine_Record::STATE_DIRTY) does not work
+    $name = $this->getName();
+    $this->setName('_' . $name);
+    $this->setName($name);
+    $this->save();
+  }
+
 }

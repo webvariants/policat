@@ -74,6 +74,8 @@ class MediaFileTable extends Doctrine_Table {
       $subst['/media/' . $petition->getId() . '/' . $file->getTitle()] = $home . $file->getUrl();
     }
 
+    $subst['/media/' . $petition->getId() . '/'] = '/images/pixel.png#'; // link broken images to transparent pixel
+
     $this->cache_subst[$petition->getId()] = $subst;
 
     return $subst;
