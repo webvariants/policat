@@ -40,13 +40,15 @@ class UtilThankYouEmail {
     $url_readmore = UtilPolicat::firstString(array($url_readmore_, $url_ref_));
     $from = $petition->getFrom();
     $to = $signing->getEmail();
-    $additional_subst = array(
+    $subst_base = array(
         '#REFERER-URL#' => $url_ref,
         '#READMORE-URL#' => $url_readmore,
         '#UNSUBSCRIBE-URL#' => $unsubscribe
     );
 
-    $subst_escape = array_merge($additional_subst, $widget->getDataOwnerSubst("\n", $petition), $signing->getSubst());
+    $subst_escape = array_merge(
+      $subst_base, $widget->getDataOwnerSubst("\n", $petition), MediaFileTable::getInstance()->substInternalToExternal($petition), $signing->getSubst()
+    );
 
     UtilMail::send($campaign->getId(), 'Signing-' . $signing->getId(), $from, $to, $subject, $body, null, $widget->getSubst(), $subst_escape, null, array(), array(
         'petition' => $petition
