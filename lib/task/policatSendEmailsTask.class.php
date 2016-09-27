@@ -59,6 +59,9 @@ class policatSendEmailsTask extends sfBaseTask {
       $diff = $time - $start_time;
 
       $wait = ($options['time-limit'] - $diff) % $options['time-limit'];
+      if ($wait < 0) {
+        $wait = $wait + $options['time-limit'];
+      }
       if ($wait === 0) {
         $wait = $options['time-limit'];
       }

@@ -1,4 +1,4 @@
-<?php if ($form): ?>
+<?php if (isset($form)): ?>
   <div id="petition_follow" class="well">
       <h3>Admin functions</h3>
       <form method="post" action="<?php echo url_for('petition_follow', array('id' => $form->getObject()->getId())) ?>" class="ajax_form form-horizontal">
