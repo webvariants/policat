@@ -48,6 +48,10 @@ class MediaFileTable extends Doctrine_Table {
       );
     }
 
+    if (!$menu) {
+      return json_encode(array());
+    }
+
     return json_encode(array(
         array('name' => 'Images', 'className' => 'policat-media', 'dropMenu' => $menu
         )
