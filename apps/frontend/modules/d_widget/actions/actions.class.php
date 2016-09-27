@@ -71,6 +71,7 @@ class d_widgetActions extends policatActions {
       $widget->setCampaignId($petition->getCampaignId());
       $widget->setUser($this->getGuardUser());
       $widget->setShare($petition->getShare());
+      $widget->setThemeId($petition->getThemeId());
 
       $this->ajax()->setAlertTarget('#new_widget', 'after');
 

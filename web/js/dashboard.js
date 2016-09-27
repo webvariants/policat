@@ -37,6 +37,8 @@ var tryEdits = function(prefix) {
 			var html = converter.makeHtml(content);
 			if (template === 'email') {
 				html = '<link type="text/css" rel="stylesheet" href="/css/email.css" /><div class="spacer10"></div><div class="main-out"><div class="main-in"><div class="main-start"></div>' + html + '</div></div><div class="spacer10"></div>';
+			} else {
+				html = '<style>body { font-family: "Helvetica Neue",Helvetica,Arial,sans-serif; font-size: 14px; }</style>' + html;
 			}
 			return html;
 		};
