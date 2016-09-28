@@ -588,14 +588,14 @@ class PetitionSigningTable extends Doctrine_Table {
 
     switch ($order) {
       case 'name_asc':
-        if ($name_type === Petition::NAMETYPE_SPLIT) {
+        if ($name_type == Petition::NAMETYPE_SPLIT) {
           $query->orderBy('ps.lastname ASC, ps.id ASC');
         } else {
           $query->orderBy('ps.fullname ASC, ps.id ASC');
         }
         break;
       case 'name_desc':
-        if ($name_type === Petition::NAMETYPE_SPLIT) {
+        if ($name_type == Petition::NAMETYPE_SPLIT) {
           $query->orderBy('ps.lastname DESC, ps.id DESC');
         } else {
           $query->orderBy('ps.fullname DESC, ps.id DESC');
