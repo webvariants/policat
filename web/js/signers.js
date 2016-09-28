@@ -142,7 +142,7 @@ document.addEventListener('DOMContentLoaded', function () {
 						addHeadRow(t2);
 						t2.appendChild(table_body);
 						var tr = e('tr');
-						table_single_td = e('td');
+						table_single_td = e('td', null, 'signers-list');
 						table_body.appendChild(tr);
 						table_single_td.setAttribute('colspan', 2);
 						tr.appendChild(table_single_td);
