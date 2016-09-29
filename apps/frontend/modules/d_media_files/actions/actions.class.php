@@ -74,6 +74,7 @@ class d_media_filesActions extends policatActions {
       $this->ajax()->redirectRotue('media_files_list', array('id' => $petition->getId()));
       $media_file->delete();
       $petition->forceUpdate();
+      MediaFileTable::getInstance()->clearResultCachePetition($petition);
 
       return $this->ajax()->render();
     }
@@ -108,6 +109,7 @@ class d_media_filesActions extends policatActions {
 
       $form->save();
       $petition->forceUpdate();
+      MediaFileTable::getInstance()->clearResultCachePetition($petition);
 
       return $this->ajax()->redirectRotue('media_files_list', array('id' => $petition->getId()))->render();
     }
@@ -132,6 +134,7 @@ class d_media_filesActions extends policatActions {
 
     $form->save();
     $petition->forceUpdate();
+    MediaFileTable::getInstance()->clearResultCachePetition($petition);
 
     return $this->ajax()->redirectRotue('media_files_list', array('id' => $petition->getId()))->render(true);
   }

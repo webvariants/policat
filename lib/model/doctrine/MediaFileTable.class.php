@@ -62,7 +62,11 @@ class MediaFileTable extends Doctrine_Table {
     return $this->createQuery()
         ->where('petition_id = ?', $petition->getId())
         ->orderBy('title asc')
-        ->useResultCache();
+        ->useResultCache(true, 600);
+  }
+
+  public function clearResultCachePetition(Petition $petition) {
+    $this->queryFilesByPetition($petition)->clearResultCache();
   }
 
   public function substInternalToExternal(Petition $petition, $subst = array()) {
