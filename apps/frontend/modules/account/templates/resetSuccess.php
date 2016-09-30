@@ -1,7 +1,7 @@
 <div class="page-header">
   <h1>Password request</h1>
 </div>
-<?php if ($user): ?>
+<?php if (isset($user)): ?>
   <?php if ($form): ?>
     <p>Please enter a new password.</p>
     <form id="reset_form" action="" method="post" class="ajax_form form-horizontal">
