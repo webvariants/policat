@@ -111,8 +111,8 @@ class UtilMail {
       }
 
       $xml_utf8 = '<?xml version="1.0" encoding="utf-8"?>'; // force utf8 for umlauts
-      $in = '<div class="spacer10"></div><div class="main-out"><div class="main-in"><div class="main-start"></div>';
-      $out = '</div></div><div class="spacer10"></div>';
+      $in = '<div class="spacer10"></div><!--[if mso]><center><table><tr><td width="600"><![endif]--><div class="main-out"><div class="main-in"><div class="main-start"></div>';
+      $out = '</div></div><!--[if mso]></td></tr></table></center><![endif]--> <div class="spacer10"></div>';
       $inline = new \InlineStyle\InlineStyle($xml_utf8 . $in . $body_html . $out);
       $inline->applyStylesheet(UtilEmailLinks::generateEmailCss($markdown));
       $body_html = $inline->getHTML();
