@@ -22,16 +22,25 @@ RUN     sed -i "s|/var/www/html|\$\{WEB_ROOT\}|" /etc/apache2/apache2.conf \
             locales \
             libmcrypt4 \
             libmcrypt-dev \
+            libcurl3 \
             libcurl4-openssl-dev \
             libtidy-0.99-0 \
             libtidy-dev \
+            zlib1g \
             zlib1g-dev \
             libicu52 \
             icu-devtools \
             libicu-dev \
+            libmemcached11 \
             libmemcached-dev \
             curl \
             msmtp \
+            libfreetype6 \
+            libfreetype6-dev \
+            libjpeg62-turbo \
+            libjpeg62-turbo-dev \
+            libpng12-0 \
+            libpng12-dev \
 
      && a2enmod rewrite headers expires \
 
@@ -53,6 +62,7 @@ RUN     sed -i "s|/var/www/html|\$\{WEB_ROOT\}|" /etc/apache2/apache2.conf \
      && docker-php-ext-install \
             memcache \
             memcached \
+            gd \
             tidy \
             iconv \
             curl \
@@ -70,6 +80,9 @@ RUN     sed -i "s|/var/www/html|\$\{WEB_ROOT\}|" /etc/apache2/apache2.conf \
             zlib1g-dev \
             libicu-dev \
             libmemcached-dev \
+            libfreetype6-dev \
+            libjpeg62-turbo-dev \
+            libpng12-dev \
 
      && php -r "readfile('https://getcomposer.org/installer');" > /bin/composer-setup.php && php /bin/composer-setup.php --install-dir=/bin \
 
