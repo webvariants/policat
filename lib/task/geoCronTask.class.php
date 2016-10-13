@@ -74,6 +74,10 @@ class geoCronTask extends sfBaseTask {
       $subst_fields = $petition_signing->getPetition()->getGeoSubstFields();
       $i = 0;
       foreach ($contacts as $contact) {
+        if ($contact['bounce']) {
+          continue;
+        }
+
         $subst = $petition_signing->getSubst();
         foreach ($subst_fields as $pattern => $subst_field) {
           switch ($subst_field['type']) {
