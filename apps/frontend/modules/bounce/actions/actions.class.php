@@ -87,7 +87,7 @@ class bounceActions extends policatActions {
     if ($request->getPostParameter('sure') === 'yes') {
       $con = PetitionTable::getInstance()->getConnection();
       $con->exec('update petition set deleted_bounces_manually = deleted_bounces_manually + ? where id = ?', array($count, $petition->getId()));
-      $petition->setDeletedBouncesManually($petition->getDeletedBouncesManually() + $count); // no need to save, just for the rendering bellow
+      $petition->setDeletedBouncesManually($petition->getDeletedBouncesManually() + $count); // no need to save, just for the rendering below
       $signings->delete();
       return $this->ajax()
           ->modal('#signing_bounce_delete_modal', 'hide')

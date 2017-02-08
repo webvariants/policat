@@ -21,7 +21,7 @@
     <?php if ($form->getObject()->isNew()): ?>
     <div id="no_text" class="alert alert-error" style="clear:left">
       <a class="close" data-dismiss="alert">&times;</a>
-      No text defined yet. The field bellow is filled with default data. Please save it.
+      No text defined yet. The field below is filled with default data. Please save it.
     </div>
     <?php endif ?>
     <?php $action = url_for('campaign_privacy_edit', array('id' => $campaign->getId(), 'key' => CampaignStoreTable::KEY_PRIVACY_POLICY, 'lang' => $language->getId())) ?>

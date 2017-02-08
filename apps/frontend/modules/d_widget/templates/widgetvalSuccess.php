@@ -7,7 +7,7 @@
     <p>You are authenticated as <?php echo $user->getFullName() ?>.</p>
     <?php if (isset($csrf_token)): ?>
     <div id="connect">
-      <p>To connect the Widget (ID <?php echo $id ?>) with your account press the button bellow</p>
+      <p>To connect the Widget (ID <?php echo $id ?>) with your account press the button below</p>
       <div class="well">
         <a class="btn btn-primary btn-large ajax_link post" data-submit='<?php echo json_encode(array('csrf_token' => $csrf_token)) ?>' href="<?php echo url_for('widgetval', array('code' => $idcode)) ?>">Connect widget with account</a>
       </div>
