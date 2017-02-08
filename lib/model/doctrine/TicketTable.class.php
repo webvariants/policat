@@ -114,7 +114,7 @@ class TicketTable extends Doctrine_Table {
       self::KIND_JOIN_CAMPAIGN => '#FROM# wants to be member of the campaign #CAMPAIGN#. (#DATE#)',
       self::KIND_JOIN_PETITION => '#FROM# wants to be member of the action #PETITION#. (#DATE#)',
       self::KIND_JOIN_PETITION_ADMIN => '#FROM# Become Member-manager (obsolete) (#DATE#)',
-      self::KIND_WIDGET_DATA_OWNER => '#FROM# requests the ownership of activists data collected via the widget #WIDGET# of action #PETITION#. (#DATE#)',
+      self::KIND_WIDGET_DATA_OWNER => '#FROM# requests the ownership of activists data collected via the widget #WIDGET# of action #PETITION#, in campaign #CAMPAIGN#. (#DATE#)',
       self::KIND_TARGET_LIST_MEMBER => '#FROM# wants to use the email-to-list target list #TARGETLIST# for the e-action #PETITION#. (#DATE#)',
       self::KIND_TARGET_LIST_ACTIVATE => '#FROM# created the email-to-list target list #TARGETLIST# and requests you to approve it. (#DATE#)',
       self::KIND_USER_UNBLOCK => '#FROM# requests to be unblocked. (#DATE#)',
@@ -125,7 +125,7 @@ class TicketTable extends Doctrine_Table {
       self::KIND_QUOTA_MISSING => 'You need to buy a package to (re-)start your action(s) in campaign #CAMPAIGN#. #BUY-PACKAGE# (#DATE#)<br />#TEXT#',
       self::KIND_CONTACT_MESSAGE => '<strong>Contact message:</strong> (#DATE#)<br />#TEXT#',
       self::KIND_WIDGET_CREATED => 'Widget #WIDGET# created. (#DATE#)<br />#TEXT#',
-      self::KIND_TARGET_LIST_BOUNCE => 'Email-to-list target list #TARGETLIST# got email bounces. (#DATE#)'
+      self::KIND_TARGET_LIST_BOUNCE => '<strong>Manage bounces in</strong> target list #TARGETLIST# used by campaign #CAMPAIGN#. (#DATE#)'
   );
 
   const STATUS_NEW = 1;

@@ -54,7 +54,7 @@ class ticketComponents extends policatComponents {
         '#FROM#' => $ticket->getFromId() ? sprintf('<a href="mailto:%s">%s (%s)</a>', Util::enc($ticket->getFrom()->getEmailAddress()), Util::enc($ticket->getFrom()->getFullName()), Util::enc($ticket->getFrom()->getOrganisation())) : '',
         '#TO#' => $ticket->getToId() ? Util::enc($ticket->getTo()->getFullName()) : '',
         '#CAMPAIGN#' => $ticket->getCampaignId() ? Util::enc($ticket->getCampaign()->getName()) : '',
-        '#PETITION#' => $ticket->getPetitionId() ? Util::enc($ticket->getPetition()->getName()) : '',
+        '#PETITION#' => $ticket->getPetitionId() ? sprintf('<a href="%s">%s</a>', $routing->generate('petition_overview', array('id' => $ticket->getPetitionId())), $ticket->getPetition()->getName()) : '',
         '#WIDGET#' => $ticket->getWidgetId() ? sprintf('<a href="%s">%s</a>', $routing->generate('widget_edit', array('id' => $ticket->getWidgetId())), $ticket->getWidgetId()) : '',
         '#TARGETLIST#' => $ticket->getTargetListId() ? sprintf('<a href="%s">%s</a>', $routing->generate('target_edit', array('id' => $ticket->getTargetListId())), Util::enc($ticket->getTargetList()->getName())): '',
         '#TEXT#' => $ticket->getText() ? sprintf('<blockquote style="white-space:pre-line;margin:0">%s</blockquote>', Util::enc($ticket->getText())) : '',
