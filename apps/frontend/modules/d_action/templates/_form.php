@@ -4,11 +4,11 @@
         <div class="span3">
             <ul class="nav nav-tabs">
                 <li class="active"><a href="#sec1" data-toggle="tab">Basic settings</a></li>
-                <li><a href="#sec2" data-toggle="tab">Customise sign-up form</a></li>
-                <li><a href="#sec3" data-toggle="tab">Opt-in (email verification) &amp; thank-you emails</a></li>
-                <li><a href="#sec4" data-toggle="tab">Donation module (optional)</a></li>
+                <li><a href="#sec2" data-toggle="tab">Sign-up data</a></li>
+                <li><a href="#sec3" data-toggle="tab">Emails</a></li>
+                <li><a href="#sec4" data-toggle="tab">Donations (optional)</a></li>
                 <li><a href="#sec5" data-toggle="tab">Promote your e-action</a></li>
-                <li><a href="#sec6" data-toggle="tab">Widget adjustability and standard design</a></li>
+                <li><a href="#sec6" data-toggle="tab">Widgets</a></li>
                 <?php if ($petition->getKind() == Petition::KIND_PLEDGE): ?>
                   <li><a href="#sec7" data-toggle="tab">Pledge Settings</a></li>
                 <?php endif ?>
@@ -34,7 +34,7 @@
                     <?php echo $form->renderRows('*label_mode', 'read_more_url') ?>
                 </fieldset>
                 <fieldset class="tab-pane show-before-chosen-init" id="sec2">
-                    <legend>Customise sign-up form</legend>
+                    <legend>Sign-up data</legend>
                     <p class="alert alert-danger">If you make changes here for a running action you may lose data if you remove fields.</p>
                     <div class="global_error">
                         <span id="new_petition_customise"></span>
@@ -42,7 +42,7 @@
                     <?php echo $form->renderRows('titletype', 'nametype', 'with_address', 'with_country', 'default_country', 'country_collection_id', 'with_comments', 'with_extra1', 'policy_checkbox', 'subscribe_default') ?>
                 </fieldset>
                 <fieldset  class="tab-pane show-before-chosen-init" id="sec3">
-                    <legend>Opt-in (email verification) &amp; thank-you emails</legend>
+                    <legend>Emails</legend>
                     <?php echo $form->renderRows('from_name', 'from_email') ?>
                     <?php if (sfConfig::get('app_spf_ip')): ?>
                       <div class="controls">
@@ -53,7 +53,7 @@
                     <?php echo $form->renderRows('*validation_required', 'landing_url', 'thank_you_email', 'email_button_color') ?>
                 </fieldset>
                 <fieldset  class="tab-pane show-before-chosen-init" id="sec4">
-                    <legend>Donation module (optional)</legend>
+                    <legend>Donations (optional)</legend>
                     <?php echo $form->renderRows('*paypal_email', 'donate_url', 'donate_widget_edit') ?>
                 </fieldset>
                 <fieldset  class="tab-pane show-before-chosen-init" id="sec5">
@@ -61,7 +61,7 @@
                     <?php echo $form->renderRows('homepage', 'twitter_tags') ?>
                 </fieldset>
                 <fieldset  class="tab-pane show-before-chosen-init" id="sec6">
-                    <legend>Widget adjustability and standard design</legend>
+                    <legend>Widgets</legend>
                     <?php echo $form->renderRows('widget_individualise', 'themeId', 'style_font_family') ?>
                     <div class="row-fluid">
                         <div class="span6">

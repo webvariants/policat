@@ -11,7 +11,7 @@
       <?php echo $form->renderHiddenFields() ?>
       <?php echo $form->renderRows('name', 'campaign_id', '*new_campaign', 'kind') ?>
       <fieldset>
-        <legend>Customise sign-up form</legend>
+        <legend>Sign-up data</legend>
         <div class="global_error">
           <span id="new_petition_customise"></span>
         </div>
