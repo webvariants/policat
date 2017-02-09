@@ -355,7 +355,7 @@ class StoreTable extends Doctrine_Table {
               ),
               self::TIPS_CONTENT => array(
                   'widget' => array('sfWidgetFormTextarea', array('label' => 'Content'), array('class' => 'markdown')),
-                  'validator' => array('sfValidatorString', array()),
+                  'validator' => array('sfValidatorString', array('required' => false)),
               ),
               self::TIPS_MENU => array(
                   'widget' => array('WidgetBoolean', array('label' => 'Link in menu')),
@@ -372,7 +372,7 @@ class StoreTable extends Doctrine_Table {
               ),
               self::FAQ_CONTENT => array(
                   'widget' => array('sfWidgetFormTextarea', array('label' => 'Content'), array('class' => 'markdown')),
-                  'validator' => array('sfValidatorString', array()),
+                  'validator' => array('sfValidatorString', array('required' => false)),
               ),
               self::FAQ_MENU => array(
                   'widget' => array('WidgetBoolean', array('label' => 'Link in menu')),
@@ -389,7 +389,7 @@ class StoreTable extends Doctrine_Table {
               ),
               self::HELP_CONTENT => array(
                   'widget' => array('sfWidgetFormTextarea', array('label' => 'Content'), array('class' => 'markdown')),
-                  'validator' => array('sfValidatorString', array()),
+                  'validator' => array('sfValidatorString', array('required' => false)),
               ),
               self::HELP_MENU => array(
                   'widget' => array('WidgetBoolean', array('label' => 'Link in menu')),

@@ -56,6 +56,10 @@ class d_homeActions extends policatActions {
     $this->page_content = $page_content ? $page_content->getValue() : '';
     $this->page_title = $page_title ? $page_title->getValue() : '';
     $this->setTemplate('page');
+
+    if (!$page_content || !$page_content->getValue()) {
+      $this->forward404();
+    }
   }
 
   public function executeTerms(sfWebRequest $request) {
