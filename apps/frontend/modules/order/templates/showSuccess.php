@@ -157,13 +157,20 @@
     <div class="span12">
         <div class="form-horizontal">
             <div class="form-actions">
-                <a class="btn btn-primary" href="<?php echo url_for('quota_list', array('id' => $campaign->getId())) ?>">Back to campaign</a>
                 <?php if ($paypal): ?>
-                  <a class="btn ajax_link" href="<?php echo url_for('paypal_pay', array('id' => $order->getId())) ?>">Pay with paypal</a>
+                  <div class="text-next-to-btn">
+                      <a class="btn btn-primary ajax_link" href="<?php echo url_for('paypal_pay', array('id' => $order->getId())) ?>">Pay with PayPal</a>
+                      <div>
+                          to activate package now (direct debit, credit card, <strong>no PayPal account required</strong>)
+                      </div>
+                  </div>
                 <?php endif ?>
+                <a class="btn <?php if (!$paypal): ?> btn-primary<?php endif ?>" href="<?php echo url_for('quota_list', array('id' => $campaign->getId())) ?>">Back to campaign</a>
                 <a class="btn ajax_link post" data-submit='<?php echo json_encode(array('csrf_token' => $csrf_token)) ?>' href="<?php echo url_for('order_bill', array('id' => $order->getId())) ?>">Invoice</a>
                 <?php if ($order->deleteable() || $sf_user->hasCredential(myUser::CREDENTIAL_ADMIN)): ?>
-                  <a class="btn btn-danger ajax_link" href="<?php echo url_for('order_delete', array('id' => $order->getId())) ?>">
+                <br />
+                <br />
+                  <a style="padding-left: 10px; color: red;" class="ajax_link" href="<?php echo url_for('order_delete', array('id' => $order->getId())) ?>">
                       <?php if ($order->deleteable() || ($sf_user->hasCredential(myUser::CREDENTIAL_ADMIN) && $order->getStatus() == OrderTable::STATUS_CANCELATION)): ?>
                         Delete order
                       <?php else: ?>
