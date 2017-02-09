@@ -38,7 +38,7 @@ if (!isset($active))
   $active = '';
 ?>
 <div class="page-header">
-  <h1>E-action: <?php echo $petition->getName() ?></h1>
+  <h1><?php echo $petition->getKindName() ?>: <?php echo $petition->getName() ?></h1>
 </div>
 <?php if ($list): ?>
   <ul class="nav nav-tabs">

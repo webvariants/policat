@@ -92,9 +92,9 @@ class Petition extends BasePetition {
   static $KIND_SHOW = array
       (
       self::KIND_PETITION => 'Petition',
-      self::KIND_EMAIL_TO_LIST => 'E-mail-to-list action',
+      self::KIND_EMAIL_TO_LIST => 'List-action',
       self::KIND_EMAIL_ACTION => 'E-mail-Action',
-      self::KIND_PLEDGE => 'e-Action Pledge'
+      self::KIND_PLEDGE => 'Pledge'
   );
   static $EMAIL_KINDS = array(
       self::KIND_EMAIL_TO_LIST,
@@ -153,7 +153,7 @@ class Petition extends BasePetition {
       if ($this->isAfter())
         return 'ended (' . $this->getEndAt() . ')';
       if ($this->getEndAt())
-        return self::$STATUS_SHOW[self::STATUS_ACTIVE] . ' (' . $this->getEndAt() . ')';
+        return self::$STATUS_SHOW[self::STATUS_ACTIVE] . ' (ends: ' . $this->getEndAt() . ')';
     }
 
     return isset(self::$STATUS_SHOW[$this->getStatus()]) ? self::$STATUS_SHOW[$this->getStatus()] : 'unknown';

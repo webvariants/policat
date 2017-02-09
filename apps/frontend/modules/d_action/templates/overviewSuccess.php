@@ -12,11 +12,7 @@
     <div class="form-horizontal">
       <fieldset>
         <div class="control-group">
-          <label class="control-label">E-action type</label>
-          <div class="controls"><span class="widget_text"><?php echo $petition->getKindName() ?></span></div>
-        </div>
-        <div class="control-group">
-          <label class="control-label">Ask</label>
+          <label class="control-label">Input data</label>
           <div class="controls">
             <span class="widget_text">
               <?php echo Petition::$NAMETYPE_SHOW[$petition->getNametype()] ?>, <?php
@@ -29,28 +25,17 @@
         </div>
         <div class="control-group">
           <label class="control-label">Status</label>
-          <div class="controls"><span class="widget_text"><?php echo $petition->getStatusName() ?></span></div>
+          <div class="controls"><span class="widget_text">
+            <?php echo $petition->getStatusName() ?></span>
+          </div>
         </div>
-        <div class="control-group">
-          <label class="control-label">Name</label>
-          <div class="controls"><span class="widget_text"><?php echo $petition->getName() ?></span></div>
-        </div>
-        <div class="control-group">
-          <label class="control-label">Start at</label>
-          <div class="controls"><span class="widget_text"><?php echo $petition->getStartAt() ? $petition->getStartAt() : 'instant' ?></span></div>
-        </div>
-        <div class="control-group">
-          <label class="control-label">End at</label>
-          <div class="controls"><span class="widget_text"><?php echo $petition->getEndAt() ? $petition->getEndAt() : 'endless' ?></span></div>
-        </div>
-        <div class="control-group">
-          <label class="control-label">Feature on e-action portal</label>
-          <div class="controls"><span class="widget_text"><?php echo $petition->getHomepage() ? 'yes' : 'no' ?></span></div>
-        </div>
+        <?php if ($petition->getFollowPetitionId()): ?>
         <div class="control-group">
           <label class="control-label">Follow-up action</label>
-          <div class="controls"><span class="widget_text"><?php echo $petition->getFollowPetitionId() ? $petition->getFollowPetition()->getName() : 'no' ?></span></div>
+          <div class="controls"><span class="widget_text"><?php echo $petition->getFollowPetition()->getName() ?></span></div>
         </div>
+        <?php endif ?>
+        <br />
         <?php if ($petition->isGeoKind()): ?>
         <div class="control-group">
           <label class="control-label">Mails sent</label>
@@ -93,6 +78,10 @@
           <label class="control-label">Widgets</label>
           <div class="controls"><span class="widget_text"><span class="label label-info"><?php echo format_number($petition->countWidgets()) ?></span></span></div>
         </div>
+        <div class="control-group">
+          <label class="control-label"></label>
+          <div class="controls"><span class="widget_text"><a href="<?php echo url_for('api_v2_doc') ?>" target="_blank">API documentation</a></span></div>
+        </div>
       </fieldset>
     </div>
   </div>
@@ -104,8 +93,5 @@
         <?php endif ?>
       <?php include_component('d_action', 'members', array('petition' => $petition, 'no_admin' => false)) ?>
       <?php include_component('d_action', 'editFollow', array('petition' => $petition)) ?>
-      <div class="well">
-          <a href="<?php echo url_for('api_v2_doc') ?>" target="_blank">API documentation</a>
-      </div>
   </div>
 </div>
