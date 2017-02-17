@@ -1,4 +1,5 @@
 <?php
+
 /*
  * Copyright (c) 2016, webvariants GmbH <?php Co. KG, http://www.webvariants.de
  *
@@ -152,7 +153,7 @@ class targetActions extends policatActions {
             return $this->ajax()->redirectRotue('target_edit', array('id' => $target_list->getId()))->render();
           } else
             return $this->ajax()
-                ->replaceWithPartial('#form', 'form', array('csrf_token' => $this->csrf_token,  'form' => new MailingListForm($target_list)))
+                ->replaceWithPartial('#form', 'form', array('csrf_token' => $this->csrf_token, 'form' => new MailingListForm($target_list)))
                 ->alert('Name updated', '', '#form', 'after')->render();
         } else {
           return $this->ajax()->form($this->form)->render();
@@ -739,6 +740,49 @@ class targetActions extends policatActions {
     return $this->ajax()
         ->appendPartial('body', 'truncate', array('id' => $target_list->getId(), 'name' => $target_list->getName(), 'csrf_token' => $csrf_token))
         ->modal('#contact_truncate_modal')
+        ->render();
+  }
+
+  public function executeChoicesForPetition(sfWebRequest $request) {
+    $petition = PetitionTable::getInstance()->findById($request->getParameter('id'), $this->userIsAdmin());
+    /* @var $petition Petition */
+    if (!$petition) {
+      return $this->notFound();
+    }
+
+    if (!$petition->isEditableBy($this->getGuardUser())) {
+      return $this->noAccess();
+    }
+
+    if (!$petition->getMailingListId()) {
+      return $this->notFound();
+    }
+
+    $target_list = $petition->getMailingList();
+    if ($target_list->getStatus() == MailingListTable::STATUS_DELETED) {
+      return $this->notFound();
+    }
+
+    if (!$request->hasParameter('value')) {
+      return $this->notFound();
+    }
+
+
+    $target_selector = $request->getParameter('value');
+    if (is_scalar($target_selector)) {
+      $target_choices = $petition->getTargetSelectorChoices($target_selector);
+      $target_choices = $target_choices['choices'];
+    } else {
+      $target_choices = array();
+    }
+
+    $html = '<option value=""></option>';
+    foreach ($target_choices as $key => $name) {
+      $html .= sprintf('<option value="%s">%s</option>', $key, htmlentities($name, ENT_COMPAT, 'UTF-8'));
+    }
+
+    return $this->ajax()
+        ->html('#translation_target_selector_2', $html)->trigger('#translation_target_selector_2', 'chosen:updated')
         ->render();
   }
 

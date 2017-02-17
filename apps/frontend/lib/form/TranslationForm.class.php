@@ -17,6 +17,8 @@
  */
 class TranslationForm extends BasePetitionTextForm {
 
+  use FormTargetSelectorPreselect;
+
   protected $state_count = true;
 
   public function getStateCount() {
@@ -60,7 +62,7 @@ class TranslationForm extends BasePetitionTextForm {
         'size' => 90,
         'class' => 'add_popover large',
         'data-content' => 'Enter the URL of your campaign site for this language, including "https://" or https://www. ". A "Read more" link will appear underneath your e-action. Leave empty for standard "Read more" page.',
-        'placeholder' => $petition->getReadMoreUrl() ? : 'https://www.example.com/-language-/info'
+        'placeholder' => $petition->getReadMoreUrl() ?: 'https://www.example.com/-language-/info'
     )));
     $this->setValidator('read_more_url', new ValidatorUrl(array('required' => false)));
 
@@ -68,7 +70,7 @@ class TranslationForm extends BasePetitionTextForm {
         'size' => 90,
         'class' => 'add_popover large',
         'data-content' => 'Enter URL of external landing page, including \'http://\'. Leave empty for standard landing page',
-        'placeholder' => $petition->getLandingUrl() ? : 'https://www.example.com/-language-/thank-you'
+        'placeholder' => $petition->getLandingUrl() ?: 'https://www.example.com/-language-/thank-you'
     )));
     $this->setValidator('landing_url', new ValidatorUrl(array('required' => false, 'trim' => true)));
 
@@ -225,6 +227,8 @@ class TranslationForm extends BasePetitionTextForm {
       unset($this['pledge_title'], $this['pledge_comment'], $this['pledge_explantory_annotation'], $this['pledge_thank_you']);
     }
 
+    $this->configureTargetSelectors($petition);
+
     // copy defaults from existing text
     $copy = $this->getOption('copy', null);
     if ($copy) {
@@ -296,6 +300,13 @@ class TranslationForm extends BasePetitionTextForm {
     } else {
       unset($this['signers_page'], $this['signers_url']);
     }
+  }
+
+  public function processValues($values) {
+    $values = parent::processValues($values);
+    $values = $this->processTargetSelectorValues($values);
+
+    return $values;
   }
 
 }

@@ -147,6 +147,8 @@ target_copy: {            url: '/target/copy/:id',                  param: { mod
 target_copy_global: {     url: '/target/copy_global/:id',           param: { module: target,     action: copyGlobal },                 requirements: { sf_method: [get, head, post], id: '\d+' } }
 target_truncate: {        url: '/target/truncate/:id',              param: { module: target,     action: truncate },                   requirements: { sf_method: [get, head, post], id: '\d+' } }
 
+target_choices_petition: { url: '/target/choices/petition/:id',     param: { module: target,     action: choicesForPetition },         requirements: { sf_method: [post], id: '\d+' } }
+
 ticket_action: {          url: '/ticket/action',                    param: { module: ticket,     action: action },                     requirements: { sf_metgod: [post] } }
 ticket_todo: {            url: '/ticket/todo/:page',                param: { module: ticket,     action: todo },                       requirements: { sf_metgod: [get, head], page: '\d+' } }
 

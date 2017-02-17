@@ -69,7 +69,7 @@ Options +FollowSymLinks +ExecCGI
 
   RewriteRule ^target((/join)|(/activate)|(/deactivate)|(/delete))$ frontend.php [QSA,L]
   RewriteRule ^target/\d+$ frontend.php [QSA,L]
-  RewriteRule ^target/((edit)|(new)|(meta)|(meta_free)|(meta_delete)|(meta_choice)|(meta_mapping)|(contact/new)|(contact/delete)|(members)|(truncate)|(upload)|(copy)|(copy_global))/\d+$ frontend.php [QSA,L]
+  RewriteRule ^target/((edit)|(new)|(meta)|(meta_free)|(meta_delete)|(meta_choice)|(meta_mapping)|(contact/new)|(contact/delete)|(members)|(truncate)|(upload)|(copy)|(copy_global)|(choices/petition))/\d+$ frontend.php [QSA,L]
   RewriteRule ^target/((contact)|(contact/pager))/\d+/\d+$ frontend.php [QSA,L]
 
   RewriteRule ^quota/((list)|(edit)|(new))/\d+$ frontend.php [QSA,L]

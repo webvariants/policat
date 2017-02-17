@@ -528,6 +528,7 @@ class d_actionActions extends policatActions {
 
     $this->includeMarkdown();
     $this->includeHighlight();
+    $this->includeChosen();
   }
 
   public function executeTranslationDefaultText(sfWebRequest $request) {
