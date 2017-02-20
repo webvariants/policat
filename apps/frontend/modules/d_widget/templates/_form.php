@@ -28,6 +28,10 @@
         <div class="span6"><?php echo $form->renderRows('*styling_title_color', '*styling_form_title_color', '*styling_body_color', '*styling_label_color') ?></div>
     </div>
     <?php echo $form->renderRows('share', 'paypal_email', '*donate_url', '*donate_text', 'landing_url') ?>
+    <?php if (isset($form['target_selector_1'])): ?>
+      <legend>Preselect Targets</legend>
+      <?php echo $form->renderRows(array('target_selector_1', 'target_selector_2*')) ?>
+    <?php endif ?>
     <div class="form-actions">
         <button accesskey="s" title="[Accesskey] + S" class="btn btn-primary" type="submit">Save</button>
         <button class="btn submit" data-submit='{"preview":1}' type="submit">Save &amp; view</button>

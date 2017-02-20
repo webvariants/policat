@@ -769,7 +769,7 @@ class targetActions extends policatActions {
 
 
     $target_selector = $request->getParameter('value');
-    if (is_scalar($target_selector)) {
+    if ($target_selector && is_scalar($target_selector)) {
       $target_choices = $petition->getTargetSelectorChoices($target_selector);
       $target_choices = $target_choices['choices'];
     } else {
@@ -782,7 +782,7 @@ class targetActions extends policatActions {
     }
 
     return $this->ajax()
-        ->html('#translation_target_selector_2', $html)->trigger('#translation_target_selector_2', 'chosen:updated')
+        ->html('#target_selector_2', $html)->trigger('#target_selector_2', 'chosen:updated')
         ->render();
   }
 

@@ -18,6 +18,8 @@
  */
 class EditWidgetForm extends WidgetForm {
 
+  use FormTargetSelectorPreselect;
+
   protected $state_count = true;
 
   public function getStateCount() {
@@ -211,6 +213,15 @@ class EditWidgetForm extends WidgetForm {
         $this->getWidgetSchema()->setDefault('donate_text', $this->getObject()->getPetitionText()->getDonateText());
       }
     }
+
+    $this->configureTargetSelectors();
+  }
+
+  public function processValues($values) {
+    $values = parent::processValues($values);
+    $values = $this->processTargetSelectorValues($values);
+
+    return $values;
   }
 
 }

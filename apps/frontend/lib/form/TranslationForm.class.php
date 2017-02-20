@@ -227,7 +227,7 @@ class TranslationForm extends BasePetitionTextForm {
       unset($this['pledge_title'], $this['pledge_comment'], $this['pledge_explantory_annotation'], $this['pledge_thank_you']);
     }
 
-    $this->configureTargetSelectors($petition);
+    $this->configureTargetSelectors();
 
     // copy defaults from existing text
     $copy = $this->getOption('copy', null);

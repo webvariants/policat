@@ -457,6 +457,7 @@ Widget:
     data_owner:        { type: integer(1), notnull: true, default: 0 }
     activity_at:       { type: timestamp, notnull: false, default: null }
     last_ref:          { type: string(200), notnull: false, default: null }
+    email_targets:     { type: clob }
   relations:
     Campaign:          { onDelete: CASCADE }
     Petition:          { onDelete: CASCADE }

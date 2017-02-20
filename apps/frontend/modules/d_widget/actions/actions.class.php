@@ -138,6 +138,7 @@ class d_widgetActions extends policatActions {
 
     $this->includeMarkdown();
     $this->includeHighlight();
+    $this->includeChosen();
   }
 
   public function executeView(sfWebRequest $request) {
