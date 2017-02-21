@@ -884,6 +884,18 @@ h2:hover + .embed-this-help-head {
 			width: 99%;
 		}
 	}
+
+	.contacts {
+		span {
+			&:after {
+				content: ', ';
+
+			}
+			&:last-child:after {
+				content: '';
+			}
+		}
+	}
 }
 
 .scroll-pledges {

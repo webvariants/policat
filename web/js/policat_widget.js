@@ -361,6 +361,7 @@ $(document).ready(function($) {
 			};
 
 			var first = true;
+			var next_fixed_choices = null;
 			$.each(target_selectors, function(_, selector) {
 				var pledges = selector['pledges'] == undefined ? false : selector['pledges'];
 				if (typeof pledges == 'object') {
@@ -473,10 +474,49 @@ $(document).ready(function($) {
 							search.click(search_h).keyup(search_h);
 						}
 
+						if (selector['fixed']) {
+							select.val(selector['fixed']);
+							div.hide();
+							ts.addClass('single');
+							if (selector['fix_choices']) {
+								next_fixed_choices = selector['fix_choices'];
+							}
+						}
 					}
 					else {
 						select.attr('id', 'petition_signing_ts_2_copy').attr('disabled', 'disabled');
 						select.attr('name', 'petition_signing_[ts_2]');
+
+						if (next_fixed_choices) {
+							insert_sort(select, next_fixed_choices, 'x', select.hasClass('country'));
+							select.attr('disabled', null);
+
+							next_fixed_choices = null;
+						}
+
+						if (selector['fixed']) {
+							select.attr('disabled', null);
+							var fix_option = $('<option></option>');
+							select.append(fix_option);
+							fix_option.text(selector['fixed']).attr('value', selector['fixed']);
+							select.val(selector['fixed']);
+							div.hide();
+							if (selector['fix_choices']) {
+								var contacts = $('<div class="contacts"></div>');
+								ts.append(contacts);
+								$('<strong></strong>', {text: selector['fix_label'] + ': '}).appendTo(contacts);
+								$.each(selector['fix_choices'], function (_, name) {
+									$('<span></span>', {text: name}).appendTo(contacts);
+								});
+							}
+						}
+
+						if (selector['fix_choices_plegde']) {
+							insert_sort(select, selector['fix_choices_plegde'], 'x', select.hasClass('country'));
+							select.attr('disabled', null);
+							var fix_choices_plegde_all = selector['fix_choices_plegde_all'];
+							insert_sort(pledge_ul, fix_choices_plegde_all['choices'], null, null, fix_choices_plegde_all['pledges'], pledge_ul.data('template'), fix_choices_plegde_all['infos'], pledge_ul.data('pledge-count'));
+						}
 
 						if (pledge_ul.length) {
 							select.change(function() {

@@ -19,7 +19,7 @@
       var widget_id = <?php echo $widget['id'] ?>;
 <?php
 /* @var $petition Petition */
-$target_selectors = $petition->getTargetSelectors();
+$target_selectors = UtilTargetSelectorPreselect::staticTargetSelectors($widget); // = $petition->getTargetSelectors();
 if (is_array($target_selectors) && count($target_selectors) == 1 && $target_selectors[0]['id'] !== 'contact') {
   if ($petition->getKind() != Petition::KIND_PLEDGE) {
     $target_selectors[] = array('id' => 'contact', 'name' => 'Recipient(s)');

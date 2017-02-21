@@ -17,13 +17,13 @@ trait FormTargetSelectorPreselect {
 
         if ($target_selectors) {
           $first = $target_selectors[0];
-          if ($first['id'] === MailingList::FIX_COUNTRY || $first['id'] === 'contact' || is_numeric($first['id'])) {
+          if ($first['id'] === MailingList::FIX_COUNTRY || is_numeric($first['id'])) {
             $choices = array('' => '') + $first['choices'];
 
             $this->setWidget('target_selector_1', new sfWidgetFormChoice(array('choices' => $choices, 'label' => $first['name']), array('id' => 'target_selector_1')));
             $this->setValidator('target_selector_1', new sfValidatorChoice(array('choices' => array_keys($choices), 'required' => false)));
 
-            $old = $this->decodeTargetSelectors($target_selectors);
+            $old = UtilTargetSelectorPreselect::decodeTargetSelectors($this->getObject()->getEmailTargets(), $this->getObject()->getPetition()->getMailingListId(), $target_selectors);
             if ($old && $old['selector_1']['value']) {
               $this->setDefault('target_selector_1', $old['selector_1']['value']);
             }
@@ -52,7 +52,7 @@ trait FormTargetSelectorPreselect {
                       if ($values['target_selector_2'] && $values['target_selector_1']) {
                         $choices = $petition->getTargetSelectorChoices($values['target_selector_1']);
 
-                        if (!in_array($values['target_selector_2'], $choices['choices'])) {
+                        if (!in_array($values['target_selector_2'], array_keys($choices['choices']))) {
                           $values['target_selector_2'] = null;
                         }
                       }
@@ -74,52 +74,6 @@ trait FormTargetSelectorPreselect {
         }
       }
     }
-  }
-
-  private function decodeTargetSelectors($target_selectors) {
-    $json = $this->getObject()->getEmailTargets();
-    if (!$json) {
-      return array();
-    }
-
-    $data = json_decode($json, true);
-    if (!$data || !is_array($data)) {
-      return array();
-    }
-    if ($data['mailing_list_id'] != $this->getObject()->getPetition()->getMailingListId()) {
-      return array();
-    }
-
-    $first = count($target_selectors) > 0 ? $target_selectors[0] : null;
-    $second = count($target_selectors) > 1 ? $target_selectors[1] : null;
-
-    if (!$this->matchTargetSelector($first, $data['selector_1'])) {
-      $data['selector_1'] = $data['selector_2'] = array(
-          'value' => null,
-          'id' => null,
-          'kind' => null,
-          'mapping_id' => null,
-          'meta_id' => null
-      );
-    } elseif (!$this->matchTargetSelector($second, $data['selector_2'])) {
-      $data['selector_2'] = array(
-          'value' => null,
-          'id' => null,
-          'kind' => null,
-          'mapping_id' => null,
-          'meta_id' => null
-      );
-    }
-
-    return $data;
-  }
-
-  private function matchTargetSelector($selector, $data) {
-    return $selector && array_key_exists('id', $data) &&
-      $selector['id'] == $data['id'] &&
-      (array_key_exists('kind', $selector) ? $selector['kind'] : null) == $data['kind'] &&
-      (array_key_exists('mapping_id', $selector) ? $selector['mapping_id'] : null) == $data['mapping_id'] &&
-      (array_key_exists('meta_id', $selector) ? $selector['meta_id'] : null) == $data['meta_id'];
   }
 
   private function processTargetSelectorValues($values) {
