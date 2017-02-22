@@ -120,4 +120,56 @@ class UtilTargetSelectorPreselect {
       (array_key_exists('meta_id', $selector) ? $selector['meta_id'] : null) == $data['meta_id'];
   }
 
+  public static function printTextPreselection(PetitionText $petition_text, $printf_format = '%s', $printf_format_selector = '<strong>%s: </strong>%s<br />') {
+    $mailing_list_id = $petition_text->getPetition()->getMailingListId();
+    if (!$mailing_list_id) {
+      return;
+    }
+    $target_selectors = $petition_text->getPetition()->getTargetSelectors();
+    if (!$target_selectors) {
+      return;
+    }
+    $json = $petition_text->getEmailTargets();
+    $preselects = self::decodeTargetSelectors($json, $mailing_list_id, $target_selectors);
+
+    if (!$preselects) {
+      return;
+    }
+
+    $ret = '';
+
+    foreach (array(0, 1) as $i) {
+      $selector = $preselects['selector_' . ($i + 1)];
+      if ($selector['value']) {
+        $value = $selector['value'];
+        if ($value) {
+          $choice = '';
+          if (is_numeric($target_selectors[$i]['id'])) {
+            $choice = MailingListMetaChoiceTable::getInstance()->findByMailingListMetaIdAndId($mailing_list_id, $value);
+            /* @var $choice MailingListMetaChoice */
+
+            $choice = $choice ? $choice->getChoice() : $value;
+          } elseif ($target_selectors[$i]['id'] === 'country') {
+            try {
+            $country_name = sfCultureInfo::getInstance('en')->getCountries(array($value));
+            $choice = $country_name[$value];
+            } catch (Exception $e) {
+              $choice = $value;
+            }
+          } else {
+            $choice = 'please write a bugreport';
+          }
+
+          $ret .= sprintf($printf_format_selector, Util::enc($target_selectors[$i]['name']), Util::enc($choice));
+        } else {
+          break;
+        }
+      }
+    }
+
+    if ($ret) {
+      printf($printf_format, $ret);
+    }
+  }
+
 }

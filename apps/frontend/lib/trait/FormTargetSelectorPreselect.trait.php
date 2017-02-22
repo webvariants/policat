@@ -20,7 +20,11 @@ trait FormTargetSelectorPreselect {
           if ($first['id'] === MailingList::FIX_COUNTRY || is_numeric($first['id'])) {
             $choices = array('' => '') + $first['choices'];
 
-            $this->setWidget('target_selector_1', new sfWidgetFormChoice(array('choices' => $choices, 'label' => $first['name']), array('id' => 'target_selector_1')));
+            if ($first['id'] === MailingList::FIX_COUNTRY) {
+              $this->setWidget('target_selector_1', new sfWidgetFormI18nChoiceCountry(array('add_empty' => '', 'countries' => array_filter(array_keys($choices)), 'label' => $first['name']), array('id' => 'target_selector_1')));
+            } else {
+              $this->setWidget('target_selector_1', new sfWidgetFormChoice(array('choices' => $choices, 'label' => $first['name']), array('id' => 'target_selector_1')));
+            }
             $this->setValidator('target_selector_1', new sfValidatorChoice(array('choices' => array_keys($choices), 'required' => false)));
 
             $old = UtilTargetSelectorPreselect::decodeTargetSelectors($this->getObject()->getEmailTargets(), $this->getObject()->getPetition()->getMailingListId(), $target_selectors);
@@ -39,7 +43,11 @@ trait FormTargetSelectorPreselect {
                 }
               }
 
-              $this->setWidget('target_selector_2', new sfWidgetFormChoice(array('choices' => $second_choices, 'label' => $second['name']), array('id' => 'target_selector_2')));
+              if ($second['id'] === MailingList::FIX_COUNTRY) {
+                $this->setWidget('target_selector_2', new sfWidgetFormI18nChoiceCountry(array('add_empty' => '', 'countries' => array_filter(array_keys($second_choices)), 'label' => $second['name']), array('id' => 'target_selector_2')));
+              } else {
+                $this->setWidget('target_selector_2', new sfWidgetFormChoice(array('choices' => $second_choices, 'label' => $second['name']), array('id' => 'target_selector_2')));
+              }
               #$this->setValidator('target_selector_2', new sfValidatorChoice(array('choices' => array_keys($second_choices), 'required' => false)));
               $this->setValidator('target_selector_2', new sfValidatorString(array('required' => false)));
 

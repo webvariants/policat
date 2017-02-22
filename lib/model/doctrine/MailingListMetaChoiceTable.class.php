@@ -42,4 +42,17 @@ class MailingListMetaChoiceTable extends Doctrine_Table {
     }
   }
 
+  /**
+   *
+   * @param int $mailing_list_meta_id
+   * @param int $id
+   * @return MailingListMetaChoice
+   */
+  public function findByMailingListMetaIdAndId($mailing_list_meta_id, $id) {
+    return $this->createQuery('cm')
+      ->where('cm.mailing_list_meta_id = ?', $mailing_list_meta_id)
+      ->andWhere('cm.id = ?', $id)
+      ->fetchOne();
+  }
+
 }

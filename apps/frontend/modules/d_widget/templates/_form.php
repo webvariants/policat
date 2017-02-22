@@ -30,7 +30,10 @@
     <?php echo $form->renderRows('share', 'paypal_email', '*donate_url', '*donate_text', 'landing_url') ?>
     <?php if (isset($form['target_selector_1'])): ?>
       <legend>Preselect Targets</legend>
-      <?php echo $form->renderRows(array('target_selector_1', 'target_selector_2*')) ?>
+      <div class="row">
+          <div class="span6"><?php echo $form->renderRows(array('target_selector_1', 'target_selector_2*')) ?></div>
+          <div class="span6"><?php UtilTargetSelectorPreselect::printTextPreselection($form->getObject()->getPetitionText(), '<div class="alert alert-info">If you select nothing settings from the translation will be used.<br /> %s</div>') ?></div>
+      </div>
     <?php endif ?>
     <div class="form-actions">
         <button accesskey="s" title="[Accesskey] + S" class="btn btn-primary" type="submit">Save</button>

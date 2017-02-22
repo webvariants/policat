@@ -776,6 +776,16 @@ class targetActions extends policatActions {
       $target_choices = array();
     }
 
+    if ($target_choices) {
+      // translate country iso names
+      $ts = $petition->getTargetSelectors();
+      $is_countries = $ts && count($ts) >= 2 && $ts[1]['id'] === 'country';
+
+      if ($is_countries) {
+        $target_choices = sfCultureInfo::getInstance('en')->getCountries(array_keys($target_choices));
+      }
+    }
+
     $html = '<option value=""></option>';
     foreach ($target_choices as $key => $name) {
       $html .= sprintf('<option value="%s">%s</option>', $key, htmlentities($name, ENT_COMPAT, 'UTF-8'));
