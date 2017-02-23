@@ -136,11 +136,12 @@ class widgetActions extends policatActions
 
     if (!isset($new_widget))
     {
-      $new_widget                 = new Widget();
-      $new_widget['Parent']       = $this->widget;
-      $new_widget['Campaign']     = $this->widget['Campaign'];
-      $new_widget['Petition']     = $this->widget['Petition'];
-      $new_widget['PetitionText'] = $this->widget['PetitionText'];
+      $new_widget                  = new Widget();
+      $new_widget['Parent']        = $this->widget;
+      $new_widget['Campaign']      = $this->widget['Campaign'];
+      $new_widget['Petition']      = $this->widget['Petition'];
+      $new_widget['PetitionText']  = $this->widget['PetitionText'];
+      $new_widget['email_targets'] = $this->widget['email_targets'];
     }
 
     $subscribe_text = trim($this->petition_text['subscribe_text']);
