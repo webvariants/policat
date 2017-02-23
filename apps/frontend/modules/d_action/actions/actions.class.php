@@ -592,6 +592,8 @@ class d_actionActions extends policatActions {
       }
     }
 
+    $this->ajax()->trigger('#' . $form_name . '_language_id', 'chosen:updated');
+
     return $this->ajax()->render();
   }
 
