@@ -488,10 +488,24 @@ $(document).ready(function($) {
 						select.attr('name', 'petition_signing_[ts_2]');
 
 						if (next_fixed_choices) {
+							var contact_choices = $.extend({}, next_fixed_choices);
 							insert_sort(select, next_fixed_choices, 'x', select.hasClass('country'));
 							select.attr('disabled', null);
 
+							if (selector['id'] === 'contact' && select.val() === 'all' && $('option', select).length === 2) {
+								div.hide();
+								show_fix_contacts(contact_choices, selector['name']);
+							}
 							next_fixed_choices = null;
+						}
+
+						function show_fix_contacts(choices, label) {
+							var contacts = $('<div class="contacts"></div>');
+							ts.append(contacts);
+							$('<strong></strong>', {text: label + ': '}).appendTo(contacts);
+							$.each(choices, function (_, name) {
+								$('<span></span>', {text: name}).appendTo(contacts);
+							});
 						}
 
 						if (selector['fixed']) {
@@ -502,12 +516,7 @@ $(document).ready(function($) {
 							select.val(selector['fixed']);
 							div.hide();
 							if (selector['fix_choices']) {
-								var contacts = $('<div class="contacts"></div>');
-								ts.append(contacts);
-								$('<strong></strong>', {text: selector['fix_label'] + ': '}).appendTo(contacts);
-								$.each(selector['fix_choices'], function (_, name) {
-									$('<span></span>', {text: name}).appendTo(contacts);
-								});
+								show_fix_contacts(selector['fix_choices'], selector['fix_label']);
 							}
 						}
 
@@ -980,7 +989,7 @@ $(document).ready(function($) {
 			};
 			img.src = src;
 		});
-		
+
 		$('.external_links a').attr('target', '_blank');
 
 		if (lastSigners.length) {
