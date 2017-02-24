@@ -291,6 +291,7 @@ $(document).ready(function($) {
 			var ts = $('#target-selector');
 			var insert_sort = function(dom, list, add_class, is_country, pledges, template, infos, pledge_count) {
 				var k, sk, option, element, i;
+				var count_pledge = 0;
 				if (is_country != undefined && is_country) {
 					for (k in list) {
 						if (country_names[k] != undefined)
@@ -332,6 +333,7 @@ $(document).ready(function($) {
 									$('.pledge_done', element).css('display', 'inline-block');
 								}
 							}
+							count_pledge++;
 						} else {
 							// regular target selector
 							option = $('<option></option>');
@@ -343,6 +345,10 @@ $(document).ready(function($) {
 						delete list[sk];
 					}
 				} while (sk != null);
+
+				if (count_pledge === 1) {
+					$('input[type=checkbox]', dom).prop('checked', true);
+				}
 
 				resize();
 			};
