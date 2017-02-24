@@ -12,7 +12,7 @@ class UtilTargetSelectorPreselect {
 
     $preselected = self::decodeTargetSelectors($widget->getEmailTargets(), $petition->getMailingListId(), $target_selectors);
     if (!$preselected) {
-      self::decodeTargetSelectors($widget->getPetitionText()->getEmailTargets(), $petition->getMailingListId(), $target_selectors);
+      $preselected = self::decodeTargetSelectors($widget->getPetitionText()->getEmailTargets(), $petition->getMailingListId(), $target_selectors);
     }
 
     if (!$preselected) {
