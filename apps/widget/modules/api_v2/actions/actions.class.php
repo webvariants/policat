@@ -38,7 +38,7 @@ class api_v2Actions extends policatActions {
     /* @var $response sfWebResponse */
 
     // does the client want JSONP?
-    $callback = trim(preg_replace('/[^a-z_.]/i', '', $request->getParameter('callback', null)));
+    $callback = trim(preg_replace('/[^a-z_0-9]/i', '', $request->getParameter('callback', null)));
 
     // determine the requested action (petition)
     $action_id = $request->getParameter('action_id');
@@ -238,7 +238,7 @@ class api_v2Actions extends policatActions {
     $response->setHttpHeader('Cache-Control', null);
 
     // does the client want JSONP?
-    $callback = trim(preg_replace('/[^a-z_.]/i', '', $request->getParameter('callback', null)));
+    $callback = trim(preg_replace('/[^a-z_0-9.]/i', '', $request->getParameter('callback', null)));
 
     // determine the requested action (petition)
     $action_id = $request->getParameter('action_id');
