@@ -2,12 +2,13 @@
 <?php include_partial('dashboard/admin_tabs', array('active' => 'order')) ?>
 <table class="table table-bordered table-striped">
     <thead>
-        <tr><th class="span1">ID</th><th>Date</th><th>Campaign</th><th>User</th><th>Net</th><th>Tax</th><th>Gross</th><th>Status</th><th>Paid at</th><th>Paypal</th><th>Invoice</th><th class="span2"></th></tr>
+        <tr><th class="span1">ID</th><th>Date</th><th>Campaign</th><th>User</th><th>Organisation</th><th>Net</th><th>Tax</th><th>Gross</th><th>Status</th><th>Paid at</th><th>Paypal</th><th>Invoice</th><th class="span2"></th></tr>
     </thead>
     <tbody>
         <?php
         foreach ($quotas as $quota): /* @var $quota Quota */
           $order = $quota->getOrderId() ? $quota->getOrder() : null;
+          /* @var $order Order */
           if ($order):
           $tax = $order->getTax();
           ?>
@@ -22,6 +23,7 @@
                   <?php endif ?>
               </td>
               <td><a href="<?php echo url_for('user_edit', array('id' => $order->getUserId())) ?>"><?php echo $order->getUser()->getFullName() ?></a></td>
+              <td><?php echo $order->getUser()->getOrganisation() ?></td>
               <td><?php echo $quota ? format_currency($quota->getPrice(), StoreTable::value(StoreTable::BILLING_CURRENCY)) : null ?></td>
               <td><?php echo $order->getTax() ?></td>
               <td><?php echo $quota && $tax ? format_currency($quota->getPriceBrutto($tax), StoreTable::value(StoreTable::BILLING_CURRENCY)) : null ?></td>
@@ -54,7 +56,7 @@
                     deleted
                   <?php endif ?>
               </td>
-              <td colspan="8">no order</td>
+              <td colspan="9">no order</td>
               <td>
                 <a class="btn btn-mini" href="<?php echo url_for('quota_edit', array('id' => $quota->getId())) ?>">edit</a>
                 <?php if ($quota->getCampaignId()): ?>
