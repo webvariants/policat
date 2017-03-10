@@ -159,9 +159,18 @@
             <div class="form-actions">
                 <?php if ($paypal): ?>
                   <div class="text-next-to-btn">
-                      <a class="btn btn-primary ajax_link" href="<?php echo url_for('paypal_pay', array('id' => $order->getId())) ?>">Pay with PayPal</a>
+                      <a class="btn btn-large btn-primary ajax_link" href="<?php echo url_for('paypal_pay', array('id' => $order->getId())) ?>">
+                          <strong>Pay now</strong> &nbsp;
+                          <?php echo image_tag('pay-mastercard.png', array('size' => '50x31', 'alt' => 'mastercard')) ?>
+                          <?php echo image_tag('pay-maestro.png', array('size' => '50x31', 'alt' => 'maestro')) ?>
+                          <?php echo image_tag('pay-visa.png', array('size' => '50x31', 'alt' => 'visa')) ?>
+                          <?php echo image_tag('pay-paypal.png', array('size' => '50x31', 'alt' => 'paypal')) ?>
+                          <?php echo image_tag('pay-direct-debit.png', array('size' => '50x31', 'alt' => 'direct debit')) ?>
+                      </a>
                       <div>
-                          to activate package now (direct debit, credit card, <strong>no PayPal account required</strong>)
+                          <strong>to activate the package immediately.</strong><br />
+                          You may also transfer the amount to the account stated in the invoice.<br />
+                          Your package will then be activated a few days after receipt.
                       </div>
                   </div>
                 <?php endif ?>
