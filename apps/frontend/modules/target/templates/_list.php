@@ -16,7 +16,7 @@ $guard = $sf_user->getGuardUser()->getRawValue();
           <td>
             <?php if ($tr): ?>
               <?php if ($tr->getActive()): ?>
-                <span class="label label-info">active</span>
+                <span class="label label-info">editor</span>
               <?php else: ?>
                 <span class="label">disabled</span>
               <?php endif ?>

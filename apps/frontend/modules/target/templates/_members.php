@@ -8,7 +8,7 @@
     <?php if ($admin): ?>
       <form class="ajax_form" method="post" action="<?php echo url_for('target_members', array('id' => $target_list->getId())) ?>">
         <p>
-          <a class="btn btn-mini submit" data-submit='{"method": "enable" }'>Enable</a>
+          <a class="btn btn-mini submit" data-submit='{"method": "enable" }'>Editor</a>
           <a class="btn btn-mini submit" data-submit='{"method": "disable" }'>Disable</a>
         </p>
         <input type="hidden" name="csrf_token" value="<?php echo $csrf_token ?>" />
@@ -30,7 +30,7 @@
               </td>
               <td>
                 <?php if ($target_list_rights->getActive()): ?>
-                  <span class="label label-info">active</span>
+                  <span class="label label-info">editor</span>
                 <?php else: ?>
                   <span class="label">disabled</span>
                 <?php endif ?>
