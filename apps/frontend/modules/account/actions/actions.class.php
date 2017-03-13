@@ -76,13 +76,16 @@ class accountActions extends policatActions {
 
         $this->getUser()->setAttribute(myUser::SESSION_LAST_CAPTCHA, 0);
 
+        $mail = StoreTable::getInstance()->getValueCached(StoreTable::EMAIL_ADDRESS);
         return $this->ajax()
             ->form($this->form)
             ->attr('#register_form input, #register_form select, #register_form button', 'disabled', 'disabled')
             ->scroll()
-            ->alert('Congratulations! You have created a new account. For your first login, you need to check your inbox '
-              . 'and click the account validation link in the e-mail we have sent to you.'
-              , 'Please check your inbox now!', '.register-success', 'append')->render();
+            ->alert("To activate your user account, you have to verify your email address. "
+              . "Look for the verification email in your inbox and click the link in the email. A confirmation "
+              . "message will appear in your web browser. Didn't get the email? Check your spam folder to make "
+              . "sure it didn't end up there. Add the email address $mail to your address book.",
+              'Account created.', '.register-success', 'append')->render();
       } else {
         return $this->ajax()->form($this->form)->render();
       }
