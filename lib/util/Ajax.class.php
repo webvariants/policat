@@ -81,6 +81,10 @@ class Ajax {
   public function appendPartial($selector, $templateName, $vars = null) {
     return $this->jPartial('append', $selector, $templateName, $vars);
   }
+
+  public function appendComponent($selector, $moduleName, $componentName, $vars = null) {
+    return $this->jComponent('append', $selector, $moduleName, $componentName, $vars);
+  }
   
   public function afterPartial($selector, $templateName, $vars = null) {
     return $this->jPartial('after', $selector, $templateName, $vars);

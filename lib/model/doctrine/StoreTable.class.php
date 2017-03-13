@@ -297,10 +297,6 @@ class StoreTable extends Doctrine_Table {
                   'widget' => array('WidgetBoolean', array('label' => 'Show "Start an e-action"')),
                   'validator' => array('sfValidatorBoolean')
               ),
-              self::MENU_JOIN => array(
-                  'widget' => array('WidgetBoolean', array('label' => 'Show "Join"')),
-                  'validator' => array('sfValidatorBoolean')
-              ),
               self::MENU_LOGIN => array(
                   'widget' => array('WidgetBoolean', array('label' => 'Show "Login"')),
                   'validator' => array('sfValidatorBoolean')
@@ -312,6 +308,10 @@ class StoreTable extends Doctrine_Table {
           'fields' => array(
               self::REGISTER_ON => array(
                   'widget' => array('WidgetBoolean', array('label' => 'enabled')),
+                  'validator' => array('sfValidatorBoolean')
+              ),
+              self::MENU_JOIN => array(
+                  'widget' => array('WidgetBoolean', array('label' => 'Show "Join" in login modal')),
                   'validator' => array('sfValidatorBoolean')
               )
           )

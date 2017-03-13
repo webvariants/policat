@@ -43,7 +43,6 @@
           <li><a href="<?php echo url_for('sf_guard_signout') ?>">Logout</a></li>
         <?php else: ?>
             <?php if ($menu_login): ?><li><a rel="nofollow" data-toggle="modal" href="#login_modal" href="<?php echo url_for('ajax_signin') ?>">Login</a></li><?php endif ?>
-          <?php if ($menu_join): ?><li><a href="<?php echo url_for('register') ?>">Join</a></li><?php endif ?>
         <?php endif ?>
       </ul>
     </div>

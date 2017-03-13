@@ -26,7 +26,7 @@
     </header>
     <?php echo $sf_content ?>
     <?php include_component('d_home', 'footer') ?>
-    <?php include_partial('account/ajaxSignin') ?>
+    <?php include_component('account', 'ajaxSignin', array('a' => $sf_user->isAuthenticated() ? 1 : 0)) ?>
     <div id="waiting"><b></b><i></i><div class="progress progress-striped active"><div class="bar" style="width: 100%;"></div></div></div>
   </body>
 </html>

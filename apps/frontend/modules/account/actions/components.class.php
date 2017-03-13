@@ -1,4 +1,5 @@
 <?php
+
 /*
  * Copyright (c) 2016, webvariants GmbH <?php Co. KG, http://www.webvariants.de
  *
@@ -25,6 +26,30 @@ class accountComponents extends policatComponents {
             SelectCampaignForm::HELP => 'Join the campaign of your group or organisation. Within each campaign, you can start as many actions as you like - simultaneously or consecutively.'
         ));
       }
+    }
+  }
+
+  public function executeAjaxSignin() {
+    if ($this->getUser()->isAuthenticated()) {
+      return;
+    }
+
+    $class = sfConfig::get('app_sf_guard_plugin_signin_form', 'sfGuardFormSignin');
+    $this->form = new $class();
+
+    $store = StoreTable::getInstance();
+    $menu_join = $store->findByKeyCached(StoreTable::MENU_JOIN);
+    $register_on = $store->findByKeyCached(StoreTable::REGISTER_ON);
+
+    if ($menu_join) {
+      $this->addContentTags($menu_join);
+    }
+    if ($register_on) {
+      $this->addContentTags($register_on);
+    }
+
+    if ($menu_join->getValue() && $register_on->getValue()) {
+      $this->registerForm = new RegisterForm(new sfGuardUser());
     }
   }
 

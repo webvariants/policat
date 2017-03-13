@@ -158,7 +158,7 @@ class accountActions extends policatActions {
       }
     } else {
 
-      return $this->ajax()->appendPartial('body', 'ajaxSignin')->modal('#login_modal')->render();
+      return $this->ajax()->appendComponent('body', 'account', 'ajaxSignin')->modal('#login_modal')->render();
     }
   }
 

@@ -23,7 +23,7 @@ class sfGuardAuthActions extends BasesfGuardAuthActions {
     $class = sfConfig::get('app_sf_guard_plugin_signin_form', 'sfGuardFormSignin');
     $this->form = new $class();
     return $ajax
-        ->appendPartial('body', 'account/ajaxSignin')
+        ->appendComponent('body', 'account', 'ajaxSignin')
         ->modal('#login_modal')
         ->alert('Please signin.', 'Session timeout.', '#login_modal .modal-body', 'prepend')
         ->render();
