@@ -23,13 +23,11 @@ class RegisterForm extends BasesfGuardRegisterForm {
 
     $this->setValidator('email_address', new ValidatorEmail(array('max_length' => 80)));
 
-    foreach (array('email_address', 'password', 'password_again', 'first_name', 'last_name', 'organisation', 'website', 'street',
-      'post_code', 'city', 'country', 'mobile', 'phone', 'language_id') as $field)
+    foreach (array('email_address', 'password', 'password_again', 'first_name', 'last_name') as $field)
       $this->getValidator($field)->setOption('required', true);
 
     $this->useFields(array(
-        'email_address', 'password', 'password_again', 'first_name', 'last_name', 'organisation', 'website', 'street',
-        'post_code', 'city', 'country', 'mobile', 'phone', 'language_id', 'vat'
+        'email_address', 'password', 'password_again', 'first_name', 'last_name', 'organisation'
       ), true);
 
     $routing = sfContext::getInstance()->getRouting();
@@ -51,7 +49,6 @@ class RegisterForm extends BasesfGuardRegisterForm {
       )));
 
     $this->getWidgetSchema()->setHelp('password', 'Your password must be at least 10 characters long, and include at least one number and one capital letter.');
-    $this->getWidgetSchema()->setHelp('street', 'In accordance with our terms of service and legal obligations, you must provide your, or your organisations\' legal address.');
 
     $this->validatorSchema->setPostValidator(
       new sfValidatorAnd(array(
@@ -63,9 +60,6 @@ class RegisterForm extends BasesfGuardRegisterForm {
           new sfValidatorSchemaCompare('password', sfValidatorSchemaCompare::EQUAL, 'password_again', array(), array('invalid' => 'The two passwords must be the same.'))
       ))
     );
-    
-    $this->getWidgetSchema()->setLabel('vat', 'VAT no. (optional)');
-    $this->mergePostValidator(new ValidatorVat(null, array('country' => 'country', 'vat' => 'vat')));
   }
 
 }

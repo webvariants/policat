@@ -1,4 +1,5 @@
 <?php
+
 /*
  * Copyright (c) 2016, webvariants GmbH <?php Co. KG, http://www.webvariants.de
  *
@@ -39,8 +40,9 @@ class accountActions extends policatActions {
     }
 
     if ($request->isMethod('post')) {
-      if (!$this->getUser()->human())
-        return $this->captchaModal();
+      if (!$this->getUser()->human()) {
+        return $this->ajax()->alert('Captcha missing. Please reload page.', 'Error', null, null, false, 'error')->render();
+      }
 
       $this->form->bind($request->getPostParameter($this->form->getName()));
 
@@ -72,13 +74,15 @@ class accountActions extends policatActions {
 
         UtilMail::send('Register', 'User-' . $user->getId(), null, $user->getEmailAddress(), $subject, $body, null, null, $subst_escape, null, array(), true);
 
+        $this->getUser()->setAttribute(myUser::SESSION_LAST_CAPTCHA, 0);
+
         return $this->ajax()
             ->form($this->form)
             ->attr('#register_form input, #register_form select, #register_form button', 'disabled', 'disabled')
             ->scroll()
             ->alert('Congratulations! You have created a new account. For your first login, you need to check your inbox '
               . 'and click the account validation link in the e-mail we have sent to you.'
-              , 'Please check your inbox now!', '.page-header', 'after')->render();
+              , 'Please check your inbox now!', '.register-success', 'append')->render();
       } else {
         return $this->ajax()->form($this->form)->render();
       }
@@ -149,7 +153,7 @@ class accountActions extends policatActions {
 //        return $this->dom()->form($this->form)->render();
         return
             $this->ajax()
-            ->alert('Wrong user name or password.', 'Error', '#login_modal .modal-body')
+            ->alert('Wrong user name or password. <a class="btn btn-mini" href="">Create new user account?</a>', 'Error', '#login_modal .modal-body', null, true)
             ->render();
       }
     } else {
@@ -159,67 +163,47 @@ class accountActions extends policatActions {
   }
 
   public function executeCaptcha(sfWebRequest $request) {
-    $challenge = $request->getPostParameter('challenge');
     $response = $request->getPostParameter('response');
+    $ok = self::recaptcha_check_answer_version2($response);
 
-    $ok = self::recaptcha_check_answer($challenge, $response);
     if ($ok) {
       $storage = sfContext::getInstance()->getStorage();
       if ($storage instanceof policatSessionStorage) {
         $storage->needSession();
       }
       $this->getUser()->setAttribute(myUser::SESSION_LAST_CAPTCHA, time());
-      return $this->ajax()->j('addClass', 'body', 'captcha_ok')->render();
+      return $this->renderJson(array('success' => true));
     } else
-      return $this->ajax()->render();
+      return $this->renderJson(array('success' => false));
   }
 
-  private static function recaptcha_http_post($host, $path, $data, $port = 80) {
-    $req = "";
-    foreach ($data as $key => $value)
-      $req .= $key . '=' . urlencode(stripslashes($value)) . '&';
-    $req = substr($req, 0, strlen($req) - 1);
-
-    $http_request = "POST $path HTTP/1.0\r\n";
-    $http_request .= "Host: $host\r\n";
-    $http_request .= "Content-Type: application/x-www-form-urlencoded;\r\n";
-    $http_request .= "Content-Length: " . strlen($req) . "\r\n";
-    $http_request .= "User-Agent: reCAPTCHA/PHP\r\n";
-    $http_request .= "\r\n";
-    $http_request .= $req;
-
-    $response = '';
-    if (false == ( $fs = @fsockopen($host, $port, $errno, $errstr, 10) ))
-      die('Could not open socket');
-
-    fwrite($fs, $http_request);
-
-    while (!feof($fs))
-      $response .= fgets($fs, 1160);
-    fclose($fs);
-    $response = explode("\r\n\r\n", $response, 2);
-
-    return $response;
-  }
-
-  protected static function recaptcha_check_answer($challenge, $response, $extra_params = array()) {
+  protected static function recaptcha_check_answer_version2($response) {
     $privkey = sfConfig::get('app_recaptcha_secret');
-    $remoteip = $_SERVER["REMOTE_ADDR"];
 
-    if ($challenge == null || !is_string($challenge) || !is_string($response) || strlen($challenge) == 0 || $response == null || strlen($response) == 0)
+    if ($response == null || !is_string($response) || strlen($response) == 0) {
       return false;
+    }
+    $url = 'https://www.google.com/recaptcha/api/siteverify';
 
-    $response = self::recaptcha_http_post('www.google.com', "/recaptcha/api/verify", array(
-          'privatekey' => $privkey,
-          'remoteip' => $remoteip,
-          'challenge' => $challenge,
-          'response' => $response
-        ) + $extra_params
-    );
+    $url .= '?' . http_build_query(array(
+          'secret' => $privkey,
+          'response' => $response,
+          'remoteip' => $_SERVER["REMOTE_ADDR"]
+        ), null, '&');
 
-    $answers = explode("\n", $response [1]);
+    $curl = curl_init();
+    curl_setopt($curl, CURLOPT_URL, $url);
+    curl_setopt($curl, CURLOPT_RETURNTRANSFER, TRUE);
+    curl_setopt($curl, CURLOPT_TIMEOUT, 15);
+    curl_setopt($curl, CURLOPT_SSL_VERIFYPEER, TRUE);
+    curl_setopt($curl, CURLOPT_SSL_VERIFYHOST, TRUE);
+    $curlData = curl_exec($curl);
 
-    return trim(reset($answers)) == 'true';
+    curl_close($curl);
+
+    $res = json_decode($curlData, TRUE);
+
+    return is_array($res) && $res['success'] === true;
   }
 
   public function executeProfile(sfWebRequest $request) {

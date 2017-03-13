@@ -6,20 +6,19 @@
     <div class="row">
       <div class="span6">
         <?php echo $form->renderHiddenFields() ?>
-        <?php echo $form->renderRows('email_address', 'password', 'password_again', 'first_name', 'last_name', 'phone', 'mobile', 'language_id') ?>
+        <?php echo $form->renderRows('email_address', 'password', 'password_again') ?>
       </div>
       <div class="span6">
-        <?php echo $form->renderRows('organisation', 'vat', 'website', 'street', 'post_code', 'city', 'country') ?>
+        <?php echo $form->renderRows('first_name', 'last_name', 'organisation') ?>
       </div>
       <div class="span12">
         <?php echo $form['terms']->renderRow() ?>
-        <fieldset><div class="control-group"><div class="controls">
-              <?php include_partial('account/captcha') ?>
-            </div></div></fieldset>
+        <fieldset><div class="control-group"><div class="controls"><?php include_partial('account/captcha', array('onLoad' => true)) ?></div></div></fieldset>
       </div>
+      <fieldset><div class="control-group"><div class="controls"><div class="register-success"></div></div></div></fieldset>
     </div>
     <div class="form-actions">
-      <button class="btn btn-primary" type="submit">Create account</button>
+      <button class="btn btn-primary disable-on-captcha" type="submit">Register</button>
       <a class="btn" href="<?php echo url_for('homepage') ?>">Cancel</a>
     </div>
   </form>

@@ -1,3 +1,7 @@
+body {
+	min-width: 300px;
+}
+
 .btn-group {
 	display: block; /* bootstrap fix */
 }
@@ -658,5 +662,48 @@ a.error {
 	div {
 		padding: 0 0 0 10px;
 		float: left;
+	}
+}
+
+.modal > form {
+	margin: 0;
+}
+
+@media (max-width: 480px) {
+	.modal-body {
+		max-height: none;
+	}
+}
+
+.register-form-row {
+	margin: 0;
+	overflow: hidden;
+}
+
+.register-form-side {
+	width: 50%;
+	float: left;
+	box-sizing: border-box;
+	padding: 0 10px 0 0;
+
+	+ .register-form-side {
+		padding: 0 0 0 10px;
+	}
+
+	input {
+		max-width: 100%;
+		width: 100%;
+		box-sizing: border-box;
+		height: 28px;
+	}
+
+	@media (max-width: 480px) {
+		width: 100%;
+		padding: 0;
+		float: none;
+
+		+ .register-form-side {
+			padding: 0;
+		}
 	}
 }

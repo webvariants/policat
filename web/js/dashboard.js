@@ -1,37 +1,49 @@
 /* global showdown */
 
-var initRecaptcha_ids = 1;
-var initRecaptcha = function() {
-	var recaptchas = $('.recaptcha');
+function initRecaptcha(onLoad) {
+	var recaptchas = $('#recaptcha' + (onLoad ? '.captcha-onload' : ''));
 	if (recaptchas.length) {
 		$.ajax({
-		url: 'https://www.google.com/recaptcha/api/js/recaptcha_ajax.js',
-		dataType: "script",
-		cache: true,
-		success: function() {
-			recaptchas.each(function() {
-				if ($(this).hasClass('has')) return;
-				var id = $(this).addClass('has').attr('id');
-				if (id == undefined) { 
-					id = 'recaptcha_' + (initRecaptcha_ids++);
-					$(this).attr('id', id);
-				}
-				$(this).parents('form').addClass('has_recaptcha');
-				Recaptcha.create($(this).attr('data-public_key'), id, {theme: "red"});
-			});
+			url: 'https://www.google.com/recaptcha/api.js?onload=onCaptchaReady&render=explicit',
+			dataType: "script",
+			cache: true
+		});
+	}
+}
+
+function onCaptchaReady() {
+	var sitekey = $('#recaptcha').data('sitekey');
+	$('.disable-on-captcha').prop('disabled', true);
+	if (sitekey) {
+		grecaptcha.render($('#recaptcha')[0], {
+			sitekey: sitekey,
+			callback: onCaptchaSubmit,
+		});
+	}
+}
+
+function onCaptchaSubmit(response) {
+	var recaptcha = $('#recaptcha');
+	$.ajax({
+		url: recaptcha.data('url'),
+		type: 'POST',
+		data: [{name: 'response', value: response}],
+		success: function (data) {
+			if (data.success) {
+				$('.disable-on-captcha').prop('disabled', false);
+				recaptcha.remove();
+			}
 		}
-	});	
-}};
+	});
+}
 
-
-
-var tryEdits = function(prefix) {
+var tryEdits = function (prefix) {
 	if (!prefix) {
 		prefix = '';
 	}
 
 	function previewParser(template) {
-		return function(content) {
+		return function (content) {
 			showdown.setOption('smoothLivePreview', true);
 			var converter = new showdown.Converter();
 			var html = converter.makeHtml(content);
@@ -46,11 +58,11 @@ var tryEdits = function(prefix) {
 
 	function markdownTitle(markItUp, char) {
 		var heading = '';
-		var n = $.trim(markItUp.selection||markItUp.placeHolder).length;
-		for(var i = 0; i < n; i++) {
+		var n = $.trim(markItUp.selection || markItUp.placeHolder).length;
+		for (var i = 0; i < n; i++) {
 			heading += char;
 		}
-		return '\n'+heading;
+		return '\n' + heading;
 	}
 
 	var defaultSet = [
@@ -82,7 +94,7 @@ var tryEdits = function(prefix) {
 		{name: 'Preview', call: 'preview', className: "preview"}
 	];
 
-	$(prefix + 'textarea.markdown').each(function() {
+	$(prefix + 'textarea.markdown').each(function () {
 		var textarea = $(this);
 		var extraSets = [textarea.data('markup-set-1'), textarea.data('markup-set-2'), textarea.data('markup-set-3')];
 		var markupSet = defaultSet.slice();
@@ -113,28 +125,40 @@ var tryEdits = function(prefix) {
 		} catch (e) {
 		}
 	});
-	try {$(prefix + 'textarea.elastic, ' + prefix + 'textarea.markItUpEditor:not(.highlight)').elastic();} catch (e) {}
 	try {
-		$('textarea.highlight').each(function() {
+		$(prefix + 'textarea.elastic, ' + prefix + 'textarea.markItUpEditor:not(.highlight)').elastic();
+	} catch (e) {
+	}
+	try {
+		$('textarea.highlight').each(function () {
 			var that = $(this);
 			var help = that.hasClass('markItUpEditor') ? that.parents('.markItUp').parent() : that;
 			help = help.next('.help-block').text();
-			if (help) that.highlightTextarea({'words': help.match(/#[^#, ]+#/g)});
+			if (help)
+				that.highlightTextarea({'words': help.match(/#[^#, ]+#/g)});
 
 			if (that.hasClass('elastic')) {
 				that.parents('.highlightTextarea').addClass('elastic-fix');
 			}
 		});
-	} catch (e) {}
+	} catch (e) {
+	}
 
-	if ($.fn.chosen != undefined) { 
-		try { $(prefix + 'select:not(.no-chosen)').chosen({'allow_single_deselect': true}); } catch (e) {}
+	if ($.fn.chosen != undefined) {
+		try {
+			$(prefix + 'select:not(.no-chosen)').chosen({'allow_single_deselect': true});
+		} catch (e) {
+		}
 
 		$('.show-before-chosen-init').removeClass('show-before-chosen-init');
 	}
 	if ($.fn.select2 != undefined) {
-		try { $(prefix + 'select.select2').select2(); } catch (e) {}
-		try { $(prefix + 'input.select2sort').each(function() {
+		try {
+			$(prefix + 'select.select2').select2();
+		} catch (e) {
+		}
+		try {
+			$(prefix + 'input.select2sort').each(function () {
 				var input = $(this);
 				var data = input.data('tags');
 				var tags = [];
@@ -151,13 +175,19 @@ var tryEdits = function(prefix) {
 
 				input.select2('container').find('ul.select2-choices').sortable({
 					containment: 'parent',
-					start: function() { input.select2('onSortStart'); },
-					update: function() { input.select2('onSortEnd'); }
+					start: function () {
+						input.select2('onSortStart');
+					},
+					update: function () {
+						input.select2('onSortEnd');
+					}
 				});
-		}); } catch (e) {}
+			});
+		} catch (e) {
+		}
 	}
 
-	$(prefix + '.add_popover').each(function() {
+	$(prefix + '.add_popover').each(function () {
 		var $this = $(this);
 		var placement = $this.hasClass('popover_left') ? 'left' : 'right';
 		var trigger = $this.hasClass('popover_hover') ? 'hover' : 'focus';
@@ -179,15 +209,20 @@ var tryEdits = function(prefix) {
 
 var load_href = window.location.href;
 var wvAjax_gen_id = 1;
-var wvAjax = function(options) {
+var wvAjax = function (options) {
 	var $this = $(this);
-	var url   = '';
+	var url = '';
 	var cache = false;
-	var data  = [];
-	var type  = 'post';
-	var add_data = function(extra_data) {$.each(extra_data, function(k, v) {data.push({'name': k, 'value': v});});};
+	var data = [];
+	var type = 'post';
+	var add_data = function (extra_data) {
+		$.each(extra_data, function (k, v) {
+			data.push({'name': k, 'value': v});
+		});
+	};
 	var iframe = false;
-	if (options['originalEvent'] != undefined || options['handleObj'] != undefined) options = {}; // ignore options when it is an event
+	if (options['originalEvent'] != undefined || options['handleObj'] != undefined)
+		options = {}; // ignore options when it is an event
 
 	var submit_extra_data = undefined;
 	if ($this.hasClass('submit')) { // submit form through a link
@@ -197,10 +232,14 @@ var wvAjax = function(options) {
 	if ($this.is('form')) {
 		url = $this.attr('action');
 		data = $this.serializeArray();
-		$('.btn.active[data-submit=*]', $this).each(function() {add_data($(this).data('submit'));});
-		if ($this.attr('enctype') == 'multipart/form-data') iframe = true;
+		$('.btn.active[data-submit=*]', $this).each(function () {
+			add_data($(this).data('submit'));
+		});
+		if ($this.attr('enctype') == 'multipart/form-data')
+			iframe = true;
 		type = $this.attr('method');
-		if (type == undefined) type = 'get';
+		if (type == undefined)
+			type = 'get';
 		cache = type == 'get';
 	} else if ($this.is('a')) {
 		url = $this.attr('href');
@@ -213,48 +252,38 @@ var wvAjax = function(options) {
 		add_data({'value': $this.val()});
 	}
 	if ($this.hasClass('post')) {
-		type = 'post'; 
-		cache = false; 
+		type = 'post';
+		cache = false;
 	}
 	if ($this.hasClass('domid')) {
-		if (!$this.attr('id')) $this.attr('id', 'wvAjax_gen_id_' + (++wvAjax_gen_id));
+		if (!$this.attr('id'))
+			$this.attr('id', 'wvAjax_gen_id_' + (++wvAjax_gen_id));
 		add_data({'domin': $this.attr('id')});
 	}
-	if (options['extra_data'] != undefined) add_data(options['extra_data']);
-	if ($this.data('submit') != undefined) add_data($this.data('submit'));
+	if (options['extra_data'] != undefined)
+		add_data(options['extra_data']);
+	if ($this.data('submit') != undefined)
+		add_data($this.data('submit'));
 	if ($this.data('collect') != undefined) {
-		$.each($this.data('collect'), function(k, v) {
-			data.push({'name': k, 'value': $(v).val()});;
+		$.each($this.data('collect'), function (k, v) {
+			data.push({'name': k, 'value': $(v).val()});
+			;
 		});
 	}
-	if (submit_extra_data != undefined) add_data(submit_extra_data);
-	if (options['url'] != undefined) url = options['url'];
-	if (options['type'] != undefined) type = options['type'];
+	if (submit_extra_data != undefined)
+		add_data(submit_extra_data);
+	if (options['url'] != undefined)
+		url = options['url'];
+	if (options['type'] != undefined)
+		type = options['type'];
 	if ($this.hasClass('add_href')) {
 		add_data({'href': load_href});
 	}
 
-	if ($this.hasClass('has_recaptcha')) {
-		var recaptcha = $('.recaptcha');
-		wvAjax({
-			url: recaptcha.attr('data-url'),
-			extra_data: {challenge: Recaptcha.get_challenge(), response: Recaptcha.get_response()},
-			success: function() {
-				if ($('body').hasClass('captcha_ok')) {
-					recaptcha.removeClass('recaptcha');
-					$this.removeClass('has_recaptcha');
-					Recaptcha.destroy();
-					wvAjax.call($this, {});
-				}
-				else {
-					Recaptcha.reload();
-					Recaptcha.focus_response_field();
-				}
-			}
-		});
+	if ($this.hasClass('captcha_modal')) {
+		$this.parents('.modal').modal('hide').remove();
 		return false;
 	}
-	if ($this.hasClass('captcha_modal')) {$this.parents('.modal').modal('hide').remove();return false;}
 
 	// $this.addClass('progress');
 	$('#waiting').show();
@@ -267,10 +296,10 @@ var wvAjax = function(options) {
 		'iframe': iframe,
 		'files': iframe ? $(':file', $this) : null,
 		'processData': !iframe,
-		'success': function(data) {
+		'success': function (data) {
 			// $this.removeClass('progress');
 			$('#waiting').hide();
-			$.each(data, function(index, action) {
+			$.each(data, function (index, action) {
 				var action_data = action.data == undefined ? {} : action.data;
 				switch (action.cmd) {
 					case 'j':
@@ -278,7 +307,7 @@ var wvAjax = function(options) {
 							var s = jQuery(action_data.selector);
 							if (action_data.args == undefined)
 								s[action_data.cmd].apply(s);
-							else 
+							else
 								s[action_data.cmd].apply(s, action_data.args);
 						}
 						break;
@@ -295,7 +324,7 @@ var wvAjax = function(options) {
 						var form = $('<form style="display: none" method="post"></form>');
 						$('body').append(form);
 						form.attr('action', action_data.url);
-						$.each(action_data.data, function(name, value) {
+						$.each(action_data.data, function (name, value) {
 							var input = $('<input type="hidden"/>');
 							form.append(input);
 							input.attr('name', name).val(value);
@@ -320,7 +349,7 @@ var wvAjax = function(options) {
 						$('.control-group.error.' + form_prefix + 'group_error').removeClass('error').removeClass(form_prefix + 'group_error');
 						$('a.' + form_prefix + 'tab_error').removeClass('error').removeClass(form_prefix + 'tab_error');
 						if (action_data.form_errors != undefined) {
-							$.each(action_data.form_errors, function(error_field, error_message) {
+							$.each(action_data.form_errors, function (error_field, error_message) {
 								var fieldname = error_field;
 								var target = $('#' + form_prefix + fieldname);
 								while (target.length == 0 && fieldname) {
@@ -328,13 +357,15 @@ var wvAjax = function(options) {
 									if (pos > 0) {
 										fieldname = fieldname.substr(0, pos);
 										target = $('#' + form_prefix + fieldname);
-									}
-									else fieldname = ''; // to abort loop
+									} else
+										fieldname = ''; // to abort loop
 								}
 								if (target.length) {
 									var p = target.parent();
-									if (p.is('label')) target = p;
-									if (target.hasClass('highlight')) target = target.parents('.highlightTextarea');
+									if (p.is('label'))
+										target = p;
+									if (target.hasClass('highlight'))
+										target = target.parents('.highlightTextarea');
 									target.after($('<p class="help-block form_error_message"></p>').text(error_message).addClass(form_prefix + 'form_error'));
 									target.parents('.control-group').addClass('error').addClass(form_prefix + 'group_error');
 									var pane = target.parents('.tab-pane');
@@ -349,9 +380,10 @@ var wvAjax = function(options) {
 				}
 			});
 
-			if (options['success'] != undefined && $.isFunction(options['success'])) options['success'].call($this);
+			if (options['success'] != undefined && $.isFunction(options['success']))
+				options['success'].call($this);
 		},
-		'error': function(data) {
+		'error': function (data) {
 			// $this.removeClass('progress');
 			$('#waiting').hide();
 			var text = (typeof data == 'object' && data.responseText != undefined && data.responseText) ? data.responseText : '';
@@ -361,8 +393,7 @@ var wvAjax = function(options) {
 			$('#waiting').before('<div id="crit_error_modal" class="modal hide hidden_remove"><div class="modal-header"><a class="close" data-dismiss="modal">&times;</a><h3>ERROR</h3></div><div class="modal-body"> </div><div class="modal-footer"><a class="btn" data-dismiss="modal">Close</a></div></div>');
 			if (text.indexOf('<') == 0) {
 				$('#crit_error_modal .modal-body').append(text);
-			}
-			else {
+			} else {
 				var pre = $('<pre></pre>').text(text);
 				$('#crit_error_modal .modal-body').append(pre);
 			}
@@ -372,43 +403,54 @@ var wvAjax = function(options) {
 	return false;
 };
 
-$(function($) {
+$(function ($) {
 	$('.nav-collapse').collapse('hide');
-	
+
 	$('body')
-	.on('submit', 'form.ajax_form', wvAjax)
-	.on('click', 'a.ajax_link:not(.disabled), form.ajax_form .submit', wvAjax)
-	.on('change', 'select.ajax_change', wvAjax)
-	.on('hidden', '.hidden_remove', function() {$(this).remove();})
-	.on('click', 'a.disabled', function() { return false; })
-	;
+			.on('submit', 'form.ajax_form', wvAjax)
+			.on('click', 'a.ajax_link:not(.disabled), form.ajax_form .submit', wvAjax)
+			.on('change', 'select.ajax_change', wvAjax)
+			.on('hidden', '.hidden_remove', function () {
+				$(this).remove();
+			})
+			.on('click', 'a.disabled', function () {
+				return false;
+			})
+			;
 	$('.change_onload select.ajax_change').each(wvAjax);
-	$('button.filter_reset').click(function() { 
+	$('button.filter_reset').click(function () {
 		var form = $(this).parents('form');
 		$('select', form).val('');
 		$('input', form).val('');
-		if ($.fn.chosen != undefined) try { $('select', form).trigger("chosen:updated"); } catch (e) {}
+		if ($.fn.chosen != undefined)
+			try {
+				$('select', form).trigger("chosen:updated");
+			} catch (e) {
+			}
 	});
-	
-	$('select.select-update').change(function() {
+
+	$('select.select-update').change(function () {
 		wvAjax({
 			type: 'get',
 			url: $(this).attr('data-update-url'),
-			extra_data: {id: $(this).val(), target: $(this).attr('data-update-target') }
+			extra_data: {id: $(this).val(), target: $(this).attr('data-update-target')}
 		});
-	}).each(function() {
+	}).each(function () {
 		if ($(this).val()) {
 			var target = $(this).attr('data-update-target');
 			wvAjax({
 				type: 'get',
 				url: $(this).attr('data-update-url'),
-				extra_data: {id: $(this).val(), target: $(this).attr('data-update-target') },
-				success: function() {if ($(target).attr('data-refresh')) $(target).val($(target).attr('data-refresh')).trigger("chosen:updated");}
+				extra_data: {id: $(this).val(), target: $(this).attr('data-update-target')},
+				success: function () {
+					if ($(target).attr('data-refresh'))
+						$(target).val($(target).attr('data-refresh')).trigger("chosen:updated");
+				}
 			});
 		}
 	});
 
-	$('select.toggle-on-value').on('change', function() {
+	$('select.toggle-on-value').on('change', function () {
 		var data = $(this).data('toggle-on-value');
 		$(data.target).toggleClass(data.class, data.values.indexOf($(this).val()) > -1);
 	}).change();
@@ -416,13 +458,13 @@ $(function($) {
 	var target_selector_1 = $('#edit_petition_target_selector_1');
 	if (target_selector_1.length) {
 		var target_selector_2 = $('#edit_petition_target_selector_2');
-		target_selector_1.change(function() {
+		target_selector_1.change(function () {
 			var val1 = target_selector_1.val();
 			var val2 = target_selector_2.val();
 			if (val1 == val2) {
 				target_selector_2.val('');
 			}
-			$('option', target_selector_2).each(function() {
+			$('option', target_selector_2).each(function () {
 				var option = $(this);
 				var oval = option.val();
 				if (oval && oval == val1) {
@@ -441,35 +483,37 @@ $(function($) {
 
 		target_selector_1.change();
 	}
-	
-	$('body').on('click', '.filter_order', function() {
+
+	$('body').on('click', '.filter_order', function () {
 		$('#o').val($(this).attr('data-value'));
 		$('form.filter_form').submit();
 	});
-	
+
 	tryEdits();
 
-	$('form.form_show_submit').on('change keyup', 'textarea, input[type=text]', function() {
+	$('form.form_show_submit').on('change keyup', 'textarea, input[type=text]', function () {
 		var form = $(this).parents('form');
 		$('button[type=submit]', form).show();
 	});
 
 	$('.modal_show').modal('show');
-	initRecaptcha();
+	initRecaptcha(true);
 
-	$.fn.select2color = function() {
-		var format = function(state) {
-				var val = $(state.element).val();
-				return '<span class="pledge_color pledge_color_' + val + '"></span>' + state.text;
-			};
+	$.fn.select2color = function () {
+		var format = function (state) {
+			var val = $(state.element).val();
+			return '<span class="pledge_color pledge_color_' + val + '"></span>' + state.text;
+		};
 		$(this).select2({
 			formatResult: format,
 			formatSelection: format,
-			escapeMarkup: function(m) { return m; },
+			escapeMarkup: function (m) {
+				return m;
+			},
 			minimumResultsForSearch: -1
 		});
 	};
-	
+
 	$('body').on('click', '.download-prepare', function () {
 		var a = $(this);
 		var href = a.attr('href');
@@ -477,13 +521,13 @@ $(function($) {
 		var pages = submit.pages;
 		var modal_body = $('#prepare-download .modal-body');
 
-		
-		var error = function() {
+
+		var error = function () {
 			modal_body.append('<div class="alert">Error.</div>');
 		};
-		
+
 		a.hide();
-		
+
 		var progress = $('<div class="progress"></div>');
 		a.after(progress);
 		var bar = $('<div class="bar" style="width: 0%;"></div>');
@@ -510,18 +554,18 @@ $(function($) {
 					} else {
 						error();
 					}
-					
+
 				},
 				error: error
 			});
 		};
-		
+
 		process(0);
 
 		return false;
 	});
 
-	$('.select-order').each(function() {
+	$('.select-order').each(function () {
 		var options = $(this).data('options');
 		var target = $(options.target);
 		var option;
@@ -550,14 +594,14 @@ $(function($) {
 	function luma(hexCode) {
 		hexCode = hexCode.replace('#', '');
 
-		var r = parseInt(hexCode.substr(0, 2),16) / 255;
-		var g = parseInt(hexCode.substr(2, 2),16) / 255;
-		var b = parseInt(hexCode.substr(4, 2),16) / 255;
+		var r = parseInt(hexCode.substr(0, 2), 16) / 255;
+		var g = parseInt(hexCode.substr(2, 2), 16) / 255;
+		var b = parseInt(hexCode.substr(4, 2), 16) / 255;
 
 		return (0.213 * r + 0.715 * g + 0.072 * b);
 	}
 
-	$('input.luma-light').on('change', function() {
+	$('input.luma-light').on('change', function () {
 		var val = $(this).val();
 		var l = luma(val);
 		var info = $(this).data('luma-info');
@@ -574,4 +618,15 @@ $(function($) {
 		}
 	}).change();
 
+
+	var registerInitRecaptchaDone = false;
+	$('.login-register-switch').on('click', function () {
+		$('#register_form, #login_form').toggle();
+		//$('#login_modal').modal();
+
+		if (!registerInitRecaptchaDone) {
+			initRecaptcha();
+			registerInitRecaptchaDone = true;
+		}
+	});
 });

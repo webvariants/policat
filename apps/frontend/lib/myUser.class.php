@@ -25,11 +25,18 @@ class myUser extends sfGuardSecurityUser {
    * @return boolean 
    */
   public function human() {
-    if ($this->isAuthenticated())
+    if ($this->isAuthenticated()) {
       return true;
+    }
+
+    if (!sfConfig::get('app_recaptcha_public')) {
+      // recaptcha disabled
+      return true;
+    }
+
     $last_captcha = $this->getAttribute(self::SESSION_LAST_CAPTCHA);
 
-    return $last_captcha && ($last_captcha + 60 * 5 > time());
+    return $last_captcha && ($last_captcha + 60 * 15 > time());
   }
 
   public function getUserId() {

@@ -78,10 +78,6 @@ class policatActions extends sfActions {
     throw new Exception('wrong argument');
   }
 
-  public function captchaModal() {
-    return $this->ajax()->appendPartial('body', 'account/captchaModal')->modal('#captcha_modal')->initRecaptcha()->render();
-  }
-
   /**
    *
    * @return sfCache
