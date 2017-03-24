@@ -88,6 +88,22 @@ module.exports = function(grunt) {
 				files: {
 					'web/css/dist/theme/sleek.css': 'web/css/theme/sleek.less'
 				}
+			},
+			theme_light: {
+				options: {
+					sourceMapFilename: 'web/css/dist/theme/light.less.map'
+				},
+				files: {
+					'web/css/dist/theme/light.css': 'web/css/theme/light.less'
+				}
+			},
+			theme_classic_modified: {
+				options: {
+					sourceMapFilename: 'web/css/dist/theme/classic-modified.less.map'
+				},
+				files: {
+					'web/css/dist/theme/classic-modified.css': 'web/css/theme/classic-modified.less'
+				}
 			}
 		},
 		cssmin: {
