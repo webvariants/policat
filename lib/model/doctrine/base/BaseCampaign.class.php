@@ -34,6 +34,7 @@
  * @property Doctrine_Collection $Downloads
  * @property Doctrine_Collection $Quotas
  * @property Offer $Offer
+ * @property Doctrine_Collection $InvitationCampaign
  * 
  * @method integer             getId()                    Returns the current record's "id" value
  * @method string              getName()                  Returns the current record's "name" value
@@ -64,6 +65,7 @@
  * @method Doctrine_Collection getDownloads()             Returns the current record's "Downloads" collection
  * @method Doctrine_Collection getQuotas()                Returns the current record's "Quotas" collection
  * @method Offer               getOffer()                 Returns the current record's "Offer" value
+ * @method Doctrine_Collection getInvitationCampaign()    Returns the current record's "InvitationCampaign" collection
  * @method Campaign            setId()                    Sets the current record's "id" value
  * @method Campaign            setName()                  Sets the current record's "name" value
  * @method Campaign            setStatus()                Sets the current record's "status" value
@@ -93,6 +95,7 @@
  * @method Campaign            setDownloads()             Sets the current record's "Downloads" collection
  * @method Campaign            setQuotas()                Sets the current record's "Quotas" collection
  * @method Campaign            setOffer()                 Sets the current record's "Offer" value
+ * @method Campaign            setInvitationCampaign()    Sets the current record's "InvitationCampaign" collection
  * 
  * @package    policat
  * @subpackage model
@@ -264,6 +267,10 @@ abstract class BaseCampaign extends myDoctrineRecord
              'foreign' => 'campaign_id'));
 
         $this->hasOne('Offer', array(
+             'local' => 'id',
+             'foreign' => 'campaign_id'));
+
+        $this->hasMany('InvitationCampaign', array(
              'local' => 'id',
              'foreign' => 'campaign_id'));
 

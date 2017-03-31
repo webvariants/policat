@@ -1,6 +1,7 @@
 <?php
 /* @var $campaign Campaign */
 /* @var $campaign_rights_list Doctrine_Collection */
+use_helper('Date');
 ?>
 <div id="campaign_members" class="well">
   <?php if (isset($campaign_rights_list)): ?>
@@ -44,6 +45,19 @@
       </table>
       <?php if ($admin): ?>
       </form>
+      <div id="members_add">
+        <h4>Add members to campaign team</h4>
+        <form class="ajax_form form-inline" method="post" action="<?php echo url_for('campaign_members_add', array('id' => $campaign->getId())) ?>">
+          <?php echo $form ?>
+          <button class="btn btn-primary" type="submit">Add member</button>
+          <?php if ($invitations): ?>
+          <h4 class="top10">Invitations</h4>
+          <?php foreach ($invitations as $invitationCampaign): /* @var $invitationCampaign InvitationCampaign*/ ?>
+          <div><?php echo $invitationCampaign->getInvitation()->getEmailAddress() ?> (<?php echo format_date($invitationCampaign->getCreatedAt(), 'yyyy-MM-dd') ?>)</div>
+          <?php endforeach; ?>
+          <?php endif ?>
+        </form>
+      </div>
     <?php endif ?>
   <?php endif ?>
 </div>
