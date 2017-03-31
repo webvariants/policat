@@ -8,7 +8,7 @@ class Version102 extends Doctrine_Migration_Base
     {
         $this->addColumn('petition', 'style_font_family', 'string', '80', array(
              'notnull' => '1',
-             'default' => '"Lucida Sans Unicode", Vardana, Arial',
+             'default' => '"Lucida Sans Unicode", Verdana, Arial',
              ));
         $this->addColumn('petition', 'style_title_color', 'string', '7', array(
              'notnull' => '1',
