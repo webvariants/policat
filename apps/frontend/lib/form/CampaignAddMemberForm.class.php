@@ -23,6 +23,11 @@ class CampaignAddMemberForm extends BaseForm {
       throw new \Exception('campaign option required');
     }
 
+    $inviteBy = $this->getOption('invite_by');
+    if (!$inviteBy || !$inviteBy instanceof sfGuardUser) {
+      throw new \Exception('invite_by (sfGuardUser) option required');
+    }
+
     $this->campaign = $campaign;
 
     $this->setWidget('email', new sfWidgetFormInputText(array('label' => 'New member\'s email address'), array('placeholder' => 'example: name@domain.com')));
@@ -75,9 +80,48 @@ class CampaignAddMemberForm extends BaseForm {
     $icNew = new InvitationCampaign();
     $icNew->setInvitation($invitation);
     $icNew->setCampaign($this->campaign);
+    $icNew->setInvitedBy($this->getOption('invite_by'));
     $icNew->save();
+
+    $this->sendEmail($icNew);
 
     return array('success' => true, 'message' => 'No user exists with this email address. Invitation sent by email to ' . $this->getValue('email') . '.');
   }
 
+  private function sendEmail(InvitationCampaign $invitationCampaign) {
+    $invitation = $invitationCampaign->getInvitation();
+    $sender = $invitationCampaign->getInvitedBy();
+
+    $senderName = strtr($sender->getFullName(), array('[' => '', ']' => '', '(' => '', ')' => '', '<' => '', '>' => ''));
+    $senderEmail = $sender->getEmailAddress();
+    $campaignName = strtr($invitationCampaign->getCampaign()->getName(), array('[' => '', ']' => '', '(' => '', ')' => '', '<' => '', '>' => ''));
+    $email = $invitation->getEmailAddress();
+    $code = $invitation->getValidationCode();
+    $registerUrl = sfContext::getInstance()->getRouting()->generate('register', array(), true) . '?invitation=' . $code;
+    $invitationUrl = sfContext::getInstance()->getRouting()->generate('invitation', array(), true) . '?code=' . $code;
+
+    $homepage = sfContext::getInstance()->getRouting()->generate('homepage', array(), true);
+
+    $portalName = StoreTable::value(StoreTable::PORTAL_NAME);
+    $subject = $portalName . ' invitation';
+    $body = <<<EOT
+<div markdown="1" class="frame">
+#$subject
+
+[$senderName](mailto:$senderEmail) invited you to join campaign $campaignName as a member/editor.
+There is no user account with your [$email](mailto:$email) yet.
+Register a new user account, or transfer the invitation to an existing user account with a different email address.
+
+[Register]($registerUrl)
+[Login and transfer invitation to existing account]($invitationUrl)
+
+If you received this message by mistake, you may simply ignore it.
+</div>
+<div markdown="1" class="footer">
+[$portalName]($homepage)
+</div>
+EOT;
+
+    UtilMail::send('CampaignInvite', 'Invitation-' . $invitation->getId() , null, $invitation->getEmailAddress(), $subject, $body, null, null, null, null, array(), true);
+  }
 }

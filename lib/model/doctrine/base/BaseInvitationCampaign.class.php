@@ -7,17 +7,23 @@
  * 
  * @property integer $invitation_id
  * @property integer $campaign_id
+ * @property integer $invited_by_id
  * @property Invitation $Invitation
  * @property Campaign $Campaign
+ * @property sfGuardUser $InvitedBy
  * 
  * @method integer            getInvitationId()  Returns the current record's "invitation_id" value
  * @method integer            getCampaignId()    Returns the current record's "campaign_id" value
+ * @method integer            getInvitedById()   Returns the current record's "invited_by_id" value
  * @method Invitation         getInvitation()    Returns the current record's "Invitation" value
  * @method Campaign           getCampaign()      Returns the current record's "Campaign" value
+ * @method sfGuardUser        getInvitedBy()     Returns the current record's "InvitedBy" value
  * @method InvitationCampaign setInvitationId()  Sets the current record's "invitation_id" value
  * @method InvitationCampaign setCampaignId()    Sets the current record's "campaign_id" value
+ * @method InvitationCampaign setInvitedById()   Sets the current record's "invited_by_id" value
  * @method InvitationCampaign setInvitation()    Sets the current record's "Invitation" value
  * @method InvitationCampaign setCampaign()      Sets the current record's "Campaign" value
+ * @method InvitationCampaign setInvitedBy()     Sets the current record's "InvitedBy" value
  * 
  * @package    policat
  * @subpackage model
@@ -39,6 +45,11 @@ abstract class BaseInvitationCampaign extends myDoctrineRecord
              'primary' => true,
              'length' => 4,
              ));
+        $this->hasColumn('invited_by_id', 'integer', 4, array(
+             'type' => 'integer',
+             'notnull' => true,
+             'length' => 4,
+             ));
 
         $this->option('symfony', array(
              'form' => false,
@@ -56,6 +67,11 @@ abstract class BaseInvitationCampaign extends myDoctrineRecord
 
         $this->hasOne('Campaign', array(
              'local' => 'campaign_id',
+             'foreign' => 'id',
+             'onDelete' => 'CASCADE'));
+
+        $this->hasOne('sfGuardUser as InvitedBy', array(
+             'local' => 'invited_by_id',
              'foreign' => 'id',
              'onDelete' => 'CASCADE'));
 

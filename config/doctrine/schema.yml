@@ -1285,6 +1285,8 @@ InvitationCampaign:
   columns:
     invitation_id:     { type: integer(4), primary: true }
     campaign_id:       { type: integer(4), primary: true }
+    invited_by_id:     { type: integer(4), notnull: true }
   relations:
     Invitation:        { local: invitation_id,  onDelete: CASCADE }
     Campaign:          { local: campaign_id,    onDelete: CASCADE }
+    InvitedBy:         { class: sfGuardUser, local: invited_by_id, onDelete: CASCADE }

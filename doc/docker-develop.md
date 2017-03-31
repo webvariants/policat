@@ -49,5 +49,5 @@ Other tasks must be called for some features:
 ## common development tasks
 
     ./docker-develop-exec php symfony doctrine:generate-migrations-diff --application=frontend --env=prod
-    ./docker-develop-exec php symfony php symfony doctrine:build --all-classes --sql
-    ./docker-develop-exec php symfony php symfony doctrine:migrate
+    ./docker-develop-exec php symfony doctrine:build --all-classes --sql
+    ./docker-develop-exec php symfony doctrine:migrate

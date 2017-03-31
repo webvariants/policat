@@ -16,6 +16,7 @@ signers:                   { url: '/signers/:id/:text_id',             param: { 
 
 homepage: {               url: '/',                                 param: { module: d_home,     action: index },                      requirements: { sf_method: [get, head] }  }
 ajax_signin: {            url: '/login',                            param: { module: account,    action: ajaxSignin },                 requirements: { sf_method: [get, head, post] } }
+invitation: {             url: '/invitation',                       param: { module: account,    action: invitation },                 requirements: { sf_method: [get, head, post] } }
 password_forgotten: {     url: '/forgotten',                        param: { module: account,    action: forgotten },                  requirements: { sf_method: [get, head, post] } }
 password_reset: {         url: '/forgotten/:id/:code',              param: { module: account,    action: reset },                      requirements: { sf_method: [get, head], id: '\d+', code: '[a-zA-Z0-9]+' } }
 captcha: {                url: '/captcha',                          param: { module: account,    action: captcha },                    requirements: { sf_method: [post] } }

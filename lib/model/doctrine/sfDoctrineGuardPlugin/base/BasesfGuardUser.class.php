@@ -45,6 +45,7 @@
  * @property Doctrine_Collection $TicketsTo
  * @property Doctrine_Collection $Downloads
  * @property Doctrine_Collection $Quotas
+ * @property Doctrine_Collection $InvitationCampaign
  * 
  * @method string                getFirstName()             Returns the current record's "first_name" value
  * @method string                getLastName()              Returns the current record's "last_name" value
@@ -86,6 +87,7 @@
  * @method Doctrine_Collection   getTicketsTo()             Returns the current record's "TicketsTo" collection
  * @method Doctrine_Collection   getDownloads()             Returns the current record's "Downloads" collection
  * @method Doctrine_Collection   getQuotas()                Returns the current record's "Quotas" collection
+ * @method Doctrine_Collection   getInvitationCampaign()    Returns the current record's "InvitationCampaign" collection
  * @method sfGuardUser           setFirstName()             Sets the current record's "first_name" value
  * @method sfGuardUser           setLastName()              Sets the current record's "last_name" value
  * @method sfGuardUser           setEmailAddress()          Sets the current record's "email_address" value
@@ -126,6 +128,7 @@
  * @method sfGuardUser           setTicketsTo()             Sets the current record's "TicketsTo" collection
  * @method sfGuardUser           setDownloads()             Sets the current record's "Downloads" collection
  * @method sfGuardUser           setQuotas()                Sets the current record's "Quotas" collection
+ * @method sfGuardUser           setInvitationCampaign()    Sets the current record's "InvitationCampaign" collection
  * 
  * @package    policat
  * @subpackage model
@@ -326,6 +329,10 @@ abstract class BasesfGuardUser extends myDoctrineRecord
         $this->hasMany('Quota as Quotas', array(
              'local' => 'id',
              'foreign' => 'user_id'));
+
+        $this->hasMany('InvitationCampaign', array(
+             'local' => 'id',
+             'foreign' => 'invited_by_id'));
 
         $timestampable0 = new Doctrine_Template_Timestampable(array(
              ));

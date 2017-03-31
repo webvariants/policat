@@ -15,7 +15,7 @@ CREATE TABLE groups (id INT AUTO_INCREMENT, description TEXT NOT NULL, PRIMARY K
 CREATE TABLE group_member (group_id INT, member_id INT, PRIMARY KEY(group_id, member_id)) DEFAULT CHARACTER SET utf8 COLLATE utf8_general_ci ENGINE = INNODB;
 CREATE TABLE group_permission (group_id INT, permission_id INT, PRIMARY KEY(group_id, permission_id)) DEFAULT CHARACTER SET utf8 COLLATE utf8_general_ci ENGINE = INNODB;
 CREATE TABLE invitation (id INT AUTO_INCREMENT, email_address VARCHAR(80) NOT NULL UNIQUE, validation_code VARCHAR(20), created_at DATETIME NOT NULL, updated_at DATETIME NOT NULL, PRIMARY KEY(id)) DEFAULT CHARACTER SET utf8 COLLATE utf8_general_ci ENGINE = INNODB;
-CREATE TABLE invitation_campaign (invitation_id INT, campaign_id INT, created_at DATETIME NOT NULL, updated_at DATETIME NOT NULL, PRIMARY KEY(invitation_id, campaign_id)) DEFAULT CHARACTER SET utf8 COLLATE utf8_general_ci ENGINE = INNODB;
+CREATE TABLE invitation_campaign (invitation_id INT, campaign_id INT, invited_by_id INT NOT NULL, created_at DATETIME NOT NULL, updated_at DATETIME NOT NULL, INDEX invited_by_id_idx (invited_by_id), PRIMARY KEY(invitation_id, campaign_id)) DEFAULT CHARACTER SET utf8 COLLATE utf8_general_ci ENGINE = INNODB;
 CREATE TABLE language (id VARCHAR(5), name TEXT, order_number INT NOT NULL, active TINYINT DEFAULT 1 NOT NULL, object_version VARCHAR(15) DEFAULT '1', INDEX language_order_num_idx (order_number), PRIMARY KEY(id)) DEFAULT CHARACTER SET utf8 COLLATE utf8_general_ci ENGINE = INNODB;
 CREATE TABLE mail_message (id BIGINT AUTO_INCREMENT, message LONGTEXT NOT NULL, created_at DATETIME NOT NULL, updated_at DATETIME NOT NULL, PRIMARY KEY(id)) DEFAULT CHARACTER SET utf8 COLLATE utf8_general_ci ENGINE = INNODB;
 CREATE TABLE mailing_list (id INT AUTO_INCREMENT, status INT DEFAULT 1 NOT NULL, campaign_id INT, name TEXT NOT NULL, created_at DATETIME NOT NULL, updated_at DATETIME NOT NULL, object_version VARCHAR(15) DEFAULT '1', INDEX campaign_id_idx (campaign_id), PRIMARY KEY(id)) DEFAULT CHARACTER SET utf8 COLLATE utf8_general_ci ENGINE = INNODB;
@@ -91,6 +91,7 @@ ALTER TABLE group_member ADD CONSTRAINT group_member_member_id_member_id FOREIGN
 ALTER TABLE group_member ADD CONSTRAINT group_member_group_id_groups_id FOREIGN KEY (group_id) REFERENCES groups(id) ON DELETE CASCADE;
 ALTER TABLE group_permission ADD CONSTRAINT group_permission_permission_id_permission_id FOREIGN KEY (permission_id) REFERENCES permission(id) ON DELETE CASCADE;
 ALTER TABLE group_permission ADD CONSTRAINT group_permission_group_id_groups_id FOREIGN KEY (group_id) REFERENCES groups(id) ON DELETE CASCADE;
+ALTER TABLE invitation_campaign ADD CONSTRAINT invitation_campaign_invited_by_id_sf_guard_user_id FOREIGN KEY (invited_by_id) REFERENCES sf_guard_user(id) ON DELETE CASCADE;
 ALTER TABLE invitation_campaign ADD CONSTRAINT invitation_campaign_invitation_id_invitation_id FOREIGN KEY (invitation_id) REFERENCES invitation(id) ON DELETE CASCADE;
 ALTER TABLE invitation_campaign ADD CONSTRAINT invitation_campaign_campaign_id_campaign_id FOREIGN KEY (campaign_id) REFERENCES campaign(id) ON DELETE CASCADE;
 ALTER TABLE mailing_list ADD CONSTRAINT mailing_list_campaign_id_campaign_id FOREIGN KEY (campaign_id) REFERENCES campaign(id) ON DELETE CASCADE;

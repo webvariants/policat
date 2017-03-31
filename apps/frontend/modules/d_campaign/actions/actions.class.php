@@ -185,7 +185,7 @@ class d_campaignActions extends policatActions {
     if (!$campaign->isEditableBy($this->getGuardUser()))
       return $this->ajax()->alert('You are not admin of this campaign', 'Error')->render();
 
-    $form = new CampaignAddMemberForm(array(), array('campaign' => $campaign));
+    $form = new CampaignAddMemberForm(array(), array('campaign' => $campaign, 'invite_by' => $this->getGuardUser()));
     $form->bind($request->getPostParameter($form->getName()));
 
     if (!$form->isValid()) {
