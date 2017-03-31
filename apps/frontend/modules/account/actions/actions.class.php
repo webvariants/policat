@@ -143,7 +143,11 @@ class accountActions extends policatActions {
         if (!isset($signinUrl)) {
           if (($request instanceof sfWebRequest) && ($request->getPostParameter('target'))) {
             if ($request->getPostParameter('target') == 'dashboard') {
-              $signinUrl = $this->generateUrl('dashboard', array(), true);
+              if ($this->getUser()->hasCredential(myUser::CREDENTIAL_ADMIN)) {
+                $signinUrl = $this->generateUrl('admin', array(), true);
+              } else {
+                $signinUrl = $this->generateUrl('dashboard', array(), true);
+              }
             }
           } elseif (($request instanceof sfWebRequest) && ($request->getPostParameter('href'))) {
             $signinUrl = $request->getPostParameter('href');
