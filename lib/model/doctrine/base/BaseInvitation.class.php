@@ -9,6 +9,7 @@
  * @property string $email_address
  * @property string $validation_code
  * @property integer $register_user_id
+ * @property timestamp $expires_at
  * @property sfGuardUser $RegisterUser
  * @property Doctrine_Collection $InvitationCampaign
  * 
@@ -16,12 +17,14 @@
  * @method string              getEmailAddress()       Returns the current record's "email_address" value
  * @method string              getValidationCode()     Returns the current record's "validation_code" value
  * @method integer             getRegisterUserId()     Returns the current record's "register_user_id" value
+ * @method timestamp           getExpiresAt()          Returns the current record's "expires_at" value
  * @method sfGuardUser         getRegisterUser()       Returns the current record's "RegisterUser" value
  * @method Doctrine_Collection getInvitationCampaign() Returns the current record's "InvitationCampaign" collection
  * @method Invitation          setId()                 Sets the current record's "id" value
  * @method Invitation          setEmailAddress()       Sets the current record's "email_address" value
  * @method Invitation          setValidationCode()     Sets the current record's "validation_code" value
  * @method Invitation          setRegisterUserId()     Sets the current record's "register_user_id" value
+ * @method Invitation          setExpiresAt()          Sets the current record's "expires_at" value
  * @method Invitation          setRegisterUser()       Sets the current record's "RegisterUser" value
  * @method Invitation          setInvitationCampaign() Sets the current record's "InvitationCampaign" collection
  * 
@@ -55,6 +58,10 @@ abstract class BaseInvitation extends myDoctrineRecord
              'type' => 'integer',
              'notnull' => false,
              'length' => 4,
+             ));
+        $this->hasColumn('expires_at', 'timestamp', null, array(
+             'type' => 'timestamp',
+             'notnull' => true,
              ));
 
         $this->option('symfony', array(

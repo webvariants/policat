@@ -16,7 +16,12 @@ class InvitationTable extends Doctrine_Table {
     return Doctrine_Core::getTable('Invitation');
   }
 
+  public function deleteExpired() {
+    $this->createQuery('i')->where('i.expires_at <= NOW()')->delete()->execute();
+  }
+
   public function findByEmail($email) {
+    $this->deleteExpired();
     return $this->createQuery('i')->where('i.email_address = ?', array($email))->fetchOne();
   }
 
@@ -33,6 +38,8 @@ class InvitationTable extends Doctrine_Table {
     if (count($parts) !== 2 || !is_numeric($parts[0]) || !$parts[1] ) {
       return false;
     }
+
+    $this->deleteExpired();
 
     $invitation = $this->findOneById($parts[0]);
     /* @var $invitation Invitation */

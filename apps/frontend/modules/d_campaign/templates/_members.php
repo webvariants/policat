@@ -53,7 +53,7 @@ use_helper('Date');
           <?php if ($invitations): ?>
           <h4 class="top10">Invitations</h4>
           <?php foreach ($invitations as $invitationCampaign): /* @var $invitationCampaign InvitationCampaign*/ ?>
-          <div><?php echo $invitationCampaign->getInvitation()->getEmailAddress() ?> (<?php echo format_date($invitationCampaign->getCreatedAt(), 'yyyy-MM-dd') ?>)</div>
+          <div><?php echo $invitationCampaign->getInvitation()->getEmailAddress() ?> (expires in <?php echo time_ago_in_words(strtotime($invitationCampaign->getInvitation()->getExpiresAt() . ' UTC'), true) ?>)</div>
           <?php endforeach; ?>
           <?php endif ?>
         </form>

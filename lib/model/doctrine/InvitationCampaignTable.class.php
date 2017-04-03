@@ -20,4 +20,11 @@ class InvitationCampaignTable extends Doctrine_Table {
     return $this->createQuery('ic')->where('ic.invitation_id = ? and ic.campaign_id = ?', array($invitation->getId(), $campaign->getId()))->fetchOne();
   }
 
+  public function findByCampaignNotExpired(Campaign $campaign) {
+    return $this->createQuery('ic')
+        ->where('ic.campaign_id = ?', array($campaign->getId()))
+        ->andWhere('ic.invitation_id in (SELECT i.id FROM Invitation i WHERE i.expires_at > NOW())')
+        ->execute();
+  }
+
 }

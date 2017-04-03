@@ -25,7 +25,7 @@ class d_campaignComponents extends policatComponents {
     $this->csrf_token = UtilCSRF::gen('revoke', $this->campaign->getId());
     if ($this->admin) {
       $this->form = new CampaignAddMemberForm(array(), array('campaign' => $this->campaign, 'invite_by' => $this->getGuardUser()));
-      $this->invitations = $this->campaign->getInvitationCampaign();
+      $this->invitations = InvitationCampaignTable::getInstance()->findByCampaignNotExpired($this->campaign);
     }
   }
 

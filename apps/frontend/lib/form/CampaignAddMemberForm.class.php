@@ -73,8 +73,9 @@ class CampaignAddMemberForm extends BaseForm {
       $invitation = new Invitation();
       $invitation->setEmailAddress($this->getValue('email'));
       $invitation->setValidationCode(substr(base_convert(sha1('invite' . $this->getValue('email') . mt_rand() . microtime() . mt_rand() . mt_rand()), 16, 36), 0, 40));
-      $invitation->save();
     }
+    $invitation->setExpiresAt(gmdate('Y-m-d H:i:s', time() + 60 * 60 * 24)); // expire after 1 day
+    $invitation->save();
 
     $ic = InvitationCampaignTable::getInstance()->findByInvitationAndCampaign($invitation, $this->campaign);
     if ($ic) {
