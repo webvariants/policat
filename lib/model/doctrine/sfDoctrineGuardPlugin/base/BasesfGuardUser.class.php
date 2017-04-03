@@ -45,6 +45,7 @@
  * @property Doctrine_Collection $TicketsTo
  * @property Doctrine_Collection $Downloads
  * @property Doctrine_Collection $Quotas
+ * @property Invitation $Invitation
  * @property Doctrine_Collection $InvitationCampaign
  * 
  * @method string                getFirstName()             Returns the current record's "first_name" value
@@ -87,6 +88,7 @@
  * @method Doctrine_Collection   getTicketsTo()             Returns the current record's "TicketsTo" collection
  * @method Doctrine_Collection   getDownloads()             Returns the current record's "Downloads" collection
  * @method Doctrine_Collection   getQuotas()                Returns the current record's "Quotas" collection
+ * @method Invitation            getInvitation()            Returns the current record's "Invitation" value
  * @method Doctrine_Collection   getInvitationCampaign()    Returns the current record's "InvitationCampaign" collection
  * @method sfGuardUser           setFirstName()             Sets the current record's "first_name" value
  * @method sfGuardUser           setLastName()              Sets the current record's "last_name" value
@@ -128,6 +130,7 @@
  * @method sfGuardUser           setTicketsTo()             Sets the current record's "TicketsTo" collection
  * @method sfGuardUser           setDownloads()             Sets the current record's "Downloads" collection
  * @method sfGuardUser           setQuotas()                Sets the current record's "Quotas" collection
+ * @method sfGuardUser           setInvitation()            Sets the current record's "Invitation" value
  * @method sfGuardUser           setInvitationCampaign()    Sets the current record's "InvitationCampaign" collection
  * 
  * @package    policat
@@ -329,6 +332,10 @@ abstract class BasesfGuardUser extends myDoctrineRecord
         $this->hasMany('Quota as Quotas', array(
              'local' => 'id',
              'foreign' => 'user_id'));
+
+        $this->hasOne('Invitation', array(
+             'local' => 'id',
+             'foreign' => 'register_user_id'));
 
         $this->hasMany('InvitationCampaign', array(
              'local' => 'id',

@@ -12,6 +12,8 @@
 /**
  * account actions.
  *
+ * @property Invitation $invitation
+ *
  * @package    policat
  * @subpackage account
  * @author     Martin
@@ -26,6 +28,8 @@ class accountActions extends policatActions {
   public function executeRegister(sfWebRequest $request) {
     if (!StoreTable::getInstance()->getValueCached(StoreTable::REGISTER_ON))
       return $this->notFound();
+
+    $this->invitation = InvitationTable::getInstance()->findByIdCode($request->getParameter('invitation'));
 
     $user = new sfGuardUser();
 
@@ -76,6 +80,11 @@ class accountActions extends policatActions {
 
         $this->getUser()->setAttribute(myUser::SESSION_LAST_CAPTCHA, 0);
 
+        if ($this->invitation) {
+          $this->invitation->setRegisterUser($user);
+          $this->invitation->save();
+        }
+
         $mail = StoreTable::getInstance()->getValueCached(StoreTable::EMAIL_ADDRESS);
         return $this->ajax()
             ->form($this->form)
@@ -112,6 +121,11 @@ class accountActions extends policatActions {
       $user->setValidationKind(sfGuardUserTable::VALIDATION_KIND_NONE);
       $user->save();
       $widgets_connected = WidgetTable::getInstance()->updateByEmailToUser($user);
+
+      $invitation = $user->getInvitation();
+      if ($invitation) {
+        $invitation->applyToUser($user);
+      }
 
       $this->user = $user;
       $this->widgets_connected = $widgets_connected;

@@ -1274,7 +1274,14 @@ Invitation:
   columns:
     id:                { type: integer(4), primary: true, autoincrement: true }
     email_address:     { type: string(80), notnull: true, unique: true }
-    validation_code:   { type: string(20) }
+    validation_code:   { type: string(40) }
+    register_user_id:  { type: integer(4), notnull: false, default: null }
+  relations:
+    RegisterUser:
+      onDelete: CASCADE
+      foreignType: one
+      class: sfGuardUser
+      local: register_user_id
 
 InvitationCampaign:
   options:

@@ -45,7 +45,7 @@ class CampaignAddMemberForm extends BaseForm {
     if ($user) {
       /* @var $user sfGuardUser */
 
-      if ($user->isCampaignMember($this->campaign)) {
+      if ($user->isCampaignMember($this->campaign, false)) {
         return array('success' => false, 'error' => 'User is already campaign member');
       }
 
@@ -64,11 +64,15 @@ class CampaignAddMemberForm extends BaseForm {
       return array('success' => true);
     }
 
+    if (!StoreTable::value(StoreTable::REGISTER_ON)) {
+      return array('success' => false, 'error' => 'Can not invite user, registration is disabled.');
+    }
+
     $invitation = InvitationTable::getInstance()->findByEmail($this->getValue('email'));
     if (!$invitation) {
       $invitation = new Invitation();
       $invitation->setEmailAddress($this->getValue('email'));
-      $invitation->setValidationCode(base_convert(sha1('invite' . $this->getValue('email') . mt_rand() . microtime() . mt_rand() . mt_rand()), 16, 36));
+      $invitation->setValidationCode(substr(base_convert(sha1('invite' . $this->getValue('email') . mt_rand() . microtime() . mt_rand() . mt_rand()), 16, 36), 0, 40));
       $invitation->save();
     }
 
@@ -96,7 +100,7 @@ class CampaignAddMemberForm extends BaseForm {
     $senderEmail = $sender->getEmailAddress();
     $campaignName = strtr($invitationCampaign->getCampaign()->getName(), array('[' => '', ']' => '', '(' => '', ')' => '', '<' => '', '>' => ''));
     $email = $invitation->getEmailAddress();
-    $code = $invitation->getValidationCode();
+    $code = $invitation->getId() . '-' . $invitation->getValidationCode();
     $registerUrl = sfContext::getInstance()->getRouting()->generate('register', array(), true) . '?invitation=' . $code;
     $invitationUrl = sfContext::getInstance()->getRouting()->generate('invitation', array(), true) . '?code=' . $code;
 

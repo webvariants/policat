@@ -20,4 +20,26 @@ class InvitationTable extends Doctrine_Table {
     return $this->createQuery('i')->where('i.email_address = ?', array($email))->fetchOne();
   }
 
+  /**
+   * @param string $idCode [id]-[validation_code]
+   * @return Invitation|false
+   */
+  public function findByIdCode($idCode) {
+    if (!$idCode || !is_string($idCode)) {
+      return false;
+    }
+
+    $parts = explode('-', $idCode);
+    if (count($parts) !== 2 || !is_numeric($parts[0]) || !$parts[1] ) {
+      return false;
+    }
+
+    $invitation = $this->findOneById($parts[0]);
+    /* @var $invitation Invitation */
+    if (!$invitation || !$invitation->getValidationCode() || !hash_equals($invitation->getValidationCode(), $parts[1])) {
+      return false;
+    }
+
+    return $invitation;
+  }
 }

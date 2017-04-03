@@ -57,9 +57,10 @@ class sfGuardUser extends PluginsfGuardUser {
     return $this->cr_cache[$campaign->getId()] = CampaignRightsTable::getInstance()->queryByCampaignAndUser($campaign, $this)->fetchOne();
   }
 
-  public function isCampaignMember(Campaign $campaign) {
-    if ($this->hasPermission(myUser::CREDENTIAL_ADMIN) || $campaign->getPublicEnabled() == Campaign::PUBLIC_ENABLED_YES)
+  public function isCampaignMember(Campaign $campaign, $permissions = true) {
+    if ($permissions && ($this->hasPermission(myUser::CREDENTIAL_ADMIN) || $campaign->getPublicEnabled() == Campaign::PUBLIC_ENABLED_YES)) {
       return true;
+    }
     $cr = $this->getRightsByCampaign($campaign);
     return $cr && $cr->getActive() && ($cr->getMember() || $cr->getAdmin());
   }
