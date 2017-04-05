@@ -50,7 +50,7 @@ use_helper('Date');
         <form class="ajax_form form-inline" method="post" action="<?php echo url_for('campaign_members_add', array('id' => $campaign->getId())) ?>">
           <?php echo $form ?>
           <button class="btn btn-primary" type="submit">Add member</button>
-          <?php if ($invitations): ?>
+          <?php if ($invitations && $invitations->count()): ?>
           <h4 class="top10">Invitations</h4>
           <?php foreach ($invitations as $invitationCampaign): /* @var $invitationCampaign InvitationCampaign*/ ?>
           <div><?php echo $invitationCampaign->getInvitation()->getEmailAddress() ?> (expires in <?php echo time_ago_in_words(strtotime($invitationCampaign->getInvitation()->getExpiresAt() . ' UTC'), true) ?>)</div>
