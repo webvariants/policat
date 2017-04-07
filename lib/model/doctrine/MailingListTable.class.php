@@ -205,23 +205,37 @@ class MailingListTable extends Doctrine_Table {
 
     $fix_field = false;
     $direct_contact = false;
+    $unmap_choices = false;
     if (count($ts) > 1) {
-      $second = $ts[1]['id'];
-      if (is_numeric($second)) {
+      $second_meta_id = $ts[1]['id'];
+      if ($ts[1]['kind'] == MailingListMeta::KIND_MAPPING) {
+          $mapping_id = $ts[1]['mapping_id'];
+          $mapping_meta_id = $ts[1]['meta_id'];
+
+          $query
+          ->leftJoin('ml.MailingListMeta mlm2')
+          ->andWhere('mlm2.id = ?', $mapping_meta_id)
+          ->leftJoin('mlm2.MailingListMetaChoice mlmc2')
+          ->leftJoin('mlmc2.ContactMeta cm2')
+          ->leftJoin('cm2.Contact c')
+          ->select('DISTINCT ml.id, mlm2.id, mlmc2.*');
+          $unmap_choices = $mapping_id;
+
+      } elseif (is_numeric($second_meta_id)) {
         $query
           ->leftJoin('ml.MailingListMeta mlm2')
-          ->andWhere('mlm2.id = ?', $second)
+          ->andWhere('mlm2.id = ?', $second_meta_id)
           ->leftJoin('mlm2.MailingListMetaChoice mlmc2')
           ->leftJoin('mlmc2.ContactMeta cm2')
           ->leftJoin('cm2.Contact c')
           ->select('DISTINCT ml.id, mlm2.id, mlmc2.*');
       } else {
         $fix_field = true;
-        $col = $ts[1]['id'];
+        $col_2 = $ts[1]['id'];
         $query
           ->leftJoin('ml.Contact c')
-          ->groupBy("c.$col")
-          ->select("DISTINCT ml.id, c.id, c.$col");
+          ->groupBy("c.$col_2")
+          ->select("DISTINCT ml.id, c.id, c.$col_2");
       }
     } else {
       $direct_contact = true;
@@ -238,8 +252,8 @@ class MailingListTable extends Doctrine_Table {
         $query->andWhere('cm1.mailing_list_meta_choice_id = ?', $first);
       }
     } else {
-      $col = $ts[0]['id'];
-      $query->andWhere("c.$col = ?", $first); // should be secure
+      $col_1 = $ts[0]['id'];
+      $query->andWhere("c.$col_1 = ?", $first); // should be secure
     }
 
     $list = $query->execute();
@@ -260,15 +274,22 @@ class MailingListTable extends Doctrine_Table {
         $infos = ContactTable::getInstance()->getPledgeInfoColumns($list[0]['Contact'], $pledge_info_columns);
       } else {
         if ($fix_field) {
-          $col = $ts[1]['id'];
+          $col_2 = $ts[1]['id'];
           foreach ($list[0]['Contact'] as $choice) {
-            $choices[$choice[$col]] = $choice[$col];
+            $choices[$choice[$col_2]] = $choice[$col_2];
           }
         } else {
           foreach ($list[0]['MailingListMeta'][0]['MailingListMetaChoice'] as $choice) {
             $choices[$choice['id']] = $choice['choice'];
           }
         }
+      }
+    }
+
+    if ($unmap_choices) {
+      if ($choices) {
+        $choices = MappingPairTable::getInstance()->getAsByMappingIdAndBs($unmap_choices, $choices);
+        $choices = array_combine($choices, $choices);
       }
     }
 

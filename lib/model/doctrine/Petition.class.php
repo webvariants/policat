@@ -338,7 +338,10 @@ class Petition extends BasePetition {
                     $this->_target_selectors[] = array(
                         'id' => $meta['id'],
                         'name' => $meta['name'],
-                        'typfield' => $meta->getTypfield()
+                        'typfield' => $meta->getTypfield(),
+                        'kind' => $meta['kind'],
+                        'mapping_id' => $meta['kind'] == MailingListMeta::KIND_MAPPING ? $meta->getMappingId() : null,
+                        'meta_id' => $meta['kind'] == MailingListMeta::KIND_MAPPING ? $meta->getMetaId() : null
                     );
                   }
                   break;

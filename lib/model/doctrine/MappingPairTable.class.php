@@ -59,6 +59,15 @@ class MappingPairTable extends Doctrine_Table {
     return $As;
   }
 
+  public function getAsByMappingIdAndBs($id, $b) {
+    $As = $this->queryByMappingId($id)->andWhereIn('p.b', $b)->orderBy('p.a')->select('DISTINCT p.a')->execute(array(), Doctrine_Core::HYDRATE_SINGLE_SCALAR);
+    if (is_string($As)) {
+      $As = array($As);
+    }
+
+    return $As;
+  }
+
 //  protected function fetchByMappingIdCached($id) {
 //    return $this->queryByMappingId($id)->useResultCache()->fetchArray();
 //  }
