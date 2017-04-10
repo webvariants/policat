@@ -350,6 +350,11 @@ $(document).ready(function($) {
 					$('input[type=checkbox]', dom).prop('checked', true);
 				}
 
+				if (dom.hasClass('type_select')) {
+					dom.prepend('<option value=""></option>').val('');
+					dom.prev('input.type_select').val('');
+				}
+
 				resize();
 			};
 
@@ -505,6 +510,21 @@ $(document).ready(function($) {
 							next_fixed_choices = null;
 						}
 
+						if (selector['typfield']) {
+							insert(selector['choices'], isCountry);
+							var type_select = $('<input type="text" class="type_select not_required" />');
+							select.addClass('type_select');
+							select.before(type_select);
+							type_select.on('keyup change', function () {
+								select.val(type_select.val());
+								if (select.val()) {
+									select.change();
+								}
+
+								return false;
+							});
+						}
+
 						function show_fix_contacts(choices, label) {
 							var contacts = $('<div class="contacts"></div>');
 							ts.append(contacts);
@@ -625,7 +645,7 @@ $(document).ready(function($) {
 				parent.addClass('form-indicator');
 			}
 
-			if (input.is('select')) {
+			if (input.is('select') && input.is(':not(.type_select)')) {
 				parent.addClass('form-indicator-select');
 			}
 
