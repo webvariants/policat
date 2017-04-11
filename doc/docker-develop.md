@@ -45,3 +45,9 @@ Other tasks must be called for some features:
     ./docker-develop-exec php symfony policat:recall-pending --limit=1000 --silent=1
     ./docker-develop-exec php symfony policat:action-schedule --utc-hour=00 --silent=1
     ./docker-develop-exec php symfony policat:quota-check
+
+## common development tasks
+
+    ./docker-develop-exec php symfony doctrine:generate-migrations-diff --application=frontend --env=prod
+    ./docker-develop-exec php symfony doctrine:build --all-classes --sql
+    ./docker-develop-exec php symfony doctrine:migrate

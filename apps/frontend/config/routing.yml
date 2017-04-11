@@ -16,6 +16,7 @@ signers:                   { url: '/signers/:id/:text_id',             param: { 
 
 homepage: {               url: '/',                                 param: { module: d_home,     action: index },                      requirements: { sf_method: [get, head] }  }
 ajax_signin: {            url: '/login',                            param: { module: account,    action: ajaxSignin },                 requirements: { sf_method: [get, head, post] } }
+invitation: {             url: '/invitation',                       param: { module: account,    action: invitation },                 requirements: { sf_method: [get, head, post] } }
 password_forgotten: {     url: '/forgotten',                        param: { module: account,    action: forgotten },                  requirements: { sf_method: [get, head, post] } }
 password_reset: {         url: '/forgotten/:id/:code',              param: { module: account,    action: reset },                      requirements: { sf_method: [get, head], id: '\d+', code: '[a-zA-Z0-9]+' } }
 captcha: {                url: '/captcha',                          param: { module: account,    action: captcha },                    requirements: { sf_method: [post] } }
@@ -38,6 +39,7 @@ campaign_join: {          url: '/campaign/join',                    param: { mod
 campaign_leave: {         url: '/campaign/leave/:id',               param: { module: d_campaign, action: leave },                      requirements: { sf_method: [get, head, post] } }
 campaign_edit_:  {        url: '/campaign/edit/:id',                param: { module: d_campaign, action: edit },                       requirements: { sf_method: [get, head, post], id: '\d+' } }
 campaign_members: {       url: '/campaign/members/:id',             param: { module: d_campaign, action: editMembers },                requirements: { sf_method: [post], id: '\d+' } }
+campaign_members_add: {   url: '/campaign/members/add/:id',         param: { module: d_campaign, action: addMembers },                 requirements: { sf_method: [post], id: '\d+' }, class: sfRequestRoute }
 campaign_switches: {      url: '/campaign/switches/:id',            param: { module: d_campaign, action: editSwitches },               requirements: { sf_method: [post], id: '\d+' } }
 campaign_public: {        url: '/campaign/public/:id',              param: { module: d_campaign, action: editPublic },                 requirements: { sf_method: [post], id: '\d+' } }
 campaign_billing: {       url: '/campaign/billing/:id',             param: { module: order,      action: editBilling },                requirements: { sf_method: [post], id: '\d+' } }

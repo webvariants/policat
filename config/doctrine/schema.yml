@@ -1264,3 +1264,37 @@ CountryTax:
       local: vat_note_id
       onDelete: SET NULL
       foreignAlias: CountryTaxesVat
+
+Invitation:
+  options:
+    symfony:
+      form:   false
+      filter: false
+  actAs: [ Timestampable ]
+  columns:
+    id:                { type: integer(4), primary: true, autoincrement: true }
+    email_address:     { type: string(80), notnull: true, unique: true }
+    validation_code:   { type: string(40) }
+    register_user_id:  { type: integer(4), notnull: false, default: null }
+    expires_at:        { type: timestamp, notnull: true }
+  relations:
+    RegisterUser:
+      onDelete: CASCADE
+      foreignType: one
+      class: sfGuardUser
+      local: register_user_id
+
+InvitationCampaign:
+  options:
+    symfony:
+      form:   false
+      filter: false
+  actAs: [ Timestampable ]
+  columns:
+    invitation_id:     { type: integer(4), primary: true }
+    campaign_id:       { type: integer(4), primary: true }
+    invited_by_id:     { type: integer(4), notnull: true }
+  relations:
+    Invitation:        { local: invitation_id,  onDelete: CASCADE }
+    Campaign:          { local: campaign_id,    onDelete: CASCADE }
+    InvitedBy:         { class: sfGuardUser, local: invited_by_id, onDelete: CASCADE }

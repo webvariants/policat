@@ -42,11 +42,11 @@ Options +FollowSymLinks +ExecCGI
 
   # frontend routes
   RewriteRule ^$ frontend.php [QSA,L]
-  RewriteRule ^((login)|(forgotten)|(guard/login)|(guard/logout)|(captcha)|(tips)|(faq)|(help)|(terms)|(contact)|(imprint)|(pricing)|(register)|(profile)|(unblock)|(dashboard/?))$ frontend.php [QSA,L]
+  RewriteRule ^((login)|(invitation)|(forgotten)|(guard/login)|(guard/logout)|(captcha)|(tips)|(faq)|(help)|(terms)|(contact)|(imprint)|(pricing)|(register)|(profile)|(unblock)|(dashboard/?))$ frontend.php [QSA,L]
   RewriteRule ^((register)|(forgotten)|(user_validation))/\d+/[a-zA-Z0-9]+$ frontend.php [QSA,L]
 
   RewriteRule ^campaign(/join)$ frontend.php [QSA,L]
-  RewriteRule ^campaign/((edit)|(leave)|(members)|(switches)|(public)|(billing)|(name)|(privacy)|(privacy/list)|(address)|(officer_resign)|(officer_call)|(delete)|(undelete)|(privacy)|(data)|(data_email)|(data/download)|(data/prepare))/\d+$ frontend.php [QSA,L]
+  RewriteRule ^campaign/((edit)|(leave)|(members)|(members/add)|(switches)|(public)|(billing)|(name)|(privacy)|(privacy/list)|(address)|(officer_resign)|(officer_call)|(delete)|(undelete)|(privacy)|(data)|(data_email)|(data/download)|(data/prepare))/\d+$ frontend.php [QSA,L]
   RewriteRule ^campaign/((data))/\d+/\d+$ frontend.php [QSA,L]
   RewriteRule ^campaign/privacy/\d+/[a-z][a-z](_[A-Z][A-Z])?$ frontend.php [QSA,L]
 

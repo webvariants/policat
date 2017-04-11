@@ -23,3 +23,6 @@ profile:
 unblock:
   is_secure: true
   credentials: []
+
+invitation:
+  is_secure: true

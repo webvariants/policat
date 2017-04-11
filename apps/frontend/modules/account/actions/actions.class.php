@@ -12,6 +12,8 @@
 /**
  * account actions.
  *
+ * @property Invitation $invitation
+ *
  * @package    policat
  * @subpackage account
  * @author     Martin
@@ -26,6 +28,8 @@ class accountActions extends policatActions {
   public function executeRegister(sfWebRequest $request) {
     if (!StoreTable::getInstance()->getValueCached(StoreTable::REGISTER_ON))
       return $this->notFound();
+
+    $this->invitation = InvitationTable::getInstance()->findByIdCode($request->getParameter('invitation'));
 
     $user = new sfGuardUser();
 
@@ -76,6 +80,11 @@ class accountActions extends policatActions {
 
         $this->getUser()->setAttribute(myUser::SESSION_LAST_CAPTCHA, 0);
 
+        if ($this->invitation) {
+          $this->invitation->setRegisterUser($user);
+          $this->invitation->save();
+        }
+
         $mail = StoreTable::getInstance()->getValueCached(StoreTable::EMAIL_ADDRESS);
         return $this->ajax()
             ->form($this->form)
@@ -84,8 +93,7 @@ class accountActions extends policatActions {
             ->alert("To activate your user account, you have to verify your email address. "
               . "Look for the verification email in your inbox and click the link in the email. A confirmation "
               . "message will appear in your web browser. Didn't get the email? Check your spam folder to make "
-              . "sure it didn't end up there. Add the email address $mail to your address book.",
-              'Account created.', '.register-success', 'append')->render();
+              . "sure it didn't end up there. Add the email address $mail to your address book.", 'Account created.', '.register-success', 'append')->render();
       } else {
         return $this->ajax()->form($this->form)->render();
       }
@@ -113,8 +121,31 @@ class accountActions extends policatActions {
       $user->save();
       $widgets_connected = WidgetTable::getInstance()->updateByEmailToUser($user);
 
+      $invitation = $user->getInvitation();
+      if ($invitation) {
+        $invitation->applyToUser($user);
+      }
+
       $this->user = $user;
       $this->widgets_connected = $widgets_connected;
+    }
+  }
+
+  public function executeInvitation(sfWebRequest $request) {
+    $this->invitation = InvitationTable::getInstance()->findByIdCode($request->getParameter('code'));
+
+    $this->form = new BaseForm();
+    $this->form->getWidgetSchema()->setNameFormat('transferinvitation[%s]');
+
+    if ($request->isMethod('POST') && $this->invitation) {
+      $this->form->bind($request->getParameter($this->form->getName()));
+
+      if ($this->form->isValid()) {
+        $this->invitation->applyToUser($this->getGuardUser());
+        $this->redirect('dashboard');
+      } else {
+        $this->redirect('homepage');
+      }
     }
   }
 
@@ -143,7 +174,11 @@ class accountActions extends policatActions {
         if (!isset($signinUrl)) {
           if (($request instanceof sfWebRequest) && ($request->getPostParameter('target'))) {
             if ($request->getPostParameter('target') == 'dashboard') {
-              $signinUrl = $this->generateUrl('dashboard', array(), true);
+              if ($this->getUser()->hasCredential(myUser::CREDENTIAL_ADMIN)) {
+                $signinUrl = $this->generateUrl('admin', array(), true);
+              } else {
+                $signinUrl = $this->generateUrl('dashboard', array(), true);
+              }
             }
           } elseif (($request instanceof sfWebRequest) && ($request->getPostParameter('href'))) {
             $signinUrl = $request->getPostParameter('href');

@@ -117,7 +117,14 @@ class ContactTable extends Doctrine_Table {
 
       if ($ts_2 && count($ts) > 1) {
         $sel = $ts[1]['id'];
-        if (is_numeric($sel)) {
+        if ($ts[1]['kind'] == MailingListMeta::KIND_MAPPING) {
+          if ($ts_2 != 'all') {
+            $query
+              ->leftJoin('c.ContactMeta cm2')
+              ->andWhere('cm2.mailing_list_meta_id = ?', $ts[1]['meta_id'])
+              ->andWhere('cm2.mailing_list_meta_choice_id IN (SELECT DISTINCT x_mlmc.id FROM MailingListMetaChoice x_mlmc WHERE x_mlmc.mailing_list_meta_id = ? AND x_mlmc.choice IN (SELECT DISTINCT x_mp.b FROM MappingPair x_mp WHERE x_mp.mapping_id = ? AND x_mp.a = ?))', array($ts[1]['meta_id'], $ts[1]['mapping_id'], $ts_2));
+          }
+        } elseif (is_numeric($sel)) {
           if (is_numeric($ts_2))
             $query
               ->leftJoin('c.ContactMeta cm2')

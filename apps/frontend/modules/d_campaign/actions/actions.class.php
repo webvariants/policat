@@ -1,4 +1,5 @@
 <?php
+
 /*
  * Copyright (c) 2016, webvariants GmbH <?php Co. KG, http://www.webvariants.de
  *
@@ -83,7 +84,7 @@ class d_campaignActions extends policatActions {
         }
         return $this->ajax()->redirectRotue('dashboard')->render();
       }
-      
+
       return $this->ajax()->alert('not member of campaign ', 'Error', '#campaign_leave_modal .modal-body', 'append')->render();
     }
 
@@ -91,7 +92,6 @@ class d_campaignActions extends policatActions {
         ->appendPartial('body', 'leave', array('id' => $id, 'name' => $campaign->getName(), 'csrf_token' => $csrf_token))
         ->modal('#campaign_leave_modal')
         ->render();
-
   }
 
   public function executeEdit(sfWebRequest $request) {
@@ -102,9 +102,9 @@ class d_campaignActions extends policatActions {
 
     if (!$this->getGuardUser()->isCampaignMember($campaign))
       return $this->noAccess();
-    
+
     $billingEnabled = StoreTable::value(StoreTable::BILLING_ENABLE);
-    
+
     // recheck quota
     QuotaTable::getInstance()->activateQuota($campaign);
 
@@ -174,6 +174,38 @@ class d_campaignActions extends policatActions {
     return $this->ajax()->render();
   }
 
+  public function executeAddMembers(sfWebRequest $request) {
+    $this->ajax()->setAlertTarget('#members_add', 'append');
+
+    $campaign = CampaignTable::getInstance()->findById($request->getParameter('id'), $this->userIsAdmin());
+    /* @var $campaign Campaign */
+    if (!$campaign)
+      return $this->ajax()->alert('Campaign not found', 'Error')->render();
+
+    if (!$campaign->isEditableBy($this->getGuardUser()))
+      return $this->ajax()->alert('You are not admin of this campaign', 'Error')->render();
+
+    $form = new CampaignAddMemberForm(array(), array('campaign' => $campaign, 'invite_by' => $this->getGuardUser()));
+    $form->bind($request->getPostParameter($form->getName()));
+
+    if (!$form->isValid()) {
+      return $this->ajax()->form($form)->render();
+    }
+
+    $result = $form->save();
+    if (!$result['success']) {
+      return $this->ajax()->form($form)->alert($result['error'], 'Error')->render();
+    }
+
+    $this->ajax()->replaceWithComponent('#campaign_members', 'd_campaign', 'members', array('campaign' => $campaign));
+
+    if (array_key_exists('message', $result) && $result['message']) {
+      $this->ajax()->alert($result['message'], '');
+    }
+
+    return $this->ajax()->render();
+  }
+
   public function executeEditSwitches(sfWebRequest $request) {
     $campaign = CampaignTable::getInstance()->findById($request->getParameter('id'), $this->userIsAdmin());
     /* @var $campaign Campaign */
@@ -192,7 +224,7 @@ class d_campaignActions extends policatActions {
     } else
       return $this->ajax()->alert('Invalid data', 'Error', '#campaign_switches', 'append')->render();
   }
-  
+
   public function executeEditPublic(sfWebRequest $request) {
     $campaign = CampaignTable::getInstance()->findById($request->getParameter('id'), $this->userIsAdmin());
     /* @var $campaign Campaign */
@@ -483,8 +515,9 @@ class d_campaignActions extends policatActions {
   }
 
   public function executeList(sfWebRequest $request) {
+    
   }
-  
+
   public function executePager(sfWebRequest $request) {
     $page = $request->getParameter('page', 1);
     return $this->ajax()->replaceWithComponent('#campaing_list', 'd_campaign', 'list', array('page' => $page))->render();
@@ -516,7 +549,7 @@ class d_campaignActions extends policatActions {
         ->modal('#campaign_undelete_modal')
         ->render();
   }
-  
+
   public function executeHardDelete(sfWebRequest $request) {
     $id = $request->getParameter('id');
 
