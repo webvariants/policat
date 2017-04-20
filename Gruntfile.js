@@ -12,7 +12,7 @@ module.exports = function(grunt) {
 					sourceMapUrl: '/js/dist/policat_widget.js.map'
 				},
 				files: {
-					'web/js/dist/policat_widget.js': ['bower_components/jscolor/jscolor.js', 'web/js/policat_widget.js'],
+					'web/js/dist/policat_widget.js': ['bower_components/jscolor/jscolor.js', 'bower_components/select2/select2.js', 'web/js/policat_widget.js'],
 				}
 			},
 			widget2: {
@@ -73,10 +73,15 @@ module.exports = function(grunt) {
 			},
 			widget: {
 				options: {
-					sourceMapFilename: 'web/css/dist/policat_widget.less.map'
+					sourceMapFilename: 'web/css/dist/policat_widget.less.map',
+					rootpath: '/css/dist/'
 				},
 				files: {
-					'web/css/dist/policat_widget.css': 'web/css/policat_widget.less'
+					'web/css/dist/policat_widget.css': [
+						'web/css/policat_widget.less',
+						'bower_components/select2/select2.css',
+						'bower_components/select2/select2-bootstrap.css',
+					]
 				}
 			},
 			widget_variables: {
