@@ -3,12 +3,20 @@ module.exports = function(grunt) {
 	grunt.initConfig({
 		pkg: grunt.file.readJSON('package.json'),
 		uglify: {
+			options: {
+				sourceMap: true,
+				sourceMapIncludeSources: true
+			},
 			widget: {
 				options: {
-					sourceMap: true
+					sourceMapUrl: '/js/dist/policat_widget.js.map'
 				},
 				files: {
 					'web/js/dist/policat_widget.js': ['bower_components/jscolor/jscolor.js', 'web/js/policat_widget.js'],
+				}
+			},
+			widget2: {
+				files: {
 					'web/js/dist/policat_widget_outer.js': ['web/js/policat_widget_outer.js'],
 					'web/js/dist/select2.js' : ['bower_components/select2/select2.js'],
 					'web/js/dist/jscolor.js': ['bower_components/jscolor/jscolor.js'],
@@ -16,9 +24,6 @@ module.exports = function(grunt) {
 				}
 			},
 			frontend: {
-				options: {
-					sourceMap: true
-				},
 				files: {
 					'web/js/dist/frontend.js': [
 						'bower_components/jquery-1.7/jquery.js',
@@ -46,6 +51,7 @@ module.exports = function(grunt) {
 			options: {
 				sourceMap: true,
 				compress: true,
+				outputSourceFiles: true,
 				sourceMapBasepath: 'web',
 				sourceMapRootpath: '/'
 			},
