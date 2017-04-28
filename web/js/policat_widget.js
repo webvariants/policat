@@ -373,6 +373,7 @@ $(document).ready(function($) {
 
 			var first = true;
 			var next_fixed_choices = null;
+			var keywords = null;
 			$.each(target_selectors, function(_, selector) {
 				var pledges = selector['pledges'] == undefined ? false : selector['pledges'];
 				if (typeof pledges == 'object') {
@@ -403,6 +404,9 @@ $(document).ready(function($) {
 					}
 					var option = $('<option></option>');
 					select.append(option);
+					if (selector.id === 'contact') {
+						select.addClass('change_contact');
+					}
 					option.text(first ? '--' + t_sel + '--' : t_sel_all).attr('value', (first /* && target_selectors.length !== 1 */) ? '' : 'all');
 					if (selector['choices'] != undefined) {
 						var is_typefield = selector['typfield'] != undefined && selector['typfield'];
@@ -441,6 +445,9 @@ $(document).ready(function($) {
 										url: window.location.href.split('#', 1)[0],
 										data: {'target_selector': s_val},
 										success: function(data) {
+											if (typeof data.keywords === 'object') {
+												keywords = data.keywords;
+											}
 											if (typeof data.pledges == 'object') {
 												pledge_ul.empty();
 												insert_sort(pledge_ul, data.choices, null, null, data.pledges, pledge_ul.data('template'), data.infos, pledge_ul.data('pledge-count'));
@@ -585,6 +592,33 @@ $(document).ready(function($) {
 						}
 					}
 					first = false;
+
+					if (selector.keywords && !keywords) {
+						keywords = selector.keywords;
+					}
+				}
+
+				if (textarea_email.length) {
+					function replaceAll(str,mapObj){
+					    var re = new RegExp(Object.keys(mapObj).join("|"),"g");
+
+					    return str.replace(re, function(matched){
+					        return mapObj[matched];
+					    });
+					}
+
+					var base_text = $('#petition_signing_email_body').val();
+					ts.on('change', 'select.change_contact', function () {
+						if (!keywords) {
+							return;
+						}
+						var contactId = $(this).val();
+						if (contactId && keywords[contactId]) {
+							textarea_email.val(replaceAll(base_text, keywords[contactId]));
+						} else {
+							textarea_email.val(base_text);
+						}
+					});
 				}
 			});
 

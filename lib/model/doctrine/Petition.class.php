@@ -252,8 +252,8 @@ class Petition extends BasePetition {
    * [id: 'country', name:'Country', choices: countries, country: true]                                                                     (1st target selector)
    * [id: 'country', name:'Country', country: true]                                                                                         (2nd target selctor}
    *
-   * @param boolean $fresh
-   * @return boolean | array
+   * @param bool $fresh
+   * @return bool | array
    */
   public function getTargetSelectors($fresh = false) {
     if ($this->_target_selectors !== null && !$fresh)
@@ -294,12 +294,14 @@ class Petition extends BasePetition {
               $infos[$contact->getId()] = $contact->getPledgeInfoColumns($pledge_info_columns);
             }
           }
+          $keywords = ContactTable::getInstance()->getKeywordSubst(array_keys($choices0), $this);
           $this->_target_selectors[] = array(
               'id' => 'contact',
               'name' => 'Recipient(s)',
               'choices' => $choices0,
               'pledges' => $pledges,
-              'infos' => $infos
+              'infos' => $infos,
+              'keywords' => $keywords
           );
           //
         } else {
@@ -466,8 +468,9 @@ class Petition extends BasePetition {
       /* @var $contact Contact */
       $choices[$contact['id']] = $contact['firstname'] . ' ' . $contact['lastname'];
     }
+    $keywords = ContactTable::getInstance()->getKeywordSubst(array_keys($choices), $this);
 
-    $ret = array('choices' => $choices, 'pledges' => $pledges, 'infos' => $infos);
+    $ret = array('choices' => $choices, 'pledges' => $pledges, 'infos' => $infos, 'keywords' => $keywords);
 
     $tags = $this->getCacheTags();
     if ($this->getMailingListId()) {
