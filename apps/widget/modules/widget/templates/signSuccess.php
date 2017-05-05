@@ -20,7 +20,7 @@
 <?php
 /* @var $petition Petition */
 $target_selectors = UtilTargetSelectorPreselect::staticTargetSelectors($widget); // = $petition->getTargetSelectors();
-ContactTable::getInstance()->mergeKeywordSubst($target_selectors, $petition);
+ContactTable::getInstance()->mergeKeywordSubst($target_selectors, $petition, $lang);
 if (is_array($target_selectors) && count($target_selectors) == 1 && $target_selectors[0]['id'] !== 'contact') {
   if ($petition->getKind() != Petition::KIND_PLEDGE) {
     $target_selectors[] = array('id' => 'contact', 'name' => 'Recipient(s)');

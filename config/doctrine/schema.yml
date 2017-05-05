@@ -6,13 +6,13 @@ options:
 
 sfGuardGroup:
   columns:
-    id: { type: integer(4),  primary: true, autoincrement: true }    
+    id: { type: integer(4),  primary: true, autoincrement: true }
 
 sfGuardPermission:
   columns:
-    id: { type: integer(4),  primary: true, autoincrement: true }    
+    id: { type: integer(4),  primary: true, autoincrement: true }
 
-sfGuardGroupPermission:  
+sfGuardGroupPermission:
   columns:
     group_id:
       type: integer(4)
@@ -21,7 +21,7 @@ sfGuardGroupPermission:
       type: integer(4)
       primary: true
 
-sfGuardUserPermission:  
+sfGuardUserPermission:
   columns:
     user_id:
       type: integer(4)
@@ -274,6 +274,7 @@ Petition:
     from_name:            { type: string(80) }
     from_email:           { type: string(80) }
     email_targets:        { type: clob }
+    keywords_subst:       { type: string(250), notnull: false, default: null }
     homepage:             { type: integer(1), notnull: true, default: 0 }
     twitter_tags:         { type: string(200) }
     language_id:          { type: string(5),  notnull: false, default: null }
@@ -327,7 +328,7 @@ Petition:
     Language:          {  }
     MailingList:       { onDelete: SET NULL }
     CountryCollection: { onDelete: SET NULL }
-    FollowPetition:    { onDelete: SET NULL, class: Petition, local: follow_petition_id, foreign: id, foreignAlias: FollowedByPetitions }    
+    FollowPetition:    { onDelete: SET NULL, class: Petition, local: follow_petition_id, foreign: id, foreignAlias: FollowedByPetitions }
   indexes:
     petition_status:    { fields: [status] }
     petition_home_stat: { fields: [status, homepage] }
@@ -377,7 +378,7 @@ PetitionText:
     pledge_comment:             { type: clob,       notnull: false }
     pledge_explantory:          { type: clob,       notnull: false, name: pledge_explantory as pledge_explantory_annotation }
     pledge_thank_you:           { type: clob,       notnull: false }
-    
+
     donate_url:                 { type: string(200), notnull: false, default: null }
     donate_text:                { type: clob,        notnull: false }
 
@@ -882,7 +883,7 @@ Store:
     Language:    { onDelete: CASCADE }
   indexes:
     store_idx:   { fields: [key_, language_id], type: unique }
-    
+
 CampaignStore:
   options:
     symfony:
@@ -1047,7 +1048,7 @@ Download:
       class: sfGuardUser
       local: user_id
       foreignAlias: Downloads
-    Widget: 
+    Widget:
       onDelete: CASCADE
       foreignAlias: Downloads
     Petition:

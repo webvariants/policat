@@ -216,7 +216,7 @@ class widgetActions extends policatActions
         $target_selector = $request->getParameter('target_selector');
         if (is_scalar($target_selector)) {
           $ts_data = $this->petition->getTargetSelectorChoices($target_selector);
-          ContactTable::getInstance()->mergeKeywordSubst($ts_data, $this->petition);
+          ContactTable::getInstance()->mergeKeywordSubst($ts_data, $this->petition, $this->lang);
           return $this->renderText(json_encode($ts_data));
         }
       }
@@ -227,7 +227,7 @@ class widgetActions extends policatActions
         $target_selector2 = $request->getParameter('target_selector2');
         if (is_scalar($target_selector1) && is_scalar($target_selector2)) {
           $ts_data = $this->petition->getTargetSelectorChoices2($target_selector1, $target_selector2);
-          ContactTable::getInstance()->mergeKeywordSubst($ts_data, $this->petition);
+          ContactTable::getInstance()->mergeKeywordSubst($ts_data, $this->petition, $this->lang);
           return $this->renderText(json_encode($ts_data));
         }
       }

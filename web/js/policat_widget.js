@@ -608,15 +608,24 @@ $(document).ready(function($) {
 					}
 
 					var base_text = $('#petition_signing_email_body').val();
+					var was_single = false;
 					ts.on('change', 'select.change_contact', function () {
 						if (!keywords) {
 							return;
 						}
 						var contactId = $(this).val();
 						if (contactId && keywords[contactId]) {
-							textarea_email.val(replaceAll(base_text, keywords[contactId]));
+							if (!was_single) {
+								textarea_email.val(replaceAll(textarea_email.val(), keywords[contactId]));
+							} else {
+								textarea_email.val(replaceAll(base_text, keywords[contactId]));
+							}
+							was_single = true;
 						} else {
-							textarea_email.val(base_text);
+							if (was_single) {
+								textarea_email.val(base_text);
+							}
+							was_single = false;
 						}
 					});
 				}

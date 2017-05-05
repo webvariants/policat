@@ -297,9 +297,21 @@ class ContactTable extends Doctrine_Table {
 
     $subst_fields = $petition->getGeoSubstFields();
 
+    $keywords_subst = $petition->getKeywordsSubst();
+    if (!$keywords_subst) {
+      return array();
+    }
+    if (!preg_match_all('/#[A-Z-_0-9]+#/', $keywords_subst, $matches)) {
+      return array();
+    }
+    $slected_keywords = $matches[0];
+
     foreach ($contacts as $contact) {
       $subst = array();
       foreach ($subst_fields as $pattern => $subst_field) {
+        if (!in_array($pattern, $slected_keywords)) {
+          continue;
+        }
         switch ($subst_field['type']) {
           case 'fix': $subst[$pattern] = $contact[$subst_field['id']];
             break;
@@ -328,8 +340,13 @@ class ContactTable extends Doctrine_Table {
       else
         $personal_salutation = $i18n->__('Dear Sir/Madam %F %L,', array('%F' => $contact['firstname'], '%L' => $contact['lastname']));
       $personal_salutation .= "\n\n";
-      $subst[PetitionTable::KEYWORD_PERSONAL_SALUTATION] = $personal_salutation;
-        $subst_all[$contact['id']] = $subst;
+      if (in_array(PetitionTable::KEYWORD_PERSONAL_SALUTATION, $slected_keywords)) {
+        $subst[PetitionTable::KEYWORD_PERSONAL_SALUTATION] = $personal_salutation;
+      }
+      if (!$subst) {
+          return array();
+      }
+      $subst_all[$contact['id']] = $subst;
     }
 
     return $subst_all;
@@ -338,13 +355,19 @@ class ContactTable extends Doctrine_Table {
   public function mergeKeywordSubst(&$data, Petition $petition, $culture = 'en') {
       if (is_array($data)) {
           if (array_key_exists('id', $data) && array_key_exists('choices', $data) && $data['id'] === 'contact' && is_array($data['choices'])) {
-            $data['keywords'] = $this->getKeywordSubst(array_keys($data['choices']), $petition, $culture);
+            $keywords = $this->getKeywordSubst(array_keys($data['choices']), $petition, $culture);
+            if ($keywords) {
+              $data['keywords'] = $keywords;
+            }
             return;
           }
 
           foreach ($data as &$ts) {
               if (is_array($ts) && array_key_exists('id', $ts) && array_key_exists('choices', $ts) && $ts['id'] === 'contact' && is_array($ts['choices'])) {
-                $ts['keywords'] = $this->getKeywordSubst(array_keys($ts['choices']), $petition, $culture);
+                $keywords = $this->getKeywordSubst(array_keys($ts['choices']), $petition, $culture);
+                if ($keywords) {
+                  $ts['keywords'] = $keywords;
+                }
               }
           }
       }

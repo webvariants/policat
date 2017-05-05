@@ -346,6 +346,8 @@ class d_actionActions extends policatActions {
         return $this->ajax()->redirectRotue('target_petition_edit', array('id' => $petition->getId()))->render();
       }
     }
+
+    return $this->ajax()->form($form)->render();
   }
 
   public function executeTarget(sfWebRequest $request) {

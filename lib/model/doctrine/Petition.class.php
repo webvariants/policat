@@ -483,7 +483,7 @@ class Petition extends BasePetition {
     return $ret;
   }
 
-  protected function getGeoSubstFields() {
+  public function getGeoSubstFields() {
     if ($this->isGeoKind()) {
       if ($this->getMailingListId()) {
         $ml = MailingListTable::getInstance()->findAndFetchCached($this->getMailingListId());
@@ -492,6 +492,24 @@ class Petition extends BasePetition {
       }
     }
     return array();
+  }
+
+  public function getGeoSubstFieldsKeywords() {
+    $keywords = array();
+    $subst_fields = $this->getGeoSubstFields();
+    foreach ($subst_fields as $pattern => $subst_field) {
+      switch ($subst_field['type']) {
+        case 'fix':
+        case 'free':
+        case 'choice':
+            $keywords[] = $pattern;
+          break;
+      }
+    }
+
+    $keywords[] = PetitionTable::KEYWORD_PERSONAL_SALUTATION;
+
+    return $keywords;
   }
 
   public static function calcTarget($count, $target_num = 0) {
