@@ -334,4 +334,19 @@ class ContactTable extends Doctrine_Table {
 
     return $subst_all;
   }
+
+  public function mergeKeywordSubst(&$data, Petition $petition, $culture = 'en') {
+      if (is_array($data)) {
+          if (array_key_exists('id', $data) && array_key_exists('choices', $data) && $data['id'] === 'contact' && is_array($data['choices'])) {
+            $data['keywords'] = $this->getKeywordSubst(array_keys($data['choices']), $petition, $culture);
+            return;
+          }
+
+          foreach ($data as &$ts) {
+              if (is_array($ts) && array_key_exists('id', $ts) && array_key_exists('choices', $ts) && $ts['id'] === 'contact' && is_array($ts['choices'])) {
+                $ts['keywords'] = $this->getKeywordSubst(array_keys($ts['choices']), $petition, $culture);
+              }
+          }
+      }
+  }
 }

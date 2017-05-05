@@ -262,7 +262,6 @@ class MailingListTable extends Doctrine_Table {
     $infos = array();
     $pledge_table = PledgeTable::getInstance();
     $pledge_info_columns = $petition->getPledgeInfoColumnsArray();
-    $keywords = null;
 
     if ($list) {
       if ($direct_contact) {
@@ -270,7 +269,6 @@ class MailingListTable extends Doctrine_Table {
           /* @var $contact Contact */
           $choices[$contact['id']] = $contact['firstname'] . ' ' . $contact['lastname'];
         }
-        $keywords = ContactTable::getInstance()->getKeywordSubst(array_keys($choices), $petition);
 
         $pledges = $pledge_table->getPledgesForContacts($list[0]['Contact'], $active_pledge_item_ids);
         $infos = ContactTable::getInstance()->getPledgeInfoColumns($list[0]['Contact'], $pledge_info_columns);
@@ -295,7 +293,12 @@ class MailingListTable extends Doctrine_Table {
       }
     }
 
-    return array('choices' => $choices, 'pledges' => ($direct_contact && $active_pledge_item_ids !== false) ? $pledges : false, 'infos' => $infos, 'keywords' => $keywords);
+    $ret = array('choices' => $choices, 'pledges' => ($direct_contact && $active_pledge_item_ids !== false) ? $pledges : false, 'infos' => $infos);
+    if ($direct_contact) {
+        $ret['id'] = 'contact';
+    }
+
+    return $ret;
   }
 
 }

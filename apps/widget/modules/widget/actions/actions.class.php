@@ -14,7 +14,7 @@
  * @package    policat
  * @subpackage widget
  * @author     Martin
- * 
+ *
  * @property $petition Petition
  * @property $widget Widget
  * @property $petition_text PetitionText
@@ -41,7 +41,7 @@ class widgetActions extends policatActions
   {
     $id = $force_id === false ?  $this->getRequest()->getParameter('id') : $force_id;
     if (!is_numeric($id)) return $this->showError('Invalid ID');
-    
+
     $this->widget = WidgetTable::getInstance()->fetch($id);
     if (!$this->widget) {
       $response = $this->getResponse();
@@ -53,14 +53,14 @@ class widgetActions extends policatActions
       throw new sfStopException();
     }
     $this->widget->getPetition()->state(Doctrine_Record::STATE_CLEAN); // petition can not have changed yet, stupid doctrine
-    
+
     if (empty ($this->widget)) return $this->forward404('No widget found');
 
     $this->setContentTags($this->widget);
     $this->addContentTags($this->widget->getCampaign());
     $this->addContentTags($this->widget->getPetition());
     $this->addContentTags($this->widget->getPetitionText());
-    
+
     $donations_paypal_strore = StoreTable::getInstance()->findByKeyCached(StoreTable::DONATIONS_PAYPAL);
     if ($donations_paypal_strore)
       $this->addContentTags ($donations_paypal_strore);
@@ -168,7 +168,7 @@ class widgetActions extends policatActions
         if ($this->petition->isBefore() || $this->petition->isAfter() || $this->require_billing) {
           return $this->renderText(json_encode(array('over' => true)));
         }
-        
+
         $ajax_response_form = $this->form;
         $this->form->bind($request->getPostParameter($this->form->getName()));
         if ($this->form->isValid())
@@ -207,23 +207,29 @@ class widgetActions extends policatActions
           $extra['edit_code'] = $this->form_embed->getObject()->getEditCode();
           $extra['markup'] = UtilLink::widgetMarkup($extra['id']);
         } else {
-          
+
         }
       }
 
       // It is a target selector
       else if ($request->hasParameter('target_selector')) {
         $target_selector = $request->getParameter('target_selector');
-        if (is_scalar($target_selector))
-          return $this->renderText(json_encode($this->petition->getTargetSelectorChoices($target_selector)));
+        if (is_scalar($target_selector)) {
+          $ts_data = $this->petition->getTargetSelectorChoices($target_selector);
+          ContactTable::getInstance()->mergeKeywordSubst($ts_data, $this->petition);
+          return $this->renderText(json_encode($ts_data));
+        }
       }
 
       // It is a pledges with two target selectors
       else if ($request->hasParameter('target_selector1') && $request->hasParameter('target_selector2')) {
         $target_selector1 = $request->getParameter('target_selector1');
         $target_selector2 = $request->getParameter('target_selector2');
-        if (is_scalar($target_selector1) && is_scalar($target_selector2))
-          return $this->renderText(json_encode($this->petition->getTargetSelectorChoices2($target_selector1, $target_selector2)));
+        if (is_scalar($target_selector1) && is_scalar($target_selector2)) {
+          $ts_data = $this->petition->getTargetSelectorChoices2($target_selector1, $target_selector2);
+          ContactTable::getInstance()->mergeKeywordSubst($ts_data, $this->petition);
+          return $this->renderText(json_encode($ts_data));
+        }
       }
 
       return $this->renderPartial('json_form', array('form' => $ajax_response_form, 'extra' => $extra));
@@ -235,7 +241,7 @@ class widgetActions extends policatActions
       $this->last_signings = null;
     }
   }
-  
+
   public function executeSignHp(sfWebRequest $request) {
     $this->setTemplate('sign');
     if ($request->isMethod('post')) return $this->executeSign($request);
@@ -304,20 +310,20 @@ class widgetActions extends policatActions
                     /* Email to target */
                     UtilMail::send('Target-' . $petition->getCampaignId(), 'Targets-' . $petition->getId(), $petition_signing->getEmailContact($petition->getFromEmail(), true), $email_targets, $subject, /* email problem */
                       $body, null, $petition_signing->getSubst($this->lang), null, $petition_signing->getEmailContact());
-                    
+
                     $quota_emails = count($email_targets);
                   }
                 }
               } else {
                 $quota_emails = 1;
               }
-              
+
               if ($quota_emails && StoreTable::value(StoreTable::BILLING_ENABLE) && $campaign->getBillingEnabled() && $campaign->getQuotaId()) {
                 QuotaTable::getInstance()->useQuota($campaign->getQuotaId(), $quota_emails);
                 $petition_signing->setQuotaId($campaign->getQuotaId());
                 $petition_signing->setQuotaEmails($quota_emails);
               }
-              
+
               $petition->state(Doctrine_Record::STATE_CLEAN); // prevent updating Petitiion for nothing
               $petition_signing->setStatus(PetitionSigning::STATUS_COUNTED);
               $petition_signing->setVerified(PetitionSigning::VERIFIED_YES);
@@ -391,7 +397,7 @@ class widgetActions extends policatActions
 
     $this->title = Util::enc($title);
   }
-  
+
   private function checkFollowWidget() {
     $route_params = $this->getRoute()->getParameters();
     if (isset($route_params['noRedirect']) && $route_params['noRedirect']) {
@@ -473,7 +479,7 @@ class widgetActions extends policatActions
 
     return $this->renderText(json_encode($result));
   }
-  
+
   public function executeDelete(sfWebRequest $request)
   {
     $this->setLayout(false);

@@ -294,14 +294,12 @@ class Petition extends BasePetition {
               $infos[$contact->getId()] = $contact->getPledgeInfoColumns($pledge_info_columns);
             }
           }
-          $keywords = ContactTable::getInstance()->getKeywordSubst(array_keys($choices0), $this);
           $this->_target_selectors[] = array(
               'id' => 'contact',
               'name' => 'Recipient(s)',
               'choices' => $choices0,
               'pledges' => $pledges,
-              'infos' => $infos,
-              'keywords' => $keywords
+              'infos' => $infos
           );
           //
         } else {
@@ -416,6 +414,10 @@ class Petition extends BasePetition {
               $ret['pledges'] = array();
             }
 
+            if (array_key_exists('id', $choices_and_pledges)) {
+                $ret['id'] = $choices_and_pledges;
+            }
+
             foreach ($choices_and_pledges['choices'] as $k => $v) {
               $ret['choices'][$k] = $v;
               if ($choices_and_pledges['pledges'] !== false) {
@@ -468,9 +470,8 @@ class Petition extends BasePetition {
       /* @var $contact Contact */
       $choices[$contact['id']] = $contact['firstname'] . ' ' . $contact['lastname'];
     }
-    $keywords = ContactTable::getInstance()->getKeywordSubst(array_keys($choices), $this);
 
-    $ret = array('choices' => $choices, 'pledges' => $pledges, 'infos' => $infos, 'keywords' => $keywords);
+    $ret = array('choices' => $choices, 'pledges' => $pledges, 'infos' => $infos);
 
     $tags = $this->getCacheTags();
     if ($this->getMailingListId()) {
