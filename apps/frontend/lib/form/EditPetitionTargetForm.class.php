@@ -122,8 +122,8 @@ class EditPetitionTargetForm extends BasePetitionForm {
       $this->setValidator('keywords_subst', new sfValidatorRegex(
         array('pattern' => '/^(#[A-Z-_0-9]+#[ ,]*)+$/', 'required' => false, 'max_length' => 80, 'min_length' => 5, 'trim' => true), array('invalid' => 'Keyword must be of format "#MY-KEYWORD#"')
       ));
-      $this->getWidgetSchema()->setLabel('keywords_subst', 'Keywords to substitude');
-      $this->getWidgetSchema()->setHelp('keywords_subst', 'These keywords will be substituted in the widget when the participant selects a single contact. <br />Available: <b>' . implode(', ', $this->getObject()->getGeoSubstFieldsKeywords()) . '</b>');
+      $this->getWidgetSchema()->setLabel('keywords_subst', 'Keywords to substitute');
+      $this->getWidgetSchema()->setHelp('keywords_subst', 'Selected keywords will be replaced with actual data (e.g. a target\'s name) in the email edit field when a participant selects a single contact. <br />Available: <b>' . implode(', ', $this->getObject()->getGeoSubstFieldsKeywords()) . '</b>');
     }
   }
 
