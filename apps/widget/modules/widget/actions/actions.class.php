@@ -382,6 +382,9 @@ class widgetActions extends policatActions
         $stylings[$style] = $petition['style_' . $style];
       }
     }
+    if (!array_key_exists('width', $stylings)) {
+        $stylings['width'] = 'auto';
+    }
     $this->stylings = $stylings;
 
     $this->keyvisual = $this->widget->getPetition()->getKeyVisual() ? $image_prefix . 'keyvisual/' . $this->widget->getPetition()->getKeyVisual() :  null;

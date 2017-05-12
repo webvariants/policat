@@ -47,11 +47,12 @@ class languageActions extends policatActions {
     }
 
     $this->download = false;
+    $this->csrf_token = false;
     if (!$language->isNew()) {
       if (file_exists($language->i18nFileWidget())) {
         $this->download = true;
       }
-      
+
       $this->csrf_token = UtilCSRF::gen('language_upload', $language->getId());
       $this->includeIframeTransport();
     }
@@ -80,11 +81,11 @@ class languageActions extends policatActions {
 
     if (!$language)
       return $this->notFound();
-    
+
     if ($request->getPostParameter('csrf_token') == UtilCSRF::gen('language_upload', $language->getId())) {
-      
+
       $this->ajax()->setAlertTarget('#upload', 'append');
-      
+
       $file = $request->getFiles('file');
       if ($file && $file['tmp_name']) {
         $parser = new sfMessageSource_XLIFF('');
@@ -95,18 +96,18 @@ class languageActions extends policatActions {
           }
           move_uploaded_file($file['tmp_name'], $language->i18nFileWidget());
           $language->i18nCacheWidgetClear();
-          
+
           return $this->ajax()->alert('Language file updated.', '', null, null, false, 'success')->render(true);
         }
-        
+
         return $this->ajax()->alert('File invalid.', '', null, null, false, 'error')->render(true);
       }
-      
+
       return $this->ajax()->alert('Upload failed.', '', null, null, false, 'error')->render(true);
     }
-    
+
     return $this->notFound();
-    
+
   }
 
 }

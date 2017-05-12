@@ -234,7 +234,7 @@ class accountActions extends policatActions {
     curl_setopt($curl, CURLOPT_RETURNTRANSFER, TRUE);
     curl_setopt($curl, CURLOPT_TIMEOUT, 15);
     curl_setopt($curl, CURLOPT_SSL_VERIFYPEER, TRUE);
-    curl_setopt($curl, CURLOPT_SSL_VERIFYHOST, TRUE);
+    curl_setopt($curl, CURLOPT_SSL_VERIFYHOST, 2);
     $curlData = curl_exec($curl);
 
     curl_close($curl);
