@@ -495,19 +495,20 @@ class Petition extends BasePetition {
   }
 
   public function getGeoSubstFieldsKeywords() {
-    $keywords = array();
+    $keywords = array(PetitionTable::KEYWORD_PERSONAL_SALUTATION);
     $subst_fields = $this->getGeoSubstFields();
     foreach ($subst_fields as $pattern => $subst_field) {
       switch ($subst_field['type']) {
         case 'fix':
+            if ($subst_field['id'] === MailingList::FIX_GENDER) {
+                continue;
+            }
         case 'free':
         case 'choice':
             $keywords[] = $pattern;
           break;
       }
     }
-
-    $keywords[] = PetitionTable::KEYWORD_PERSONAL_SALUTATION;
 
     return $keywords;
   }

@@ -194,6 +194,7 @@ class d_actionActions extends policatActions {
     $petition->setStyleFormTitleColor('#004672');
     $petition->setStyleLabelColor('#004672');
     $petition->setStyleTitleColor('#004672');
+    $petition->setKeywordsSubst('#PERSONAL-SALUTATION#, #FIRSTNAME#, #LASTNAME#');
 
     $campaign_id = $request->getGetParameter('campaign');
     if (is_numeric($campaign_id)) {
