@@ -415,7 +415,7 @@ class Petition extends BasePetition {
             }
 
             if (array_key_exists('id', $choices_and_pledges)) {
-                $ret['id'] = $choices_and_pledges;
+                $ret['id'] = $choices_and_pledges['id'];
             }
 
             foreach ($choices_and_pledges['choices'] as $k => $v) {
