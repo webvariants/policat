@@ -470,9 +470,6 @@ $(document).ready(function($) {
 							var search = $('<input type="text" class="search" value="" />');
 							select.after(search);
 							select.hide();
-							var div_correct = $('<div>&#10003;</div>').addClass('correct');
-							div_s.append(div_correct);
-							div_correct.hide();
 							var search_h = function() {
 								var s_old = select.val();
 								var search_val = search.val();
@@ -482,14 +479,17 @@ $(document).ready(function($) {
 								else
 									search_val = '';
 								select.val(search_val);
-								if (s_old !== select.val())
+								if (s_old !== select.val()) {
 									select.change();
-								if (select.val())
-									div_correct.show();
-								else
-									div_correct.hide();
+								}
+								if (select.val()) {
+									select.parent().addClass('form-indicator-positive');
+								}
 							};
 							search.click(search_h).keyup(search_h);
+							search.on('blur', function () {
+								select.blur();
+							});
 						}
 
 						if (selector['fixed']) {
