@@ -369,6 +369,17 @@ class ContactTable extends Doctrine_Table {
                   $ts['keywords'] = $keywords;
                 }
               }
+
+              if (is_array($ts)
+                && array_key_exists('fix_choices', $ts)
+                && is_array($ts['fix_choices'])
+                && array_key_exists('fix_choices_id', $ts)
+                && $ts['fix_choices_id'] === 'contact') {
+                $keywords = $this->getKeywordSubst(array_keys($ts['fix_choices']), $petition, $culture);
+                  if ($keywords) {
+                    $ts['keywords'] = $keywords;
+                  }
+              }
           }
       }
   }
