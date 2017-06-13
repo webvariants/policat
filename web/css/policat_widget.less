@@ -152,11 +152,11 @@ input, select, textarea {
 	}
 }
 
-input[type=text], textarea, select  {
+input[type=text], textarea, select, .select2-choices {
 	-moz-box-sizing: border-box;
 	-webkit-box-sizing: border-box;
 	border: 1px solid #bbb;
-	border-color: #bbb #bbb #ddd #ddd;
+	border-color: #bbb #bbb #ddd #ddd !important;
 	box-sizing: border-box;
 	font-size: 13px;
 	margin: 0;
@@ -269,6 +269,7 @@ label.form-error {
 		content: "\02717"; /* &cross; */
 		color: @color-error;
 		opacity: 1;
+		padding-right: 5px;
 	}
 
 	&.form-indicator-select {
