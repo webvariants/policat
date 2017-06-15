@@ -20,6 +20,7 @@
 <?php
 /* @var $petition Petition */
 $target_selectors = UtilTargetSelectorPreselect::staticTargetSelectors($widget); // = $petition->getTargetSelectors();
+ContactTable::getInstance()->mergeKeywordSubst($target_selectors, $petition, $lang);
 if (is_array($target_selectors) && count($target_selectors) == 1 && $target_selectors[0]['id'] !== 'contact') {
   if ($petition->getKind() != Petition::KIND_PLEDGE) {
     $target_selectors[] = array('id' => 'contact', 'name' => 'Recipient(s)');
@@ -61,7 +62,8 @@ if (is_array($target_selectors)) {
                     <div class="content-left">
                         <div id="action" class="action">
                             <div id="head" class="head">
-                                <h1 class="form-title title-color"><?php echo trim(Util::enc($petition_text->getFormTitle(), array('\n' => '<br />'))) ? : __($petition->getLabel(PetitionTable::LABEL_TITLE)) ?></h1>
+                                <?php $form_title = trim(Util::enc($petition_text->getFormTitle(), array('\n' => '<br />'))); ?>
+                                <h1 class="form-title title-color <?php echo $form_title ? '' : 'form-title-label' ?>"><?php echo $form_title ? : __($petition->getLabel(PetitionTable::LABEL_TITLE)) ?></h1>
                                 <?php if ($title): ?><h1 class="action-title font-size-auto"><?php echo Util::enc($title) ?></h1><?php endif ?>
                                 <?php if ($target): ?><div class="subtitle"><?php echo UtilMarkdown::transformMedia($target, $petition) ?></div><?php endif ?>
                             </div>

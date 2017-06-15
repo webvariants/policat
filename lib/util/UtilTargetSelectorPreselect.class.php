@@ -46,6 +46,8 @@ class UtilTargetSelectorPreselect {
             $target_selectors[0]['choices'] = $choices_1['choices'];
           } else {
             $target_selectors[0]['fix_choices'] = $choices_1['choices'];
+            $target_selectors[0]['fix_choices_id'] = $choices_1['id'];
+            $target_selectors[0]['choices'] = array($target_selectors[0]['fixed'] => 'fixed');
           }
         }
         if ($petition->getKind() == Petition::KIND_PLEDGE) {
@@ -59,6 +61,8 @@ class UtilTargetSelectorPreselect {
           $target_selectors[1]['choices'] = $choices_2['choices'];
         } else {
           $target_selectors[1]['fix_choices'] = $choices_2['choices'];
+          $target_selectors[1]['fix_choices_id'] = $choices_2['id'];
+          $target_selectors[1]['choices'] = array($target_selectors[1]['fixed'] => 'fixed');
         }
         $target_selectors[1]['fix_label'] = sfContext::getInstance()->getI18N()->__('Recipient(s)');
         if ($petition->getKind() == Petition::KIND_PLEDGE) {

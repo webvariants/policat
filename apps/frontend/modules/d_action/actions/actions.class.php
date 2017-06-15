@@ -194,6 +194,7 @@ class d_actionActions extends policatActions {
     $petition->setStyleFormTitleColor('#004672');
     $petition->setStyleLabelColor('#004672');
     $petition->setStyleTitleColor('#004672');
+    $petition->setKeywordsSubst('#PERSONAL-SALUTATION#, #FIRSTNAME#, #LASTNAME#');
 
     $campaign_id = $request->getGetParameter('campaign');
     if (is_numeric($campaign_id)) {
@@ -346,6 +347,8 @@ class d_actionActions extends policatActions {
         return $this->ajax()->redirectRotue('target_petition_edit', array('id' => $petition->getId()))->render();
       }
     }
+
+    return $this->ajax()->form($form)->render();
   }
 
   public function executeTarget(sfWebRequest $request) {

@@ -1,0 +1,43 @@
+#down-button,
+#head h1.form-title-label
+{
+	display: none;
+}
+
+// z-index: 0  tabs if right side small
+// z-index: 1  force tabs
+// z-index: 2  disable tabs
+
+.tabs {
+	z-index: 2;
+}
+
+@media (max-width: 2000px) {
+	.down-button {
+		display: inline-block;
+	}
+	.down-button.hide {
+		display: none;
+	}
+	.widget-left, .widget-right  {
+		float: none;
+		min-width: 260px;
+		width: 100%;
+	}
+
+	.widget-body {
+		&::before {
+			display: none;
+		}
+	}
+
+	.content-left {
+		padding-right: 20px;
+		padding-bottom: 10px;
+	}
+
+	.content-right {
+		padding-left: 10px;
+		padding-bottom: 10px;
+	}
+}

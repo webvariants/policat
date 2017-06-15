@@ -116,6 +116,15 @@ class EditPetitionTargetForm extends BasePetitionForm {
       )));
       $this->setValidator('target_selector_2', new sfValidatorString(array('required' => false)));
     }
+
+    if ($this->getObject()->getKind() == Petition::KIND_EMAIL_TO_LIST) {
+      $this->setWidget('keywords_subst', new sfWidgetFormInput(array(), array('class' => 'large', 'placeholder' => '#KEYWORD1#, #KEYWORD2#, ...')));
+      $this->setValidator('keywords_subst', new sfValidatorRegex(
+        array('pattern' => '/^(#[A-Z-_0-9]+#[ ,]*)+$/', 'required' => false, 'max_length' => 250, 'min_length' => 5, 'trim' => true), array('invalid' => 'Keyword must be of format "#MY-KEYWORD#"')
+      ));
+      $this->getWidgetSchema()->setLabel('keywords_subst', 'Keywords to substitute');
+      $this->getWidgetSchema()->setHelp('keywords_subst', 'Selected keywords will be replaced with actual data (e.g. a target\'s name) in the email edit field when a participant selects a single contact. <br />Available: <b>' . implode(', ', $this->getObject()->getGeoSubstFieldsKeywords()) . '</b>');
+    }
   }
 
   public function processValues($values) {

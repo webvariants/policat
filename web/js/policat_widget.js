@@ -373,6 +373,7 @@ $(document).ready(function($) {
 
 			var first = true;
 			var next_fixed_choices = null;
+			var keywords = null;
 			$.each(target_selectors, function(_, selector) {
 				var pledges = selector['pledges'] == undefined ? false : selector['pledges'];
 				if (typeof pledges == 'object') {
@@ -403,6 +404,9 @@ $(document).ready(function($) {
 					}
 					var option = $('<option></option>');
 					select.append(option);
+					if (selector.id === 'contact') {
+						select.addClass('change_contact');
+					}
 					option.text(first ? '--' + t_sel + '--' : t_sel_all).attr('value', (first /* && target_selectors.length !== 1 */) ? '' : 'all');
 					if (selector['choices'] != undefined) {
 						var is_typefield = selector['typfield'] != undefined && selector['typfield'];
@@ -441,6 +445,9 @@ $(document).ready(function($) {
 										url: window.location.href.split('#', 1)[0],
 										data: {'target_selector': s_val},
 										success: function(data) {
+											if (typeof data.keywords === 'object') {
+												keywords = data.keywords;
+											}
 											if (typeof data.pledges == 'object') {
 												pledge_ul.empty();
 												insert_sort(pledge_ul, data.choices, null, null, data.pledges, pledge_ul.data('template'), data.infos, pledge_ul.data('pledge-count'));
@@ -463,9 +470,6 @@ $(document).ready(function($) {
 							var search = $('<input type="text" class="search" value="" />');
 							select.after(search);
 							select.hide();
-							var div_correct = $('<div>&#10003;</div>').addClass('correct');
-							div_s.append(div_correct);
-							div_correct.hide();
 							var search_h = function() {
 								var s_old = select.val();
 								var search_val = search.val();
@@ -475,14 +479,17 @@ $(document).ready(function($) {
 								else
 									search_val = '';
 								select.val(search_val);
-								if (s_old !== select.val())
+								if (s_old !== select.val()) {
 									select.change();
-								if (select.val())
-									div_correct.show();
-								else
-									div_correct.hide();
+								}
+								if (select.val()) {
+									select.parent().addClass('form-indicator-positive');
+								}
 							};
 							search.click(search_h).keyup(search_h);
+							search.on('blur', function () {
+								select.blur();
+							});
 						}
 
 						if (selector['fixed']) {
@@ -585,6 +592,42 @@ $(document).ready(function($) {
 						}
 					}
 					first = false;
+
+					if (selector.keywords && !keywords) {
+						keywords = selector.keywords;
+					}
+				}
+
+				if (textarea_email.length) {
+					function replaceAll(str,mapObj){
+					    var re = new RegExp(Object.keys(mapObj).join("|"),"g");
+
+					    return str.replace(re, function(matched){
+					        return mapObj[matched];
+					    });
+					}
+
+					var base_text = $('#petition_signing_email_body').val();
+					var was_single = false;
+					ts.on('change', 'select.change_contact', function () {
+						if (!keywords) {
+							return;
+						}
+						var contactId = $(this).val();
+						if (contactId && keywords[contactId]) {
+							if (!was_single) {
+								textarea_email.val(replaceAll(textarea_email.val(), keywords[contactId]));
+							} else {
+								textarea_email.val(replaceAll(base_text, keywords[contactId]));
+							}
+							was_single = true;
+						} else {
+							if (was_single) {
+								textarea_email.val(base_text);
+							}
+							was_single = false;
+						}
+					});
 				}
 			});
 			
