@@ -18,7 +18,7 @@ class UtilTheme {
   );
   public static $CSS_FILES = array(
       2 => 'sleek.css',
-      5 => array('sleek.css', 'minimal.css')
+      5 => 'minimal.css'
   );
 
   public static $MAX_WIDTH = array(

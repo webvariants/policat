@@ -1,6 +1,7 @@
 @width-one-column-max: 439px;
 @width-two-column-min: 440px;
 
+@enable-label-left: true;
 @width-label-left-1-min: 800px;
 @width-label-left-2-min: 330px;
 
@@ -248,7 +249,7 @@ select {
 	padding-left: 7px;
 }
 
-fieldset {
+fieldset when (@enable-label-left = true) {
 	@media (min-width: (@width-label-left-1-min + 60px)) {
 		padding-right: 20px;
 	}
@@ -415,7 +416,7 @@ span.checkbox {
 }
 
 @media (min-width: @width-label-left-1-min), (min-width: @width-label-left-2-min) and (max-width: @width-one-column-max) {
-	.form-row {
+	.form-row when (@enable-label-left = true) {
 		label {
 			width: 40%;
 			box-sizing: border-box;
@@ -437,7 +438,15 @@ span.checkbox {
 		}
 	}
 
-	.subscribe, .privacy {
+	.subscribe when (@enable-label-left = true) {
+		label {
+			width: 100%;
+			padding: 0;
+			text-align: left;
+		}
+	}
+
+	.privacy when (@enable-label-left = true) {
 		label {
 			width: 100%;
 			padding: 0;

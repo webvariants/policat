@@ -1,3 +1,13 @@
+@import "sleek.less";
+
+// disable two column
+@width-one-column-max: 1080px;
+@width-two-column-min: 1081px;
+
+@enable-label-left: true;
+@width-label-left-1-min: 1px;
+@width-label-left-2-min: 1px;
+
 #down-button,
 #head h1.form-title-label
 {
@@ -10,6 +20,64 @@
 
 .tabs {
 	z-index: 2;
+}
+
+.widget-left  {
+	.form-title {
+		text-align: center;
+	}
+}
+
+#petition_text {
+	h1,
+	h2,
+	h3,
+	h4,
+	h5,
+	h6,
+	p {
+		text-align: center;
+	}
+
+	> ul, > ol {
+		text-align: center;
+
+		> li {
+			padding: 0;
+
+			ul, ol {
+				text-align: left;
+			}
+		}
+	}
+
+	> ul > li::before {
+		position: relative;
+		top: 0;
+		left: 0;
+		vertical-align: bottom;
+		margin-right: 6px;
+	}
+
+	> ol > li::before {
+		position: relative;
+		top: 0;
+		left: 0;
+		margin-right: 6px;
+	}
+}
+
+.readmore {
+	display: block;
+	text-align: center;
+}
+
+#sign {
+	max-width: 400px;
+	margin: 0 auto;
+	fieldset {
+		padding-right: 0;
+	}
 }
 
 @media (max-width: 2000px) {
@@ -37,7 +105,19 @@
 	}
 
 	.content-right {
-		padding-left: 10px;
 		padding-bottom: 10px;
+		padding-right: 20px;
+		padding-left: 20px;
+	}
+
+	button.submit-sign {
+		width: 100%;
+	}
+}
+
+@media (min-width: 440px) {
+	.content-left, .content-right {
+		padding-left: 40px;
+		padding-right: 40px;
 	}
 }
