@@ -97,7 +97,8 @@ var policat = typeof policat === "undefined" ? {widgets: []} : policat;
 			window.attachEvent('onmessage', receivePostMsg);
 
 		policat.widget_here = function(id, click) {
-			var maxWidth = '1080px';
+			var widget = policat.widgets[id];
+			var maxWidth = widget.max_width ? widget.max_width : '1080px';
 //			if ('devicePixelRatio' in window && window.devicePixelRatio > 1)
 //				maxWidth = '360px';
 			if ('matchMedia' in window) {
@@ -111,7 +112,6 @@ var policat = typeof policat === "undefined" ? {widgets: []} : policat;
 					}
 				}
 			}
-			var widget = policat.widgets[id];
 			var iframe_no = policat.iframe_no++;
 			if (verified_id) {
 				widget.type = 'embed';

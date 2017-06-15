@@ -21,6 +21,11 @@ class UtilTheme {
       5 => array('sleek.css', 'minimal.css')
   );
 
+  public static $MAX_WIDTH = array(
+      // no entry leads to 1080px
+      5 => '768px'
+  );
+
   /**
    * @param Widget $widget
    * @param Petition $petition
@@ -32,7 +37,7 @@ class UtilTheme {
       $variables = self::variables($widget, $petition);
     }
 
-    $theme = $petition->getWidgetIndividualiseDesign() ? $widget->getThemeId() : $petition->getThemeId();
+    $theme = self::getThemeId($widget, $petition);
 
     $baseCss = file_get_contents(sfConfig::get('sf_web_dir') . '/css/dist/policat_widget_variables.css');
     if ($variables) {
@@ -72,4 +77,23 @@ class UtilTheme {
     return $variables;
   }
 
+  /**
+   * @param Widget $widget
+   * @param Petition $petition
+   */
+  public static function getThemeId($widget, $petition) {
+    return $petition->getWidgetIndividualiseDesign() ? $widget->getThemeId() : $petition->getThemeId();
+  }
+
+  /**
+   * @param Widget $widget
+   * @param Petition $petition
+   */
+  public static function addWidgetStyles(&$stylings, $widget, $petition) {
+    $theme = self::getThemeId($widget, $petition);
+
+    if (array_key_exists($theme, self::$MAX_WIDTH)) {
+      $stylings['max_width'] = self::$MAX_WIDTH[$theme];
+    }
+  }
 }

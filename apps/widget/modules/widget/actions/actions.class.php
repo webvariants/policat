@@ -385,6 +385,7 @@ class widgetActions extends policatActions
     if (!array_key_exists('width', $stylings)) {
         $stylings['width'] = 'auto';
     }
+    UtilTheme::addWidgetStyles($stylings, $this->widget, $petition);
     $this->stylings = $stylings;
 
     $this->keyvisual = $this->widget->getPetition()->getKeyVisual() ? $image_prefix . 'keyvisual/' . $this->widget->getPetition()->getKeyVisual() :  null;
