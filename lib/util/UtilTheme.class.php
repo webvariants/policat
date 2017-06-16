@@ -14,7 +14,7 @@ class UtilTheme {
   public static $THEMES = array(
       null => 'Classic',
       2 => 'Sleek',
-      5 => 'Minimal Sleek (experimental)'
+      5 => 'Minimal Sleek'
   );
   public static $CSS_FILES = array(
       2 => 'sleek.css',
