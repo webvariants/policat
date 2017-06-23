@@ -350,6 +350,21 @@ class PetitionSigningTable extends Doctrine_Table {
     return $query->count();
   }
 
+  public function countSubscriberByWidget($widget, $min_date = null, $max_date = null, $timeToLive = 600, $refresh = false) {
+    $widget_id = $widget instanceof Widget ? $widget->getId() : $widget;
+    $query = $this->queryAll('ps')
+      ->where('ps.widget_id = ? AND ps.status = ? AND ps.subscribe = 1', array($widget_id, PetitionSigning::STATUS_COUNTED));
+    $this->dateFilter($query, $min_date, $max_date, 'ps', 'created_at');
+
+    if ($timeToLive)
+      $query->useResultCache(true, $timeToLive);
+
+    if ($refresh)
+      $query->expireResultCache();
+
+    return $query->count();
+  }
+
   public function countByWidgetCountries($widget_id, $min_date = null, $max_date = null, $timeToLive = 600, $refresh = false) {
     $query = $this->queryAll('ps')
         ->where('ps.widget_id = ? AND ps.status = ?', array($widget_id, PetitionSigning::STATUS_COUNTED))

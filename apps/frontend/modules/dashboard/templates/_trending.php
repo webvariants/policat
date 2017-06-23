@@ -42,6 +42,7 @@ if ($widgets->count()):
               <th>of e-action</th>
               <th class="span2">URL</th>
               <th class="span2 align-right">Participants</th>
+              <th class="span2 align-right">Subscribers</th>
           </tr>
       </thead>
       <tbody>
@@ -63,6 +64,15 @@ if ($widgets->count()):
                       </a>
                     <?php else: ?>
                       <?php echo format_number($widget->countSignings()) ?>
+                    <?php endif ?>
+                </td>
+                <td class="align-right">
+                    <?php if ($widget->getDataOwner() && $widget->getUserId() == $sf_user->getGuardUser()->getId()): ?>
+                      <a href="<?php echo url_for('widget_data_email', array('id' => $widget->getId())) ?>">
+                          <?php echo format_number($widget->countSubscriberSignings()) ?>
+                      </a>
+                    <?php else: ?>
+                      <?php echo format_number($widget->countSubscriberSignings()) ?>
                     <?php endif ?>
                 </td>
             </tr>

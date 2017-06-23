@@ -532,6 +532,7 @@ PetitionSigning:
     signing_petition_count_index3: { fields: [petition_id, status, country, created_at] }
     signing_widget_count_index2:   { fields: [widget_id, status, country, created_at] }
     signing_widget_count_index3:   { fields: [widget_id, status, created_at] }
+    signing_widget_count_index4:   { fields: [widget_id, status, subscribe, created_at] }
     signing_wave_sent_index:      { fields: [wave_sent] }
     signing_wave_pending_index:   { fields: [wave_pending] }
     signing_wave_cron_index:      { fields: [wave_cron] }

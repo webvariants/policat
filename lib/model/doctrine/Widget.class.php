@@ -182,6 +182,10 @@ class Widget extends BaseWidget {
     return PetitionSigningTable::getInstance()->countByWidget($this);
   }
 
+  public function countSubscriberSignings() {
+    return PetitionSigningTable::getInstance()->countSubscriberByWidget($this);
+  }
+
   public function countSigningsPending() {
     return PetitionSigningTable::getInstance()->countPendingByWidget($this);
   }

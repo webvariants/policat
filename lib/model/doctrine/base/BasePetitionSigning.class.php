@@ -420,6 +420,15 @@ abstract class BasePetitionSigning extends myDoctrineRecord
               2 => 'created_at',
              ),
              ));
+        $this->index('signing_widget_count_index4', array(
+             'fields' => 
+             array(
+              0 => 'widget_id',
+              1 => 'status',
+              2 => 'subscribe',
+              3 => 'created_at',
+             ),
+             ));
         $this->index('signing_wave_sent_index', array(
              'fields' => 
              array(
