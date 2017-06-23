@@ -19,6 +19,10 @@ $(document).ready(function($) {
 		var font_size_auto_elements = $('.font-size-auto');
 		var textarea_email = $('#petition_signing_email_body_copy');
 
+		var textarea_email_base_text = null;
+		var replaceTargetKeywords = null;
+		var replaceSignKeywords = null;
+		var replaceForceRefresh = false;
 		var old_height = null;
 
 		var numberWithCommas = function numberWithCommas(x) {
@@ -27,6 +31,7 @@ $(document).ready(function($) {
 
 		if (textarea_email.length) {
 			textarea_email.data('baseHeight', textarea_email.height());
+			textarea_email_base_text = $('#petition_signing_email_body').val();
 		}
 		function resetTextareaEmail() {
 			if (textarea_email.length) {
@@ -599,33 +604,19 @@ $(document).ready(function($) {
 				}
 
 				if (textarea_email.length) {
-					function replaceAll(str,mapObj){
-					    var re = new RegExp(Object.keys(mapObj).join("|"),"g");
-
-					    return str.replace(re, function(matched){
-					        return mapObj[matched];
-					    });
-					}
-
-					var base_text = $('#petition_signing_email_body').val();
-					var was_single = false;
 					ts.on('change', 'select.change_contact', function () {
 						if (!keywords) {
 							return;
 						}
 						var contactId = $(this).val();
 						if (contactId && keywords[contactId]) {
-							if (!was_single) {
-								textarea_email.val(replaceAll(textarea_email.val(), keywords[contactId]));
-							} else {
-								textarea_email.val(replaceAll(base_text, keywords[contactId]));
-							}
-							was_single = true;
+							replaceTargetKeywords = keywords[contactId];
+							replaceTextareaEmail();
+							replaceForceRefresh = true;
 						} else {
-							if (was_single) {
-								textarea_email.val(base_text);
-							}
-							was_single = false;
+							replaceTargetKeywords = null;
+							replaceTextareaEmail();
+							replaceForceRefresh = false;
 						}
 					});
 				}
@@ -635,6 +626,36 @@ $(document).ready(function($) {
 				ts.addClass('single');
 				$('#petition_signing_ts_2').remove();
 			}
+		}
+
+		function replaceTextareaEmail() {
+			if (replaceTargetKeywords || replaceSignKeywords) {
+				if (!replaceForceRefresh) {
+					textarea_email.val(replaceAll(textarea_email.val(), replaceTargetKeywords, replaceSignKeywords));
+				} else {
+					textarea_email.val(replaceAll(textarea_email_base_text, replaceTargetKeywords, replaceSignKeywords));
+				}
+			} else {
+				if (replaceForceRefresh) {
+					textarea_email.val(textarea_email_base_text);
+				}
+			}
+		}
+
+		var petition_signing_comment = $('#petition_signing_comment');
+
+		if (textarea_email.length && textarea_email.attr('disabled') && petition_signing_comment.length) {
+			petition_signing_comment.on('blur keyup change', function () {
+				var val = $(this).val();
+				replaceForceRefresh = true;
+				if (val) {
+					replaceSignKeywords = {"#PERSONAL-COMMENT#": val};
+				} else {
+					replaceSignKeywords = null;
+				}
+
+				replaceTextareaEmail();
+			});
 		}
 
 		$('#privacy-policy').hide();
@@ -1120,6 +1141,25 @@ $(document).ready(function($) {
 						resize();
 					}
 				}
+			});
+		}
+
+		function replaceAll(str, mapObj1, mapObj2) {
+			if (mapObj2) {
+				if (!mapObj1) {
+					return replaceAll(str, mapObj2);
+				} else {
+					return replaceAll(str, $.extend({}, mapObj1, mapObj2));
+				}
+			}
+			if (!mapObj1) {
+				return str;
+			}
+
+			var re = new RegExp(Object.keys(mapObj1).join("|"), "g");
+
+			return str.replace(re, function (matched) {
+				return mapObj1[matched];
 			});
 		}
 

@@ -37,6 +37,7 @@ class PetitionSigningTable extends Doctrine_Table {
   const KEYWORD_ADDRESS = '#SENDER-ADDRESS#';
   const KEYWORD_EMAIL = '#SENDER-EMAIL#';
   const KEYWORD_DATE = '#ACTION-TAKEN-DATE#';
+  const KEYWORD_COMMENT = '#PERSONAL-COMMENT#';
   const ORDER_ASC = '1';
   const ORDER_DESC = '2';
   const ORDER_BOUNCE_AT_ASC = '3';
@@ -63,7 +64,8 @@ class PetitionSigningTable extends Doctrine_Table {
       self::KEYWORD_ADDRESS,
       self::KEYWORD_COUNTRY,
       self::KEYWORD_EMAIL,
-      self::KEYWORD_DATE
+      self::KEYWORD_DATE,
+      self::KEYWORD_COMMENT
   );
 
   /**

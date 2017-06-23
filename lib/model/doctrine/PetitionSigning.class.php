@@ -178,6 +178,7 @@ class PetitionSigning extends BasePetitionSigning {
         PetitionSigningTable::KEYWORD_ADDRESS => $this->getComputedAddress($culture, "\n", false, false),
         PetitionSigningTable::KEYWORD_EMAIL => $this->getEmail(),
         PetitionSigningTable::KEYWORD_DATE => format_date($this->getCreatedAt(), 'yyyy-MM-dd HH:mm'),
+        PetitionSigningTable::KEYWORD_COMMENT => $this->getComment()
     );
   }
 

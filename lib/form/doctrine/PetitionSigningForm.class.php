@@ -100,6 +100,7 @@ class PetitionSigningForm extends BasePetitionSigningForm {
         case Petition::FIELD_COMMENT:
           $widget = new sfWidgetFormTextarea();
           $validator = new sfValidatorString(array('required' => false));
+          $label = 'Personal comment';
           break;
         case Petition::FIELD_FIRSTNAME:
           $widget = new sfWidgetFormInputText();
