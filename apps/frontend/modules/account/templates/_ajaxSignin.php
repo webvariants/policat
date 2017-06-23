@@ -13,7 +13,7 @@
               <?php echo $form ?>
               <br /><small><a class="ajax_link" href="<?php echo url_for('password_forgotten') ?>">Forgot password?</a></small>
               <?php if (isset($registerForm)): ?>
-                <br /><a class="btn btn-mini btn-info top10 login-register-switch">Join</a>
+                <br /><a class="btn btn-mini btn-info top10 login-register-switch">Register new account</a>
               <?php endif ?>
           </div>
           <div class="modal-footer">
