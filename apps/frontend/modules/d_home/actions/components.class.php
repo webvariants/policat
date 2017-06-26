@@ -120,6 +120,10 @@ class d_homeComponents extends policatComponents {
     $this->pricing = $pricing ? $pricing->getValue() : '';
   }
 
+  public function executeMenuB4() {
+    $this->executeMenu();
+  }
+
   public function executeFooter() {
     $store = StoreTable::getInstance();
     $terms = $store->findByKeyCached(StoreTable::TERMS_FOOTER);
@@ -158,4 +162,7 @@ class d_homeComponents extends policatComponents {
     $this->footer_link = $footer_link ? $footer_link->getValue() : '';
   }
 
+  public function executeFooterB4() {
+    $this->executeFooter();
+  }
 }

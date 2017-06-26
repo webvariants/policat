@@ -1,0 +1,4 @@
+indexB4Success:
+    stylesheets: ["-dist/frontend", "-dist/frontend_print", "dist/bootstrap4.min.css", "dist/bootstrap-custom.css"]
+    javascripts:    ["-dist/html5shiv", "-dist/frontend", "dist/jquery-3.1.slim.min.js", "dist/tether.min.js", "dist/bootstrap4.min.js"]
+    layout: bootstrap4
