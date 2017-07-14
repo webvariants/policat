@@ -97,9 +97,9 @@ module.exports = function(grunt) {
 					'web/css/dist/theme/minimal.css': 'web/css/theme/minimal.less'
 				}
 			},
-			bootrap_custom: {
+			bootstrap_custom: {
 				options: {
-					sourceMapFilename: 'web/css/dist/theme/minimal.less.map'
+					sourceMapFilename: 'web/css/dist/bootstrap-custom.less.map'
 				},
 				files: {
 					'web/css/dist/bootstrap-custom.css': 'web/css/bootstrap-custom.less'
@@ -125,9 +125,7 @@ module.exports = function(grunt) {
 						'bower_components/jquery-highlightTextarea/jquery.highlighttextarea.css'
 					],
 					'web/css/dist/bootstrap4.min.css': [
-						'web/css/dist/bootstrap4-reboot.css',
-						'web/css/dist/bootstrap4.css',
-						'web/css/dist/bootstrap4-grid.css'
+						'web/css/dist/bootstrap4.css'
 					]
 				}
 			}
@@ -203,12 +201,6 @@ module.exports = function(grunt) {
 		exec: {
 			"sass-bootstrap": {
 				command: "node_modules/.bin/node-sass --output-style expanded --source-map true --precision 6 bower_components/bootstrap/scss/bootstrap.scss web/css/dist/bootstrap4.css",
-			},
-			"sass-bootstrap-grid": {
-				command: "node_modules/.bin/node-sass --output-style expanded --source-map true --precision 6 bower_components/bootstrap/scss/bootstrap-grid.scss web/css/dist/bootstrap4-grid.css"
-			},
-			"sass-bootstrap-reboot": {
-				command: "node_modules/.bin/node-sass --output-style expanded --source-map true --precision 6 bower_components/bootstrap/scss/bootstrap-reboot.scss web/css/dist/bootstrap4-reboot.css"
 			}
 		}
 	});
@@ -218,6 +210,6 @@ module.exports = function(grunt) {
 	grunt.loadNpmTasks('grunt-contrib-less');
 	grunt.loadNpmTasks('grunt-contrib-copy');
 	grunt.loadNpmTasks('grunt-exec');
-	grunt.registerTask('sass', ['exec:sass-bootstrap', 'exec:sass-bootstrap-grid', 'exec:sass-bootstrap-reboot']);
+	grunt.registerTask('sass', ['exec:sass-bootstrap']);
 	grunt.registerTask('default', ['uglify', 'less', 'sass', 'cssmin', 'copy']);
 };

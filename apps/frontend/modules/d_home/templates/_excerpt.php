@@ -2,7 +2,7 @@
     <div class="span1"><?php if ($excerpt['key_visual']): ?><img class="home_teaser" src="<?php echo image_path('keyvisual/' . $excerpt['key_visual']) ?>" alt="" /><?php else: ?><div class="visible-desktop" style="background: #f5f5f5; height: 70px">&nbsp;</div><?php endif ?></div>
     <div class="span4">
         <div class="petition_stats_container">
-            <p><b><?php echo $excerpt['title'] ?></b> <?php echo $excerpt['text'] ?></p>
+            <p><strong><?php echo $excerpt['title'] ?></strong> <?php echo $excerpt['text'] ?></p>
             <div class="petition_stats">
                 <dl class="well well-small">
                     <dt>Total</dt>

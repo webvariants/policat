@@ -157,15 +157,19 @@ class UtilOpenActions {
         $len = 240 - mb_strlen($title, 'UTF-8');
         $shorten = $len > 20 ? truncate_text(preg_replace('/#[A-Z-]+#/', '', strip_tags($body)), $len) : '';
 
+        $target = Petition::calcTarget($petition['signings'], $petition['target_num']);
         $exerpts[] = array(
             'title' => $title,
             'text' => $shorten,
             'signings' => $petition['signings'],
             'signings24' => $petition['signings24'],
+            'target' => $target,
+            'percent' => (int) ($petition['signings'] / $target * 100),
             'key_visual' => $petition['key_visual'],
             'widget_id' => $widget['id'],
             'read_more_url' => $petition['read_more_url'],
             'petition_id' => $petition['id'],
+            'kind' => $petition['kind'],
             'widget_last_hash' => Widget::calcLastHash(
               $widget['id'], array(
                 $petition['object_version'],
