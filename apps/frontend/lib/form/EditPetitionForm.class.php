@@ -80,6 +80,13 @@ class EditPetitionForm extends PetitionFieldsForm {
     )));
     $this->setValidator('show_keyvisual', new sfValidatorChoice(array('choices' => array(0, 1), 'required' => true)));
 
+    $this->setWidget('show_embed', new sfWidgetFormChoice(array(
+        'choices' => array(0 => 'no', 1 => 'yes'),
+        'label' => 'Embed option in widget (recommended)'
+      ), array(
+    )));
+    $this->setValidator('show_embed', new sfValidatorChoice(array('choices' => array(0, 1), 'required' => true)));
+
     if (StoreTable::value(StoreTable::DONATIONS_PAYPAL)) {
       $this->setWidget('paypal_email', new sfWidgetFormInput(array(
           'label' => 'Paypal account for donations'
@@ -375,8 +382,13 @@ class EditPetitionForm extends PetitionFieldsForm {
     )));
     $this->setValidator('last_signings_country', new sfValidatorChoice(array('choices' => array(0, 1), 'required' => true)));
 
-    $this->setWidget('share', new WidgetFormInputCheckbox(array('value_attribute_value' => '1', 'value_checked' => '1', 'value_unchecked' => '0', 'label' => 'Include share buttons underneath sign-button')));
-    $this->setValidator('share', new sfValidatorChoice(array('choices' => array('0', '1'))));
+    $this->setWidget('share', new sfWidgetFormChoice(array(
+        'choices' => array(0 => 'no', 1 => 'yes'),
+        'label' => 'Include share buttons underneath sign-button'
+      ), array(
+    )));
+
+    $this->setValidator('share', new sfValidatorChoice(array('choices' => array(0, 1))));
 
     $this->setWidget('email_button_color', new sfWidgetFormInput(array('label' => 'Button color'), array('class' => 'luma-light color {hash:true}')));
     $this->setValidator('email_button_color', new ValidatorCssColor(array('min-luma' => 0.5, 'min_length' => 7, 'max_length' => 7)));

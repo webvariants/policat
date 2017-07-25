@@ -118,7 +118,7 @@ if (is_array($target_selectors)) {
                             ?>
                             <a class="back back-priv-2 button-color button-btn"><?php echo __('Back') ?></a>
                         </div>
-                        <?php if (!$form_embed->isOneSide()): ?>
+                        <?php if (!$form_embed->isOneSide() && $petition->getShowEmbed()): ?>
                           <div id="embed-this-left" class="embed-this embed-this-left">
                               <h2><?php echo __('Customise your widget') ?> (?)</h2>
                               <div class ="embed-this-help-head"><?php echo __('Customise contents: use your own words to convince your target group. To change the title, introduction and background texts, copy the texts from the edit fields into a text editor, make your changes and paste them back into the edit fields. Thereafter, adapt the width and the colours to seamlessly integrate the widget into your website design.') ?></div>
@@ -250,6 +250,7 @@ if (is_array($target_selectors)) {
                             <a href="<?php echo Util::enc($read_more_url) ?>" class="newwin readmore-btn"><?php echo __('Read more') ?></a>
                             <?php endif ?>
                         </div>
+                        <?php if ($petition->getShowEmbed()): ?>
                         <div class="embed-this">
                             <h2 class="title-color"><?php echo __('Embed this') ?></h2>
                             <?php echo $form_embed->renderGlobalErrors(); ?>
@@ -306,6 +307,7 @@ if (is_array($target_selectors)) {
                             </div>
                             <a class="back button-color button-btn"><?php echo __('Back') ?></a>
                         </div>
+                        <?php endif ?>
                         <div class="thankyou">
                             <h2 class="title-color"><?php echo __('Thank you') ?></h2>
                             <p class="form_message label_color"><?php echo __('You verified your email address. Your action is confirmed. Use this moment to tell friends and family.') ?></p>
@@ -337,7 +339,7 @@ if (is_array($target_selectors)) {
                             list($mail_subject, $mail_body) = UtilMail::tellyourmail($widget, $petition_text, 'UURRLLRREEFF', 'UURRLLMMOORREE');
                             ?>
                             <a href="mailto:?subject=<?php echo $mail_subject ?>&amp;body=<?php echo $mail_body ?>" class="sicon mailto" title="Email" target="_top"><img  class="no_load" alt="Email" src="<?php echo image_path('email-64.png') ?>" /></a>
-                            <a id="a-embed-this" class="sicon a-embed-this" title="<?php echo __('Embed this') ?>"><img class="no_load" alt="<?php echo __('Embed this') ?>" src="<?php echo image_path('code-64.png') ?>" /></a>
+                            <?php if ($petition->getShowEmbed()): ?><a id="a-embed-this" class="sicon a-embed-this" title="<?php echo __('Embed this') ?>"><img class="no_load" alt="<?php echo __('Embed this') ?>" src="<?php echo image_path('code-64.png') ?>" /></a><?php endif ?>
                             <?php if ($paypal_email || $donate_url): ?>
                               <?php if ($donate_direct): ?>
                                 <a class="sicon donate-btn" target="_blank" href="<?php echo $donate_url ?>" title="<?php echo __('Donate') ?>"><img class="no_load" alt="<?php echo __('Donate') ?>" src="<?php echo image_path('charity-64.png') ?>" /></a>
