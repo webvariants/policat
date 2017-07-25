@@ -201,7 +201,7 @@ class widgetActions extends policatActions
       {
         $ajax_response_form = $this->form_embed;
         $this->form_embed->bind($request->getPostParameter($this->form_embed->getName()));
-        if ($this->form_embed->isValid()) {
+        if ($this->petition->getShowEmbed() && $this->form_embed->isValid()) {
           $this->form_embed->save();
           $extra['id'] = $this->form_embed->getObject()->getId();
           $extra['edit_code'] = $this->form_embed->getObject()->getEditCode();

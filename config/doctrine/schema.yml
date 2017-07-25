@@ -291,6 +291,7 @@ Petition:
     default_country:      { type: string(5), notnull: true, default: '' }
     subscribe_default:    { type: integer(1), notnull: true, default: 1 }
     show_keyvisual:       { type: integer(1), notnull: true, default: 0 }
+    show_embed:           { type: integer(1), notnull: true, default: 1 }
     pledge_with_comments: { type: integer(1), notnull: true, default: 1 }
     pledge_header_visual: { type: string(60), notnull: false }
     pledge_key_visual:       { type: string(60), notnull: false }

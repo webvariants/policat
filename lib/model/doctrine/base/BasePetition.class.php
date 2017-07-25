@@ -42,6 +42,7 @@
  * @property string $default_country
  * @property integer $subscribe_default
  * @property integer $show_keyvisual
+ * @property integer $show_embed
  * @property integer $pledge_with_comments
  * @property string $pledge_header_visual
  * @property string $pledge_key_visual
@@ -128,6 +129,7 @@
  * @method string              getDefaultCountry()             Returns the current record's "default_country" value
  * @method integer             getSubscribeDefault()           Returns the current record's "subscribe_default" value
  * @method integer             getShowKeyvisual()              Returns the current record's "show_keyvisual" value
+ * @method integer             getShowEmbed()                  Returns the current record's "show_embed" value
  * @method integer             getPledgeWithComments()         Returns the current record's "pledge_with_comments" value
  * @method string              getPledgeHeaderVisual()         Returns the current record's "pledge_header_visual" value
  * @method string              getPledgeKeyVisual()            Returns the current record's "pledge_key_visual" value
@@ -213,6 +215,7 @@
  * @method Petition            setDefaultCountry()             Sets the current record's "default_country" value
  * @method Petition            setSubscribeDefault()           Sets the current record's "subscribe_default" value
  * @method Petition            setShowKeyvisual()              Sets the current record's "show_keyvisual" value
+ * @method Petition            setShowEmbed()                  Sets the current record's "show_embed" value
  * @method Petition            setPledgeWithComments()         Sets the current record's "pledge_with_comments" value
  * @method Petition            setPledgeHeaderVisual()         Sets the current record's "pledge_header_visual" value
  * @method Petition            setPledgeKeyVisual()            Sets the current record's "pledge_key_visual" value
@@ -458,6 +461,12 @@ abstract class BasePetition extends myDoctrineRecord
              'type' => 'integer',
              'notnull' => true,
              'default' => 0,
+             'length' => 1,
+             ));
+        $this->hasColumn('show_embed', 'integer', 1, array(
+             'type' => 'integer',
+             'notnull' => true,
+             'default' => 1,
              'length' => 1,
              ));
         $this->hasColumn('pledge_with_comments', 'integer', 1, array(
