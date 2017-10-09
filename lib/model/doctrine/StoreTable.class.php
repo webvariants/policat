@@ -23,7 +23,8 @@ class StoreTable extends Doctrine_Table {
   const PORTAL_HOME_TITLE = 'portal_home_title';
   const PORTAL_HOME_MARKUP = 'portal_home_markup';
   const INSTANT_CHAT_ENABLE = 'instant_chat_enable';
-  const INSTANT_CHAT_CODE = 'instant_chat_code';
+  const INSTANT_CHAT_SITE_ID = 'instant_chat_site_id';
+  const INSTANT_CHAT_API_KEY = 'instant_chat_api_key';
   const BILLING_ENABLE = 'billing_enable';
   const BILLING_CURRENCY = 'billing_currency';
   const BILLING_TAX = 'billing_tax';
@@ -132,8 +133,12 @@ class StoreTable extends Doctrine_Table {
                   'widget' => array('WidgetBoolean', array('label' => 'Enable Instant Chat')),
                   'validator' => array('sfValidatorBoolean')
               ),
-              self::INSTANT_CHAT_CODE => array(
-                  'widget' => array('sfWidgetFormTextarea', array('label' => 'Widget Code'), array('class' => 'span7 elastic highlight')),
+              self::INSTANT_CHAT_SITE_ID => array(
+                  'widget' => array('sfWidgetFormInputText', array('label' => 'Tawk.to Site ID'), array('class' => 'span7 elastic highlight')),
+                  'validator' => array('sfValidatorString', array('required' => false)),
+              ),
+              self::INSTANT_CHAT_API_KEY => array(
+                  'widget' => array('sfWidgetFormInputText', array('label' => 'Tawk.to API KEY'), array('class' => 'span7 elastic highlight')),
                   'validator' => array('sfValidatorString', array('required' => false)),
               ),
           )
