@@ -29,26 +29,28 @@
     <?php include_component('account', 'ajaxSignin', array('a' => $sf_user->isAuthenticated() ? 1 : 0)) ?>
     <div id="waiting"><b></b><i></i><div class="progress progress-striped active"><div class="bar" style="width: 100%;"></div></div></div>
     <?php if(StoreTable::value(StoreTable::INSTANT_CHAT_ENABLE)) { ?>
-		<!--Start of Tawk.to Script-->
-		<script type="text/javascript">
-		var Tawk_API=Tawk_API||{}, Tawk_LoadStart=new Date();
-		(function(){
-		var s1=document.createElement("script"),s0=document.getElementsByTagName("script")[0];
-		s1.async=true;
-		s1.src='https://embed.tawk.to/<?php echo StoreTable::value(StoreTable::INSTANT_CHAT_SITE_ID) ?>/default';
-		s1.charset='UTF-8';
-		s1.setAttribute('crossorigin','*');
-		s0.parentNode.insertBefore(s1,s0);
-		})();
-		<?php if($sf_user->isAuthenticated()) { ?>
-			var user = document.getElementById('tawk-user');
-			Tawk_API.onLoad = function(){
-			    Tawk_API.setAttributes({
-			        'name'  : JSON.parse(user.dataset.tawk).name,
-			        'email' : JSON.parse(user.dataset.tawk).email,
-			        'hash'  : JSON.parse(user.dataset.tawk).hash
-			    }, function(error){});
-			}
+    <!--Start of Tawk.to Script-->
+    <script type="text/javascript">
+    var Tawk_API=Tawk_API||{}, Tawk_LoadStart=new Date();
+    (function(){
+    var s1=document.createElement("script"),s0=document.getElementsByTagName("script")[0];
+    s1.async=true;
+    s1.src='https://embed.tawk.to/<?php echo StoreTable::value(StoreTable::INSTANT_CHAT_SITE_ID) ?>/default';
+    s1.charset='UTF-8';
+    s1.setAttribute('crossorigin','*');
+    s0.parentNode.insertBefore(s1,s0);
+    })();
+    <?php if($sf_user->isAuthenticated()) { ?>
+      var user = document.getElementById('tawk-user');
+      if (user) {
+        Tawk_API.onLoad = function(){
+          Tawk_API.setAttributes({
+            name : JSON.parse(user.dataset.tawk).name,
+            email: JSON.parse(user.dataset.tawk).email,
+            hash : JSON.parse(user.dataset.tawk).hash
+          }, function(error){});
+        };
+      }
 		<?php } ?>
 		</script>
 		<!--End of Tawk.to Script-->
