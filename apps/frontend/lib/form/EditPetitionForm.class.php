@@ -351,13 +351,13 @@ class EditPetitionForm extends PetitionFieldsForm {
     )));
     $this->setValidator('donate_widget_edit', new sfValidatorChoice(array('choices' => array('0', '1'))));
 
-    $this->setWidget('policy_checkbox', new sfWidgetFormChoice(array('choices' => PetitionTable::$POLICY_CHECKBOX, 'label' => 'Add privacy policy checkbox')));
+    $this->setWidget('policy_checkbox', new sfWidgetFormChoice(array('choices' => PetitionTable::$POLICY_CHECKBOX, 'label' => 'Privacy policy checkbox')));
     $this->setValidator('policy_checkbox', new sfValidatorChoice(array('choices' => array_keys(PetitionTable::$POLICY_CHECKBOX))));
-    $this->getWidgetSchema()->setHelp('policy_checkbox', 'This adds a checkbox to the sign-up form of your action. Activists have to actively tick this box to prove that they accept your privacy policy before they can sign up.');
+    $this->getWidgetSchema()->setHelp('policy_checkbox', 'This adds a checkbox to the sign-up form of your action. Activists have to actively tick this box to prove that they accept your privacy policy before they can sign up. It is your legal obligation to make sure your selection is in conformity with the EU General Data Protection Regulation.');
 
-    $this->setWidget('subscribe_default', new sfWidgetFormChoice(array('choices' => PetitionTable::$SUBSCRIBE_CHECKBOX_DEFAULT, 'label' => 'Keep-me-posted checkbox preselected')));
+    $this->setWidget('subscribe_default', new sfWidgetFormChoice(array('choices' => PetitionTable::$SUBSCRIBE_CHECKBOX_DEFAULT, 'label' => 'Keep-me-posted checkbox')));
     $this->setValidator('subscribe_default', new sfValidatorChoice(array('choices' => array_keys(PetitionTable::$SUBSCRIBE_CHECKBOX_DEFAULT))));
-    $this->getWidgetSchema()->setHelp('subscribe_default', 'You might increase your subscription rate, if you keep the checkbox preselected. Make sure to comply with EU and your national data protection legislation.');
+    $this->getWidgetSchema()->setHelp('subscribe_default', 'You might increase your subscription rate, if you keep the checkbox preselected. However, preselection is not legally in conformity with the EU General Data Protection Regulation. It is your legal obligation to make sure your selection is in conformity with EU and national data protection legislation.');
 
     $this->setWidget('themeId', new sfWidgetFormChoice(array('label' => 'Theme', 'choices' => UtilTheme::$THEMES)));
     $this->setValidator('themeId', new sfValidatorChoice(array('required' => false, 'choices' => array_keys(UtilTheme::$THEMES))));

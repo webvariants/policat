@@ -454,7 +454,7 @@ abstract class BasePetition extends myDoctrineRecord
         $this->hasColumn('subscribe_default', 'integer', 1, array(
              'type' => 'integer',
              'notnull' => true,
-             'default' => 1,
+             'default' => 0,
              'length' => 1,
              ));
         $this->hasColumn('show_keyvisual', 'integer', 1, array(
