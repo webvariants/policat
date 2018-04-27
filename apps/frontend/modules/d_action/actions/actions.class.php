@@ -184,7 +184,8 @@ class d_actionActions extends policatActions {
     $petition->setEndAt(gmdate('Y-m-d', strtotime('next year')));
     $petition->setFromName($this->getGuardUser()->getOrganisation() ? : $this->getGuardUser()->getName());
     $petition->setFromEmail($this->getGuardUser()->getEmailAddress());
-    $petition->setPolicyCheckbox(PetitionTable::POLICY_CHECKBOX_NO);
+    $petition->setPolicyCheckbox(PetitionTable::POLICY_CHECKBOX_YES);
+    $petition->setSubscribeDefault(PetitionTable::SUBSCRIBE_CHECKBOX_DEFAULT_NO);
     $petition->setThemeId(2);
     $petition->setStyleBgLeftColor('#FFFFFF');
     $petition->setStyleBgRightColor('#ECEDE7');

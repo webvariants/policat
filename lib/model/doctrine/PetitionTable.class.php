@@ -58,16 +58,16 @@ class PetitionTable extends Doctrine_Table {
   const POLICY_CHECKBOX_YES = 1;
 
   public static $POLICY_CHECKBOX = array(
-      self::POLICY_CHECKBOX_YES => 'yes',
-      self::POLICY_CHECKBOX_NO => 'no'
+      self::POLICY_CHECKBOX_YES => 'Show (legally safe)',
+      self::POLICY_CHECKBOX_NO => 'Don\'t show (legal grey zone)'
   );
 
   const SUBSCRIBE_CHECKBOX_DEFAULT_NO = 0;
   const SUBSCRIBE_CHECKBOX_DEFAULT_YES = 1;
 
   public static $SUBSCRIBE_CHECKBOX_DEFAULT = array(
-      self::SUBSCRIBE_CHECKBOX_DEFAULT_NO => 'no',
-      self::SUBSCRIBE_CHECKBOX_DEFAULT_YES => 'yes (preselected)'
+      self::SUBSCRIBE_CHECKBOX_DEFAULT_NO => 'Not preselected (legal requirement in the EU"',
+      self::SUBSCRIBE_CHECKBOX_DEFAULT_YES => 'Preselected (not legal in the EU)'
   );
 
   const LABEL_TAB = 1;
@@ -126,9 +126,9 @@ class PetitionTable extends Doctrine_Table {
   }
 
   /**
-   * only used by generator 
+   * only used by generator
    * @param Doctrine_Query $query
-   * @return \Doctrine_Query 
+   * @return \Doctrine_Query
    */
   public function adminList(Doctrine_Query $query) {
     $root = $query->getRootAlias();
@@ -278,7 +278,7 @@ class PetitionTable extends Doctrine_Table {
    *
    * @param Doctrine_Query $query
    * @param FilterPetitionForm $filter
-   * @return Doctrine_Query 
+   * @return Doctrine_Query
    */
   public function filter(Doctrine_Query $query, $filter) {
     if (!$filter)
