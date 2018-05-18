@@ -14,10 +14,14 @@ class UtilTheme {
   public static $THEMES = array(
       null => 'Classic',
       2 => 'Sleek',
+      3 => 'Light',
+      4 => 'Classic - modified',
       5 => 'Minimal Sleek'
   );
   public static $CSS_FILES = array(
       2 => 'sleek.css',
+      3 => 'light.css',
+      4 => 'classic-modified.css',
       5 => 'minimal.css'
   );
 
