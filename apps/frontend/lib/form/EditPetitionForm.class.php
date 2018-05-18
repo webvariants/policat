@@ -393,6 +393,16 @@ class EditPetitionForm extends PetitionFieldsForm {
     $this->setWidget('email_button_color', new sfWidgetFormInput(array('label' => 'Button color'), array('class' => 'luma-light color {hash:true}')));
     $this->setValidator('email_button_color', new ValidatorCssColor(array('min-luma' => 0.5, 'min_length' => 7, 'max_length' => 7)));
     $this->getWidgetSchema()->setHelp('email_button_color', 'This is the background color of buttons in outgoing E-mails. The font color is always black.');
+
+    if ($this->getObject()->getKind() == Petition::KIND_EMAIL_TO_LIST) {
+        $this->setWidget('show_email_counter', new sfWidgetFormChoice(array('choices' => Petition::$SHOW_EMAIL_COUNTER_SHOW, 'label' => 'Show email counter.'), array(
+            'class' => 'add_popover',
+            'data-content' => 'Instead of number of participants.'
+        )));
+        $this->setValidator('show_email_counter', new sfValidatorChoice(array('choices' => array_keys(Petition::$SHOW_EMAIL_COUNTER_SHOW), 'required' => true)));
+    } else {
+        unset($this['show_email_counter']);
+    }
   }
 
   public function processValues($values) {

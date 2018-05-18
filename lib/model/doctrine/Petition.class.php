@@ -55,6 +55,8 @@ class Petition extends BasePetition {
   const WITH_EXTRA_NO = 0;
   const THANK_YOU_EMAIL_YES = 1;
   const THANK_YOU_EMAIL_NO = 0;
+  const SHOW_EMAIL_COUNTER_YES = 1;
+  const SHOW_EMAIL_COUNTER_NO = 0;
 
   static $FIELD_SHOW = array(
       self::FIELD_TITLE => 'title',
@@ -106,6 +108,11 @@ class Petition extends BasePetition {
       self::EDITABLE_NO => 'no'
   );
   static $WITH_ADDRESS_SHOW = array(0 => 'Don\'t ask', 1 => 'Post code and city', 2 => '(Street) address, post code and city');
+
+  static $SHOW_EMAIL_COUNTER_SHOW = array(
+      self::SHOW_EMAIL_COUNTER_NO => 'no',
+      self::SHOW_EMAIL_COUNTER_YES => 'yes'
+  );
 
   public function calcPossibleStatusForUser(sfGuardUser $user) {
     if (!$user) {

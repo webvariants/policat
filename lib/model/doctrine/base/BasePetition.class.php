@@ -75,6 +75,7 @@
  * @property integer $last_signings
  * @property integer $last_signings_city
  * @property integer $last_signings_country
+ * @property integer $show_email_counter
  * @property Campaign $Campaign
  * @property Language $Language
  * @property MailingList $MailingList
@@ -162,6 +163,7 @@
  * @method integer             getLastSignings()               Returns the current record's "last_signings" value
  * @method integer             getLastSigningsCity()           Returns the current record's "last_signings_city" value
  * @method integer             getLastSigningsCountry()        Returns the current record's "last_signings_country" value
+ * @method integer             getShowEmailCounter()           Returns the current record's "show_email_counter" value
  * @method Campaign            getCampaign()                   Returns the current record's "Campaign" value
  * @method Language            getLanguage()                   Returns the current record's "Language" value
  * @method MailingList         getMailingList()                Returns the current record's "MailingList" value
@@ -248,6 +250,7 @@
  * @method Petition            setLastSignings()               Sets the current record's "last_signings" value
  * @method Petition            setLastSigningsCity()           Sets the current record's "last_signings_city" value
  * @method Petition            setLastSigningsCountry()        Sets the current record's "last_signings_country" value
+ * @method Petition            setShowEmailCounter()           Sets the current record's "show_email_counter" value
  * @method Petition            setCampaign()                   Sets the current record's "Campaign" value
  * @method Petition            setLanguage()                   Sets the current record's "Language" value
  * @method Petition            setMailingList()                Sets the current record's "MailingList" value
@@ -647,6 +650,12 @@ abstract class BasePetition extends myDoctrineRecord
              'length' => 1,
              ));
         $this->hasColumn('last_signings_country', 'integer', 1, array(
+             'type' => 'integer',
+             'notnull' => true,
+             'default' => 0,
+             'length' => 1,
+             ));
+        $this->hasColumn('show_email_counter', 'integer', 1, array(
              'type' => 'integer',
              'notnull' => true,
              'default' => 0,

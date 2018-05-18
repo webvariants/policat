@@ -211,11 +211,13 @@ if (is_array($target_selectors)) {
                                   <a target="_blank" href="<?php echo url_for('homepage') ?>"><?php echo __('More actions') ?></a>
                               </p>
                             <?php endif ?>
-                            <?php if (!$disabled): ?>
+                            <?php if (!$disabled):
+                              $count_translation = ($petition->getKind() == Petition::KIND_EMAIL_TO_LIST && $petition->getShowEmailCounter() == Petition::SHOW_EMAIL_COUNTER_YES) ? '# emails sent' : '# Participants';
+                              ?>
                               <div id="count" class="count">
-                                  <div class="count-text count-text-top"><span class="count-count"><?php echo __('# Participants') ?></span><span class="count-target"><?php echo __('Target #') ?></span></div>
+                                  <div class="count-text count-text-top"><span class="count-count"><?php echo __($count_translation) ?></span><span class="count-target"><?php echo __('Target #') ?></span></div>
                                   <div class="count-bar"><div></div><span></span></div>
-                                  <div class="count-text count-text-bottom"><span class="count-count"><?php echo __('# Participants') ?></span><span class="count-target"><?php echo __('Target #') ?></span></div>
+                                  <div class="count-text count-text-bottom"><span class="count-count"><?php echo __($count_translation) ?></span><span class="count-target"><?php echo __('Target #') ?></span></div>
                               </div>
                             <?php endif ?>
                             <?php echo $form->renderGlobalErrors() ?>
