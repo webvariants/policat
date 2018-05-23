@@ -364,13 +364,14 @@ class widgetActions extends policatActions
 
     $this->numberSeparator = $petition_text->utilCultureInfo()->getNumberFormat()->getGroupSeparator();
     if ($petition->getKind() == Petition::KIND_EMAIL_TO_LIST && $petition->getShowEmailCounter() == Petition::SHOW_EMAIL_COUNTER_YES) {
-      $this->count = $petition->countMailsSent();
+      $this->count = $petition->countMailsSent() + $petition->getAddnumEmailCounter();
       $this->count_translation = '# emails sent';
+      $this->target = $this->count . '-' . Petition::calcTarget($this->count, $this->widget->getPetition()->getTargetNumEmailCounter());
     } else {
       $this->count = $petition->getCount(60);
       $this->count_translation = '# Participants';
+      $this->target = $this->count . '-' . Petition::calcTarget($this->count, $this->widget->getPetition()->getTargetNum());
     }
-    $this->target = $this->count . '-' . Petition::calcTarget($this->count, $this->widget->getPetition()->getTargetNum());
     $image_prefix = ($request->isSecure() ? 'https://' : 'http://') . $request->getHost() . '/' . $request->getRelativeUrlRoot() . 'images/';
 
     $this->kind = $this->widget->getPetition()->getKind();

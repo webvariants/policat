@@ -325,6 +325,8 @@ Petition:
     last_signings_city:      { type: integer(1), notnull: true, default: 0 }
     last_signings_country:   { type: integer(1), notnull: true, default: 0 }
     show_email_counter:      { type: integer(1), notnull: true, default: 0 }
+    addnum_email_counter:    { type: integer(4), notnull: true, default: 0 }
+    target_num_email_counter: { type: integer(4), notnull: true, default: 0 }
   relations:
     Campaign:          { onDelete: CASCADE  }
     Language:          {  }

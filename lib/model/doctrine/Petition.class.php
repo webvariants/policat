@@ -525,7 +525,7 @@ class Petition extends BasePetition {
       $count = 0;
     if ($count < $target_num)
       return $target_num;
-    $targets = array(100, 250, 500, 1000, 2500, 5000, 10000, 20000, 35000, 50000, 75000, 100000, 200000, 500000, 1000000, 2500000, 5000000);
+    $targets = array(100, 250, 500, 1000, 2500, 5000, 10000, 20000, 35000, 50000, 75000, 100000, 200000, 500000, 1000000, 2500000, 5000000, 10000000, 20000000);
     $target = 1;
     foreach ($targets as $target) {
       if ($count < $target) {
