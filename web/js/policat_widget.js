@@ -224,6 +224,17 @@ $(document).ready(function($) {
 
 		fontResize(font_size_auto_elements);
 
+		if (parseInt($('#labels-inside').css('z-index'), 10) === 1) {
+			$("#sign input[type=text], #sign textarea, #sign select").each(function(index, elem) {
+		    var eId = $(elem).attr("id");
+		    var label = null;
+		    if (eId && (label = $(elem).parents("form").find("label[for="+eId+"]")).length == 1) {
+		        $(elem).attr("placeholder", $(label).html());
+		        $(label).remove();
+		    }
+		  });
+		}
+
 		$('select').wrap('<div class="select-wrap"/>');
 
 		var hash_parts = window.location.hash.substring(1).split('!');

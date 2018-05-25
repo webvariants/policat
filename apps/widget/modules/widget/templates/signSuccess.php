@@ -407,6 +407,7 @@ if (is_array($target_selectors)) {
             </div>
         </div>
         <div id="policat-widget-loading" class="policat-widget-loading"></div>
+        <div id="labels-inside"></div>
     </body>
 </html>
 <!-- <?php echo $petition->getId() ?> / <?php echo $widget->getPetitionTextId() ?> / <?php echo $widget->getId() ?> -->

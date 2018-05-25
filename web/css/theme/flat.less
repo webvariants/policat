@@ -4,6 +4,11 @@
 @width-one-column-max: 1080px;
 @width-two-column-min: 1081px;
 
+#labels-inside {
+  position: relative;
+  z-index: 1;
+}
+
 .down-button {
   display: none;
 }
@@ -108,4 +113,13 @@
 select {
   -webkit-border-radius: 0;
   border-radius: 0;
+}
+
+#sign {
+  input[type=text] {
+    height: 26px;
+  }
+  select {
+    height: 24px;
+  }
 }
