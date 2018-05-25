@@ -250,6 +250,7 @@ $(document).ready(function($) {
 				var p = Math.ceil(a / b * 100);
 				var el_count = $('#count .count-count');
 				var el_target = $('#count .count-target');
+				$('#count .count-target-number').text(numberWithCommas(b));
 				el_count.text(el_count.first().text().replace('#', numberWithCommas(a)));
 				el_target.text(el_target.first().text().replace('#', numberWithCommas(b)));
 				if (p > 30) {

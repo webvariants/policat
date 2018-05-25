@@ -43,7 +43,7 @@ if (is_array($target_selectors)) {
         var CT_extra = null;
 <?php endif ?>
         </script>
-        <?php echo '<style type="text/css">' . file_get_contents(sfConfig::get('sf_web_dir') . '/css/dist/policat_widget.css') . "\n</style>"; ?>
+        <?php if (!UtilTheme::removeClassicCss($widget, $petition)) echo '<style type="text/css">' . file_get_contents(sfConfig::get('sf_web_dir') . '/css/dist/policat_widget.css') . "\n</style>"; ?>
         <script type="text/javascript" src="/js/static/jquery-1.10.2.min.js"></script>
         <?php printf("<script type=\"text/javascript\">/* <![CDATA[ */\n%s\n/* ]]> */</script>\n", file_get_contents(sfConfig::get('sf_web_dir') . '/js/dist/policat_widget.js')); ?>
         <?php if ($font_css_file): ?><link href="<?php echo $font_css_file ?>" rel="stylesheet" type="text/css" /><?php endif ?>
@@ -216,8 +216,10 @@ if (is_array($target_selectors)) {
                               ?>
                               <div id="count" class="count">
                                   <div class="count-text count-text-top"><span class="count-count"><?php echo __($count_translation) ?></span><span class="count-target"><?php echo __('Target #') ?></span></div>
+                                  <div class="count-text count-target-top count-target-number"></div>
                                   <div class="count-bar"><div></div><span></span></div>
                                   <div class="count-text count-text-bottom"><span class="count-count"><?php echo __($count_translation) ?></span><span class="count-target"><?php echo __('Target #') ?></span></div>
+                                  <div class="count-text count-text-alt"><span class="count-count"><?php echo __($count_translation) ?></span><span>.</span> <span class="count-target"><?php echo __('Target #') ?></span></div>
                               </div>
                             <?php endif ?>
                             <?php echo $form->renderGlobalErrors() ?>

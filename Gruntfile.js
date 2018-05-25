@@ -112,6 +112,14 @@ module.exports = function(grunt) {
 				files: {
 					'web/css/dist/theme/classic-modified.css': 'web/css/theme/classic-modified.less'
 				}
+			},
+			theme_flat: {
+				options: {
+					sourceMapFilename: 'web/css/dist/theme/flat.less.map'
+				},
+				files: {
+					'web/css/dist/theme/flat.css': 'web/css/theme/flat.less'
+			  }
 			}
 		},
 		cssmin: {
