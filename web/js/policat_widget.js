@@ -226,13 +226,20 @@ $(document).ready(function($) {
 
 		if (parseInt($('#labels-inside').css('z-index'), 10) === 1) {
 			$("#sign input[type=text], #sign textarea, #sign select").each(function(index, elem) {
-		    var eId = $(elem).attr("id");
-		    var label = null;
-		    if (eId && (label = $(elem).parents("form").find("label[for="+eId+"]")).length == 1) {
-		        $(elem).attr("placeholder", $(label).html());
-		        $(label).remove();
-		    }
-		  });
+				var eId = $(elem).attr("id");
+				var label = null;
+				if (eId && (label = $(elem).parents("form").find("label[for="+eId+"]")).length == 1) {
+					if ($(elem).is('select')) {
+						var firstOption = $('option:first', elem);
+						if (firstOption.length && !firstOption.val() && !firstOption.text()) {
+							firstOption.text($(label).text())
+						}
+					} else {
+						$(elem).attr("placeholder", $(label).html());
+					}
+					$(label).remove();
+				}
+			});
 		}
 
 		$('select').wrap('<div class="select-wrap"/>');
