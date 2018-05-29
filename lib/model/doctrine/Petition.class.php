@@ -665,4 +665,17 @@ class Petition extends BasePetition {
     $this->save();
   }
 
+  protected $cleanData = array();
+
+  public function cleanData(&$data) {
+    $tmp = parent::cleanData($data);
+    if ($tmp) {
+        $this->cleanData = $tmp;
+    }
+    return $tmp;
+  }
+
+  public function getCleanData($key, $default = null) {
+    return array_key_exists($key, $this->cleanData) ? $this->cleanData[$key] : $default;
+  }
 }

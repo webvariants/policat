@@ -97,12 +97,12 @@ class UtilOpenActions {
           break;
         }
 
-        if ($key == self::HOTTEST && $petition['signings24'] < 1) {
+        if ($key == self::HOTTEST && $petition->getCleanData('signings24', 0) < 1) {
           unset($data[$k]);
           continue;
         }
 
-        if ($key == self::LARGEST && $petition['signings'] < 10) {
+        if ($key == self::LARGEST && $petition->getCleanData('signings', 0) < 10) {
           unset($data[$k]);
           continue;
         }
@@ -112,8 +112,6 @@ class UtilOpenActions {
         if ($count < 1) {
           continue;
         }
-
-        $petition['signings'] = $count;
 
         $number = $count;
         $target = Petition::calcTarget($count, $petition['target_num']);
@@ -167,8 +165,8 @@ class UtilOpenActions {
         $exerpts[] = array(
             'title' => $title,
             'text' => $shorten,
-            'signings' => $petition['signings'],
-            'signings24' => $petition['signings24'],
+            'signings' => $count,
+            'signings24' => $petition->getCleanData('signings24', 0),
             'key_visual' => $petition['key_visual'],
             'widget_id' => $widget['id'],
             'read_more_url' => $petition['read_more_url'],
