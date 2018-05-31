@@ -16,7 +16,7 @@ if (!isset($no_filter)):
   <table class="table table-bordered">
     <thead>
       <tr>
-        <th>E-action 
+        <th>E-action
           <a class="filter_order <?php if ($form->getValue(PetitionTable::FILTER_ORDER) == PetitionTable::ORDER_ACTION_ASC) echo ' active' ?>" data-value="<?php echo PetitionTable::ORDER_ACTION_ASC ?>">&darr;</a><?php
 ?><a class="filter_order <?php if ($form->getValue(PetitionTable::FILTER_ORDER) == PetitionTable::ORDER_ACTION_DESC) echo ' active' ?>" data-value="<?php echo PetitionTable::ORDER_ACTION_DESC ?>">&uarr;</a>
 
@@ -82,8 +82,8 @@ if (!isset($no_filter)):
                 <a class="btn btn-mini ajax_link post" data-submit='<?php echo json_encode(array('csrf_token' => $csrf_token_join, 'id' => $petition->getId())) ?>' href="<?php echo url_for('action_join') ?>">join</a>
               <?php endif ?>
             <?php endif ?>
-            <?php if ($petition->getStatus() == Petition::STATUS_DELETED && $sf_user->hasCredential(myUser::CREDENTIAL_ADMIN)): ?>
-            <a class="btn btn-danger btn-mini ajax_link" href="<?php echo url_for('petition_delete_', array('id' => $petition->getId())) ?>">wipe</a>
+            <?php if ($petition->getCampaign()->getDataOwnerId() == $sf_user->getUserId() || $sf_user->hasCredential(myUser::CREDENTIAL_ADMIN)): ?>
+            <a class="btn btn-danger btn-mini ajax_link" href="<?php echo url_for('petition_delete_', array('id' => $petition->getId())) ?>">Delete</a>
             <?php endif ?>
           </td>
         </tr>

@@ -701,9 +701,13 @@ class d_actionActions extends policatActions {
     if (is_numeric($id)) {
       $petition = PetitionTable::getInstance()->findById($id, true, false);
       /* @var $petition Petition */
-      if (!$petition || $petition->getStatus() != Petition::STATUS_DELETED) {
+      if (!$petition) {
         return $this->notFound();
       }
+    }
+
+    if (!($petition->getCampaign()->getDataOwnerId() == $this->getGuardUser()->getId() || $this->userIsAdmin())) {
+      return $this->noAccess();
     }
 
     $csrf_token = UtilCSRF::gen('delete_petition', $petition->getId());
@@ -713,7 +717,15 @@ class d_actionActions extends policatActions {
         return $this->ajax()->alert('CSRF Attack detected, please relogin.', 'Error', '#petition_delete_modal .modal-body')->render();
       }
 
+      if ($request->getPostParameter('name') !== $petition->getName()) {
+        return $this->ajax()->alert('Wrong title', 'Error', '#delete_action_name')->render();
+      }
+
       $this->ajax()->redirectRotue('campaign_edit_', array('id' => $petition->getCampaignId()));
+      $dir = sfConfig::get('sf_log_dir');
+      $cid = $petition->getCampaignId();
+      $uid = $this->getGuardUser()->getId();
+      file_put_contents($dir . '/' . 'delete_action_log.log', gmdate('Y-m-d H:i:s', time()) . " campaign: $cid action: $id user: $uid\n", FILE_APPEND);
       $petition->delete();
       return $this->ajax()->render();
     }
@@ -721,6 +733,7 @@ class d_actionActions extends policatActions {
     return $this->ajax()
         ->appendPartial('body', 'delete', array('id' => $id, 'name' => $petition->getName(), 'csrf_token' => $csrf_token))
         ->modal('#petition_delete_modal')
+        ->focus('#delete_action_name')
         ->render();
   }
 
