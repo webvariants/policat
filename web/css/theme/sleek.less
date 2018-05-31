@@ -409,7 +409,7 @@ span.checkbox {
 .subscribe, .privacy {
 	label {
 		width: 100%;
-		
+
 		padding: 0;
 		font-weight: normal;
 	}
@@ -497,12 +497,45 @@ span.checkbox {
 		}
 	}
 	.sicon + .sicon + .sicon + .sicon {
-		background-image: linear-gradient(to bottom, rgba(255,255,255,0.24) 0%, rgba(255,255,255,0.23) 100%);
+		background-image: linear-gradient(to bottom, rgba(255,255,255,0.24) 0%, rgba(255,255,255,0.24) 100%);
 		&:hover {
 			background-image: linear-gradient(to bottom, rgba(255,255,255,0.32) 0%, rgba(255,255,255,0.48) 100%);
 		}
 	}
 	.sicon + .sicon + .sicon + .sicon + .sicon {
+		background-image: linear-gradient(to bottom, rgba(255,255,255,0.32) 0%, rgba(255,255,255,0.32) 100%);
+		&:hover {
+			background-image: linear-gradient(to bottom, rgba(255,255,255,0.40) 0%, rgba(255,255,255,0.56) 100%);
+		}
+	}
+	.sicon + .sicon + .sicon + .sicon + .sicon + .sicon {
+		background-image: linear-gradient(to bottom, rgba(255,255,255,0.40) 0%, rgba(255,255,255,0.40) 100%);
+		&:hover {
+			background-image: linear-gradient(to bottom, rgba(255,255,255,0.48) 0%, rgba(255,255,255,0.64) 100%);
+		}
+	}
+}
+
+.isDesktop .share {
+	.sicon + .hideDesktop + .sicon {
+		background-image: linear-gradient(to bottom, rgba(255,255,255,0.08) 0%, rgba(255,255,255,0.08) 100%);
+		&:hover {
+			background-image: linear-gradient(to bottom, rgba(255,255,255,0.16) 0%, rgba(255,255,255,0.32) 100%);
+		}
+	}
+	.sicon + .hideDesktop + .sicon + .sicon {
+		background-image: linear-gradient(to bottom, rgba(255,255,255,0.16) 0%, rgba(255,255,255,0.16) 100%);
+		&:hover {
+			background-image: linear-gradient(to bottom, rgba(255,255,255,0.24) 0%, rgba(255,255,255,0.40) 100%);
+		}
+	}
+	.sicon + .hideDesktop + .sicon + .sicon + .sicon {
+		background-image: linear-gradient(to bottom, rgba(255,255,255,0.24) 0%, rgba(255,255,255,0.23) 100%);
+		&:hover {
+			background-image: linear-gradient(to bottom, rgba(255,255,255,0.32) 0%, rgba(255,255,255,0.48) 100%);
+		}
+	}
+	.sicon + .hideDesktop + .sicon + .sicon + .sicon + .sicon {
 		background-image: linear-gradient(to bottom, rgba(255,255,255,0.32) 0%, rgba(255,255,255,0.32) 100%);
 		&:hover {
 			background-image: linear-gradient(to bottom, rgba(255,255,255,0.40) 0%, rgba(255,255,255,0.56) 100%);

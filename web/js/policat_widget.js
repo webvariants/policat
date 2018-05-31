@@ -29,6 +29,12 @@ $(document).ready(function($) {
 			return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, numberSeparator);
 		};
 
+		if (window.navigator.userAgent.match(/Android|BlackBerry|iPhone|iPad|iPod|Opera Mini|IEMobile/i)) {
+			$('body').addClass('isMobile');
+		} else {
+			$('body').addClass('isDesktop');
+		}
+
 		if (textarea_email.length) {
 			textarea_email.data('baseHeight', textarea_email.height());
 			textarea_email_base_text = $('#petition_signing_email_body').val();
@@ -285,7 +291,7 @@ $(document).ready(function($) {
 		else
 			$('#count').hide();
 
-		$('a.facebook, a.twitter, a.gplus').each(function() {
+		$('a.facebook, a.whatsapp, a.twitter, a.gplus').each(function() {
 			if ($(this).hasClass('twitter'))
 				$(this).attr('href', $(this).attr('href') + ref + '&amp;source=');
 			$(this).attr('href', $(this).attr('href') + encodeURIComponent(ref));
