@@ -338,7 +338,7 @@ if (is_array($target_selectors)) {
                         <div class="share <?php echo $widget['share'] ? 'share-on-sign' : '' ?>">
                             <h2 class="label_color"><?php echo __('Tell your friends') ?></h2>
                             <a href="https://www.facebook.com/sharer/sharer.php?t=<?php echo urlencode($title) ?>&amp;u=" class="newwin sicon facebook" title="Facebook"><img class="no_load" alt="Facebook" src="<?php echo image_path('facebook-64.png') ?>" /></a>
-                            <a href="whatsapp://send?text=<?php echo urlencode($title . ' ') ?>" class="hideDesktop sicon whatsapp" title="WhatsApp"><img class="no_load" alt="WhatsApp" src="<?php echo image_path('whatsapp-64.png') ?>" /></a>
+                            <a href="whatsapp://send?text=<?php echo rawurlencode($title . ' ') ?>" class="hideDesktop sicon whatsapp" title="WhatsApp"><img class="no_load" alt="WhatsApp" src="<?php echo image_path('whatsapp-64.png') ?>" /></a>
                             <a href="https://twitter.com/share?text=<?php echo urlencode($title) ?>&amp;url=" class="newwin sicon twitter" title="Twitter"><img class="no_load" alt="Twitter" src="<?php echo image_path('twitter-64.png') ?>" /></a>
                             <?php
                             list($mail_subject, $mail_body) = UtilMail::tellyourmail($widget, $petition_text, 'UURRLLRREEFF', 'UURRLLMMOORREE');
