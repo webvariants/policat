@@ -33,7 +33,7 @@ class d_homeComponents extends policatComponents {
     if ($markup) {
       $markup = preg_replace_callback('/#KEYVISUAL-(\d+)#/', array($this, 'getKeyvisualUrl'), $markup);
       $markup = preg_replace('/#WIDGET-(\d+)#/', 'PasjhkX\\1KmsownedS', $markup); // prevent markdown messing up widget
-      $markup = UtilMarkdown::transform($markup, true, true);
+      $markup = UtilMarkdown::transform($markup, false);
       $this->markup = preg_replace_callback('/PasjhkX(\d+)KmsownedS/', array('UtilWidget', 'renderWidget'), $markup);
       return;
     }
@@ -67,7 +67,7 @@ class d_homeComponents extends policatComponents {
     $menu_start = $store->findByKeyCached(StoreTable::MENU_START);
     $menu_join = $store->findByKeyCached(StoreTable::MENU_JOIN);
     $menu_login = $store->findByKeyCached(StoreTable::MENU_LOGIN);
-    
+
     $pricing = $store->findByKeyCached(StoreTable::BILLING_PRICING_MENU);
 
     $register = $store->findByKeyCached(StoreTable::REGISTER_ON);
@@ -95,11 +95,11 @@ class d_homeComponents extends policatComponents {
       $this->addContentTags($menu_join);
     if ($menu_login)
       $this->addContentTags($menu_login);
-    
+
     if ($pricing) {
       $this->addContentTags($pricing);
     }
-    
+
     if ($register)
       $this->addContentTags($register);
 
@@ -116,7 +116,7 @@ class d_homeComponents extends policatComponents {
     $this->menu_start = $menu_start ? $menu_start->getValue() : '';
     $this->menu_join = ($menu_join ? $menu_join->getValue() : '') && ($register ? $register->getValue() : '');
     $this->menu_login = $menu_login ? $menu_login->getValue() : '';
-    
+
     $this->pricing = $pricing ? $pricing->getValue() : '';
   }
 

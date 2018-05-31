@@ -28,7 +28,7 @@ class d_homeActions extends policatActions {
   }
 
   public function executeIndex(sfWebRequest $request) {
-    
+
   }
 
   public function executeTips(sfWebRequest $request) {
@@ -149,7 +149,7 @@ class d_homeActions extends policatActions {
     $table .= '</table>';
 
     $markup = strtr(
-      UtilMarkdown::transform(strtr($markdown, array('#PRODUCTS#' => 'a324ehksdf3457dfjgdkhi534wnhksdxfda')), true, true), array(
+      UtilMarkdown::transform(strtr($markdown, array('#PRODUCTS#' => 'a324ehksdf3457dfjgdkhi534wnhksdxfda')), false), array(
         'a324ehksdf3457dfjgdkhi534wnhksdxfda' => $table
     ));
 
