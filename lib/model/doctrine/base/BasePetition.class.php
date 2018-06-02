@@ -25,6 +25,7 @@
  * @property string $from_name
  * @property string $from_email
  * @property clob $email_targets
+ * @property string $keywords_subst
  * @property integer $homepage
  * @property string $twitter_tags
  * @property string $language_id
@@ -110,6 +111,7 @@
  * @method string              getFromName()                   Returns the current record's "from_name" value
  * @method string              getFromEmail()                  Returns the current record's "from_email" value
  * @method clob                getEmailTargets()               Returns the current record's "email_targets" value
+ * @method string              getKeywordsSubst()              Returns the current record's "keywords_subst" value
  * @method integer             getHomepage()                   Returns the current record's "homepage" value
  * @method string              getTwitterTags()                Returns the current record's "twitter_tags" value
  * @method string              getLanguageId()                 Returns the current record's "language_id" value
@@ -194,6 +196,7 @@
  * @method Petition            setFromName()                   Sets the current record's "from_name" value
  * @method Petition            setFromEmail()                  Sets the current record's "from_email" value
  * @method Petition            setEmailTargets()               Sets the current record's "email_targets" value
+ * @method Petition            setKeywordsSubst()              Sets the current record's "keywords_subst" value
  * @method Petition            setHomepage()                   Sets the current record's "homepage" value
  * @method Petition            setTwitterTags()                Sets the current record's "twitter_tags" value
  * @method Petition            setLanguageId()                 Sets the current record's "language_id" value
@@ -363,6 +366,11 @@ abstract class BasePetition extends myDoctrineRecord
              ));
         $this->hasColumn('email_targets', 'clob', null, array(
              'type' => 'clob',
+             ));
+        $this->hasColumn('keywords_subst', 'string', 250, array(
+             'type' => 'string',
+             'notnull' => false,
+             'length' => 250,
              ));
         $this->hasColumn('homepage', 'integer', 1, array(
              'type' => 'integer',

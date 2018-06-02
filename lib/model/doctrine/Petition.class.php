@@ -252,8 +252,8 @@ class Petition extends BasePetition {
    * [id: 'country', name:'Country', choices: countries, country: true]                                                                     (1st target selector)
    * [id: 'country', name:'Country', country: true]                                                                                         (2nd target selctor}
    *
-   * @param boolean $fresh
-   * @return boolean | array
+   * @param bool $fresh
+   * @return bool | array
    */
   public function getTargetSelectors($fresh = false) {
     if ($this->_target_selectors !== null && !$fresh)
@@ -414,6 +414,10 @@ class Petition extends BasePetition {
               $ret['pledges'] = array();
             }
 
+            if (array_key_exists('id', $choices_and_pledges)) {
+                $ret['id'] = $choices_and_pledges['id'];
+            }
+
             foreach ($choices_and_pledges['choices'] as $k => $v) {
               $ret['choices'][$k] = $v;
               if ($choices_and_pledges['pledges'] !== false) {
@@ -479,7 +483,7 @@ class Petition extends BasePetition {
     return $ret;
   }
 
-  protected function getGeoSubstFields() {
+  public function getGeoSubstFields() {
     if ($this->isGeoKind()) {
       if ($this->getMailingListId()) {
         $ml = MailingListTable::getInstance()->findAndFetchCached($this->getMailingListId());
@@ -488,6 +492,25 @@ class Petition extends BasePetition {
       }
     }
     return array();
+  }
+
+  public function getGeoSubstFieldsKeywords() {
+    $keywords = array(PetitionTable::KEYWORD_PERSONAL_SALUTATION);
+    $subst_fields = $this->getGeoSubstFields();
+    foreach ($subst_fields as $pattern => $subst_field) {
+      switch ($subst_field['type']) {
+        case 'fix':
+            if ($subst_field['id'] === MailingList::FIX_GENDER) {
+                continue;
+            }
+        case 'free':
+        case 'choice':
+            $keywords[] = $pattern;
+          break;
+      }
+    }
+
+    return $keywords;
   }
 
   public static function calcTarget($count, $target_num = 0) {

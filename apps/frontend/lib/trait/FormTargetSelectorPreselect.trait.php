@@ -134,9 +134,9 @@ trait FormTargetSelectorPreselect {
                   }
                 }
               }
-            }
 
-            $email_targets = json_encode($data);
+              $email_targets = json_encode($data);
+            }
           }
         }
       }

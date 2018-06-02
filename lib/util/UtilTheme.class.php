@@ -13,10 +13,12 @@ class UtilTheme {
 
   public static $THEMES = array(
       null => 'Classic',
-      2 => 'Sleek'
+      2 => 'Sleek',
+      5 => 'Minimal Sleek (experimental)'
   );
   public static $CSS_FILES = array(
-      2 => 'sleek.css'
+      2 => 'sleek.css',
+      5 => array('sleek.css', 'minimal.css')
   );
 
   /**
@@ -39,7 +41,11 @@ class UtilTheme {
     echo "\n<style type=\"text/css\">\n$baseCss\n</style>\n";
 
     if (array_key_exists($theme, self::$CSS_FILES)) {
-      $css = file_get_contents(sfConfig::get('sf_web_dir') . '/css/dist/theme/' . self::$CSS_FILES[$theme]);
+      $css = '';
+      $cssFiles = (array) self::$CSS_FILES[$theme];
+      foreach ($cssFiles as $cssFile) {
+        $css .= file_get_contents(sfConfig::get('sf_web_dir') . '/css/dist/theme/' . $cssFile);
+      }
       if ($css) {
         if ($variables) {
           $css = strtr($css, $variables);
