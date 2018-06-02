@@ -588,7 +588,7 @@ $(document).ready(function($) {
 				}
 			});
 			
-			var select = $('.select-wrap select').select2({
+			var select = $('.select-wrap select[multiple]').select2({
 				placeholder: "Select one or more options"
 			});
 
