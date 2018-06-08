@@ -20,8 +20,15 @@
 <?php
 /* @var $petition Petition */
 $form_title = trim(Util::enc($petition_text->getFormTitle(), array('\n' => '<br />')));
-$share_title = trim(strtr($petition_text->getFormTitle(), array('\n' => ' ')))  ? : __($petition->getLabel(PetitionTable::LABEL_TITLE));
-$share_title .= ($share_title && $title ? ': ' : '') . $title;
+$form_title_plain = trim(strtr($petition_text->getFormTitle(), array('\n' => ' ')));
+$share_title = $title;
+if ($form_title_plain) {
+  $share_title .= ($share_title ? '. ' : '') . $form_title_plain;
+}
+if (!$share_title) {
+    $share_title = __($petition->getLabel(PetitionTable::LABEL_TITLE));
+}
+$share_title .= ':';
 $target_selectors = UtilTargetSelectorPreselect::staticTargetSelectors($widget); // = $petition->getTargetSelectors();
 ContactTable::getInstance()->mergeKeywordSubst($target_selectors, $petition, $lang);
 if (is_array($target_selectors) && count($target_selectors) == 1 && $target_selectors[0]['id'] !== 'contact') {
