@@ -27,6 +27,7 @@ terms: {                  url: '/terms',                            param: { mod
 contact: {                url: '/contact',                          param: { module: d_home,     action: contact },                    requirements: { sf_method: [get, head] }  }
 imprint: {                url: '/imprint',                          param: { module: d_home,     action: imprint },                    requirements: { sf_method: [get, head] }  }
 pricing: {                url: '/pricing',                          param: { module: d_home,     action: pricing },                    requirements: { sf_method: [get, head] }  }
+privacy: {                url: '/privacy',                          param: { module: d_home,     action: privacy },                    requirements: { sf_method: [get, head] }  }
 register: {               url: '/register',                         param: { module: account,    action: register },                   requirements: { sf_method: [get, head, post] } }
 register_validation: {    url: '/register/:id/:code',               param: { module: account,    action: registerValidation },         requirements: { sf_method: [get, head], id: '\d+', code: '[a-zA-Z0-9]+' } }
 profile: {                url: '/profile',                          param: { module: account,    action: profile },                    requirements: { sf_method: [get, head, post] } }

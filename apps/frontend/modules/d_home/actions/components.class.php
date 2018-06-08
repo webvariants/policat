@@ -62,6 +62,8 @@ class d_homeComponents extends policatComponents {
     $faq_title = $store->findByKeyCached(StoreTable::FAQ_TITLE);
     $help = $store->findByKeyCached(StoreTable::HELP_MENU);
     $help_title = $store->findByKeyCached(StoreTable::HELP_TITLE);
+    $privacy = $store->findByKeyCached(StoreTable::PRIVACY_MENU);
+    $privacy_title = $store->findByKeyCached(StoreTable::PRIVACY_TITLE);
 
     $menu_home = $store->findByKeyCached(StoreTable::MENU_HOME);
     $menu_start = $store->findByKeyCached(StoreTable::MENU_START);
@@ -86,6 +88,11 @@ class d_homeComponents extends policatComponents {
       $this->addContentTags($help);
     if ($help_title)
       $this->addContentTags($help_title);
+
+    if ($privacy)
+      $this->addContentTags($privacy);
+    if ($privacy_title)
+      $this->addContentTags($privacy_title);
 
     if ($menu_home)
       $this->addContentTags($menu_home);
@@ -112,6 +119,9 @@ class d_homeComponents extends policatComponents {
     $this->help = $help ? $help->getValue() : '';
     $this->help_title = $help_title ? $help_title->getValue() : '';
 
+    $this->privacy = $privacy ? $privacy->getValue() : '';
+    $this->privacy_title = $privacy_title ? $privacy_title->getValue() : '';
+
     $this->menu_home = $menu_home ? $menu_home->getValue() : '';
     $this->menu_start = $menu_start ? $menu_start->getValue() : '';
     $this->menu_join = ($menu_join ? $menu_join->getValue() : '') && ($register ? $register->getValue() : '');
@@ -126,6 +136,8 @@ class d_homeComponents extends policatComponents {
     $terms_title = $store->findByKeyCached(StoreTable::TERMS_TITLE);
     $contact = $store->findByKeyCached(StoreTable::CONTACT_FOOTER);
     $contact_title = $store->findByKeyCached(StoreTable::CONTACT_TITLE);
+    $privacy = $store->findByKeyCached(StoreTable::PRIVACY_FOOTER);
+    $privacy_title = $store->findByKeyCached(StoreTable::PRIVACY_TITLE);
     $imprint = $store->findByKeyCached(StoreTable::IMPRINT_FOOTER);
     $imprint_title = $store->findByKeyCached(StoreTable::IMPRINT_TITLE);
     $footer_title = $store->findByKeyCached(StoreTable::FOOTER_TITLE);
@@ -139,6 +151,8 @@ class d_homeComponents extends policatComponents {
       $this->addContentTags($contact);
     if ($contact_title)
       $this->addContentTags($contact_title);
+    if ($privacy_title)
+      $this->addContentTags($privacy_title);
     if ($imprint)
       $this->addContentTags($imprint);
     if ($imprint_title)
@@ -152,6 +166,8 @@ class d_homeComponents extends policatComponents {
     $this->terms_title = $terms_title ? $terms_title->getValue() : '';
     $this->contact = $contact ? $contact->getValue() : '';
     $this->contact_title = $contact_title ? $contact_title->getValue() : '';
+    $this->privacy = $privacy ? $privacy->getValue() : '';
+    $this->privacy_title = $privacy_title ? $privacy_title->getValue() : '';
     $this->imprint = $imprint ? $imprint->getValue() : '';
     $this->imprint_title = $imprint_title ? $imprint_title->getValue() : '';
     $this->footer_title = $footer_title ? $footer_title->getValue() : '';

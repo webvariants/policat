@@ -43,6 +43,10 @@ class d_homeActions extends policatActions {
     $this->page(StoreTable::HELP_TITLE, StoreTable::HELP_CONTENT);
   }
 
+  public function executePrivacy(sfWebRequest $request) {
+    $this->page(StoreTable::PRIVACY_TITLE, StoreTable::PRIVACY_CONTENT);
+  }
+
   protected function page($title, $content) {
     $store = StoreTable::getInstance();
     $page_content = $store->findByKeyCached($content);

@@ -42,7 +42,7 @@ Options +FollowSymLinks +ExecCGI
 
   # frontend routes
   RewriteRule ^$ frontend.php [QSA,L]
-  RewriteRule ^((login)|(invitation)|(forgotten)|(guard/login)|(guard/logout)|(captcha)|(tips)|(faq)|(help)|(terms)|(contact)|(imprint)|(pricing)|(register)|(profile)|(unblock)|(dashboard/?))$ frontend.php [QSA,L]
+  RewriteRule ^((login)|(invitation)|(forgotten)|(guard/login)|(guard/logout)|(captcha)|(tips)|(faq)|(help)|(terms)|(privacy)|(contact)|(imprint)|(pricing)|(register)|(profile)|(unblock)|(dashboard/?))$ frontend.php [QSA,L]
   RewriteRule ^((register)|(forgotten)|(user_validation))/\d+/[a-zA-Z0-9]+$ frontend.php [QSA,L]
 
   RewriteRule ^campaign(/join)$ frontend.php [QSA,L]

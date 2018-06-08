@@ -8,6 +8,7 @@
       <?php endif ?>
     <?php endif ?>
     <?php if ($terms): ?><li><a href="<?php echo url_for('terms') ?>"><?php echo $terms_title ?></a></li><?php endif ?>
+    <?php if ($privacy): ?><li><a href="<?php echo url_for('privacy') ?>"><?php echo $privacy_title ?></a></li><?php endif ?>
     <?php if ($contact): ?><li><a href="<?php echo url_for('contact') ?>"><?php echo $contact_title ?></a></li><?php endif ?>
     <?php if ($imprint): ?><li><a href="<?php echo url_for('imprint') ?>"><?php echo $imprint_title ?></a></li><?php endif ?>
   </ul>

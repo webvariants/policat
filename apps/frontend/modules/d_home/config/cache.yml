@@ -11,8 +11,12 @@ terms:
 contact:
   enabled: true
 
+privacy:
+  enabled: true
+
 _footer:
   enabled: true
-  
+  lifetime: 60
+
 _home_menu:
   enabled: false
