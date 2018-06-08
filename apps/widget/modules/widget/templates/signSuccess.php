@@ -24,9 +24,8 @@ $form_title_plain = trim(strtr($petition_text->getFormTitle(), array('\n' => ' '
 $share_title = $title;
 if ($form_title_plain) {
   $share_title .= ($share_title ? '. ' : '') . $form_title_plain;
-}
-if (!$share_title) {
-    $share_title = __($petition->getLabel(PetitionTable::LABEL_TITLE));
+} else {
+  $share_title .= ($share_title ? '. ' : '') . __($petition->getLabel(PetitionTable::LABEL_TITLE));
 }
 $share_title .= ':';
 $target_selectors = UtilTargetSelectorPreselect::staticTargetSelectors($widget); // = $petition->getTargetSelectors();
@@ -346,7 +345,7 @@ if (is_array($target_selectors)) {
                         <?php endif ?>
                         <div class="share <?php echo $widget['share'] ? 'share-on-sign' : '' ?>">
                             <h2 class="label_color"><?php echo __('Tell your friends') ?></h2>
-                            <a href="https://www.facebook.com/sharer/sharer.php?t=<?php echo urlencode($title) ?>&amp;u=" class="newwin sicon facebook" title="Facebook"><img class="no_load" alt="Facebook" src="<?php echo image_path('facebook-64.png') ?>" /></a>
+                            <a href="https://www.facebook.com/sharer/sharer.php?u=" class="newwin sicon facebook" title="Facebook"><img class="no_load" alt="Facebook" src="<?php echo image_path('facebook-64.png') ?>" /></a>
                             <a href="whatsapp://send?text=<?php echo rawurlencode($share_title . ' ') ?>" class="hideDesktop sicon whatsapp" title="WhatsApp"><img class="no_load" alt="WhatsApp" src="<?php echo image_path('whatsapp-64.png') ?>" /></a>
                             <a href="https://twitter.com/share?text=<?php echo urlencode($share_title) ?>&amp;url=" class="newwin sicon twitter" title="Twitter"><img class="no_load" alt="Twitter" src="<?php echo image_path('twitter-64.png') ?>" /></a>
                             <?php
