@@ -10,17 +10,20 @@
  * @property decimal $price
  * @property integer $days
  * @property integer $emails
+ * @property integer $subscription
  * 
- * @method integer getId()     Returns the current record's "id" value
- * @method string  getName()   Returns the current record's "name" value
- * @method decimal getPrice()  Returns the current record's "price" value
- * @method integer getDays()   Returns the current record's "days" value
- * @method integer getEmails() Returns the current record's "emails" value
- * @method Product setId()     Sets the current record's "id" value
- * @method Product setName()   Sets the current record's "name" value
- * @method Product setPrice()  Sets the current record's "price" value
- * @method Product setDays()   Sets the current record's "days" value
- * @method Product setEmails() Sets the current record's "emails" value
+ * @method integer getId()           Returns the current record's "id" value
+ * @method string  getName()         Returns the current record's "name" value
+ * @method decimal getPrice()        Returns the current record's "price" value
+ * @method integer getDays()         Returns the current record's "days" value
+ * @method integer getEmails()       Returns the current record's "emails" value
+ * @method integer getSubscription() Returns the current record's "subscription" value
+ * @method Product setId()           Sets the current record's "id" value
+ * @method Product setName()         Sets the current record's "name" value
+ * @method Product setPrice()        Sets the current record's "price" value
+ * @method Product setDays()         Sets the current record's "days" value
+ * @method Product setEmails()       Sets the current record's "emails" value
+ * @method Product setSubscription() Sets the current record's "subscription" value
  * 
  * @package    policat
  * @subpackage model
@@ -61,6 +64,12 @@ abstract class BaseProduct extends myDoctrineRecord
              'notnull' => true,
              'default' => 0,
              'length' => 4,
+             ));
+        $this->hasColumn('subscription', 'integer', 1, array(
+             'type' => 'integer',
+             'notnull' => true,
+             'default' => 0,
+             'length' => 1,
              ));
 
         $this->option('symfony', array(

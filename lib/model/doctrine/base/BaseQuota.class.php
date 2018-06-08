@@ -11,6 +11,8 @@
  * @property decimal $price
  * @property integer $days
  * @property integer $emails
+ * @property integer $subscription
+ * @property integer $renew_offerred
  * @property integer $user_id
  * @property integer $campaign_id
  * @property date $start_at
@@ -34,6 +36,8 @@
  * @method decimal             getPrice()                    Returns the current record's "price" value
  * @method integer             getDays()                     Returns the current record's "days" value
  * @method integer             getEmails()                   Returns the current record's "emails" value
+ * @method integer             getSubscription()             Returns the current record's "subscription" value
+ * @method integer             getRenewOfferred()            Returns the current record's "renew_offerred" value
  * @method integer             getUserId()                   Returns the current record's "user_id" value
  * @method integer             getCampaignId()               Returns the current record's "campaign_id" value
  * @method date                getStartAt()                  Returns the current record's "start_at" value
@@ -56,6 +60,8 @@
  * @method Quota               setPrice()                    Sets the current record's "price" value
  * @method Quota               setDays()                     Sets the current record's "days" value
  * @method Quota               setEmails()                   Sets the current record's "emails" value
+ * @method Quota               setSubscription()             Sets the current record's "subscription" value
+ * @method Quota               setRenewOfferred()            Sets the current record's "renew_offerred" value
  * @method Quota               setUserId()                   Sets the current record's "user_id" value
  * @method Quota               setCampaignId()               Sets the current record's "campaign_id" value
  * @method Quota               setStartAt()                  Sets the current record's "start_at" value
@@ -115,6 +121,18 @@ abstract class BaseQuota extends myDoctrineRecord
              'type' => 'integer',
              'notnull' => true,
              'length' => 4,
+             ));
+        $this->hasColumn('subscription', 'integer', 1, array(
+             'type' => 'integer',
+             'notnull' => true,
+             'default' => 0,
+             'length' => 1,
+             ));
+        $this->hasColumn('renew_offerred', 'integer', 1, array(
+             'type' => 'integer',
+             'notnull' => true,
+             'default' => 0,
+             'length' => 1,
              ));
         $this->hasColumn('user_id', 'integer', 4, array(
              'type' => 'integer',

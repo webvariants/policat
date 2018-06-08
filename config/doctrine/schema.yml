@@ -1075,6 +1075,7 @@ Product:
     price:              { type: decimal(10), notnull: true, scale: 2 }
     days:               { type: integer(4),  notnull: true, default: 0 }
     emails:             { type: integer(4),  notnull: true, default: 0 }
+    subscription:       { type: integer(1), notnull: true, default: 0 }
 
 Quota:
   options:
@@ -1088,6 +1089,8 @@ Quota:
     price:              { type: decimal(10), notnull: true, scale: 2 }
     days:               { type: integer(4),  notnull: true }
     emails:             { type: integer(4),  notnull: true }
+    subscription:       { type: integer(1), notnull: true, default: 0 }
+    renew_offerred:     { type: integer(1), notnull: true, default: 0 }
     user_id:            { type: integer(4),  notnull: false }
     campaign_id:        { type: integer(4),  notnull: false }
     start_at:           { type: date,        notnull: false, default: null }
