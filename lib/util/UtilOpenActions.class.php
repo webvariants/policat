@@ -75,7 +75,7 @@ class UtilOpenActions {
     }
 
     return
-      $query->execute(array(), Doctrine_Core::HYDRATE_ARRAY);
+      $query->execute();
   }
 
   static public function calc() {
@@ -97,25 +97,30 @@ class UtilOpenActions {
           break;
         }
 
-        if ($key == self::HOTTEST && $petition['signings24'] < 1) {
+        if ($key == self::HOTTEST && $petition->getCleanData('signings24', 0) < 1) {
           unset($data[$k]);
           continue;
         }
 
-        if ($key == self::LARGEST && $petition['signings'] < 10) {
+        if ($key == self::LARGEST && $petition->getCleanData('signings', 0) < 10) {
           unset($data[$k]);
           continue;
         }
 
-        $count = PetitionSigningTable::getInstance()->countByPetition($petition['id'], null, null, 60);
-        $count += PetitionApiTokenTable::getInstance()->sumOffsets($petition['id'], 60);
-        $count += $petition['addnum'];
+        $count = $petition->getCount(60);
 
         if ($count < 1) {
           continue;
         }
 
-        $petition['signings'] = $count;
+        $number = $count;
+        $target = Petition::calcTarget($count, $petition['target_num']);
+
+        if ($petition['kind'] == Petition::KIND_EMAIL_TO_LIST && $petition->getShowEmailCounter() == Petition::SHOW_EMAIL_COUNTER_YES) {
+            $number = $petition->countMailsSent() + $petition->getAddnumEmailCounter();
+            $target = Petition::calcTarget($number, $petition->getTargetNumEmailCounter());
+        }
+
         $text = $petition['PetitionText'][0];
 //        $widget = $text['DefaultWidget'];
         $widget = self::topWidgetByPetition($petition['id']);
@@ -135,7 +140,7 @@ class UtilOpenActions {
           $styles[$widget['id']] = array(
               'width' => $style['width'],
               'body_color' => '#818286',
-              'target' => $petition['signings'] . '-' . Petition::calcTarget($petition['signings'], $petition['target_num']),
+              'target' => $number . '-' . $target,
               'url' => $routing->generate('sign', array('id' => $widget['id'], 'hash' => Widget::calcLastHash(
                     $widget['id'], array(
                       $petition['object_version'],
@@ -161,10 +166,10 @@ class UtilOpenActions {
         $exerpts[] = array(
             'title' => $title,
             'text' => $shorten,
-            'signings' => $petition['signings'],
-            'signings24' => $petition['signings24'],
             'target' => $target,
             'percent' => (int) ($petition['signings'] / $target * 100),
+            'signings' => $count,
+            'signings24' => $petition->getCleanData('signings24', 0),
             'key_visual' => $petition['key_visual'],
             'widget_id' => $widget['id'],
             'read_more_url' => $petition['read_more_url'],

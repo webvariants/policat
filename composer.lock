@@ -1,10 +1,9 @@
 {
     "_readme": [
         "This file locks the dependencies of your project to a known state",
-        "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
+        "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "hash": "5c48aa47a6b1832efb0805e4edad01e9",
     "content-hash": "381ff9645ee6cf99de45e7d16bc1ffd0",
     "packages": [
         {
@@ -12,12 +11,12 @@
             "version": "dev-master",
             "source": {
                 "type": "git",
-                "url": "git@github.com:amg-dev/symfony-amg-sentry-plugin.git",
+                "url": "https://github.com/getsentry/symfony-amg-sentry-plugin.git",
                 "reference": "5b307e29c7a51da5d8c0467705a9f148d9ff0723"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/amg-dev/symfony-amg-sentry-plugin/zipball/5b307e29c7a51da5d8c0467705a9f148d9ff0723",
+                "url": "https://api.github.com/repos/getsentry/symfony-amg-sentry-plugin/zipball/5b307e29c7a51da5d8c0467705a9f148d9ff0723",
                 "reference": "5b307e29c7a51da5d8c0467705a9f148d9ff0723",
                 "shasum": ""
             },
@@ -47,7 +46,7 @@
                 "sentry",
                 "symfony"
             ],
-            "time": "2014-04-10 19:08:27"
+            "time": "2014-04-10T19:08:27+00:00"
         },
         {
             "name": "composer/installers",
@@ -142,7 +141,7 @@
                 "zend",
                 "zikula"
             ],
-            "time": "2015-02-18 17:17:01"
+            "time": "2015-02-18T17:17:01+00:00"
         },
         {
             "name": "dompdf/dompdf",
@@ -183,7 +182,7 @@
             ],
             "description": "DOMPDF is a CSS 2.1 compliant HTML to PDF converter",
             "homepage": "https://github.com/dompdf/dompdf",
-            "time": "2014-03-11 01:59:52"
+            "time": "2014-03-11T01:59:52+00:00"
         },
         {
             "name": "ezyang/htmlpurifier",
@@ -227,7 +226,7 @@
             "keywords": [
                 "html"
             ],
-            "time": "2016-07-16 12:58:58"
+            "time": "2016-07-16T12:58:58+00:00"
         },
         {
             "name": "inlinestyle/inlinestyle",
@@ -274,7 +273,7 @@
                 "email",
                 "inline"
             ],
-            "time": "2015-12-11 12:04:11"
+            "time": "2015-12-11T12:04:11+00:00"
         },
         {
             "name": "ircmaxell/password-compat",
@@ -316,7 +315,7 @@
                 "hashing",
                 "password"
             ],
-            "time": "2014-11-20 16:49:30"
+            "time": "2014-11-20T16:49:30+00:00"
         },
         {
             "name": "lexpress/doctrine1",
@@ -362,7 +361,7 @@
                 "database",
                 "orm"
             ],
-            "time": "2015-06-22 14:02:42"
+            "time": "2015-06-22T14:02:42+00:00"
         },
         {
             "name": "lexpress/symfony1",
@@ -408,7 +407,7 @@
                 "MIT"
             ],
             "description": "Fork of symfony 1.4 with dic, form enhancements, latest swiftmailer and better performance",
-            "time": "2017-02-09 08:06:46"
+            "time": "2017-02-09T08:06:46+00:00"
         },
         {
             "name": "lox/xhprof",
@@ -447,34 +446,29 @@
                 "performance",
                 "profiling"
             ],
-            "time": "2015-08-31 22:07:48"
+            "time": "2015-08-31T22:07:48+00:00"
         },
         {
             "name": "michelf/php-markdown",
-            "version": "1.6.0",
+            "version": "1.8.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/michelf/php-markdown.git",
-                "reference": "156e56ee036505ec637d761ee62dc425d807183c"
+                "reference": "01ab082b355bf188d907b9929cd99b2923053495"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/michelf/php-markdown/zipball/156e56ee036505ec637d761ee62dc425d807183c",
-                "reference": "156e56ee036505ec637d761ee62dc425d807183c",
+                "url": "https://api.github.com/repos/michelf/php-markdown/zipball/01ab082b355bf188d907b9929cd99b2923053495",
+                "reference": "01ab082b355bf188d907b9929cd99b2923053495",
                 "shasum": ""
             },
             "require": {
                 "php": ">=5.3.0"
             },
             "type": "library",
-            "extra": {
-                "branch-alias": {
-                    "dev-lib": "1.4.x-dev"
-                }
-            },
             "autoload": {
-                "psr-0": {
-                    "Michelf": ""
+                "psr-4": {
+                    "Michelf\\": "Michelf/"
                 }
             },
             "notification-url": "https://packagist.org/downloads/",
@@ -498,7 +492,7 @@
             "keywords": [
                 "markdown"
             ],
-            "time": "2015-12-24 01:37:31"
+            "time": "2018-01-15T00:49:33+00:00"
         },
         {
             "name": "paypal/rest-api-sdk-php",
@@ -547,7 +541,7 @@
                 "rest",
                 "sdk"
             ],
-            "time": "2016-07-15 20:42:18"
+            "time": "2016-07-15T20:42:18+00:00"
         },
         {
             "name": "phenx/php-font-lib",
@@ -581,7 +575,7 @@
             ],
             "description": "A library to read, parse, export and make subsets of different types of font files.",
             "homepage": "https://github.com/PhenX/php-font-lib",
-            "time": "2014-02-01 15:22:28"
+            "time": "2014-02-01T15:22:28+00:00"
         },
         {
             "name": "psr/log",
@@ -619,7 +613,7 @@
                 "psr",
                 "psr-3"
             ],
-            "time": "2012-12-21 11:40:51"
+            "time": "2012-12-21T11:40:51+00:00"
         },
         {
             "name": "raven/raven",
@@ -674,7 +668,7 @@
                 "logging"
             ],
             "abandoned": "sentry/sentry",
-            "time": "2015-09-09 18:12:58"
+            "time": "2015-09-09T18:12:58+00:00"
         },
         {
             "name": "swiftmailer/swiftmailer",
@@ -727,7 +721,7 @@
                 "mail",
                 "mailer"
             ],
-            "time": "2016-07-08 11:51:25"
+            "time": "2016-07-08T11:51:25+00:00"
         },
         {
             "name": "symfony/css-selector",
@@ -780,7 +774,7 @@
             ],
             "description": "Symfony CssSelector Component",
             "homepage": "https://symfony.com",
-            "time": "2016-06-29 05:41:56"
+            "time": "2016-06-29T05:41:56+00:00"
         }
     ],
     "packages-dev": [],

@@ -33,7 +33,7 @@ class d_homeComponents extends policatComponents {
     if ($markup) {
       $markup = preg_replace_callback('/#KEYVISUAL-(\d+)#/', array($this, 'getKeyvisualUrl'), $markup);
       $markup = preg_replace('/#WIDGET-(\d+)#/', 'PasjhkX\\1KmsownedS', $markup); // prevent markdown messing up widget
-      $markup = UtilMarkdown::transform($markup, true, true);
+      $markup = UtilMarkdown::transform($markup, false);
       $this->markup = preg_replace_callback('/PasjhkX(\d+)KmsownedS/', array('UtilWidget', 'renderWidget'), $markup);
       return;
     }
@@ -62,12 +62,14 @@ class d_homeComponents extends policatComponents {
     $faq_title = $store->findByKeyCached(StoreTable::FAQ_TITLE);
     $help = $store->findByKeyCached(StoreTable::HELP_MENU);
     $help_title = $store->findByKeyCached(StoreTable::HELP_TITLE);
+    $privacy = $store->findByKeyCached(StoreTable::PRIVACY_MENU);
+    $privacy_title = $store->findByKeyCached(StoreTable::PRIVACY_TITLE);
 
     $menu_home = $store->findByKeyCached(StoreTable::MENU_HOME);
     $menu_start = $store->findByKeyCached(StoreTable::MENU_START);
     $menu_join = $store->findByKeyCached(StoreTable::MENU_JOIN);
     $menu_login = $store->findByKeyCached(StoreTable::MENU_LOGIN);
-    
+
     $pricing = $store->findByKeyCached(StoreTable::BILLING_PRICING_MENU);
 
     $register = $store->findByKeyCached(StoreTable::REGISTER_ON);
@@ -87,6 +89,11 @@ class d_homeComponents extends policatComponents {
     if ($help_title)
       $this->addContentTags($help_title);
 
+    if ($privacy)
+      $this->addContentTags($privacy);
+    if ($privacy_title)
+      $this->addContentTags($privacy_title);
+
     if ($menu_home)
       $this->addContentTags($menu_home);
     if ($menu_start)
@@ -95,11 +102,11 @@ class d_homeComponents extends policatComponents {
       $this->addContentTags($menu_join);
     if ($menu_login)
       $this->addContentTags($menu_login);
-    
+
     if ($pricing) {
       $this->addContentTags($pricing);
     }
-    
+
     if ($register)
       $this->addContentTags($register);
 
@@ -112,11 +119,14 @@ class d_homeComponents extends policatComponents {
     $this->help = $help ? $help->getValue() : '';
     $this->help_title = $help_title ? $help_title->getValue() : '';
 
+    $this->privacy = $privacy ? $privacy->getValue() : '';
+    $this->privacy_title = $privacy_title ? $privacy_title->getValue() : '';
+
     $this->menu_home = $menu_home ? $menu_home->getValue() : '';
     $this->menu_start = $menu_start ? $menu_start->getValue() : '';
     $this->menu_join = ($menu_join ? $menu_join->getValue() : '') && ($register ? $register->getValue() : '');
     $this->menu_login = $menu_login ? $menu_login->getValue() : '';
-    
+
     $this->pricing = $pricing ? $pricing->getValue() : '';
   }
 
@@ -130,6 +140,8 @@ class d_homeComponents extends policatComponents {
     $terms_title = $store->findByKeyCached(StoreTable::TERMS_TITLE);
     $contact = $store->findByKeyCached(StoreTable::CONTACT_FOOTER);
     $contact_title = $store->findByKeyCached(StoreTable::CONTACT_TITLE);
+    $privacy = $store->findByKeyCached(StoreTable::PRIVACY_FOOTER);
+    $privacy_title = $store->findByKeyCached(StoreTable::PRIVACY_TITLE);
     $imprint = $store->findByKeyCached(StoreTable::IMPRINT_FOOTER);
     $imprint_title = $store->findByKeyCached(StoreTable::IMPRINT_TITLE);
     $footer_title = $store->findByKeyCached(StoreTable::FOOTER_TITLE);
@@ -143,6 +155,8 @@ class d_homeComponents extends policatComponents {
       $this->addContentTags($contact);
     if ($contact_title)
       $this->addContentTags($contact_title);
+    if ($privacy_title)
+      $this->addContentTags($privacy_title);
     if ($imprint)
       $this->addContentTags($imprint);
     if ($imprint_title)
@@ -156,6 +170,8 @@ class d_homeComponents extends policatComponents {
     $this->terms_title = $terms_title ? $terms_title->getValue() : '';
     $this->contact = $contact ? $contact->getValue() : '';
     $this->contact_title = $contact_title ? $contact_title->getValue() : '';
+    $this->privacy = $privacy ? $privacy->getValue() : '';
+    $this->privacy_title = $privacy_title ? $privacy_title->getValue() : '';
     $this->imprint = $imprint ? $imprint->getValue() : '';
     $this->imprint_title = $imprint_title ? $imprint_title->getValue() : '';
     $this->footer_title = $footer_title ? $footer_title->getValue() : '';

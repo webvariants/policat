@@ -29,6 +29,12 @@ $(document).ready(function($) {
 			return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, numberSeparator);
 		};
 
+		if (window.navigator.userAgent.match(/Android|BlackBerry|iPhone|iPad|iPod|Opera Mini|IEMobile/i)) {
+			$('body').addClass('isMobile');
+		} else {
+			$('body').addClass('isDesktop');
+		}
+
 		if (textarea_email.length) {
 			textarea_email.data('baseHeight', textarea_email.height());
 			textarea_email_base_text = $('#petition_signing_email_body').val();
@@ -224,6 +230,24 @@ $(document).ready(function($) {
 
 		fontResize(font_size_auto_elements);
 
+		if (parseInt($('#labels-inside').css('z-index'), 10) === 1) {
+			$("#sign input[type=text], #sign textarea, #sign select").each(function(index, elem) {
+				var eId = $(elem).attr("id");
+				var label = null;
+				if (eId && (label = $(elem).parents("form").find("label[for="+eId+"]")).length == 1) {
+					if ($(elem).is('select')) {
+						var firstOption = $('option:first', elem);
+						if (firstOption.length && !firstOption.val() && !firstOption.text()) {
+							firstOption.text($(label).text())
+						}
+					} else {
+						$(elem).attr("placeholder", $(label).html());
+					}
+					$(label).remove();
+				}
+			});
+		}
+
 		$('select').wrap('<div class="select-wrap"/>');
 
 		var hash_parts = window.location.hash.substring(1).split('!');
@@ -250,6 +274,7 @@ $(document).ready(function($) {
 				var p = Math.ceil(a / b * 100);
 				var el_count = $('#count .count-count');
 				var el_target = $('#count .count-target');
+				$('#count .count-target-number').text(numberWithCommas(b));
 				el_count.text(el_count.first().text().replace('#', numberWithCommas(a)));
 				el_target.text(el_target.first().text().replace('#', numberWithCommas(b)));
 				if (p > 30) {
@@ -266,7 +291,7 @@ $(document).ready(function($) {
 		else
 			$('#count').hide();
 
-		$('a.facebook, a.twitter, a.gplus').each(function() {
+		$('a.facebook, a.whatsapp, a.twitter, a.gplus').each(function() {
 			if ($(this).hasClass('twitter'))
 				$(this).attr('href', $(this).attr('href') + ref + '&amp;source=');
 			$(this).attr('href', $(this).attr('href') + encodeURIComponent(ref));

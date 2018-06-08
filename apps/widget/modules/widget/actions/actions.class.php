@@ -363,14 +363,21 @@ class widgetActions extends policatActions
     /* @var $petition_text PetitionText */
 
     $this->numberSeparator = $petition_text->utilCultureInfo()->getNumberFormat()->getGroupSeparator();
-    $this->count = $petition->getCount(60);
-    $this->target = $this->count . '-' . Petition::calcTarget($this->count, $this->widget->getPetition()->getTargetNum());
+    if ($petition->getKind() == Petition::KIND_EMAIL_TO_LIST && $petition->getShowEmailCounter() == Petition::SHOW_EMAIL_COUNTER_YES) {
+      $this->count = $petition->countMailsSent() + $petition->getAddnumEmailCounter();
+      $this->count_translation = '# emails sent';
+      $this->target = $this->count . '-' . Petition::calcTarget($this->count, $petition->getTargetNumEmailCounter());
+    } else {
+      $this->count = $petition->getCount(60);
+      $this->count_translation = '# Participants';
+      $this->target = $this->count . '-' . Petition::calcTarget($this->count, $petition->getTargetNum());
+    }
     $image_prefix = ($request->isSecure() ? 'https://' : 'http://') . $request->getHost() . '/' . $request->getRelativeUrlRoot() . 'images/';
 
-    $this->kind = $this->widget->getPetition()->getKind();
-    $this->lang = $this->widget->getPetitionText()->getLanguageId();
+    $this->kind = $petition->getKind();
+    $this->lang = $petition_text->getLanguageId();
     $this->getUser()->setCulture($this->lang);
-    $this->headline = $this->widget->getPetition()->getLabel(PetitionTable::LABEL_TAB);
+    $this->headline = $petition->getLabel(PetitionTable::LABEL_TAB);
 
     $stylings = json_decode($this->widget->getStylings(), true);
     if (!is_array($stylings)) {
@@ -388,7 +395,7 @@ class widgetActions extends policatActions
     UtilTheme::addWidgetStyles($stylings, $this->widget, $petition);
     $this->stylings = $stylings;
 
-    $this->keyvisual = $this->widget->getPetition()->getKeyVisual() ? $image_prefix . 'keyvisual/' . $this->widget->getPetition()->getKeyVisual() :  null;
+    $this->keyvisual = $petition->getKeyVisual() ? $image_prefix . 'keyvisual/' . $petition->getKeyVisual() :  null;
     $this->sprite = $image_prefix . 'policat.spr.png';
     $this->url = $this->getContext()->getRouting()->generate('sign', array('id' => $this->widget['id'], 'hash' => $this->widget->getLastHash(true)), true);
     $this->getResponse()->setContentType('text/javascript');

@@ -23,7 +23,7 @@ class api_tokenActions extends policatActions {
     if (!$petition)
       return $this->notFound();
 
-    if (!$petition->isCampaignAdmin($this->getGuardUser()))
+    if (!$petition->isEditableBy($this->getGuardUser()))
       return $this->noAccess();
 
     $this->petition = $petition;
@@ -37,7 +37,7 @@ class api_tokenActions extends policatActions {
     if (!$petition)
       return $this->notFound();
 
-    if (!$petition->isCampaignAdmin($this->getGuardUser()))
+    if (!$petition->isEditableBy($this->getGuardUser()))
       return $this->noAccess();
 
     $token = new PetitionApiToken();
@@ -77,7 +77,7 @@ class api_tokenActions extends policatActions {
 
     $petition = $token->getPetition();
 
-    if (!$petition->isCampaignAdmin($this->getGuardUser()))
+    if (!$petition->isEditableBy($this->getGuardUser()))
       return $this->noAccess();
 
     $form = new PetitionApiTokenForm($token);
@@ -106,7 +106,7 @@ class api_tokenActions extends policatActions {
 
     $petition = $token->getPetition();
 
-    if (!$petition->isCampaignAdmin($this->getGuardUser()))
+    if (!$petition->isEditableBy($this->getGuardUser()))
       return $this->noAccess();
 
     $offsets = $token->getOffsets();
@@ -124,7 +124,7 @@ class api_tokenActions extends policatActions {
       return $this->notFound();
     }
 
-    if (!$petition->isCampaignAdmin($this->getGuardUser())) {
+    if (!$petition->isEditableBy($this->getGuardUser())) {
       return $this->noAccess();
     }
 

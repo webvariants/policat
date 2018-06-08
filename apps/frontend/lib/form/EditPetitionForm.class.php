@@ -32,7 +32,7 @@ class EditPetitionForm extends PetitionFieldsForm {
     unset($this['pledge_header_visual'], $this['pledge_key_visual']);
     unset($this['pledge_background_color'], $this['pledge_color'], $this['pledge_head_color'], $this['pledge_font']);
     unset($this['pledge_info_columns'], $this['pledge_with_comments'], $this['activity_at'], $this['deleted_pendings'], $this['deleted_hard_bounces'], $this['deleted_bounces_manually']);
-    unset($this['label_mode'], $this['follow_petition_id'], $this['addnum'], $this['target_num'], $this['keywords_subst']);
+    unset($this['label_mode'], $this['follow_petition_id'], $this['addnum'], $this['target_num'], $this['keywords_subst'], $this['addnum_email_counter'], $this['target_num_email_counter']);
 
     $this->configure_fields();
 
@@ -351,13 +351,13 @@ class EditPetitionForm extends PetitionFieldsForm {
     )));
     $this->setValidator('donate_widget_edit', new sfValidatorChoice(array('choices' => array('0', '1'))));
 
-    $this->setWidget('policy_checkbox', new sfWidgetFormChoice(array('choices' => PetitionTable::$POLICY_CHECKBOX, 'label' => 'Add privacy policy checkbox')));
+    $this->setWidget('policy_checkbox', new sfWidgetFormChoice(array('choices' => PetitionTable::$POLICY_CHECKBOX, 'label' => 'Privacy policy checkbox')));
     $this->setValidator('policy_checkbox', new sfValidatorChoice(array('choices' => array_keys(PetitionTable::$POLICY_CHECKBOX))));
-    $this->getWidgetSchema()->setHelp('policy_checkbox', 'This adds a checkbox to the sign-up form of your action. Activists have to actively tick this box to prove that they accept your privacy policy before they can sign up.');
+    $this->getWidgetSchema()->setHelp('policy_checkbox', 'This adds a checkbox to the sign-up form of your action. Activists have to actively tick this box to prove that they accept your privacy policy before they can sign up. It is your legal obligation to make sure your selection is in conformity with the EU General Data Protection Regulation.');
 
-    $this->setWidget('subscribe_default', new sfWidgetFormChoice(array('choices' => PetitionTable::$SUBSCRIBE_CHECKBOX_DEFAULT, 'label' => 'Keep-me-posted checkbox preselected')));
+    $this->setWidget('subscribe_default', new sfWidgetFormChoice(array('choices' => PetitionTable::$SUBSCRIBE_CHECKBOX_DEFAULT, 'label' => 'Keep-me-posted checkbox')));
     $this->setValidator('subscribe_default', new sfValidatorChoice(array('choices' => array_keys(PetitionTable::$SUBSCRIBE_CHECKBOX_DEFAULT))));
-    $this->getWidgetSchema()->setHelp('subscribe_default', 'You might increase your subscription rate, if you keep the checkbox preselected. Make sure to comply with EU and your national data protection legislation.');
+    $this->getWidgetSchema()->setHelp('subscribe_default', 'You might increase your subscription rate, if you keep the checkbox preselected. However, preselection is not legally in conformity with the EU General Data Protection Regulation. It is your legal obligation to make sure your selection is in conformity with EU and national data protection legislation.');
 
     $this->setWidget('themeId', new sfWidgetFormChoice(array('label' => 'Theme', 'choices' => UtilTheme::$THEMES)));
     $this->setValidator('themeId', new sfValidatorChoice(array('required' => false, 'choices' => array_keys(UtilTheme::$THEMES))));
@@ -393,6 +393,16 @@ class EditPetitionForm extends PetitionFieldsForm {
     $this->setWidget('email_button_color', new sfWidgetFormInput(array('label' => 'Button color'), array('class' => 'luma-light color {hash:true}')));
     $this->setValidator('email_button_color', new ValidatorCssColor(array('min-luma' => 0.5, 'min_length' => 7, 'max_length' => 7)));
     $this->getWidgetSchema()->setHelp('email_button_color', 'This is the background color of buttons in outgoing E-mails. The font color is always black.');
+
+    if ($this->getObject()->getKind() == Petition::KIND_EMAIL_TO_LIST) {
+        $this->setWidget('show_email_counter', new sfWidgetFormChoice(array('choices' => Petition::$SHOW_EMAIL_COUNTER_SHOW, 'label' => 'Show email counter.'), array(
+            'class' => 'add_popover',
+            'data-content' => 'Instead of number of participants.'
+        )));
+        $this->setValidator('show_email_counter', new sfValidatorChoice(array('choices' => array_keys(Petition::$SHOW_EMAIL_COUNTER_SHOW), 'required' => true)));
+    } else {
+        unset($this['show_email_counter']);
+    }
   }
 
   public function processValues($values) {

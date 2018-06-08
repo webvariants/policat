@@ -10,14 +10,14 @@ if ($petition->isEditableBy($user)) {
       'pledges' => null,
       'translations' => array('title' => 'Translations', 'route' => 'petition_translations'),
       'widgets' => array('title' => 'Widgets', 'route' => 'petition_widgets'),
-      'files' => array('title' => 'Media Files', 'route' => 'media_files_list')
+      'files' => array('title' => 'Media Files', 'route' => 'media_files_list'),
+      'tokens' => array('title' => 'Counter &amp; API', 'route' => 'petition_tokens')
   );
 } else {
   $list = array();
 }
 if ($petition->isCampaignAdmin($user)) {
   $list['todo'] = array('title' => 'To-Do', 'route' => 'petition_todo');
-  $list['tokens'] = array('title' => 'Counter &amp; API', 'route' => 'petition_tokens');
 }
 if ($user->isPetitionMember($petition->getRawValue(), true)) {
   $list['data'] = array('title' => 'Participants', 'route' => 'petition_data');

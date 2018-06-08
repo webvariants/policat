@@ -4,6 +4,17 @@
 @width-one-column-max: 439px;
 @width-two-column-min: 440px;
 
+body.isDesktop {
+	.hideDesktop {
+		display: none;
+	}
+}
+body.isMobile {
+	.hideMobile {
+		display: none;
+	}
+}
+
 body, div, span, h1, h2, h3, h4, h5, h6, p, a, em, img, q, dl, dt, dd, ol, ul, li, form, label, input, textarea, fieldset  {
 	border: 0;
 	font-family: inherit;
@@ -551,6 +562,10 @@ label.form-error {
 	}
 
 	.count-text-top {
+		display: none;
+	}
+
+	.count-text-alt, .count-target-top {
 		display: none;
 	}
 }
@@ -1162,6 +1177,9 @@ h2:hover + .embed-this-help-head {
 	}
 	.facebook {
 		background: #3B5998;
+	}
+	.whatsapp {
+		background: #25d366;
 	}
 	.twitter {
 		background: #00ACED;

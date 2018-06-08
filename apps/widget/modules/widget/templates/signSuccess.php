@@ -19,6 +19,15 @@
       var widget_id = <?php echo $widget['id'] ?>;
 <?php
 /* @var $petition Petition */
+$form_title = trim(Util::enc($petition_text->getFormTitle(), array('\n' => '<br />')));
+$form_title_plain = trim(strtr($petition_text->getFormTitle(), array('\n' => ' ')));
+$share_title = $title;
+if ($form_title_plain) {
+  $share_title .= ($share_title ? '. ' : '') . $form_title_plain;
+} else {
+  $share_title .= ($share_title ? '. ' : '') . __($petition->getLabel(PetitionTable::LABEL_TITLE));
+}
+$share_title .= ':';
 $target_selectors = UtilTargetSelectorPreselect::staticTargetSelectors($widget); // = $petition->getTargetSelectors();
 ContactTable::getInstance()->mergeKeywordSubst($target_selectors, $petition, $lang);
 if (is_array($target_selectors) && count($target_selectors) == 1 && $target_selectors[0]['id'] !== 'contact') {
@@ -43,7 +52,7 @@ if (is_array($target_selectors)) {
         var CT_extra = null;
 <?php endif ?>
         </script>
-        <?php echo '<style type="text/css">' . file_get_contents(sfConfig::get('sf_web_dir') . '/css/dist/policat_widget.css') . "\n</style>"; ?>
+        <?php if (!UtilTheme::removeClassicCss($widget, $petition)) echo '<style type="text/css">' . file_get_contents(sfConfig::get('sf_web_dir') . '/css/dist/policat_widget.css') . "\n</style>"; ?>
         <script type="text/javascript" src="/js/static/jquery-1.10.2.min.js"></script>
         <?php printf("<script type=\"text/javascript\">/* <![CDATA[ */\n%s\n/* ]]> */</script>\n", file_get_contents(sfConfig::get('sf_web_dir') . '/js/dist/policat_widget.js')); ?>
         <?php if ($font_css_file): ?><link href="<?php echo $font_css_file ?>" rel="stylesheet" type="text/css" /><?php endif ?>
@@ -62,7 +71,6 @@ if (is_array($target_selectors)) {
                     <div class="content-left">
                         <div id="action" class="action">
                             <div id="head" class="head">
-                                <?php $form_title = trim(Util::enc($petition_text->getFormTitle(), array('\n' => '<br />'))); ?>
                                 <h1 class="form-title title-color <?php echo $form_title ? '' : 'form-title-label' ?>"><?php echo $form_title ? : __($petition->getLabel(PetitionTable::LABEL_TITLE)) ?></h1>
                                 <?php if ($title): ?><h1 class="action-title font-size-auto"><?php echo Util::enc($title) ?></h1><?php endif ?>
                                 <?php if ($target): ?><div class="subtitle"><?php echo UtilMarkdown::transformMedia($target, $petition) ?></div><?php endif ?>
@@ -211,11 +219,15 @@ if (is_array($target_selectors)) {
                                   <a target="_blank" href="<?php echo url_for('homepage') ?>"><?php echo __('More actions') ?></a>
                               </p>
                             <?php endif ?>
-                            <?php if (!$disabled): ?>
+                            <?php if (!$disabled):
+                              $count_translation = ($petition->getKind() == Petition::KIND_EMAIL_TO_LIST && $petition->getShowEmailCounter() == Petition::SHOW_EMAIL_COUNTER_YES) ? '# emails sent' : '# Participants';
+                              ?>
                               <div id="count" class="count">
-                                  <div class="count-text count-text-top"><span class="count-count"><?php echo __('# Participants') ?></span><span class="count-target"><?php echo __('Target #') ?></span></div>
+                                  <div class="count-text count-text-top"><span class="count-count"><?php echo __($count_translation) ?></span><span class="count-target"><?php echo __('Target #') ?></span></div>
+                                  <div class="count-text count-target-top count-target-number"></div>
                                   <div class="count-bar"><div></div><span></span></div>
-                                  <div class="count-text count-text-bottom"><span class="count-count"><?php echo __('# Participants') ?></span><span class="count-target"><?php echo __('Target #') ?></span></div>
+                                  <div class="count-text count-text-bottom"><span class="count-count"><?php echo __($count_translation) ?></span><span class="count-target"><?php echo __('Target #') ?></span></div>
+                                  <div class="count-text count-text-alt"><span class="count-count"><?php echo __($count_translation) ?></span><span>.</span> <span class="count-target"><?php echo __('Target #') ?></span></div>
                               </div>
                             <?php endif ?>
                             <?php echo $form->renderGlobalErrors() ?>
@@ -333,8 +345,9 @@ if (is_array($target_selectors)) {
                         <?php endif ?>
                         <div class="share <?php echo $widget['share'] ? 'share-on-sign' : '' ?>">
                             <h2 class="label_color"><?php echo __('Tell your friends') ?></h2>
-                            <a href="https://www.facebook.com/sharer/sharer.php?t=<?php echo urlencode($title) ?>&amp;u=" class="newwin sicon facebook" title="Facebook"><img class="no_load" alt="Facebook" src="<?php echo image_path('facebook-64.png') ?>" /></a>
-                            <a href="https://twitter.com/share?text=<?php echo urlencode($title) ?>&amp;url=" class="newwin sicon twitter" title="Twitter"><img class="no_load" alt="Twitter" src="<?php echo image_path('twitter-64.png') ?>" /></a>
+                            <a href="https://www.facebook.com/sharer/sharer.php?u=" class="newwin sicon facebook" title="Facebook"><img class="no_load" alt="Facebook" src="<?php echo image_path('facebook-64.png') ?>" /></a>
+                            <a href="whatsapp://send?text=<?php echo rawurlencode($share_title . ' ') ?>" class="hideDesktop sicon whatsapp" title="WhatsApp"><img class="no_load" alt="WhatsApp" src="<?php echo image_path('whatsapp-64.png') ?>" /></a>
+                            <a href="https://twitter.com/share?text=<?php echo urlencode($share_title) ?>&amp;url=" class="newwin sicon twitter" title="Twitter"><img class="no_load" alt="Twitter" src="<?php echo image_path('twitter-64.png') ?>" /></a>
                             <?php
                             list($mail_subject, $mail_body) = UtilMail::tellyourmail($widget, $petition_text, 'UURRLLRREEFF', 'UURRLLMMOORREE');
                             ?>
@@ -403,6 +416,7 @@ if (is_array($target_selectors)) {
             </div>
         </div>
         <div id="policat-widget-loading" class="policat-widget-loading"></div>
+        <div id="labels-inside"></div>
     </body>
 </html>
 <!-- <?php echo $petition->getId() ?> / <?php echo $widget->getPetitionTextId() ?> / <?php echo $widget->getId() ?> -->

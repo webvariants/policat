@@ -55,6 +55,8 @@ class Petition extends BasePetition {
   const WITH_EXTRA_NO = 0;
   const THANK_YOU_EMAIL_YES = 1;
   const THANK_YOU_EMAIL_NO = 0;
+  const SHOW_EMAIL_COUNTER_YES = 1;
+  const SHOW_EMAIL_COUNTER_NO = 0;
 
   static $FIELD_SHOW = array(
       self::FIELD_TITLE => 'title',
@@ -106,6 +108,11 @@ class Petition extends BasePetition {
       self::EDITABLE_NO => 'no'
   );
   static $WITH_ADDRESS_SHOW = array(0 => 'Don\'t ask', 1 => 'Post code and city', 2 => '(Street) address, post code and city');
+
+  static $SHOW_EMAIL_COUNTER_SHOW = array(
+      self::SHOW_EMAIL_COUNTER_NO => 'no',
+      self::SHOW_EMAIL_COUNTER_YES => 'yes'
+  );
 
   public function calcPossibleStatusForUser(sfGuardUser $user) {
     if (!$user) {
@@ -518,7 +525,7 @@ class Petition extends BasePetition {
       $count = 0;
     if ($count < $target_num)
       return $target_num;
-    $targets = array(100, 250, 500, 1000, 2500, 5000, 10000, 20000, 35000, 50000, 75000, 100000, 200000, 500000, 1000000, 2500000, 5000000);
+    $targets = array(100, 250, 500, 1000, 2500, 5000, 10000, 20000, 35000, 50000, 75000, 100000, 200000, 500000, 1000000, 2500000, 5000000, 10000000, 20000000);
     $target = 1;
     foreach ($targets as $target) {
       if ($count < $target) {
@@ -658,4 +665,17 @@ class Petition extends BasePetition {
     $this->save();
   }
 
+  protected $cleanData = array();
+
+  public function cleanData(&$data) {
+    $tmp = parent::cleanData($data);
+    if ($tmp) {
+        $this->cleanData = $tmp;
+    }
+    return $tmp;
+  }
+
+  public function getCleanData($key, $default = null) {
+    return array_key_exists($key, $this->cleanData) ? $this->cleanData[$key] : $default;
+  }
 }

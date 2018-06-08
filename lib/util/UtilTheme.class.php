@@ -14,17 +14,35 @@ class UtilTheme {
   public static $THEMES = array(
       null => 'Classic',
       2 => 'Sleek',
-      5 => 'Minimal Sleek'
+      3 => 'Light',
+      4 => 'Classic - modified',
+      5 => 'Minimal Sleek',
+      6 => 'Flat'
   );
   public static $CSS_FILES = array(
       2 => 'sleek.css',
-      5 => 'minimal.css'
+      3 => 'light.css',
+      4 => 'classic-modified.css',
+      5 => 'minimal.css',
+      6 => 'flat.css'
   );
 
   public static $MAX_WIDTH = array(
       // no entry leads to 1080px
       5 => '768px'
   );
+
+  public static $REMOVE_CLASSIC_CSS = array(6);
+
+  public static function removeClassicCss($widget, $petition) {
+    $variables = null;
+    if ($widget && $petition) {
+      $variables = self::variables($widget, $petition);
+    }
+
+    $theme = self::getThemeId($widget, $petition);
+    return in_array($theme, self::$REMOVE_CLASSIC_CSS);
+  }
 
   /**
    * @param Widget $widget
@@ -39,11 +57,17 @@ class UtilTheme {
 
     $theme = self::getThemeId($widget, $petition);
 
-    $baseCss = file_get_contents(sfConfig::get('sf_web_dir') . '/css/dist/policat_widget_variables.css');
-    if ($variables) {
+    if (in_array($theme, self::$REMOVE_CLASSIC_CSS)) {
+        $baseCss = null;
+    } else {
+        $baseCss = file_get_contents(sfConfig::get('sf_web_dir') . '/css/dist/policat_widget_variables.css');
+    }
+    if ($variables && $baseCss) {
       $baseCss = strtr($baseCss, $variables);
     }
-    echo "\n<style type=\"text/css\">\n$baseCss\n</style>\n";
+    if ($baseCss) {
+        echo "\n<style type=\"text/css\">\n$baseCss\n</style>\n";
+    }
 
     if (array_key_exists($theme, self::$CSS_FILES)) {
       $css = '';

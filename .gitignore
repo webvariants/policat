@@ -35,6 +35,7 @@ cache/*
 /web/js/static/*.js
 
 /deploy*.sh
+/docker-compose.*.yml
 /run*
 
 /docker/data-develop/*

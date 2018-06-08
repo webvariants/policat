@@ -89,6 +89,10 @@ class d_homeActions extends policatActions {
     $this->page(StoreTable::HELP_TITLE, StoreTable::HELP_CONTENT);
   }
 
+  public function executePrivacy(sfWebRequest $request) {
+    $this->page(StoreTable::PRIVACY_TITLE, StoreTable::PRIVACY_CONTENT);
+  }
+
   protected function page($title, $content) {
     $store = StoreTable::getInstance();
     $page_content = $store->findByKeyCached($content);
@@ -195,7 +199,7 @@ class d_homeActions extends policatActions {
     $table .= '</table>';
 
     $markup = strtr(
-      UtilMarkdown::transform(strtr($markdown, array('#PRODUCTS#' => 'a324ehksdf3457dfjgdkhi534wnhksdxfda')), true, true), array(
+      UtilMarkdown::transform(strtr($markdown, array('#PRODUCTS#' => 'a324ehksdf3457dfjgdkhi534wnhksdxfda')), false), array(
         'a324ehksdf3457dfjgdkhi534wnhksdxfda' => $table
     ));
 

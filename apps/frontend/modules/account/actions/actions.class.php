@@ -381,6 +381,7 @@ class accountActions extends policatActions {
           ->appendPartial('body', 'forgotten', array('form' => $form))
           ->modal('#login_modal', 'hide')
           ->modal('#forgotten_modal')
+          ->focus('#forgot_password_email_address')
           ->render();
     }
   }

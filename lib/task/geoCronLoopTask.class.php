@@ -27,10 +27,10 @@ class geoCronLoopTask extends sfBaseTask
 
   protected function execute($arguments = array(), $options = array())
   {
-    $max = 3;
+    $maxtime = time() + 50;
     do {
       $lastline = system('php symfony policat:geo-cron');
       echo PHP_EOL;
-    } while (strpos($lastline, 'continue') && $max--);
+  } while (strpos($lastline, 'continue') && (time() < $maxtime));
   }
 }
