@@ -108,16 +108,7 @@ class ContactTable extends Doctrine_Table {
           
           $selected_options = explode(",",$ts_1);
           
-          $first = true;
-          foreach (((array) $selected_options) as $option) {
-              
-              if($first) {
-                $query->andWhere("c.id = ?", $option);
-                $first = false;
-              } else {
-                $query->orWhere("c.id = ?", $option);
-              }
-          }
+          $query->WhereIn('c.id', $selected_options);
           
         } else {
           if (is_string($ts_1) && $ts_1 != 'all') {
