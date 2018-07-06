@@ -10,50 +10,6 @@
 
 class d_homeComponents extends policatComponents {
 
-  public function executeOpen_actions() {
-    $this->data = UtilOpenActions::dataByCache();
-  }
-
-  public function getKeyvisualUrl($params) {
-    $petition = PetitionTable::getInstance()->findById($params[1]);
-    if ($petition) {
-      $keyvisual = $petition->getKeyVisual();
-      if ($keyvisual) {
-        return sfContext::getInstance()->getRequest()->getRelativeUrlRoot() . '/images/keyvisual/' . $keyvisual;
-      }
-    }
-    return '';
-  }
-
-  public function executeFeature() {
-    $title = trim(StoreTable::value(StoreTable::PORTAL_HOME_TITLE, ''));
-    $this->title = $title ? $title : 'Featured action';
-
-    $markup = trim(StoreTable::value(StoreTable::PORTAL_HOME_MARKUP, ''));
-    if ($markup) {
-      $markup = preg_replace_callback('/#KEYVISUAL-(\d+)#/', array($this, 'getKeyvisualUrl'), $markup);
-      $markup = preg_replace('/#WIDGET-(\d+)#/', 'PasjhkX\\1KmsownedS', $markup); // prevent markdown messing up widget
-      $markup = UtilMarkdown::transform($markup, false);
-      $this->markup = preg_replace_callback('/PasjhkX(\d+)KmsownedS/', array('UtilWidget', 'renderWidget'), $markup);
-      return;
-    }
-
-    $data = UtilOpenActions::dataByCache();
-    if ($data && array_key_exists(UtilOpenActions::HOTTEST, $data['open'])) {
-      $recent = $data['open'][UtilOpenActions::HOTTEST];
-      if ($recent && $recent['excerpts']) {
-        $excerpts = $recent['excerpts'];
-        if ($excerpts) {
-          $this->widget_id = $excerpts[0]['widget_id'];
-          $this->stylings = $data['styles'][$this->widget_id];
-          $this->stylings['type'] = 'embed';
-          $this->stylings['width'] = 'auto';
-          $this->stylings['url'] = $this->generateUrl('sign_hp', array('id' => $this->widget_id, 'hash' => $excerpts[0]['widget_last_hash']), true);
-        }
-      }
-    }
-  }
-
   public function executeMenu() {
     $store = StoreTable::getInstance();
     $tips = $store->findByKeyCached(StoreTable::TIPS_MENU);

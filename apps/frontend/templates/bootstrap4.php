@@ -22,6 +22,7 @@
     <?php include_component('d_home', 'menuB4', array('a' => $sf_user->isAuthenticated() ? 1 : 0, 'b' => $sf_user->hasCredential('homepage') ? 1 : 0)) ?>
     <?php echo $sf_content ?>
     <?php include_component('d_home', 'footerB4') ?>
+    <?php include_component('account', 'ajaxSignin', array('a' => $sf_user->isAuthenticated() ? 1 : 0)) ?>
     <?php include_javascripts() ?>
   </body>
 </html>

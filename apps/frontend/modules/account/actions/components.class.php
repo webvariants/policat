@@ -36,6 +36,7 @@ class accountComponents extends policatComponents {
 
     $class = sfConfig::get('app_sf_guard_plugin_signin_form', 'sfGuardFormSignin');
     $this->form = new $class();
+    $this->form->getWidgetSchema()->setFormFormatterName('bootstrap4');
 
     $store = StoreTable::getInstance();
     $menu_join = $store->findByKeyCached(StoreTable::MENU_JOIN);
@@ -50,6 +51,7 @@ class accountComponents extends policatComponents {
 
     if ($menu_join->getValue() && $register_on->getValue()) {
       $this->registerForm = new RegisterForm(new sfGuardUser());
+      $this->registerForm->getWidgetSchema()->setFormFormatterName('bootstrap4');
     }
   }
 

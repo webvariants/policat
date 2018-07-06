@@ -22,7 +22,6 @@ class StoreTable extends Doctrine_Table {
   const PORTAL_META_KEYWORDS = 'portal_keywords';
   const PORTAL_HOME_TITLE = 'portal_home_title';
   const PORTAL_HOME_MARKUP = 'portal_home_markup';
-  const PORTAL_HOME_MARKUP_B4 = 'portal_home_markup_b4';
   const INSTANT_CHAT_ENABLE = 'instant_chat_enable';
   const INSTANT_CHAT_SITE_ID = 'instant_chat_site_id';
   const INSTANT_CHAT_API_KEY = 'instant_chat_api_key';
@@ -126,11 +125,6 @@ class StoreTable extends Doctrine_Table {
               ),
               self::PORTAL_HOME_MARKUP => array(
                   'widget' => array('sfWidgetFormTextarea', array('label' => 'Home content'), array('class' => 'markdown')),
-                  'validator' => array('sfValidatorString', array('required' => false)),
-                  'help' => '#WIDGET-n# (Widget ID), #KEYVISUAL-n# (Action ID)'
-              ),
-              self::PORTAL_HOME_MARKUP_B4 => array(
-                  'widget' => array('sfWidgetFormTextarea', array('label' => 'Home content (bootstrap4)'), array('class' => 'markdown')),
                   'validator' => array('sfValidatorString', array('required' => false)),
                   'help' => '#WIDGET-n# (Widget ID), #KEYVISUAL-n# (Action ID)'
               ),

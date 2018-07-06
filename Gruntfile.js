@@ -65,6 +65,14 @@ module.exports = function(grunt) {
 					'web/css/dist/frontend_print.css' : 'web/css/frontend_print.less'
 				}
 			},
+			frontend4: {
+				options: {
+					sourceMapFilename: 'web/css/dist/frontend4.less.map'
+				},
+				files: {
+					'web/css/dist/frontend4.css' : 'web/css/frontend4.less'
+				}
+			},
 			widget: {
 				options: {
 					sourceMapFilename: 'web/css/dist/policat_widget.less.map'
@@ -217,9 +225,9 @@ module.exports = function(grunt) {
 				src: ['bower_components/tether/dist/js/tether.min.js'],
 				dest: 'web/js/dist/tether.min.js'
 			},
-			jquery31_slim_js: {
-				src: ['bower_components/jquery-3.1/dist/jquery.slim.min.js'],
-				dest: 'web/js/dist/jquery-3.1.slim.min.js'
+			jquery31_js: {
+				src: ['bower_components/jquery-3.1/dist/jquery.min.js'],
+				dest: 'web/js/dist/jquery-3.1.min.js'
 			}
 		},
 		exec: {

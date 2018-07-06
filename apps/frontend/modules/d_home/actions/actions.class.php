@@ -28,13 +28,6 @@ class d_homeActions extends policatActions {
 //    }
 //  }
 
-  public function executeIndex(sfWebRequest $request) {
-    $response = $this->getResponse();
-    if ($response instanceof sfWebResponse) {
-      $response->addJavascript('dist/policat_widget_outer', 'last');
-    }
-  }
-
   public function getKeyvisualUrl($params) {
     $petition = PetitionTable::getInstance()->findById($params[1]);
     if ($petition) {
@@ -46,11 +39,11 @@ class d_homeActions extends policatActions {
     return '';
   }
 
-  public function executeIndexB4(sfWebRequest $request) {
+  public function executeIndex(sfWebRequest $request) {
     $store = StoreTable::getInstance();
 
     $this->markup = null;
-    $markup = $store->findByKeyCached(StoreTable::PORTAL_HOME_MARKUP_B4);
+    $markup = $store->findByKeyCached(StoreTable::PORTAL_HOME_MARKUP);
     if ($markup) {
       $this->setContentTags($markup);
 

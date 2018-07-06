@@ -376,6 +376,8 @@ class accountActions extends policatActions {
       }
     } else {
 
+      $form->getWidgetSchema()->setFormFormatterName('bootstrap4');
+
       return $this->ajax()
           ->remove('#forgotten_modal')
           ->appendPartial('body', 'forgotten', array('form' => $form))
