@@ -3,7 +3,7 @@ FROM    php:5.6-apache
 MAINTAINER Martin Schnabel <martin@webvariants.de>
 
 ENV     WEB_ROOT            /app
-ENV     MEMCACHE_VERSION    3.0.8
+ENV     MEMCACHE_VERSION    2.2.7
 ENV     MEMCACHED_VERSION   2.2.0
 
 RUN     sed -i "s|/var/www/html|\$\{WEB_ROOT\}|" /etc/apache2/apache2.conf \
@@ -16,7 +16,9 @@ RUN     sed -i "s|/var/www/html|\$\{WEB_ROOT\}|" /etc/apache2/apache2.conf \
             echo '  Require all granted'; \
             echo '</Directory>'; \
         } >> /etc/apache2/sites-enabled/000-default.conf \
-
+     && echo "force-unsafe-io" > /etc/dpkg/dpkg.cfg.d/02apt-speedup \
+     && echo "Acquire::http {No-Cache=True;};" > /etc/apt/apt.conf.d/no-cache \
+     && export MAKEFLAGS="-j $(grep -c ^processor /proc/cpuinfo)" \
      && apt-get update \
      && apt-get install -y \
             locales \
@@ -24,11 +26,11 @@ RUN     sed -i "s|/var/www/html|\$\{WEB_ROOT\}|" /etc/apache2/apache2.conf \
             libmcrypt-dev \
             libcurl3 \
             libcurl4-openssl-dev \
-            libtidy-0.99-0 \
+            libtidy5 \
             libtidy-dev \
             zlib1g \
             zlib1g-dev \
-            libicu52 \
+            libicu57 \
             icu-devtools \
             libicu-dev \
             libmemcached11 \
@@ -39,8 +41,8 @@ RUN     sed -i "s|/var/www/html|\$\{WEB_ROOT\}|" /etc/apache2/apache2.conf \
             libfreetype6-dev \
             libjpeg62-turbo \
             libjpeg62-turbo-dev \
-            libpng12-0 \
-            libpng12-dev \
+            libpng16-16 \
+            libpng-dev \
 
      && a2enmod rewrite headers expires \
 
@@ -82,7 +84,7 @@ RUN     sed -i "s|/var/www/html|\$\{WEB_ROOT\}|" /etc/apache2/apache2.conf \
             libmemcached-dev \
             libfreetype6-dev \
             libjpeg62-turbo-dev \
-            libpng12-dev \
+            libpng-dev \
 
      && php -r "readfile('https://getcomposer.org/installer');" > /bin/composer-setup.php && php /bin/composer-setup.php --install-dir=/bin \
 
