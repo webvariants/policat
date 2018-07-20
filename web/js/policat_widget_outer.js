@@ -28,13 +28,12 @@ var policat = typeof policat === "undefined" ? {widgets: []} : policat;
 				content_frame.style.height = height + 'px';
 				var spacer = document.getElementById('pt_widget_spacer_' + no);
 				if (spacer) {
-					if (height > docHeight()) {
-						spacer.style.marginBottom = '0';
-						spacer.style.height = '0';
+					var docHeight_ = docHeight();
+					if (height > docHeight_) {
+						spacer.style.marginBottom = '-' + docHeight_ + 'px';
 					}
 					else {
-						spacer.style.marginBottom = '-' + Math.floor(height / 2) + 'px';
-						spacer.style.height = '50%';
+						spacer.style.marginBottom = '-' + Math.floor(docHeight_ - ((docHeight_ - height) / 2)) + 'px';
 					}
 				}
 				return true;
@@ -46,9 +45,6 @@ var policat = typeof policat === "undefined" ? {widgets: []} : policat;
 			var iframe = document.getElementById('policat_iframe_no_' + no);
 			if (iframe) {
 				var topOffset = window.policat_scroll_offset || 0;
-//				var doc = document.documentElement;
-//				var left = (window.pageXOffset || doc.scrollLeft) - (doc.clientLeft || 0);
-//				var top = (window.pageYOffset || doc.scrollTop)  - (doc.clientTop || 0);
 				var rect = iframe.getBoundingClientRect();
 				var height = Math.max(document.documentElement.clientHeight, window.innerHeight || 0);
 				var diffY = y + rect.top - topOffset;
@@ -99,8 +95,6 @@ var policat = typeof policat === "undefined" ? {widgets: []} : policat;
 		policat.widget_here = function(id, click) {
 			var widget = policat.widgets[id];
 			var maxWidth = widget.max_width ? widget.max_width : '1080px';
-//			if ('devicePixelRatio' in window && window.devicePixelRatio > 1)
-//				maxWidth = '360px';
 			if ('matchMedia' in window) {
 				if (window.matchMedia("(max-device-width:767px)").matches) { // 768 is min height of windows 8 desktops and most netbooks
 					maxWidth = '360px';
@@ -146,7 +140,6 @@ var policat = typeof policat === "undefined" ? {widgets: []} : policat;
 				var top = (doc && doc.scrollTop || body && body.scrollTop || 0);
 
 				var overlay_darken = document.createElement('div');
-//				overlay_darken.setAttribute('id', 'pc_widget_overlay_darken_' + iframe_no);
 				baseStyle(overlay_darken, 'darken');
 				overlay_darken.style.width = '100%';
 				overlay_darken.style.height = '100%';
@@ -160,20 +153,19 @@ var policat = typeof policat === "undefined" ? {widgets: []} : policat;
 
 				var overlay = document.createElement('div');
 				baseStyle(overlay, 'overlay');
-//				overlay.setAttribute('id', 'pc_widget_overlay_' + iframe_no);
 				overlay.style.width = '100%';
 				overlay.style.height = '100%';
 				overlay.style.position = 'absolute';
 				overlay.style.left = left + 'px';
-				overlay.style.top = top + 'px';
+				overlay.style.top = '0px';
 				overlay.style.zIndex = '10001';
 				body.appendChild(overlay);
 
 				var spacer = document.createElement('div');
 				baseStyle(spacer, 'spacer');
 				spacer.style.width = '100%'; /* IE8 needs 100% */
-				spacer.style.height = '50%';
-				spacer.style.margin = '0 0 -250px 0';
+				spacer.style.height = (docHeight() + document.documentElement.scrollTop) + 'px';
+				spacer.style.margin = '0 0 -' + docHeight() +  'px 0';
 				spacer.setAttribute('id', 'pt_widget_spacer_' + iframe_no);
 				overlay.appendChild(spacer);
 
@@ -181,7 +173,6 @@ var policat = typeof policat === "undefined" ? {widgets: []} : policat;
 				baseStyle(content_frame, 'content_frame');
 				content_frame.setAttribute('id', 'pt_widget_content_frame_' + iframe_no);
 				content_frame.style.maxWidth = '100%';
-//				content_frame.style.maxHeight = '100%';
 				content_frame.style.height = '502px';
 				content_frame.style.width = '100%';
 				content_frame.style.margin = '0 auto';
@@ -204,7 +195,6 @@ var policat = typeof policat === "undefined" ? {widgets: []} : policat;
 
 				var close = document.createElement('a');
 				baseStyle(close, 'close');
-//				close.setAttribute('id', 'pt_widget_close_' + iframe_no);
 				close.style.cursor = 'pointer';
 				close.style.position = 'absolute';
 				close.style.right = '0px';
@@ -240,9 +230,7 @@ var policat = typeof policat === "undefined" ? {widgets: []} : policat;
 
 				var content = document.createElement('div');
 				baseStyle(content, 'content');
-//				content.setAttribute('id', 'pt_widget_content_' + iframe_no);
 				content.style.width = '100%';
-//				content.style.height = '101%';
 				content.style.maxWidth = maxWidth;
 				content.style.margin = '0 auto';
 				content.style.position = 'relative';
