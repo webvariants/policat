@@ -54,7 +54,9 @@ class quotaCheckTask extends sfBaseTask {
             $last_order = $active_quota->getOrder();
             $order->fillByOrder($last_order);
             $quota = new Quota();
-            $quota->fillByQuota($active_quota);
+            $quota->copyProduct($active_quota->getProduct());
+            $quota->setUser($active_quota->getUser());
+            $quota->setCampaign($active_quota->getCampaign());
             $quota->setOrder($order);
             $active_quota->setRenewOfferred(1);
             if ($extra_days > 0) {
@@ -69,7 +71,7 @@ class quotaCheckTask extends sfBaseTask {
             $ticket = TicketTable::getInstance()->generate(array(
                 TicketTable::CREATE_CAMPAIGN => $quota->getCampaign(),
                 TicketTable::CREATE_KIND => TicketTable::KIND_SUBSCRIPTION_ORDER_ISSUED,
-                TicketTable::CREATE_CHECK_DUPLICATE => true
+                TicketTable::CREATE_CHECK_DUPLICATE => false
             ));
             if ($ticket) {
                 $ticket->save();

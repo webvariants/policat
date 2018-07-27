@@ -1099,6 +1099,7 @@ Quota:
     emails_remaining:   { type: integer(4),  notnull: true, default: 0 }
     order_id:           { type: integer(4),  notnull: false, default: null }
     upgrade_of_id:      { type: integer(4),  notnull: false, default: null }
+    product_id:         { type: integer(4),  notnull: false, default: null }
   relations:
     User:
       onDelete: SET NULL
@@ -1107,6 +1108,9 @@ Quota:
       foreignAlias: Quotas
     Campaign:
       onDelete: SET NULL     # for billing
+      foreignAlias: Quotas
+    Product:
+      onDelete: SET NULL
       foreignAlias: Quotas
     Order:
       onDelete: SET NULL

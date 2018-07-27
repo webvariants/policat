@@ -43,23 +43,10 @@ class Quota extends BaseQuota {
     $this->setStatus(QuotaTable::STATUS_ORDER);
     $this->setPrice($product->getPrice());
     $this->setDays($product->getDays());
+    $this->setProduct($product);
     if (StoreTable::value(StoreTable::BILLING_SUBSCRIPTION_ENABLE)) {
         $this->setSubscription($product->getSubscription());
     }
-  }
-
-  public function fillByQuota(Quota $quota) {
-    $this->setStatus(QuotaTable::STATUS_ORDER);
-    $this->setDays($quota->getDays());
-    $this->setPrice($quota->getPrice());
-    $this->setName($quota->getName());
-    $this->setEmails($quota->getEmails());
-    $this->setEmailsRemaining($quota->getEmails());
-    if (StoreTable::value(StoreTable::BILLING_SUBSCRIPTION_ENABLE)) {
-        $this->setSubscription($quota->getSubscription());
-    }
-    $this->setUser($quota->getUser());
-    $this->setCampaign($quota->getCampaign());
   }
 
   public function getEmailsDone() {
@@ -114,7 +101,7 @@ class Quota extends BaseQuota {
   }
 
   public function subscriptionRenewPossible() {
-    if (!$this->getSubscription() || $this->getRenewOfferred() || $this->getCampaign()->getOrderId()) {
+    if (!$this->getSubscription() || $this->getRenewOfferred() || $this->getCampaign()->getOrderId() || !$this->getProductId() || !$this->getProduct()->getSubscription()) {
         return false;
     }
 

@@ -21,8 +21,10 @@
  * @property integer $emails_remaining
  * @property integer $order_id
  * @property integer $upgrade_of_id
+ * @property integer $product_id
  * @property sfGuardUser $User
  * @property Campaign $Campaign
+ * @property Product $Product
  * @property Order $Order
  * @property Quota $UpgradeOf
  * @property Campaign $activeCampaign
@@ -46,8 +48,10 @@
  * @method integer             getEmailsRemaining()          Returns the current record's "emails_remaining" value
  * @method integer             getOrderId()                  Returns the current record's "order_id" value
  * @method integer             getUpgradeOfId()              Returns the current record's "upgrade_of_id" value
+ * @method integer             getProductId()                Returns the current record's "product_id" value
  * @method sfGuardUser         getUser()                     Returns the current record's "User" value
  * @method Campaign            getCampaign()                 Returns the current record's "Campaign" value
+ * @method Product             getProduct()                  Returns the current record's "Product" value
  * @method Order               getOrder()                    Returns the current record's "Order" value
  * @method Quota               getUpgradeOf()                Returns the current record's "UpgradeOf" value
  * @method Campaign            getActiveCampaign()           Returns the current record's "activeCampaign" value
@@ -70,8 +74,10 @@
  * @method Quota               setEmailsRemaining()          Sets the current record's "emails_remaining" value
  * @method Quota               setOrderId()                  Sets the current record's "order_id" value
  * @method Quota               setUpgradeOfId()              Sets the current record's "upgrade_of_id" value
+ * @method Quota               setProductId()                Sets the current record's "product_id" value
  * @method Quota               setUser()                     Sets the current record's "User" value
  * @method Quota               setCampaign()                 Sets the current record's "Campaign" value
+ * @method Quota               setProduct()                  Sets the current record's "Product" value
  * @method Quota               setOrder()                    Sets the current record's "Order" value
  * @method Quota               setUpgradeOf()                Sets the current record's "UpgradeOf" value
  * @method Quota               setActiveCampaign()           Sets the current record's "activeCampaign" value
@@ -172,6 +178,11 @@ abstract class BaseQuota extends myDoctrineRecord
              'notnull' => false,
              'length' => 4,
              ));
+        $this->hasColumn('product_id', 'integer', 4, array(
+             'type' => 'integer',
+             'notnull' => false,
+             'length' => 4,
+             ));
 
         $this->option('symfony', array(
              'filter' => false,
@@ -188,6 +199,11 @@ abstract class BaseQuota extends myDoctrineRecord
 
         $this->hasOne('Campaign', array(
              'local' => 'campaign_id',
+             'foreign' => 'id',
+             'onDelete' => 'SET NULL'));
+
+        $this->hasOne('Product', array(
+             'local' => 'product_id',
              'foreign' => 'id',
              'onDelete' => 'SET NULL'));
 

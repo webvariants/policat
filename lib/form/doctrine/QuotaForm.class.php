@@ -22,7 +22,7 @@ class QuotaForm extends BaseQuotaForm {
     $this->widgetSchema->setFormFormatterName('bootstrap');
     $this->widgetSchema->setNameFormat('quota[%s]');
 
-    unset($this['created_at'], $this['updated_at'], $this['user_id'], $this['campaign_id'], $this['order_id'], $this['upgrade_of_id'], $this['subscription'], $this['renew_offerred']);
+    unset($this['created_at'], $this['updated_at'], $this['user_id'], $this['campaign_id'], $this['order_id'], $this['upgrade_of_id'], $this['subscription'], $this['renew_offerred'], $this['product_id']);
 
 
     $this->setWidget('start_at', new sfWidgetFormInput(array('type' => 'date')));
@@ -36,7 +36,7 @@ class QuotaForm extends BaseQuotaForm {
       array('choices' => array_keys(QuotaTable::$STATUS_SHOW)
     )));
 
-    if (StoreTable::value(StoreTable::BILLING_SUBSCRIPTION_ENABLE)) {
+    if (StoreTable::value(StoreTable::BILLING_SUBSCRIPTION_ENABLE) && $this->getObject()->getProductId() && $this->getObject()->getProduct()->getSubscription()) {
       $this->setWidget('subscription', new sfWidgetFormChoice(array(
           'choices' => array(0 => 'no', 1 => 'yes'),
           'label' => 'Subscription'
