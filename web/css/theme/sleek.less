@@ -6,11 +6,11 @@
 @width-label-left-2-min: 330px;
 
 body {
-	font-size: 13px;
+	font-size: 14px;
 }
 
 p {
-	line-height: 18px;
+	line-height: 23px;
 }
 
 h1, h1.action-title {
@@ -31,27 +31,26 @@ ol {
 	li {
 		counter-increment: step-counter;
 		margin: 18px 0;
-		padding: 0 0 0 50px;
+		padding: 0 0 0 36px;
 		position: relative;
-		line-height: 25px;
-		font-size: 17px;
+		line-height: 23px;
+		font-size: 14px;
 
 		&::before {
 			content: counter(step-counter);
 			background: var(--button-color);
 			color: white;
 			position: absolute;
-			top: 50%;
+			top: 2px;
 			left: 0;
-			font-size: 30px;
+			font-size: 20px;
 			text-indent: -1px;
-			margin-top: -18px;
 
 			border-radius: 18px;
 			display: inline-block;
-			width: 36px;
-			height: 36px;
-			line-height: 36px;
+			width: 26px;
+			height: 26px;
+			line-height: 26px;
 			text-align: center;
 		}
 	}
@@ -80,20 +79,19 @@ ul {
 
 	li {
 		margin: 15px 0;
-		padding: 0 0 0 50px;
+		padding: 0 0 0 36px;
 		position: relative;
-		line-height: 25px;
-		font-size: 17px;
+		line-height: 23px;
+		font-size: 14px;
 
 		&::before {
 			content: ' ';
 			background: var(--button-color);
 			position: absolute;
-			top: 50%;
-			left: 5px;
-			font-size: 30px;
+			top: 2px;
+			left: 0;
+			font-size: 20px;
 			text-indent: -1px;
-			margin-top: -13px;
 
 			border-radius: 13px;
 			display: inline-block;
@@ -272,6 +270,8 @@ button.submit-sign {
 	font-weight: bold;
 	height: 60px;
 	display: inline-block;
+	margin-top: 10px;
+	margin-bottom: 10px;
 
 	@media (min-width: 930px) {
 		min-width: 300px;
@@ -605,12 +605,12 @@ span.checkbox {
 
 @media (min-width: @width-two-column-min) {
 	.content-left {
-		padding-right: 30px;
+		padding-right: 20px;
 		padding-bottom: 20px;
 	}
 
 	.content-right {
-		padding-left: 30px;
+		padding-left: 20px;
 		padding-bottom: 20px;
 	}
 }
