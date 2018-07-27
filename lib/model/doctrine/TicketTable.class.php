@@ -55,6 +55,7 @@ class TicketTable extends Doctrine_Table {
   const KIND_WIDGET_CREATED = 15;
   const KIND_TARGET_LIST_BOUNCE = 16;
   const KIND_SUBSCRIPTION_ORDER_ISSUED = 17;
+  const KIND_QUOTA_MISSING_OPEN_ORDER = 18;
 
   static $KIND_NAME = array(
       self::KIND_DEFAULT => 'Default',
@@ -74,6 +75,7 @@ class TicketTable extends Doctrine_Table {
       self::KIND_WIDGET_CREATED => 'Widget created',
       self::KIND_TARGET_LIST_BOUNCE => 'Target-list has bounces',
       self::KIND_SUBSCRIPTION_ORDER_ISSUED => 'New order for your subscription issued',
+      self::KIND_QUOTA_MISSING_OPEN_ORDER => 'Package required, open order',
   );
   static $KIND_HANDLER = array(
       self::KIND_DEFAULT => 'default',
@@ -93,6 +95,7 @@ class TicketTable extends Doctrine_Table {
       self::KIND_WIDGET_CREATED => 'none',
       self::KIND_TARGET_LIST_BOUNCE => 'none',
       self::KIND_SUBSCRIPTION_ORDER_ISSUED => 'none',
+      self::KIND_QUOTA_MISSING_OPEN_ORDER => 'none',
   );
   static $KIND_HANDLER_DENY = array(
       self::KIND_DEFAULT => 'default',
@@ -112,6 +115,7 @@ class TicketTable extends Doctrine_Table {
       self::KIND_WIDGET_CREATED => 'widgetDeny',
       self::KIND_TARGET_LIST_BOUNCE => 'none',
       self::KIND_SUBSCRIPTION_ORDER_ISSUED => 'none',
+      self::KIND_QUOTA_MISSING_OPEN_ORDER => 'none',
   );
   static $KIND_TEMPLATE = array(
       self::KIND_DEFAULT => 'Default (#DATE#)',
@@ -131,6 +135,7 @@ class TicketTable extends Doctrine_Table {
       self::KIND_WIDGET_CREATED => 'Widget #WIDGET# created. (#DATE#)<br />#TEXT#',
       self::KIND_TARGET_LIST_BOUNCE => '<strong>Manage bounces in</strong> target list #TARGETLIST# used by campaign #CAMPAIGN#. (#DATE#)',
       self::KIND_SUBSCRIPTION_ORDER_ISSUED => 'You need to pay the new bill of you subscription in campaign #CAMPAIGN#. #BUY-PACKAGE# (#DATE#)<br />#TEXT#',
+      self::KIND_QUOTA_MISSING_OPEN_ORDER => 'You need to pay the bill to (re-)start your action(s) in campaign #CAMPAIGN#. #BUY-PACKAGE# (#DATE#)<br />#TEXT#',
   );
 
   const STATUS_NEW = 1;

@@ -280,7 +280,7 @@ class orderActions extends policatActions {
       return $this->ajax()->alert('Invalid data', 'Error', '#campaign_billing', 'append')->render();
     }
   }
-  
+
   private function pdfOffer(Offer $offer, $download = false) {
     define('DOMPDF_ENABLE_AUTOLOAD', false);
     define('DOMPDF_ENABLE_CSS_FLOAT', true);
@@ -302,21 +302,21 @@ class orderActions extends policatActions {
       return sfView::NONE;
     }
   }
-  
+
   public function executeOffer(sfWebRequest $request) {
     $offer = OfferTable::getInstance()->findOneById($request->getParameter('id'));
     /* @var $offer Offer */
     if (!$offer) {
       return $this->notFound();
     }
-    
+
     if (!$this->getUser()->hasCredential(myUser::CREDENTIAL_ADMIN) && $offer->getUserId() !== $this->getGuardUser()->getId()) {
       return $this->noAccess();
     }
 
     return $this->pdfOffer($offer, $request->getParameter('view') === 'download');
   }
-  
+
   public function executeManualUser(sfWebRequest $request) {
     $quota = QuotaTable::getInstance()->findOneById($request->getParameter('id'));
     /* @var $quota Quota */
@@ -325,13 +325,13 @@ class orderActions extends policatActions {
     }
 
     $users = sfGuardUserTable::getInstance()->queryByCampaign($quota->getCampaign())->execute();
-    
+
     return $this->ajax()->appendPartial('body', 'manual_user', array(
         'quota' => $quota,
         'users' => $users
     ))->modal('#order_manual_user')->render();
   }
-  
+
   public function executeManual(sfWebRequest $request) {
     $quota = QuotaTable::getInstance()->findOneById($request->getParameter('id'));
     $user = sfGuardUserTable::getInstance()->findOneById($request->getParameter('user_id'));
@@ -369,4 +369,34 @@ class orderActions extends policatActions {
     $this->campaign = $quota->getCampaign();
   }
 
+public function executeCancelSubscription(sfWebRequest $request) {
+
+  $quota = QuotaTable::getInstance()->findOneById($request->getParameter('id'));
+  /* @var $quota Quota */
+  if (!$quota || !$quota->getSubscription()) {
+    return $this->notFound();
+  }
+
+  $csrf_token = UtilCSRF::gen('cancel_quota', $quota->getId());
+  $campaign = $quota->getCampaign();
+  if (!$this->getUser()->hasCredential(myUser::CREDENTIAL_ADMIN) && !$this->getGuardUser()->isCampaignAdmin($campaign)) {
+    return $this->noAccess();
+  }
+
+  if ($request->isMethod('post')) {
+    if ($request->getPostParameter('csrf_token') != $csrf_token) {
+      return $this->ajax()->alert('CSRF Attack detected, please relogin.', 'Error', '#cancel_subscription_modal .modal-body')->render();
+    }
+
+    $quota->setSubscription(0);
+    $quota->save();
+
+    return $this->ajax()->redirectRotue('campaign_edit_', array('id' => $campaign->getId()))->render();
+  }
+
+  return $this->ajax()
+      ->appendPartial('body', 'cancelSubscription', array('id' => $quota->getId(), 'csrf_token' => $csrf_token, 'campaign' => $campaign))
+      ->modal('#cancel_subscription_modal')
+      ->render();
+}
 }

@@ -103,8 +103,7 @@ class QuotaTable extends Doctrine_Table {
       if ($notice_ticket && $campaign->getBillingEnabled()) {
         $ticket = TicketTable::getInstance()->generate(array(
             TicketTable::CREATE_CAMPAIGN => $campaign,
-            TicketTable::CREATE_KIND => TicketTable::KIND_QUOTA_MISSING,
-//            TicketTable::CREATE_TEXT => 'You need to buy a package to (re-)start your action(s) in this campaign.',
+            TicketTable::CREATE_KIND => $campaign->getOrderId() ? TicketTable::KIND_QUOTA_MISSING_OPEN_ORDER : TicketTable::KIND_QUOTA_MISSING,
             TicketTable::CREATE_CHECK_DUPLICATE => true
         ));
         if ($ticket) {
