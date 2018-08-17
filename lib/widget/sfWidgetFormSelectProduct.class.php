@@ -50,7 +50,7 @@ class sfWidgetFormSelectProduct extends sfWidgetFormSelectRadio {
     $subscription = StoreTable::value(StoreTable::BILLING_SUBSCRIPTION_ENABLE);
     $sub_extra = '';
     if ($subscription) {
-        $sub_extra = '<th class="span2">Is subscription</th>';
+        $sub_extra = '<th class="span2">Subscription / Abo</th>';
     }
 
     return !$rows ? '' : $this->renderContentTag('table', '<tr><th>Package</th><th class="span3">E-mails / participants</th>' . $sub_extra . '<th class="span2">Days</th><th class="span2">Net</th><th class="span2">Gross</th></tr>' .

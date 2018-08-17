@@ -8,7 +8,7 @@ $subscription = StoreTable::value(StoreTable::BILLING_SUBSCRIPTION_ENABLE); ?>
         <th>Price (net)</th>
         <th>Credits (participants, emails)</th>
         <th>Duration (days)</th>
-        <?php if ($subscription): ?><th>Is subscription</th><?php endif ?>
+        <?php if ($subscription): ?><th>Subscription / Abo</th><?php endif ?>
         <th class="span2"></th>
       </tr>
   </thead>

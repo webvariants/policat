@@ -146,7 +146,7 @@ class d_homeActions extends policatActions {
     $subscription = StoreTable::value(StoreTable::BILLING_SUBSCRIPTION_ENABLE);
     $sub_extra = '';
     if ($subscription) {
-        $sub_extra = '<th class="span2">Is subscription</th>';
+        $sub_extra = '<th class="span2">Subscription / Abo</th>';
     }
 
     $table = '<table class="table table-bordered" style="width:auto"><tr><th>Package</th><th>E-mails / participants</th>' . $sub_extra . '<th>Days</th><th>Net</th><th>Gross</th></tr>';

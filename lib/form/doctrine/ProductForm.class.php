@@ -30,7 +30,7 @@ class ProductForm extends BaseProductForm {
     if (StoreTable::value(StoreTable::BILLING_SUBSCRIPTION_ENABLE)) {
       $this->setWidget('subscription', new sfWidgetFormChoice(array(
           'choices' => array(0 => 'no', 1 => 'yes'),
-          'label' => 'Is subscription'
+          'label' => 'Subscription / Abo'
         ), array(
       )));
       $this->setValidator('subscription', new sfValidatorChoice(array('choices' => array(0, 1), 'required' => true)));
