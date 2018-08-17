@@ -37,7 +37,7 @@ class TranslationForm extends BasePetitionTextForm {
     );
 
     $this->setWidget('form_title', new sfWidgetFormInput(array('label' => 'Widget heading'), array('size' => 90, 'class' => 'large', 'placeholder' => 'Leave this field empty to use standard texts.')));
-    $this->getWidgetSchema()->setHelp('form_title', 'You may customise the widget heading above the sign-up form (optional). Leave this field empty to use standard texts.');
+    $this->getWidgetSchema()->setHelp('form_title', 'You may customise the widget heading above the sign-up form (optional). Leave this field empty to use standard texts. Note that not all widget layouts (themes) display this heading.');
 
     $mediaMarkupSet = MediaFileTable::getInstance()->dataMarkupSet($petition);
 
