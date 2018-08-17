@@ -418,7 +418,7 @@ $(document).ready(function($) {
 					var label = $('<label></label>');
 					div.append(label);
 					label.text(selector['name']);
-					var select = $('<select></select>');
+					var select = $('<select multiple></select>');
 					var div_s = $('<div></div>');
 					div.append(div_s.addClass('select-wrap'));
 					div_s.append(select);
@@ -645,6 +645,10 @@ $(document).ready(function($) {
 						}
 					});
 				}
+			});
+			
+			var select = $('.select-wrap select[multiple]').select2({
+				placeholder: "Select one or more options"
 			});
 
 			if ($('div.ts', ts).length == 1) {

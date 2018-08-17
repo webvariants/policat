@@ -163,11 +163,11 @@ input, select, textarea {
 	}
 }
 
-input[type=text], textarea, select  {
+input[type=text], textarea, select, .select2-choices {
 	-moz-box-sizing: border-box;
 	-webkit-box-sizing: border-box;
 	border: 1px solid #bbb;
-	border-color: #bbb #bbb #ddd #ddd;
+	border-color: #bbb #bbb #ddd #ddd !important;
 	box-sizing: border-box;
 	font-size: 13px;
 	margin: 0;
@@ -280,6 +280,7 @@ label.form-error {
 		content: "\02717"; /* &cross; */
 		color: @color-error;
 		opacity: 1;
+		padding-right: 5px;
 	}
 
 	&.form-indicator-select {
@@ -872,13 +873,21 @@ h2:hover + .embed-this-help-head {
 	}
 	div.ts {
 		float: left;
-		width: 49%;
-	}
-	div.ts_first {
-		margin-right: 2%;
+		width: 50%;
 	}
 	.select-wrap {
 		position: relative;
+		div {
+			width: 100%;
+		}
+		div.correct {
+			background: @color-white;
+			margin: 0;
+			padding: 0;
+			position: absolute;
+			right: 1px;
+			top: 5px;
+		}
 	}
 	select {
 		margin-right: 0;
@@ -890,7 +899,7 @@ h2:hover + .embed-this-help-head {
 	}
 	&.single {
 		div.ts {
-			width: 99%;
+			width: 100%;
 		}
 	}
 

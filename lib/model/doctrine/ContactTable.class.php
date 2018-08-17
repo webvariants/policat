@@ -105,9 +105,11 @@ class ContactTable extends Doctrine_Table {
         }
       } else {
         if ($sel === 'contact') {
-          if (is_numeric($ts_1)) {
-            $query->andWhere("c.id = ?", $ts_1);
-          }
+          
+          $selected_options = explode(",",$ts_1);
+          
+          $query->WhereIn('c.id', $selected_options);
+          
         } else {
           if (is_string($ts_1) && $ts_1 != 'all') {
             $query->andWhere("c.$sel = ?", $ts_1);
