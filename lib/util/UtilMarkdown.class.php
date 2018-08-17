@@ -27,6 +27,12 @@ class UtilMarkdown {
     return $html;
   }
 
+  public static function transformWithWidgets($text, $xssSafe = true, $lessSafe = false, $extra = false) {
+      $markup = preg_replace('/#WIDGET-(\d+)#/', 'PasjhkX\\1KmsownedS', $text); // prevent markdown messing up widget
+      $markup = UtilMarkdown::transform($markup, $xssSafe, $lessSafe, $extra);
+      return preg_replace_callback('/PasjhkX(\d+)KmsownedS/', array('UtilWidget', 'renderWidget'), $markup);
+  }
+
   public static function transformSubst($text, $subst_escape, $xssSafe = true, $lessSafe = false, $extra = false) {
     $hash = mt_rand(0, mt_getrandmax());
 

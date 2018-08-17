@@ -1,4 +1,5 @@
 <div class="container">
   <h1><?php echo $page_title ?></h1>
-  <?php echo UtilMarkdown::transform($sf_data->getRaw('page_content'), false) ?>
+  <script type="text/javascript" src="/js/dist/policat_widget_outer.js"></script>
+  <?php echo UtilMarkdown::transformWithWidgets($sf_data->getRaw('page_content'), false) ?>
 </div>
