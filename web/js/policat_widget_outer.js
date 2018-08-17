@@ -164,7 +164,7 @@ var policat = typeof policat === "undefined" ? {widgets: []} : policat;
 				var spacer = document.createElement('div');
 				baseStyle(spacer, 'spacer');
 				spacer.style.width = '100%'; /* IE8 needs 100% */
-				spacer.style.height = (docHeight() + document.documentElement.scrollTop) + 'px';
+				spacer.style.height = (docHeight() + top) + 'px';
 				spacer.style.margin = '0 0 -' + docHeight() +  'px 0';
 				spacer.setAttribute('id', 'pt_widget_spacer_' + iframe_no);
 				overlay.appendChild(spacer);
@@ -226,6 +226,9 @@ var policat = typeof policat === "undefined" ? {widgets: []} : policat;
 				close_x.style.borderRightWidth = '0';
 				close_x.style.borderTopWidth = '0';
 				close_x.style.textDecoration = 'none';
+				close_x.style.position = 'absolute';
+				close_x.style.top = '0';
+				close_x.style.right = '0';
 				close.appendChild(close_x);
 
 				var content = document.createElement('div');
