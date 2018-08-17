@@ -34,7 +34,7 @@ if ($petition->isEmailKind()):
         foreach ($pledge_items as $pledge_item): /* @var $pledge_item PledgeItem */
           if ($pledge_item->getStatus() == PledgeItemTable::STATUS_ACTIVE):
             ?>
-            <div id="pledge_text_<?php echo $pledge_item->getId() ?>" style="display: none" class="pledge-text">
+            <div id="pledge_text_<?php echo $pledge_item->getId() ?>" style="display: none" class="pledge-text markdown-inside">
               <?php echo UtilMarkdown::transform($petition_text->getPledgeTextByPledgeItem($pledge_item)) ?>
             </div>
             <?php
@@ -60,7 +60,7 @@ if ($petition->isEmailKind()):
   endif;
 else:
   ?>
-  <div class="scroll"><div id="petition_text">
+  <div class="scroll"><div id="petition_text" class="markdown-inside">
       <?php
       $markdown = array();
       foreach (array('intro', 'body', 'footer') as $field) {

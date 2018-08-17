@@ -320,7 +320,7 @@ $(document).ready(function($) {
 		if (target_selectors) {
 			var ts = $('#target-selector');
 			var insert_sort = function(dom, list, add_class, is_country, pledges, template, infos, pledge_count) {
-				var k, sk, option, element, i;
+				var k, sk, option, element, i, j, value, tmp;
 				var count_pledge = 0;
 				if (is_country != undefined && is_country) {
 					for (k in list) {
@@ -328,53 +328,56 @@ $(document).ready(function($) {
 							list[k] = country_names[k];
 					}
 				}
-				do {
-					sk = null;
-					for (k in list) {
-						if (sk == null)
-							sk = k;
-						else {
-							if (list[k] < list[sk])
-								sk = k;
-						}
-					}
-					if (sk != null) {
-						if (typeof pledges == 'object') {
-							// pledge selector
-							element = $(template.data);
-							$('input', element).attr('id', 'pledge_contact_' + sk).val(sk);
-							$('.pledge_contact_name', element).attr('for', 'pledge_contact_' + sk);
-							var name = $('.pledge_contact_name', element).text(list[sk]);
-							if (typeof infos == 'object' && infos[sk]) {
-								name.append($('<span></span>').text(' (' + infos[sk] + ')'));
-							}
-							dom.append(element);
-							if (pledges[sk]) {
-								var pledges_yes = 0;
-								for (i in pledges[sk]) {
-									$('.pledge_item_' + i, element).addClass('pledge_status_' + pledges[sk][i]);
-									if (pledges[sk][i] == 1) {
-										pledges_yes++;
-									}
-								}
 
-								if (pledges_yes == pledge_count) {
-									$('input', element).attr('disabled', 'disabled').hide();
-									$('.pledge_done', element).css('display', 'inline-block');
+				tmp = []
+				for (sk in list) {
+					tmp.push([sk, list[sk]]);
+				}
+				tmp.sort(function(a, b) {
+					if (a[1] < b[1])
+				    return -1;
+				  if (a[1] > b[1])
+				    return 1;
+				  return 0;
+				});
+
+				for (var j = 0; j < tmp.length; j++) {
+					sk = tmp[j][0];
+					value = tmp[j][1]
+					if (typeof pledges == 'object') {
+						// pledge selector
+						element = $(template.data);
+						$('input', element).attr('id', 'pledge_contact_' + sk).val(sk);
+						$('.pledge_contact_name', element).attr('for', 'pledge_contact_' + sk);
+						var name = $('.pledge_contact_name', element).text(value);
+						if (typeof infos == 'object' && infos[sk]) {
+							name.append($('<span></span>').text(' (' + infos[sk] + ')'));
+						}
+						dom.append(element);
+						if (pledges[sk]) {
+							var pledges_yes = 0;
+							for (i in pledges[sk]) {
+								$('.pledge_item_' + i, element).addClass('pledge_status_' + pledges[sk][i]);
+								if (pledges[sk][i] == 1) {
+									pledges_yes++;
 								}
 							}
-							count_pledge++;
-						} else {
-							// regular target selector
-							option = $('<option></option>');
-							dom.append(option);
-							option.text(list[sk]).attr('value', sk);
-							if (add_class)
-								option.addClass(add_class);
+
+							if (pledges_yes == pledge_count) {
+								$('input', element).attr('disabled', 'disabled').hide();
+								$('.pledge_done', element).css('display', 'inline-block');
+							}
 						}
-						delete list[sk];
+						count_pledge++;
+					} else {
+						// regular target selector
+						option = $('<option></option>');
+						dom.append(option);
+						option.text(value).attr('value', sk);
+						if (add_class)
+							option.addClass(add_class);
 					}
-				} while (sk != null);
+				}
 
 				if (count_pledge === 1) {
 					$('input[type=checkbox]', dom).prop('checked', true);
@@ -418,7 +421,7 @@ $(document).ready(function($) {
 					var label = $('<label></label>');
 					div.append(label);
 					label.text(selector['name']);
-					var select = $('<select multiple></select>');
+					var select = $('<select></select>');
 					var div_s = $('<div></div>');
 					div.append(div_s.addClass('select-wrap'));
 					div_s.append(select);
@@ -436,13 +439,15 @@ $(document).ready(function($) {
 					select.append(option);
 					if (selector.id === 'contact') {
 						select.addClass('change_contact');
+						select.attr('multiple', true);
 					}
 					option.text(first ? '--' + t_sel + '--' : t_sel_all).attr('value', (first /* && target_selectors.length !== 1 */) ? '' : 'all');
 					if (selector['choices'] != undefined) {
 						var is_typefield = selector['typfield'] != undefined && selector['typfield'];
 						var is_contact = selector['id'] != undefined && selector['id'] === 'contact';
 						if (is_contact) {
-							option.text(t_sel_all);
+							// option.text(t_sel_all);
+							option.remove();
 							select.addClass('not_required');
 							$('#petition_signing_ts_1').addClass('not_required');
 						}
@@ -646,10 +651,16 @@ $(document).ready(function($) {
 					});
 				}
 			});
-			
-			var select = $('.select-wrap select[multiple]').select2({
-				placeholder: "Select one or more options"
-			});
+
+			var select = $('.select-wrap select[multiple]');
+			if (select.length) {
+				if (select.attr('id') === 'petition_signing_ts_2_copy') {
+					$('#petition_signing_ts_2').addClass('not_required');
+				}
+				select.addClass('not_required').select2({
+					placeholder: t_sel_all //"Select one or more options"
+				});
+			}
 
 			if ($('div.ts', ts).length == 1) {
 				ts.addClass('single');
@@ -783,7 +794,7 @@ $(document).ready(function($) {
 
 		var validate_base = $('#sign, #target-selector, #paypal, #embed');
 
-		validate_base.on('blur', 'input, select', function () {
+		validate_base.on('blur', 'input:not(.select2-input), select', function () {
 			validate(this);
 		});
 
@@ -858,7 +869,7 @@ $(document).ready(function($) {
 				}
 
 				// field validation input
-				$('input[type=text],input[type=hidden]:not([id=petition_signing_id]):not([id=widget_id]):not([id=widget_ref]):not([id=widget_edit_code])', form).each(function() {
+				$('input[type=text]:not(.select2-input),input[type=hidden]:not([id=petition_signing_id]):not([id=widget_id]):not([id=widget_ref]):not([id=widget_edit_code])', form).each(function() {
 					var input = $(this);
 					var val = $.trim(input.val());
 					if (val === '' && !input.hasClass('not_required')) {
@@ -873,7 +884,7 @@ $(document).ready(function($) {
 				});
 
 				// field validation select
-				$('select', form).each(function() {
+				$('select:not(.not_required)', form).each(function() {
 					var select = $(this);
 
 					if ($('option:selected', this).val() == '' && !select.hasClass('not_required')) {

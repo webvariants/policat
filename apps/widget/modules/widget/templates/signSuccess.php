@@ -63,7 +63,7 @@ if (is_array($target_selectors)) {
             <?php if ($title || $target): ?>
               <div class="header">
                   <?php if ($title): ?><h1 class="action-title"><?php echo Util::enc($title) ?></h1><?php endif ?>
-                  <?php if ($target): ?><div class="subtitle"><?php echo UtilMarkdown::transformMedia($target, $petition) ?></div><?php endif ?>
+                  <?php if ($target): ?><div class="subtitle markdown-inside"><?php echo UtilMarkdown::transformMedia($target, $petition) ?></div><?php endif ?>
               </div>
             <?php endif ?>
             <div class="widget-body">
@@ -73,7 +73,7 @@ if (is_array($target_selectors)) {
                             <div id="head" class="head">
                                 <h1 class="form-title title-color <?php echo $form_title ? '' : 'form-title-label' ?>"><?php echo $form_title ? : __($petition->getLabel(PetitionTable::LABEL_TITLE)) ?></h1>
                                 <?php if ($title): ?><h1 class="action-title font-size-auto"><?php echo Util::enc($title) ?></h1><?php endif ?>
-                                <?php if ($target): ?><div class="subtitle"><?php echo UtilMarkdown::transformMedia($target, $petition) ?></div><?php endif ?>
+                                <?php if ($target): ?><div class="subtitle markdown-inside"><?php echo UtilMarkdown::transformMedia($target, $petition) ?></div><?php endif ?>
                             </div>
                             <a id="down-button" class="button-color down-button button-btn"><?php echo __($petition->getLabel(PetitionTable::LABEL_TITLE)) ?></a>
                             <?php
@@ -98,7 +98,7 @@ if (is_array($target_selectors)) {
                                           <?php include_partial('petition', array('petition_text' => $petition_text, 'widget' => $widget, 'petition' => $petition)) ?>
                                           <div class="tab-alternate"><a class="readmore to-right-tab"><?php echo __('Read more') ?></a></div>
                                       </div>
-                                      <div class="right-tab">
+                                      <div class="right-tab markdown-inside">
                                           <?php echo UtilMarkdown::transformMedia($background, $petition); ?>
                                           <br />
                                           <div class="tab-alternate"><a class="to-left-tab tab-back"><?php echo __('Back') ?></a></div>
@@ -117,7 +117,7 @@ if (is_array($target_selectors)) {
                             <?php endif ?>
                             <div style="clear: both"></div>
                         </div>
-                        <div id="privacy-policy" class="privacy-policy">
+                        <div id="privacy-policy" class="privacy-policy markdown-inside">
                             <h1><?php echo __('PP Heading') ?></h1>
                             <a class="back back-priv-1 button-color button-btn"><?php echo __('Back') ?></a>
                             <?php
@@ -364,7 +364,7 @@ if (is_array($target_selectors)) {
                         <div class="donate">
                             <?php if ($paypal_email): ?>
                               <?php if ($donate_text): ?>
-                                <div class="label_color external_links"><?php echo UtilMarkdown::transform($sf_data->getRaw('donate_text')) ?></div>
+                                <div class="label_color external_links markdown-inside"><?php echo UtilMarkdown::transform($sf_data->getRaw('donate_text')) ?></div>
                               <?php else: ?>
                                 <h2 class="label_color"><?php echo __('Donate') ?></h2>
                                 <p class="label_color"><?php echo __('Help us fund this campaign. Give whatever you can now using the safe and secure paypal form below.') ?></p>
@@ -400,7 +400,7 @@ if (is_array($target_selectors)) {
                             <?php endif ?>
                             <?php if ($donate_url && $donate_text): ?>
                               <h2 class="label_color"><?php echo __('Donate') ?></h2>
-                              <div class="label_color external_links"><?php echo UtilMarkdown::transform($sf_data->getRaw('donate_text')) ?></div>
+                              <div class="label_color external_links markdown-inside"><?php echo UtilMarkdown::transform($sf_data->getRaw('donate_text')) ?></div>
                               <a class="submit button-small" target="_blank" href="<?php echo $donate_url ?>"><?php echo __('Donate') ?></a>
                             <?php endif ?>
                             <?php if ($paypal_email || $donate_url): ?>

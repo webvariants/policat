@@ -1,7 +1,7 @@
 <h3>Print, sign and send to: (you can reopen the page and print later)</h3>
-<?php echo UtilMarkdown::transform($address) ?>
+<div class="markdown-inside"><?php echo UtilMarkdown::transform($address) ?></div>
 <h3>Privacy agreement</h3>
-<?php echo UtilMarkdown::transform($privacy_policy) ?>
+<div class="markdown-inside"><?php echo UtilMarkdown::transform($privacy_policy) ?></div>
 <h3>Contact address</h3>
 <table class="t_contact">
   <tr>

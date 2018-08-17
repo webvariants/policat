@@ -105,11 +105,11 @@ class ContactTable extends Doctrine_Table {
         }
       } else {
         if ($sel === 'contact') {
-          
-          $selected_options = explode(",",$ts_1);
-          
-          $query->WhereIn('c.id', $selected_options);
-          
+          if (strpos($ts_1, ',') !== false) {
+            $query->andWhereIn('c.id', explode(",",$ts_1));
+          } elseif (is_numeric($ts_1)) {
+            $query->andWhere("c.id = ?", $ts_1);
+          }
         } else {
           if (is_string($ts_1) && $ts_1 != 'all') {
             $query->andWhere("c.$sel = ?", $ts_1);
@@ -139,7 +139,9 @@ class ContactTable extends Doctrine_Table {
           }
         }
       } else {
-        if (is_numeric($ts_2)) {
+        if (strpos($ts_2, ',') !== false) {
+          $query->andWhereIn('c.id', explode(",",$ts_2));
+        } elseif (is_numeric($ts_2)) {
           $query->andWhere("c.id = ?", $ts_2);
         }
       }
