@@ -15,13 +15,13 @@
                 <input type="hidden" name="target" value="dashboard" />
               <?php endif ?>
               <?php echo $form ?>
-              <br /><small><a class="ajax_link" href="<?php echo url_for('password_forgotten') ?>">Forgot password?</a></small>
-              <?php if (isset($registerForm)): ?>
-                <br /><a class="btn btn-mini btn-info top10 login-register-switch">Register new account</a>
-              <?php endif ?>
+              <small><a class="ajax_link" href="<?php echo url_for('password_forgotten') ?>">Forgot password?</a></small>
           </div>
           <div class="modal-footer">
-              <a class="btn" data-dismiss="modal">Cancel</a>
+              <?php if (isset($registerForm)): ?>
+                <a class="btn btn-link login-register-switch" href="javascript:;">Register new account</a>
+              <?php endif ?>
+              <a class="btn btn-link" data-dismiss="modal" href="javascript:;">Cancel</a>
               <button class="btn btn-primary" type="submit">Login</button>
           </div>
       </form>

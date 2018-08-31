@@ -98,6 +98,13 @@ class Petition extends BasePetition {
       self::KIND_EMAIL_ACTION => 'E-mail-Action',
       self::KIND_PLEDGE => 'Pledge'
   );
+  static $KIND_SHOW_FE = array
+      (
+      self::KIND_PETITION => 'Petition',
+      self::KIND_EMAIL_TO_LIST => 'E-mail-Action',
+      self::KIND_EMAIL_ACTION => 'E-mail-Action',
+      self::KIND_PLEDGE => 'Pledge'
+  );
   static $EMAIL_KINDS = array(
       self::KIND_EMAIL_TO_LIST,
       self::KIND_EMAIL_ACTION,

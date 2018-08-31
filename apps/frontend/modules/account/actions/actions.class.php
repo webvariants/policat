@@ -191,7 +191,7 @@ class accountActions extends policatActions {
 //        return $this->dom()->form($this->form)->render();
         return
             $this->ajax()
-            ->alert('Wrong user name or password. <a class="btn btn-mini" href="">Create new user account?</a>', 'Error', '#login_modal .modal-body', null, true)
+            ->alert('Wrong user name or password.', 'Error', '#login_modal .modal-body', null, true)
             ->render();
       }
     } else {
