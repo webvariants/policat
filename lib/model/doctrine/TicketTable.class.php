@@ -74,7 +74,7 @@ class TicketTable extends Doctrine_Table {
       self::KIND_CONTACT_MESSAGE => 'Contact message',
       self::KIND_WIDGET_CREATED => 'Widget created',
       self::KIND_TARGET_LIST_BOUNCE => 'Target-list has bounces',
-      self::KIND_SUBSCRIPTION_ORDER_ISSUED => 'New order for your subscription issued',
+      self::KIND_SUBSCRIPTION_ORDER_ISSUED => 'Subscription package for campaign renewed. Make sure to pay your invoice swiftly.',
       self::KIND_QUOTA_MISSING_OPEN_ORDER => 'Package required, open order',
   );
   static $KIND_HANDLER = array(
@@ -134,7 +134,7 @@ class TicketTable extends Doctrine_Table {
       self::KIND_CONTACT_MESSAGE => '<strong>Contact message:</strong> (#DATE#)<br />#TEXT#',
       self::KIND_WIDGET_CREATED => 'Widget #WIDGET# created. (#DATE#)<br />#TEXT#',
       self::KIND_TARGET_LIST_BOUNCE => '<strong>Manage bounces in</strong> target list #TARGETLIST# used by campaign #CAMPAIGN#. (#DATE#)',
-      self::KIND_SUBSCRIPTION_ORDER_ISSUED => 'You need to pay the new bill of you subscription in campaign #CAMPAIGN#. #BUY-PACKAGE# (#DATE#)<br />#TEXT#',
+      self::KIND_SUBSCRIPTION_ORDER_ISSUED => 'Your subscription package for campaign "#CAMPAIGN#" was renewed and an invoice was issued. Make your payment soon to ensure that all your actions remain active. Click "#BUY-PACKAGE#" for order details and your invoice (#DATE#)<br />#TEXT#',
       self::KIND_QUOTA_MISSING_OPEN_ORDER => 'You need to pay the bill to (re-)start your action(s) in campaign #CAMPAIGN#. #BUY-PACKAGE# (#DATE#)<br />#TEXT#',
   );
 
