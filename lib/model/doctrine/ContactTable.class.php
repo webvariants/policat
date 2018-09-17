@@ -339,7 +339,6 @@ class ContactTable extends Doctrine_Table {
         $personal_salutation = $i18n->__('Dear Sir %F %L,', array('%F' => $contact['firstname'], '%L' => $contact['lastname']));
       else
         $personal_salutation = $i18n->__('Dear Sir/Madam %F %L,', array('%F' => $contact['firstname'], '%L' => $contact['lastname']));
-      $personal_salutation .= "\n\n";
       if (in_array(PetitionTable::KEYWORD_PERSONAL_SALUTATION, $slected_keywords)) {
         $subst[PetitionTable::KEYWORD_PERSONAL_SALUTATION] = $personal_salutation;
       }
