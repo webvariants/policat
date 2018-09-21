@@ -17,12 +17,14 @@
               <?php echo $form ?>
               <small><a class="ajax_link" href="<?php echo url_for('password_forgotten') ?>">Forgot password?</a></small>
           </div>
-          <div class="modal-footer">
+          <div class="modal-footer" style="flex-wrap: wrap-reverse">
               <?php if (isset($registerForm)): ?>
                 <a class="btn btn-link login-register-switch" href="javascript:;">Register new account</a>
               <?php endif ?>
-              <a class="btn btn-link" data-dismiss="modal" href="javascript:;">Cancel</a>
-              <button class="btn btn-primary" type="submit">Login</button>
+              <div>
+                  <a class="btn btn-link" data-dismiss="modal" href="javascript:;">Cancel</a>
+                  <button class="btn btn-primary" type="submit">Login</button>
+              </div>
           </div>
       </form>
       <?php if (isset($registerForm)): ?>
