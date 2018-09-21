@@ -143,11 +143,23 @@ class d_homeActions extends policatActions {
     $products = ProductTable::getInstance()->queryAll()->execute();
     $number = new sfNumberFormat('en');
 
-    $table = '<table class="table table-bordered" style="width:auto"><tr><th>Package</th><th>E-mails / participants</th><th>Days</th><th>Net</th><th>Gross</th></tr>';
+    $subscription = StoreTable::value(StoreTable::BILLING_SUBSCRIPTION_ENABLE);
+    $sub_extra = '';
+    if ($subscription) {
+        $sub_extra = '<th class="span2">Subscription / Abo</th>';
+    }
+
+    $table = '<table class="table table-bordered" style="width:auto"><tr><th>Package</th><th>E-mails / participants</th>' . $sub_extra . '<th>Days</th><th>Net</th><th>Gross</th></tr>';
 
     foreach ($products as $product) {
       /* @var $product Product */
-      $table .= sprintf('<tr><td>%s</td><td style="text-align: right;">%s</td><td style="text-align: right;">%s</td><td style="text-align: right;">%s</td><td style="text-align: right;">%s</td></tr>', Util::enc($product->getName()),$number->format($product->getEmails()), $number->format($product->getDays()), $number->format($product->getPrice(), 'c', StoreTable::value(StoreTable::BILLING_CURRENCY)), $number->format($product->getPriceBrutto(), 'c', StoreTable::value(StoreTable::BILLING_CURRENCY)));
+
+      $sub_extra = '';
+      if ($subscription) {
+          $sub_extra = '<td>' . ($product->getSubscription() ? 'yes' : 'no') .  '</td>';
+      }
+
+      $table .= sprintf('<tr><td>%s</td><td style="text-align: right;">%s</td>' . $sub_extra . '<td style="text-align: right;">%s</td><td style="text-align: right;">%s</td><td style="text-align: right;">%s</td></tr>', Util::enc($product->getName()),$number->format($product->getEmails()), $number->format($product->getDays()), $number->format($product->getPrice(), 'c', StoreTable::value(StoreTable::BILLING_CURRENCY)), $number->format($product->getPriceBrutto(), 'c', StoreTable::value(StoreTable::BILLING_CURRENCY)));
     }
 
     $table .= '</table>';

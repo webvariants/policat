@@ -120,6 +120,12 @@
                       <div class="controls">
                           <span class="widget_text"><?php echo $quota->getDays() ?></span>
                       </div>
+                      <?php if (StoreTable::value(StoreTable::BILLING_SUBSCRIPTION_ENABLE)): ?>
+                      <label class="control-label">Subscription</label>
+                      <div class="controls">
+                          <span class="widget_text"><?php echo $quota->getSubscription() ? 'yes' : 'no' ?></span>
+                      </div>
+                    <?php endif ?>
                     <?php endforeach ?>
                 </div>
             </fieldset>

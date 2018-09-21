@@ -15,10 +15,11 @@ class orderComponents extends policatComponents {
     $order = $this->campaign->getOrderId() ? $this->campaign->getOrder() : null;
     $this->order = $order;
     $this->orderEdit = $this->getUser()->hasCredential(myUser::CREDENTIAL_ADMIN) || ($order && $order->getUserId() == $this->getGuardUser()->getId());
-    
+
     $quota = $this->campaign->getQuotaId() ? $this->campaign->getQuota() : null;
     $this->quota = $quota;
     $this->show = $this->campaign->getBillingEnabled() || $this->getUser()->hasCredential(myUser::CREDENTIAL_ADMIN);
+    $this->admin = $this->getUser()->hasCredential(myUser::CREDENTIAL_ADMIN) || $this->getGuardUser()->isCampaignAdmin($this->campaign);
   }
 
   public function executeEditBilling() {

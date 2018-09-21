@@ -74,7 +74,7 @@ Options +FollowSymLinks +ExecCGI
 
   RewriteRule ^quota/((list)|(edit)|(new))/\d+$ frontend.php [QSA,L]
 
-  RewriteRule ^order/((show)|(new)|(delete)|(list)|(paid)|(bill)|(offer)|(manual_user)|(manual/\d+))/\d+$ frontend.php [QSA,L]
+  RewriteRule ^order/((show)|(new)|(delete)|(list)|(paid)|(bill)|(offer)|(manual_user)|(cancel_subscription)|(manual/\d+))/\d+$ frontend.php [QSA,L]
   RewriteRule ^order/list$ frontend.php [QSA,L]
 
   RewriteRule ^bill/((new)|(show)|(mail))/\d+$ frontend.php [QSA,L]

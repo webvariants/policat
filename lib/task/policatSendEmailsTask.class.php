@@ -85,16 +85,27 @@ class policatSendEmailsTask extends sfBaseTask {
 
     if ($until) {
       if (file_exists($lockFile)) {
-        $time = (int) file_get_contents($lockFile);
+        $time = file_get_contents($lockFile);
+        if ($time === false) {
+            $this->logSection('emails', sprintf('can not read lock file %s', $lockFile));
+        }
+        $time = (int) $time;
         if (time() < $time) {
           $this->logSection('emails', sprintf('can not get lock (locked until %s)', $time));
           return false;
         }
       }
-      return file_put_contents($lockFile, $until);
+      $written = file_put_contents($lockFile, $until);
+      if ($written === false) {
+        $this->logSection('emails', sprintf('can not write lock file %s', $lockFile));
+        return false;
+      }
+      return true;
     } else {
       if (file_exists($lockFile)) {
-        unlink($lockFile);
+        if (!unlink($lockFile)) {
+          $this->logSection('emails', sprintf('can not delete lock file %s', $lockFile));
+        }
       }
 
       return null;

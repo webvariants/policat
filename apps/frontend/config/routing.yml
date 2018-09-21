@@ -210,6 +210,7 @@ order_bill: {             url: '/order/bill/:id',                   param: { mod
 order_offer: {            url: '/order/offer/:id',                  param: { module: order,      action: offer },                      requirements: { sf_method: [get, head], id: '\d+' } }
 order_manual_user: {      url: '/order/manual_user/:id',            param: { module: order,      action: manualUser },                 requirements: { sf_method: [get, head], id: '\d+' } }
 order_manual: {           url: '/order/manual/:id/:user_id',        param: { module: order,      action: manual },                     requirements: { sf_method: [get, head, post], id: '\d+', user_id: '\d+' } }
+order_cancel_subscription: { url: '/order/cancel_subscription/:id', param: { module: order,      action: cancelSubscription },         requirements: { sf_method: [get, head, post], id: '\d+' } }
 
 bill_new: {               url: '/bill/new/:id',                     param: { module: bill,      action: new },                         requirements: { sf_method: [get, head, post], id: '\d+' } }
 bill_show: {              url: '/bill/show/:id',                    param: { module: bill,      action: show },                        requirements: { sf_method: [get, head], id: '\d+' } }

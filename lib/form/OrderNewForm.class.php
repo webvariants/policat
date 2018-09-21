@@ -64,7 +64,7 @@ class OrderNewForm extends OrderForm {
       $campaign = $this->getOption(self::OPTION_CAMPAIGN);
       /* @var $campaign Campaign */
 
-      if ($campaign->getQuotaId()) {
+      if ($campaign->getQuotaId() && StoreTable::value(StoreTable::BILLING_SUBSCRIPTION_ENABLE)) {
         $quota = $campaign->getQuota();
         if ($quota->getUpgradedBy()->isNew() && $quota->getPrice() && $quota->getEmails()) {
           foreach ($products as $product) {
