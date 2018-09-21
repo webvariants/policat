@@ -1,0 +1,4 @@
+all:
+    stylesheets: ["-dist/frontend", "dist/frontend4", dist/frontend_print: { media: print }, "dist/bootstrap4.min.css", "dist/bootstrap-custom.css"]
+    javascripts:    ["-dist/html5shiv", "dist/frontend", "dist/jquery-3.1.min.js", "dist/tether.min.js", "dist/bootstrap4.min.js"]
+    layout: bootstrap4

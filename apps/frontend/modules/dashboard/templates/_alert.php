@@ -1,4 +1,4 @@
-<div class="alert<?php if (isset($type)) echo ' alert-' . $type ?>">
+<div class="alert<?php if (isset($type)) echo ' alert-' . $type; else echo ' alert-info' ?>" role="alert">
   <a class="close" data-dismiss="alert">&times;</a>
   <?php if (isset($raw) && $raw): ?>
     <strong><?php echo $sf_data->getRaw('heading') ?></strong> <?php echo $sf_data->getRaw('message') ?>

@@ -15,6 +15,7 @@ signers:                   { url: '/signers/:id/:text_id',             param: { 
 # ############################
 
 homepage: {               url: '/',                                 param: { module: d_home,     action: index },                      requirements: { sf_method: [get, head] }  }
+homepage_b4: {            url: '/b4',                               param: { module: d_home,     action: indexB4 },                    requirements: { sf_method: [get, head] }  }
 ajax_signin: {            url: '/login',                            param: { module: account,    action: ajaxSignin },                 requirements: { sf_method: [get, head, post] } }
 invitation: {             url: '/invitation',                       param: { module: account,    action: invitation },                 requirements: { sf_method: [get, head, post] } }
 password_forgotten: {     url: '/forgotten',                        param: { module: account,    action: forgotten },                  requirements: { sf_method: [get, head, post] } }

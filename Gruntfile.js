@@ -65,6 +65,14 @@ module.exports = function(grunt) {
 					'web/css/dist/frontend_print.css' : 'web/css/frontend_print.less'
 				}
 			},
+			frontend4: {
+				options: {
+					sourceMapFilename: 'web/css/dist/frontend4.less.map'
+				},
+				files: {
+					'web/css/dist/frontend4.css' : 'web/css/frontend4.less'
+				}
+			},
 			widget: {
 				options: {
 					sourceMapFilename: 'web/css/dist/policat_widget.less.map'
@@ -105,6 +113,14 @@ module.exports = function(grunt) {
 					'web/css/dist/theme/light.css': 'web/css/theme/light.less'
 				}
 			},
+			bootstrap_custom: {
+				options: {
+					sourceMapFilename: 'web/css/dist/bootstrap-custom.less.map'
+				},
+				files: {
+					'web/css/dist/bootstrap-custom.css': 'web/css/bootstrap-custom.less'
+				}
+			},
 			theme_classic_modified: {
 				options: {
 					sourceMapFilename: 'web/css/dist/theme/classic-modified.less.map'
@@ -139,6 +155,9 @@ module.exports = function(grunt) {
 					],
 					'web/css/dist/jquery.highlighttextarea.css': [
 						'bower_components/jquery-highlightTextarea/jquery.highlighttextarea.css'
+					],
+					'web/css/dist/bootstrap4.min.css': [
+						'web/css/dist/bootstrap4.css'
 					]
 				}
 			}
@@ -197,6 +216,23 @@ module.exports = function(grunt) {
 				cwd: 'bower_components/bootstrap-2.0/img/',
 				src: ['*.png'],
 				dest: 'web/css/dist/img'
+			},
+			bootstrap4_js: {
+				src: ['bower_components/bootstrap/dist/js/bootstrap.min.js'],
+				dest: 'web/js/dist/bootstrap4.min.js'
+			},
+			tether_js: {
+				src: ['bower_components/tether/dist/js/tether.min.js'],
+				dest: 'web/js/dist/tether.min.js'
+			},
+			jquery31_js: {
+				src: ['bower_components/jquery-3.1/dist/jquery.min.js'],
+				dest: 'web/js/dist/jquery-3.1.min.js'
+			}
+		},
+		exec: {
+			"sass-bootstrap": {
+				command: "node_modules/.bin/node-sass --output-style expanded --source-map true --precision 6 bower_components/bootstrap/scss/bootstrap.scss web/css/dist/bootstrap4.css",
 			}
 		}
 	});
@@ -205,5 +241,7 @@ module.exports = function(grunt) {
 	grunt.loadNpmTasks('grunt-contrib-cssmin');
 	grunt.loadNpmTasks('grunt-contrib-less');
 	grunt.loadNpmTasks('grunt-contrib-copy');
-	grunt.registerTask('default', ['uglify', 'less', 'cssmin', 'copy']);
+	grunt.loadNpmTasks('grunt-exec');
+	grunt.registerTask('sass', ['exec:sass-bootstrap']);
+	grunt.registerTask('default', ['uglify', 'less', 'sass', 'cssmin', 'copy']);
 };

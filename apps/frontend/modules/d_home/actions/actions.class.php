@@ -1,4 +1,5 @@
 <?php
+
 /*
  * Copyright (c) 2016, webvariants GmbH <?php Co. KG, http://www.webvariants.de
  *
@@ -17,18 +18,56 @@
  */
 class d_homeActions extends policatActions {
 
-  public function preExecute() {
-    parent::preExecute();
+//  public function preExecute() {
+//    parent::preExecute();
+//
+//    $response = $this->getResponse();
+//    if ($response instanceof sfWebResponse) {
+//      $response->addJavascript('dist/policat_widget_outer', 'last');
+//      $response->addJavascript('dashboard_home', 'last');
+//    }
+//  }
 
-    $response = $this->getResponse();
-    if ($response instanceof sfWebResponse) {
-      $response->addJavascript('dist/policat_widget_outer', 'last');
-      $response->addJavascript('dashboard_home', 'last');
+  public function getKeyvisualUrl($params) {
+    $petition = PetitionTable::getInstance()->findById($params[1]);
+    if ($petition) {
+      $keyvisual = $petition->getKeyVisual();
+      if ($keyvisual) {
+        return sfContext::getInstance()->getRequest()->getRelativeUrlRoot() . '/images/keyvisual/' . $keyvisual;
+      }
     }
+    return '';
   }
 
   public function executeIndex(sfWebRequest $request) {
+    $store = StoreTable::getInstance();
 
+    $this->markup = null;
+    $markup = $store->findByKeyCached(StoreTable::PORTAL_HOME_MARKUP);
+    if ($markup) {
+      $this->setContentTags($markup);
+
+      $markup = preg_replace_callback('/#KEYVISUAL-(\d+)#/', array($this, 'getKeyvisualUrl'), $markup->getValue());
+      $markup = preg_replace('/#WIDGET-(\d+)#/', 'PasjhkX\\1KmsownedS', $markup); // prevent markdown messing up widget
+      $markup = UtilMarkdown::transform($markup, true, true);
+      $this->markup = preg_replace_callback('/PasjhkX(\d+)KmsownedS/', array('UtilWidget', 'renderWidget'), $markup);
+    }
+
+    $openActions = UtilOpenActions::dataByCache();
+    $joined = array();
+    $petition_ids = array();
+    foreach ($openActions['open'] as $tab) {
+      foreach ($tab['excerpts'] as $action) {
+        if (!in_array($action['petition_id'], $petition_ids)) {
+          $joined[] = $action;
+          $petition_ids[] = $action['petition_id'];
+        }
+      }
+    }
+
+    array_splice($joined, count($joined) - count($joined) % 3);
+    $this->actionListChunk = array_chunk($joined, 3);
+    $this->styles = $openActions['styles'];
   }
 
   public function executeTips(sfWebRequest $request) {
@@ -89,16 +128,16 @@ class d_homeActions extends policatActions {
 
     $form = ($contact_user && $contact_user->getValue()) ? new ContactTicketForm(array(), array(
         ContactTicketForm::OPTION_USER_ID => $contact_user->getValue()
-    )) : null;
+      )) : null;
     if ($form && $request->isMethod('post')) {
       $form->bind($request->getPostParameter($form->getName()));
       if ($form->isValid()) {
         $form->save();
         return $this->ajax()
-          ->form($form)
-          ->attr('#contactticket input, #contactticket button, #contactticket select, #contactticket textarea', 'disabled', 'disabled')
-          ->alert('Thank you', '', '#contactticket .form-actions', 'after')
-          ->render();
+            ->form($form)
+            ->attr('#contactticket input, #contactticket button, #contactticket select, #contactticket textarea', 'disabled', 'disabled')
+            ->alert('Thank you', '', '#contactticket .form-actions', 'after')
+            ->render();
       } else {
         return $this->ajax()->form($form)->render();
       }

@@ -229,10 +229,13 @@ var wvAjax = function (options) {
 		submit_extra_data = $this.data('submit');
 		$this = $this.parents('form');
 	}
+
+	var jq1 = $.fn.jquery.substring(0, 1) === "1";
+
 	if ($this.is('form')) {
 		url = $this.attr('action');
 		data = $this.serializeArray();
-		$('.btn.active[data-submit=*]', $this).each(function () {
+		$(jq1 ? '.btn.active[data-submit=*]' : '.btn.active[data-submit]', $this).each(function () {
 			add_data($(this).data('submit'));
 		});
 		if ($this.attr('enctype') == 'multipart/form-data')
@@ -366,7 +369,7 @@ var wvAjax = function (options) {
 										target = p;
 									if (target.hasClass('highlight'))
 										target = target.parents('.highlightTextarea');
-									target.after($('<p class="help-block form_error_message"></p>').text(error_message).addClass(form_prefix + 'form_error'));
+									target.after($('<p class="help-block form-text form_error_message"></p>').text(error_message).addClass(form_prefix + 'form_error'));
 									target.parents('.control-group').addClass('error').addClass(form_prefix + 'group_error');
 									var pane = target.parents('.tab-pane');
 									if (pane.length) {

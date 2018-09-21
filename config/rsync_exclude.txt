@@ -64,3 +64,4 @@ CVS
 /run*
 
 /docker*
+/build-assets

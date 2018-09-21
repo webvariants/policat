@@ -5,7 +5,7 @@
 <html>
   <head>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <?php 
+    <?php
     $portal_name = StoreTable::value(StoreTable::PORTAL_NAME);
     $title = $sf_response->getTitle();
     $sf_response->setTitle(($title ? $title . ' - ' : '') . $portal_name);
@@ -26,7 +26,7 @@
     </header>
     <?php echo $sf_content ?>
     <?php include_component('d_home', 'footer') ?>
-    <?php include_component('account', 'ajaxSignin', array('a' => $sf_user->isAuthenticated() ? 1 : 0)) ?>
+    <?php // include_component('account', 'ajaxSignin', array('a' => $sf_user->isAuthenticated() ? 1 : 0)) ?>
     <div id="waiting"><b></b><i></i><div class="progress progress-striped active"><div class="bar" style="width: 100%;"></div></div></div>
     <?php if(StoreTable::value(StoreTable::INSTANT_CHAT_ENABLE)) { ?>
     <!--Start of Tawk.to Script-->
