@@ -19,7 +19,7 @@
 class CountryTaxForm extends BaseCountryTaxForm {
 
   public function configure() {
-    $this->widgetSchema->setFormFormatterName('bootstrap4');
+    $this->widgetSchema->setFormFormatterName('bootstrap');
     $this->widgetSchema->setNameFormat('taxcountry[%s]');
 
     unset($this['object_version']);

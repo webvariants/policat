@@ -21,15 +21,6 @@ module.exports = function(grunt) {
 				},
 				files: {
 					'web/js/dist/frontend.js': [
-						'bower_components/jquery-1.7/jquery.js',
-						'bower_components/bootstrap-2.0/js/bootstrap-modal.js',
-						'bower_components/bootstrap-2.0/js/bootstrap-alert.js',
-						'bower_components/bootstrap-2.0/js/bootstrap-button.js',
-						'bower_components/bootstrap-2.0/js/bootstrap-tab.js',
-						'bower_components/bootstrap-2.0/js/bootstrap-dropdown.js',
-						'bower_components/bootstrap-2.0/js/bootstrap-collapse.js',
-						'bower_components/bootstrap-2.0/js/bootstrap-tooltip.js',
-						'bower_components/bootstrap-2.0/js/bootstrap-popover.js',
 						'bower_components/jquery-elastic/jquery.elastic.source.js',
 						'web/js/dashboard.js'
 					],
@@ -49,14 +40,6 @@ module.exports = function(grunt) {
 				sourceMapBasepath: 'web',
 				sourceMapRootpath: '/'
 			},
-			frontend: {
-				options: {
-					sourceMapFilename: 'web/css/dist/frontend.less.map'
-				},
-				files: {
-					'web/css/dist/frontend.css' : 'web/css/frontend.less'
-				}
-			},
 			frontend_print: {
 				options: {
 					sourceMapFilename: 'web/css/dist/frontend_print.less.map'
@@ -65,12 +48,12 @@ module.exports = function(grunt) {
 					'web/css/dist/frontend_print.css' : 'web/css/frontend_print.less'
 				}
 			},
-			frontend4: {
+			frontend: {
 				options: {
-					sourceMapFilename: 'web/css/dist/frontend4.less.map'
+					sourceMapFilename: 'web/css/dist/frontend.less.map'
 				},
 				files: {
-					'web/css/dist/frontend4.css' : 'web/css/frontend4.less'
+					'web/css/dist/frontend4.css' : 'web/css/frontend.less'
 				}
 			},
 			widget: {
@@ -211,12 +194,6 @@ module.exports = function(grunt) {
 				src: ['**/*.css', '**/*.png'],
 				dest: 'web/css/dist/markitup'
 			},
-			bootstrap_icon: {
-				expand:true,
-				cwd: 'bower_components/bootstrap-2.0/img/',
-				src: ['*.png'],
-				dest: 'web/css/dist/img'
-			},
 			bootstrap4_js: {
 				src: ['bower_components/bootstrap/dist/js/bootstrap.min.js'],
 				dest: 'web/js/dist/bootstrap4.min.js'
@@ -224,6 +201,10 @@ module.exports = function(grunt) {
 			tether_js: {
 				src: ['bower_components/tether/dist/js/tether.min.js'],
 				dest: 'web/js/dist/tether.min.js'
+			},
+			popper_js: {
+				src: ['bower_components/popper.js/dist/umd/popper.min.js'],
+				dest: 'web/js/dist/popper.min.js'
 			},
 			jquery31_js: {
 				src: ['bower_components/jquery-3.1/dist/jquery.min.js'],

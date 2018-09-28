@@ -249,4 +249,11 @@ class policatActions extends sfActions {
     }
   }
 
+  public function includeJsColor() {
+    $response = $this->getResponse();
+    if ($response instanceof sfWebResponse) {
+      $response->addJavascript('dist/jscolor.js', 'last');
+    }
+  }
+
 }

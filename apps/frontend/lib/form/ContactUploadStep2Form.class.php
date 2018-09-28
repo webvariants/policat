@@ -10,7 +10,7 @@ class ContactUploadStep2Form extends sfForm {
     $select = array();
     $select_key = array();
 
-    $this->widgetSchema->setFormFormatterName('bootstrap4');
+    $this->widgetSchema->setFormFormatterName('bootstrap');
     $this->widgetSchema->setNameFormat('contact_upload2[%s]');
 
     $this->setWidget('separator', new sfWidgetFormInputHidden());

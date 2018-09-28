@@ -13,7 +13,7 @@ class UserPasswordForm extends BasesfGuardRegisterForm {
   public function setup() {
     parent::setup();
 
-    $this->widgetSchema->setFormFormatterName('bootstrap4');
+    $this->widgetSchema->setFormFormatterName('bootstrap');
     $this->widgetSchema->setNameFormat('password_form[%s]');
 
     foreach (array('password', 'password_again') as $field)

@@ -105,6 +105,7 @@ class d_widgetActions extends policatActions {
         return $this->notFound();
 
       $this->form = new EditWidgetForm($widget);
+      $this->includeJsColor();
     }
 
     $this->petition = $widget->getPetition();
@@ -147,17 +148,17 @@ class d_widgetActions extends policatActions {
     if (!$widget) {
       return $this->notFound();
     }
-    
+
     return $this->ajaxWidgetView($widget)->render();
   }
-  
+
   public function ajaxWidgetView(Widget $widget) {
     $petition = $widget->getPetition();
     $petition_text = $widget->getPetitionText();
     $petition_off = $petition->getStatus() != Petition::STATUS_ACTIVE ? $petition->getId() : null;
     $petition_text_off = $petition_text->getStatus() != PetitionText::STATUS_ACTIVE ? $petition_text->getId() : null;
     $widget_off = $widget->getStatus() != Widget::STATUS_ACTIVE;
-    
+
     $follows = $petition->getFollowPetitionId() ? $petition->getFollowPetition()->getName() : null;
 
     return $this->ajax()->appendPartial('body', 'view', array(

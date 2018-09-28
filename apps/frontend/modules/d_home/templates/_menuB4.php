@@ -1,7 +1,4 @@
-<nav class="navbar navbar-toggleable-md navbar-toggleable-md-strech navbar-inverse fixed-top bg-inverse no-print">
-    <button class="navbar-toggler navbar-toggler-right collapsed" type="button" data-toggle="collapse" data-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation">
-        <span class="navbar-toggler-icon"></span>
-    </button>
+<nav class="navbar navbar-expand-md navbar-dark fixed-top bg-dark no-print">
     <?php $logo = StoreTable::value(StoreTable::PORTAL_LOGO); ?>
     <?php if ($logo): ?>
         <a class="navbar-brand navbar-brand-img" href="<?php echo url_for('homepage') ?>">
@@ -12,6 +9,9 @@
             <?php echo Util::enc(StoreTable::value(StoreTable::PORTAL_NAME)) ?>
         </a>
     <?php endif ?>
+    <button class="navbar-toggler ml-auto" type="button" data-toggle="collapse" data-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+    </button>
     <div class="collapse navbar-collapse" id="navbarCollapse">
         <ul class="navbar-nav mr-auto">
             <?php if ($menu_home): ?><li class="nav-item"><a class="nav-link" href="<?php echo url_for('homepage') ?>">Home</a></li><?php endif ?>

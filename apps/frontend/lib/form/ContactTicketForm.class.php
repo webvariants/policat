@@ -14,7 +14,7 @@ class ContactTicketForm extends BaseForm {
 
   public function configure() {
     $this->disableLocalCSRFProtection();
-    $this->widgetSchema->setFormFormatterName('bootstrap4');
+    $this->widgetSchema->setFormFormatterName('bootstrap');
     $this->widgetSchema->setNameFormat('contactticket[%s]');
 
     $this->setWidget('from', new sfWidgetFormInputText(array(

@@ -19,7 +19,7 @@
 class MappingPairForm extends BaseMappingPairForm {
 
   public function configure() {
-    $this->widgetSchema->setFormFormatterName('bootstrap4');
+    $this->widgetSchema->setFormFormatterName('bootstrap');
     $this->widgetSchema->setNameFormat('pair[%s]');
 
     unset($this['object_version'], $this['id'], $this['mapping_id']);

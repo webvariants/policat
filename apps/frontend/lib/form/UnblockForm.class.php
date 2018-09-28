@@ -11,7 +11,7 @@
 class UnblockForm extends BaseForm {
 
   public function configure() {
-    $this->widgetSchema->setFormFormatterName('bootstrap4');
+    $this->widgetSchema->setFormFormatterName('bootstrap');
     $this->widgetSchema->setNameFormat('unblock[%s]');
 
     $this->setWidget('reason', new sfWidgetFormTextarea(

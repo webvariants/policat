@@ -13,8 +13,6 @@
   ],
   "dependencies": {
     "html5shiv": "~3.7.2",
-    "jquery-1.7": "jquery#1.7.2",
-    "bootstrap-2.0": "bootstrap#2.0.2",
     "jquery-elastic": "jakobmattsson-jquery-elastic#~1.6.11",
     "jquery-highlightTextarea": "jQuery-highlightTextarea-bower#2.0",
     "jquery-iframe-transport": "jquery.iframe-transport#~1.0.0",
@@ -24,8 +22,9 @@
     "select2": "3.4",
     "jquery-1.10": "jquery#1.10",
     "showdown": "1.4.3",
-    "bootstrap": "v4.0.0-alpha.6",
+    "bootstrap": "v4.0.0",
     "tether": "^1.4.0",
-    "jquery-3.1": "jquery#3.1.1"
+    "jquery-3.1": "jquery#3.1.1",
+    "popper.js": "1.14.4"
   }
 }

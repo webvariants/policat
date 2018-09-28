@@ -16,6 +16,7 @@ class myLoginForm extends sfGuardFormSignin {
     unset($this['remember']);
 
     $this->widgetSchema['username']->setLabel('E-mail address');
+    $this->widgetSchema->setFormFormatterName('bootstrap');
   }
 
 }

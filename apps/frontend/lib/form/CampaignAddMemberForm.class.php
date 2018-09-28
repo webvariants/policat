@@ -34,7 +34,7 @@ class CampaignAddMemberForm extends BaseForm {
     $this->setValidator('email', new sfValidatorEmail(array('required' => true)));
 
     $this->widgetSchema->setNameFormat('addcampaignmember[%s]');
-    $this->getWidgetSchema()->setFormFormatterName('bootstrap4');
+    $this->getWidgetSchema()->setFormFormatterName('bootstrap');
   }
 
   public function save() {

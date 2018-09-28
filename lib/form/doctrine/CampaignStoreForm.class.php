@@ -19,7 +19,7 @@ class CampaignStoreForm extends BaseCampaignStoreForm
 {
   public function configure()
   {
-    $this->widgetSchema->setFormFormatterName('bootstrap4');
+    $this->widgetSchema->setFormFormatterName('bootstrap');
     $this->widgetSchema->setNameFormat('cstore[%s]');
     
     $this->useFields(array('value'));

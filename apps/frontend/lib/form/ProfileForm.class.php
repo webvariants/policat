@@ -13,7 +13,7 @@ class ProfileForm extends BasesfGuardRegisterForm {
   public function setup() {
     parent::setup();
 
-    $this->widgetSchema->setFormFormatterName('bootstrap4');
+    $this->widgetSchema->setFormFormatterName('bootstrap');
     $this->widgetSchema->setNameFormat('profile[%s]');
 
     $this->setWidget('country', new sfWidgetFormI18nChoiceCountry);

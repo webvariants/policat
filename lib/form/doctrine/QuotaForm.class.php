@@ -19,7 +19,7 @@
 class QuotaForm extends BaseQuotaForm {
 
   public function configure() {
-    $this->widgetSchema->setFormFormatterName('bootstrap4');
+    $this->widgetSchema->setFormFormatterName('bootstrap');
     $this->widgetSchema->setNameFormat('quota[%s]');
 
     unset($this['created_at'], $this['updated_at'], $this['user_id'], $this['campaign_id'], $this['order_id'], $this['upgrade_of_id'], $this['subscription'], $this['renew_offerred'], $this['product_id']);

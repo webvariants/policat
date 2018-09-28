@@ -19,7 +19,7 @@
 class CountryCollectionForm extends BaseCountryCollectionForm {
 
   public function configure() {
-    $this->widgetSchema->setFormFormatterName('bootstrap4');
+    $this->widgetSchema->setFormFormatterName('bootstrap');
     $this->widgetSchema->setNameFormat('country[%s]');
 
     $culture_info = sfCultureInfo::getInstance('en');

@@ -1,3 +1,2 @@
-all: 
+all:
   metas: { title: Action }
-  javascripts:    [dist/jscolor]

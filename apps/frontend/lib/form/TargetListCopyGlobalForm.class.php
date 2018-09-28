@@ -11,7 +11,7 @@
 class TargetListCopyGlobalForm extends sfForm {
 
   public function setup() {
-    $this->widgetSchema->setFormFormatterName('bootstrap4');
+    $this->widgetSchema->setFormFormatterName('bootstrap');
     $this->widgetSchema->setNameFormat('target_global[%s]');
 
     $query = MailingListTable::getInstance()->queryGlobalActive();

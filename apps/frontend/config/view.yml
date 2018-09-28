@@ -6,9 +6,9 @@ all:
     robots:       index, follow
     charset: utf8
 
-  stylesheets:    [dist/frontend4: { media: 'all' }, dist/frontend_print: { media: print }, "dist/bootstrap4.min.css", "dist/bootstrap-custom.css"]
+  stylesheets:    ["dist/bootstrap4.min.css", "dist/bootstrap-custom.css", dist/frontend4: { media: 'all' }, dist/frontend_print: { media: print }]
 
-  javascripts:    ["dist/frontend", "dist/jquery-3.1.min.js", "dist/tether.min.js", "dist/bootstrap4.min.js"]
+  javascripts:    ["dist/jquery-3.1.min.js", "dist/tether.min.js", "dist/popper.min.js", "dist/bootstrap4.min.js", "dist/frontend"]
 
   has_layout:     true
   layout:         bootstrap4

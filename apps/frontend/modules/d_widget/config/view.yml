@@ -1,3 +1,2 @@
-all: 
+all:
     metas: { title: Widget }
-    javascripts: [dist/jscolor]

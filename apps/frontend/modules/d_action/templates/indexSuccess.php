@@ -3,7 +3,7 @@
     <li class="breadcrumb-item"><a href="<?php echo url_for('dashboard') ?>">Dashboard</a></li>
     <li  class="breadcrumb-item active">Actions</li>
   </ol>
-</nav
+</nav>
 <div class="page-header">
   <h1>Actions</h1>
 </div>

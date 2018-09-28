@@ -11,10 +11,27 @@
 class sfWidgetFormSchemaFormatterBootstrap extends sfWidgetFormSchemaFormatter {
 
   protected
-    $rowFormat = '<div class="control-group">%label%<div class="controls">%field%%help%%error%</div>%hidden_fields%</div>',
-    $errorRowFormat = '<p class="help-block">%errors%</p>',
-    $helpFormat = '<p class="help-block">%help%</p>',
+    $rowFormat = '<div class="form-group">%label% %field% %help% %error% %hidden_fields%</div>',
+    $errorRowFormat = '%errors%',
+    $errorListFormatInARow     = "%errors%",
+    $errorRowFormatInARow      = '<div class="invalid-feedback">%error%</div>',
+    $namedErrorRowFormatInARow = '<div class="invalid-feedback">%name%: %error%</div>',
+    $helpFormat = '<p class="help-block form-text">%help%</p>',
     $decoratorFormat = "<div>\n  %content%</div>";
+
+  public function __construct(sfWidgetFormSchema $widgetSchema) {
+    parent::__construct($widgetSchema);
+
+    foreach ($widgetSchema->getFields() as $field)
+    {
+      $addClass = 'form-control';
+      if ($field instanceof sfWidgetFormInputCheckbox) {
+        $addClass = 'form-check';
+      }
+      $class = $field->getAttribute('class');
+      $field->setAttribute('class', ($class ? $class . ' ' : '') . $addClass);
+    }
+  }
 
   public function generateLabel($name, $attributes = array()) {
     $labelName = $this->generateLabelName($name);
@@ -26,7 +43,7 @@ class sfWidgetFormSchemaFormatterBootstrap extends sfWidgetFormSchemaFormatter {
     if (!isset($attributes['for'])) {
       $attributes['for'] = $this->widgetSchema->generateId($this->widgetSchema->generateName($name));
     }
-    
+
     $attributes['class'] = 'control-label';
 
     return $this->widgetSchema->renderContentTag('label', $labelName, $attributes);
@@ -39,6 +56,10 @@ class sfWidgetFormSchemaFormatterBootstrap extends sfWidgetFormSchemaFormatter {
       $label = '<label class="control-label">' . $label . '</label>';
     }
 
+    if ($errors) {
+      $field = preg_replace('/form-control/', 'form-control is-invalid', $field, 1);
+    }
+
     return strtr($this->getRowFormat(), array(
       '%label%'         => $label,
       '%field%'         => $field,
@@ -49,4 +70,3 @@ class sfWidgetFormSchemaFormatterBootstrap extends sfWidgetFormSchemaFormatter {
   }
 
 }
-

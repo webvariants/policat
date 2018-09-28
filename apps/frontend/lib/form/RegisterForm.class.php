@@ -15,7 +15,7 @@ class RegisterForm extends BasesfGuardRegisterForm {
 
     $this->disableLocalCSRFProtection();
 
-    $this->widgetSchema->setFormFormatterName('bootstrap4');
+    $this->widgetSchema->setFormFormatterName('bootstrap');
     $this->widgetSchema->setNameFormat('register[%s]');
 
     $this->setWidget('country', new sfWidgetFormI18nChoiceCountry);
