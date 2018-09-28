@@ -46,7 +46,16 @@
               <li class="nav-item"><a class="nav-link" href="<?php echo url_for('admin') ?>">Admin</a></li>
             <?php endif ?>
             <?php if ($sf_user->isAuthenticated()): ?>
-              <li class="nav-item"><a class="nav-link" href="<?php echo url_for('profile') ?>">Welcome <?php echo $sf_user->getFirstName() ?>!</a></li>
+              <li class="nav-item"><a
+                  <?php
+                  if(StoreTable::value(StoreTable::INSTANT_CHAT_ENABLE)):
+                    $tawk = json_encode(array(
+                        'name' => $sf_user->getGuardUser()->getFullName(),
+                        'email' => $sf_user->getGuardUser()->getEmailAddress(),
+                        'hash' => hash_hmac("sha256", $sf_user->getGuardUser()->getEmailAddress(), StoreTable::value(StoreTable::INSTANT_CHAT_API_KEY))
+                    ));
+              ?> id="tawk-user" data-tawk='<?php echo $tawk ?>' <?php endif ?>
+                   class="nav-link" href="<?php echo url_for('profile') ?>">Welcome <?php echo $sf_user->getFirstName() ?>!</a></li>
               <li class="nav-item"><a class="nav-link" href="<?php echo url_for('sf_guard_signout') ?>">Logout</a></li>
             <?php else: ?>
               <?php if ($menu_login): ?><li class="nav-item"><a class="nav-link" data-toggle="modal" data-target="#login_modal" rel="nofollow" href="<?php echo url_for('homepage') ?>" href="<?php echo url_for('ajax_signin') ?>">Login<?php if ($menu_join): ?> | Join<?php endif ?></a></li><?php endif ?>
