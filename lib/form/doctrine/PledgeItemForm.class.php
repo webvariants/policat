@@ -19,7 +19,7 @@
 class PledgeItemForm extends BasePledgeItemForm {
 
   public function configure() {
-    $this->widgetSchema->setFormFormatterName('bootstrap');
+    $this->widgetSchema->setFormFormatterName('bootstrap4');
     $this->widgetSchema->setNameFormat('pledge_item_' . $this->getObject()->getId() . '_[%s]');
 
     unset($this['icon']);

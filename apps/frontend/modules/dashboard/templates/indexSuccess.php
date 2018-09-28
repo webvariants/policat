@@ -1,6 +1,8 @@
-<ul class="breadcrumb">
-  <li class="active">Dashboard</li>
-</ul>
+<nav aria-label="breadcrumb">
+  <ol class="breadcrumb">
+    <li  class="breadcrumb-item active">Dashboard</li>
+  </ul>
+</nav>
 <div class="page-header">
   <h1>Dashboard</h1>
 </div>

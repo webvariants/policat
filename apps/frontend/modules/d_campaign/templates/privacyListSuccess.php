@@ -2,10 +2,12 @@
 /* @var $campaign Campaign */
 /* @var $admin int */
 ?>
-<ul class="breadcrumb">
-  <li><a href="<?php echo url_for('dashboard') ?>">Dashboard</a></li><span class="divider">/</span>
-  <li class="active"><?php echo $campaign->getName() ?></li>
-</ul>
+<nav aria-label="breadcrumb">
+  <ol class="breadcrumb">
+    <li class="breadcrumb-item"><a href="<?php echo url_for('dashboard') ?>">Dashboard</a></li>
+    <li class="breadcrumb-item active"><?php echo $campaign->getName() ?></li>
+  </ol>
+</nav>
 <?php include_partial('tabs', array('campaign' => $campaign, 'active' => 'privacy')) ?>
 <div class="row">
   <div class="span2">

@@ -22,7 +22,7 @@ class ContactForm extends BaseContactForm {
   private $removedBounce = false;
 
   public function configure() {
-    $this->widgetSchema->setFormFormatterName('bootstrap');
+    $this->widgetSchema->setFormFormatterName('bootstrap4');
     $this->widgetSchema->setNameFormat('contact_' . $this->getObject()->getId() . '_[%s]');
 
     unset(

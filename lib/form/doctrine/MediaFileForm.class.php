@@ -40,7 +40,7 @@ class MediaFileForm extends BaseMediaFileForm {
 
       $this->setValidator('title', $and);
       $this->getWidgetSchema()->setHelp('title', 'Valid characters: _, a - z and 0 - 9, file extension allowed, lower case only');
-      $this->widgetSchema->setFormFormatterName('bootstrap');
+      $this->widgetSchema->setFormFormatterName('bootstrap4');
     }
   }
 

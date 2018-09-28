@@ -1,9 +1,11 @@
-<ul class="breadcrumb">
-  <li><a href="<?php echo url_for('dashboard') ?>">Dashboard</a></li><span class="divider">/</span>
-  <li><a href="<?php echo url_for('campaign_edit_', array('id' => $petition->getCampaignId())) ?>"><?php echo $petition->getCampaign()->getName() ?></a></li><span class="divider">/</span>
-  <li><a href="<?php echo url_for('petition_overview', array('id' => $petition->getId())) ?>"><?php echo $petition->getName() ?></a></li><span class="divider">/</span>
-  <li class="active">Translations</li>
-</ul>
+<nav aria-label="breadcrumb">
+  <ol class="breadcrumb">
+    <li class="breadcrumb-item"><a href="<?php echo url_for('dashboard') ?>">Dashboard</a></li>
+    <li class="breadcrumb-item"><a href="<?php echo url_for('campaign_edit_', array('id' => $petition->getCampaignId())) ?>"><?php echo $petition->getCampaign()->getName() ?></a></li>
+    <li class="breadcrumb-item"><a href="<?php echo url_for('petition_overview', array('id' => $petition->getId())) ?>"><?php echo $petition->getName() ?></a></li>
+    <li  class="breadcrumb-item active">Translations</li>
+  </ol>
+</nav>
 <?php include_component('d_action', 'notice', array('petition' => $petition)) ?>
 <?php include_partial('tabs', array('petition' => $petition, 'active' => 'translations')) ?>
 <?php if ($can_not_create_widget_from_draft) include_partial('dashboard/alert', array('heading' => 'Info', 'message' => 'You can not create a widget of a draft translation.')) ?>

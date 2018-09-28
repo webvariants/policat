@@ -1,10 +1,12 @@
-<ul class="breadcrumb">
-    <li><a href="<?php echo url_for('dashboard') ?>">Dashboard</a></li><span class="divider">/</span>
-    <li><a href="<?php echo url_for('campaign_edit_', array('id' => $petition->getCampaignId())) ?>"><?php echo $petition->getCampaign()->getName() ?></a></li><span class="divider">/</span>
-    <li><a href="<?php echo url_for('petition_overview', array('id' => $petition->getId())) ?>"><?php echo $petition->getName() ?></a></li><span class="divider">/</span>
-    <li><a href="<?php echo url_for('petition_translations', array('id' => $petition->getId())) ?>">Translations</a></li><span class="divider">/</span>
-    <li class="active"><?php echo $translation->getLanguage() ?></li>
-</ul>
+<nav aria-label="breadcrumb">
+  <ol class="breadcrumb">
+    <li class="breadcrumb-item"><a href="<?php echo url_for('dashboard') ?>">Dashboard</a></li>
+    <li class="breadcrumb-item"><a href="<?php echo url_for('campaign_edit_', array('id' => $petition->getCampaignId())) ?>"><?php echo $petition->getCampaign()->getName() ?></a></li>
+    <li class="breadcrumb-item"><a href="<?php echo url_for('petition_overview', array('id' => $petition->getId())) ?>"><?php echo $petition->getName() ?></a></li>
+    <li class="breadcrumb-item"><a href="<?php echo url_for('petition_translations', array('id' => $petition->getId())) ?>">Translations</a></li>
+    <li  class="breadcrumb-item active"><?php echo $translation->getLanguage() ?></li>
+  </ol>
+</nav>
 <?php include_component('d_action', 'notice', array('petition' => $petition)) ?>
 <?php include_partial('tabs', array('petition' => $petition, 'active' => 'translations')) ?>
 <h3><?php echo $translation->getLanguage() ?></h3>

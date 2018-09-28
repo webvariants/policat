@@ -19,7 +19,7 @@
 abstract class OrderForm extends BaseOrderForm {
 
   public function configure() {
-    $this->widgetSchema->setFormFormatterName('bootstrap');
+    $this->widgetSchema->setFormFormatterName('bootstrap4');
     $this->widgetSchema->setNameFormat('order[%s]');
 
     unset($this['created_at'], $this['updated_at'], $this['user_id'], $this['campaign_id'], $this['tax'], $this['paypal_payment_id'], $this['paypal_sale_id'], $this['paypal_status']);

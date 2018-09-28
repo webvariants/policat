@@ -6,9 +6,9 @@ all:
     robots:       index, follow
     charset: utf8
 
-  stylesheets:    [dist/frontend: { media: 'all' }, dist/frontend_print: { media: print }]
+  stylesheets:    [dist/frontend4: { media: 'all' }, dist/frontend_print: { media: print }, "dist/bootstrap4.min.css", "dist/bootstrap-custom.css"]
 
-  javascripts:    [dist/html5shiv: { condition: lt IE 9 }, dist/frontend]
+  javascripts:    ["dist/frontend", "dist/jquery-3.1.min.js", "dist/tether.min.js", "dist/bootstrap4.min.js"]
 
   has_layout:     true
-  layout:         dashboard
+  layout:         bootstrap4

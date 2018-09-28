@@ -19,7 +19,7 @@
 class TaxNoteForm extends BaseTaxNoteForm {
 
   public function configure() {
-    $this->widgetSchema->setFormFormatterName('bootstrap');
+    $this->widgetSchema->setFormFormatterName('bootstrap4');
     $this->widgetSchema->setNameFormat('taxnote[%s]');
 
     unset($this['object_version']);

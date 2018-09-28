@@ -11,7 +11,7 @@
 class EditPetitionCounterForm extends BasePetitionForm {
 
   public function configure() {
-    $this->widgetSchema->setFormFormatterName('bootstrap');
+    $this->widgetSchema->setFormFormatterName('bootstrap4');
     $this->widgetSchema->setNameFormat('edit_petition[%s]');
 
     $this->useFields(array('addnum', 'target_num', 'addnum_email_counter', 'target_num_email_counter'));

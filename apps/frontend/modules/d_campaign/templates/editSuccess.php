@@ -6,10 +6,12 @@ $user = $sf_user->getGuardUser(); /* @var $user sfGuardUser */
 $officer = $campaign->getDataOwnerId() ? $campaign->getDataOwner() : null; /* @var $officer sfGuardUser */
 $officer_self = $officer && $officer->getId() == $user->getId();
 ?>
-<ul class="breadcrumb">
-    <li><a href="<?php echo url_for('dashboard') ?>">Dashboard</a></li><span class="divider">/</span>
-    <li class="active"><?php echo $campaign->getName() ?></li>
-</ul>
+<nav aria-label="breadcrumb">
+  <ol class="breadcrumb">
+    <li class="breadcrumb-item"><a href="<?php echo url_for('dashboard') ?>">Dashboard</a></li>
+    <li class="breadcrumb-item active"><?php echo $campaign->getName() ?></li>
+  </ol>
+</nav>
 <?php
 if ($billingEnabled) {
   include_component('order', 'notice', array('campaign' => $campaign));

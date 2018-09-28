@@ -19,7 +19,7 @@ class EditPetitionTargetForm extends BasePetitionForm {
   }
 
   public function configure() {
-    $this->widgetSchema->setFormFormatterName('bootstrap');
+    $this->widgetSchema->setFormFormatterName('bootstrap4');
     $this->widgetSchema->setNameFormat('edit_petition_target[%s]');
 
     $user = $this->getOption(self::USER, null);

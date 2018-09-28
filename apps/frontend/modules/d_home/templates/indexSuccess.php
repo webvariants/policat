@@ -1,5 +1,5 @@
 <script type="text/javascript" src="/js/dist/policat_widget_outer.js"></script>
-<div class="container">
+<div>
     <?php
     if (isset($markup)):
       $markup = $sf_data->getRaw('markup');
@@ -19,7 +19,7 @@ foreach ($styles->getRawValue() as $widget_id => $stylings) {
 //-->
 </script>
 
-<div class="container" style="word-break: break-word;">
+<div style="word-break: break-word;">
 
     <?php foreach ($actionListChunk as $chunk): ?>
       <div class="card-deck">

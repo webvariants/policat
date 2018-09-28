@@ -19,7 +19,7 @@ class ContactUploadStep1Form extends sfForm {
   public function setup() {
     parent::setup();
 
-    $this->widgetSchema->setFormFormatterName('bootstrap');
+    $this->widgetSchema->setFormFormatterName('bootstrap4');
     $this->widgetSchema->setNameFormat('contact_upload1[%s]');
 
     $this->setWidget('separator', new sfWidgetFormInputText());

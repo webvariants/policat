@@ -26,7 +26,7 @@ class TranslationForm extends BasePetitionTextForm {
   }
 
   public function configure() {
-    $this->widgetSchema->setFormFormatterName('bootstrap');
+    $this->widgetSchema->setFormFormatterName('bootstrap4');
     $this->widgetSchema->setNameFormat('translation[%s]');
 
     $petition_text = $this->getObject();

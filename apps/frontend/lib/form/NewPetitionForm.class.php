@@ -18,7 +18,7 @@ class NewPetitionForm extends PetitionFieldsForm {
   }
 
   public function configure() {
-    $this->widgetSchema->setFormFormatterName('bootstrap');
+    $this->widgetSchema->setFormFormatterName('bootstrap4');
     $this->widgetSchema->setNameFormat('new_petition[%s]');
 
     $this->useFields(array('name', 'campaign_id', 'kind', 'nametype', 'with_comments', 'with_address', 'with_country', 'default_country', 'country_collection_id'));

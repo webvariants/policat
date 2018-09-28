@@ -1,10 +1,12 @@
 <?php if ($campaign->getId()): ?>
-<ul class="breadcrumb">
-    <li><a href="<?php echo url_for('dashboard') ?>">Dashboard</a></li><span class="divider">/</span>
-    <li><a href="<?php echo url_for('campaign_edit_', array('id' => $campaign->getId())) ?>"><?php echo $campaign->getName() ?></a></li><span class="divider">/</span>
-    <li><a href="<?php echo url_for('quota_list', array('id' => $campaign->getId())) ?>">Billing &amp; Packages</a></li><span class="divider">/</span>
-    <li class="active">Package</li>
-</ul>
+<nav aria-label="breadcrumb">
+  <ol class="breadcrumb">
+    <li class="breadcrumb-item"><a href="<?php echo url_for('dashboard') ?>">Dashboard</a></li>
+    <li class="breadcrumb-item"><a href="<?php echo url_for('campaign_edit_', array('id' => $campaign->getId())) ?>"><?php echo $campaign->getName() ?></a></li>
+    <li class="breadcrumb-item"><a href="<?php echo url_for('quota_list', array('id' => $campaign->getId())) ?>">Billing &amp; Packages</a></li>
+    <li class="breadcrumb-item active">Package</li>
+  </ol>
+</nav>
 <?php include_partial('d_campaign/tabs', array('campaign' => $campaign, 'active' => 'quota')) ?>
 <?php endif ?>
 <h2>Package</h2>

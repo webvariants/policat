@@ -22,7 +22,7 @@ class PetitionContactForm extends BasePetitionContactForm {
     $petition_contact = $this->getObject();
     $petition = $petition_contact->getPetition();
     $contact = $petition_contact->getContact();
-    $this->widgetSchema->setFormFormatterName('bootstrap');
+    $this->widgetSchema->setFormFormatterName('bootstrap4');
     $this->widgetSchema->setNameFormat('petition_contact[%s]');
     $this->widgetSchema->setNameFormat('petition_contact_' . $petition->getId() . '_' . $contact->getId() . '[%s]');
 

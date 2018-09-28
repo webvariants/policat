@@ -19,7 +19,7 @@
 class MailingListMetaForm extends BaseMailingListMetaForm {
 
   public function configure() {
-    $this->widgetSchema->setFormFormatterName('bootstrap');
+    $this->widgetSchema->setFormFormatterName('bootstrap4');
     $this->widgetSchema->setNameFormat('meta_' . $this->getObject()->getId() . '_[%s]');
 
     unset(

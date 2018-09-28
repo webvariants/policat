@@ -19,7 +19,7 @@
 class PetitionApiTokenForm extends BasePetitionApiTokenForm {
 
   public function configure() {
-    $this->widgetSchema->setFormFormatterName('bootstrap');
+    $this->widgetSchema->setFormFormatterName('bootstrap4');
     $this->widgetSchema->setNameFormat('api_token[%s]');
 
     unset($this['petition_id'], $this['created_at'], $this['updated_at']);

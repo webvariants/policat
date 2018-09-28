@@ -20,7 +20,7 @@ class EditPetitionForm extends PetitionFieldsForm {
   }
 
   public function configure() {
-    $this->widgetSchema->setFormFormatterName('bootstrap');
+    $this->widgetSchema->setFormFormatterName('bootstrap4');
     $this->widgetSchema->setNameFormat('edit_petition[%s]');
 
     $user = $this->getOption(self::USER, null);

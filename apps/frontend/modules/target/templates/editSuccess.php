@@ -3,12 +3,14 @@
 $hide_edit = false;
 ?>
 <?php if (isset($petition)): ?>
-  <ul class="breadcrumb">
-    <li><a href="<?php echo url_for('dashboard') ?>">Dashboard</a></li><span class="divider">/</span>
-    <li><a href="<?php echo url_for('campaign_edit_', array('id' => $petition->getCampaignId())) ?>"><?php echo $petition->getCampaign()->getName() ?></a></li><span class="divider">/</span>
-    <li><a href="<?php echo url_for('petition_overview', array('id' => $petition->getId())) ?>"><?php echo $petition->getName() ?></a></li><span class="divider">/</span>
-    <li class="active">Edit</li>
-  </ul>
+  <nav aria-label="breadcrumb">
+    <ol class="breadcrumb">
+      <li class="breadcrumb-item"><a href="<?php echo url_for('dashboard') ?>">Dashboard</a></li>
+      <li class="breadcrumb-item"><a href="<?php echo url_for('campaign_edit_', array('id' => $petition->getCampaignId())) ?>"><?php echo $petition->getCampaign()->getName() ?></a></li>
+      <li class="breadcrumb-item"><a href="<?php echo url_for('petition_overview', array('id' => $petition->getId())) ?>"><?php echo $petition->getName() ?></a></li>
+      <li class="breadcrumb-item active">Edit</li>
+    </ol>
+  </nav>
   <?php include_component('d_action', 'notice', array('petition' => $petition)) ?>
   <?php include_partial('d_action/tabs', array('petition' => $petition, 'active' => 'targets')) ?>
   <div class="row">
@@ -44,12 +46,14 @@ $hide_edit = false;
     <?php endif ?>
   <?php endif ?>
 <?php elseif (isset($campaign)): ?>
-  <ul class="breadcrumb">
-    <li><a href="<?php echo url_for('dashboard') ?>">Dashboard</a></li><span class="divider">/</span>
-    <li><a href="<?php echo url_for('campaign_edit_', array('id' => $campaign->getId())) ?>"><?php echo $campaign->getName() ?></a></li><span class="divider">/</span>
-    <li><a href="<?php echo url_for('target_index', array('id' => $campaign->getId())) ?>">Target-lists</a></li><span class="divider">/</span>
-    <li class="active"><?php echo $target_list->getName() ?></li>
-  </ul>
+  <nav aria-label="breadcrumb">
+    <ol class="breadcrumb">
+      <li class="breadcrumb-item"><a href="<?php echo url_for('dashboard') ?>">Dashboard</a></li>
+      <li class="breadcrumb-item"><a href="<?php echo url_for('campaign_edit_', array('id' => $campaign->getId())) ?>"><?php echo $campaign->getName() ?></a></li>
+      <li class="breadcrumb-item"><a href="<?php echo url_for('target_index', array('id' => $campaign->getId())) ?>">Target-lists</a></li>
+      <li class="breadcrumb-item active"><?php echo $target_list->getName() ?></li>
+    </ol>
+  </nav>
   <?php include_partial('d_campaign/tabs', array('campaign' => $campaign, 'active' => 'targets')) ?>
 <?php else: ?>
   <?php include_partial('dashboard/admin_tabs', array('active' => 'target')) ?>

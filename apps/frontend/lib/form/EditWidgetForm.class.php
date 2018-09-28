@@ -27,7 +27,7 @@ class EditWidgetForm extends WidgetForm {
   }
 
   public function configure() {
-    $this->getWidgetSchema()->setFormFormatterName('bootstrap');
+    $this->getWidgetSchema()->setFormFormatterName('bootstrap4');
     $this->getWidgetSchema()->setNameFormat('edit_widget[%s]');
     $petition = $this->getObject()->getPetition();
 

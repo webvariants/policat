@@ -35,7 +35,7 @@ class StoreForm extends BaseForm {
     }
 
     $this->widgetSchema->setNameFormat('store[%s]');
-    $this->getWidgetSchema()->setFormFormatterName('bootstrap');
+    $this->getWidgetSchema()->setFormFormatterName('bootstrap4');
   }
 
   protected $store_cache = array();

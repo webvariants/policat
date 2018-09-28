@@ -12,7 +12,7 @@
 class TestmailForm extends BaseForm {
 
   public function configure() {
-    $this->widgetSchema->setFormFormatterName('bootstrap');
+    $this->widgetSchema->setFormFormatterName('bootstrap4');
     $this->widgetSchema->setNameFormat('testmail[%s]');
 
     $this->setWidget('from', new sfWidgetFormInputText());

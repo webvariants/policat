@@ -13,7 +13,7 @@ class UserNewForm extends BasesfGuardUserAdminForm {
   public function setup() {
     parent::setup();
 
-    $this->widgetSchema->setFormFormatterName('bootstrap');
+    $this->widgetSchema->setFormFormatterName('bootstrap4');
     $this->widgetSchema->setNameFormat('user_form[%s]');
 
     $this->setWidget('country', new sfWidgetFormI18nChoiceCountry);
