@@ -57,6 +57,19 @@ class d_homeActions extends policatActions {
     $joined = array();
     $petition_ids = array();
     foreach ($openActions['open'] as $tab) {
+      $fiveEach = 5;
+      foreach ($tab['excerpts'] as $action) {
+        if (!in_array($action['petition_id'], $petition_ids)) {
+          $joined[] = $action;
+          $petition_ids[] = $action['petition_id'];
+          $fiveEach--;
+          if ($fiveEach === 0) {
+              break;
+          }
+        }
+      }
+    }
+    foreach ($openActions['open'] as $tab) {
       foreach ($tab['excerpts'] as $action) {
         if (!in_array($action['petition_id'], $petition_ids)) {
           $joined[] = $action;
