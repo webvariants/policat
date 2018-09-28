@@ -19,7 +19,7 @@ foreach ($styles->getRawValue() as $widget_id => $stylings) {
 //-->
 </script>
 
-<div class="container">
+<div class="container" style="word-break: break-word;">
 
     <?php foreach ($actionListChunk as $chunk): ?>
       <div class="card-deck">
