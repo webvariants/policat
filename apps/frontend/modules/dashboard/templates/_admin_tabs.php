@@ -22,9 +22,10 @@ if (!isset($active))
 <?php if ($list): ?>
 <ul class="nav nav-tabs">
   <?php foreach ($list as $key => $entry): ?>
-    <li class="<?php if ($active == $key) echo 'active' ?>">
-      <a href="<?php echo url_for($entry['route']) ?>"><?php echo $entry['title'] ?></a>
+    <li class="nav-item">
+      <a class="nav-link<?php if ($active == $key) echo ' active' ?>" href="<?php echo url_for($entry['route']) ?>"><?php echo $entry['title'] ?></a>
     </li>
   <?php endforeach ?>
 </ul>
 <?php endif ?>
+<hr />

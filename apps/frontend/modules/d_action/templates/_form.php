@@ -1,22 +1,22 @@
 <?php $petition = $form->getObject() ?>
 <form id="petition_edit_form" class="ajax_form form-horizontal" action="<?php echo url_for('petition_edit_', array('id' => $form->getObject()->getId())) ?>" method="post" enctype="multipart/form-data">
-    <div class="row tabbable tabs-left">
-        <div class="span3">
-            <ul class="nav nav-tabs">
-                <li class="active"><a href="#sec1" data-toggle="tab">Basic settings</a></li>
-                <li><a href="#sec2" data-toggle="tab">Sign-up data</a></li>
-                <li><a href="#sec3" data-toggle="tab">Emails</a></li>
-                <li><a href="#sec4" data-toggle="tab">Donations (optional)</a></li>
-                <li><a href="#sec5" data-toggle="tab">Promote your e-action</a></li>
-                <li><a href="#sec6" data-toggle="tab">Widgets</a></li>
+    <div class="row">
+        <div class="col-3">
+            <div class="nav flex-column nav-pills" id="v-pills-tab" role="tablist" aria-orientation="vertical">
+                <a class="nav-link active" href="#sec1" data-toggle="tab">Basic settings</a>
+                <a class="nav-link" href="#sec2" data-toggle="tab">Sign-up data</a>
+                <a class="nav-link" href="#sec3" data-toggle="tab">Emails</a>
+                <a class="nav-link" href="#sec4" data-toggle="tab">Donations (optional)</a>
+                <a class="nav-link" href="#sec5" data-toggle="tab">Promote your e-action</a>
+                <a class="nav-link" href="#sec6" data-toggle="tab">Widgets</a>
                 <?php if ($petition->getKind() == Petition::KIND_PLEDGE): ?>
-                  <li><a href="#sec7" data-toggle="tab">Pledge Settings</a></li>
+                  <a class="nav-link" href="#sec7" data-toggle="tab">Pledge Settings</a>
                 <?php endif ?>
-            </ul>
+            </div>
         </div>
-        <div class="span9">
-            <div class="tab-content">
-                <fieldset class="tab-pane active show-before-chosen-init" id="sec1">
+        <div class="col-9">
+            <div class="tab-content" id="v-pills-tabContent">
+                <fieldset class="tab-pane fade show active tab-pane active show-before-chosen-init" id="sec1">
                     <legend>Basic settings</legend>
                     <div class="control-group">
                         <label class="control-label">
@@ -41,7 +41,7 @@
                     </div>
                     <?php echo $form->renderRows('titletype', 'nametype', 'with_address', 'with_country', 'default_country', 'country_collection_id', 'with_comments', 'with_extra1', 'policy_checkbox', 'subscribe_default') ?>
                 </fieldset>
-                <fieldset  class="tab-pane show-before-chosen-init" id="sec3">
+                <fieldset class="tab-pane show-before-chosen-init" id="sec3">
                     <legend>Emails</legend>
                     <?php echo $form->renderRows('from_name', 'from_email') ?>
                     <?php if (sfConfig::get('app_spf_ip')): ?>
@@ -52,15 +52,15 @@
                     <?php endif ?>
                     <?php echo $form->renderRows('*validation_required', 'landing_url', 'thank_you_email', 'email_button_color') ?>
                 </fieldset>
-                <fieldset  class="tab-pane show-before-chosen-init" id="sec4">
+                <fieldset class="tab-pane show-before-chosen-init" id="sec4">
                     <legend>Donations (optional)</legend>
                     <?php echo $form->renderRows('*paypal_email', 'donate_url', 'donate_widget_edit') ?>
                 </fieldset>
-                <fieldset  class="tab-pane show-before-chosen-init" id="sec5">
+                <fieldset class="tab-pane show-before-chosen-init" id="sec5">
                     <legend>Promote your e-action</legend>
                     <?php echo $form->renderRows('homepage', 'twitter_tags') ?>
                 </fieldset>
-                <fieldset  class="tab-pane show-before-chosen-init" id="sec6">
+                <fieldset class="tab-pane show-before-chosen-init" id="sec6">
                     <legend>Widgets</legend>
                     <?php echo $form->renderRows('show_email_counter*', 'widget_individualise', 'themeId', 'style_font_family') ?>
                     <div class="row-fluid">
@@ -77,7 +77,7 @@
                     </div>
                 </fieldset>
                 <?php if ($petition->getKind() == Petition::KIND_PLEDGE): ?>
-                  <fieldset  class="tab-pane show-before-chosen-init" id="sec7">
+                  <fieldset class="tab-pane show-before-chosen-init" id="sec7">
                       <legend>Pledge Settings</legend>
                       <?php echo $form->renderRows('pledge_with_comments', 'pledge_header_visual', 'pledge_key_visual', 'pledge_background_color', 'pledge_color', 'pledge_head_color', 'pledge_font', 'pledge_info_columns_comma') ?>
                   </fieldset>
@@ -87,9 +87,11 @@
     </div>
 
     <div class="row">
-        <div class="span3">&nbsp;</div>
-        <?php echo $form->renderHiddenFields() ?>
-        <div class="span9">
+        <div class="col-3">
+            &nbsp;
+            <?php echo $form->renderHiddenFields() ?>
+        </div>
+        <div class="col-9">
             <div class="form-actions">
                 <button accesskey="s" title="[Accesskey] + S" class="btn btn-primary" type="submit">Save</button>
                 <?php if ($petition->isGeoKind()): ?>
