@@ -10,14 +10,14 @@
 <div id="profile_form">
     <form class="ajax_form form-horizontal" action="<?php echo url_for('profile') ?>" method="post" autocomplete="off">
         <div class="row">
-            <div class="span6">
+            <div class="col-6">
                 <?php echo $form->renderHiddenFields() ?>
                 <?php echo $form->renderRows('email_address', 'password', 'password_again', 'first_name', 'last_name', 'phone', 'mobile', 'language_id') ?>
             </div>
-            <div class="span6">
+            <div class="col-6">
                 <?php echo $form->renderRows('organisation', 'vat', 'website', 'street', 'post_code', 'city', 'country') ?>
             </div>
-            <div class="span12">
+            <div class="col-12">
               I have read and accepted the <a target="_blank" href="<?php echo url_for('terms') ?>">terms of service</a>. I will handle any activist data in accordance with the privacy policy, as defined in my campaigns and actions.
             </div>
         </div>

@@ -1,6 +1,6 @@
 <?php if (isset($campaign_rights_list)): ?>
   <div class="row">
-      <div class="span6">
+      <div class="col-6">
           <h2>Campaigns</h2>
           <?php if ($campaign_rights_list->count()): ?>
             <table class="table table-striped table-bordered ">
@@ -28,7 +28,7 @@
             </form>
           <?php endif ?>
       </div>
-      <div class="span6">
+      <div class="col-6">
           <h2>Actions</h2>
           <?php if ($petition_rights_list->count()): ?>
             <table class="table table-striped table-bordered ">

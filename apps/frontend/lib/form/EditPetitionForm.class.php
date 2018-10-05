@@ -58,11 +58,10 @@ class EditPetitionForm extends PetitionFieldsForm {
     )));
     $this->setValidator('landing_url', new ValidatorUrl(array('required' => false, 'trim' => true)));
 
-    $this->setWidget('key_visual', new sfWidgetFormInputFileEditable(array(
+    $this->setWidget('key_visual', new WidgetFormInputFileEditableBootstrap4(array(
         'file_src' => $this->getObject()->getKeyVisual() ? '/images/keyvisual/' . $this->getObject()->getKeyVisual() : null,
         'is_image' => true,
         'with_delete' => true,
-        'template' => '<div>%file%<br />%input%<br /><label><span style="float:left">%delete%&nbsp</span> %delete_label%</label></div>',
         'delete_label' => 'No key visual (delete existing key visual)'
     )));
     $this->setValidator('key_visual', new sfValidatorFile(array(
@@ -144,7 +143,7 @@ class EditPetitionForm extends PetitionFieldsForm {
     $this->setWidget('status', new sfWidgetFormChoice(array(
         'choices' => Petition::calcStatusShow($possible_statuses)
       ), array(
-        'class' => 'add_popover',
+        'class' => 'add_popover form-control',
         'data-content' => 'Keep the status on draft as long as you want to play around with the e-action settings in this tab. Note that in order to publish the e-action and create widgets, you must set the status to "active". '
     )));
     $this->setValidator('status', new sfValidatorChoice(array('choices' => $possible_statuses, 'required' => true)));

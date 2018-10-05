@@ -12,6 +12,7 @@ class sfWidgetFormSchemaFormatterBootstrap extends sfWidgetFormSchemaFormatter {
 
   protected
     $rowFormat = '<div class="form-group">%label% %field% %help% %error% %hidden_fields%</div>',
+    $rowFormatCheckbox = '<div class="form-check">%field% %label% %help% %error% %hidden_fields%</div>',
     $errorRowFormat = '%errors%',
     $errorListFormatInARow     = "%errors%",
     $errorRowFormatInARow      = '<div class="invalid-feedback">%error%</div>',
@@ -19,14 +20,18 @@ class sfWidgetFormSchemaFormatterBootstrap extends sfWidgetFormSchemaFormatter {
     $helpFormat = '<p class="help-block form-text">%help%</p>',
     $decoratorFormat = "<div>\n  %content%</div>";
 
+  protected $checkboxes = array();
+
   public function __construct(sfWidgetFormSchema $widgetSchema) {
     parent::__construct($widgetSchema);
 
-    foreach ($widgetSchema->getFields() as $field)
+    foreach ($widgetSchema->getPositions() as $name)
     {
+      $field = $widgetSchema[$name];
       $addClass = 'form-control';
       if ($field instanceof sfWidgetFormInputCheckbox) {
-        $addClass = 'form-check';
+        $addClass = 'form-check-input';
+        $this->checkboxes[] = $name;
       }
       $class = $field->getAttribute('class');
       $field->setAttribute('class', ($class ? $class . ' ' : '') . $addClass);
@@ -44,7 +49,11 @@ class sfWidgetFormSchemaFormatterBootstrap extends sfWidgetFormSchemaFormatter {
       $attributes['for'] = $this->widgetSchema->generateId($this->widgetSchema->generateName($name));
     }
 
-    $attributes['class'] = 'control-label';
+    if (in_array($name, $this->checkboxes)) {
+      $attributes['class'] = 'form-check-label';
+    } else {
+      $attributes['class'] = 'control-label';
+    }
 
     return $this->widgetSchema->renderContentTag('label', $labelName, $attributes);
   }
@@ -60,7 +69,9 @@ class sfWidgetFormSchemaFormatterBootstrap extends sfWidgetFormSchemaFormatter {
       $field = preg_replace('/form-control/', 'form-control is-invalid', $field, 1);
     }
 
-    return strtr($this->getRowFormat(), array(
+    $isCheckbox = is_string($field) && strpos($field, 'form-check-input') !== false && strpos($field, 'type="file"') === false;
+
+    return strtr($isCheckbox ? $this->getRowFormatCheckbox() : $this->getRowFormat(), array(
       '%label%'         => $label,
       '%field%'         => $field,
       '%error%'         => $this->formatErrorsForRow($errors),
@@ -69,4 +80,8 @@ class sfWidgetFormSchemaFormatterBootstrap extends sfWidgetFormSchemaFormatter {
     ));
   }
 
+  public function getRowFormatCheckbox()
+  {
+    return $this->rowFormatCheckbox;
+  }
 }

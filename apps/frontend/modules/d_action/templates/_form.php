@@ -63,11 +63,11 @@
                 <fieldset class="tab-pane show-before-chosen-init" id="sec6">
                     <legend>Widgets</legend>
                     <?php echo $form->renderRows('show_email_counter*', 'widget_individualise', 'themeId', 'style_font_family') ?>
-                    <div class="row-fluid">
-                        <div class="span6">
+                    <div class="row">
+                        <div class="col-6">
                             <?php echo $form->renderRows('style_bg_right_color', 'style_bg_left_color', 'style_button_primary_color', 'style_button_color') ?>
                         </div>
-                        <div class="span6">
+                        <div class="col-6">
                             <?php echo $form->renderRows('style_title_color', 'style_form_title_color', 'style_body_color', 'style_label_color') ?>
                         </div>
                     </div>
@@ -95,11 +95,11 @@
             <div class="form-actions">
                 <button accesskey="s" title="[Accesskey] + S" class="btn btn-primary" type="submit">Save</button>
                 <?php if ($petition->isGeoKind()): ?>
-                  <a class="btn submit" data-submit='{"go_target":1}'>Save &amp; select target list</a>
+                  <a class="btn submit btn-secondary" data-submit='{"go_target":1}'>Save &amp; select target list</a>
                 <?php elseif ($petition->getKind() == Petition::KIND_PLEDGE): ?>
-                  <a class="btn submit" data-submit='{"go_pledge":1}'>Save &amp; define pledges</a>
+                  <a class="btn submit btn-secondary" data-submit='{"go_pledge":1}'>Save &amp; define pledges</a>
                 <?php else: ?>
-                  <a class="btn submit" data-submit='{"go_translation":1}'>Save &amp; go to actions texts and translations</a>
+                  <a class="btn submit btn-secondary" data-submit='{"go_translation":1}'>Save &amp; go to actions texts and translations</a>
                 <?php endif ?>
             </div>
         </div>

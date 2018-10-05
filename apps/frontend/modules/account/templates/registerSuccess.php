@@ -4,14 +4,14 @@
 <div id="register_form">
     <form class="ajax_form form-horizontal" action="<?php echo url_for('register') ?>" method="post" autocomplete="off">
         <div class="row">
-            <div class="span6">
+            <div class="col-6">
                 <?php echo $form->renderHiddenFields() ?>
                 <?php echo $form->renderRows('email_address', 'password', 'password_again') ?>
             </div>
-            <div class="span6">
+            <div class="col-6">
                 <?php echo $form->renderRows('first_name', 'last_name', 'organisation') ?>
             </div>
-            <div class="span12">
+            <div class="col-12">
                 <?php echo $form['terms']->renderRow() ?>
                 <?php if ($invitation): /* @var $invitation Invitation */ ?>
                   <input type="hidden" name="invitation" value="<?php echo $invitation->getId() ?>-<?php echo $invitation->getValidationCode() ?>" />

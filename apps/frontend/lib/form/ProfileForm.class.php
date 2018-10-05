@@ -36,11 +36,13 @@ class ProfileForm extends BasesfGuardRegisterForm {
           'max_length' => 100
       )));
 
+    $this->getWidget('email_address')->setAttribute('class', 'form-control');
+
     $this->getValidator('password_again')->setOption('required', false);
 
     $this->getWidgetSchema()->setHelp('password', 'Your password must be at least 10 characters long, and include at least one number and one capital letter.');
     $this->getWidgetSchema()->setHelp('street', 'In accordance with our terms of service and legal obligations, you must provide your, or your organisations\' legal address.');
-    
+
     $this->getWidgetSchema()->setLabel('vat', 'VAT no. (if applicable)');
     $this->getWidgetSchema()->setHelp('vat', 'Leave this field empty if you\'re an individual, group or NGO without a VAT identification number (VATIN). If you add your VATIN and are based in an EU member state except Germany, you will not be charged VAT. Make sure to include the full number preceded by the country code. Check the validity of your VATIN here: http://ec.europa.eu/taxation_customs/vies/');
 
@@ -54,7 +56,7 @@ class ProfileForm extends BasesfGuardRegisterForm {
           new sfValidatorSchemaCompare('password', sfValidatorSchemaCompare::EQUAL, 'password_again', array(), array('invalid' => 'The two passwords must be the same.'))
       ))
     );
-    
+
     $this->mergePostValidator(new ValidatorVat(null, array('country' => 'country', 'vat' => 'vat')));
   }
 
