@@ -15,13 +15,13 @@ if (!isset($petition_id)) {
     <div class="controls" >
       <span class="widget_text"><?php echo $target_list->getStatusName() ?></span>
       <?php if (!$target_list->isNew() && $target_list->getStatus() != MailingListTable::STATUS_ACTIVE): ?>
-      <a class="btn btn-mini ajax_link post" data-submit='<?php echo json_encode(array('csrf_token' => $csrf_token, 'id' => $target_list->getId(), 'petition_id' => $petition_id)) ?>' href="<?php echo url_for('target_activate') ?>">activate</a>
+      <a class="btn btn-sm ajax_link post" data-submit='<?php echo json_encode(array('csrf_token' => $csrf_token, 'id' => $target_list->getId(), 'petition_id' => $petition_id)) ?>' href="<?php echo url_for('target_activate') ?>">activate</a>
       <?php endif ?>
       <?php if (!$target_list->isNew() && $target_list->getStatus() == MailingListTable::STATUS_ACTIVE && !$target_list->getCampaignId() && $sf_user->hasCredential(myUser::CREDENTIAL_ADMIN)): ?>
-      <a class="btn btn-mini ajax_link post" data-submit='<?php echo json_encode(array('csrf_token' => $csrf_token, 'id' => $target_list->getId())) ?>' href="<?php echo url_for('target_deactivate') ?>">deactivate</a>
+      <a class="btn btn-sm ajax_link post" data-submit='<?php echo json_encode(array('csrf_token' => $csrf_token, 'id' => $target_list->getId())) ?>' href="<?php echo url_for('target_deactivate') ?>">deactivate</a>
       <?php endif ?>
       <?php if (!$target_list->isNew() && $target_list->getStatus() != MailingListTable::STATUS_DELETED && $sf_user->hasCredential(myUser::CREDENTIAL_ADMIN) && !$target_list->countActions()): ?>
-        <a class="btn btn-danger btn-mini ajax_link post" data-submit='<?php echo json_encode(array('csrf_token' => $csrf_token, 'id' => $target_list->getId())) ?>' href="<?php echo url_for('target_delete') ?>">delete</a>
+        <a class="btn btn-danger btn-sm ajax_link post" data-submit='<?php echo json_encode(array('csrf_token' => $csrf_token, 'id' => $target_list->getId())) ?>' href="<?php echo url_for('target_delete') ?>">delete</a>
       <?php endif ?>
       <?php if (!$target_list->isNew()): ?>
         <p class="">

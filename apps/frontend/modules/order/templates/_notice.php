@@ -8,10 +8,10 @@
       You need to buy a package to (re-)start your action(s) in this campaign.
       <?php endif ?>
       <?php if ($showBuy): ?>
-      <a class="btn btn-mini" href="<?php echo url_for('order_new', array('id' => $campaign->getId())) ?>">Buy package</a>
+      <a class="btn btn-sm" href="<?php echo url_for('order_new', array('id' => $campaign->getId())) ?>">Buy package</a>
       <?php endif ?>
       <?php if ($showOrder): ?>
-      <a class="btn btn-mini" href="<?php echo url_for('order_show', array('id' => $campaign->getOrderId())) ?>">Show active order</a>
+      <a class="btn btn-sm" href="<?php echo url_for('order_show', array('id' => $campaign->getOrderId())) ?>">Show active order</a>
       <?php endif ?>
   </div>
   <?php

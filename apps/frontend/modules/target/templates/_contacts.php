@@ -32,8 +32,8 @@
                 <?php endif ?>
           </td>
           <td>
-            <a class="ajax_link btn btn-mini" href="<?php echo url_for('target_contact', array('id' => $contact->getId(), 'page' => $contacts->getPage())) ?>">edit</a>
-            <a class="ajax_link btn btn-mini" href="<?php echo url_for('target_contact_delete', array('id' => $contact->getId())) ?>">delete</a>
+            <a class="ajax_link btn btn-sm" href="<?php echo url_for('target_contact', array('id' => $contact->getId(), 'page' => $contacts->getPage())) ?>">edit</a>
+            <a class="ajax_link btn btn-sm" href="<?php echo url_for('target_contact_delete', array('id' => $contact->getId())) ?>">delete</a>
           </td>
         </tr>
       <?php endforeach ?>

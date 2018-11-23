@@ -9,7 +9,7 @@
       <td><?php echo $language->getId() ?></td>
       <td><?php echo $language->getName() ?></td>
       <td><?php echo $language->getOrderNumber() ?></td>
-      <td><a class="btn btn-mini" href="<?php echo url_for('language_edit', array('id' => $language->getId())) ?>">edit</a></td>
+      <td><a class="btn btn-sm" href="<?php echo url_for('language_edit', array('id' => $language->getId())) ?>">edit</a></td>
     </tr>
     <?php endforeach ?>
   </tbody>

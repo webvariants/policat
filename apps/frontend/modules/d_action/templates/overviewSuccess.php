@@ -92,7 +92,7 @@
       <?php include_component('d_action', 'editFollow', array('petition' => $petition)) ?>
       <?php if ($petition->getCampaign()->getDataOwnerId() == $sf_user->getUserId() || $sf_user->hasCredential(myUser::CREDENTIAL_ADMIN)): ?>
           <div class="well">
-          <a class="btn btn-danger btn-mini ajax_link" href="<?php echo url_for('petition_delete_', array('id' => $petition->getId())) ?>">Delete Action</a>
+          <a class="btn btn-danger btn-sm ajax_link" href="<?php echo url_for('petition_delete_', array('id' => $petition->getId())) ?>">Delete Action</a>
           </div>
       <?php endif ?>
   </div>

@@ -361,10 +361,10 @@ class d_widgetActions extends policatActions {
           if (!$status['source_is_following']) {
             $link = sfContext::getInstance()->getRouting()->generate('petition_edit_', array('id' => $status['source_petition_id']));
             $msg .= ' <strong>The source action is not following this action. </strong> ';
-            $msg .= "<a class=\"btn btn-mini btn-success\" href=\"$link\">edit source action</a>";
+            $msg .= "<a class=\"btn btn-sm btn-success\" href=\"$link\">edit source action</a>";
           }
           $widgets_link = sfContext::getInstance()->getRouting()->generate('petition_widgets', array('id' => $petition->getId()));
-          $msg .= "<br /><a class=\"btn btn-mini btn-success\" href=\"$widgets_link\">refresh widget list</a>";
+          $msg .= "<br /><a class=\"btn btn-sm btn-success\" href=\"$widgets_link\">refresh widget list</a>";
           return $this->ajax()->alert($msg, 'Success, report: ', '#widget_copy_form', 'prepend', true, 'success')->render();
         } else {
           return $this->ajax()->alert('Something went wrong.', 'Error', '#widget_copy_form', 'prepend', false, 'error')->render();

@@ -8,8 +8,8 @@
     <?php if ($admin): ?>
       <form class="ajax_form" method="post" action="<?php echo url_for('petition_members', array('id' => $petition->getId())) ?>">
         <p>
-          <a class="btn btn-mini submit" data-submit='{"method": "member" }'>Editor</a>
-          <a class="btn btn-mini submit" data-submit='{"method": "block" }'>block</a>
+          <a class="btn btn-sm submit" data-submit='{"method": "member" }'>Editor</a>
+          <a class="btn btn-sm submit" data-submit='{"method": "block" }'>block</a>
         </p>
         <input type="hidden" name="csrf_token" value="<?php echo $csrf_token ?>" />
       <?php endif ?>

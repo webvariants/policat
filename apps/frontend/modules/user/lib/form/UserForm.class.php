@@ -20,6 +20,7 @@ class UserForm extends BasesfGuardUserAdminForm {
     $this->setValidator('country', new sfValidatorI18nChoiceCountry);
 
     $this->setValidator('email_address', new ValidatorEmail(array('max_length' => 80)));
+    $this->getWidget('email_address')->setAttribute('class', 'form-control');
 
     foreach (array('email_address', 'password', 'password_again', 'first_name', 'last_name', 'organisation', 'website', 'street',
       'post_code', 'city', 'country', 'mobile', 'phone', 'language_id') as $field)
@@ -37,7 +38,7 @@ class UserForm extends BasesfGuardUserAdminForm {
       )));
 
     $this->getValidator('password_again')->setOption('required', false);
-    
+
     $this->getWidget('groups_list')->setOption('expanded', true);
 
     $this->getWidgetSchema()->setHelp('password', 'Your password must be at least 10 characters long, and include at least one number and one capital letter.');
@@ -53,7 +54,7 @@ class UserForm extends BasesfGuardUserAdminForm {
           new sfValidatorSchemaCompare('password', sfValidatorSchemaCompare::EQUAL, 'password_again', array(), array('invalid' => 'The two passwords must be the same.'))
       ))
     );
-    
+
     $this->getWidgetSchema()->setLabel('vat', 'VAT no.');
     $this->mergePostValidator(new ValidatorVat(null, array('country' => 'country', 'vat' => 'vat')));
   }

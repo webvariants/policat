@@ -9,9 +9,9 @@ use_helper('Date');
     <?php if ($admin): ?>
       <form class="ajax_form" method="post" action="<?php echo url_for('campaign_members', array('id' => $campaign->getId())) ?>">
         <p>
-          <a class="btn btn-mini submit" data-submit='{"method": "member" }'>Member</a>
-          <a class="btn btn-mini submit" data-submit='{"method": "admin" }'>Admin</a>
-          <a class="btn btn-mini submit" data-submit='{"method": "block" }'>block</a>
+          <a class="btn btn-sm submit" data-submit='{"method": "member" }'>Member</a>
+          <a class="btn btn-sm submit" data-submit='{"method": "admin" }'>Admin</a>
+          <a class="btn btn-sm submit" data-submit='{"method": "block" }'>block</a>
         </p>
         <input type="hidden" name="csrf_token" value="<?php echo $csrf_token ?>" />
       <?php endif ?>

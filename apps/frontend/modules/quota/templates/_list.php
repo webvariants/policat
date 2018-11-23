@@ -16,10 +16,10 @@
             </td>
             <td>
                 <?php if ($sf_user->hasCredential(myUser::CREDENTIAL_ADMIN)): ?>
-                  <a class="btn btn-mini" href="<?php echo url_for('quota_edit', array('id' => $quota->getId())) ?>">edit</a>
+                  <a class="btn btn-sm" href="<?php echo url_for('quota_edit', array('id' => $quota->getId())) ?>">edit</a>
                 <?php endif ?>
                 <?php if ($quota->getOrderId() && ($sf_user->hasCredential(myUser::CREDENTIAL_ADMIN) || $sf_user->getUserId() == $quota->getUserId())): ?>
-                  <a class="btn btn-mini" href="<?php echo url_for('order_show', array('id' => $quota->getOrderId())) ?>">order</a>
+                  <a class="btn btn-sm" href="<?php echo url_for('order_show', array('id' => $quota->getOrderId())) ?>">order</a>
                 <?php endif ?>
             </td>
         </tr>

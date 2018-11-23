@@ -75,7 +75,7 @@ use_helper('Number');
                     <td><?php echo $signing->getCountry() ?></td>
                     <td><?php echo $signing->getComputedName() ?></td>
                     <?php if ($show_email): ?><td><?php echo $signing->getComputedAddress('en', ", ", false, false) ?></td><?php endif ?>
-                    <?php if ($can_delete): ?><td><a class="btn btn-mini ajax_link" href="<?php echo url_for('data_delete', array('id' => $signing->getId())) ?>">delete</a></td><?php endif ?>
+                    <?php if ($can_delete): ?><td><a class="btn btn-sm ajax_link" href="<?php echo url_for('data_delete', array('id' => $signing->getId())) ?>">delete</a></td><?php endif ?>
                 </tr>
               <?php endforeach ?>
           </tbody>
@@ -85,7 +85,7 @@ use_helper('Number');
         <div class="well">
             <?php if (isset($download_url)): ?>
               <h3>Download data (utf-8 encoded .csv)</h3>
-              <a class="btn btn-mini ajax_link post" href="<?php echo $download_url ?>">Download</a>
+              <a class="btn btn-sm ajax_link post" href="<?php echo $download_url ?>">Download</a>
             <?php endif ?>
             <p class="top15 bottom0">
                 The participant list exports contain hashes to compare or deduplicate signings with other lists. Input: e-mail address, utf-8 encoded, white spaces
@@ -99,7 +99,7 @@ use_helper('Number');
             <p>Filters will be ignored.</p>
             <?php if ($new_increment): ?>
               <p><?php echo format_number($new_increment) ?> new entries ready for download.</p>
-              <a class="btn btn-mini ajax_link post" href="<?php echo $download_incremental_url ?>">Download (<?php echo format_number(min(100000, $new_increment)) ?>)</a>
+              <a class="btn btn-sm ajax_link post" href="<?php echo $download_incremental_url ?>">Download (<?php echo format_number(min(100000, $new_increment)) ?>)</a>
             <?php else: ?>
               <p>No new downloads.</p>
             <?php endif ?>
@@ -119,7 +119,7 @@ use_helper('Number');
                                 echo url_for('data_petition_dl_inc', array(
                                     'id' => $petition->getId(), 'dl' => $incremental_download->getId()
                                 ))
-                                ?>" class="btn btn-mini ajax_link post">Download</a></td>
+                                ?>" class="btn btn-sm ajax_link post">Download</a></td>
                         </tr>
                       <?php endforeach ?>
                   </tbody>

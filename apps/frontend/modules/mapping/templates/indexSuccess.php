@@ -7,7 +7,7 @@
     <?php foreach ($mappings as $mapping): /* @var $mapping Mapping */ ?>
     <tr>
       <td><?php echo $mapping->getName() ?></td>
-      <td><a class="btn btn-mini" href="<?php echo url_for('mapping_edit', array('id' => $mapping->getId())) ?>">edit</a></td>
+      <td><a class="btn btn-sm" href="<?php echo url_for('mapping_edit', array('id' => $mapping->getId())) ?>">edit</a></td>
     </tr>
     <?php endforeach ?>
   </tbody>

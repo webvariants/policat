@@ -8,7 +8,7 @@
     <fieldset>
       <legend class="pull-left">Profile</legend>
       <div class="row">
-        <div class="span6">
+        <div class="col-6">
           <?php echo $form->renderHiddenFields() ?>
           <?php
           echo $form->renderRows('email_address');
@@ -18,7 +18,7 @@
           <p>An E-mail will be sent to the user to activate and set the password.</p>
           <?php endif ?>
         </div>
-        <div class="span6">
+        <div class="col-6">
           <?php echo $form->renderRows('organisation', 'website', 'street', 'post_code', 'city', 'country', 'vat', 'mobile') ?>
         </div>
       </div>
@@ -26,17 +26,17 @@
     <fieldset>
       <legend class="pull-left">Admin only settings</legend>
       <div class="row">
-        <div class="span6">
+        <div class="col-6">
           <?php if (!$is_new) echo $form->renderRows('is_active') ?>
         </div>
-        <div class="span6">
+        <div class="col-6">
           <?php echo $form->renderRows('groups_list') ?>
         </div>
       </div>
     </fieldset>
     <div class="form-actions">
       <button class="btn btn-primary" type="submit">Save</button>
-      <a class="btn" href="<?php echo url_for('user_idx') ?>">Cancel</a>
+      <a class="btn btn-danger" href="<?php echo url_for('user_idx') ?>">Cancel</a>
       <?php if (!$is_new): $user = $form->getObject(); /* @var $user sfGuardUser */?>
         <?php if (!$user->hasPermission(myUser::CREDENTIAL_ADMIN)): ?>
           <?php if ($user->hasPermission(myUser::CREDENTIAL_USER)): ?>

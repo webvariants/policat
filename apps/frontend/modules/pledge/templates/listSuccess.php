@@ -25,10 +25,10 @@
         <?php endforeach ?>
       </tbody>
     </table>
-    <a class="ajax_link btn btn-mini" href="<?php echo url_for('pledge_new', array('id' => $petition->getId())) ?>">Add new pledge</a>
+    <a class="ajax_link btn btn-sm" href="<?php echo url_for('pledge_new', array('id' => $petition->getId())) ?>">Add new pledge</a>
     <?php if ($pledge_items->count()): ?>
-      <a class="btn btn-mini" href="<?php echo url_for('petition_translations', array('id' => $petition->getId())) ?>">Edit pledge translations</a>
+      <a class="btn btn-sm" href="<?php echo url_for('petition_translations', array('id' => $petition->getId())) ?>">Edit pledge translations</a>
     <?php endif ?>
-    <a target="_blank" class="btn btn-mini" href="<?php echo url_for('pledge_contact_test', array('petition_id' => $petition->getId())) ?>">Test pledge page</a>
+    <a target="_blank" class="btn btn-sm" href="<?php echo url_for('pledge_contact_test', array('petition_id' => $petition->getId())) ?>">Test pledge page</a>
   </div>
 </div>

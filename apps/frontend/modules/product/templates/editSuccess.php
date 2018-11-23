@@ -4,6 +4,6 @@
     <?php echo $form ?>
     <div class="form-actions">
         <button class="btn btn-primary">Save</button>
-        <a class="btn" href="<?php echo url_for('product_index') ?>" >Cancel</a>
+        <a class="btn btn-danger" href="<?php echo url_for('product_index') ?>" >Cancel</a>
     </div>
 </form>

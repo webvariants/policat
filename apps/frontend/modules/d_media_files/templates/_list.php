@@ -19,8 +19,8 @@
                   <td><?php echo $file->getTitle() ?></td>
                   <td><?php echo formatSize($file->getSize()) ?></td>
                   <td>
-                      <a class="btn btn-mini ajax_link" href="<?php echo url_for('media_files_rename', array('id' => $file->getId())) ?>">Rename</a>
-                      <a class="btn btn-mini ajax_link" href="<?php echo url_for('media_files_delete', array('id' => $file->getId())) ?>">Delete</a>
+                      <a class="btn btn-sm ajax_link" href="<?php echo url_for('media_files_rename', array('id' => $file->getId())) ?>">Rename</a>
+                      <a class="btn btn-sm ajax_link" href="<?php echo url_for('media_files_delete', array('id' => $file->getId())) ?>">Delete</a>
                   </td>
               </tr>
             <?php endforeach ?>

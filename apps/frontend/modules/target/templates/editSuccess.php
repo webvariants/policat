@@ -75,14 +75,14 @@ $hide_edit = false;
       <div class="span12">
         <h3>Meta fields</h3>
         <?php include_partial('metas', array('metas' => $metas)) ?>
-        <a class="ajax_link btn btn-mini" href="<?php echo url_for('target_meta_choice', array('id' => $form->getObject()->getId())) ?>">New selector</a>
-        <a class="ajax_link btn btn-mini" href="<?php echo url_for('target_meta_free', array('id' => $form->getObject()->getId())) ?>">New free text</a>
-        <a class="ajax_link btn btn-mini" href="<?php echo url_for('target_meta_mapping', array('id' => $form->getObject()->getId())) ?>">New mapping</a>
+        <a class="ajax_link btn btn-sm" href="<?php echo url_for('target_meta_choice', array('id' => $form->getObject()->getId())) ?>">New selector</a>
+        <a class="ajax_link btn btn-sm" href="<?php echo url_for('target_meta_free', array('id' => $form->getObject()->getId())) ?>">New free text</a>
+        <a class="ajax_link btn btn-sm" href="<?php echo url_for('target_meta_mapping', array('id' => $form->getObject()->getId())) ?>">New mapping</a>
         <h3>Contacts</h3>
         <?php include_component('target', 'contacts', array('target_list' => $target_list)) ?>
-        <a class="ajax_link btn btn-mini" href="<?php echo url_for('target_contact_new', array('id' => $form->getObject()->getId())) ?>">New contact</a>
-        <a class="ajax_link btn btn-mini" href="<?php echo url_for('target_upload', array('id' => $form->getObject()->getId())) ?>">Upload contacts</a>
-        <a class="ajax_link btn btn-mini" href="<?php echo url_for('target_truncate', array('id' => $form->getObject()->getId())) ?>">Flush all data</a>
+        <a class="ajax_link btn btn-sm" href="<?php echo url_for('target_contact_new', array('id' => $form->getObject()->getId())) ?>">New contact</a>
+        <a class="ajax_link btn btn-sm" href="<?php echo url_for('target_upload', array('id' => $form->getObject()->getId())) ?>">Upload contacts</a>
+        <a class="ajax_link btn btn-sm" href="<?php echo url_for('target_truncate', array('id' => $form->getObject()->getId())) ?>">Flush all data</a>
         <div id="upload_form"></div>
       </div>
     <?php endif ?>

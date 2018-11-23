@@ -7,10 +7,10 @@
           <p><strong style="color:red">Attention: The action is following the action "<?php echo $follows ?>".</strong></p>
         <?php endif ?>
         <?php if ($petition_off): ?>
-          <div class="alert">Note: Action status is not 'active'. To preview/activate widget, set action status to 'active' <a class="btn btn-mini" href="<?php echo url_for('petition_edit_', array('id' => $petition_off)) ?>">edit action</a></div>
+          <div class="alert">Note: Action status is not 'active'. To preview/activate widget, set action status to 'active' <a class="btn btn-sm" href="<?php echo url_for('petition_edit_', array('id' => $petition_off)) ?>">edit action</a></div>
         <?php endif ?>
         <?php if ($petition_text_off): ?>
-          <div class="alert">Note: Translation status for this widget's language is not 'active'. To preview/activate widget, set translation status to 'active' <a class="btn btn-mini" href="<?php echo url_for('translation_edit', array('id' => $petition_text_off)) ?>">edit translation</a></div>
+          <div class="alert">Note: Translation status for this widget's language is not 'active'. To preview/activate widget, set translation status to 'active' <a class="btn btn-sm" href="<?php echo url_for('translation_edit', array('id' => $petition_text_off)) ?>">edit translation</a></div>
         <?php endif ?>
         <?php if ($widget_off): ?>
           <div class="alert">Note: The widget is not 'active'. To preview/activate widget, set widget status to 'active'</div>

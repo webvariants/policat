@@ -7,8 +7,8 @@ $form->getWidgetSchema()->setNameFormat('delete_pair[%s]');
   <td><?php echo $pair['b'] ?></td>
   <td>
     <form class="ajax_form" method="post" action="<?php echo url_for('mapping_delete_pair', array('id' => $pair['id'])) ?>"><?php echo $form ?>
-      <a class="btn btn-mini ajax_link" href="<?php echo url_for('mapping_edit_pair', array('id' => $pair['id'])) ?>">edit</a>
-      <button class="btn btn-mini  btn-warning">delete</button>
+      <a class="btn btn-sm ajax_link" href="<?php echo url_for('mapping_edit_pair', array('id' => $pair['id'])) ?>">edit</a>
+      <button class="btn btn-sm  btn-warning">delete</button>
     </form>
   </td>
 </tr>

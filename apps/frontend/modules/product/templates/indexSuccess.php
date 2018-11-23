@@ -21,11 +21,11 @@ $subscription = StoreTable::value(StoreTable::BILLING_SUBSCRIPTION_ENABLE); ?>
       <td><?php echo format_number($product->getDays()) ?></td>
       <?php if ($subscription): ?><td><?php echo $product->getSubscription() ? 'yes' : 'no' ?></td><?php endif ?>
       <td>
-          <a class="btn btn-mini" href="<?php echo url_for('product_edit', array('id' => $product->getId())) ?>">edit</a>
-          <a class="btn btn-mini ajax_link" href="<?php echo url_for('product_delete', array('id' => $product->getId())) ?>">delete</a>
+          <a class="btn btn-primary btn-sm" href="<?php echo url_for('product_edit', array('id' => $product->getId())) ?>">edit</a>
+          <a class="btn btn-danger btn-sm ajax_link" href="<?php echo url_for('product_delete', array('id' => $product->getId())) ?>">delete</a>
       </td>
     </tr>
     <?php endforeach ?>
   </tbody>
 </table>
-<a class="btn" href="<?php echo url_for('product_new') ?>">Create new product</a>
+<a class="btn btn-primary" href="<?php echo url_for('product_new') ?>">Create new product</a>

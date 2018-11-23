@@ -16,14 +16,14 @@
                   <?php echo format_number($tax->getTaxVat()) ?> <?php echo $tax->getVatNoteName() ?>
               </td>
               <td>
-                  <a class="btn btn-mini" href="<?php echo url_for('tax_edit', array('id' => $tax->getId())) ?>">edit</a>
-                  <a class="btn btn-mini ajax_link" href="<?php echo url_for('tax_delete', array('id' => $tax->getId())) ?>">delete</a>
+                  <a class="btn btn-primary btn-sm" href="<?php echo url_for('tax_edit', array('id' => $tax->getId())) ?>">edit</a>
+                  <a class="btn btn-danger btn-sm ajax_link" href="<?php echo url_for('tax_delete', array('id' => $tax->getId())) ?>">delete</a>
               </td>
           </tr>
         <?php endforeach ?>
     </tbody>
 </table>
-<a class="btn" href="<?php echo url_for('tax_new') ?>">Create tax country</a>
+<a class="btn btn-primary" href="<?php echo url_for('tax_new') ?>">Create tax country</a>
 <hr />
 <h2>Tax notes</h2>
 <table class="table table-bordered table-striped">
@@ -36,11 +36,11 @@
               <td><?php echo $note->getName() ?></td>
               <td><?php echo $note->getNote() ?></td>
               <td>
-                  <a class="btn btn-mini" href="<?php echo url_for('tax_note_edit', array('id' => $note->getId())) ?>">edit</a>
-                  <a class="btn btn-mini ajax_link" href="<?php echo url_for('tax_note_delete', array('id' => $note->getId())) ?>">delete</a>
+                  <a class="btn btn-primary btn-sm" href="<?php echo url_for('tax_note_edit', array('id' => $note->getId())) ?>">edit</a>
+                  <a class="btn btn-danger btn-sm ajax_link" href="<?php echo url_for('tax_note_delete', array('id' => $note->getId())) ?>">delete</a>
               </td>
           </tr>
         <?php endforeach ?>
     </tbody>
 </table>
-<a class="btn" href="<?php echo url_for('tax_note_new') ?>">Create tax note</a>
+<a class="btn btn-primary" href="<?php echo url_for('tax_note_new') ?>">Create tax note</a>

@@ -85,11 +85,11 @@ class ticketComponents extends policatComponents {
     }
 
     if (!$campaign->getOrderId()) {
-      return sprintf('<a class="btn btn-mini" href="%s">Buy package</a>', $this->getContext()->getRouting()->generate('order_new', array('id' => $campaign->getId())));
+      return sprintf('<a class="btn btn-sm" href="%s">Buy package</a>', $this->getContext()->getRouting()->generate('order_new', array('id' => $campaign->getId())));
     }
 
     if ($campaign->getOrderId() && $campaign->getOrder()->getUserId() == $this->getGuardUser()->getId()) {
-      return sprintf('<a class="btn btn-mini" href="%s">Show active order</a>', $this->getContext()->getRouting()->generate('order_show', array('id' => $campaign->getOrderId())));
+      return sprintf('<a class="btn btn-sm" href="%s">Show active order</a>', $this->getContext()->getRouting()->generate('order_show', array('id' => $campaign->getOrderId())));
     }
 
     return '';

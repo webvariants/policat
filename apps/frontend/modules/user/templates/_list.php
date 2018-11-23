@@ -2,8 +2,8 @@
 ?>
   <form method="get" class="form-inline ajax_form filter_form" action="<?php echo url_for('user_pager', array('page' => 1)) ?>">
   <?php echo $form ?>
-    <button class="btn btn-primary top15" type="submit">Filter</button>
-    <button class="filter_reset btn btn-small top15">Reset filter</button>
+    <button class="btn btn-sm btn-primary top15" type="submit">Filter</button>
+    <button class="filter_reset btn btn-sm top15">Reset filter</button>
   </form>
 <?php endif ?>
 <div id="user_list">
@@ -29,15 +29,15 @@
           </td>
           <td><?php echo $user->getLastLogin() ?></td>
           <td>
-            <a class="btn btn-mini" href="<?php echo url_for('user_edit', array('id' => $user->getId())) ?>">edit</a>
+            <a class="btn btn-primary btn-sm" href="<?php echo url_for('user_edit', array('id' => $user->getId())) ?>">edit</a>
             <?php if (!$user->hasPermission(myUser::CREDENTIAL_ADMIN)): ?>
               <?php if ($user->hasPermission(myUser::CREDENTIAL_USER)): ?>
-                <a class="btn btn-mini ajax_link" href="<?php echo url_for('user_block', array('id' => $user->getId())) ?>">block</a>
+                <a class="btn btn-danger btn-sm ajax_link" href="<?php echo url_for('user_block', array('id' => $user->getId())) ?>">block</a>
               <?php else: ?>
-                <a class="btn btn-mini ajax_link" href="<?php echo url_for('user_unblock', array('id' => $user->getId())) ?>">unblock</a>
+                <a class="btn btn-danger btn-sm ajax_link" href="<?php echo url_for('user_unblock', array('id' => $user->getId())) ?>">unblock</a>
               <?php endif ?>
-              <a class="btn btn-mini ajax_link" href="<?php echo url_for('user_delete', array('id' => $user->getId())) ?>">delete</a>
-              <a title="login as this user" class="btn btn-mini ajax_link post" href="<?php echo url_for('user_switch', array('id' => $user->getId())) ?>">switch</a>
+              <a class="btn btn-danger btn-sm ajax_link" href="<?php echo url_for('user_delete', array('id' => $user->getId())) ?>">delete</a>
+              <a title="login as this user" class="btn btn-danger btn-sm ajax_link post" href="<?php echo url_for('user_switch', array('id' => $user->getId())) ?>">switch</a>
             <?php endif ?>
           </td>
         </tr>

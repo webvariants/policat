@@ -33,8 +33,16 @@ class sfWidgetFormSchemaFormatterBootstrap extends sfWidgetFormSchemaFormatter {
         $addClass = 'form-check-input';
         $this->checkboxes[] = $name;
       }
-      $class = $field->getAttribute('class');
-      $field->setAttribute('class', ($class ? $class . ' ' : '') . $addClass);
+      if ($field instanceof sfWidgetFormChoice) {
+          if ($field->getOption('multiple')) {
+              $addClass = '';
+          }
+      }
+
+      if ($addClass) {
+        $class = $field->getAttribute('class');
+        $field->setAttribute('class', ($class ? $class . ' ' : '') . $addClass);
+      }
     }
   }
 

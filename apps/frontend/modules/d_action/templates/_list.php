@@ -70,20 +70,20 @@ if (!isset($no_filter)):
           </td>
           <td>
             <?php if ($petition->isEditableBy($user)): ?>
-              <a class="btn btn-mini btn-primary" href="<?php echo url_for('petition_edit_', array('id' => $petition->getId())) ?>">edit</a>
+              <a class="btn btn-sm btn-primary" href="<?php echo url_for('petition_edit_', array('id' => $petition->getId())) ?>">edit</a>
             <?php endif ?>
             <?php if ($user->isPetitionMember($petition->getRawValue(), true)): ?>
-              <a class="btn btn-mini" href="<?php echo url_for('petition_data', array('id' => $petition->getId())) ?>">Signings</a>
+              <a class="btn btn-sm" href="<?php echo url_for('petition_data', array('id' => $petition->getId())) ?>">Signings</a>
             <?php endif ?>
             <?php if (!$user->isCampaignAdmin(isset($campaign) ? $campaign->getRawValue() : $petition->getCampaignId())): ?>
               <?php if ($pr && $pr->getActive() && ($pr->getMember() || $pr->getAdmin())): ?>
-                <a class="btn btn-mini ajax_link post" data-submit='<?php echo json_encode(array('campaign' => isset($campaign) ? 1 : 0, 'csrf_token' => $csrf_token_leave, 'id' => $petition->getId())) ?>' href="<?php echo url_for('action_leave') ?>">leave</a>
+                <a class="btn btn-sm ajax_link post" data-submit='<?php echo json_encode(array('campaign' => isset($campaign) ? 1 : 0, 'csrf_token' => $csrf_token_leave, 'id' => $petition->getId())) ?>' href="<?php echo url_for('action_leave') ?>">leave</a>
               <?php else: ?>
-                <a class="btn btn-mini ajax_link post" data-submit='<?php echo json_encode(array('csrf_token' => $csrf_token_join, 'id' => $petition->getId())) ?>' href="<?php echo url_for('action_join') ?>">join</a>
+                <a class="btn btn-sm ajax_link post" data-submit='<?php echo json_encode(array('csrf_token' => $csrf_token_join, 'id' => $petition->getId())) ?>' href="<?php echo url_for('action_join') ?>">join</a>
               <?php endif ?>
             <?php endif ?>
             <?php if ($petition->getCampaign()->getDataOwnerId() == $sf_user->getUserId() || $sf_user->hasCredential(myUser::CREDENTIAL_ADMIN)): ?>
-            <a class="btn btn-danger btn-mini ajax_link" href="<?php echo url_for('petition_delete_', array('id' => $petition->getId())) ?>">Delete</a>
+            <a class="btn btn-danger btn-sm ajax_link" href="<?php echo url_for('petition_delete_', array('id' => $petition->getId())) ?>">Delete</a>
             <?php endif ?>
           </td>
         </tr>

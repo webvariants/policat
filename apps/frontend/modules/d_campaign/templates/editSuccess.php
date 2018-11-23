@@ -31,14 +31,14 @@ if ($billingEnabled) {
             <p>
                 <?php if ($officer_self): ?>
                   You are data protection officer.
-                  <a class="btn btn-mini ajax_link pull-right" href="<?php echo url_for('campaign_resign_officer', array('id' => $campaign->getId())) ?>">resign</a>
+                  <a class="btn btn-sm ajax_link pull-right" href="<?php echo url_for('campaign_resign_officer', array('id' => $campaign->getId())) ?>">resign</a>
                 <?php elseif ($admin): ?>
                   You are <span class="label label-important">admin</span>.
                 <?php else: ?>
                   You are member.
                 <?php endif ?>
                 <?php if (!$officer_self && $campaign->getPublicEnabled() == Campaign::PUBLIC_ENABLED_NO): ?>
-                  <a title="Leave this campaign." class="ajax_link btn btn-mini pull-right" href="<?php echo url_for('campaign_leave', array('id' => $campaign->getId())) ?>">Leave campaign</a>
+                  <a title="Leave this campaign." class="ajax_link btn btn-sm pull-right" href="<?php echo url_for('campaign_leave', array('id' => $campaign->getId())) ?>">Leave campaign</a>
                 <?php endif ?>
             </p>
             <?php if ($campaign->getPublicEnabled() == Campaign::PUBLIC_ENABLED_YES): ?>
@@ -46,9 +46,9 @@ if ($billingEnabled) {
             <?php endif ?>
             <?php if ($sf_user->hasCredential(myUser::CREDENTIAL_ADMIN)): ?>
               <?php if ($campaign->getStatus() != CampaignTable::STATUS_DELETED): ?>
-                <a class="btn btn-danger btn-mini ajax_link" href="<?php echo url_for('campaign_delete_', array('id' => $campaign->getId())) ?>">Delete Campaign</a>
+                <a class="btn btn-danger btn-sm ajax_link" href="<?php echo url_for('campaign_delete_', array('id' => $campaign->getId())) ?>">Delete Campaign</a>
               <?php else: ?>
-                <a class="btn btn-warning btn-mini ajax_link" href="<?php echo url_for('campaign_undelete', array('id' => $campaign->getId())) ?>">Undelete Campaign</a>
+                <a class="btn btn-warning btn-sm ajax_link" href="<?php echo url_for('campaign_undelete', array('id' => $campaign->getId())) ?>">Undelete Campaign</a>
               <?php endif ?>
             <?php endif ?>
             <?php if (!$officer_self): ?>
@@ -56,9 +56,9 @@ if ($billingEnabled) {
                   Data protection officer is <?php echo $officer ? $officer->getFullName() : '<b>nobody</b>' ?>.
                   <?php if ($hasResign): /* @var $hasResign Ticket */ ?>(<?php echo $hasResign->getTo()->getFullName() ?>)<?php endif ?>
                   <?php if ($sf_user->hasCredential(myUser::CREDENTIAL_SYSTEM)): ?>
-                    <a class="btn btn-mini ajax_link pull-right" href="<?php echo url_for('campaign_resign_officer', array('id' => $campaign->getId())) ?>">resign</a>
+                    <a class="btn btn-sm ajax_link pull-right" href="<?php echo url_for('campaign_resign_officer', array('id' => $campaign->getId())) ?>">resign</a>
                   <?php else: if ($user->isCampaignAdmin($campaign->getRawValue())): ?>
-                      <a class="btn btn-mini ajax_link pull-right" href="<?php echo url_for('campaign_call_officer', array('id' => $campaign->getId())) ?>">call</a>
+                      <a class="btn btn-sm ajax_link pull-right" href="<?php echo url_for('campaign_call_officer', array('id' => $campaign->getId())) ?>">call</a>
                       <?php
                     endif;
                   endif
@@ -68,9 +68,9 @@ if ($billingEnabled) {
             <?php if ($admin): ?>
               <?php include_component('d_campaign', 'editSwitches', array('campaign' => $campaign)) ?>
               <?php if ($sf_user->hasCredential(myUser::CREDENTIAL_ADMIN)): ?><?php include_component('d_campaign', 'editPublic', array('campaign' => $campaign)) ?><?php endif ?>
-              <a class="btn btn-mini ajax_link" href="<?php echo url_for('campaign_name', array('id' => $campaign->getId())) ?>">Rename campaign</a>
-              <a class="btn btn-mini ajax_link" href="<?php echo url_for('campaign_privacy', array('id' => $campaign->getId())) ?>">Privacy agreement</a>
-              <a class="btn btn-mini ajax_link" href="<?php echo url_for('campaign_address', array('id' => $campaign->getId())) ?>">Address</a>
+              <a class="btn btn-sm ajax_link" href="<?php echo url_for('campaign_name', array('id' => $campaign->getId())) ?>">Rename campaign</a>
+              <a class="btn btn-sm ajax_link" href="<?php echo url_for('campaign_privacy', array('id' => $campaign->getId())) ?>">Privacy agreement</a>
+              <a class="btn btn-sm ajax_link" href="<?php echo url_for('campaign_address', array('id' => $campaign->getId())) ?>">Address</a>
             <?php endif ?>
         </div>
         <?php

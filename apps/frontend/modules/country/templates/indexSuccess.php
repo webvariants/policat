@@ -8,7 +8,7 @@
     <tr>
       <td><?php echo $collection->getName() ?></td>
       <td><?php echo $collection->getCountries() ?></td>
-      <td><a class="btn btn-mini" href="<?php echo url_for('country_edit', array('id' => $collection->getId())) ?>">edit</a></td>
+      <td><a class="btn btn-sm" href="<?php echo url_for('country_edit', array('id' => $collection->getId())) ?>">edit</a></td>
     </tr>
     <?php endforeach ?>
   </tbody>

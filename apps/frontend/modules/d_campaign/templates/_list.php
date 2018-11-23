@@ -49,7 +49,7 @@
                   <td><?php echo $campaign->getPetition()->count() ?></td>
                   <td>
                       <?php if ($campaign->getStatus() == CampaignTable::STATUS_DELETED): ?>
-                        <a class="btn btn-danger btn-mini ajax_link" href="<?php echo url_for('campaign_hard_delete', array('id' => $campaign->getId())) ?>">wipe</a>
+                        <a class="btn btn-danger btn-sm ajax_link" href="<?php echo url_for('campaign_hard_delete', array('id' => $campaign->getId())) ?>">wipe</a>
                       <?php endif ?>
                   </td>
               </tr>

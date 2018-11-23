@@ -40,8 +40,8 @@
                 <td><?php echo number_format($token->getOffsetSum(60), 0, '.', ',') ?></td>
                 <td><?php echo $token->getStatusName() ?></td>
                 <td>
-                    <a class="btn btn-mini" href="<?php echo url_for('petition_token_edit', array('id' => $token->getId())) ?>">edit</a>
-                    <a class="btn btn-mini ajax_link" href="<?php echo url_for('petition_token_data', array('id' => $token->getId())) ?>">data</a>
+                    <a class="btn btn-sm" href="<?php echo url_for('petition_token_edit', array('id' => $token->getId())) ?>">edit</a>
+                    <a class="btn btn-sm ajax_link" href="<?php echo url_for('petition_token_data', array('id' => $token->getId())) ?>">data</a>
                 </td>
             </tr>
           <?php endforeach ?>

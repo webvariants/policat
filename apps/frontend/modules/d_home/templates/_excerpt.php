@@ -10,7 +10,7 @@
                     <dt>Today</dt>
                     <dd title="<?php echo number_format($excerpt['signings24'], 0, '.', ',') ?>"><?php echo Util::readable_number($excerpt['signings24']) ?></dd>
                 </dl>
-                <a class="btn btn-mini show">sign!</a>
+                <a class="btn btn-sm show">sign!</a>
             </div>
         </div>
     </div>

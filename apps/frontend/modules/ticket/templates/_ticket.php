@@ -12,10 +12,10 @@ use_helper('Date');
           <?php if (isset($petition_id)): ?><input type="hidden" name="petition_id" value="<?php echo $petition_id ?>" /><?php endif ?>
           <div class="align-right">
               <?php if ($is_notice): ?>
-                <a class="btn btn-primary btn-mini submit" data-submit='{"method": "decline", "view": "close" }'>Close</a>
+                <a class="btn btn-primary btn-sm submit" data-submit='{"method": "decline", "view": "close" }'>Close</a>
               <?php else: ?>
-                <a class="btn btn-success btn-mini submit" data-submit='{"method": "approve", "view": "close" }'>Approve</a>
-                <a class="btn btn-danger btn-mini submit" data-submit='{"method": "decline", "view": "close" }'>Decline</a>
+                <a class="btn btn-success btn-sm submit" data-submit='{"method": "approve", "view": "close" }'>Approve</a>
+                <a class="btn btn-danger btn-sm submit" data-submit='{"method": "decline", "view": "close" }'>Decline</a>
               <?php endif ?>
           </div>
       </form>
