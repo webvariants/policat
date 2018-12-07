@@ -1,7 +1,7 @@
 <?php $user = $sf_user->getGuardUser(); /* @var $user sfGuardUser */ ?>
 <div id="todo">
     <?php if (isset($tickets)): ?>
-      <h2>To-Do <a id="ticket_reload" class="btn pull-right ajax_link" href="<?php echo $tickets->getUrl($tickets->getPage()) ?>">reload</a></h2>
+      <h2>To-Do <a id="ticket_reload" class="btn btn-primary btn-sm pull-right ajax_link" href="<?php echo $tickets->getUrl($tickets->getPage()) ?>">reload</a></h2>
 
       <?php if ($tickets->count()): ?>
         <?php foreach ($tickets as $ticket): /* @var $ticket Ticket */ ?>
