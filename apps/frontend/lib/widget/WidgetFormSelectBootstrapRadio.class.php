@@ -22,15 +22,17 @@ class WidgetFormSelectBootstrapRadio extends sfWidgetFormSelectRadio {
 
       $submit = array(substr($name, 0, -2) => $key);
 
-      $buttons[] = $this->renderContentTag('button', self::escapeOnce($option), array(
-          'class' => 'btn' . ((strval($key) == strval($value === false ? 0 : $value)) ? ' active' : ''),
+      $active = strval($key) == strval($value === false ? 0 : $value);
+      $radio_attr = array('type' => 'radio', 'autocomplete' => 'off');
+      if ($active) {
+        $radio_attr['checked'] = 'checked';
+      }
+      $buttons[] = $this->renderContentTag('label',
+      $this->renderContentTag('input', self::escapeOnce($option), $radio_attr),
+       array(
+          'class' => 'submit submit-propagate btn btn-secondary' . ($active ? ' active' : ''),
           'data-submit' => json_encode($submit)
         ));
-
-//      $buttons[$id] = array(
-//        'input' => $this->renderTag('input', array_merge($baseAttributes, $attributes)),
-//        'label' => $this->renderContentTag('label', self::escapeOnce($option), array('for' => $id)),
-//      );
     }
 
     return call_user_func($this->getOption('formatter'), $this, $buttons);
@@ -38,10 +40,9 @@ class WidgetFormSelectBootstrapRadio extends sfWidgetFormSelectRadio {
 
   public function formatter($widget, $buttons) { {
       return !$buttons ? '' : $this->renderContentTag('span', implode($this->getOption('separator'), $buttons), array(
-            'data-toggle' => 'buttons-radio',
-            'class' => 'btn-group ' . $this->getOption('class')));
+            'data-toggle' => 'buttons',
+            'class' => 'btn-group btn-group-toggle ' . $this->getOption('class')));
     }
   }
 
 }
-

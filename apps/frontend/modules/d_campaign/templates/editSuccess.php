@@ -19,13 +19,13 @@ if ($billingEnabled) {
 ?>
 <?php include_partial('tabs', array('campaign' => $campaign, 'active' => 'overview')) ?>
 <div class="row">
-    <div class="span8">
+    <div class="col-8">
         <h2>E-actions</h2>
         <?php include_component('d_action', 'list', array('campaign' => $campaign)) ?>
         <a class="btn btn-primary" href="<?php echo url_for('petition_new_') . '?campaign=' . $campaign->getId() ?>">Start new e-action</a>
         <?php if ($admin): ?><?php include_component('ticket', 'todo', array('campaign_id' => $campaign->getId())) ?><?php endif ?>
     </div>
-    <div class="span4">
+    <div class="col-4">
         <div class="well">
             <h3>Administration</h3>
             <p>

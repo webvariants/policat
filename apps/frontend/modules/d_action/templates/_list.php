@@ -13,7 +13,7 @@ if (!isset($no_filter)):
   </form>
 <?php endif ?>
 <div id="action_list">
-  <table class="table table-bordered">
+  <table class="table table-sm table-bordered">
     <thead>
       <tr>
         <th>E-action
@@ -47,7 +47,7 @@ if (!isset($no_filter)):
     </thead>
     <tbody>
       <?php
-      foreach ($petitions as $petition): echo 'X';
+      foreach ($petitions as $petition):
         /* @var $petition Petition */
         $pr = $user->getRightsByPetition($petition->getRawValue());
         $cr = $user->getRightsByCampaign($petition->getRawValue()->getCampaign());
@@ -73,13 +73,13 @@ if (!isset($no_filter)):
               <a class="btn btn-sm btn-primary" href="<?php echo url_for('petition_edit_', array('id' => $petition->getId())) ?>">edit</a>
             <?php endif ?>
             <?php if ($user->isPetitionMember($petition->getRawValue(), true)): ?>
-              <a class="btn btn-sm" href="<?php echo url_for('petition_data', array('id' => $petition->getId())) ?>">Signings</a>
+              <a class="btn btn-secondary btn-sm" href="<?php echo url_for('petition_data', array('id' => $petition->getId())) ?>">Signings</a>
             <?php endif ?>
             <?php if (!$user->isCampaignAdmin(isset($campaign) ? $campaign->getRawValue() : $petition->getCampaignId())): ?>
               <?php if ($pr && $pr->getActive() && ($pr->getMember() || $pr->getAdmin())): ?>
-                <a class="btn btn-sm ajax_link post" data-submit='<?php echo json_encode(array('campaign' => isset($campaign) ? 1 : 0, 'csrf_token' => $csrf_token_leave, 'id' => $petition->getId())) ?>' href="<?php echo url_for('action_leave') ?>">leave</a>
+                <a class="btn btn-secondary btn-sm ajax_link post" data-submit='<?php echo json_encode(array('campaign' => isset($campaign) ? 1 : 0, 'csrf_token' => $csrf_token_leave, 'id' => $petition->getId())) ?>' href="<?php echo url_for('action_leave') ?>">leave</a>
               <?php else: ?>
-                <a class="btn btn-sm ajax_link post" data-submit='<?php echo json_encode(array('csrf_token' => $csrf_token_join, 'id' => $petition->getId())) ?>' href="<?php echo url_for('action_join') ?>">join</a>
+                <a class="btn btn-secondary btn-sm ajax_link post" data-submit='<?php echo json_encode(array('csrf_token' => $csrf_token_join, 'id' => $petition->getId())) ?>' href="<?php echo url_for('action_join') ?>">join</a>
               <?php endif ?>
             <?php endif ?>
             <?php if ($petition->getCampaign()->getDataOwnerId() == $sf_user->getUserId() || $sf_user->hasCredential(myUser::CREDENTIAL_ADMIN)): ?>

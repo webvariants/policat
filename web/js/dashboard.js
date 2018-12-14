@@ -224,6 +224,8 @@ var wvAjax = function (options) {
 	if (options['originalEvent'] != undefined || options['handleObj'] != undefined)
 		options = {}; // ignore options when it is an event
 
+	var propagate = $this.hasClass('submit-propagate');
+
 	var submit_extra_data = undefined;
 	if ($this.hasClass('submit')) { // submit form through a link
 		submit_extra_data = $this.data('submit');
@@ -403,7 +405,10 @@ var wvAjax = function (options) {
 			$('#crit_error_modal').modal('show');
 		}
 	});
-	return false;
+
+	if (!propagate) {
+		return false;
+	}
 };
 
 $(function ($) {
