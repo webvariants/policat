@@ -1,5 +1,5 @@
-<div class="page-header">
+<div class="container">
     <h1>Pricing</h1>
+    <?php echo $sf_data->getRaw('markup') ?>
+    <a class="btn btn-primary no-print" href="javascript:(function(){window.print();})();">Print</a>
 </div>
-<?php echo $sf_data->getRaw('markup') ?>
-<a class="btn no-print" href="javascript:window.print();">Print</a>

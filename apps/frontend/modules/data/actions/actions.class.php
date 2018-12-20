@@ -194,7 +194,6 @@ class dataActions extends policatActions {
     $download->setPagesProcessed(0);
     $download->setFilename(mt_rand());
     $download->save();
-    $download->createFilename();
 
     switch ($download->getType()) {
       case 'petition':
@@ -211,6 +210,7 @@ class dataActions extends policatActions {
         break;
     }
 
+    $download->createFilename();
     $download->save();
 
     return $download;

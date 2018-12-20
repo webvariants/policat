@@ -2,9 +2,10 @@
 /* @var $sf_content string */
 /* @var $sf_user myUser */
 ?><!DOCTYPE html>
-<html>
+<html lang="en">
   <head>
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <?php
     $portal_name = StoreTable::value(StoreTable::PORTAL_NAME);
     $title = $sf_response->getTitle();
@@ -15,19 +16,14 @@
     include_metas();
     include_title() ?>
     <link rel="shortcut icon" href="<?php echo public_path('favicon.ico') ?>" />
-    <?php include_stylesheets(); include_javascripts() ?>
+    <?php include_stylesheets() ?>
   </head>
-  <body class="container">
-    <header class="row">
-      <div class="span3">
-        <a href="<?php echo url_for('homepage') ?>"><img src="<?php echo image_path('store/' . StoreTable::value(StoreTable::PORTAL_LOGO)) ?>?<?php echo StoreTable::version(StoreTable::PORTAL_LOGO) ?>" alt="<?php echo $portal_name ?>" /></a>
-      </div>
-      <nav class="navbar span9"><?php include_component('d_home', 'menu', array('a' => $sf_user->isAuthenticated() ? 1 : 0, 'b' => $sf_user->hasCredential('homepage') ? 1 : 0)) ?></nav>
-    </header>
+  <body>
+    <?php include_component('d_home', 'menuB4', array('a' => $sf_user->isAuthenticated() ? 1 : 0, 'b' => $sf_user->hasCredential('homepage') ? 1 : 0)) ?>
     <?php echo $sf_content ?>
-    <?php include_component('d_home', 'footer') ?>
-    <?php // include_component('account', 'ajaxSignin', array('a' => $sf_user->isAuthenticated() ? 1 : 0)) ?>
-    <div id="waiting"><b></b><i></i><div class="progress progress-striped active"><div class="bar" style="width: 100%;"></div></div></div>
+    <?php include_component('d_home', 'footerB4') ?>
+    <?php include_component('account', 'ajaxSignin', array('a' => $sf_user->isAuthenticated() ? 1 : 0)) ?>
+    <?php include_javascripts() ?>
     <?php if(StoreTable::value(StoreTable::INSTANT_CHAT_ENABLE)) { ?>
     <!--Start of Tawk.to Script-->
     <script type="text/javascript">

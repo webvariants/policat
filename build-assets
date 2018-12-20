@@ -1,0 +1,20 @@
+#!/bin/bash
+
+function npm {
+  docker run --user $(id -u):$(id -g) \
+    --volume /etc/passwd:/etc/passwd:ro \
+    --volume /etc/group:/etc/group:ro \
+    --volume "$HOME:$HOME" -w "$(pwd)" --rm -ti node:8 npm $@
+}
+
+cd "$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
+
+if [ ! -e "node_modules" ]; then
+  npm install
+fi
+
+if [ ! -e "bower_components" ]; then
+  npm run bower install
+fi
+
+npm run grunt $@

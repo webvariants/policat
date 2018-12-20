@@ -1,43 +1,42 @@
 <?php if (isset($form)): ?>
   <?php use_helper('I18N'); ?>
-  <div class="modal hide" id="login_modal">
+  <div id="login_modal" class="modal" tabindex="-1" role="dialog" data-backdrop="">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
       <form id="login_form" class="ajax_form add_href" action="<?php echo url_for('ajax_signin') ?>" method="post">
           <div class="modal-header">
-              <a class="close" data-dismiss="modal">&times;</a>
-              <h3>Login<?php if (isset($registerForm)): ?> | Join<?php endif ?></h3>
+            <h5 class="modal-title">Login<?php if (isset($registerForm)): ?> | Join<?php endif ?></h5>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+          <div class="modal-body">
               <?php if ($sf_context->getModuleName() == 'd_home' && $sf_context->getActionName() == 'index'): ?>
                 <input type="hidden" name="target" value="dashboard" />
               <?php endif ?>
-          </div>
-          <div class="modal-body">
               <?php echo $form ?>
-              <br /><small><a class="ajax_link" href="<?php echo url_for('password_forgotten') ?>">Forgot password?</a></small>
-              <?php if (isset($registerForm)): ?>
-                <br /><a class="btn btn-mini btn-info top10 login-register-switch">Register new account</a>
-              <?php endif ?>
+              <small><a class="ajax_link" href="<?php echo url_for('password_forgotten') ?>">Forgot password?</a></small>
           </div>
-          <div class="modal-footer">
-              <a class="btn" data-dismiss="modal">Cancel</a>
-              <button class="btn btn-primary" type="submit">Login</button>
+          <div class="modal-footer" style="flex-wrap: wrap-reverse">
+              <?php if (isset($registerForm)): ?>
+                <a class="btn btn-link login-register-switch" href="javascript:;">Register new account</a>
+              <?php endif ?>
+              <div>
+                  <a class="btn btn-link" data-dismiss="modal" href="javascript:;">Cancel</a>
+                  <button class="btn btn-primary" type="submit">Login</button>
+              </div>
           </div>
       </form>
       <?php if (isset($registerForm)): ?>
-        <form id="register_form" class=" hide ajax_form register-form" action="<?php echo url_for('register') ?>" method="post" autocomplete="off">
+        <form style="display: none;" id="register_form" class=" hide ajax_form register-form" action="<?php echo url_for('register') ?>" method="post" autocomplete="off">
             <div class="modal-header">
-                <a class="close" data-dismiss="modal">&times;</a>
-                <h3>Login | Join</h3>
+                <h5 class="modal-title">Login | Join</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                  <span aria-hidden="true">&times;</span>
+                </button>
             </div>
             <div class="modal-body">
-                <div class="register-form-row">
-                    <div class="register-form-side">
-                        <?php echo $registerForm->renderHiddenFields() ?>
-                        <?php echo $registerForm->renderRows('email_address', 'password', 'password_again') ?>
-                    </div>
-                    <div class="register-form-side">
-                        <?php echo $registerForm->renderRows('first_name', 'last_name', 'organisation') ?>
-                    </div>
-                </div>
-                <?php echo $registerForm['terms']->renderRow() ?>
+                <?php echo $registerForm ?>
                 <fieldset><div class="control-group"><div class="controls"><?php include_partial('account/captcha') ?></div></div></fieldset>
                 <div class="register-success"></div>
             </div>
@@ -48,4 +47,6 @@
         </form>
       <?php endif ?>
   </div>
+</div>
+</div>
 <?php endif; ?>

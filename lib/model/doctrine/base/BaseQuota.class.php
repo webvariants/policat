@@ -11,6 +11,8 @@
  * @property decimal $price
  * @property integer $days
  * @property integer $emails
+ * @property integer $subscription
+ * @property integer $renew_offerred
  * @property integer $user_id
  * @property integer $campaign_id
  * @property date $start_at
@@ -19,8 +21,10 @@
  * @property integer $emails_remaining
  * @property integer $order_id
  * @property integer $upgrade_of_id
+ * @property integer $product_id
  * @property sfGuardUser $User
  * @property Campaign $Campaign
+ * @property Product $Product
  * @property Order $Order
  * @property Quota $UpgradeOf
  * @property Campaign $activeCampaign
@@ -34,6 +38,8 @@
  * @method decimal             getPrice()                    Returns the current record's "price" value
  * @method integer             getDays()                     Returns the current record's "days" value
  * @method integer             getEmails()                   Returns the current record's "emails" value
+ * @method integer             getSubscription()             Returns the current record's "subscription" value
+ * @method integer             getRenewOfferred()            Returns the current record's "renew_offerred" value
  * @method integer             getUserId()                   Returns the current record's "user_id" value
  * @method integer             getCampaignId()               Returns the current record's "campaign_id" value
  * @method date                getStartAt()                  Returns the current record's "start_at" value
@@ -42,8 +48,10 @@
  * @method integer             getEmailsRemaining()          Returns the current record's "emails_remaining" value
  * @method integer             getOrderId()                  Returns the current record's "order_id" value
  * @method integer             getUpgradeOfId()              Returns the current record's "upgrade_of_id" value
+ * @method integer             getProductId()                Returns the current record's "product_id" value
  * @method sfGuardUser         getUser()                     Returns the current record's "User" value
  * @method Campaign            getCampaign()                 Returns the current record's "Campaign" value
+ * @method Product             getProduct()                  Returns the current record's "Product" value
  * @method Order               getOrder()                    Returns the current record's "Order" value
  * @method Quota               getUpgradeOf()                Returns the current record's "UpgradeOf" value
  * @method Campaign            getActiveCampaign()           Returns the current record's "activeCampaign" value
@@ -56,6 +64,8 @@
  * @method Quota               setPrice()                    Sets the current record's "price" value
  * @method Quota               setDays()                     Sets the current record's "days" value
  * @method Quota               setEmails()                   Sets the current record's "emails" value
+ * @method Quota               setSubscription()             Sets the current record's "subscription" value
+ * @method Quota               setRenewOfferred()            Sets the current record's "renew_offerred" value
  * @method Quota               setUserId()                   Sets the current record's "user_id" value
  * @method Quota               setCampaignId()               Sets the current record's "campaign_id" value
  * @method Quota               setStartAt()                  Sets the current record's "start_at" value
@@ -64,8 +74,10 @@
  * @method Quota               setEmailsRemaining()          Sets the current record's "emails_remaining" value
  * @method Quota               setOrderId()                  Sets the current record's "order_id" value
  * @method Quota               setUpgradeOfId()              Sets the current record's "upgrade_of_id" value
+ * @method Quota               setProductId()                Sets the current record's "product_id" value
  * @method Quota               setUser()                     Sets the current record's "User" value
  * @method Quota               setCampaign()                 Sets the current record's "Campaign" value
+ * @method Quota               setProduct()                  Sets the current record's "Product" value
  * @method Quota               setOrder()                    Sets the current record's "Order" value
  * @method Quota               setUpgradeOf()                Sets the current record's "UpgradeOf" value
  * @method Quota               setActiveCampaign()           Sets the current record's "activeCampaign" value
@@ -116,6 +128,18 @@ abstract class BaseQuota extends myDoctrineRecord
              'notnull' => true,
              'length' => 4,
              ));
+        $this->hasColumn('subscription', 'integer', 1, array(
+             'type' => 'integer',
+             'notnull' => true,
+             'default' => 0,
+             'length' => 1,
+             ));
+        $this->hasColumn('renew_offerred', 'integer', 1, array(
+             'type' => 'integer',
+             'notnull' => true,
+             'default' => 0,
+             'length' => 1,
+             ));
         $this->hasColumn('user_id', 'integer', 4, array(
              'type' => 'integer',
              'notnull' => false,
@@ -154,6 +178,11 @@ abstract class BaseQuota extends myDoctrineRecord
              'notnull' => false,
              'length' => 4,
              ));
+        $this->hasColumn('product_id', 'integer', 4, array(
+             'type' => 'integer',
+             'notnull' => false,
+             'length' => 4,
+             ));
 
         $this->option('symfony', array(
              'filter' => false,
@@ -170,6 +199,11 @@ abstract class BaseQuota extends myDoctrineRecord
 
         $this->hasOne('Campaign', array(
              'local' => 'campaign_id',
+             'foreign' => 'id',
+             'onDelete' => 'SET NULL'));
+
+        $this->hasOne('Product', array(
+             'local' => 'product_id',
              'foreign' => 'id',
              'onDelete' => 'SET NULL'));
 

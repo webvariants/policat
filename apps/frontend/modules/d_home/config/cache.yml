@@ -2,6 +2,10 @@ index:
   enabled: true
   lifetime: 60
 
+indexB4:
+  enabled: true
+  lifetime: 60
+
 tips:
   enabled: true
 
@@ -15,6 +19,10 @@ privacy:
   enabled: true
 
 _footer:
+  enabled: true
+  lifetime: 60
+
+_footerB4:
   enabled: true
   lifetime: 60
 

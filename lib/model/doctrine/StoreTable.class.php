@@ -26,6 +26,11 @@ class StoreTable extends Doctrine_Table {
   const INSTANT_CHAT_SITE_ID = 'instant_chat_site_id';
   const INSTANT_CHAT_API_KEY = 'instant_chat_api_key';
   const BILLING_ENABLE = 'billing_enable';
+  const BILLING_PACKAGE_UPGRADE_ENABLE = 'billing_package_upgrade_enable';
+  const BILLING_SUBSCRIPTION_ENABLE = 'billing_subscription_upgrade_enable';
+  const BILLING_SUBSCRIPTION_LEFT_DAYS = 'billing_subscription_left_days';
+  const BILLING_SUBSCRIPTION_LEFT_PERCENT = 'billing_subscription_left_percent';
+  const BILLING_SUBSCRIPTION_EXTRA_DAYS = 'billing_subscription_extra_days';
   const BILLING_CURRENCY = 'billing_currency';
   const BILLING_TAX = 'billing_tax';
   const BILLING_PREFIX = 'billing_prefix';
@@ -153,6 +158,26 @@ class StoreTable extends Doctrine_Table {
               self::BILLING_ENABLE => array(
                   'widget' => array('WidgetBoolean', array('label' => 'Enable billing')),
                   'validator' => array('sfValidatorBoolean')
+              ),
+              self::BILLING_PACKAGE_UPGRADE_ENABLE => array(
+                  'widget' => array('WidgetBoolean', array('label' => 'Enable package upgrade')),
+                  'validator' => array('sfValidatorBoolean')
+              ),
+              self::BILLING_SUBSCRIPTION_ENABLE => array(
+                  'widget' => array('WidgetBoolean', array('label' => 'Enable subscription')),
+                  'validator' => array('sfValidatorBoolean')
+              ),
+              self::BILLING_SUBSCRIPTION_LEFT_DAYS => array(
+                  'widget' => array('sfWidgetFormInputText', array('label' => 'subscrption renew days before')),
+                  'validator' => array('sfValidatorNumber', array('min' => 0, 'max' => 50))
+              ),
+              self::BILLING_SUBSCRIPTION_LEFT_PERCENT => array(
+                  'widget' => array('sfWidgetFormInputText', array('label' => 'subscrption renew percent left')),
+                  'validator' => array('sfValidatorNumber', array('min' => 0, 'max' => 50))
+              ),
+              self::BILLING_SUBSCRIPTION_EXTRA_DAYS => array(
+                  'widget' => array('sfWidgetFormInputText', array('label' => 'subscrption add extra days on current package')),
+                  'validator' => array('sfValidatorNumber', array('min' => 0, 'max' => 50))
               ),
               self::BILLING_CURRENCY => array(
                   'widget' => array('sfWidgetFormInputText', array('label' => 'Currency (ISO)')),

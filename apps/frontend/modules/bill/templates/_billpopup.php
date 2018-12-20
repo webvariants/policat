@@ -6,7 +6,7 @@
             <?php if ($bill->getVat()): ?>VAT-No: <?php echo $bill->getVat() ?><?php endif ?>
         </h3>
     </div>
-    <div class="modal-body">
+    <div class="modal-body modal-body-full-iframe">
         <iframe width="840" height="1100" src="<?php echo url_for('bill_show', array('id' => $id)) ?>"></iframe>
     </div>
     <div class="modal-footer">

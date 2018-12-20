@@ -20,6 +20,7 @@ abstract class BaseProductForm extends BaseFormDoctrine
       'price'          => new sfWidgetFormInputText(),
       'days'           => new sfWidgetFormInputText(),
       'emails'         => new sfWidgetFormInputText(),
+      'subscription'   => new sfWidgetFormInputText(),
       'object_version' => new sfWidgetFormInputText(),
     ));
 
@@ -29,6 +30,7 @@ abstract class BaseProductForm extends BaseFormDoctrine
       'price'          => new sfValidatorNumber(),
       'days'           => new sfValidatorInteger(array('required' => false)),
       'emails'         => new sfValidatorInteger(array('required' => false)),
+      'subscription'   => new sfValidatorInteger(array('required' => false)),
       'object_version' => new sfValidatorString(array('max_length' => 15, 'required' => false)),
     ));
 

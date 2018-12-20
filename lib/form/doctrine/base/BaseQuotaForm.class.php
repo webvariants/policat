@@ -21,6 +21,8 @@ abstract class BaseQuotaForm extends BaseFormDoctrine
       'price'            => new sfWidgetFormInputText(),
       'days'             => new sfWidgetFormInputText(),
       'emails'           => new sfWidgetFormInputText(),
+      'subscription'     => new sfWidgetFormInputText(),
+      'renew_offerred'   => new sfWidgetFormInputText(),
       'user_id'          => new sfWidgetFormDoctrineChoice(array('model' => $this->getRelatedModelName('User'), 'add_empty' => true)),
       'campaign_id'      => new sfWidgetFormDoctrineChoice(array('model' => $this->getRelatedModelName('Campaign'), 'add_empty' => true)),
       'start_at'         => new sfWidgetFormDate(),
@@ -29,6 +31,7 @@ abstract class BaseQuotaForm extends BaseFormDoctrine
       'emails_remaining' => new sfWidgetFormInputText(),
       'order_id'         => new sfWidgetFormDoctrineChoice(array('model' => $this->getRelatedModelName('Order'), 'add_empty' => true)),
       'upgrade_of_id'    => new sfWidgetFormDoctrineChoice(array('model' => $this->getRelatedModelName('UpgradeOf'), 'add_empty' => true)),
+      'product_id'       => new sfWidgetFormDoctrineChoice(array('model' => $this->getRelatedModelName('Product'), 'add_empty' => true)),
       'created_at'       => new sfWidgetFormDateTime(),
       'updated_at'       => new sfWidgetFormDateTime(),
     ));
@@ -40,6 +43,8 @@ abstract class BaseQuotaForm extends BaseFormDoctrine
       'price'            => new sfValidatorNumber(),
       'days'             => new sfValidatorInteger(),
       'emails'           => new sfValidatorInteger(),
+      'subscription'     => new sfValidatorInteger(array('required' => false)),
+      'renew_offerred'   => new sfValidatorInteger(array('required' => false)),
       'user_id'          => new sfValidatorDoctrineChoice(array('model' => $this->getRelatedModelName('User'), 'column' => 'id', 'required' => false)),
       'campaign_id'      => new sfValidatorDoctrineChoice(array('model' => $this->getRelatedModelName('Campaign'), 'column' => 'id', 'required' => false)),
       'start_at'         => new sfValidatorDate(array('required' => false)),
@@ -48,6 +53,7 @@ abstract class BaseQuotaForm extends BaseFormDoctrine
       'emails_remaining' => new sfValidatorInteger(array('required' => false)),
       'order_id'         => new sfValidatorDoctrineChoice(array('model' => $this->getRelatedModelName('Order'), 'column' => 'id', 'required' => false)),
       'upgrade_of_id'    => new sfValidatorDoctrineChoice(array('model' => $this->getRelatedModelName('UpgradeOf'), 'column' => 'id', 'required' => false)),
+      'product_id'       => new sfValidatorDoctrineChoice(array('model' => $this->getRelatedModelName('Product'), 'column' => 'id', 'required' => false)),
       'created_at'       => new sfValidatorDateTime(),
       'updated_at'       => new sfValidatorDateTime(),
     ));

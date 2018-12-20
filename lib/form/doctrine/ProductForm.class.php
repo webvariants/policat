@@ -21,11 +21,22 @@ class ProductForm extends BaseProductForm {
   public function configure() {
     $this->widgetSchema->setFormFormatterName('bootstrap');
     $this->widgetSchema->setNameFormat('product[%s]');
-    
+
     unset($this['object_version']);
-    
+
     $this->getWidgetSchema()->setLabel('emails', 'E-mails total');
     $this->getWidgetSchema()->setLabel('price', 'Price (net)');
+
+    if (StoreTable::value(StoreTable::BILLING_SUBSCRIPTION_ENABLE)) {
+      $this->setWidget('subscription', new sfWidgetFormChoice(array(
+          'choices' => array(0 => 'no', 1 => 'yes'),
+          'label' => 'Subscription / Abo'
+        ), array(
+      )));
+      $this->setValidator('subscription', new sfValidatorChoice(array('choices' => array(0, 1), 'required' => true)));
+    } else {
+      unset($this['subscription']);
+    }
   }
 
 }

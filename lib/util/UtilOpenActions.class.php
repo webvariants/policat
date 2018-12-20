@@ -15,7 +15,7 @@ class UtilOpenActions {
   const LARGEST = 'largest'; // Popular
   const RECENT = 'recent'; // New
 
-  const MAX = 10;
+  const MAX = 15;
 
   /**
    *
@@ -23,6 +23,15 @@ class UtilOpenActions {
    * @param string $lang
    * @return array
    */
+
+  static private $_day_sql = null;
+
+  static private function daySql() {
+    if (self::$_day_sql === null) {
+      self::$_day_sql = gmdate('Y-m-d');
+    }
+    return self::$_day_sql;
+  }
 
   static private function topWidgetByPetition($id, $lang = 'en') {
     $widgets = WidgetTable::getInstance()
@@ -49,13 +58,13 @@ class UtilOpenActions {
       ->createQuery('p')
       ->where('p.status = ?', Petition::STATUS_ACTIVE)
       ->andWhere('p.homepage = 1')
+      ->andWhere('p.start_at IS NULL OR p.start_at <= ?', self::daySql())
+      ->andWhere('(p.end_at IS NULL OR p.end_at > ?)', self::daySql())
       ->leftJoin('p.Campaign c')
       ->andWhere('c.status = ?', CampaignTable::STATUS_ACTIVE)
       ->leftJoin('p.PetitionText pt')
       ->andWhere('pt.status = ?', PetitionText::STATUS_ACTIVE)
       ->andWhere('pt.language_id = ?', 'en')
-//      ->leftJoin('pt.DefaultWidget w')
-//      ->andWhere('w.status = ?', Widget::STATUS_ACTIVE)
       ->select('p.*, pt.*, c.id, c.object_version')
       ->addSelect('(SELECT count(z.id) FROM PetitionSigning z WHERE DATE_SUB(NOW(),INTERVAL 1 DAY) <= z.created_at  and z.petition_id = p.id and z.status = ' . PetitionSigning::STATUS_COUNTED . ') as signings24')
       ->limit(self::MAX * 2);
@@ -116,6 +125,9 @@ class UtilOpenActions {
         $number = $count;
         $target = Petition::calcTarget($count, $petition['target_num']);
 
+        $counter_type = ($petition->getKind() == Petition::KIND_EMAIL_TO_LIST && $petition->getShowEmailCounter() == Petition::SHOW_EMAIL_COUNTER_YES) ? 'emails' : 'participants';
+        $counter_value = $counter_type === 'emails' ? $petition->countMailsSent() + $petition->getAddnumEmailCounter() : $count;
+
         if ($petition['kind'] == Petition::KIND_EMAIL_TO_LIST && $petition->getShowEmailCounter() == Petition::SHOW_EMAIL_COUNTER_YES) {
             $number = $petition->countMailsSent() + $petition->getAddnumEmailCounter();
             $target = Petition::calcTarget($number, $petition->getTargetNumEmailCounter());
@@ -162,15 +174,18 @@ class UtilOpenActions {
         $len = 240 - mb_strlen($title, 'UTF-8');
         $shorten = $len > 20 ? truncate_text(preg_replace('/#[A-Z-]+#/', '', strip_tags($body)), $len) : '';
 
+        $target = Petition::calcTarget($counter_value,  $counter_type === 'emails' ? $petition->getTargetNumEmailCounter() : $petition['target_num']);
         $exerpts[] = array(
             'title' => $title,
             'text' => $shorten,
-            'signings' => $count,
-            'signings24' => $petition->getCleanData('signings24', 0),
+            'counter_type' => $counter_type,
+            'counter_value' => $counter_value,
+            'counter_percent' => (int) ($counter_value / $target * 100),
             'key_visual' => $petition['key_visual'],
             'widget_id' => $widget['id'],
             'read_more_url' => $petition['read_more_url'],
             'petition_id' => $petition['id'],
+            'kind' => $petition['kind'],
             'widget_last_hash' => Widget::calcLastHash(
               $widget['id'], array(
                 $petition['object_version'],

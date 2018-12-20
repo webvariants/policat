@@ -4,6 +4,6 @@
   <?php echo $form ?>
   <div class="form-actions">
     <button class="btn btn-primary" type="submit">Upload</button>
-    <a class="btn" href="javascript:$('#upload_form').remove();">Cancel</a>
+    <a class="btn" href="javascript:(function(){$('#upload_form').remove();})();">Cancel</a>
   </div>
 </form>
