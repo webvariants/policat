@@ -327,6 +327,7 @@ Petition:
     show_email_counter:      { type: integer(1), notnull: true, default: 0 }
     addnum_email_counter:    { type: integer(4), notnull: true, default: 0 }
     target_num_email_counter: { type: integer(4), notnull: true, default: 0 }
+    digest_enabled:           { type: integer(1), notnull: true, default: 0 }
   relations:
     Campaign:          { onDelete: CASCADE  }
     Language:          {  }
@@ -1311,3 +1312,39 @@ InvitationCampaign:
     Invitation:        { local: invitation_id,  onDelete: CASCADE }
     Campaign:          { local: campaign_id,    onDelete: CASCADE }
     InvitedBy:         { class: sfGuardUser, local: invited_by_id, onDelete: CASCADE }
+
+DigestEmail:
+  options:
+    symfony:
+      form:   false
+      filter: false
+  actAs: [ Timestampable ]
+  columns:
+    id:                  { type: integer(8), primary: true, autoincrement: true }
+    petition_id:         { type: integer(4), primary: true }
+    contact_id:          { type: integer(4), notnull: true }
+    petition_signing_id: { type: integer(8), primary: true }
+    status:              { type: integer(4), notnull: true, default: 1 }
+    track_campaign:      { type: string(40), notnull: false }
+    tld:                 { type: string(80), notnull: false }
+    email_subject:       { type: string,     notnull: false }
+    email_body:          { type: clob,       notnull: false }
+    subst_json:          { type: clob,       notnull: false }
+  indexes:
+    digest_cron_idx:     { fields: [status, petition_id, contact_id] }
+  relations:
+    Petition:
+      onDelete: CASCADE
+      class: Petition
+      local: petition_id
+      foreignAlias: DigestEmails
+    Contact:
+      onDelete: CASCADE
+      class: Contact
+      local: contact_id
+      foreignAlias: DigestEmails
+    PetitionSigning:
+      onDelete: CASCADE
+      class: PetitionSigning
+      local: petition_signing_id
+      foreignAlias: DigestEmails

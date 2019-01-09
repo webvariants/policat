@@ -33,6 +33,7 @@ class EditPetitionForm extends PetitionFieldsForm {
     unset($this['pledge_background_color'], $this['pledge_color'], $this['pledge_head_color'], $this['pledge_font']);
     unset($this['pledge_info_columns'], $this['pledge_with_comments'], $this['activity_at'], $this['deleted_pendings'], $this['deleted_hard_bounces'], $this['deleted_bounces_manually']);
     unset($this['label_mode'], $this['follow_petition_id'], $this['addnum'], $this['target_num'], $this['keywords_subst'], $this['addnum_email_counter'], $this['target_num_email_counter']);
+    unset($this['digest_enabled']);
 
     $this->configure_fields();
 
@@ -233,6 +234,12 @@ class EditPetitionForm extends PetitionFieldsForm {
       }
 
       if ($this->getObject()->getKind() == Petition::KIND_PLEDGE) {
+        $this->setWidget('digest_enabled', new sfWidgetFormChoice(array(
+            'label' => 'Enable digest emails',
+            'choices' => array('0' => 'no', '1' => 'yes')), array(
+        )));
+        $this->setValidator('digest_enabled', new sfValidatorChoice(array('choices' => array('0', '1'))));
+        
         $this->setWidget('pledge_with_comments', new sfWidgetFormChoice(array(
             'label' => 'Enable comments',
             'choices' => array('0' => 'no', '1' => 'yes')), array(

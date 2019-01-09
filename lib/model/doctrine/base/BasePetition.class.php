@@ -78,6 +78,7 @@
  * @property integer $show_email_counter
  * @property integer $addnum_email_counter
  * @property integer $target_num_email_counter
+ * @property integer $digest_enabled
  * @property Campaign $Campaign
  * @property Language $Language
  * @property MailingList $MailingList
@@ -94,6 +95,7 @@
  * @property Doctrine_Collection $PetitionContacts
  * @property Doctrine_Collection $ApiTokens
  * @property Doctrine_Collection $Downloads
+ * @property Doctrine_Collection $DigestEmails
  * 
  * @method integer             getId()                         Returns the current record's "id" value
  * @method integer             getCampaignId()                 Returns the current record's "campaign_id" value
@@ -168,6 +170,7 @@
  * @method integer             getShowEmailCounter()           Returns the current record's "show_email_counter" value
  * @method integer             getAddnumEmailCounter()         Returns the current record's "addnum_email_counter" value
  * @method integer             getTargetNumEmailCounter()      Returns the current record's "target_num_email_counter" value
+ * @method integer             getDigestEnabled()              Returns the current record's "digest_enabled" value
  * @method Campaign            getCampaign()                   Returns the current record's "Campaign" value
  * @method Language            getLanguage()                   Returns the current record's "Language" value
  * @method MailingList         getMailingList()                Returns the current record's "MailingList" value
@@ -184,6 +187,7 @@
  * @method Doctrine_Collection getPetitionContacts()           Returns the current record's "PetitionContacts" collection
  * @method Doctrine_Collection getApiTokens()                  Returns the current record's "ApiTokens" collection
  * @method Doctrine_Collection getDownloads()                  Returns the current record's "Downloads" collection
+ * @method Doctrine_Collection getDigestEmails()               Returns the current record's "DigestEmails" collection
  * @method Petition            setId()                         Sets the current record's "id" value
  * @method Petition            setCampaignId()                 Sets the current record's "campaign_id" value
  * @method Petition            setFollowPetitionId()           Sets the current record's "follow_petition_id" value
@@ -257,6 +261,7 @@
  * @method Petition            setShowEmailCounter()           Sets the current record's "show_email_counter" value
  * @method Petition            setAddnumEmailCounter()         Sets the current record's "addnum_email_counter" value
  * @method Petition            setTargetNumEmailCounter()      Sets the current record's "target_num_email_counter" value
+ * @method Petition            setDigestEnabled()              Sets the current record's "digest_enabled" value
  * @method Petition            setCampaign()                   Sets the current record's "Campaign" value
  * @method Petition            setLanguage()                   Sets the current record's "Language" value
  * @method Petition            setMailingList()                Sets the current record's "MailingList" value
@@ -273,6 +278,7 @@
  * @method Petition            setPetitionContacts()           Sets the current record's "PetitionContacts" collection
  * @method Petition            setApiTokens()                  Sets the current record's "ApiTokens" collection
  * @method Petition            setDownloads()                  Sets the current record's "Downloads" collection
+ * @method Petition            setDigestEmails()               Sets the current record's "DigestEmails" collection
  * 
  * @package    policat
  * @subpackage model
@@ -679,6 +685,12 @@ abstract class BasePetition extends myDoctrineRecord
              'default' => 0,
              'length' => 4,
              ));
+        $this->hasColumn('digest_enabled', 'integer', 1, array(
+             'type' => 'integer',
+             'notnull' => true,
+             'default' => 0,
+             'length' => 1,
+             ));
 
 
         $this->index('petition_status', array(
@@ -791,6 +803,10 @@ abstract class BasePetition extends myDoctrineRecord
              'foreign' => 'petition_id'));
 
         $this->hasMany('Download as Downloads', array(
+             'local' => 'id',
+             'foreign' => 'petition_id'));
+
+        $this->hasMany('DigestEmail as DigestEmails', array(
              'local' => 'id',
              'foreign' => 'petition_id'));
 

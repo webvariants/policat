@@ -100,6 +100,7 @@ class geoCronTask extends sfBaseTask {
           }
         }
         $wave = $petition_signing->getWave($contact['PetitionSigningContact'][0]['wave']);
+        /** @var PetitionSigningWave $wave */
         $wave_lang_id = $wave->getLanguageId();
         if ($wave_lang_id) {
           $i18n->setCulture($wave_lang_id);
@@ -143,7 +144,7 @@ class geoCronTask extends sfBaseTask {
             $petition_text_by_lang[$contact['language_id']] = $petition_text;
           }
 
-          if ($petition->getKind() == Petition::KIND_PLEDGE) {
+          if ($is_pledge) {
 
             if ($petition_text) {
               $subject = $petition_text['email_subject'];
@@ -161,11 +162,24 @@ class geoCronTask extends sfBaseTask {
           }
 
           $i++;
-          try {
-            /* Email to target  */
-            UtilMail::send('Email-To-List-' . $petition->getCampaignId(), 'Contact-' . $contact['id'], $wave->getEmailContact($petition->getFromEmail(), true), array($contact['email'] => $contact['firstname'] . ' ' . $contact['lastname']), $subject, $body, null, $subst, null, $wave->getEmailContact()); /* email problem */
-          } catch (Swift_RfcComplianceException $e) {
-            // ignore invalid emails
+          if (!$is_pledge || !$petition->getDigestEnabled()) {
+            try {
+              /* Email to target  */
+              UtilMail::send('Email-To-List-' . $petition->getCampaignId(), 'Contact-' . $contact['id'], $wave->getEmailContact($petition->getFromEmail(), true), array($contact['email'] => $contact['firstname'] . ' ' . $contact['lastname']), $subject, $body, null, $subst, null, $wave->getEmailContact()); /* email problem */
+            } catch (Swift_RfcComplianceException $e) {
+              // ignore invalid emails
+            }
+          } else {
+            $digest_email = new DigestEmail();
+            $digest_email->setContactId($contact['id']);
+            $digest_email->setPetitionSigningId($petition_signing->getId());
+            $digest_email->setPetitionId($petition->getId());
+            $digest_email->setTrackCampaign('Email-To-List-' . $petition->getCampaignId());
+            $digest_email->setTld($wave->getRefTld());
+            $digest_email->setEmailSubject($subject);
+            $digest_email->setEmailBody($body);
+            $digest_email->setSubstJson(json_encode($subst));
+            $digest_email->save();
           }
         }
       }
