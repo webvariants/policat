@@ -17,7 +17,7 @@ class Version216 extends Doctrine_Migration_Base
              'petition_id' => 
              array(
               'type' => 'integer',
-              'primary' => '1',
+              'notnull' => '1',
               'length' => '4',
              ),
              'contact_id' => 
@@ -29,7 +29,7 @@ class Version216 extends Doctrine_Migration_Base
              'petition_signing_id' => 
              array(
               'type' => 'integer',
-              'primary' => '1',
+              'notnull' => '1',
               'length' => '8',
              ),
              'status' => 
@@ -97,8 +97,6 @@ class Version216 extends Doctrine_Migration_Base
              'primary' => 
              array(
               0 => 'id',
-              1 => 'petition_id',
-              2 => 'petition_signing_id',
              ),
              'collate' => 'utf8_general_ci',
              'charset' => 'utf8',

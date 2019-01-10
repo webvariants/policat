@@ -49,4 +49,20 @@ class PetitionContactTable extends Doctrine_Table {
     return $this->createQuery('pc INDEXBY pc.contact_id')->where('pc.petition_id = ?', $petition_id);
   }
 
+  public static function secretHelper($petition, $contact) {
+    $petition_contact = PetitionContactTable::getInstance()->findOneByPetitionIdAndContactId($petition->getId(), $contact['id']);
+    if (!$petition_contact) {
+      $petition_contact = new PetitionContact();
+      $petition_contact->setPetitionId($petition->getId());
+      $petition_contact->setContactId($contact['id']);
+      $new_secret = '';
+      while (strlen($new_secret) < 15) {
+        $new_secret .= strtoupper(strtr(base_convert(mt_rand(), 10, 36), array('0' => '', 'o' => '')));
+      }
+      $petition_contact->setSecret(substr($new_secret, 0, 15));
+      $petition_contact->save();
+    }
+
+    return $petition_contact->getSecret();
+  }
 }

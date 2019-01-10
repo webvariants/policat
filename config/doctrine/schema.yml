@@ -1321,9 +1321,9 @@ DigestEmail:
   actAs: [ Timestampable ]
   columns:
     id:                  { type: integer(8), primary: true, autoincrement: true }
-    petition_id:         { type: integer(4), primary: true }
+    petition_id:         { type: integer(4), notnull: true }
     contact_id:          { type: integer(4), notnull: true }
-    petition_signing_id: { type: integer(8), primary: true }
+    petition_signing_id: { type: integer(8), notnull: true }
     status:              { type: integer(4), notnull: true, default: 1 }
     track_campaign:      { type: string(40), notnull: false }
     tld:                 { type: string(80), notnull: false }

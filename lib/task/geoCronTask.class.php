@@ -79,57 +79,18 @@ class geoCronTask extends sfBaseTask {
         }
 
         $subst = $petition_signing->getSubst();
-        foreach ($subst_fields as $pattern => $subst_field) {
-          switch ($subst_field['type']) {
-            case 'fix': $subst[$pattern] = $contact[$subst_field['id']];
-              break;
-            case 'free':
-              $subst[$pattern] = '';
-              foreach ($contact['ContactMeta'] as $cm)
-                if ($cm['mailing_list_meta_id'] == $subst_field['id']) {
-                  $subst[$pattern] = $cm['value'];
-                }
-              break;
-            case 'choice':
-              $subst[$pattern] = '';
-              foreach ($contact['ContactMeta'] as $cm)
-                if ($cm['mailing_list_meta_id'] == $subst_field['id']) {
-                  $subst[$pattern] = $cm['MailingListMetaChoice']['choice'];
-                }
-              break;
-          }
-        }
+        $subst = Contact::substFieldsHelper($contact, $subst_fields, $subst);
         $wave = $petition_signing->getWave($contact['PetitionSigningContact'][0]['wave']);
         /** @var PetitionSigningWave $wave */
         $wave_lang_id = $wave->getLanguageId();
         if ($wave_lang_id) {
           $i18n->setCulture($wave_lang_id);
         }
-        if ($contact['gender'] == Contact::GENDER_FEMALE)
-          $personal_salutation = $i18n->__('Dear Madam %F %L,', array('%F' => $contact['firstname'], '%L' => $contact['lastname']));
-        elseif ($contact['gender'] == Contact::GENDER_MALE)
-          $personal_salutation = $i18n->__('Dear Sir %F %L,', array('%F' => $contact['firstname'], '%L' => $contact['lastname']));
-        else
-          $personal_salutation = $i18n->__('Dear Sir/Madam %F %L,', array('%F' => $contact['firstname'], '%L' => $contact['lastname']));
-        $personal_salutation .= "\n\n";
-        $subst[PetitionTable::KEYWORD_PERSONAL_SALUTATION] = $personal_salutation;
+        $subst = Contact::substFieldsSalutationHelper($contact, $i18n, $subst);
 
         if ($wave) {
           if ($is_pledge) {
-            $petition_contact = PetitionContactTable::getInstance()->findOneByPetitionIdAndContactId($petition->getId(), $contact['id']);
-            if (!$petition_contact) {
-              $petition_contact = new PetitionContact();
-              $petition_contact->setPetitionId($petition->getId());
-              $petition_contact->setContactId($contact['id']);
-              $new_secret = '';
-              while (strlen($new_secret) < 15) {
-                $new_secret .= strtoupper(strtr(base_convert(mt_rand(), 10, 36), array('0' => '', 'o' => '')));
-              }
-              $petition_contact->setSecret(substr($new_secret, 0, 15));
-              $petition_contact->save();
-            }
-
-            $secret = $petition_contact->getSecret();
+            $secret = PetitionContactTable::secretHelper($petition, $contact);
             $subst['#PLEDGE-URL#'] = $this->getRouting()->generate('pledge_contact', array(
                 'petition_id' => $petition->getId(),
                 'contact_id' => $contact['id'],
@@ -176,9 +137,9 @@ class geoCronTask extends sfBaseTask {
             $digest_email->setPetitionId($petition->getId());
             $digest_email->setTrackCampaign('Email-To-List-' . $petition->getCampaignId());
             $digest_email->setTld($wave->getRefTld());
-            $digest_email->setEmailSubject($subject);
-            $digest_email->setEmailBody($body);
-            $digest_email->setSubstJson(json_encode($subst));
+            // $digest_email->setEmailSubject($subject);
+            // $digest_email->setEmailBody($body);
+            // $digest_email->setSubstJson(json_encode($subst));
             $digest_email->save();
           }
         }

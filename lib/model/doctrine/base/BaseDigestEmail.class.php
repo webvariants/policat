@@ -64,7 +64,7 @@ abstract class BaseDigestEmail extends myDoctrineRecord
              ));
         $this->hasColumn('petition_id', 'integer', 4, array(
              'type' => 'integer',
-             'primary' => true,
+             'notnull' => true,
              'length' => 4,
              ));
         $this->hasColumn('contact_id', 'integer', 4, array(
@@ -74,7 +74,7 @@ abstract class BaseDigestEmail extends myDoctrineRecord
              ));
         $this->hasColumn('petition_signing_id', 'integer', 8, array(
              'type' => 'integer',
-             'primary' => true,
+             'notnull' => true,
              'length' => 8,
              ));
         $this->hasColumn('status', 'integer', 4, array(
