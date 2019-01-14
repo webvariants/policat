@@ -396,6 +396,10 @@ PetitionText:
     subscribe_text:             { type: string(250), notnull: false, default: '' }
 
     signers_page:               { type: clob }
+
+    digest_subject:             { type: string,     notnull: true, default: '' }
+    digest_body_intro:          { type: clob }
+    digest_body_outro:          { type: clob }
   relations:
     Petition:      { onDelete: CASCADE }
     Language:      { onDelete: CASCADE }

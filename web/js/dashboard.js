@@ -120,7 +120,8 @@ var tryEdits = function (prefix) {
 				previewAutoRefresh: true,
 				onShiftEnter: {keepDefault: false, openWith: '\n\n'},
 				markupSet: markupSet,
-				resizeHandle: !textarea.is('.highlight')
+				resizeHandle: !textarea.is('.highlight'),
+				previewTemplatePath: '/js/preview.html'
 			});
 		} catch (e) {
 		}

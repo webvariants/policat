@@ -33,7 +33,8 @@ class TranslationForm extends BasePetitionTextForm {
     $petition = $petition_text->getPetition();
 
     unset(
-      $this['created_at'], $this['updated_at'], $this['petition_id'], $this['object_version'], $this['email_targets'], $this['widget_id'], $this['donate_url'], $this['donate_text']
+      $this['created_at'], $this['updated_at'], $this['petition_id'], $this['object_version'], $this['email_targets'], $this['widget_id'], $this['donate_url'], $this['donate_text'],
+      $this['digest_subject'], $this['digest_body_intro'], $this['digest_body_outro']
     );
 
     $this->setWidget('form_title', new sfWidgetFormInput(array('label' => 'Widget heading'), array('size' => 90, 'class' => 'large', 'placeholder' => 'Leave this field empty to use standard texts.')));
@@ -299,6 +300,30 @@ class TranslationForm extends BasePetitionTextForm {
       $this->setValidator('signers_url', new ValidatorUrl(array('required' => false)));
     } else {
       unset($this['signers_page'], $this['signers_url']);
+    }
+    
+    if (($petition->getKind() == Petition::KIND_PLEDGE) && $petition->getDigestEnabled()) {
+      $this->setWidget('digest_subject', new sfWidgetFormInput(array('label' => 'subject'), array('size' => 90, 'class' => 'large', 'placeholder' => 'Batch E-mail subject line')));
+      $this->setWidget('digest_body_intro', new sfWidgetFormTextarea(array('label' => 'Intro'), array(
+          'cols' => 90,
+          'rows' => 3,
+          'class' => 'markdown highlight email-template markItUp-higher',
+          'data-markup-set-1' => UtilEmailLinks::dataMarkupSet(array(UtilEmailLinks::PLEDGE)),
+          'data-markup-set-2' => $mediaMarkupSet
+      )));
+      $this->setWidget('digest_body_outro', new sfWidgetFormTextarea(array('label' => 'Outro'), array(
+          'cols' => 90,
+          'rows' => 3,
+          'class' => 'markdown highlight email-template markItUp-higher',
+          'data-markup-set-1' => UtilEmailLinks::dataMarkupSet(array(UtilEmailLinks::PLEDGE)),
+          'data-markup-set-2' => $mediaMarkupSet
+      )));
+      $subst_fields = implode(', ', array_merge(array(PetitionTable::KEYWORD_PERSONAL_SALUTATION, '#PLEDGE-URL#', '#DIGEST-COUNTER#', '#DIGEST-TOTAL#'), array_keys($petition->getGeoSubstFields())));
+      $this->getWidgetSchema()->setHelp('digest_body_intro', $subst_fields);
+      $this->getWidgetSchema()->setHelp('digest_body_outro', $subst_fields);
+      $this->setValidator('digest_subject', new sfValidatorString(array('required' => false, 'max_length' => 250)));
+      $this->setValidator('digest_body_intro', new sfValidatorString(array('required' => false, 'max_length' => 100000)));
+      $this->setValidator('digest_body_outro', new sfValidatorString(array('required' => false, 'max_length' => 100000)));
     }
   }
 

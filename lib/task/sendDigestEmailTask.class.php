@@ -42,7 +42,7 @@ class sendDigestEmailTask extends sfBaseTask {
       
       $digests = $query->execute(array(), Doctrine_Core::HYDRATE_ARRAY);
       foreach ($digests as $digest) {
-        if ($digest['count'] >= 0 || ($time - strtotime($digest['first_at'] . ' UTC')) > 3600 * 24) {
+        if ($digest['count'] >= 100 || ($time - strtotime($digest['first_at'] . ' UTC')) > 3600 * 24) {
           $digest_entries = $table
             ->createQuery('d')
             ->select('d.id, d.petition_signing_id, d.tld, d.track_campaign')
@@ -56,11 +56,12 @@ class sendDigestEmailTask extends sfBaseTask {
           
           $signing_ids = array_column($digest_entries, 'petition_signing_id');
           $digest_entries = array_column($digest_entries, null, 'petition_signing_id');
+          $digest_ids = array_column($digest_entries, 'id');
           
           $signings = PetitionSigningTable::getInstance()->createQuery('s')
             ->leftJoin('s.Widget w')
             ->leftJoin('w.PetitionText t')
-            ->select('s.id, s.fullname, s.firstname, s.lastname, s.city, s.country, s.widget_id, w.petition_text_id, t.language_id')
+            ->select('s.id, s.email, s.fullname, s.firstname, s.lastname, s.city, s.country, s.widget_id, w.petition_text_id, t.language_id')
             ->whereIn('s.id', $signing_ids)
             ->execute(array(), Doctrine_Core::HYDRATE_ARRAY_SHALLOW);
           
@@ -73,15 +74,17 @@ class sendDigestEmailTask extends sfBaseTask {
             }
             
             $name = $signing['lastname'] ? (($signing['firstname'] ? $signing['firstname'] . ' ' : '') . $signing['lastname']) : $signing['fullname'];
-            $cols = array($name, $signing['city'], $signing['country'], $digest_entries[$signing['id']]['tld']);
+            $email = $signing['email'];
+            $name_link = '<a href="mailto:' . htmlentities($email, ENT_COMPAT, 'utf-8') . '">' . htmlentities($name, ENT_COMPAT, 'utf-8') . '</a>';
+            $cols = array($name_link, $signing['city'], $signing['country'], $digest_entries[$signing['id']]['tld']);
             $cols = array_filter($cols);
             $digest_entries[$signing['id']]['line'] = implode(', ', $cols);
           }
           $lines = array_filter(array_column($digest_entries, 'line'));
           $petition = PetitionTable::getInstance()->findById($digest['petition_id']);
           $petition_text = PetitionTextTable::getInstance()->fetchByPetitionAndPrefLang($petition, $top_language, Doctrine_Core::HYDRATE_ARRAY);
-          $subject = $petition_text['email_subject'];
-          $body = $petition_text['email_body'];
+          $subject = trim($petition_text['digest_subject']) ? : $petition_text['title'];
+          $body = rtrim($petition_text['digest_body_intro']);
           $subst_fields = $petition->getGeoSubstFields();
           $contact = ContactTable::getInstance()
             ->createQuery('c')
@@ -98,16 +101,28 @@ class sendDigestEmailTask extends sfBaseTask {
                 'contact_id' => $contact['id'],
                 'secret' => $secret
               ), true);
-
-          $body .= "\n" . implode("\n", $lines);
+          $subst['#DIGEST-COUNTER#'] = count($lines);
+          
+          $total = PetitionSigningContactTable::getInstance()
+            ->createQuery('sc')
+            ->select('sc.petition_signing_id')
+            ->where('sc.contact_id = ?', $contact['id'])
+            ->count();
+          
+          $subst['#DIGEST-TOTAL#'] = $total;
+          $body .= "\n\n- " . implode("\n- ", $lines) . "\n\n";
+          $body .= ltrim($petition_text['digest_body_outro']);
           $one_entry = reset($digest_entries);
           
           try {
-            UtilMail::send($one_entry['track_campaign'], 'Contact-' . $contact['id'], $petition->getFrom(), array($contact['email'] => $contact['firstname'] . ' ' . $contact['lastname']), $subject, $body, null, $subst); /* email problem */
+            UtilMail::send($one_entry['track_campaign'], 'Contact-' . $contact['id'], $petition->getFrom(), array($contact['email'] => $contact['firstname'] . ' ' . $contact['lastname']), $subject, $body, null, null, $subst, null, array(), true); /* email problem */
           } catch (Swift_RfcComplianceException $e) {
             // ignore invalid emails
           }
           $i++;
+          
+          // set status for done digest
+          $table->createQuery()->update('DigestEmail de')->whereIn('de.id', $digest_ids)->set('status', 2)->execute();
         }
       }
 
