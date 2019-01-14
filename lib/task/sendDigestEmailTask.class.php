@@ -33,6 +33,10 @@ class sendDigestEmailTask extends sfBaseTask {
     $con->beginTransaction();
     $time = time();
     $i = 0;
+    
+    $max_number = (int) StoreTable::value(StoreTable::DIGEST_MAX_NUMBER, 100);
+    $max_duration = (int) StoreTable::value(StoreTable::DIGEST_MAX_WAIT, 86400);
+    
     try {
       $query = $table
         ->createQuery('d')
@@ -42,7 +46,7 @@ class sendDigestEmailTask extends sfBaseTask {
       
       $digests = $query->execute(array(), Doctrine_Core::HYDRATE_ARRAY);
       foreach ($digests as $digest) {
-        if ($digest['count'] >= 100 || ($time - strtotime($digest['first_at'] . ' UTC')) > 3600 * 24) {
+        if ($digest['count'] >= $max_number || ($time - strtotime($digest['first_at'] . ' UTC')) > $max_duration) {
           $digest_entries = $table
             ->createQuery('d')
             ->select('d.id, d.petition_signing_id, d.tld, d.track_campaign')
@@ -84,7 +88,14 @@ class sendDigestEmailTask extends sfBaseTask {
           $petition = PetitionTable::getInstance()->findById($digest['petition_id']);
           $petition_text = PetitionTextTable::getInstance()->fetchByPetitionAndPrefLang($petition, $top_language, Doctrine_Core::HYDRATE_ARRAY);
           $subject = trim($petition_text['digest_subject']) ? : $petition_text['title'];
-          $body = rtrim($petition_text['digest_body_intro']);
+          $intro = $petition_text['digest_body_intro'];
+          if (!trim($intro)) {
+            $store = StoreTable::getInstance()->findByKeyAndLanguageWithFallback(StoreTable::DIGEST_MAIL, $petition_text['language_id'], 'en');
+            if ($store) {
+              $intro = $store->getField('intro');
+            }
+          }
+          $body = rtrim($intro);
           $subst_fields = $petition->getGeoSubstFields();
           $contact = ContactTable::getInstance()
             ->createQuery('c')
@@ -126,12 +137,12 @@ class sendDigestEmailTask extends sfBaseTask {
         }
       }
 
-    echo "$i digest emails sent.";
+    echo "$i digest emails sent.\n";
     $con->commit();
     } catch (Exception $e) {
       $con->rollback();
       print($e);
-      echo 'exception in transaction.';
+      echo '*** digest emails error *** exception in transaction.\n';
     }
 
   }
