@@ -802,7 +802,7 @@ $(document).ready(function($) {
 			prepareValidate(this, false);
 		});
 
-		$('input[type=checkbox]').wrap('<span class="checkbox"></span>');
+		$('input[type=checkbox]:not(.no-checkbox-wrap)').wrap('<span class="checkbox"></span>');
 
 		// Form handling
 		$('#widget-right form').each(function() {
