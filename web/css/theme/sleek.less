@@ -100,6 +100,14 @@ ul {
 			line-height: 26px;
 			text-align: center;
 		}
+
+		&.pledge_contact {
+			margin: 0;
+			padding: 0;
+			&::before {
+				display: none;
+			}
+		}
 	}
 }
 
@@ -704,6 +712,105 @@ span.checkbox {
 		img {
 			width: 40px;
 			height: 40px;
+		}
+	}
+}
+
+.pledges {
+	input[type=checkbox] {
+		width: 20px;
+		height: 20px;
+		margin-top: 5px;
+		vertical-align: text-bottom;
+	}
+	label {
+		font-size: 14px;
+	}
+
+  i.pledge_color {
+		background: gray;
+		border-radius: 15px;
+		width: 25px;
+		height: 25px;
+		line-height: 25px;
+		text-align: center;
+		font-size: 20px;
+		font-style: normal;
+
+		&::before {
+			color: #fff;
+			content: '?';
+		}
+	}
+
+	i.pledge_color_0 {
+		background-color: #bd1622;
+	}
+	i.pledge_color_1 {
+		background-color: #f0602f;
+	}
+	i.pledge_color_2 {
+		background-color: #ffa10f;
+	}
+	i.pledge_color_3 {
+		background-color: #ffcd03;
+	}
+	i.pledge_color_4 {
+		background-color: #94ba1e;
+	}
+	i.pledge_color_5 {
+		background-color: #009537;
+	}
+	i.pledge_color_6 {
+		background-color: #007f86;
+	}
+	i.pledge_color_7 {
+		background-color: #005cab;
+	}
+	i.pledge_color_8 {
+		background-color: #8134c2;
+	}
+	i.pledge_color_9 {
+		background-color: #9e3c81;
+	}
+
+	.pledge_status_0 i.pledge_color::before {
+
+	}
+	.pledge_status_1 i.pledge_color::before {
+		content: '✓'; // yes
+	}
+	.pledge_status_2 i.pledge_color::before {
+		content: '✗'; // no
+	}
+	i.pledge_done {
+		margin-right: 0;
+		&&::before {
+			content: '✓'; // done
+		}
+	}
+
+	.pledge_icons a.pledge_item {
+		margin-right: 2px;
+	}
+}
+
+.isMobile {
+	.pledges {
+		input[type=checkbox] {
+			width: 30px;
+			height: 30px;
+		}
+		label {
+			font-size: 18px;
+		}
+		i.pledge_color {
+			width: 30px;
+			height: 30px;
+			line-height: 30px;
+		}
+		.pledge_icons {
+			margin-left: 30px;
 		}
 	}
 }

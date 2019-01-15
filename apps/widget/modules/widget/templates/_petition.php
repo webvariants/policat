@@ -20,7 +20,7 @@ if ($petition->isEmailKind()):
             $i = 0;
             foreach ($pledge_items as $pledge_item): /* @var $pledge_item PledgeItem */
               if ($pledge_item->getStatus() == PledgeItemTable::STATUS_ACTIVE): $active_plegde_count++;
-                ?><a title="<?php echo __('Read pledge text') ?>" data-for="#pledge_text_<?php echo $pledge_item->getId() ?>" class="nonewwin pledge_item pledge_item_<?php echo $pledge_item->getId() ?> pledge_color_<?php echo $pledge_item->getColor() ?>"><i class="pledge_color pledge_color_<?php echo $pledge_item->getColor() ?>">&nbsp;</i></a><?php
+                ?><a title="<?php echo __('Read pledge text') ?>" data-for="#pledge_text_<?php echo $pledge_item->getId() ?>" class="nonewwin pledge_item pledge_item_<?php echo $pledge_item->getId() ?> pledge_color_<?php echo $pledge_item->getColor() ?>"><i class="pledge_color pledge_color_<?php echo $pledge_item->getColor() ?>"> </i></a><?php
               endif;
             endforeach
             ?>
