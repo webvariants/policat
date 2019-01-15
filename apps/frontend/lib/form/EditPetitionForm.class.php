@@ -239,6 +239,7 @@ class EditPetitionForm extends PetitionFieldsForm {
             'choices' => array('0' => 'no', '1' => 'yes')), array(
         )));
         $this->setValidator('digest_enabled', new sfValidatorChoice(array('choices' => array('0', '1'))));
+        $this->getWidgetSchema()->setHelp('digest_enabled', 'If enabled please provide e-mail translations.');
         
         $this->setWidget('pledge_with_comments', new sfWidgetFormChoice(array(
             'label' => 'Enable comments',

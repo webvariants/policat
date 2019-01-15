@@ -645,7 +645,7 @@ class StoreTable extends Doctrine_Table {
           'i18n' => true,
           'fields' => array(
               'intro' => array(
-                  'widget' => array('sfWidgetFormTextarea', array('label' => 'Body'), array('class' => 'markdown highlight email-template markItUp-higher')),
+                  'widget' => array('sfWidgetFormTextarea', array('label' => 'Intro'), array('class' => 'markdown highlight email-template markItUp-higher')),
                   'validator' => array('ValidatorKeywords', array('keywords' => '#PLEDGE-URL#')),
                   'help' => '#PLEDGE-URL#, #PERSONAL-SALUTATION#, #DIGEST-COUNTER#, #DIGEST-TOTAL#',
                   'data-markup-set-1' => array(UtilEmailLinks::PLEDGE)

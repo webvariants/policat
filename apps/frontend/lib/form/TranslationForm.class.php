@@ -102,7 +102,7 @@ class TranslationForm extends BasePetitionTextForm {
       $this->getValidator('footer')->setOption('required', false);
       unset($this['email_subject'], $this['email_body']);
     } else {
-      $this->setWidget('email_subject', new sfWidgetFormInput(array(), array('size' => 90, 'class' => 'large')));
+      $this->setWidget('email_subject', new sfWidgetFormInput(array(), array('size' => 90, 'class' => 'large')));      
       $this->setWidget('email_body', new sfWidgetFormTextarea(array(), array('cols' => 90, 'rows' => 30, 'class' => 'large elastic highlight')));
       $this->getValidator('email_subject')->setOption('required', true);
       $this->getValidator('email_body')->setOption('required', true);
@@ -116,7 +116,14 @@ class TranslationForm extends BasePetitionTextForm {
           }
         }
         if ($this->getObject()->getPetition()->getKind() == Petition::KIND_PLEDGE) {
-          $keywords[] = '<b>#PLEDGE-URL#</b> (Link for the candidate)';
+          $this->setWidget('email_body', new sfWidgetFormTextarea(array(), array(
+              'cols' => 90,
+              'rows' => 3,
+              'class' => 'markdown highlight email-template markItUp-higher',
+              'data-markup-set-1' => UtilEmailLinks::dataMarkupSet(array(UtilEmailLinks::PLEDGE)),
+              'data-markup-set-2' => $mediaMarkupSet
+          )));
+          $keywords[] = '<b>' . htmlentities('[Pledge now](#PLEDGE-URL#)')  . '</b> (Link for the candidate)';
           $this->setValidator('email_body', new sfValidatorRegex(array(
               'required' => true,
               'pattern' => '/#PLEDGE-URL#/'
@@ -303,8 +310,9 @@ class TranslationForm extends BasePetitionTextForm {
     }
     
     if (($petition->getKind() == Petition::KIND_PLEDGE) && $petition->getDigestEnabled()) {
-      $this->setWidget('digest_subject', new sfWidgetFormInput(array('label' => 'subject'), array('size' => 90, 'class' => 'large', 'placeholder' => 'Batch E-mail subject line')));
+      $this->setWidget('digest_subject', new sfWidgetFormInput(array('label' => 'subject'), array('size' => 90, 'class' => 'large', 'placeholder' => 'Digest e-mail subject line. If left empty the title is used.')));
       $this->setWidget('digest_body_intro', new sfWidgetFormTextarea(array('label' => 'Intro'), array(
+          'placeholder' => 'Please include the same information as in the single e-mail. If left empty a general fallback text defined by policat is used.',
           'cols' => 90,
           'rows' => 3,
           'class' => 'markdown highlight email-template markItUp-higher',
@@ -314,7 +322,7 @@ class TranslationForm extends BasePetitionTextForm {
       $this->setWidget('digest_body_outro', new sfWidgetFormTextarea(array('label' => 'Outro'), array(
           'cols' => 90,
           'rows' => 3,
-          'class' => 'markdown highlight email-template markItUp-higher',
+          'class' => 'markdown highlight email-template',
           'data-markup-set-1' => UtilEmailLinks::dataMarkupSet(array(UtilEmailLinks::PLEDGE)),
           'data-markup-set-2' => $mediaMarkupSet
       )));
