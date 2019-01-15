@@ -40,9 +40,11 @@ class sendDigestEmailTask extends sfBaseTask {
     try {
       $query = $table
         ->createQuery('d')
+        ->leftJoin('d.Contact c')
         ->select('DISTINCT d.petition_id, d.contact_id, COUNT(d.id) as count, MIN(created_at) as first_at')
         ->groupBy("d.petition_id, d.contact_id")
-        ->andWhere('d.status = ?', 1);
+        ->andWhere('d.status = 1')
+        ->andWhere('c.bounce = 0');
       
       $digests = $query->execute(array(), Doctrine_Core::HYDRATE_ARRAY);
       foreach ($digests as $digest) {

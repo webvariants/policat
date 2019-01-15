@@ -321,7 +321,7 @@ class TranslationForm extends BasePetitionTextForm {
       $subst_fields = implode(', ', array_merge(array(PetitionTable::KEYWORD_PERSONAL_SALUTATION, '#PLEDGE-URL#', '#DIGEST-COUNTER#', '#DIGEST-TOTAL#'), array_keys($petition->getGeoSubstFields())));
       $this->getWidgetSchema()->setHelp('digest_body_intro', $subst_fields);
       $this->getWidgetSchema()->setHelp('digest_body_outro', $subst_fields);
-      $this->setValidator('digest_subject', new sfValidatorString(array('required' => false, 'max_length' => 250)));
+      $this->setValidator('digest_subject', new sfValidatorString(array('required' => false, 'max_length' => 120)));
       $this->setValidator('digest_body_intro', new sfValidatorString(array('required' => false, 'max_length' => 100000)));
       $this->setValidator('digest_body_outro', new sfValidatorString(array('required' => false, 'max_length' => 100000)));
     }
