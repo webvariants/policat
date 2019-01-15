@@ -312,7 +312,6 @@ class TranslationForm extends BasePetitionTextForm {
     if (($petition->getKind() == Petition::KIND_PLEDGE) && $petition->getDigestEnabled()) {
       $this->setWidget('digest_subject', new sfWidgetFormInput(array('label' => 'subject'), array('size' => 90, 'class' => 'large', 'placeholder' => 'Digest e-mail subject line. If left empty the title is used.')));
       $this->setWidget('digest_body_intro', new sfWidgetFormTextarea(array('label' => 'Intro'), array(
-          'placeholder' => 'Please include the same information as in the single e-mail. If left empty a general fallback text defined by policat is used.',
           'cols' => 90,
           'rows' => 3,
           'class' => 'markdown highlight email-template markItUp-higher',
@@ -327,7 +326,8 @@ class TranslationForm extends BasePetitionTextForm {
           'data-markup-set-2' => $mediaMarkupSet
       )));
       $subst_fields = implode(', ', array_merge(array(PetitionTable::KEYWORD_PERSONAL_SALUTATION, '#PLEDGE-URL#', '#DIGEST-COUNTER#', '#DIGEST-TOTAL#'), array_keys($petition->getGeoSubstFields())));
-      $this->getWidgetSchema()->setHelp('digest_body_intro', $subst_fields);
+      $help = '<strong>Note:</strong> If "Digest email" is selected in the Action Settings or set by the target, this email will be sent <strong>instead</strong> of the pledge mail every once in a while and every time a certain number of people sent a pledge-request to a target. You may want to copy and paste the text from your standard pledge email, though make sure to add a short explanation that this is a "digest email". Use the keywords to show how many people have asked the target to pledge yet in total and since the last digest email. If you leave this field empty a generic text will be used (if available in the selected language).';
+      $this->getWidgetSchema()->setHelp('digest_body_intro', $help . "<br /><br /><strong>Keywords:</strong> " . $subst_fields);
       $this->getWidgetSchema()->setHelp('digest_body_outro', $subst_fields);
       $this->setValidator('digest_subject', new sfValidatorString(array('required' => false, 'max_length' => 120)));
       $this->setValidator('digest_body_intro', new sfValidatorString(array('required' => false, 'max_length' => 100000)));
