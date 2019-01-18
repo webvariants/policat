@@ -716,7 +716,15 @@ span.checkbox {
 	}
 }
 
+.scroll-pledges {
+	margin-bottom: 10px;
+}
+
 .pledges {
+	h1 {
+		font-size: 20px;
+	}
+	
 	input[type=checkbox] {
 		width: 20px;
 		height: 20px;
@@ -724,17 +732,32 @@ span.checkbox {
 		vertical-align: text-bottom;
 	}
 	label {
-		font-size: 14px;
+		font-size: 18px;
+		margin-left: 5px;
+		padding: 0;
+		line-height: 22px;
+		
+		span {
+			display: block;
+			margin-left: 25px;
+			&::before, &::after {
+				content: '';
+			}
+		}
+	}
+	
+	.pledge_icons {
+		margin-left: 25px;
 	}
 
-  i.pledge_color {
+	i.pledge_color {
 		background: gray;
-		border-radius: 15px;
+		border-radius: 18px;
 		width: 25px;
 		height: 25px;
 		line-height: 25px;
 		text-align: center;
-		font-size: 20px;
+		font-size: 18px;
 		font-style: normal;
 
 		&::before {
@@ -802,15 +825,21 @@ span.checkbox {
 			height: 30px;
 		}
 		label {
-			font-size: 18px;
+			font-size: 20px;
+			line-height: 24px;
+			
+			span {
+				margin-left: 35px;
+			}
 		}
 		i.pledge_color {
-			width: 30px;
-			height: 30px;
-			line-height: 30px;
+			width: 32px;
+			height: 32px;
+			line-height: 32px;
+			font-size: 20px;
 		}
-		.pledge_icons {
-			margin-left: 30px;
+		.pledge_icons, .pledge-text {
+			margin-left: 35px;
 		}
 	}
 }

@@ -12,9 +12,7 @@ if ($petition->isEmailKind()):
       ob_start();
       ?>
         <li class="pledge_contact">
-          <input type="checkbox" class="no-checkbox-wrap" name="pledge_contact[]" value="" />
-          <i class="pledge_color pledge_done"></i>
-          <label class="pledge_contact_name"></label>
+          <input type="checkbox" class="no-checkbox-wrap" name="pledge_contact[]" value="" /><i class="pledge_color pledge_done"></i><label class="pledge_contact_name"></label>
           <span class="pledge_icons">
             <?php
             $i = 0;

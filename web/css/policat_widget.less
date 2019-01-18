@@ -1077,13 +1077,20 @@ h2:hover + .embed-this-help-head {
 		line-height: 15px;
 		max-height: 15px;
 		text-transform: none;
+		margin-left: 5px;
 		span {
 			font-weight: normal;
+			&::before {
+				content: ' (';
+			}
+			&::after {
+				content: ')';
+			}
 		}
 	}
 	.pledge_icons {
 		display: block;
-		margin: 0 0 0 20px;
+		margin: 0 0 0 18px;
 		a.pledge_item {
 			border-left: 0 !important;
 			border-right: 0 !important;

@@ -346,7 +346,7 @@ $(document).ready(function($) {
 							$('.pledge_contact_name', element).attr('for', 'pledge_contact_' + sk);
 							var name = $('.pledge_contact_name', element).text(list[sk]);
 							if (typeof infos == 'object' && infos[sk]) {
-								name.append($('<span></span>').text(' (' + infos[sk] + ')'));
+								name.append($('<span></span>').text(infos[sk]));
 							}
 							dom.append(element);
 							if (pledges[sk]) {
@@ -1064,6 +1064,11 @@ $(document).ready(function($) {
 
 		if (pledge_ul.length) {
 			var last_text_for = '';
+			pledge_ul.on('touchend', 'a.pledge_item', function(e) {
+				// https://stackoverflow.com/questions/10614481/
+				e.preventDefault();
+				$(this).click();
+			});
 			pledge_ul.on('click', 'a.pledge_item', function() {
 				var a = $(this);
 				var pledge_icons = a.parents('.pledge_icons');
