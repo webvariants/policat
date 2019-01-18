@@ -76,6 +76,8 @@ class Contact extends BaseContact {
         $meta = $metas[$info];
         if ($meta->getMailingListMetaChoiceId()) {
           $ret[] = $meta->getMailingListMetaChoice()->getChoice();
+        } elseif ($meta->getValue()) {
+          $ret[] = $meta->getValue();
         }
       } elseif ($info == 'country') {
         $ret[] = $this->getCountry();
