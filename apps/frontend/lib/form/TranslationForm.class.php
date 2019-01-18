@@ -318,7 +318,7 @@ class TranslationForm extends BasePetitionTextForm {
           'data-markup-set-1' => UtilEmailLinks::dataMarkupSet(array(UtilEmailLinks::PLEDGE)),
           'data-markup-set-2' => $mediaMarkupSet
       )));
-      $this->setWidget('digest_body_outro', new sfWidgetFormTextarea(array('label' => 'Outro'), array(
+      $this->setWidget('digest_body_outro', new sfWidgetFormTextarea(array('label' => 'Footer'), array(
           'cols' => 90,
           'rows' => 3,
           'class' => 'markdown highlight email-template',

@@ -67,13 +67,14 @@ class sendDigestEmailTask extends sfBaseTask {
           $signings = PetitionSigningTable::getInstance()->createQuery('s')
             ->leftJoin('s.Widget w')
             ->leftJoin('w.PetitionText t')
-            ->select('s.id, s.email, s.fullname, s.firstname, s.lastname, s.city, s.country, s.widget_id, w.petition_text_id, t.language_id')
+            ->select('s.id, s.email, s.fullname, s.firstname, s.lastname, s.city, s.country, s.ref, s.widget_id, w.petition_text_id, t.language_id')
             ->whereIn('s.id', $signing_ids)
             ->execute(array(), Doctrine_Core::HYDRATE_ARRAY_SHALLOW);
           
           $languages = array_count_values(array_column($signings, 'language_id'));
           arsort($languages);
           $top_language = key($languages);
+          $i18n->setCulture($top_language);
           foreach ($signings as $signing) {
             if (!array_key_exists($signing['id'], $digest_entries)) {
               continue;
@@ -82,7 +83,11 @@ class sendDigestEmailTask extends sfBaseTask {
             $name = $signing['lastname'] ? (($signing['firstname'] ? $signing['firstname'] . ' ' : '') . $signing['lastname']) : $signing['fullname'];
             $email = $signing['email'];
             $name_link = '<a href="mailto:' . htmlentities($email, ENT_COMPAT, 'utf-8') . '">' . htmlentities($name, ENT_COMPAT, 'utf-8') . '</a>';
-            $cols = array($name_link, $signing['city'], $signing['country'], $digest_entries[$signing['id']]['tld']);
+            $ref_link = null;
+            if ($digest_entries[$signing['id']]['tld'] && $signing['ref']) {
+              $ref_link = $i18n->__('sent via %L', array('%L' => '<a href="' . htmlentities(strtok($signing['ref'], '?')) .  '">' . htmlentities($digest_entries[$signing['id']]['tld'], ENT_COMPAT, 'utf-8') . '</a>'));
+            }
+            $cols = array($name_link, $signing['city'], $ref_link);
             $cols = array_filter($cols);
             $digest_entries[$signing['id']]['line'] = implode(', ', $cols);
           }
@@ -106,7 +111,6 @@ class sendDigestEmailTask extends sfBaseTask {
             ->addFrom('cm.MailingListMetaChoice mlmc')
             ->fetchOne(array(), Doctrine_Core::HYDRATE_ARRAY);
           $subst = Contact::substFieldsHelper($contact, $subst_fields);
-          $i18n->setCulture($top_language);
           $subst = Contact::substFieldsSalutationHelper($contact, $i18n, $subst);
           $secret = PetitionContactTable::secretHelper($petition, $contact);
           $subst['#PLEDGE-URL#'] = $this->getRouting()->generate('pledge_contact', array(
