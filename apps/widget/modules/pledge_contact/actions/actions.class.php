@@ -28,7 +28,7 @@ class pledge_contactActions extends policatActions {
         return $this->notFound();
       }
 
-      if ($petition_contact->getSecret() != $request->getParameter('secret')) {
+      if (!hash_equals($petition_contact->getSecret(), $request->getParameter('secret'))) {
         return $this->notFound();
       }
 

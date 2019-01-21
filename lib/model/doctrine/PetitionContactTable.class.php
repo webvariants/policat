@@ -55,6 +55,9 @@ class PetitionContactTable extends Doctrine_Table {
       $petition_contact = new PetitionContact();
       $petition_contact->setPetitionId($petition->getId());
       $petition_contact->setContactId($contact['id']);
+    }
+    
+    if (!$petition_contact->getSecret()) {
       $new_secret = '';
       while (strlen($new_secret) < 15) {
         $new_secret .= strtoupper(strtr(base_convert(mt_rand(), 10, 36), array('0' => '', 'o' => '')));
