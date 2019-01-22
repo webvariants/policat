@@ -53,6 +53,9 @@ class UtilTargetSelectorPreselect {
         if ($petition->getKind() == Petition::KIND_PLEDGE) {
           $target_selectors[0]['pledges'] = $choices_1['pledges'];
           $target_selectors[0]['infos'] = $choices_1['infos'];
+          if (array_key_exists('sort', $choices_1) && $choices_1['sort']) {
+            $target_selectors[0]['sort'] = $choices_1['sort'];
+          }
         }
         break;
       case 2:
@@ -68,6 +71,9 @@ class UtilTargetSelectorPreselect {
         if ($petition->getKind() == Petition::KIND_PLEDGE) {
           $target_selectors[1]['pledges'] = $choices_2['pledges'];
           $target_selectors[1]['infos'] = $choices_2['infos'];
+          if (array_key_exists('sort', $choices_2) && $choices_2['sort']) {
+            $target_selectors[1]['sort'] = $choices_2['sort'];
+          }
         }
         break;
     }

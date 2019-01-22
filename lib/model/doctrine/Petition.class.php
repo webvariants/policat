@@ -284,6 +284,7 @@ class Petition extends BasePetition {
           $choices0 = array();
           $pledges = false;
           $infos = array();
+          $sort = $this->getPledgeSortColumn() ? array() : null;
           $pledge_info_columns = array();
           $active_pledge_item_ids = false;
           if ($this->getKind() == Petition::KIND_PLEDGE) {
@@ -307,13 +308,17 @@ class Petition extends BasePetition {
             if ($pledge_info_columns) {
               $infos[$contact->getId()] = $contact->getPledgeInfoColumns($pledge_info_columns);
             }
+            if ($this->getPledgeSortColumn()) {
+              $sort[$contact->getId()] = $contact->getPledgeInfoColumns((array) $this->getPledgeSortColumn());
+            }
           }
           $this->_target_selectors[] = array(
               'id' => 'contact',
               'name' => 'Recipient(s)',
               'choices' => $choices0,
               'pledges' => $pledges,
-              'infos' => $infos
+              'infos' => $infos,
+              'sort' => $sort
           );
           //
         } else {
@@ -442,6 +447,9 @@ class Petition extends BasePetition {
                 if (array_key_exists($k, $choices_and_pledges['infos'])) {
                   $ret['infos'][$k] = $choices_and_pledges['infos'][$k];
                 }
+                if (array_key_exists('sort', $choices_and_pledges['sort']) && $choices_and_pledges['sort'] && array_key_exists($k, $choices_and_pledges['sort'])) {
+                  $ret['sort'][$k] = $choices_and_pledges['sort'][$k];
+                }
               }
             }
           }
@@ -486,6 +494,12 @@ class Petition extends BasePetition {
     }
 
     $ret = array('choices' => $choices, 'pledges' => $pledges, 'infos' => $infos);
+    if ($this->getPledgeSortColumn()) {
+      $sort = ContactTable::getInstance()->getPledgeInfoColumns($contacts, (array) $this->getPledgeSortColumn());
+      if ($sort) {
+        $ret['sort'] = $sort;
+      }
+    }
 
     $tags = $this->getCacheTags();
     if ($this->getMailingListId()) {

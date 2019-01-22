@@ -262,6 +262,7 @@ class MailingListTable extends Doctrine_Table {
     $infos = array();
     $pledge_table = PledgeTable::getInstance();
     $pledge_info_columns = $petition->getPledgeInfoColumnsArray();
+    $sort = null;
 
     if ($list) {
       if ($direct_contact) {
@@ -272,6 +273,9 @@ class MailingListTable extends Doctrine_Table {
 
         $pledges = $pledge_table->getPledgesForContacts($list[0]['Contact'], $active_pledge_item_ids);
         $infos = ContactTable::getInstance()->getPledgeInfoColumns($list[0]['Contact'], $pledge_info_columns);
+        if ($petition->getPledgeSortColumn()) {
+          $sort = ContactTable::getInstance()->getPledgeInfoColumns($list[0]['Contact'], (array) $petition->getPledgeSortColumn());
+        }
       } else {
         if ($fix_field) {
           $col_2 = $ts[1]['id'];
@@ -293,7 +297,7 @@ class MailingListTable extends Doctrine_Table {
       }
     }
 
-    $ret = array('choices' => $choices, 'pledges' => ($direct_contact && $active_pledge_item_ids !== false) ? $pledges : false, 'infos' => $infos);
+    $ret = array('choices' => $choices, 'pledges' => ($direct_contact && $active_pledge_item_ids !== false) ? $pledges : false, 'infos' => $infos, 'sort' => $sort);
     if ($direct_contact) {
         $ret['id'] = 'contact';
     }

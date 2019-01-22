@@ -81,6 +81,10 @@ class Contact extends BaseContact {
         }
       } elseif ($info == 'country') {
         $ret[] = $this->getCountry();
+      } elseif ($info == 'firstname') {
+        $ret[] = $this->getFirstname();
+      } elseif ($info == 'lastname') {
+        $ret[] = $this->getLastname();
       }
     }
 

@@ -33,7 +33,7 @@ class EditPetitionForm extends PetitionFieldsForm {
     unset($this['pledge_background_color'], $this['pledge_color'], $this['pledge_head_color'], $this['pledge_font']);
     unset($this['pledge_info_columns'], $this['pledge_with_comments'], $this['activity_at'], $this['deleted_pendings'], $this['deleted_hard_bounces'], $this['deleted_bounces_manually']);
     unset($this['label_mode'], $this['follow_petition_id'], $this['addnum'], $this['target_num'], $this['keywords_subst'], $this['addnum_email_counter'], $this['target_num_email_counter']);
-    unset($this['digest_enabled']);
+    unset($this['digest_enabled'], $this['pledge_sort_column']);
 
     $this->configure_fields();
 
@@ -297,6 +297,13 @@ class EditPetitionForm extends PetitionFieldsForm {
             'data-maximumSelectionSize' => 2
         )));
         $this->setValidator('pledge_info_columns_comma', new sfValidatorString(array('required' => false
+        )));
+        $sort_columns = $this->getObject()->getMailingListId() ? $this->getObject()->getMailingList()->getSortColumns() : array('' => '');
+        $this->setWidget('pledge_sort_column', new sfWidgetFormChoice(array(
+            'choices' => $sort_columns,
+            'label' => 'Sort list by'
+          )));
+        $this->setValidator('pledge_sort_column', new sfValidatorChoice(array('choices' => array_keys($sort_columns)
         )));
       }
     }

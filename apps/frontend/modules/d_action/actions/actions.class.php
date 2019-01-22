@@ -327,12 +327,19 @@ class d_actionActions extends policatActions {
     if (!$petition->isEditableBy($this->getGuardUser())) {
       return $this->noAccess();
     }
+    
+    $oldMailingListId = $petition->getMailingListId();
 
     $form = new EditPetitionTargetForm($petition, array(EditPetitionForm::USER => $this->getGuardUser()));
     $form->bind($request->getPostParameter($form->getName()), $request->getFiles($form->getName()));
 
     if ($form->isValid()) {
       $form->save();
+      if ($oldMailingListId !== $petition->getMailingListId()) {
+        $petition->setPledgeSortColumn(null);
+        $petition->setPledgeInfoColumnsComma('');
+        $petition->save();
+      }
 
       if ($request->getPostParameter('go_translation')) {
         if ($petition->getPetitionText()->count()) {

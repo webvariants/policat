@@ -319,7 +319,7 @@ $(document).ready(function($) {
 
 		if (target_selectors) {
 			var ts = $('#target-selector');
-			var insert_sort = function(dom, list, add_class, is_country, pledges, template, infos, pledge_count) {
+			var insert_sort = function(dom, list, add_class, is_country, pledges, template, infos, pledge_count, natsort) {
 				var k, sk, option, element, i;
 				var count_pledge = 0;
 				if (is_country != undefined && is_country) {
@@ -334,8 +334,15 @@ $(document).ready(function($) {
 						if (sk == null)
 							sk = k;
 						else {
-							if (list[k] < list[sk])
-								sk = k;
+							if (natsort !== null && typeof natsort === 'object') {
+								if (k in natsort && sk in natsort && naturalSorter(natsort[k], natsort[sk]) < 0) {
+									sk = k;
+								}
+							} else {
+								if (list[k] < list[sk]) {
+									sk = k;
+								}
+							}
 						}
 					}
 					if (sk != null) {
@@ -345,7 +352,7 @@ $(document).ready(function($) {
 							$('input', element).attr('id', 'pledge_contact_' + sk).val(sk);
 							$('.pledge_contact_name', element).attr('for', 'pledge_contact_' + sk);
 							var name = $('.pledge_contact_name', element).text(list[sk]);
-							if (typeof infos == 'object' && infos[sk]) {
+							if (infos !== null && typeof infos === 'object' && infos[sk]) {
 								name.append($('<span></span>').text(infos[sk]));
 							}
 							dom.append(element);
@@ -407,7 +414,7 @@ $(document).ready(function($) {
 			$.each(target_selectors, function(_, selector) {
 				var pledges = selector['pledges'] == undefined ? false : selector['pledges'];
 				if (typeof pledges == 'object') {
-					insert_sort(pledge_ul, selector['choices'], null, null, pledges, pledge_ul.data('template'), selector['infos'], pledge_ul.data('pledge-count'));
+					insert_sort(pledge_ul, selector['choices'], null, null, pledges, pledge_ul.data('template'), selector['infos'], pledge_ul.data('pledge-count'), selector.sort);
 				} else {
 					var isCountry = selector['country'] == undefined ? false : selector['country'];
 					var div = $('<div></div>');
@@ -480,7 +487,7 @@ $(document).ready(function($) {
 											}
 											if (typeof data.pledges == 'object') {
 												pledge_ul.empty();
-												insert_sort(pledge_ul, data.choices, null, null, data.pledges, pledge_ul.data('template'), data.infos, pledge_ul.data('pledge-count'));
+												insert_sort(pledge_ul, data.choices, null, null, data.pledges, pledge_ul.data('template'), data.infos, pledge_ul.data('pledge-count'), data.sort);
 											} else {
 												$('option.x', ts_2).remove();
 												insert_sort(ts_2, data.choices, 'x', ts_2.hasClass('country'));
@@ -608,7 +615,7 @@ $(document).ready(function($) {
 										data: {target_selector1: ts_1.val(), target_selector2: s_val},
 										success: function(data) {
 											pledge_ul.empty();
-											insert_sort(pledge_ul, data.choices, null, null, data.pledges, pledge_ul.data('template'), data.infos, pledge_ul.data('pledge-count'));
+											insert_sort(pledge_ul, data.choices, null, null, data.pledges, pledge_ul.data('template'), data.infos, pledge_ul.data('pledge-count'), data.sort);
 											ts_1.attr('disabled', null);
 											select.attr('disabled', null);
 											resize();
@@ -1191,6 +1198,26 @@ $(document).ready(function($) {
 			return str.replace(re, function (matched) {
 				return mapObj1[matched];
 			});
+		}
+		
+		function naturalSorter(as, bs){
+			var a, b, a1, b1, i= 0, n, L,
+			rx=/(\.\d+)|(\d+(\.\d+)?)|([^\d.]+)|(\.\D+)|(\.$)/g;
+			if(as=== bs) return 0;
+			a= as.toLowerCase().match(rx);
+			b= bs.toLowerCase().match(rx);
+			L= a.length;
+			while(i<L){
+				if(!b[i]) return 1;
+				a1= a[i],
+				b1= b[i++];
+				if(a1!== b1){
+					n= a1-b1;
+					if(!isNaN(n)) return n;
+					return a1>b1? 1:-1;
+				}
+			}
+			return b[i]? -1:0;
 		}
 
 	})($, widget_id, window, Math, target_selectors, CT_extra, t_sel, t_sel_all, petition_id, numberSeparator);

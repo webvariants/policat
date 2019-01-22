@@ -124,6 +124,20 @@ class MailingList extends BaseMailingList {
     return $choices;
   }
 
+  public function getSortColumns() {
+    $choices = array('' => '', 'lastname' => 'lastname', 'fistname' => 'firstname');
+    if (!$this->isNew()) {
+      /* @var $this MailingList  */
+      foreach ($this->getSubstFields(false) as $subst_field) {
+        if ($subst_field['type'] === 'free') {
+          $choices[$subst_field['id']] = $subst_field['name'];
+        }
+      }
+    }
+
+    return $choices;
+  }
+
   public function removeObsolteBouceTicket() {
 
     if (!ContactTable::getInstance()->hasBouncedContacts($this->getId())) {

@@ -51,6 +51,7 @@
  * @property string $pledge_head_color
  * @property string $pledge_font
  * @property clob $pledge_info_columns
+ * @property string $pledge_sort_column
  * @property timestamp $activity_at
  * @property integer $widget_individualise
  * @property string $style_font_family
@@ -143,6 +144,7 @@
  * @method string              getPledgeHeadColor()            Returns the current record's "pledge_head_color" value
  * @method string              getPledgeFont()                 Returns the current record's "pledge_font" value
  * @method clob                getPledgeInfoColumns()          Returns the current record's "pledge_info_columns" value
+ * @method string              getPledgeSortColumn()           Returns the current record's "pledge_sort_column" value
  * @method timestamp           getActivityAt()                 Returns the current record's "activity_at" value
  * @method integer             getWidgetIndividualise()        Returns the current record's "widget_individualise" value
  * @method string              getStyleFontFamily()            Returns the current record's "style_font_family" value
@@ -234,6 +236,7 @@
  * @method Petition            setPledgeHeadColor()            Sets the current record's "pledge_head_color" value
  * @method Petition            setPledgeFont()                 Sets the current record's "pledge_font" value
  * @method Petition            setPledgeInfoColumns()          Sets the current record's "pledge_info_columns" value
+ * @method Petition            setPledgeSortColumn()           Sets the current record's "pledge_sort_column" value
  * @method Petition            setActivityAt()                 Sets the current record's "activity_at" value
  * @method Petition            setWidgetIndividualise()        Sets the current record's "widget_individualise" value
  * @method Petition            setStyleFontFamily()            Sets the current record's "style_font_family" value
@@ -525,6 +528,10 @@ abstract class BasePetition extends myDoctrineRecord
              ));
         $this->hasColumn('pledge_info_columns', 'clob', null, array(
              'type' => 'clob',
+             'notnull' => false,
+             ));
+        $this->hasColumn('pledge_sort_column', 'string', null, array(
+             'type' => 'string',
              'notnull' => false,
              ));
         $this->hasColumn('activity_at', 'timestamp', null, array(
