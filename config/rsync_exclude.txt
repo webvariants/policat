@@ -37,6 +37,7 @@ CVS
 /config/databases.yml
 /config/properties.ini
 /config/factories.yml
+/config/settings.yml
 
 /data/*.lck
 /data/csv_uploads
