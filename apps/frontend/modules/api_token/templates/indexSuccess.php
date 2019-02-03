@@ -21,6 +21,7 @@
   automatically, via our <a href="<?php echo url_for('api_v2_doc') ?>">API</a>. Create a token for each organisation
   you want to allow to add their counts to your counter.
 </p>
+<p>Action ID: <?php echo $petition->getId() ?></p>
 <?php if ($tokens->count()): ?>
   <table class="table table-bordered">
       <thead>

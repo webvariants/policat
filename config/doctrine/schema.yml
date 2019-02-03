@@ -300,6 +300,7 @@ Petition:
     pledge_head_color:       { type: string(6), notnull: false, default: '333333' }
     pledge_font:             { type: string(80), notnull: false, default: null }
     pledge_info_columns:     { type: clob, notnull: false }
+    pledge_sort_column:      { type: string, notnull: false, default: null }
     activity_at:             { type: timestamp, notnull: false, default: null }
     widget_individualise:    { type: integer(1), notnull: true, default: 1 }
     style_font_family:       { type: string(80), notnull: true, default: '"Lucida Sans Unicode", Verdana, Arial' }
@@ -327,6 +328,7 @@ Petition:
     show_email_counter:      { type: integer(1), notnull: true, default: 0 }
     addnum_email_counter:    { type: integer(4), notnull: true, default: 0 }
     target_num_email_counter: { type: integer(4), notnull: true, default: 0 }
+    digest_enabled:           { type: integer(1), notnull: true, default: 0 }
   relations:
     Campaign:          { onDelete: CASCADE  }
     Language:          {  }
@@ -395,6 +397,10 @@ PetitionText:
     subscribe_text:             { type: string(250), notnull: false, default: '' }
 
     signers_page:               { type: clob }
+
+    digest_subject:             { type: string,     notnull: true, default: '' }
+    digest_body_intro:          { type: clob }
+    digest_body_outro:          { type: clob }
   relations:
     Petition:      { onDelete: CASCADE }
     Language:      { onDelete: CASCADE }
@@ -1311,3 +1317,39 @@ InvitationCampaign:
     Invitation:        { local: invitation_id,  onDelete: CASCADE }
     Campaign:          { local: campaign_id,    onDelete: CASCADE }
     InvitedBy:         { class: sfGuardUser, local: invited_by_id, onDelete: CASCADE }
+
+DigestEmail:
+  options:
+    symfony:
+      form:   false
+      filter: false
+  actAs: [ Timestampable ]
+  columns:
+    id:                  { type: integer(8), primary: true, autoincrement: true }
+    petition_id:         { type: integer(4), notnull: true }
+    contact_id:          { type: integer(4), notnull: true }
+    petition_signing_id: { type: integer(8), notnull: true }
+    status:              { type: integer(4), notnull: true, default: 1 }
+    track_campaign:      { type: string(40), notnull: false }
+    tld:                 { type: string(80), notnull: false }
+    email_subject:       { type: string,     notnull: false }
+    email_body:          { type: clob,       notnull: false }
+    subst_json:          { type: clob,       notnull: false }
+  indexes:
+    digest_cron_idx:     { fields: [status, petition_id, contact_id] }
+  relations:
+    Petition:
+      onDelete: CASCADE
+      class: Petition
+      local: petition_id
+      foreignAlias: DigestEmails
+    Contact:
+      onDelete: CASCADE
+      class: Contact
+      local: contact_id
+      foreignAlias: DigestEmails
+    PetitionSigning:
+      onDelete: CASCADE
+      class: PetitionSigning
+      local: petition_signing_id
+      foreignAlias: DigestEmails

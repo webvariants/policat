@@ -51,6 +51,7 @@
  * @property string $pledge_head_color
  * @property string $pledge_font
  * @property clob $pledge_info_columns
+ * @property string $pledge_sort_column
  * @property timestamp $activity_at
  * @property integer $widget_individualise
  * @property string $style_font_family
@@ -78,6 +79,7 @@
  * @property integer $show_email_counter
  * @property integer $addnum_email_counter
  * @property integer $target_num_email_counter
+ * @property integer $digest_enabled
  * @property Campaign $Campaign
  * @property Language $Language
  * @property MailingList $MailingList
@@ -94,6 +96,7 @@
  * @property Doctrine_Collection $PetitionContacts
  * @property Doctrine_Collection $ApiTokens
  * @property Doctrine_Collection $Downloads
+ * @property Doctrine_Collection $DigestEmails
  * 
  * @method integer             getId()                         Returns the current record's "id" value
  * @method integer             getCampaignId()                 Returns the current record's "campaign_id" value
@@ -141,6 +144,7 @@
  * @method string              getPledgeHeadColor()            Returns the current record's "pledge_head_color" value
  * @method string              getPledgeFont()                 Returns the current record's "pledge_font" value
  * @method clob                getPledgeInfoColumns()          Returns the current record's "pledge_info_columns" value
+ * @method string              getPledgeSortColumn()           Returns the current record's "pledge_sort_column" value
  * @method timestamp           getActivityAt()                 Returns the current record's "activity_at" value
  * @method integer             getWidgetIndividualise()        Returns the current record's "widget_individualise" value
  * @method string              getStyleFontFamily()            Returns the current record's "style_font_family" value
@@ -168,6 +172,7 @@
  * @method integer             getShowEmailCounter()           Returns the current record's "show_email_counter" value
  * @method integer             getAddnumEmailCounter()         Returns the current record's "addnum_email_counter" value
  * @method integer             getTargetNumEmailCounter()      Returns the current record's "target_num_email_counter" value
+ * @method integer             getDigestEnabled()              Returns the current record's "digest_enabled" value
  * @method Campaign            getCampaign()                   Returns the current record's "Campaign" value
  * @method Language            getLanguage()                   Returns the current record's "Language" value
  * @method MailingList         getMailingList()                Returns the current record's "MailingList" value
@@ -184,6 +189,7 @@
  * @method Doctrine_Collection getPetitionContacts()           Returns the current record's "PetitionContacts" collection
  * @method Doctrine_Collection getApiTokens()                  Returns the current record's "ApiTokens" collection
  * @method Doctrine_Collection getDownloads()                  Returns the current record's "Downloads" collection
+ * @method Doctrine_Collection getDigestEmails()               Returns the current record's "DigestEmails" collection
  * @method Petition            setId()                         Sets the current record's "id" value
  * @method Petition            setCampaignId()                 Sets the current record's "campaign_id" value
  * @method Petition            setFollowPetitionId()           Sets the current record's "follow_petition_id" value
@@ -230,6 +236,7 @@
  * @method Petition            setPledgeHeadColor()            Sets the current record's "pledge_head_color" value
  * @method Petition            setPledgeFont()                 Sets the current record's "pledge_font" value
  * @method Petition            setPledgeInfoColumns()          Sets the current record's "pledge_info_columns" value
+ * @method Petition            setPledgeSortColumn()           Sets the current record's "pledge_sort_column" value
  * @method Petition            setActivityAt()                 Sets the current record's "activity_at" value
  * @method Petition            setWidgetIndividualise()        Sets the current record's "widget_individualise" value
  * @method Petition            setStyleFontFamily()            Sets the current record's "style_font_family" value
@@ -257,6 +264,7 @@
  * @method Petition            setShowEmailCounter()           Sets the current record's "show_email_counter" value
  * @method Petition            setAddnumEmailCounter()         Sets the current record's "addnum_email_counter" value
  * @method Petition            setTargetNumEmailCounter()      Sets the current record's "target_num_email_counter" value
+ * @method Petition            setDigestEnabled()              Sets the current record's "digest_enabled" value
  * @method Petition            setCampaign()                   Sets the current record's "Campaign" value
  * @method Petition            setLanguage()                   Sets the current record's "Language" value
  * @method Petition            setMailingList()                Sets the current record's "MailingList" value
@@ -273,6 +281,7 @@
  * @method Petition            setPetitionContacts()           Sets the current record's "PetitionContacts" collection
  * @method Petition            setApiTokens()                  Sets the current record's "ApiTokens" collection
  * @method Petition            setDownloads()                  Sets the current record's "Downloads" collection
+ * @method Petition            setDigestEmails()               Sets the current record's "DigestEmails" collection
  * 
  * @package    policat
  * @subpackage model
@@ -521,6 +530,10 @@ abstract class BasePetition extends myDoctrineRecord
              'type' => 'clob',
              'notnull' => false,
              ));
+        $this->hasColumn('pledge_sort_column', 'string', null, array(
+             'type' => 'string',
+             'notnull' => false,
+             ));
         $this->hasColumn('activity_at', 'timestamp', null, array(
              'type' => 'timestamp',
              'notnull' => false,
@@ -679,6 +692,12 @@ abstract class BasePetition extends myDoctrineRecord
              'default' => 0,
              'length' => 4,
              ));
+        $this->hasColumn('digest_enabled', 'integer', 1, array(
+             'type' => 'integer',
+             'notnull' => true,
+             'default' => 0,
+             'length' => 1,
+             ));
 
 
         $this->index('petition_status', array(
@@ -791,6 +810,10 @@ abstract class BasePetition extends myDoctrineRecord
              'foreign' => 'petition_id'));
 
         $this->hasMany('Download as Downloads', array(
+             'local' => 'id',
+             'foreign' => 'petition_id'));
+
+        $this->hasMany('DigestEmail as DigestEmails', array(
              'local' => 'id',
              'foreign' => 'petition_id'));
 

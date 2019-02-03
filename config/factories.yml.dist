@@ -5,6 +5,10 @@ prod:
       level:   err
       loggers: ~
 
+    # class: sfAggregateLogger
+    # param:
+    #   level: crit # EMERG, ALERT, CRIT, ERR, WARNING, NOTICE, INFO, or DEBUG
+
 test:
   storage:
     class: sfSessionTestStorage

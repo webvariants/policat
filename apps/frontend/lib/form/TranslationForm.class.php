@@ -33,7 +33,8 @@ class TranslationForm extends BasePetitionTextForm {
     $petition = $petition_text->getPetition();
 
     unset(
-      $this['created_at'], $this['updated_at'], $this['petition_id'], $this['object_version'], $this['email_targets'], $this['widget_id'], $this['donate_url'], $this['donate_text']
+      $this['created_at'], $this['updated_at'], $this['petition_id'], $this['object_version'], $this['email_targets'], $this['widget_id'], $this['donate_url'], $this['donate_text'],
+      $this['digest_subject'], $this['digest_body_intro'], $this['digest_body_outro']
     );
 
     $this->setWidget('form_title', new sfWidgetFormInput(array('label' => 'Widget heading'), array('size' => 90, 'class' => 'large', 'placeholder' => 'Leave this field empty to use standard texts.')));
@@ -101,7 +102,7 @@ class TranslationForm extends BasePetitionTextForm {
       $this->getValidator('footer')->setOption('required', false);
       unset($this['email_subject'], $this['email_body']);
     } else {
-      $this->setWidget('email_subject', new sfWidgetFormInput(array(), array('size' => 90, 'class' => 'large')));
+      $this->setWidget('email_subject', new sfWidgetFormInput(array(), array('size' => 90, 'class' => 'large')));      
       $this->setWidget('email_body', new sfWidgetFormTextarea(array(), array('cols' => 90, 'rows' => 30, 'class' => 'large elastic highlight')));
       $this->getValidator('email_subject')->setOption('required', true);
       $this->getValidator('email_body')->setOption('required', true);
@@ -115,7 +116,14 @@ class TranslationForm extends BasePetitionTextForm {
           }
         }
         if ($this->getObject()->getPetition()->getKind() == Petition::KIND_PLEDGE) {
-          $keywords[] = '<b>#PLEDGE-URL#</b> (Link for the candidate)';
+          $this->setWidget('email_body', new sfWidgetFormTextarea(array(), array(
+              'cols' => 90,
+              'rows' => 3,
+              'class' => 'markdown highlight email-template markItUp-higher',
+              'data-markup-set-1' => UtilEmailLinks::dataMarkupSet(array(UtilEmailLinks::PLEDGE)),
+              'data-markup-set-2' => $mediaMarkupSet
+          )));
+          $keywords[] = '<b>' . htmlentities('[Pledge now](#PLEDGE-URL#)')  . '</b> (Link for the candidate)';
           $this->setValidator('email_body', new sfValidatorRegex(array(
               'required' => true,
               'pattern' => '/#PLEDGE-URL#/'
@@ -299,6 +307,31 @@ class TranslationForm extends BasePetitionTextForm {
       $this->setValidator('signers_url', new ValidatorUrl(array('required' => false)));
     } else {
       unset($this['signers_page'], $this['signers_url']);
+    }
+    
+    if (($petition->getKind() == Petition::KIND_PLEDGE) && $petition->getDigestEnabled()) {
+      $this->setWidget('digest_subject', new sfWidgetFormInput(array('label' => 'subject'), array('size' => 90, 'class' => 'large', 'placeholder' => 'Digest e-mail subject line. If left empty the title is used.')));
+      $this->setWidget('digest_body_intro', new sfWidgetFormTextarea(array('label' => 'Intro'), array(
+          'cols' => 90,
+          'rows' => 3,
+          'class' => 'markdown highlight email-template markItUp-higher',
+          'data-markup-set-1' => UtilEmailLinks::dataMarkupSet(array(UtilEmailLinks::PLEDGE)),
+          'data-markup-set-2' => $mediaMarkupSet
+      )));
+      $this->setWidget('digest_body_outro', new sfWidgetFormTextarea(array('label' => 'Footer'), array(
+          'cols' => 90,
+          'rows' => 3,
+          'class' => 'markdown highlight email-template',
+          'data-markup-set-1' => UtilEmailLinks::dataMarkupSet(array(UtilEmailLinks::PLEDGE)),
+          'data-markup-set-2' => $mediaMarkupSet
+      )));
+      $subst_fields = implode(', ', array_merge(array(PetitionTable::KEYWORD_PERSONAL_SALUTATION, '#PLEDGE-URL#', '#DIGEST-COUNTER#', '#DIGEST-TOTAL#'), array_keys($petition->getGeoSubstFields())));
+      $help = '<strong>Note:</strong> If "Digest email" is selected in the Action Settings or set by the target, this email will be sent <strong>instead</strong> of the pledge mail every once in a while and every time a certain number of people sent a pledge-request to a target. You may want to copy and paste the text from your standard pledge email, though make sure to add a short explanation that this is a "digest email". Use the keywords to show how many people have asked the target to pledge yet in total and since the last digest email. If you leave this field empty a generic text will be used (if available in the selected language).';
+      $this->getWidgetSchema()->setHelp('digest_body_intro', $help . "<br /><br /><strong>Keywords:</strong> " . $subst_fields);
+      $this->getWidgetSchema()->setHelp('digest_body_outro', $subst_fields);
+      $this->setValidator('digest_subject', new sfValidatorString(array('required' => false, 'max_length' => 120)));
+      $this->setValidator('digest_body_intro', new sfValidatorString(array('required' => false, 'max_length' => 100000)));
+      $this->setValidator('digest_body_outro', new sfValidatorString(array('required' => false, 'max_length' => 100000)));
     }
   }
 

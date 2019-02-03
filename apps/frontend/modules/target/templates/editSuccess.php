@@ -42,7 +42,7 @@ $hide_edit = false;
     if (!$open_edit):
       $hide_edit = true;
       ?>
-      <a id="edit-btn" class="btn" href="javascript:$('#edit').show();$('#edit-btn').addClass('hide'); ">Edit target-list</a>
+      <a id="edit-btn" class="btn" href="javascript:(function(){$('#edit').show();$('#edit-btn').addClass('hide');})();">Edit target-list</a>
     <?php endif ?>
   <?php endif ?>
 <?php elseif (isset($campaign)): ?>

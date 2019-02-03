@@ -76,9 +76,15 @@ class Contact extends BaseContact {
         $meta = $metas[$info];
         if ($meta->getMailingListMetaChoiceId()) {
           $ret[] = $meta->getMailingListMetaChoice()->getChoice();
+        } elseif ($meta->getValue()) {
+          $ret[] = $meta->getValue();
         }
       } elseif ($info == 'country') {
         $ret[] = $this->getCountry();
+      } elseif ($info == 'firstname') {
+        $ret[] = $this->getFirstname();
+      } elseif ($info == 'lastname') {
+        $ret[] = $this->getLastname();
       }
     }
 
@@ -110,4 +116,41 @@ class Contact extends BaseContact {
     return '';
   }
 
+  public static function substFieldsHelper($contact, $subst_fields, $subst = array()) {
+    foreach ($subst_fields as $pattern => $subst_field) {
+      switch ($subst_field['type']) {
+        case 'fix': $subst[$pattern] = $contact[$subst_field['id']];
+          break;
+        case 'free':
+          $subst[$pattern] = '';
+          foreach ($contact['ContactMeta'] as $cm)
+            if ($cm['mailing_list_meta_id'] == $subst_field['id']) {
+              $subst[$pattern] = $cm['value'];
+            }
+          break;
+        case 'choice':
+          $subst[$pattern] = '';
+          foreach ($contact['ContactMeta'] as $cm)
+            if ($cm['mailing_list_meta_id'] == $subst_field['id']) {
+              $subst[$pattern] = $cm['MailingListMetaChoice']['choice'];
+            }
+          break;
+      }
+    }
+
+    return $subst;
+  }
+  
+  public static function substFieldsSalutationHelper($contact, $i18n, $subst, $suffix = "\n\n") {
+    if ($contact['gender'] == Contact::GENDER_FEMALE)
+      $personal_salutation = $i18n->__('Dear Madam %F %L,', array('%F' => $contact['firstname'], '%L' => $contact['lastname']));
+    elseif ($contact['gender'] == Contact::GENDER_MALE)
+      $personal_salutation = $i18n->__('Dear Sir %F %L,', array('%F' => $contact['firstname'], '%L' => $contact['lastname']));
+    else
+      $personal_salutation = $i18n->__('Dear Sir/Madam %F %L,', array('%F' => $contact['firstname'], '%L' => $contact['lastname']));
+    $personal_salutation .= $suffix;
+    $subst[PetitionTable::KEYWORD_PERSONAL_SALUTATION] = $personal_salutation;
+    
+    return $subst;
+  }
 }

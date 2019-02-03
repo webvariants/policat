@@ -57,6 +57,7 @@
  * @property Doctrine_Collection $Search
  * @property Doctrine_Collection $PetitionSigningContact
  * @property Doctrine_Collection $PetitionSigningWave
+ * @property Doctrine_Collection $DigestEmails
  * 
  * @method integer             getId()                     Returns the current record's "id" value
  * @method integer             getPetitionId()             Returns the current record's "petition_id" value
@@ -110,6 +111,7 @@
  * @method Doctrine_Collection getSearch()                 Returns the current record's "Search" collection
  * @method Doctrine_Collection getPetitionSigningContact() Returns the current record's "PetitionSigningContact" collection
  * @method Doctrine_Collection getPetitionSigningWave()    Returns the current record's "PetitionSigningWave" collection
+ * @method Doctrine_Collection getDigestEmails()           Returns the current record's "DigestEmails" collection
  * @method PetitionSigning     setId()                     Sets the current record's "id" value
  * @method PetitionSigning     setPetitionId()             Sets the current record's "petition_id" value
  * @method PetitionSigning     setFields()                 Sets the current record's "fields" value
@@ -162,6 +164,7 @@
  * @method PetitionSigning     setSearch()                 Sets the current record's "Search" collection
  * @method PetitionSigning     setPetitionSigningContact() Sets the current record's "PetitionSigningContact" collection
  * @method PetitionSigning     setPetitionSigningWave()    Sets the current record's "PetitionSigningWave" collection
+ * @method PetitionSigning     setDigestEmails()           Sets the current record's "DigestEmails" collection
  * 
  * @package    policat
  * @subpackage model
@@ -615,6 +618,10 @@ abstract class BasePetitionSigning extends myDoctrineRecord
              'foreign' => 'petition_signing_id'));
 
         $this->hasMany('PetitionSigningWave', array(
+             'local' => 'id',
+             'foreign' => 'petition_signing_id'));
+
+        $this->hasMany('DigestEmail as DigestEmails', array(
              'local' => 'id',
              'foreign' => 'petition_signing_id'));
 

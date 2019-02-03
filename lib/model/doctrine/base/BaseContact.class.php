@@ -27,6 +27,7 @@
  * @property Doctrine_Collection $PetitionSigningContact
  * @property Doctrine_Collection $PetitionContacts
  * @property Doctrine_Collection $Pledges
+ * @property Doctrine_Collection $DigestEmails
  * 
  * @method integer             getId()                     Returns the current record's "id" value
  * @method integer             getStatus()                 Returns the current record's "status" value
@@ -50,6 +51,7 @@
  * @method Doctrine_Collection getPetitionSigningContact() Returns the current record's "PetitionSigningContact" collection
  * @method Doctrine_Collection getPetitionContacts()       Returns the current record's "PetitionContacts" collection
  * @method Doctrine_Collection getPledges()                Returns the current record's "Pledges" collection
+ * @method Doctrine_Collection getDigestEmails()           Returns the current record's "DigestEmails" collection
  * @method Contact             setId()                     Sets the current record's "id" value
  * @method Contact             setStatus()                 Sets the current record's "status" value
  * @method Contact             setMailingListId()          Sets the current record's "mailing_list_id" value
@@ -72,6 +74,7 @@
  * @method Contact             setPetitionSigningContact() Sets the current record's "PetitionSigningContact" collection
  * @method Contact             setPetitionContacts()       Sets the current record's "PetitionContacts" collection
  * @method Contact             setPledges()                Sets the current record's "Pledges" collection
+ * @method Contact             setDigestEmails()           Sets the current record's "DigestEmails" collection
  * 
  * @package    policat
  * @subpackage model
@@ -231,6 +234,10 @@ abstract class BaseContact extends myDoctrineRecord
              'foreign' => 'contact_id'));
 
         $this->hasMany('Pledge as Pledges', array(
+             'local' => 'id',
+             'foreign' => 'contact_id'));
+
+        $this->hasMany('DigestEmail as DigestEmails', array(
              'local' => 'id',
              'foreign' => 'contact_id'));
     }

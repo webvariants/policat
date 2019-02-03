@@ -34,6 +34,11 @@
         <?php echo $form->renderRows(array('*body', '*footer', '*email_subject', '*email_body', '*background')) ?>
         <?php echo $form->renderRows(array('*label_extra1', '*placeholder_extra1', '*subscribe_text')) ?>
 
+        <?php if (($petition->getKind() == Petition::KIND_PLEDGE) && $petition->getDigestEnabled()): ?>
+          <legend>Digest E-mail</legend>
+          <?php echo $form->renderRows(array('digest_subject', 'digest_body_intro', 'digest_body_outro')) ?>
+        <?php endif ?>
+
         <?php if ($petition->getKind() == Petition::KIND_PLEDGE): ?>
           <legend>Pledge Page</legend>
           <?php echo $form->renderRows(array('*pledge_title', '*intro', '*pledge_comment', '*pledge_explantory_annotation', '*pledge_thank_you')) ?>

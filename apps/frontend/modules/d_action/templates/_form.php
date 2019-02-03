@@ -79,7 +79,7 @@
                 <?php if ($petition->getKind() == Petition::KIND_PLEDGE): ?>
                   <fieldset class="tab-pane show-before-chosen-init" id="sec7">
                       <legend>Pledge Settings</legend>
-                      <?php echo $form->renderRows('pledge_with_comments', 'pledge_header_visual', 'pledge_key_visual', 'pledge_background_color', 'pledge_color', 'pledge_head_color', 'pledge_font', 'pledge_info_columns_comma') ?>
+                      <?php echo $form->renderRows('pledge_with_comments', 'pledge_header_visual', 'pledge_key_visual', 'pledge_background_color', 'pledge_color', 'pledge_head_color', 'pledge_font', 'pledge_info_columns_comma', 'pledge_sort_column', 'digest_enabled') ?>
                   </fieldset>
                 <?php endif ?>
             </div>

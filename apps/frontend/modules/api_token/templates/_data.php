@@ -9,5 +9,5 @@
             <?php endforeach ?>
         </table>
     </td>
-    <td><a class="btn" href="javascript:$('#token_data_<?php echo $token->getId() ?>').remove();">close</a></td>
+    <td><a class="btn" href="javascript:(function(){$('#token_data_<?php echo $token->getId() ?>').remove();})();">close</a></td>
 </tr>

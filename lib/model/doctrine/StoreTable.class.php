@@ -98,6 +98,9 @@ class StoreTable extends Doctrine_Table {
   const DONATIONS_PAYPAL = 'donations_paypal';
   const INTERNAL_CACHE_OPEN_ACTIONS = 'internal_cache_open_actions';
   const INTERNAL_LAST_TESTING_BOUNCE = 'internal_last_testing_bounce';
+  const DIGEST_MAIL = 'digest_mail';
+  const DIGEST_MAX_NUMBER = 'digest_max_number';
+  const DIGEST_MAX_WAIT = 'digest_max_wait';
 
   static $meta = array(
       'portal' => array(
@@ -633,6 +636,33 @@ class StoreTable extends Doctrine_Table {
                   'validator' => array('ValidatorKeywords', array('keywords' => '#VALIDATION-URL#')),
                   'help' => '#VALIDATION-URL#, #USER-NAME#',
                   'data-markup-set-1' => array(UtilEmailLinks::VALIDATION)
+              ),
+          )
+      ),
+      'digest_mail' => array(
+          'name' => 'Digest E-Mail',
+          'json' => self::DIGEST_MAIL,
+          'i18n' => true,
+          'fields' => array(
+              'intro' => array(
+                  'widget' => array('sfWidgetFormTextarea', array('label' => 'Intro'), array('class' => 'markdown highlight email-template markItUp-higher')),
+                  'validator' => array('ValidatorKeywords', array('keywords' => '#PLEDGE-URL#')),
+                  'help' => '#PLEDGE-URL#, #PERSONAL-SALUTATION#, #DIGEST-COUNTER#, #DIGEST-TOTAL#',
+                  'data-markup-set-1' => array(UtilEmailLinks::PLEDGE)
+              ),
+          )
+      ),
+      'digest_setting' => array(
+          'name' => 'Digest Settings',
+          'fields' => array(
+              self::DIGEST_MAX_NUMBER => array(
+                  'widget' => array('sfWidgetFormInputText', array('label' => 'max entries per digest email')),
+                  'validator' => array('sfValidatorNumber', array('min' => 1, 'max' => 100000))
+              ),
+              self::DIGEST_MAX_WAIT => array(
+                  'widget' => array('sfWidgetFormInputText', array('label' => 'max duration per digest email in seconds')),
+                  'validator' => array('sfValidatorNumber', array('min' => 10, 'max' => 700000)),
+                  'help' => '1 day = 86400, 1h = 3600, 1min = 60'
               ),
           )
       ),

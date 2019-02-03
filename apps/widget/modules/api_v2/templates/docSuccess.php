@@ -11,6 +11,8 @@ moment, it only supports a very limited range of resources.</p>
 URL: <code><?php echo url_for('api_v2', array('action_id' => 42), true) ?></code> (replace the
 <code>42</code> with your action ID).</p>
 
+<p>Request the Action ID and your individual token from the action coordinator.</p>
+
 <h3>Parameter</h3>
 <p>By default, you will get a summary over the entire lifespan of the action. <!--including all
 <strong>used</strong> widgets (i.e., widgets that did not lead to a signing will not show up in

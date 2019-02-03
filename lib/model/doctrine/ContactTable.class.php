@@ -208,6 +208,8 @@ class ContactTable extends Doctrine_Table {
     if (!$info_columns) {
       return array();
     }
+    $with_firstname = false;
+    $with_lastname = false;
     $with_country = false;
     $i = 0;
     $mailing_list_meta_ids = array();
@@ -215,6 +217,10 @@ class ContactTable extends Doctrine_Table {
     foreach ($info_columns as $info_name) {
       if ($info_name === 'country') {
         $with_country = $i;
+      } elseif ($info_name === 'firstname') {
+        $with_firstname = $i;
+      } elseif ($info_name === 'lastname') {
+        $with_lastname = $i;
       } elseif (is_numeric($info_name)) {
         $mailing_list_meta_ids[] = $info_name;
         $pos[$info_name] = $i;
@@ -231,6 +237,12 @@ class ContactTable extends Doctrine_Table {
 
       if ($with_country !== null) {
         $infos[$contact->getId()][$with_country] = $contact->getCountryName();
+      }
+      if ($with_firstname !== null) {
+        $infos[$contact->getId()][$with_firstname] = $contact->getFirstname();
+      }
+      if ($with_lastname !== null) {
+        $infos[$contact->getId()][$with_lastname] = $contact->getLastname();
       }
     }
 

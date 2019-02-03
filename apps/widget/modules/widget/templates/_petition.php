@@ -12,15 +12,13 @@ if ($petition->isEmailKind()):
       ob_start();
       ?>
         <li class="pledge_contact">
-          <input type="checkbox" name="pledge_contact[]" value="" />
-          <i class="pledge_color pledge_done"></i>
-          <label class="pledge_contact_name"></label>
+          <input type="checkbox" class="no-checkbox-wrap" name="pledge_contact[]" value="" /><i class="pledge_color pledge_done"></i><label class="pledge_contact_name"></label>
           <span class="pledge_icons">
             <?php
             $i = 0;
             foreach ($pledge_items as $pledge_item): /* @var $pledge_item PledgeItem */
               if ($pledge_item->getStatus() == PledgeItemTable::STATUS_ACTIVE): $active_plegde_count++;
-                ?><a title="<?php echo __('Read pledge text') ?>" data-for="#pledge_text_<?php echo $pledge_item->getId() ?>" class="nonewwin pledge_item pledge_item_<?php echo $pledge_item->getId() ?> pledge_color_<?php echo $pledge_item->getColor() ?>"><i class="pledge_color pledge_color_<?php echo $pledge_item->getColor() ?>">&nbsp;</i></a><?php
+                ?><a title="<?php echo __('Read pledge text') ?>" data-for="#pledge_text_<?php echo $pledge_item->getId() ?>" class="nonewwin pledge_item pledge_item_<?php echo $pledge_item->getId() ?> pledge_color_<?php echo $pledge_item->getColor() ?>"><i class="pledge_color pledge_color_<?php echo $pledge_item->getColor() ?>"> </i></a><?php
               endif;
             endforeach
             ?>

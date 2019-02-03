@@ -20,6 +20,7 @@ cache/*
 /config/databases.yml
 /config/properties.ini
 /config/factories.yml
+/config/settings.yml
 /data/csv_uploads/*
 
 /data/csv_downloads/*

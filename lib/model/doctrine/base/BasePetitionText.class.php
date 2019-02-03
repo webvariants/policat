@@ -40,6 +40,9 @@
  * @property string $form_title
  * @property string $subscribe_text
  * @property clob $signers_page
+ * @property string $digest_subject
+ * @property clob $digest_body_intro
+ * @property clob $digest_body_outro
  * @property Petition $Petition
  * @property Language $Language
  * @property Widget $DefaultWidget
@@ -81,6 +84,9 @@
  * @method string              getFormTitle()                    Returns the current record's "form_title" value
  * @method string              getSubscribeText()                Returns the current record's "subscribe_text" value
  * @method clob                getSignersPage()                  Returns the current record's "signers_page" value
+ * @method string              getDigestSubject()                Returns the current record's "digest_subject" value
+ * @method clob                getDigestBodyIntro()              Returns the current record's "digest_body_intro" value
+ * @method clob                getDigestBodyOutro()              Returns the current record's "digest_body_outro" value
  * @method Petition            getPetition()                     Returns the current record's "Petition" value
  * @method Language            getLanguage()                     Returns the current record's "Language" value
  * @method Widget              getDefaultWidget()                Returns the current record's "DefaultWidget" value
@@ -121,6 +127,9 @@
  * @method PetitionText        setFormTitle()                    Sets the current record's "form_title" value
  * @method PetitionText        setSubscribeText()                Sets the current record's "subscribe_text" value
  * @method PetitionText        setSignersPage()                  Sets the current record's "signers_page" value
+ * @method PetitionText        setDigestSubject()                Sets the current record's "digest_subject" value
+ * @method PetitionText        setDigestBodyIntro()              Sets the current record's "digest_body_intro" value
+ * @method PetitionText        setDigestBodyOutro()              Sets the current record's "digest_body_outro" value
  * @method PetitionText        setPetition()                     Sets the current record's "Petition" value
  * @method PetitionText        setLanguage()                     Sets the current record's "Language" value
  * @method PetitionText        setDefaultWidget()                Sets the current record's "DefaultWidget" value
@@ -275,6 +284,17 @@ abstract class BasePetitionText extends myDoctrineRecord
              'length' => 250,
              ));
         $this->hasColumn('signers_page', 'clob', null, array(
+             'type' => 'clob',
+             ));
+        $this->hasColumn('digest_subject', 'string', null, array(
+             'type' => 'string',
+             'notnull' => true,
+             'default' => '',
+             ));
+        $this->hasColumn('digest_body_intro', 'clob', null, array(
+             'type' => 'clob',
+             ));
+        $this->hasColumn('digest_body_outro', 'clob', null, array(
              'type' => 'clob',
              ));
 
