@@ -419,7 +419,7 @@ $(function ($) {
 			.on('submit', 'form.ajax_form', wvAjax)
 			.on('click', 'a.ajax_link:not(.disabled), form.ajax_form .submit', wvAjax)
 			.on('change', 'select.ajax_change', wvAjax)
-			.on('hidden', '.hidden_remove', function () {
+			.on('hidden hidden.bs.modal', '.hidden_remove', function () {
 				$(this).remove();
 			})
 			.on('click', 'a.disabled', function () {

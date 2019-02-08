@@ -11,7 +11,7 @@ use_helper('I18N');
         <div class="modal-header">
           <h5 class="modal-title" id="fogotten_modal_label">Password request</h5>
           <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-            <span aria-hidden="true">&times;</span>
+              <span aria-hidden="true">&times;</span>
           </button>
         </div>
         <div class="modal-body">

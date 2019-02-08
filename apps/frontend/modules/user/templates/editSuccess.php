@@ -45,9 +45,7 @@
             <a class="btn ajax_link" href="<?php echo url_for('user_unblock', array('id' => $user->getId())) ?>">Unblock</a>
           <?php endif ?>
         <?php endif ?>
-      <div class="pull-right">
         <a class="btn btn-danger ajax_link" href="<?php echo url_for('user_delete', array('id' => $form->getObject()->getId())) ?>">Delete</a>
-      </div>
       <?php endif ?>
     </div>
   </form>
@@ -55,4 +53,4 @@
 <?php if (isset($user)) {
   include_component('account', 'membership', array('user' => $user));
 } ?>
-<p><a class="btn" href="<?php echo url_for('user_idx') ?>">Back</a></p>
+<p><a class="btn btn-secondary" href="<?php echo url_for('user_idx') ?>">Back</a></p>
