@@ -43,6 +43,7 @@ RUN     sed -i "s|/var/www/html|\$\{WEB_ROOT\}|" /etc/apache2/apache2.conf \
             libjpeg62-turbo-dev \
             libpng16-16 \
             libpng-dev \
+            libxml2-dev \
 
      && a2enmod rewrite headers expires \
 
@@ -74,6 +75,7 @@ RUN     sed -i "s|/var/www/html|\$\{WEB_ROOT\}|" /etc/apache2/apache2.conf \
             mcrypt \
             mysql \
             pdo_mysql \
+            soap \
 
      && apt-get remove -y \
             libmcrypt-dev \
