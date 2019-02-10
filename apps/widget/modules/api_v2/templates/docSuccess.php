@@ -84,7 +84,7 @@ are optional and can be combined in any fashion you like:--></p>
 
 <h3>Example</h3>
 
-<p>Using jQuery</p>
+<h4>Using jQuery to fetch data</h4>
 
 <pre><code>$.ajax({
   dataType: 'jsonp',
@@ -97,9 +97,22 @@ are optional and can be combined in any fashion you like:--></p>
   success: function(data) { alert(data); }
 });</code></pre>
 
-<p>Using curl</p>
+<h4>Using curl to update and fetch data</h4>
 
-<pre><code>curl --data "token=#YOUR-TOKEN#&signings[FR]=100&signings[DE]=200" <?php echo url_for('api_v2', array('action_id' => 42), true) ?>?widgets=true&amp;segregate=countries</code></pre>
+<p>URL: <?php echo url_for('api_v2', array('action_id' => 42), true) ?></p>
+<p>POST parameters</p>
+<ul>
+    <li>token=#YOUR-TOKEN#</li>
+    <li>signings[FR]=100</li>
+    <li>signings[DE]=200</li>
+</ul>
+<p>Query parameters</p>
+<ul>
+    <li>widgets=true</li>
+    <li>segregate=countries</li>
+</ul>
+
+<pre><code>curl --data "token=#YOUR-TOKEN#&signings[FR]=100&signings[DE]=200" "<?php echo url_for('api_v2', array('action_id' => 42), true) ?>?widgets=true&amp;segregate=countries"</code></pre>
 
 <p>Response</p>
 <pre><code>
