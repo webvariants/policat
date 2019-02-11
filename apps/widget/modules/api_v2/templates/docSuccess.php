@@ -1,10 +1,12 @@
 <?php $sf_response->setTitle('policat.org - API') ?>
 
-<h2>Get data about an action</h2>
+<h2>Get and optionally update data about an action</h2>
 <p>To retrieve statistical data about an action, you can use this simple, REST-like API. At the
 moment, it only supports a very limited range of resources.</p>
 <p>Data is available both as raw JSON and as JSONP. To use JSONP, give your callback via the
 <code>callback</code> query string parameter (e.g. <code>...stuff?callback=mycallback</code>).</p>
+
+Updates can be made only with POST-parameters and require an authentication token.
 
 <h3>URL</h3>
 <p>To get the number of signings per action, perform <code>GET</code> request to the following
