@@ -3,6 +3,6 @@
     <?php echo $form ?>
     <div class="form-actions">
         <button class="btn btn-primary">Save</button>
-        <a class="btn" href="<?php echo url_for('country_index') ?>" >Cancel</a>
+        <a class="btn btn-secondary" href="<?php echo url_for('country_index') ?>" >Cancel</a>
     </div>
 </form>

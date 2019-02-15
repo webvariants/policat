@@ -9,9 +9,9 @@
       <td><?php echo $language->getId() ?></td>
       <td><?php echo $language->getName() ?></td>
       <td><?php echo $language->getOrderNumber() ?></td>
-      <td><a class="btn btn-sm" href="<?php echo url_for('language_edit', array('id' => $language->getId())) ?>">edit</a></td>
+      <td><a class="btn btn-primary btn-sm" href="<?php echo url_for('language_edit', array('id' => $language->getId())) ?>">edit</a></td>
     </tr>
     <?php endforeach ?>
   </tbody>
 </table>
-<a class="btn" href="<?php echo url_for('language_new') ?>">Create Language</a>
+<a class="btn btn-primary" href="<?php echo url_for('language_new') ?>">Create Language</a>

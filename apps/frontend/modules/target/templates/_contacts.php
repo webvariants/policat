@@ -4,7 +4,7 @@
   <form method="get" class="form-inline ajax_form filter_form" action="<?php echo url_for('target_contact_pager', array('page' => 1, 'id' => $target_list->getId())) ?>">
   <?php echo $form ?>
     <button class="btn btn-primary top15" type="submit">Filter</button>
-    <button class="filter_reset btn btn-small top15">Reset filter</button>
+    <button class="filter_reset btn btn-secondary btn-small top15">Reset filter</button>
   </form>
 <?php endif ?>
 <div id="contacts">
@@ -32,8 +32,8 @@
                 <?php endif ?>
           </td>
           <td>
-            <a class="ajax_link btn btn-sm" href="<?php echo url_for('target_contact', array('id' => $contact->getId(), 'page' => $contacts->getPage())) ?>">edit</a>
-            <a class="ajax_link btn btn-sm" href="<?php echo url_for('target_contact_delete', array('id' => $contact->getId())) ?>">delete</a>
+            <a class="ajax_link btn btn-primary btn-sm" href="<?php echo url_for('target_contact', array('id' => $contact->getId(), 'page' => $contacts->getPage())) ?>">edit</a>
+            <a class="ajax_link btn btn-danger btn-sm" href="<?php echo url_for('target_contact_delete', array('id' => $contact->getId())) ?>">delete</a>
           </td>
         </tr>
       <?php endforeach ?>

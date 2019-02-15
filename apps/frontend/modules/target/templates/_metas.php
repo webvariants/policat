@@ -14,7 +14,7 @@
         </td>
         <td><?php echo $meta->getSubst() ?></td>
         <td>
-          <a class="ajax_link btn btn-sm" href="<?php echo url_for('target_meta', array('id' => $meta->getId())) ?>">Edit</a>
+          <a class="ajax_link btn btn-primary btn-sm" href="<?php echo url_for('target_meta', array('id' => $meta->getId())) ?>">Edit</a>
           <a class="ajax_link btn btn-sm btn-danger" href="<?php echo url_for('target_meta_delete', array('id' => $meta->getId())) ?>">Delete</a>
         </td>
       </tr>

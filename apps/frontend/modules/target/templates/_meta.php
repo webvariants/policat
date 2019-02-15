@@ -7,7 +7,7 @@ $meta = $form->getObject();
       <?php echo $form ?>
       <div class="form-actions">
         <button class="btn btn-primary">Save</button>
-        <a class="btn" href="javascript:(function(){$('#meta_form_<?php echo $meta->getId() ?>').remove();})();">Cancel</a>
+        <a class="btn btn-secondary" href="javascript:(function(){$('#meta_form_<?php echo $meta->getId() ?>').remove();})();">Cancel</a>
       </div>
     </form>
   </td>

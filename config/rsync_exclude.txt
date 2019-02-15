@@ -30,6 +30,8 @@ _darcs
 CVS
 /nbproject
 /nbproject/*
+/.vscode
+/.vscode/*
 
 # autoloader config
 # /config/*.dist

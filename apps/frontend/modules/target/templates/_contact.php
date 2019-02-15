@@ -7,7 +7,7 @@ $contact = $form->getObject();
       <?php echo $form ?>
       <div class="form-actions">
         <button class="btn btn-primary">Save</button>
-        <a class="btn" href="javascript:(function(){$('#contact_form_<?php echo $contact->getId() ?>').remove();})();">Cancel</a>
+        <a class="btn btn-secondary" href="javascript:(function(){$('#contact_form_<?php echo $contact->getId() ?>').remove();})();">Cancel</a>
       </div>
     </form>
   </td>

@@ -8,8 +8,8 @@
     <?php if ($admin): ?>
       <form class="ajax_form" method="post" action="<?php echo url_for('target_members', array('id' => $target_list->getId())) ?>">
         <p>
-          <a class="btn btn-sm submit" data-submit='{"method": "enable" }'>Editor</a>
-          <a class="btn btn-sm submit" data-submit='{"method": "disable" }'>Disable</a>
+          <a class="btn btn-secondary btn-sm submit" data-submit='{"method": "enable" }'>Editor</a>
+          <a class="btn btn-secondary btn-sm submit" data-submit='{"method": "disable" }'>Disable</a>
         </p>
         <input type="hidden" name="csrf_token" value="<?php echo $csrf_token ?>" />
       <?php endif ?>

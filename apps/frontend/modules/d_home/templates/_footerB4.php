@@ -1,4 +1,5 @@
-<footer class="footer no-print">
+<br />
+<footer class="mt-4 footer no-print">
     <div class="container">
         <span class="text-muted">
             <?php if ($footer_title): ?>

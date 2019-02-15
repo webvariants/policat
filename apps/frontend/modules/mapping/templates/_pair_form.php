@@ -6,7 +6,7 @@ $id = 'pair_form_' . ($pair->isNew() ? 'new' : $pair->getId()); ?>
       <?php echo $form ?>
       <div class="form-actions">
         <button class="btn btn-primary">Save</button>
-        <a class="btn" href="javascript:(function(){$('#<?php echo $id ?>').remove();})();">Cancel</a>
+        <a class="btn btn-secondary" href="javascript:(function(){$('#<?php echo $id ?>').remove();})();">Cancel</a>
       </div>
     </form>
   </td>

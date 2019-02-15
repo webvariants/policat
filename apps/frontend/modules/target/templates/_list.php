@@ -24,11 +24,11 @@ $guard = $sf_user->getGuardUser()->getRawValue();
           </td>
           <td>
             <?php if ($guard->isTargetListMember($target_list->getRawValue(), true)): ?>
-            <a class="btn btn-sm" href="<?php echo url_for('target_edit', array('id' => $target_list->getId())) ?>">edit</a>
-            <a class="btn btn-sm ajax_link" href="<?php echo url_for('target_copy', array('id' => $target_list->getId())) ?>">copy</a>
+            <a class="btn btn-primary btn-sm" href="<?php echo url_for('target_edit', array('id' => $target_list->getId())) ?>">edit</a>
+            <a class="btn btn-secondary btn-sm ajax_link" href="<?php echo url_for('target_copy', array('id' => $target_list->getId())) ?>">copy</a>
             <?php endif ?>
             <?php if (!$tr || !$tr->getActive()): ?>
-              <a class="btn btn-sm ajax_link post" data-submit='<?php echo json_encode(array('csrf_token' => $csrf_token_join, 'id' => $target_list->getId())) ?>' href="<?php echo url_for('target_join') ?>">join</a>
+              <a class="btn btn-primary btn-sm ajax_link post" data-submit='<?php echo json_encode(array('csrf_token' => $csrf_token_join, 'id' => $target_list->getId())) ?>' href="<?php echo url_for('target_join') ?>">join</a>
             <?php endif ?>
           </td>
         </tr>

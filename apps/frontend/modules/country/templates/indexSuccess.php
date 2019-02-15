@@ -8,9 +8,9 @@
     <tr>
       <td><?php echo $collection->getName() ?></td>
       <td><?php echo $collection->getCountries() ?></td>
-      <td><a class="btn btn-sm" href="<?php echo url_for('country_edit', array('id' => $collection->getId())) ?>">edit</a></td>
+      <td><a class="btn btn-primary btn-sm" href="<?php echo url_for('country_edit', array('id' => $collection->getId())) ?>">edit</a></td>
     </tr>
     <?php endforeach ?>
   </tbody>
 </table>
-<a class="btn" href="<?php echo url_for('country_new') ?>">Create new country collection</a>
+<a class="btn btn-primary" href="<?php echo url_for('country_new') ?>">Create new country collection</a>

@@ -19,6 +19,7 @@ class UserNewForm extends BasesfGuardUserAdminForm {
     $this->setWidget('country', new sfWidgetFormI18nChoiceCountry);
     $this->setValidator('country', new sfValidatorI18nChoiceCountry);
 
+    $this->setWidget('email_address', new sfWidgetFormInputText(array(), array('class' => 'form-control')));
     $this->setValidator('email_address', new ValidatorEmail(array('max_length' => 80)));
 
     foreach (array('email_address', 'first_name', 'last_name', 'organisation', 'website', 'street',

@@ -3,26 +3,27 @@
   <?php echo $form ?>
   <div class="form-actions">
     <button class="btn btn-primary">Save</button>
-    <a class="btn" href="<?php echo url_for('language_index') ?>" >Cancel</a>
+    <a class="btn btn-secondary" href="<?php echo url_for('language_index') ?>" >Cancel</a>
   </div>
 </form>
 <?php if ($download || $csrf_token): ?>
   <h2>Language files</h2>
   <div class="row">
     <?php if ($download): ?>
-      <div class="span4">
-        <div class="well">
-          <a class="btn" href="<?php echo url_for('language_download', array('id' => $form->getObject()->getId())) ?>">Download</a>
+      <div class="col-4">
+        <div class="card card-body bg-light">
+          <a class="btn btn-primary" href="<?php echo url_for('language_download', array('id' => $form->getObject()->getId())) ?>">Download</a>
         </div>
       </div>
     <?php endif ?>
     <?php if ($csrf_token): ?>
-      <div class="span4">
+      <div class="col-4">
         <div class="well" id="upload">
           <form class="form-inline ajax_form" method="post" action="<?php echo url_for('language_upload', array('id' => $form->getObject()->getId())) ?>" enctype="multipart/form-data">
             <input type="hidden" name="csrf_token" value="<?php echo $csrf_token ?>" />
             <input type="file" name="file" />
-            <button class="btn" type="submit">Upload</button>
+            <br />
+            <button class="mt-2 btn btn-scondary" type="submit">Upload</button>
           </form>
         </div>
       </div>
