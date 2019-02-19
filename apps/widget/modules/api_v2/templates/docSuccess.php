@@ -56,7 +56,10 @@ are optional and can be combined in any fashion you like:--></p>
   <dt>token (optional, POST)</dt>
   <dd>
       Your authentication token given by action admin. Use only server-side!<br />
-      You must do a <code>POST</code>-request instead of a GET request.
+      You must do a <code>POST</code>-request instead of a GET request.<br /><br />
+
+      Alternatively you can supply the token with an authorization header:<br />
+      <code>Authorization: Token token=...</code>
   </dd>
 
   <dt>signings[ISO] (optional, POST)</dt>
@@ -157,5 +160,40 @@ are optional and can be combined in any fashion you like:--></p>
     "DE": 1122,
     "FR": 1542
   }
+}
+</code></pre>
+
+<h2>Get e-mail hashes of an action (with auth token only)</h2>
+
+<h3>URL</h3>
+
+<p>
+    <code><?php echo url_for('api_v2_signing_hashes', array('action_id' => 'ID', 'page' => 'PAGE'), true) ?></code>
+
+    <br />
+    <strong>ID:</strong> action ID<br />
+    <strong>PAGE:</strong> page number, starts with 1<br />
+</p>
+
+<h3>Authorization token</h3>
+
+<p>Supply your token as POST parameter or authorization header (see example)</p>
+
+<h3>Example</h3>
+<pre><code>curl -H "Authorization: Token token=XXXXXXX" <?php echo url_for('api_v2_signing_hashes', array('action_id' => 42, 'page' => 1011), true) ?></code></pre>
+<pre><code>{
+    "action_id": 42,
+    "hashes": [
+        "$2y$10$POLICAT1234567890ABCD.XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX",
+        "$2y$10$POLICAT1234567890ABCD.XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX",
+        "$2y$10$POLICAT1234567890ABCD.XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX",
+        "$2y$10$POLICAT1234567890ABCD.XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX",
+        "$2y$10$POLICAT1234567890ABCD.XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX"
+    ],
+    "page": 1011,
+    "pages": 1011,
+    "status": "ok",
+    "time": 1550585204,
+    "total": 1010034
 }
 </code></pre>

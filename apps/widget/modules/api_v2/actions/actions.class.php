@@ -27,6 +27,25 @@ class api_v2Actions extends policatActions {
 
   }
 
+  private function getToken(sfWebRequest $request) {
+    $token = $request->getPostParameter('token');
+    if ($token) {
+      return $token;
+    }
+    if ($request->getContentType() === 'application/json') {
+      $body = json_decode($request->getContent(), true, 2);
+      if (is_array($body) && array_key_exists('token', $body) && is_string($body['token'])) {
+        return $body['token'];
+      }
+    }
+    $auth = $request->getHttpHeader('Authorization');
+    if (is_string($auth) && strpos($auth, 'Token token=') === 0) {
+      return substr($auth, 12);
+    }
+
+    return null;
+  }
+
   /**
    * Executes actionSignings action
    *
@@ -58,7 +77,7 @@ class api_v2Actions extends policatActions {
     $timeToLive = 60;
     $refresh = false;
 
-    $token_code = $request->getPostParameter('token');
+    $token_code = $this->getToken($request);
     if ($token_code) {
       $token = $token_table->fetchByPetitionAndToken($petition, $token_code, PetitionApiTokenTable::STATUS_ACTIVE);
       if (!$token) {
@@ -332,6 +351,78 @@ class api_v2Actions extends policatActions {
     $response->addCacheControlHttpHeader('max-age', 60);
 
     return $this->renderJson($data, $callback);
+  }
+
+  /**
+   * @param sfRequest $request A request object
+   */
+  public function executeActionHashes(sfWebRequest $request) {
+    $this->setLayout(false);
+    $response = $this->getResponse();
+    /* @var $response sfWebResponse */
+
+    $response->setHttpHeader('Cache-Control', null);
+
+    // determine the requested action (petition)
+    $action_id = $request->getParameter('action_id');
+    if (!is_numeric($action_id) || $action_id < 0) {
+      $response->setStatusCode(400);
+      return $this->renderJson(array('status' => 'error', 'message' => 'bad action ID given'));
+    }
+
+    $page = $request->getParameter('page');
+    if (!is_numeric($page) || $page < 1) {
+      $response->setStatusCode(400);
+      return $this->renderJson(array('status' => 'error', 'message' => 'bad page given'));
+    }
+
+    if ($page > 1000000) {
+      $response->setStatusCode(400);
+      return $this->renderJson(array('status' => 'error', 'message' => 'bad page given'));
+    }
+
+    $petition = PetitionTable::getInstance()->findByIdCachedActive($action_id);
+    if (!$petition) {
+      $response->setStatusCode(404);
+      return $this->renderJson(array('status' => 'error', 'message' => 'action could not be found'));
+    }
+
+    $token_code = $this->getToken($request);
+    if (!$token_code) {
+      return $this->renderJson(array('status' => 'error', 'message' => 'missing auth token'));
+    }
+
+    $token = PetitionApiTokenTable::getInstance()->fetchByPetitionAndToken($petition, $token_code, PetitionApiTokenTable::STATUS_ACTIVE);
+    if (!$token) {
+      return $this->renderJson(array('status' => 'error', 'message' => 'token wrong'));
+    }
+
+    $response->addCacheControlHttpHeader('private');
+    $response->addCacheControlHttpHeader('max-age', 60);
+
+    $page_size = 1000;
+
+    $hashes = PetitionSigningTable::getInstance()->hashes($action_id, $page_size, $page - 1);
+    if (!$hashes) {
+      $response->setStatusCode(404);
+      return $this->renderJson(array('status' => 'error', 'message' => 'nothing found'));
+    }
+
+    $data = array(
+      'action_id' => (int) $action_id,
+      'page' => (int) $page,
+      'time' => time(),
+      'total' => PetitionSigningTable::getInstance()->lastSigningsTotal($action_id)
+    );
+
+    $data['pages'] = ceil($data['total'] / $page_size);
+    $data['status'] = 'ok';
+    $data['hashes'] = array_column($hashes, 'email_hash');
+
+    $response->addCacheControlHttpHeader('private');
+    $response->addCacheControlHttpHeader('max-age', 60);
+
+    return $this->renderJson($data);
   }
 
 }
