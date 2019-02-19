@@ -38,6 +38,7 @@
  * @property timestamp $activity_at
  * @property string $last_ref
  * @property clob $email_targets
+ * @property clob $social_share_text
  * @property Campaign $Campaign
  * @property Petition $Petition
  * @property PetitionText $PetitionText
@@ -88,6 +89,7 @@
  * @method timestamp           getActivityAt()          Returns the current record's "activity_at" value
  * @method string              getLastRef()             Returns the current record's "last_ref" value
  * @method clob                getEmailTargets()        Returns the current record's "email_targets" value
+ * @method clob                getSocialShareText()     Returns the current record's "social_share_text" value
  * @method Campaign            getCampaign()            Returns the current record's "Campaign" value
  * @method Petition            getPetition()            Returns the current record's "Petition" value
  * @method PetitionText        getPetitionText()        Returns the current record's "PetitionText" value
@@ -137,6 +139,7 @@
  * @method Widget              setActivityAt()          Sets the current record's "activity_at" value
  * @method Widget              setLastRef()             Sets the current record's "last_ref" value
  * @method Widget              setEmailTargets()        Sets the current record's "email_targets" value
+ * @method Widget              setSocialShareText()     Sets the current record's "social_share_text" value
  * @method Widget              setCampaign()            Sets the current record's "Campaign" value
  * @method Widget              setPetition()            Sets the current record's "Petition" value
  * @method Widget              setPetitionText()        Sets the current record's "PetitionText" value
@@ -304,6 +307,9 @@ abstract class BaseWidget extends myDoctrineRecord
              'length' => 200,
              ));
         $this->hasColumn('email_targets', 'clob', null, array(
+             'type' => 'clob',
+             ));
+        $this->hasColumn('social_share_text', 'clob', null, array(
              'type' => 'clob',
              ));
 

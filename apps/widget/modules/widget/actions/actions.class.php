@@ -92,6 +92,7 @@ class widgetActions extends policatActions
     $this->title         = $widget_texts ? $this->widget['title'] : $this->petition_text['title'];
     $this->target        = $widget_texts ? $this->widget['target'] : $this->petition_text['target'];
     $this->background    = $widget_texts ? $this->widget['background'] : $this->petition_text['background'];
+    $this->social_share_text = $this->widget['social_share_text'] ? : $this->petition_text['social_share_text'];
 
     // donate_url on petition enables/disabled donate_url and donate_text feature
     $this->donate_url    = $this->petition['donate_url'] && $this->petition_text['donate_url'] ? $this->petition_text['donate_url'] : $this->petition['donate_url'];

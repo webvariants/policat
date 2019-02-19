@@ -401,6 +401,7 @@ PetitionText:
     digest_subject:             { type: string,     notnull: true, default: '' }
     digest_body_intro:          { type: clob }
     digest_body_outro:          { type: clob }
+    social_share_text:          { type: clob }
   relations:
     Petition:      { onDelete: CASCADE }
     Language:      { onDelete: CASCADE }
@@ -469,6 +470,7 @@ Widget:
     activity_at:       { type: timestamp, notnull: false, default: null }
     last_ref:          { type: string(200), notnull: false, default: null }
     email_targets:     { type: clob }
+    social_share_text:          { type: clob }
   relations:
     Campaign:          { onDelete: CASCADE }
     Petition:          { onDelete: CASCADE }

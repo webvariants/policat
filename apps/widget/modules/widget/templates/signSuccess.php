@@ -28,6 +28,9 @@ if ($form_title_plain) {
   $share_title .= ($share_title ? '. ' : '') . __($petition->getLabel(PetitionTable::LABEL_TITLE));
 }
 $share_title .= ':';
+if ($social_share_text) {
+  $share_title = strtr($social_share_text, array('#TITLE#' => $form_title_plain, '#WIDGET-HEADING#' => $title));
+}
 $target_selectors = UtilTargetSelectorPreselect::staticTargetSelectors($widget); // = $petition->getTargetSelectors();
 ContactTable::getInstance()->mergeKeywordSubst($target_selectors, $petition, $lang);
 if (is_array($target_selectors) && count($target_selectors) == 1 && $target_selectors[0]['id'] !== 'contact') {

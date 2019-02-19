@@ -333,6 +333,9 @@ class TranslationForm extends BasePetitionTextForm {
       $this->setValidator('digest_body_intro', new sfValidatorString(array('required' => false, 'max_length' => 100000)));
       $this->setValidator('digest_body_outro', new sfValidatorString(array('required' => false, 'max_length' => 100000)));
     }
+
+    $this->setWidget('social_share_text', new sfWidgetFormInput(array('label' => 'Twitter message'), array('size' => 90, 'class' => 'large', 'placeholder' => 'Leave this field empty to use standard texts.')));
+    $this->getWidgetSchema()->setHelp('social_share_text', 'Optional keywords: #TITLE#, #WIDGET-HEADING#. Keep the text short. URL is appended automatically.');
   }
 
   public function processValues($values) {
