@@ -32,6 +32,8 @@ class pledgeActions extends policatActions {
     $this->petition = $petition;
 
     $this->pledge_items = $petition->getPledgeItems();
+
+    $this->includeSelect2();
   }
 
   public function executeNew(sfWebRequest $request) {

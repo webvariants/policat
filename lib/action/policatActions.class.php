@@ -256,4 +256,12 @@ class policatActions extends sfActions {
     }
   }
 
+  public function includeSelect2() {
+    $response = $this->getResponse();
+    if ($response instanceof sfWebResponse) {
+      $response->addStylesheet('dist/select2.css', 'last');
+      $response->addJavascript('dist/select2.js', 'last');
+    }
+  }
+
 }

@@ -1,7 +1,2 @@
 all:
   metas: { title: Action }
-  javascripts:    [dist/jscolor]
-
-editSuccess:
-  stylesheets:    [dist/select2]
-  javascripts:    [dist/select2]

@@ -316,6 +316,7 @@ class d_actionActions extends policatActions {
     $this->includeIframeTransport();
     $this->includeChosen();
     $this->includeJsColor();
+    $this->includeSelect2();
   }
 
   public function executeEditTarget(sfWebRequest $request) {
