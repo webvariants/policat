@@ -41,7 +41,7 @@ if (!isset($active))
   <h1><?php echo $petition->getKindName() ?>: <?php echo $petition->getName() ?></h1>
 </div>
 <?php if ($list): ?>
-  <ul class="nav nav-tabs">
+  <ul class="nav nav-tabs mb-2">
     <?php foreach ($list as $key => $entry): if ($entry): ?>
         <li class="nav-item">
           <a class="nav-link<?php if ($active == $key) echo ' active' ?>" href="<?php echo url_for($entry['route'], array('id' => $petition->getId())) ?>"><?php echo $entry['title'] ?></a>

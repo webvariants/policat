@@ -21,6 +21,7 @@ class sfWidgetFormSchemaFormatterBootstrap extends sfWidgetFormSchemaFormatter {
     $decoratorFormat = "<div>\n  %content%</div>";
 
   protected $checkboxes = array();
+  protected $radios = array();
 
   public function __construct(sfWidgetFormSchema $widgetSchema) {
     parent::__construct($widgetSchema);
@@ -36,6 +37,11 @@ class sfWidgetFormSchemaFormatterBootstrap extends sfWidgetFormSchemaFormatter {
       if ($field instanceof sfWidgetFormChoice) {
           if ($field->getOption('multiple')) {
               $addClass = '';
+          } else {
+              if ($field->getOption('expanded')) {
+                    $addClass = 'form-check-radio form-check-input';
+                    $this->radios[] = $name;
+              }
           }
       }
 
@@ -75,6 +81,21 @@ class sfWidgetFormSchemaFormatterBootstrap extends sfWidgetFormSchemaFormatter {
 
     if ($errors) {
       $field = preg_replace('/form-control/', 'form-control is-invalid', $field, 1);
+    }
+
+    $isRadio = is_string($field) && strpos($field, 'form-check-radio') !== false && strpos($field, 'type="file"') === false;
+    if ($isRadio) {
+        $field = strtr($field, array(
+            'label class="form-check-radio form-check-input' => 'label class="form-check-label',
+            'input class="form-check-radio form-check-input' => 'input class="form-check-input'
+        ));
+        return strtr('<div class="form-group">%label% %field%  %help% %error% %hidden_fields%</div>', array(
+            '%label%'         => $label,
+            '%field%'         => $field,
+            '%error%'         => $this->formatErrorsForRow($errors),
+            '%help%'          => $this->formatHelp($help),
+            '%hidden_fields%' => null === $hiddenFields ? '%hidden_fields%' : $hiddenFields,
+          ));
     }
 
     $isCheckbox = is_string($field) && strpos($field, 'form-check-input') !== false && strpos($field, 'type="file"') === false;

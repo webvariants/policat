@@ -2,7 +2,7 @@
 $contact = $form->getObject();
 ?>
 <tr id="contact_form_<?php echo $contact->getId() ?>">
-  <td colspan="6">
+  <td colspan="8">
     <form class="ajax_form form-horizontal" action="<?php echo url_for($route, $route_params->getRawValue()) ?>" method="post">
       <?php echo $form ?>
       <div class="form-actions">

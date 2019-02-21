@@ -14,7 +14,7 @@ $hide_edit = false;
   <?php include_component('d_action', 'notice', array('petition' => $petition)) ?>
   <?php include_partial('d_action/tabs', array('petition' => $petition, 'active' => 'targets')) ?>
   <div class="row">
-    <div class="span8">
+    <div class="col-8">
       <h2>Recipient(s) of the e-mail action (your campaign targets)</h2>
       <form class="ajax_form form-horizontal" action="<?php echo url_for('petition_edit_target', array('id' => $petition->getId())) ?>" method="post">
         <?php echo $target_form->renderHiddenFields() ?>
@@ -42,7 +42,7 @@ $hide_edit = false;
     if (!$open_edit):
       $hide_edit = true;
       ?>
-      <a id="edit-btn" class="btn btn-primary" href="javascript:(function(){$('#edit').show();$('#edit-btn').addClass('hide');})();">Edit target-list</a>
+      <a id="edit-btn" class="btn btn-primary" href="javascript:(function(){$('#edit').removeClass('d-none');$('#edit-btn').addClass('d-none');})();">Edit target-list</a>
     <?php endif ?>
   <?php endif ?>
 <?php elseif (isset($campaign)): ?>
@@ -59,8 +59,8 @@ $hide_edit = false;
   <?php include_partial('dashboard/admin_tabs', array('active' => 'target')) ?>
 <?php endif ?>
 <?php if (isset($target_list)): ?>
-  <div id="edit" class="row<?php if ($hide_edit): ?> hide<?php endif ?>">
-    <div class="span8">
+  <div id="edit" class="row<?php if ($hide_edit): ?> d-none<?php endif ?>">
+    <div class="col-8">
       <?php if ($target_list->isNew()): ?>
         <h2>Create Target-list</h2>
       <?php else: ?>
@@ -68,11 +68,11 @@ $hide_edit = false;
       <?php endif ?>
       <?php include_partial('form', array('form' => $form, 'csrf_token' => $csrf_token, 'petition_id' => isset($petition) ? $petition->getId() : '')) ?>
     </div>
-    <div class="span4">
+    <div class="col-4">
       <?php if (!$target_list->isNew()) include_component('target', 'members', array('target_list' => $target_list)) ?>
     </div>
     <?php if (!$target_list->isNew()): ?>
-      <div class="span12">
+      <div class="col-12">
         <h3>Meta fields</h3>
         <?php include_partial('metas', array('metas' => $metas)) ?>
         <a class="ajax_link btn btn-primary btn-sm" href="<?php echo url_for('target_meta_choice', array('id' => $form->getObject()->getId())) ?>">New selector</a>

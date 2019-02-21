@@ -18,10 +18,10 @@ class FormatterRadio extends sfWidgetFormSelectRadio {
   public function formatter($widget, $inputs) {
     $rows = array();
     foreach ($inputs as $input) {
-      $rows[] = $this->renderContentTag('li', $input['input'] . $this->getOption('label_separator') . $input['label']);
+      $rows[] = $this->renderContentTag('div', $input['input'] . $this->getOption('label_separator') . $input['label'], array('class' => 'form-check ' . get_class($input['input'])));
     }
 
-    return !$rows ? '' : $this->renderContentTag('ul', implode($this->getOption('separator'), $rows), array('id' => $this->id_attr, 'class' => $this->getOption('class')));
+    return !$rows ? '' : implode($this->getOption('separator'), $rows);
   }
 
   public function render($name, $value = null, $attributes = array(), $errors = array()) {
