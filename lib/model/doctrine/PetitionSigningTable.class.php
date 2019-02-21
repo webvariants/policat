@@ -641,6 +641,20 @@ class PetitionSigningTable extends Doctrine_Table {
   }
 
   /**
+   * @return array
+   */
+  public function hashes($petition_id, $limit = 10, $page = 0) {
+    return $this->createQuery('ps')
+      ->where('ps.petition_id = ?', $petition_id)
+      ->andWhere('ps.status = ?', PetitionSigning::STATUS_COUNTED)
+      ->limit($limit)
+      ->offset($limit * $page)
+      ->select('ps.id, ps.email_hash')
+      ->orderBy('ps.id ASC')
+      ->fetchArray();
+  }
+
+  /**
    * @return int
    */
   public function lastSigningsTotal($petition_id) {

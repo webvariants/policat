@@ -1,10 +1,12 @@
 <?php $sf_response->setTitle('policat.org - API') ?>
 
-<h2>Get data about an action</h2>
+<h2>Get and optionally update data about an action</h2>
 <p>To retrieve statistical data about an action, you can use this simple, REST-like API. At the
 moment, it only supports a very limited range of resources.</p>
 <p>Data is available both as raw JSON and as JSONP. To use JSONP, give your callback via the
 <code>callback</code> query string parameter (e.g. <code>...stuff?callback=mycallback</code>).</p>
+
+Updates can be made only with POST-parameters and require an authentication token.
 
 <h3>URL</h3>
 <p>To get the number of signings per action, perform <code>GET</code> request to the following
@@ -54,7 +56,10 @@ are optional and can be combined in any fashion you like:--></p>
   <dt>token (optional, POST)</dt>
   <dd>
       Your authentication token given by action admin. Use only server-side!<br />
-      You must do a <code>POST</code>-request instead of a GET request.
+      You must do a <code>POST</code>-request instead of a GET request.<br /><br />
+
+      Alternatively you can supply the token with an authorization header:<br />
+      <code>Authorization: Token token=...</code>
   </dd>
 
   <dt>signings[ISO] (optional, POST)</dt>
@@ -84,7 +89,7 @@ are optional and can be combined in any fashion you like:--></p>
 
 <h3>Example</h3>
 
-<p>Using jQuery</p>
+<h4>Using jQuery to fetch data</h4>
 
 <pre><code>$.ajax({
   dataType: 'jsonp',
@@ -97,9 +102,22 @@ are optional and can be combined in any fashion you like:--></p>
   success: function(data) { alert(data); }
 });</code></pre>
 
-<p>Using curl</p>
+<h4>Using curl to update and fetch data</h4>
 
-<pre><code>curl --data "token=#YOUR-TOKEN#&signings[FR]=100&signings[DE]=200" <?php echo url_for('api_v2', array('action_id' => 42), true) ?>?widgets=true&amp;segregate=countries</code></pre>
+<p>URL: <?php echo url_for('api_v2', array('action_id' => 42), true) ?></p>
+<p>POST parameters</p>
+<ul>
+    <li>token=#YOUR-TOKEN#</li>
+    <li>signings[FR]=100</li>
+    <li>signings[DE]=200</li>
+</ul>
+<p>Query parameters</p>
+<ul>
+    <li>widgets=true</li>
+    <li>segregate=countries</li>
+</ul>
+
+<pre><code>curl --data "token=#YOUR-TOKEN#&signings[FR]=100&signings[DE]=200" "<?php echo url_for('api_v2', array('action_id' => 42), true) ?>?widgets=true&amp;segregate=countries"</code></pre>
 
 <p>Response</p>
 <pre><code>
@@ -142,5 +160,40 @@ are optional and can be combined in any fashion you like:--></p>
     "DE": 1122,
     "FR": 1542
   }
+}
+</code></pre>
+
+<h2>Get e-mail hashes of an action (with auth token only)</h2>
+
+<h3>URL</h3>
+
+<p>
+    <code><?php echo url_for('api_v2_signing_hashes', array('action_id' => 'ID', 'page' => 'PAGE'), true) ?></code>
+
+    <br />
+    <strong>ID:</strong> action ID<br />
+    <strong>PAGE:</strong> page number, starts with 1<br />
+</p>
+
+<h3>Authorization token</h3>
+
+<p>Supply your token as POST parameter or authorization header (see example)</p>
+
+<h3>Example</h3>
+<pre><code>curl -H "Authorization: Token token=XXXXXXX" <?php echo url_for('api_v2_signing_hashes', array('action_id' => 42, 'page' => 1011), true) ?></code></pre>
+<pre><code>{
+    "action_id": 42,
+    "hashes": [
+        "$2y$10$POLICAT1234567890ABCD.XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX",
+        "$2y$10$POLICAT1234567890ABCD.XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX",
+        "$2y$10$POLICAT1234567890ABCD.XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX",
+        "$2y$10$POLICAT1234567890ABCD.XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX",
+        "$2y$10$POLICAT1234567890ABCD.XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX"
+    ],
+    "page": 1011,
+    "pages": 1011,
+    "status": "ok",
+    "time": 1550585204,
+    "total": 1010034
 }
 </code></pre>

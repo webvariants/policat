@@ -215,6 +215,10 @@ class EditWidgetForm extends WidgetForm {
     }
 
     $this->configureTargetSelectors();
+    
+    $this->setWidget('social_share_text', new sfWidgetFormInput(array('label' => 'Twitter message'), array('size' => 90, 'class' => 'large', 'placeholder' => 'Leave this field empty to use standard texts.')));
+    $this->setValidator('social_share_text', new sfValidatorString(array('max_length' => 1000, 'required' => false)));
+    $this->getWidgetSchema()->setHelp('social_share_text', 'Optional keywords: #TITLE#, #WIDGET-HEADING#. Keep the text short. URL is appended automatically.');
   }
 
   public function processValues($values) {

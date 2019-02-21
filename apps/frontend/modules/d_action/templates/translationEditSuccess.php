@@ -32,7 +32,7 @@
           <?php echo $form->renderRows(array('*intro')) ?>
         <?php endif ?>
         <?php echo $form->renderRows(array('*body', '*footer', '*email_subject', '*email_body', '*background')) ?>
-        <?php echo $form->renderRows(array('*label_extra1', '*placeholder_extra1', '*subscribe_text')) ?>
+        <?php echo $form->renderRows(array('*label_extra1', '*placeholder_extra1', '*subscribe_text', '*social_share_text')) ?>
 
         <?php if (($petition->getKind() == Petition::KIND_PLEDGE) && $petition->getDigestEnabled()): ?>
           <legend>Digest E-mail</legend>

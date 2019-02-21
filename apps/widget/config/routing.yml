@@ -89,6 +89,15 @@ api_v2_list_signings:
     page: '[1-9]\d*'
     order: '((date)|(name)|(city)|(country))_((asc)|(desc))'
 
+api_v2_signing_hashes:
+  url: /api/v2/actions/:action_id/hashes/:page
+  param: { module: api_v2, action: actionHashes }
+  class: sfRequestRoute
+  requirements:
+    sf_method: [get, head, post]
+    action_id: '[1-9]\d*'
+    page: '[1-9]\d*'
+
 api_v2_doc:
   url: /api/v2
   param: { module: api_v2, action: doc }
