@@ -71,7 +71,7 @@
                             <?php echo $form->renderRows('style_title_color', 'style_form_title_color', 'style_body_color', 'style_label_color') ?>
                         </div>
                     </div>
-                    <?php echo $form->renderRows('share', 'show_embed', 'key_visual', 'show_keyvisual', 'last_signings') ?>
+                    <?php echo $form->renderRows('share', 'show_embed', 'key_visual', 'show_target', 'show_keyvisual', 'last_signings') ?>
                     <div id="last-signings-options" class="show-before-chosen-init">
                         <?php echo $form->renderRows('last_signings_city', 'last_signings_country') ?>
                     </div>
