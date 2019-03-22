@@ -1,10 +1,9 @@
-FROM    php:5.6-apache
+FROM    php:7.2-apache
 
 MAINTAINER Martin Schnabel <martin@webvariants.de>
 
 ENV     WEB_ROOT            /app
-ENV     MEMCACHE_VERSION    2.2.7
-ENV     MEMCACHED_VERSION   2.2.0
+ENV     MEMCACHED_VERSION   3.1.3
 
 RUN     sed -i "s|/var/www/html|\$\{WEB_ROOT\}|" /etc/apache2/apache2.conf \
      && sed -i "s|/var/www|\$\{WEB_ROOT\}|"      /etc/apache2/apache2.conf \
@@ -22,8 +21,6 @@ RUN     sed -i "s|/var/www/html|\$\{WEB_ROOT\}|" /etc/apache2/apache2.conf \
      && apt-get update \
      && apt-get install -y \
             locales \
-            libmcrypt4 \
-            libmcrypt-dev \
             libcurl3 \
             libcurl4-openssl-dev \
             libtidy5 \
@@ -57,13 +54,10 @@ RUN     sed -i "s|/var/www/html|\$\{WEB_ROOT\}|" /etc/apache2/apache2.conf \
      && /usr/sbin/update-locale LANG=en_US.UTF-8 \
 
      && docker-php-source extract \
-     && curl https://pecl.php.net/get/memcache-${MEMCACHE_VERSION}.tgz | tar -xpz -C /usr/src/php/ext \
-     && mv /usr/src/php/ext/memcache-${MEMCACHE_VERSION} /usr/src/php/ext/memcache \
      && curl https://pecl.php.net/get/memcached-${MEMCACHED_VERSION}.tgz | tar -xpz -C /usr/src/php/ext \
      && mv /usr/src/php/ext/memcached-${MEMCACHED_VERSION} /usr/src/php/ext/memcached \
 
      && docker-php-ext-install \
-            memcache \
             memcached \
             gd \
             tidy \
@@ -72,13 +66,10 @@ RUN     sed -i "s|/var/www/html|\$\{WEB_ROOT\}|" /etc/apache2/apache2.conf \
             zip \
             mbstring \
             intl \
-            mcrypt \
-            mysql \
             pdo_mysql \
             soap \
 
      && apt-get remove -y \
-            libmcrypt-dev \
             libcurl4-openssl-dev \
             libtidy-dev \
             zlib1g-dev \

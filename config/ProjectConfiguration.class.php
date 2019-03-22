@@ -9,6 +9,7 @@
  */
 
 require_once __DIR__ . '/../lib/vendor/autoload.php'; // from composer
+require_once __DIR__ . '/../lib/memcacheshim/memcacheshim.php';
 class Doctrine extends Doctrine_Core {}
 
 sfCoreAutoload::register();

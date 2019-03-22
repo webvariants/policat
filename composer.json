@@ -1,6 +1,6 @@
 {
     "require": {
-        "php": "5.6.*",
+        "php": "7.2.*",
         "lexpress/symfony1": "1.5.*",
         "lexpress/doctrine1": "*@dev",
         "ircmaxell/password-compat": "1.0.*",
