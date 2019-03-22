@@ -87,6 +87,13 @@ class EditPetitionForm extends PetitionFieldsForm {
     )));
     $this->setValidator('show_embed', new sfValidatorChoice(array('choices' => array(0, 1), 'required' => true)));
 
+    $this->setWidget('show_target', new sfWidgetFormChoice(array(
+        'choices' => array(1 => 'yes', 0 => 'no'),
+        'label' => 'Show target in counter'
+      ), array(
+    )));
+    $this->setValidator('show_target', new sfValidatorChoice(array('choices' => array(0, 1), 'required' => true)));
+
     if (StoreTable::value(StoreTable::DONATIONS_PAYPAL)) {
       $this->setWidget('paypal_email', new sfWidgetFormInput(array(
           'label' => 'Paypal account for donations'
@@ -239,7 +246,7 @@ class EditPetitionForm extends PetitionFieldsForm {
         )));
         $this->setValidator('digest_enabled', new sfValidatorChoice(array('choices' => array('0', '1'))));
         $this->getWidgetSchema()->setHelp('digest_enabled', 'If enabled please provide e-mail translations.');
-        
+
         $this->setWidget('pledge_with_comments', new sfWidgetFormChoice(array(
             'label' => 'Enable comments',
             'choices' => array('0' => 'no', '1' => 'yes')), array(
