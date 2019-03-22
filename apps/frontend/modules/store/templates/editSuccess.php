@@ -19,7 +19,7 @@
       <?php echo $form ?>
       <div class="form-actions">
         <button class="btn btn-primary" type="submit">Save</button>
-        <a class="btn" href="<?php echo isset($language) ? url_for('store_language', array('key' => $key)) : url_for('store') ?>">Cancel</a>
+        <a class="btn btn-secondary" href="<?php echo isset($language) ? url_for('store_language', array('key' => $key)) : url_for('store') ?>">Cancel</a>
       </div>
     </form>
   </div>

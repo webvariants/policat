@@ -62,7 +62,7 @@ $(function() {
 								}
 							}
 
-							$options.append('<div class="line"><input class="btn" type="submit" name="generate" id="generate" value="' + messages.generate_code + '" /></div>');
+							$options.append('<div class="line"><input class="btn btn-secondary" type="submit" name="generate" id="generate" value="' + messages.generate_code + '" /></div>');
 
 							$('#counterbar_example').show();
 						} else {

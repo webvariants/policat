@@ -20,7 +20,7 @@
 <div id="counterbar_generator">
 	<form class="form-inline" id="generator" method="post" action="">
 			<label for="widget_id">Widget-ID:</label><input type="text" name="widget_id" id="widget_id" />
-			<input class="btn" type="submit" name="submit_widget" value="Continue"/>
+			<input class="btn btn-secondary" type="submit" name="submit_widget" value="Continue"/>
 	</form>
 </div>
 <div id="counterbar_example">

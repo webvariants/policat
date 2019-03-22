@@ -6,7 +6,8 @@
         <tr>
             <td>
                 <?php echo $quota->getName() ?><br />
-                <div class="progress progress-info bottom0 top5"><div class="bar" style="width: <?php echo $quota->getPercent() ?>%;"></div><div class="title"><?php echo format_number($quota->getEmailsRemaining()) ?> remaining</div></div>
+                <div class="progress"><div class="progress-bar" role="progressbar" style="width: <?php echo $quota->getPercent() ?>%" aria-valuenow="<?php echo $quota->getPercent() ?>" aria-valuemin="0" aria-valuemax="100"></div></div>
+                <small><?php echo format_number($quota->getEmailsRemaining()) ?> remaining</small>
             </td>
             <td>
               <?php echo format_date($quota->getStartAt(), 'yyyy-MM-dd') ?><br /><?php echo format_date($quota->getEndAt(), 'yyyy-MM-dd') ?>
@@ -16,10 +17,10 @@
             </td>
             <td>
                 <?php if ($sf_user->hasCredential(myUser::CREDENTIAL_ADMIN)): ?>
-                  <a class="btn btn-sm" href="<?php echo url_for('quota_edit', array('id' => $quota->getId())) ?>">edit</a>
+                  <a class="btn btn-secondary btn-sm" href="<?php echo url_for('quota_edit', array('id' => $quota->getId())) ?>">edit</a>
                 <?php endif ?>
                 <?php if ($quota->getOrderId() && ($sf_user->hasCredential(myUser::CREDENTIAL_ADMIN) || $sf_user->getUserId() == $quota->getUserId())): ?>
-                  <a class="btn btn-sm" href="<?php echo url_for('order_show', array('id' => $quota->getOrderId())) ?>">order</a>
+                  <a class="btn btn-secondary btn-sm" href="<?php echo url_for('order_show', array('id' => $quota->getOrderId())) ?>">order</a>
                 <?php endif ?>
             </td>
         </tr>

@@ -15,9 +15,9 @@
     <div class="form-actions">
         <button class="btn btn-primary">Save</button>
         <?php if ($campaign->getId()): ?>
-        <a class="btn" href="<?php echo url_for('quota_list', array('id' => $campaign->getId())) ?>" >Cancel</a>
+        <a class="btn btn-secondary" href="<?php echo url_for('quota_list', array('id' => $campaign->getId())) ?>" >Cancel</a>
         <?php else: ?>
-        <a class="btn" href="<?php echo url_for('order_list') ?>" >Cancel</a>
+        <a class="btn btn-secondary" href="<?php echo url_for('order_list') ?>" >Cancel</a>
         <?php endif ?>
     </div>
 </form>

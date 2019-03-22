@@ -3,7 +3,8 @@
 /* @var $campaign_rights_list Doctrine_Collection */
 use_helper('Date');
 ?>
-<div id="campaign_members" class="well">
+<div id="campaign_members" class="card bg-light mb-3">
+  <div class="card-body">
   <?php if (isset($campaign_rights_list)): ?>
     <h3>Members</h3>
     <?php if ($admin): ?>
@@ -47,7 +48,7 @@ use_helper('Date');
       </form>
       <div id="members_add">
         <h4>Add members to campaign team</h4>
-        <form class="ajax_form form-inline" method="post" action="<?php echo url_for('campaign_members_add', array('id' => $campaign->getId())) ?>">
+        <form class="ajax_form form" method="post" action="<?php echo url_for('campaign_members_add', array('id' => $campaign->getId())) ?>">
           <?php echo $form ?>
           <button class="btn btn-primary" type="submit">Add member</button>
           <?php if ($invitations && $invitations->count()): ?>
@@ -60,4 +61,5 @@ use_helper('Date');
       </div>
     <?php endif ?>
   <?php endif ?>
+  </div>
 </div>

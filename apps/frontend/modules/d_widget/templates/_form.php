@@ -41,6 +41,6 @@
         <?php if (!$form->getObject()->isNew()): ?>
           <a class="btn ajax_link" href="<?php echo url_for('widget_view', array('id' => $form->getObject()->getId())) ?>">view</a>
         <?php endif ?>
-        <a class="btn" href="<?php echo url_for('petition_widgets', array('id' => $petition->getId())) ?>">Cancel</a>
+        <a class="btn btn-secondary" href="<?php echo url_for('petition_widgets', array('id' => $petition->getId())) ?>">Cancel</a>
     </div>
 </form>

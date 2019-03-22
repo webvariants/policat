@@ -10,7 +10,7 @@ $contact = $petition_contact->getContact();
       <?php echo $form ?>
       <div class="form-actions">
         <button class="btn btn-primary" type="submit">Save</button>
-        <button class="btn" onclick="javascript:$('#contact_edit_row_<?php echo $contact->getId() ?>').remove();return false;">Cancel</button>
+        <button class="btn btn-secondary" onclick="javascript:$('#contact_edit_row_<?php echo $contact->getId() ?>').remove();return false;">Cancel</button>
       </div>
     </form>
   </td>

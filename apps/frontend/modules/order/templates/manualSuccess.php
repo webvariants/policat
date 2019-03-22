@@ -9,6 +9,6 @@
     <?php echo $form->renderOtherRows(); echo $form->renderHiddenFields() ?>
     <div class="form-actions">
         <button class="btn btn-primary">Create order</button>
-        <a class="btn" href="<?php echo url_for('order_list') ?>">Cancel</a>
+        <a class="btn btn-secondary" href="<?php echo url_for('order_list') ?>">Cancel</a>
     </div>
 </form>

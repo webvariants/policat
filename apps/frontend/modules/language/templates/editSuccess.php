@@ -11,20 +11,24 @@
   <div class="row">
     <?php if ($download): ?>
       <div class="col-4">
-        <div class="card card-body bg-light">
-          <a class="btn btn-primary" href="<?php echo url_for('language_download', array('id' => $form->getObject()->getId())) ?>">Download</a>
+        <div class="card bg-light mb-3">
+          <div class="card-body">
+            <a class="btn btn-primary" href="<?php echo url_for('language_download', array('id' => $form->getObject()->getId())) ?>">Download</a>
+          </div>
         </div>
       </div>
     <?php endif ?>
     <?php if ($csrf_token): ?>
       <div class="col-4">
-        <div class="well" id="upload">
+        <div class="card bg-light mb-3" id="upload">
+          <div class="card-body">
           <form class="form-inline ajax_form" method="post" action="<?php echo url_for('language_upload', array('id' => $form->getObject()->getId())) ?>" enctype="multipart/form-data">
             <input type="hidden" name="csrf_token" value="<?php echo $csrf_token ?>" />
             <input type="file" name="file" />
             <br />
             <button class="mt-2 btn btn-scondary" type="submit">Upload</button>
           </form>
+          </div>
         </div>
       </div>
     <?php endif ?>

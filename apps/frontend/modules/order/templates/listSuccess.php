@@ -59,7 +59,7 @@
               <td>
                 <a class="btn btn-primary btn-sm" href="<?php echo url_for('quota_edit', array('id' => $quota->getId())) ?>">edit</a>
                 <?php if ($quota->getCampaignId()): ?>
-                <a class="btn btn-sm ajax_link" href="<?php echo url_for('order_manual_user', array('id' => $quota->getId())) ?>">create order</a>
+                <a class="btn btn-secondary btn-sm ajax_link" href="<?php echo url_for('order_manual_user', array('id' => $quota->getId())) ?>">create order</a>
                 <?php endif ?>
               </td>
           </tr>

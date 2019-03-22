@@ -2,7 +2,7 @@
 /* @var $ticket Ticket */
 use_helper('Date');
 ?>
-<div class="card">
+<div class="card bg-light mb-3">
     <div class="card-body">
         <?php echo $sf_data->getRaw('text'); ?>
         <?php if (isset($csrf_token)): ?>
@@ -23,4 +23,3 @@ use_helper('Date');
         <?php endif ?>
     </div>
 </div>
-<br />

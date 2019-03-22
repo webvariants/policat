@@ -104,23 +104,23 @@ if (!isset($no_filter)):
                     <?php endif ?>
                   <?php endif ?>
                   <?php if ($widget->getStatus() == Widget::STATUS_ACTIVE && !$follow): ?>
-                    <a class="btn btn-sm ajax_link" href="<?php echo url_for('widget_view', array('id' => $widget->getId())) ?>">view</a>
+                    <a class="btn btn-secondary btn-sm ajax_link" href="<?php echo url_for('widget_view', array('id' => $widget->getId())) ?>">view</a>
                   <?php endif ?>
                   <?php if ($widget->getUserId() && $widget->getUserId() === $sf_user->getUserId()): ?>
                     <?php if ($widget->getDataOwner() == WidgetTable::DATA_OWNER_YES): ?>
-                      <a class="btn btn-sm" href="<?php echo url_for('widget_data', array('id' => $widget->getId())) ?>">Participants</a>
-                      <a class="btn btn-sm" href="<?php echo url_for('widget_data_email', array('id' => $widget->getId())) ?>">Mailing addresses</a>
+                      <a class="btn btn-secondary btn-sm" href="<?php echo url_for('widget_data', array('id' => $widget->getId())) ?>">Participants</a>
+                      <a class="btn btn-secondary btn-sm" href="<?php echo url_for('widget_data_email', array('id' => $widget->getId())) ?>">Mailing addresses</a>
                     <?php else: if ($petition->getCampaign()->getOwnerRegister() && !$user->isDataOwnerOfCampaign($petition->getCampaign()->getRawValue())): ?>
-                        <a class="btn btn-sm ajax_link post" data-submit='<?php echo json_encode(array('csrf_token' => $csrf_token, 'id' => $widget->getId())) ?>' href="<?php echo url_for('widget_data_owner') ?>">Become Data-owner</a>
+                        <a class="btn btn-primary btn-sm ajax_link post" data-submit='<?php echo json_encode(array('csrf_token' => $csrf_token, 'id' => $widget->getId())) ?>' href="<?php echo url_for('widget_data_owner') ?>">Become Data-owner</a>
                         <?php
                       endif;
                     endif
                     ?>
                   <?php endif ?>
                   <?php if ($widget->getDataOwner() == WidgetTable::DATA_OWNER_YES && $user->isDataOwnerOfCampaign($petition->getCampaign()->getRawValue())): ?>
-                    <a class="btn btn-sm ajax_link post" data-submit='<?php echo json_encode(array('csrf_token' => $csrf_token_revoke, 'id' => $widget->getId())) ?>' href="<?php echo url_for('widget_revoke_data') ?>">Re-integrate data</a>
+                    <a class="btn btn-primary btn-sm ajax_link post" data-submit='<?php echo json_encode(array('csrf_token' => $csrf_token_revoke, 'id' => $widget->getId())) ?>' href="<?php echo url_for('widget_revoke_data') ?>">Re-integrate data</a>
                   <?php endif ?>
-                  <?php if ($widget->getUserId() && $user->hasPermission(myUser::CREDENTIAL_ADMIN)): ?><a class="btn btn-sm" href="<?php echo url_for('user_edit', array('id' => $widget->getUserId())) ?>">user account</a><?php endif ?>
+                  <?php if ($widget->getUserId() && $user->hasPermission(myUser::CREDENTIAL_ADMIN)): ?><a class="btn btn-secondary btn-sm" href="<?php echo url_for('user_edit', array('id' => $widget->getUserId())) ?>">user account</a><?php endif ?>
                   <?php if (($user->getId() == $widget->getUserId() || $user->isPetitionMember($petition->getRawValue()) || $user->hasPermission(myUser::CREDENTIAL_ADMIN)) && $widget->getOriginWidgetId()): ?>
                   <a class="btn btn-sm btn-info" title="Widget ID <?php echo $widget->getOriginWidgetId() ?>" href="<?php echo url_for('petition_overview', array('id' => $widget->getOriginWidget()->getPetitionId())) ?>">copied from</a>
                   <?php endif ?>

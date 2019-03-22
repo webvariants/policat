@@ -89,10 +89,10 @@
         <?php foreach ($pledges as $pledge): /* @var $pledge Pledge */ ?>
           <div class="pledge_row">
             <fieldset class="row">
-              <div class="span8">
+              <div class="col-8">
                 <?php echo UtilMarkdown::transform($petition_text->getPledgeTextByPledgeItem($pledge->getPledgeItem())); ?>
               </div>
-              <div class="control-group span4 pledge_select">
+              <div class="control-group col-4 pledge_select">
                 <?php if ($pledge->getStatus() == PledgeTable::STATUS_YES): ?>
                   <label><span class="pledge_done_space pledge_color pledge_yes pledge_color_<?php echo $pledge->getPledgeItem()->getColor() ?>"></span><span><?php echo __('Yes') ?> (<?php echo __('I pledged on #DATE#', array('#DATE#' => format_date($pledge->getStatusAt(), 'D'))) ?>)</span></label>
                 <?php else: ?>
@@ -146,7 +146,7 @@
           <?php echo UtilMarkdown::transform($petition_text->getPledgeThankYou()) ?>
         </div>
         <div class="modal-footer">
-          <a class="btn" data-dismiss="modal">OK</a>
+          <a class="btn btn-secondary" data-dismiss="modal">OK</a>
         </div>
       </div>
     <?php endif ?>

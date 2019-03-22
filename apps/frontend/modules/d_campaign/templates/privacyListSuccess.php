@@ -10,11 +10,11 @@
 </nav>
 <?php include_partial('tabs', array('campaign' => $campaign, 'active' => 'privacy')) ?>
 <div class="row">
-  <div class="span2">
-    <ul class="nav nav-tabs nav-stacked">
+  <div class="col-2">
+    <div class="nav flex-column nav-pills">
       <?php foreach ($languages as $language): /* @var $language Language */ ?>
-      <li><a href="<?php echo url_for('campaign_privacy_edit', array('key' => CampaignStoreTable::KEY_PRIVACY_POLICY, 'id' => $campaign->getId(), 'lang' => $language->getId())) ?>"><?php echo $language->getName() ?></a></li>
+      <a class="nav-link" href="<?php echo url_for('campaign_privacy_edit', array('key' => CampaignStoreTable::KEY_PRIVACY_POLICY, 'id' => $campaign->getId(), 'lang' => $language->getId())) ?>"><?php echo $language->getName() ?></a>
       <?php endforeach; ?>
-    </ul>
+    </div>
   </div>
 </div>

@@ -9,6 +9,6 @@
     </div>
     <div class="modal-footer">
         <a class="btn btn-primary" href="<?php echo url_for('order_offer', array('id' => $id)) ?>?view=download">Download</a>
-        <a class="btn" data-dismiss="modal">Close</a>
+        <a class="btn btn-secondary" data-dismiss="modal">Close</a>
     </div>
 </div>

@@ -1,7 +1,7 @@
 <?php
 /* @var $join_form SelectCampaignForm */
 ?>
-<div class="card">
+<div class="card bg-light mb-3">
     <div class="card-body">
     <?php if (isset($list)): ?>
       <?php if ($list && $list->count()): ?>

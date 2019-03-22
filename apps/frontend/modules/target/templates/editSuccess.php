@@ -13,8 +13,6 @@ $hide_edit = false;
   </nav>
   <?php include_component('d_action', 'notice', array('petition' => $petition)) ?>
   <?php include_partial('d_action/tabs', array('petition' => $petition, 'active' => 'targets')) ?>
-  <div class="row">
-    <div class="col-8">
       <h2>Recipient(s) of the e-mail action (your campaign targets)</h2>
       <form class="ajax_form form-horizontal" action="<?php echo url_for('petition_edit_target', array('id' => $petition->getId())) ?>" method="post">
         <?php echo $target_form->renderHiddenFields() ?>
@@ -34,8 +32,6 @@ $hide_edit = false;
           <?php endif ?>
         </div>
       </form>
-    </div>
-  </div>
   <?php if (isset($target_list)): ?>
     <hr />
     <?php

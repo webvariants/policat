@@ -18,11 +18,11 @@ if ($billingEnabled) {
 ?>
 <?php include_partial('d_campaign/tabs', array('campaign' => $campaign, 'active' => 'billing')) ?>
 <div class="row">
-    <div class="span8">
+    <div class="col-8">
 
         <?php include_component('quota', 'list', array('campaign' => $campaign)) ?>
     </div>
-    <div class="span4">
+    <div class="col-4">
         <?php include_component('order', 'editBilling', array('campaign' => $campaign)) ?>
         <?php if ($order): ?>
           <?php if ($orderEdit): ?>

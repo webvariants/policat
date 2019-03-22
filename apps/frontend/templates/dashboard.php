@@ -19,10 +19,10 @@
   </head>
   <body class="container">
     <header class="row">
-      <div class="span3">
+      <div class="col-3">
         <a href="<?php echo url_for('homepage') ?>"><img src="<?php echo image_path('store/' . StoreTable::value(StoreTable::PORTAL_LOGO)) ?>?<?php echo StoreTable::version(StoreTable::PORTAL_LOGO) ?>" alt="<?php echo $portal_name ?>" /></a>
       </div>
-      <nav class="navbar span9"><?php include_component('d_home', 'menu', array('a' => $sf_user->isAuthenticated() ? 1 : 0, 'b' => $sf_user->hasCredential('homepage') ? 1 : 0)) ?></nav>
+      <nav class="navbar col-9"><?php include_component('d_home', 'menu', array('a' => $sf_user->isAuthenticated() ? 1 : 0, 'b' => $sf_user->hasCredential('homepage') ? 1 : 0)) ?></nav>
     </header>
     <?php echo $sf_content ?>
     <?php include_component('d_home', 'footer') ?>

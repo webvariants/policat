@@ -13,6 +13,6 @@
     <?php echo $form ?>
     <div class="form-actions">
         <button class="btn btn-primary" type="submit">Save</button>
-        <a class="btn" href="<?php echo url_for('petition_tokens', array('id' => $petition->getId())) ?>">Cancel</a>
+        <a class="btn btn-secondary" href="<?php echo url_for('petition_tokens', array('id' => $petition->getId())) ?>">Cancel</a>
     </div>
 </form>

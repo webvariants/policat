@@ -23,10 +23,10 @@ if (!isset($active))
   <h1>Campaign: <?php echo $campaign->getName() ?></h1>
 </div>
 <?php if (count($list) > 1): ?>
-<ul class="nav nav-tabs">
+<ul class="nav nav-tabs mb-4">
   <?php foreach ($list as $key => $entry): ?>
-    <li class="<?php if ($active == $key) echo 'active' ?>">
-      <a href="<?php echo url_for($entry['route'], array('id' => $campaign->getId())) ?>"><?php echo $entry['title'] ?></a>
+    <li class="nav-item">
+      <a class="nav-link <?php if ($active == $key) echo 'active' ?>" href="<?php echo url_for($entry['route'], array('id' => $campaign->getId())) ?>"><?php echo $entry['title'] ?></a>
     </li>
   <?php endforeach ?>
 </ul>

@@ -27,4 +27,4 @@ if ($pledges instanceof sfOutputEscaperArrayDecorator)
   </table>
   <?php include_partial('dashboard/pager', array('pager' => $contacts)) ?>
 </div>
-<a class="btn btn-sm" href="<?php echo url_for('pledge_download', array('id' => $petition_id)) ?>">Download</a>
+<a class="btn btn-secondary btn-sm" href="<?php echo url_for('pledge_download', array('id' => $petition_id)) ?>">Download</a>

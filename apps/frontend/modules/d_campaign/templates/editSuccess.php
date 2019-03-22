@@ -26,12 +26,13 @@ if ($billingEnabled) {
         <?php if ($admin): ?><?php include_component('ticket', 'todo', array('campaign_id' => $campaign->getId())) ?><?php endif ?>
     </div>
     <div class="col-4">
-        <div class="well">
+        <div class="card bg-light mb-3">
+          <div class="card-body">
             <h3>Administration</h3>
             <p>
                 <?php if ($officer_self): ?>
                   You are data protection officer.
-                  <a class="btn btn-sm ajax_link pull-right" href="<?php echo url_for('campaign_resign_officer', array('id' => $campaign->getId())) ?>">resign</a>
+                  <a class="btn btn-secondary btn-sm ajax_link pull-right" href="<?php echo url_for('campaign_resign_officer', array('id' => $campaign->getId())) ?>">resign</a>
                 <?php elseif ($admin): ?>
                   You are <span class="label label-important">admin</span>.
                 <?php else: ?>
@@ -56,9 +57,9 @@ if ($billingEnabled) {
                   Data protection officer is <?php echo $officer ? $officer->getFullName() : '<b>nobody</b>' ?>.
                   <?php if ($hasResign): /* @var $hasResign Ticket */ ?>(<?php echo $hasResign->getTo()->getFullName() ?>)<?php endif ?>
                   <?php if ($sf_user->hasCredential(myUser::CREDENTIAL_SYSTEM)): ?>
-                    <a class="btn btn-sm ajax_link pull-right" href="<?php echo url_for('campaign_resign_officer', array('id' => $campaign->getId())) ?>">resign</a>
+                    <a class="btn btn-secondary btn-sm ajax_link pull-right" href="<?php echo url_for('campaign_resign_officer', array('id' => $campaign->getId())) ?>">resign</a>
                   <?php else: if ($user->isCampaignAdmin($campaign->getRawValue())): ?>
-                      <a class="btn btn-sm ajax_link pull-right" href="<?php echo url_for('campaign_call_officer', array('id' => $campaign->getId())) ?>">call</a>
+                      <a class="btn btn-secondary btn-sm ajax_link pull-right" href="<?php echo url_for('campaign_call_officer', array('id' => $campaign->getId())) ?>">call</a>
                       <?php
                     endif;
                   endif
@@ -68,10 +69,12 @@ if ($billingEnabled) {
             <?php if ($admin): ?>
               <?php include_component('d_campaign', 'editSwitches', array('campaign' => $campaign)) ?>
               <?php if ($sf_user->hasCredential(myUser::CREDENTIAL_ADMIN)): ?><?php include_component('d_campaign', 'editPublic', array('campaign' => $campaign)) ?><?php endif ?>
-              <a class="btn btn-sm ajax_link" href="<?php echo url_for('campaign_name', array('id' => $campaign->getId())) ?>">Rename campaign</a>
-              <a class="btn btn-sm ajax_link" href="<?php echo url_for('campaign_privacy', array('id' => $campaign->getId())) ?>">Privacy agreement</a>
-              <a class="btn btn-sm ajax_link" href="<?php echo url_for('campaign_address', array('id' => $campaign->getId())) ?>">Address</a>
+              <br />
+              <a class="btn btn-secondary btn-sm ajax_link mb-1" href="<?php echo url_for('campaign_name', array('id' => $campaign->getId())) ?>">Rename campaign</a>
+              <a class="btn btn-secondary btn-sm ajax_link mb-1" href="<?php echo url_for('campaign_privacy', array('id' => $campaign->getId())) ?>">Privacy agreement</a>
+              <a class="btn btn-secondary btn-sm ajax_link mb-1" href="<?php echo url_for('campaign_address', array('id' => $campaign->getId())) ?>">Address</a>
             <?php endif ?>
+          </div>
         </div>
         <?php
         if ($billingEnabled) {

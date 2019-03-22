@@ -7,8 +7,6 @@
 <div class="page-header">
   <h1>Start a new e-action</h1>
 </div>
-<div class="row">
-  <div class="span8">
     <form class="ajax_form form-horizontal" action="<?php echo url_for('petition_new_') ?>" method="post">
       <?php echo $form->renderHiddenFields() ?>
       <?php echo $form->renderRows('name', 'campaign_id', '*new_campaign', 'kind') ?>
@@ -22,8 +20,6 @@
       <div class="form-actions">
         <button accesskey="s" title="[Accesskey] + S" class="btn btn-primary" type="submit">Save &amp; go to optional settings</button>
         <a class="btn submit" data-submit='{"go_translation":1}'>Save &amp; go to actions texts and translations</a>
-        <a class="btn" href="<?php echo url_for('homepage') ?>">Cancel</a>
+        <a class="btn btn-secondary" href="<?php echo url_for('homepage') ?>">Cancel</a>
       </div>
     </form>
-  </div>
-</div>

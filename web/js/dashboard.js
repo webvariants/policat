@@ -396,7 +396,7 @@ var wvAjax = function (options) {
 			if (!text) {
 				text = data.status == 0 ? '<span>Connection to server lost. Please check your internet connection and retry</span>' : 'Unknown error';
 			}
-			$('#waiting').before('<div id="crit_error_modal" class="modal hide hidden_remove"><div class="modal-header"><a class="close" data-dismiss="modal">&times;</a><h3>ERROR</h3></div><div class="modal-body"> </div><div class="modal-footer"><a class="btn" data-dismiss="modal">Close</a></div></div>');
+			$('#waiting').before('<div id="crit_error_modal" class="modal hide hidden_remove"><div class="modal-header"><a class="close" data-dismiss="modal">&times;</a><h3>ERROR</h3></div><div class="modal-body"> </div><div class="modal-footer"><a class="btn btn-secondary" data-dismiss="modal">Close</a></div></div>');
 			if (text.indexOf('<') == 0) {
 				$('#crit_error_modal .modal-body').append(text);
 			} else {

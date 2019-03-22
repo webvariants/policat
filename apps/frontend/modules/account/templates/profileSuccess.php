@@ -23,7 +23,7 @@
         </div>
         <div class="form-actions">
             <button class="btn btn-primary" type="submit">Save</button>
-            <a class="btn" href="<?php echo url_for('homepage') ?>">Cancel</a>
+            <a class="btn btn-secondary" href="<?php echo url_for('homepage') ?>">Cancel</a>
         </div>
     </form>
 </div>

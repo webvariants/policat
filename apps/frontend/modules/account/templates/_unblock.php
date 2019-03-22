@@ -8,7 +8,7 @@
         <?php echo $form ?>
     </div>
     <div class="modal-footer">
-      <a class="btn" data-dismiss="modal">Close</a>
+      <a class="btn btn-secondary" data-dismiss="modal">Close</a>
       <button class="btn btn-primary" type="submit">Send</button>
     </div>
   </form>

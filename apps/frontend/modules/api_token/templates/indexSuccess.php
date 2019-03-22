@@ -41,8 +41,8 @@
                 <td><?php echo number_format($token->getOffsetSum(60), 0, '.', ',') ?></td>
                 <td><?php echo $token->getStatusName() ?></td>
                 <td>
-                    <a class="btn btn-sm" href="<?php echo url_for('petition_token_edit', array('id' => $token->getId())) ?>">edit</a>
-                    <a class="btn btn-sm ajax_link" href="<?php echo url_for('petition_token_data', array('id' => $token->getId())) ?>">data</a>
+                    <a class="btn btn-secondary btn-sm" href="<?php echo url_for('petition_token_edit', array('id' => $token->getId())) ?>">edit</a>
+                    <a class="btn btn-secondary btn-sm ajax_link" href="<?php echo url_for('petition_token_data', array('id' => $token->getId())) ?>">data</a>
                 </td>
             </tr>
           <?php endforeach ?>
@@ -51,4 +51,4 @@
 <?php else: ?>
   <p>No Api tokens yet</p>
 <?php endif ?>
-<a class="btn" href="<?php echo url_for('petition_token_new', array('id' => $petition->getId())) ?>">Create API token</a>
+<a class="btn btn-secondary" href="<?php echo url_for('petition_token_new', array('id' => $petition->getId())) ?>">Create API token</a>

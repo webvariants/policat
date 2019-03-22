@@ -2,7 +2,8 @@
 /* @var $petition Petition */
 /* @var $petition_rights_list Doctrine_Collection */
 ?>
-<div id="petition_members" class="well">
+<div id="petition_members" class="card bg-light mb-3">
+  <div class="card-body">
   <?php if (isset($petition_rights_list) && $petition_rights_list->count()): ?>
     <h3>Members</h3>
     <?php if ($admin): ?>
@@ -42,4 +43,5 @@
       </form>
     <?php endif ?>
   <?php endif ?>
+  </div>
 </div>

@@ -4,7 +4,7 @@
       <?php echo $form ?>
       <div class="form-actions">
         <button class="btn btn-primary">Save</button>
-        <a class="btn" href="javascript:(function(){$('#pledge_item_form_<?php echo $pledge_item->getId() ?>').remove();})();">Cancel</a>
+        <a class="btn btn-secondary" href="javascript:(function(){$('#pledge_item_form_<?php echo $pledge_item->getId() ?>').remove();})();">Cancel</a>
       </div>
     </form>
   </td>

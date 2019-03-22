@@ -8,7 +8,7 @@
         <p>Checked against IP: <?php echo $ip ?></p>
     </div>
     <div class="modal-footer">
-      <a class="btn" data-dismiss="modal">Close</a>
+      <a class="btn btn-secondary" data-dismiss="modal">Close</a>
     </div>
   </form>
 </div>

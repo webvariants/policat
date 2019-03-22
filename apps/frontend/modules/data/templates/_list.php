@@ -12,9 +12,9 @@ use_helper('Number');
 <?php endif ?>
 <div id="data">
     <div class="row">
-        <?php if (isset($count)): ?><p class="span3">Count: <span class="label label-success"><?php echo format_number($count) ?></span></p><?php endif ?>
+        <?php if (isset($count)): ?><p class="col-3">Count: <span class="label label-success"><?php echo format_number($count) ?></span></p><?php endif ?>
         <?php if (isset($pending)): ?>
-          <p class="span9" style="text-align: right">
+          <p class="col-9" style="text-align: right">
               Signings with pending verification (not shown): <span class="label label-important"><?php echo format_number($pending) ?></span>
               <?php if (isset($petition)): /* @var $petition Petition */ ?>
                 Auto deleted (validation link expired): <span class="label label-warning"><?php echo format_number($petition->getDeletedPendings()) ?></span>
@@ -75,31 +75,34 @@ use_helper('Number');
                     <td><?php echo $signing->getCountry() ?></td>
                     <td><?php echo $signing->getComputedName() ?></td>
                     <?php if ($show_email): ?><td><?php echo $signing->getComputedAddress('en', ", ", false, false) ?></td><?php endif ?>
-                    <?php if ($can_delete): ?><td><a class="btn btn-sm ajax_link" href="<?php echo url_for('data_delete', array('id' => $signing->getId())) ?>">delete</a></td><?php endif ?>
+                    <?php if ($can_delete): ?><td><a class="btn btn-secondary btn-sm ajax_link" href="<?php echo url_for('data_delete', array('id' => $signing->getId())) ?>">delete</a></td><?php endif ?>
                 </tr>
               <?php endforeach ?>
           </tbody>
       </table>
       <?php include_partial('dashboard/pager', array('pager' => $signings)) ?>
       <?php if (isset($count)): ?>
-        <div class="well">
+        <div class="card bg-light mb-3">
+            <div class="card-body">
             <?php if (isset($download_url)): ?>
               <h3>Download data (utf-8 encoded .csv)</h3>
-              <a class="btn btn-sm ajax_link post" href="<?php echo $download_url ?>">Download</a>
+              <a class="btn btn-primary btn-sm ajax_link post" href="<?php echo $download_url ?>">Download</a>
             <?php endif ?>
             <p class="top15 bottom0">
                 The participant list exports contain hashes to compare or deduplicate signings with other lists. Input: e-mail address, utf-8 encoded, white spaces
                 removed front and tail, all letters converted to lowercase. Function: bcrypt, parameters cost=10 and salt='POLICAT1234567890ABCDE'
             </p>
+            </div>
         </div>
       <?php endif ?>
       <?php if (isset($petition) && isset($download_incremental_url)): ?>
-        <div class="well">
+        <div class="card bg-light mb-3">
+          <div class="card-body">
             <h3>Incremental download</h3>
             <p>Filters will be ignored.</p>
             <?php if ($new_increment): ?>
               <p><?php echo format_number($new_increment) ?> new entries ready for download.</p>
-              <a class="btn btn-sm ajax_link post" href="<?php echo $download_incremental_url ?>">Download (<?php echo format_number(min(100000, $new_increment)) ?>)</a>
+              <a class="btn btn-primary btn-sm ajax_link post" href="<?php echo $download_incremental_url ?>">Download (<?php echo format_number(min(100000, $new_increment)) ?>)</a>
             <?php else: ?>
               <p>No new downloads.</p>
             <?php endif ?>
@@ -119,12 +122,13 @@ use_helper('Number');
                                 echo url_for('data_petition_dl_inc', array(
                                     'id' => $petition->getId(), 'dl' => $incremental_download->getId()
                                 ))
-                                ?>" class="btn btn-sm ajax_link post">Download</a></td>
+                                ?>" class="btn btn-primary btn-sm ajax_link post">Download</a></td>
                         </tr>
                       <?php endforeach ?>
                   </tbody>
               </table>
             <?php endif ?>
+          </div>
         </div>
       <?php endif ?>
     <?php else: ?>

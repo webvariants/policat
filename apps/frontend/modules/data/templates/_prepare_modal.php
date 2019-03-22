@@ -14,7 +14,7 @@
         <?php endif ?>
     </div>
     <div class="modal-footer">
-        <a class="btn" data-dismiss="modal">Close</a>
+        <a class="btn btn-secondary" data-dismiss="modal">Close</a>
         <a <?php if (!$ready): ?>data-<?php endif ?>href="<?php echo url_for($prepare_route, array('id' => $id)) ?>?page=-1&amp;batch=<?php echo $batch ?>" class="btn btn-primary download-ready" <?php if (!$ready): ?>disabled="disabled"<?php endif ?>>Download</a>
     </div>
 </div>
