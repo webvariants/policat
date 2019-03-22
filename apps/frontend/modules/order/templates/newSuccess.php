@@ -13,7 +13,7 @@
     <?php echo $form->renderOtherRows(); echo $form->renderHiddenFields() ?>
     <div class="form-actions">
         <button class="btn btn-primary">Order now</button>
-        <a class="btn submit" data-submit='<?php echo json_encode(array('offer' => 1)) ?>'>Print offer</a>
+        <a class="btn btn-secondary submit" data-submit='<?php echo json_encode(array('offer' => 1)) ?>'>Print offer</a>
         <a class="btn btn-secondary" href="<?php echo url_for('quota_list', array('id' => $campaign->getId())) ?>" >Cancel</a>
     </div>
 </form>

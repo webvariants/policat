@@ -10,7 +10,7 @@
   <h2>Language files</h2>
   <div class="row">
     <?php if ($download): ?>
-      <div class="col-4">
+      <div class="col-md-4">
         <div class="card bg-light mb-3">
           <div class="card-body">
             <a class="btn btn-primary" href="<?php echo url_for('language_download', array('id' => $form->getObject()->getId())) ?>">Download</a>
@@ -19,7 +19,7 @@
       </div>
     <?php endif ?>
     <?php if ($csrf_token): ?>
-      <div class="col-4">
+      <div class="col-md-4">
         <div class="card bg-light mb-3" id="upload">
           <div class="card-body">
           <form class="form-inline ajax_form" method="post" action="<?php echo url_for('language_upload', array('id' => $form->getObject()->getId())) ?>" enctype="multipart/form-data">

@@ -24,22 +24,22 @@
     echo $form->renderRows('*background', 'styling_type', 'styling_width', '*themeId', '*styling_font_family');
     ?>
     <div class="row">
-        <div class="span6"><?php echo $form->renderRows('*styling_bg_right_color', '*styling_bg_left_color', '*styling_button_primary_color', '*styling_button_color') ?></div>
-        <div class="span6"><?php echo $form->renderRows('*styling_title_color', '*styling_form_title_color', '*styling_body_color', '*styling_label_color') ?></div>
+        <div class="col-md-6"><?php echo $form->renderRows('*styling_bg_right_color', '*styling_bg_left_color', '*styling_button_primary_color', '*styling_button_color') ?></div>
+        <div class="col-md-6"><?php echo $form->renderRows('*styling_title_color', '*styling_form_title_color', '*styling_body_color', '*styling_label_color') ?></div>
     </div>
     <?php echo $form->renderRows('share', 'paypal_email', '*donate_url', '*donate_text', 'landing_url', '*social_share_text') ?>
     <?php if (isset($form['target_selector_1'])): ?>
       <legend>Preselect Targets</legend>
       <div class="row">
-          <div class="span6"><?php echo $form->renderRows(array('target_selector_1', 'target_selector_2*')) ?></div>
-          <div class="span6"><?php UtilTargetSelectorPreselect::printTextPreselection($form->getObject()->getPetitionText(), '<div class="alert alert-info">If you select nothing settings from the translation will be used.<br /> %s</div>') ?></div>
+          <div class="col-md-6"><?php echo $form->renderRows(array('target_selector_1', 'target_selector_2*')) ?></div>
+          <div class="col-md-6"><?php UtilTargetSelectorPreselect::printTextPreselection($form->getObject()->getPetitionText(), '<div class="alert alert-info">If you select nothing settings from the translation will be used.<br /> %s</div>') ?></div>
       </div>
     <?php endif ?>
     <div class="form-actions">
         <button accesskey="s" title="[Accesskey] + S" class="btn btn-primary" type="submit">Save</button>
-        <button class="btn submit" data-submit='{"preview":1}' type="submit">Save &amp; view</button>
+        <button class="btn btn-secondary submit" data-submit='{"preview":1}' type="submit">Save &amp; view</button>
         <?php if (!$form->getObject()->isNew()): ?>
-          <a class="btn ajax_link" href="<?php echo url_for('widget_view', array('id' => $form->getObject()->getId())) ?>">view</a>
+          <a class="btn btn-secondary ajax_link" href="<?php echo url_for('widget_view', array('id' => $form->getObject()->getId())) ?>">view</a>
         <?php endif ?>
         <a class="btn btn-secondary" href="<?php echo url_for('petition_widgets', array('id' => $petition->getId())) ?>">Cancel</a>
     </div>

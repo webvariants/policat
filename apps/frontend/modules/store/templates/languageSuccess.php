@@ -1,7 +1,7 @@
 <?php /* @var $form StoreForm */ ?>
 <?php include_partial('dashboard/admin_tabs', array('active' => 'store', 'extra_title' => $title)) ?>
 <div class="tabbable tabs-left row">
-  <div class="col-2">
+  <div class="col-md-2">
     <div class="nav flex-column nav-pills" id="v-pills-tab" role="tablist" aria-orientation="vertical">
       <?php foreach ($list as $key_i => $entry): ?>
         <?php if (isset($entry['i18n'])): ?>
@@ -12,7 +12,7 @@
       <?php endforeach; ?>
     </div>
   </div>
-  <div class="col-10">
+  <div class="col-md-10">
     <h3>Select a language</h3>
     <ul class="nav nav-tabs">
       <?php foreach ($languages as $language): /* @var $language Language */ ?>

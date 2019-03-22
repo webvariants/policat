@@ -1,7 +1,7 @@
 <?php $petition = $form->getObject() ?>
 <form id="petition_edit_form" class="ajax_form form-horizontal" action="<?php echo url_for('petition_edit_', array('id' => $form->getObject()->getId())) ?>" method="post" enctype="multipart/form-data">
     <div class="row">
-        <div class="col-3">
+        <div class="col-md-3">
             <div class="nav flex-column nav-pills" id="v-pills-tab" role="tablist" aria-orientation="vertical">
                 <a class="nav-link active" href="#sec1" data-toggle="tab">Basic settings</a>
                 <a class="nav-link" href="#sec2" data-toggle="tab">Sign-up data</a>
@@ -14,7 +14,7 @@
                 <?php endif ?>
             </div>
         </div>
-        <div class="col-9">
+        <div class="col-md-9">
             <div class="tab-content" id="v-pills-tabContent">
                 <fieldset class="tab-pane fade show active tab-pane active show-before-chosen-init" id="sec1">
                     <legend>Basic settings</legend>
@@ -64,10 +64,10 @@
                     <legend>Widgets</legend>
                     <?php echo $form->renderRows('show_email_counter*', 'widget_individualise', 'themeId', 'style_font_family') ?>
                     <div class="row">
-                        <div class="col-6">
+                        <div class="col-md-6">
                             <?php echo $form->renderRows('style_bg_right_color', 'style_bg_left_color', 'style_button_primary_color', 'style_button_color') ?>
                         </div>
-                        <div class="col-6">
+                        <div class="col-md-6">
                             <?php echo $form->renderRows('style_title_color', 'style_form_title_color', 'style_body_color', 'style_label_color') ?>
                         </div>
                     </div>
@@ -87,11 +87,11 @@
     </div>
 
     <div class="row">
-        <div class="col-3">
+        <div class="col-md-3">
             &nbsp;
             <?php echo $form->renderHiddenFields() ?>
         </div>
-        <div class="col-9">
+        <div class="col-md-9">
             <div class="form-actions">
                 <button accesskey="s" title="[Accesskey] + S" class="btn btn-primary" type="submit">Save</button>
                 <?php if ($petition->isGeoKind()): ?>

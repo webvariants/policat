@@ -22,7 +22,7 @@ class NewWidgetLanguageForm extends sfForm {
           'method' => 'getLanguage',
           'add_empty' => 'Select language',
           'label' => false
-      )));
+      ), array('class' => 'no-chosen form-control')));
   }
 
 }

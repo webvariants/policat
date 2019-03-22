@@ -7,7 +7,7 @@
   <h1>Dashboard</h1>
 </div>
 <div class="row">
-  <div class="col-8">
+  <div class="col-md-8">
     <?php if ($sf_user->isAuthenticated()): ?>
       <?php if ($sf_user->isNotBlocked()): ?>
         <?php include_component('ticket', 'todo') ?>
@@ -20,7 +20,7 @@
     <?php endif ?>
   </div>
   <?php if ($sf_user->isNotBlocked()): ?>
-    <div class="col-4">
+    <div class="col-md-4">
         <?php include_component('d_campaign', 'myCampaigns'); ?>
     </div>
 

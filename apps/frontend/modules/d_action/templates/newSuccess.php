@@ -19,7 +19,7 @@
       </fieldset>
       <div class="form-actions">
         <button accesskey="s" title="[Accesskey] + S" class="btn btn-primary" type="submit">Save &amp; go to optional settings</button>
-        <a class="btn submit" data-submit='{"go_translation":1}'>Save &amp; go to actions texts and translations</a>
+        <a class="btn btn-secondary submit" data-submit='{"go_translation":1}'>Save &amp; go to actions texts and translations</a>
         <a class="btn btn-secondary" href="<?php echo url_for('homepage') ?>">Cancel</a>
       </div>
     </form>

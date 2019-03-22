@@ -10,7 +10,7 @@
 <?php include_component('d_action', 'notice', array('petition' => $petition)) ?>
 <?php include_partial('tabs', array('petition' => $petition, 'active' => 'overview')) ?>
 <div class="row">
-  <div class="col-8">
+  <div class="col-md-8">
     <div class="form-horizontal">
       <table class="table table-sm table-bordered">
         <tr>
@@ -77,7 +77,7 @@
       <a href="<?php echo url_for('api_v2_doc') ?>" target="_blank">API documentation</a>
     </div>
   </div>
-  <div class="col-4">
+  <div class="col-md-4">
       <?php include_component('d_action', 'members', array('petition' => $petition, 'no_admin' => false)) ?>
       <?php include_component('d_action', 'editFollow', array('petition' => $petition)) ?>
       <?php if ($petition->getCampaign()->getDataOwnerId() == $sf_user->getUserId() || $sf_user->hasCredential(myUser::CREDENTIAL_ADMIN)): ?>

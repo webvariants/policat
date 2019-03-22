@@ -10,14 +10,14 @@
 </nav>
 <?php include_partial('tabs', array('campaign' => $campaign, 'active' => 'privacy')) ?>
 <div class="tabbable tabs-left row">
-  <div class="col-2">
+  <div class="col-md-2">
     <ul class="nav flex-column nav-pills">
       <?php foreach ($languages as $language_i): /* @var $language_i Language */ ?>
         <a class="nav-link <?php if ($language->getId() == $language_i->getId()): ?>active<?php endif ?>" href="<?php echo url_for('campaign_privacy_edit', array('key' => CampaignStoreTable::KEY_PRIVACY_POLICY, 'id' => $campaign->getId(), 'lang' => $language_i->getId())) ?>"><?php echo $language_i->getName() ?></a>
       <?php endforeach; ?>
     </ul>
   </div>
-  <div class="col-10">
+  <div class="col-md-10">
     <?php if ($form->getObject()->isNew()): ?>
     <div id="no_text" class="alert alert-danger" style="clear:left">
       <a class="close" data-dismiss="alert">&times;</a>

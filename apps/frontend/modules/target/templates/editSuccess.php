@@ -56,7 +56,7 @@ $hide_edit = false;
 <?php endif ?>
 <?php if (isset($target_list)): ?>
   <div id="edit" class="row<?php if ($hide_edit): ?> d-none<?php endif ?>">
-    <div class="col-8">
+    <div class="col-md-8">
       <?php if ($target_list->isNew()): ?>
         <h2>Create Target-list</h2>
       <?php else: ?>
@@ -64,11 +64,11 @@ $hide_edit = false;
       <?php endif ?>
       <?php include_partial('form', array('form' => $form, 'csrf_token' => $csrf_token, 'petition_id' => isset($petition) ? $petition->getId() : '')) ?>
     </div>
-    <div class="col-4">
+    <div class="col-md-4">
       <?php if (!$target_list->isNew()) include_component('target', 'members', array('target_list' => $target_list)) ?>
     </div>
     <?php if (!$target_list->isNew()): ?>
-      <div class="col-12">
+      <div class="col-md-12">
         <h3>Meta fields</h3>
         <?php include_partial('metas', array('metas' => $metas)) ?>
         <a class="ajax_link btn btn-primary btn-sm" href="<?php echo url_for('target_meta_choice', array('id' => $form->getObject()->getId())) ?>">New selector</a>

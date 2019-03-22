@@ -12,9 +12,9 @@ use_helper('Number');
 <?php endif ?>
 <div id="data">
     <div class="row">
-        <?php if (isset($count)): ?><p class="col-3">Count: <span class="label label-success"><?php echo format_number($count) ?></span></p><?php endif ?>
+        <?php if (isset($count)): ?><p class="col-md-3">Count: <span class="label label-success"><?php echo format_number($count) ?></span></p><?php endif ?>
         <?php if (isset($pending)): ?>
-          <p class="col-9" style="text-align: right">
+          <p class="col-md-9" style="text-align: right">
               Signings with pending verification (not shown): <span class="label label-important"><?php echo format_number($pending) ?></span>
               <?php if (isset($petition)): /* @var $petition Petition */ ?>
                 Auto deleted (validation link expired): <span class="label label-warning"><?php echo format_number($petition->getDeletedPendings()) ?></span>

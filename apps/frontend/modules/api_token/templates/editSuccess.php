@@ -6,7 +6,7 @@
     <li class="breadcrumb-item"><a href="<?php echo url_for('petition_overview', array('id' => $petition->getId())) ?>"><?php echo $petition->getName() ?></a></li>
     <li class="breadcrumb-item active">Overview</li>
   </ol>
-</div>
+</nav>
 <?php include_partial('d_action/tabs', array('petition' => $petition, 'active' => 'tokens')) ?>
 
 <form class="ajax_form form-horizontal" action="<?php echo url_for('petition_token_edit', array('id' => $form->getObject()->getId())) ?>" method="post">

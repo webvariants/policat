@@ -14,7 +14,7 @@
             <div class="modal-footer">
                 <a class="btn btn-primary" href="<?php echo url_for('order_bill', array('id' => $id)) ?>?view=download">Download</a>
                 <?php if ($bill->getUser()->getSwiftEmail()): ?>
-                  <a class="btn ajax_link" href="<?php echo url_for('bill_mail', array('id' => $bill->getId())) ?>">Mail to <?php echo $bill->getUser()->getEmailAddress() ?></a>
+                  <a class="btn btn-secondary ajax_link" href="<?php echo url_for('bill_mail', array('id' => $bill->getId())) ?>">Mail to <?php echo $bill->getUser()->getEmailAddress() ?></a>
                 <?php endif ?>
                 <a class="btn btn-secondary" data-dismiss="modal">Close</a>
             </div>

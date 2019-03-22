@@ -102,7 +102,7 @@ class TranslationForm extends BasePetitionTextForm {
       $this->getValidator('footer')->setOption('required', false);
       unset($this['email_subject'], $this['email_body']);
     } else {
-      $this->setWidget('email_subject', new sfWidgetFormInput(array(), array('size' => 90, 'class' => 'large')));      
+      $this->setWidget('email_subject', new sfWidgetFormInput(array(), array('size' => 90, 'class' => 'large')));
       $this->setWidget('email_body', new sfWidgetFormTextarea(array(), array('cols' => 90, 'rows' => 30, 'class' => 'large elastic highlight')));
       $this->getValidator('email_subject')->setOption('required', true);
       $this->getValidator('email_body')->setOption('required', true);
@@ -169,7 +169,7 @@ class TranslationForm extends BasePetitionTextForm {
 
     $possible_statuses_show = PetitionText::calcStatusShow($possible_statuses);
 
-    $this->setWidget('status', new sfWidgetFormChoice(array('choices' => $possible_statuses_show)));
+    $this->setWidget('status', new sfWidgetFormChoice(array('choices' => $possible_statuses_show), array('class' => 'no-chosen form-control')));
     $this->setValidator('status', new sfValidatorChoice(array('choices' => $possible_statuses, 'required' => true)));
 
     if ($petition_text->getLanguageId() === null) {
@@ -308,7 +308,7 @@ class TranslationForm extends BasePetitionTextForm {
     } else {
       unset($this['signers_page'], $this['signers_url']);
     }
-    
+
     if (($petition->getKind() == Petition::KIND_PLEDGE) && $petition->getDigestEnabled()) {
       $this->setWidget('digest_subject', new sfWidgetFormInput(array('label' => 'subject'), array('size' => 90, 'class' => 'large', 'placeholder' => 'Digest e-mail subject line. If left empty the title is used.')));
       $this->setWidget('digest_body_intro', new sfWidgetFormTextarea(array('label' => 'Intro'), array(

@@ -24,7 +24,7 @@ class WidgetsCopyFollowForm extends sfForm {
         'query' => $query,
         'label' => false
     ), array(
-        'class' => 'add_popover',
+        'class' => 'no-chosen form-control add_popover',
         'data-content' => 'This function allows you to quickly import the layout and ownership status of a large number of widgets from a previous action. Owners of copied widgets will also be owners of the new copy. The function creates a copy of each widget from the selected action, as long as you have already created and activated a translation in the respective language of the widget. It doesn\'t import content (translations), data or the counter reading. You can use this function multiple times (it ignores widgets that you imported already). To forward the widget-URLs of the original widgets to the new copies, go to the original action and activate the forwarding.'
     )));
 
@@ -43,7 +43,7 @@ class WidgetsCopyFollowForm extends sfForm {
     $source_petition = PetitionTable::getInstance()->findById($source_petition_id);
     $source_widget_ids = WidgetTable::getInstance()->fetchIdsOfPetition($source_petition);
     $exiting_origin_ids = WidgetTable::getInstance()->fetchOriginIdsOfPetition($target_petition);
-    
+
     // Source Text --> Language --> Target Text
 
     $target_lang_to_text = array();
@@ -80,7 +80,7 @@ class WidgetsCopyFollowForm extends sfForm {
         $skip_language++;
         continue;
       }
-      
+
       if (in_array($source_widget->getId(), $exiting_origin_ids)) {
         $skip_existing_origin++;
         continue;

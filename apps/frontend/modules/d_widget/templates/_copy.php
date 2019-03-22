@@ -1,5 +1,5 @@
 <?php if (isset($form)): ?>
-  <form id="widget_copy_form" method="post" class="ajax_form form-inline" action="<?php echo url_for('petition_widgets_copy', array('id' => $petition->getId())) ?>">
+  <form id="widget_copy_form" method="post" class="ajax_form form-inline mt-4 mb-2" action="<?php echo url_for('petition_widgets_copy', array('id' => $petition->getId())) ?>">
       <?php echo $form ?>
       <button class="btn btn-small add_popover" type="submit" data-content="This function allows you to quickly import the layout and ownership status of a large number of widgets from a previous action. Owners of copied widgets will also be owners of the new copy. The function creates a copy of each widget from the selected action, as long as you have already created and activated a translation in the respective language of the widget. It doesn't import content (translations), data or the counter reading. You can use this function multiple times (it ignores widgets that you imported already). To forward the widget-URLs of the original widgets to the new copies, go to the original action and activate the forwarding.">Import widgets</button>
   </form>

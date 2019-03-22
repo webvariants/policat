@@ -8,14 +8,14 @@
   </ol>
 </nav>
 <div class="row">
-    <div class="span12">
+    <div class="col-md-12">
         <?php
         if ($order->getStatus() == OrderTable::STATUS_ORDER) {
           echo $sf_data->getRaw('markup');
         }
         ?>
     </div>
-    <div class="span6">
+    <div class="col-md-6">
         <div class="form-horizontal">
             <fieldset>
                 <legend>Order</legend>
@@ -53,7 +53,7 @@
             </fieldset>
         </div>
     </div>
-    <div class="span6">
+    <div class="col-md-6">
         <div class="form-horizontal">
             <fieldset>
                 <legend>Billing address</legend>
@@ -94,7 +94,7 @@
             </fieldset>
         </div>
     </div>
-    <div class="span6">
+    <div class="col-md-6">
         <div class="form-horizontal">
             <fieldset>
                 <legend>Package</legend>
@@ -133,7 +133,7 @@
             </fieldset>
         </div>
     </div>
-    <div class="span6">
+    <div class="col-md-6">
         <div class="form-horizontal">
             <fieldset>
                 <?php if ($order->getPaypalPaymentId() || $order->getPaypalSaleId()): ?>
@@ -162,7 +162,7 @@
             </fieldset>
         </div>
     </div>
-    <div class="span12">
+    <div class="col-md-12">
         <div class="form-horizontal">
             <div class="form-actions">
                 <?php if ($paypal): ?>

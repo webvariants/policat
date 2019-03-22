@@ -5,12 +5,10 @@ use_helper('Number');
 ?>
 
 <div id="data">
-    <div class="row">
-        <p class="span6">
-            Bounces pending review (see list below): <span class="label label-info"><?php echo format_number($signings->getNbResults()) ?></span>
-            Deleted bounces (manually and auto deleted): <span class="label label-info"><?php echo format_number($petition->getDeletedHardBounces() + $petition->getDeletedBouncesManually()) ?></span>
-        </p>
-    </div>
+    <p>
+        Bounces pending review (see list below): <span class="label label-info"><?php echo format_number($signings->getNbResults()) ?></span>
+        Deleted bounces (manually and auto deleted): <span class="label label-info"><?php echo format_number($petition->getDeletedHardBounces() + $petition->getDeletedBouncesManually()) ?></span>
+    </p>
     <?php if (isset($signings) && $signings->count()): ?>
     <form class="ajax_form" method="post" action="<?php echo url_for('petition_bounce_delete', array('id' => $petition->getId())) ?>">
           <input type="hidden" name="csrf_token" value="<?php echo $delete_token ?>">

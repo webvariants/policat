@@ -41,6 +41,6 @@
     ?>
   </td>
   <td>
-    <a class="ajax_link btn btn-sm" href="<?php echo url_for('pledge_contact_edit', array('petition_id' => $petition_id, 'id' => $contact->getId())) ?>">edit</a>
+    <a class="ajax_link btn-primary btn btn-sm" href="<?php echo url_for('pledge_contact_edit', array('petition_id' => $petition_id, 'id' => $contact->getId())) ?>">edit</a>
   </td>
 </tr>

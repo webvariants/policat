@@ -8,7 +8,7 @@
     <fieldset>
       <legend class="pull-left">Profile</legend>
       <div class="row">
-        <div class="col-6">
+        <div class="col-md-6">
           <?php echo $form->renderHiddenFields() ?>
           <?php
           echo $form->renderRows('email_address');
@@ -18,7 +18,7 @@
           <p>An E-mail will be sent to the user to activate and set the password.</p>
           <?php endif ?>
         </div>
-        <div class="col-6">
+        <div class="col-md-6">
           <?php echo $form->renderRows('organisation', 'website', 'street', 'post_code', 'city', 'country', 'vat', 'mobile') ?>
         </div>
       </div>
@@ -26,10 +26,10 @@
     <fieldset>
       <legend class="pull-left">Admin only settings</legend>
       <div class="row">
-        <div class="col-6">
+        <div class="col-md-6">
           <?php if (!$is_new) echo $form->renderRows('is_active') ?>
         </div>
-        <div class="col-6">
+        <div class="col-md-6">
           <?php echo $form->renderRows('groups_list') ?>
         </div>
       </div>
@@ -42,7 +42,7 @@
           <?php if ($user->hasPermission(myUser::CREDENTIAL_USER)): ?>
             <a class="btn btn-danger ajax_link" href="<?php echo url_for('user_block', array('id' => $user->getId())) ?>">Block</a>
           <?php else: ?>
-            <a class="btn ajax_link" href="<?php echo url_for('user_unblock', array('id' => $user->getId())) ?>">Unblock</a>
+            <a class="btn btn-secondary ajax_link" href="<?php echo url_for('user_unblock', array('id' => $user->getId())) ?>">Unblock</a>
           <?php endif ?>
         <?php endif ?>
         <a class="btn btn-danger ajax_link" href="<?php echo url_for('user_delete', array('id' => $form->getObject()->getId())) ?>">Delete</a>

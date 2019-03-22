@@ -17,7 +17,7 @@ class EditPetitionCounterForm extends BasePetitionForm {
     $this->useFields(array('addnum', 'target_num', 'addnum_email_counter', 'target_num_email_counter'));
 
     $this->getWidgetSchema()->setLabel('addnum', 'Sign-on counter start');
-    $this->getWidget('addnum')->setAttribute('class', 'add_popover');
+    $this->getWidget('addnum')->setAttribute('class', 'add_popover form-control');
     $this->getWidget('addnum')->setAttribute('data-content', 'Add the number of activists that have signed-on to your action in the streets or via another e-action tool. The number will be added to the live counter in all widgets of your e-action. Be honest :-)');
 
     $this->getWidgetSchema()->setLabel('target_num', 'Sign-on counter target');
