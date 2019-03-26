@@ -80,8 +80,8 @@ class PetitionSigningForm extends BasePetitionSigningForm {
           }
           break;
         case Petition::FIELD_SUBSCRIBE:
-          $widget = new WidgetFormInputCheckbox(array('value_attribute_value' => 1), $petition->getSubscribeDefault() == PetitionTable::SUBSCRIBE_CHECKBOX_DEFAULT_YES ? array('checked' => 'checked') : array());
-          $validator = new sfValidatorChoice(array('choices' => array('1'), 'required' => false));
+          $widget = new WidgetFormInputCheckbox(array('value_attribute_value' => 1), $petition->getSubscribeDefault() == PetitionTable::SUBSCRIBE_CHECKBOX_DEFAULT_YES ? array('checked' => 'checked') : array('class' => $petition->getSubscribeDefault() == PetitionTable::SUBSCRIBE_CHECKBOX_REQUIRED ? 'required' : ''));
+          $validator = new sfValidatorChoice(array('choices' => array('1'), 'required' => $petition->getSubscribeDefault() == PetitionTable::SUBSCRIBE_CHECKBOX_REQUIRED));
           $label = 'Keep me posted on this and similar campaigns.';
           $subscribe_text = trim($this->getOption('subscribe_text'));
           if ($subscribe_text) {
@@ -205,7 +205,7 @@ class PetitionSigningForm extends BasePetitionSigningForm {
           } else {
             return false;
           }
-        case Petition::FIELD_FIRSTNAME: 
+        case Petition::FIELD_FIRSTNAME:
           $petition = $this->getObject()->getPetition();
           if ($petition->getTitletype() != Petition::TITLETYPE_NO) {
             return self::utilPosition($this->fieldNames, Petition::FIELD_FIRSTNAME, Petition::FIELD_TITLE);
@@ -240,7 +240,7 @@ class PetitionSigningForm extends BasePetitionSigningForm {
           }
         }
       }
-      
+
       if ($petition->isEmailKind() && $petition->getEditable() == Petition::EDITABLE_NO) {
         $widget = $this->getObject()->getWidget();
         $fields[Petition::FIELD_EMAIL_SUBJECT] = $this->buildEmailSubject($widget, $petition);
@@ -248,7 +248,7 @@ class PetitionSigningForm extends BasePetitionSigningForm {
       }
 
       $fields[Petition::FIELD_REF] = $values[Petition::FIELD_REF];
-      
+
       $wave = new PetitionSigningWave();
       $wave->setWave($this->getObject()->getWavePending());
       $wave->setFields(json_encode($fields));
@@ -260,9 +260,9 @@ class PetitionSigningForm extends BasePetitionSigningForm {
       $wave->setContactNum($this->contact_num);
       $object = $this->getObject();
       $object['PetitionSigningWave'][] = $wave;
-      
+
     }
-    
+
     if (!$this->getObject()->isNew()) {
       unset($values[Petition::FIELD_EMAIL_SUBJECT], $values[Petition::FIELD_EMAIL_BODY]);
     }
@@ -283,7 +283,7 @@ class PetitionSigningForm extends BasePetitionSigningForm {
         $values['validation_kind'] = PetitionSigning::VALIDATION_KIND_NONE;
         break;
     }
-    
+
     $email = $values[Petition::FIELD_EMAIL];
     if ($email) {
       $values['email_hash'] = UtilEmailHash::hash($email);
@@ -300,11 +300,11 @@ class PetitionSigningForm extends BasePetitionSigningForm {
 
     $signing = $this->getObject();
     $petition = $signing->getPetition();
-    
+
     if ($petition->getValidationRequired() == Petition::VALIDATION_REQUIRED_NO) {
       $signing->setStatus(PetitionSigning::STATUS_COUNTED);
     }
-    
+
     $geo_existing = false;
     if ($petition->isGeoKind()) {
       // EMAIL-TO-LIST ACTION (AND PLEDGE)

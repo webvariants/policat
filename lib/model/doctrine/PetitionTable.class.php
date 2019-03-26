@@ -64,10 +64,12 @@ class PetitionTable extends Doctrine_Table {
 
   const SUBSCRIBE_CHECKBOX_DEFAULT_NO = 0;
   const SUBSCRIBE_CHECKBOX_DEFAULT_YES = 1;
+  const SUBSCRIBE_CHECKBOX_REQUIRED = 2;
 
   public static $SUBSCRIBE_CHECKBOX_DEFAULT = array(
       self::SUBSCRIBE_CHECKBOX_DEFAULT_NO => 'Not preselected (legal requirement in the EU"',
-      self::SUBSCRIBE_CHECKBOX_DEFAULT_YES => 'Preselected (not legal in the EU)'
+      self::SUBSCRIBE_CHECKBOX_DEFAULT_YES => 'Preselected (not legal in the EU)',
+      self::SUBSCRIBE_CHECKBOX_REQUIRED => 'Required, not preselected'
   );
 
   const LABEL_TAB = 1;
