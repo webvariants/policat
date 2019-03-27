@@ -794,7 +794,7 @@ $(document).ready(function($) {
 			validate(this);
 		});
 
-		$('#petition_signing_privacy').on('change', function() {
+		$('#petition_signing_privacy, #petition_signing_subscribe').on('change', function() {
 			$(this).parent().parent().removeClass('form-error');
 		});
 
@@ -943,6 +943,10 @@ $(document).ready(function($) {
 
 				// privacy validation
 				$('#petition_signing_privacy:not(:checked)', form).each(function() {
+					$(this).parent().parent().addClass('form-error');
+					form_error = true;
+				});
+				$('#petition_signing_subscribe.required:not(:checked)', form).each(function() {
 					$(this).parent().parent().addClass('form-error');
 					form_error = true;
 				});
@@ -1199,7 +1203,7 @@ $(document).ready(function($) {
 				return mapObj1[matched];
 			});
 		}
-		
+
 		function naturalSorter(as, bs){
 			var a, b, a1, b1, i= 0, n, L,
 			rx=/(\.\d+)|(\d+(\.\d+)?)|([^\d.]+)|(\.\D+)|(\.$)/g;
