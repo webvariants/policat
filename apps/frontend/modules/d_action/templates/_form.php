@@ -46,7 +46,7 @@
                     <?php echo $form->renderRows('from_name', 'from_email') ?>
                     <?php if (sfConfig::get('app_spf_ip')): ?>
                       <div class="controls">
-                          <a data-collect="<?php echo Util::enc(json_encode(array('email' => '#edit_petition_from_email'))) ?>" href="<?php echo url_for('petition_spf') ?>" class="btn ajax_link post">Make SPF check</a>
+                          <a data-collect="<?php echo Util::enc(json_encode(array('email' => '#edit_petition_from_email'))) ?>" href="<?php echo url_for('petition_spf') ?>" class="btn btn-secondary ajax_link post">Make SPF check</a>
                       </div>
                       <br />
                     <?php endif ?>
