@@ -24,6 +24,8 @@ cache/*
 /data/csv_uploads/*
 
 /data/csv_downloads/*
+/data/session/
+/data/upload_tmp/
 /lib/vendor/*
 
 /web/images/ttipceta/*
