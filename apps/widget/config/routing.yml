@@ -13,7 +13,7 @@ sign_hp:
 validate:
   url: /validate/:code
   param: { module: widget, action: validate }
-  
+
 delete_signing:
   url: /delete/:code
   param: { module: widget, action: delete }
@@ -152,6 +152,7 @@ api_incomming_mixed:
 
 terms:            { url: '/terms',                  param: { module: default, action: error404 } }
 contact:          { url: '/contact',                param: { module: default, action: error404 } }
+privacy:          { url: '/privacy',                param: { module: default, action: error404 } }
 widgetval:        { url: '/widgetval/:code',        param: { module: default, action: error404 } }
 homepage:         { url: '/',                       param: { module: default, action: error404 } }
 imprint:          { url: '/imprint',                param: { module: default, action: error404 } }

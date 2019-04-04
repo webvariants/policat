@@ -1,10 +1,9 @@
-<?php
-/* @var $sf_content string */
-/* @var $sf_user myUser */
-?><!DOCTYPE html>
+<!DOCTYPE html>
 <html>
-    <head>
-        <?php
+
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, shrink-to-fit=no">
+    <?php
         use_helper('I18N');
         $portal_name = StoreTable::value(StoreTable::PORTAL_NAME);
         $title = $sf_response->getTitle();
@@ -15,23 +14,30 @@
         include_metas();
         include_title()
         ?>
-        <link rel="shortcut icon" href="<?php echo public_path('favicon.ico') ?>" />
-        <?php
+    <link rel="shortcut icon" href="<?php echo public_path('favicon.ico') ?>" />
+    <?php
         include_stylesheets();
-//    include_javascripts();
+        // include_javascripts();
         ?>
-    </head>
-    <body class="container">
-        <div class="modal">
-            <div class="modal-header">
-                Success
-            </div>
-            <div class="modal-body">
-                Your data has been deleted.
-            </div>
-            <div class="modal-footer">
-                <a class="btn btn-primary" href="<?php echo url_for('homepage') ?>">OK</a>
+</head>
+
+<body class="modal-open">
+    <div class="modal show" tabindex="-1" role="dialog" aria-hidden="true" style="display:block">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Success</h5>
+                </div>
+                <div class="modal-body">
+                    Your data has been deleted.
+                </div>
+                <div class="modal-footer">
+                    <a class="btn btn-primary" href="<?php echo url_for('homepage') ?>">OK</a>
+                </div>
             </div>
         </div>
-    </body>
+    </div>
+    <div class="modal-backdrop show"></div>
+</body>
+
 </html>

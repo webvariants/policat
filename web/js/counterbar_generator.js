@@ -1,7 +1,7 @@
 $(function() {
 	function buildInput(name, value) {
 		color = inputs[name]['color'] ? '' : 'style="background:' + value + ';"';
-		return '<div class="line"><label for="' + inputs[name]['name'] + '">' + inputs[name]['label'] + '</label><input type="text" id="' + inputs[name]['name'] + '" name="' + inputs[name]['name'] + '" value="' + value + '" ' + color + ' alt="' + name + '" /></div>'
+		return '<div class="form-group line"><label class="control-label" for="' + inputs[name]['name'] + '">' + inputs[name]['label'] + '</label><input class="form-control" type="text" id="' + inputs[name]['name'] + '" name="' + inputs[name]['name'] + '" value="' + value + '" ' + color + ' alt="' + name + '" /></div>'
 
 	}
 
@@ -14,7 +14,7 @@ $(function() {
 			$('form#generator').before('<p class="line error">' + text + '</p>');
 	}
 
-	$('form').live('submit', function() {
+	$('body').on('submit', 'form', function() {
 		var $form     = $(this);
 		var widget_id = '';
 		if ($form.is('#generator')) {
@@ -94,12 +94,13 @@ $(function() {
 
 				var textarea = $('#code');
 				if (textarea.length) {
-					textarea.val(code);
+					textarea.text(code);
 				} else {
 					$('#counterbar_example').after('<div class="line code"></div>');
 					var $div = $('div.line.code');
 					$div.append('<p class="line">' + messages.code_help + '</p>');
-					$div.append('<div class="line"><textarea name="code" id="code" rows="9" cols="114">' + code + '</textarea></div>');
+					$div.append('<div class="line"><pre><code name="code" id="code"></code></div></pre>');
+					$('#code').text(code);
 				}
 
 			} else

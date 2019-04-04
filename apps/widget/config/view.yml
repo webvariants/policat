@@ -9,9 +9,9 @@ default:
 #    language:     en
     robots:       index, follow
 
-  stylesheets:    [dist/frontend]
+  stylesheets:    ["dist/bootstrap4.min.css", "dist/bootstrap-custom.css", dist/frontend4: { media: 'all' }, dist/frontend_print: { media: print }]
 
-  javascripts:    [dist/html5shiv: { condition: lt IE 9 }, dist/frontend]
+#  javascripts:    ["dist/jquery-3.1.min.js", "dist/tether.min.js", "dist/popper.min.js", "dist/bootstrap4.min.js", "dist/frontend"]
 
   has_layout:     true
   layout:         layout
