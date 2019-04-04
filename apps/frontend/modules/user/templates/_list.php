@@ -2,8 +2,8 @@
 ?>
   <form method="get" class="form-inline ajax_form filter_form" action="<?php echo url_for('user_pager', array('page' => 1)) ?>">
   <?php echo $form ?>
-    <button class="btn btn-sm btn-primary top15" type="submit">Filter</button>
-    <button class="filter_reset btn btn-sm top15">Reset filter</button>
+    <button class="btn btn-primary btn-sm mt-3" type="submit">Filter</button>
+    <button class="filter_reset btn btn-sm mt-3">Reset filter</button>
   </form>
 <?php endif ?>
 <div id="user_list">

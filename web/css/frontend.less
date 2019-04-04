@@ -57,8 +57,93 @@ ul.checkbox_list {
   padding: 0;
 }
 
-select.form-control + .chosen-container {
-  width: 100% !important;
+select.form-control {
+  + .chosen-container {
+    width: 100% !important;
+
+    .chosen-single {
+      height: 40px;
+      background: #fff;
+      border-radius: .2rem;
+      border-color: #ced4da;
+
+      span {
+        height: 40px;
+        line-height: 38px;
+        font-size: 1rem;
+      }
+
+      div b {
+        background-position: 0 10px;
+      }
+
+      abbr {
+        top: 14px;
+      }
+    }
+
+    .chosen-results li.highlighted {
+      background: #007bff;
+    }
+  }
+
+  &.form-control-sm {
+    + .chosen-container {
+      .chosen-single {
+        height: 30px;
+
+        span {
+          height: 29px;
+          line-height: 30px;
+          font-size: .875rem;
+        }
+
+        div b {
+          background-position: 0 5px;
+        }
+      }
+    }
+  }
+}
+
+.form-control {
+  &.select2-container-multi {
+    .select2-choices  {
+      background: #fff;
+
+      .select2-search-choice {
+        background: #fff;
+        line-height: 20px;
+      }
+    }
+  }
+
+  .select2-search-choice-close {
+    top: 6px;
+  }
+
+  &.select2-container {
+    width: 100% !important;
+
+    .select2-choice {
+      background: #fff;
+      height: 40px;
+      line-height: 40px;
+
+      .select2-arrow {
+        background: #fff;
+        border-left: none;
+
+        b {
+          background-position: 0 7px;
+        }
+      }
+    }
+  }
+
+  &.select2-dropdown-open.select2-drop-above .select2-choice {
+    background: #ddd;
+  }
 }
 
 .nav-link.is-invalid {
@@ -68,4 +153,40 @@ select.form-control + .chosen-container {
     color: #fff;
     background-color: #dc3545;
   }
+}
+
+.filter_form {
+  input[type=date] {
+    width: 110px;
+    padding-left: 2px;
+    padding-right: 1px;
+    vertical-align: top;
+  }
+  input[type=date]::-webkit-inner-spin-button {
+    display: none;
+  }
+  input[type=date]::-webkit-clear-button {
+    display: none;
+  }
+
+  input[type=number] {
+    width: 110px;
+    vertical-align: top;
+  }
+}
+
+.filter_order {
+  cursor: pointer;
+  font-weight: bold;
+  text-decoration: none !important;
+  color: black;
+  margin: 0 1px;
+}
+.filter_order:hover {
+  color: #007bff  !important;
+}
+.filter_order.active {
+  font-weight: bold;
+  color: #007bff !important;
+  font-size: 120%;
 }

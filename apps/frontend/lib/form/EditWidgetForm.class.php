@@ -172,7 +172,7 @@ class EditWidgetForm extends WidgetForm {
 
     $this->state_count = count($possible_statuses);
     $possible_statuses_show = Widget::calcStatusShow($possible_statuses);
-    $this->setWidget('status', new sfWidgetFormChoice(array('choices' => $possible_statuses_show)));
+    $this->setWidget('status', new sfWidgetFormChoice(array('choices' => $possible_statuses_show), array('class' => 'form-control')));
     $this->setValidator('status', new sfValidatorChoice(array('choices' => $possible_statuses, 'required' => true)));
 
     $this->setWidget('landing_url', new sfWidgetFormInput(array(
@@ -215,7 +215,7 @@ class EditWidgetForm extends WidgetForm {
     }
 
     $this->configureTargetSelectors();
-    
+
     $this->setWidget('social_share_text', new sfWidgetFormInput(array('label' => 'Twitter message'), array('size' => 90, 'class' => 'large', 'placeholder' => 'Leave this field empty to use standard texts.')));
     $this->setValidator('social_share_text', new sfValidatorString(array('max_length' => 1000, 'required' => false)));
     $this->getWidgetSchema()->setHelp('social_share_text', 'Optional keywords: #TITLE#, #WIDGET-HEADING#. Keep the text short. URL is appended automatically.');
