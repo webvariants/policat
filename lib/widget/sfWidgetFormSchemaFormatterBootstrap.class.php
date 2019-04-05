@@ -30,7 +30,7 @@ class sfWidgetFormSchemaFormatterBootstrap extends sfWidgetFormSchemaFormatter {
     {
       $field = $widgetSchema[$name];
       $addClass = 'form-control';
-      if ($field instanceof sfWidgetFormInputCheckbox) {
+      if ($field instanceof sfWidgetFormInputCheckbox || $field instanceof WidgetFormInputCheckbox) {
         $addClass = 'form-check-input';
         $this->checkboxes[] = $name;
       }

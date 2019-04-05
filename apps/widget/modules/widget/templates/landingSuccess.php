@@ -1,9 +1,8 @@
-<?php
-/* @var $sf_content string */
-/* @var $sf_user myUser */
-?><!DOCTYPE html>
+<!DOCTYPE html>
 <html>
-  <head>
+
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, shrink-to-fit=no">
     <?php
     use_helper('I18N');
     $portal_name = StoreTable::value(StoreTable::PORTAL_NAME);
@@ -18,30 +17,39 @@
     <link rel="shortcut icon" href="<?php echo public_path('favicon.ico') ?>" />
     <?php
     include_stylesheets();
-//    include_javascripts();
+    // include_javascripts();
     ?>
-  </head>
-  <body class="container">
-    <div class="modal">
-      <div class="modal-header"><?php echo __('Your email is being validated, please wait!') ?></div>
-      <div class="modal-body">
-        <div class="progress progress-striped active">
-          <div id="bar" class="bar" style="width: 0%;"></div>
+</head>
+
+<body class="modal-open">
+    <div class="modal show" tabindex="-1" role="dialog" aria-hidden="true" style="display:block">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title"><?php echo __('Your email is being validated, please wait!') ?></h5>
+                </div>
+                <div class="modal-body">
+                    <div class="progress">
+                        <div id="bar" class="progress-bar" style="width:0%"></div>
+                    </div>
+                </div>
+            </div>
         </div>
-      </div>
     </div>
+    <div class="modal-backdrop show"></div>
     <script type="text/javascript">
-      var bar = document.getElementById('bar');
-      var i = 0;
-      var interval = window.setInterval(function() {
+    var bar = document.getElementById('bar');
+    var i = 0;
+    var interval = window.setInterval(function() {
         i += 4;
         bar.style.width = i + '%';
         if (i >= 100) {
-          window.clearInterval(interval);
-          window.location.replace(<?php echo json_encode(strtr($landing_url, array('>' => '', '<' => ''))) ?>);
+            window.clearInterval(interval);
+            window.location.replace(
+                <?php echo json_encode(strtr($landing_url, array('>' => '', '<' => ''))) ?>);
         }
-      }, 70);
+    }, 70);
     </script>
-    <div id="waiting"><b></b><i></i><div class="progress progress-striped active"><div class="bar" style="width: 100%;"></div></div></div>
-  </body>
+</body>
+
 </html>

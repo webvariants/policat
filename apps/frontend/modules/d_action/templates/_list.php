@@ -8,8 +8,8 @@ if (!isset($no_filter)):
   ?>
   <form method="get" class="form-inline ajax_form filter_form" action="<?php echo $url ?>">
     <?php echo $form ?>
-    <button class="btn btn-primary top15 btn-sm" type="submit">Filter</button>
-    <button class="filter_reset btn btn-sm top15">Reset filter</button>
+    <button class="btn btn-primary mt-3 btn-sm" type="submit">Filter</button>
+    <button class="filter_reset btn btn-sm mt-3">Reset filter</button>
   </form>
 <?php endif ?>
 <div id="action_list">

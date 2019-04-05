@@ -2,3 +2,5 @@ all:
   has_layout: false
   metas:
     robots: noindex, nofollow
+
+  javascripts:    ["dist/jquery-3.1.min.js", "dist/tether.min.js", "dist/popper.min.js", "dist/bootstrap4.min.js", "dist/frontend"]

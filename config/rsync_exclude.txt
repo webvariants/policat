@@ -47,6 +47,8 @@ CVS
 
 /data/csv_downloads
 /data/csv_downloads/*
+/data/session/
+/data/upload_tmp
 
 .gitignore
 
