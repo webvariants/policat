@@ -6,8 +6,8 @@ use_helper('Number');
   <form class="form-inline ajax_form" action="<?php echo url_for($route, array_merge($route_params->getRawValue(), array('page' => 1))) ?>" method="get">
       <?php echo $form ?>
       <input type="hidden" name="s" value="<?php echo $subscriptions ? 1 : 0 ?>" />
-      <button class="btn btn-primary btn-sm mt-3" type="submit">Filter</button>
-      <button class="filter_reset btn btn-sm mt-3">Reset filter</button>
+      <button class="btn btn-primary btn-sm" type="submit">Filter</button>
+      <button class="filter_reset btn btn-sm">Reset filter</button>
   </form>
 <?php endif ?>
 <div id="data">
