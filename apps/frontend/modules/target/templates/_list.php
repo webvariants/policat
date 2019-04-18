@@ -3,7 +3,7 @@ $guard = $sf_user->getGuardUser()->getRawValue();
 /* @var $guard sfGuardUser */
 ?>
 <div id="target_list">
-  <table class="table table-bordered table-striped">
+  <table class="table table-responsive-md table-bordered table-striped">
     <thead><tr><th>Name</th><th>Status</th><th>Your rights</th><th></th></tr></thead>
     <tbody>
       <?php

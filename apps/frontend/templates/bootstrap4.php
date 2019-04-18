@@ -20,7 +20,7 @@
   </head>
   <body>
     <?php include_component('d_home', 'menuB4', array('a' => $sf_user->isAuthenticated() ? 1 : 0, 'b' => $sf_user->hasCredential('homepage') ? 1 : 0)) ?>
-    <div class="container">
+    <div class="container<?php if (get_slot('fluid', false)): ?>-fluid<?php endif ?>">
         <?php echo $sf_content ?>
     </div>
     <?php include_component('d_home', 'footerB4') ?>

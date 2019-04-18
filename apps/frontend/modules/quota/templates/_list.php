@@ -1,6 +1,6 @@
 <?php use_helper('Date', 'Number'); ?>
 <?php if ($quotas->count()): ?>
-  <table class="table table-bordered">
+  <table class="table table-responsive-md table-bordered">
       <tr><th>E-mail package</th><th class="span2">Start - End</th><th class="span2">Status</th><th class="span1"></th></tr>
       <?php foreach ($quotas as $quota): /* @var $quota Quota */ ?>
         <tr>

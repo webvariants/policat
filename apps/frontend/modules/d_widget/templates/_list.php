@@ -11,7 +11,7 @@ if (!isset($no_filter)):
   </form>
 <?php endif ?>
 <div id="widget_list">
-  <table class="table table-bordered">
+  <table class="table table-responsive-lg table-bordered">
     <thead>
       <tr>
         <th>ID

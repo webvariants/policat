@@ -17,6 +17,7 @@
 class d_actionActions extends policatActions {
 
   public function executeIndex(sfWebRequest $request) {
+    $this->getResponse()->setSlot('fluid', true);
     $this->includeChosen();
   }
 
@@ -329,7 +330,7 @@ class d_actionActions extends policatActions {
     if (!$petition->isEditableBy($this->getGuardUser())) {
       return $this->noAccess();
     }
-    
+
     $oldMailingListId = $petition->getMailingListId();
 
     $form = new EditPetitionTargetForm($petition, array(EditPetitionForm::USER => $this->getGuardUser()));

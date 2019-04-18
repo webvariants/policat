@@ -12,7 +12,7 @@ use_helper('Number');
     <?php if (isset($signings) && $signings->count()): ?>
     <form class="ajax_form" method="post" action="<?php echo url_for('petition_bounce_delete', array('id' => $petition->getId())) ?>">
           <input type="hidden" name="csrf_token" value="<?php echo $delete_token ?>">
-          <table class="table table-bordered">
+          <table class="table table-responsive-md table-bordered">
               <thead>
                   <tr>
                       <th><label class="form-inline"><input type="checkbox" class="checkbox-all" data-target=".bounce-id" /> <span>All</span></label></th>

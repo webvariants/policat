@@ -1,6 +1,6 @@
 <?php use_helper('Number', 'Date') ?>
 <?php include_partial('dashboard/admin_tabs', array('active' => 'order')) ?>
-<table class="table table-bordered table-striped">
+<table class="table table-responsive-md table-bordered table-striped">
     <thead>
         <tr><th class="span1">ID</th><th>Date</th><th>Campaign</th><th>User</th><th>Organisation</th><th>Net</th><th>Tax</th><th>Gross</th><th>Status</th><th>Paypal</th><th>Invoice</th><th class="span2"></th></tr>
     </thead>

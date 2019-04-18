@@ -1,7 +1,7 @@
 <?php use_helper('Number', 'I18N') ?>
 <?php include_partial('dashboard/admin_tabs', array('active' => 'tax')) ?>
 <h2>Tax countries</h2>
-<table class="table table-bordered table-striped">
+<table class="table table-responsive-md table-bordered table-striped">
     <thead>
         <tr><th class="span3">Country</th><th class="span3">without VAT-ID (%)</th><th class="span3">with VAT-ID (%)</th><th class="span2"></th></tr>
     </thead>
@@ -26,7 +26,7 @@
 <a class="btn btn-primary" href="<?php echo url_for('tax_new') ?>">Create tax country</a>
 <hr />
 <h2>Tax notes</h2>
-<table class="table table-bordered table-striped">
+<table class="table table-responsive-md table-bordered table-striped">
     <thead>
         <tr><th class="span3">Name</th><th>Note</th><th class="span2"></th></tr>
     </thead>
