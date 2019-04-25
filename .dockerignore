@@ -46,6 +46,7 @@ LICENSE
 .editorconfig
 .gitignore
 .gitlab/
+.gitlab-ci.yml
 .vscode/
 test/
 Dockerfile

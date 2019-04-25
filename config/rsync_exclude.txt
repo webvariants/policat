@@ -70,3 +70,5 @@ CVS
 
 /docker*
 /build-assets
+
+.gitlab-ci.yml
