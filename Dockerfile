@@ -12,6 +12,11 @@ RUN npm run bower install
 
 COPY Gruntfile.js /app/
 
+COPY web/css/ /app/web/css/
+COPY web/fonts/ /app/web/fonts/
+COPY web/images/ /app/web/images/
+COPY web/js/ /app/web/js/
+
 RUN npm run grunt
 
 FROM webvariants/php:7.2-fpm-alpine
