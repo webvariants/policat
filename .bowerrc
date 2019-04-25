@@ -1,5 +1,6 @@
 {
   "directory" : "bower_components",
   "json"      : "bower.json",
-  "endpoint"  : "https://bower.io"
+  "endpoint"  : "https://bower.io",
+  "allowRoot": true
 }

@@ -33,7 +33,10 @@ class UtilWidget {
   }
 
   public static function getAddStyleJS($id, $stylings) {
-    return 'policat.widgets[' . $id . '] = ' .(is_array($stylings) ? json_encode($stylings) : $stylings) . ';';
+    if (is_array($stylings) && isset($stylings['url'])) {
+        $stylings['url'] = strtr($stylings['url'], ['https://' => '//', 'http://' => '//']);
+    }
+    return "\n" . 'policat.widgets[' . $id . '] = ' .(is_array($stylings) ? json_encode($stylings) : $stylings) . ';';
   }
 
   public static function getWidgetHereJs($id, $open = false) {
