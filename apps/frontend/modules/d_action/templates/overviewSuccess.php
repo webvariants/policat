@@ -12,7 +12,7 @@
 <div class="row">
   <div class="col-md-8">
     <div class="form-horizontal">
-      <table class="table table-sm table-bordered">
+      <table class="table table-responsive-md table-sm table-bordered">
         <tr>
           <th>Input data</th>
           <td>

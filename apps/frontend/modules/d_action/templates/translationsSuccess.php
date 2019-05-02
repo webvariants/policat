@@ -9,7 +9,7 @@
 <?php include_component('d_action', 'notice', array('petition' => $petition)) ?>
 <?php include_partial('tabs', array('petition' => $petition, 'active' => 'translations')) ?>
 <?php if ($can_not_create_widget_from_draft) include_partial('dashboard/alert', array('heading' => 'Info', 'message' => 'You can not create a widget of a draft translation.')) ?>
-    <table class="table table-bordered table-striped">
+    <table class="table table-responsive-md table-bordered table-striped">
       <thead>
         <tr>
           <th>Language</th>

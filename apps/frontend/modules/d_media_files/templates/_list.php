@@ -1,7 +1,7 @@
 <?php use_helper('Text', 'Number', 'Date', 'Template'); ?>
 <div id="media_files_list">
     <div> <?php echo formatSize($totalSize); ?> of <?php echo formatSize(MediaFile::SPACE_LIMIT); ?> used. You have <?php echo formatSize($leftSize); ?> left for uploads.</div>
-    <table class="table table-bordered">
+    <table class="table table-responsive-md table-bordered">
         <thead>
             <tr>
                 <th> </th>

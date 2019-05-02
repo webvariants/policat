@@ -3,7 +3,7 @@ use_helper('Number');
 if ($petitions->count()):
   ?>
   <h3>Top trending actions</h3>
-  <table class="table table-bordered table-striped table-condensed">
+  <table class="table table-responsive-md table-bordered table-striped table-condensed">
       <thead>
           <tr>
               <th>E-action</th>
@@ -35,7 +35,7 @@ endif;
 if ($widgets->count()):
   ?>
   <h3>Top trending widgets</h3>
-  <table class="table table-bordered table-striped table-condensed">
+  <table class="table table-responsive-md table-bordered table-striped table-condensed">
       <thead>
           <tr>
               <th class="span1">ID</th>

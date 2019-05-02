@@ -3,7 +3,7 @@
       <div class="col-md-6">
           <h2>Campaigns</h2>
           <?php if ($campaign_rights_list->count()): ?>
-            <table class="table table-striped table-bordered ">
+            <table class="table table-responsive-md table-striped table-bordered ">
                 <thead><tr><th>Name</th><th>Rights</th></tr></thead>
                 <tbody>
                     <?php foreach ($campaign_rights_list as $campaign_rights): /* @var $campaign_rights CampaignRights */ ?>
@@ -31,7 +31,7 @@
       <div class="col-md-6">
           <h2>Actions</h2>
           <?php if ($petition_rights_list->count()): ?>
-            <table class="table table-striped table-bordered ">
+            <table class="table table-responsive-md table-striped table-bordered ">
                 <thead><tr><th>Name</th><th>Rights</th></tr></thead>
                 <tbody>
                     <?php foreach ($petition_rights_list as $petition_rights): /* @var $petition_rights PetitionRights */ ?>

@@ -23,7 +23,7 @@
 </p>
 <p>Action ID: <?php echo $petition->getId() ?></p>
 <?php if ($tokens->count()): ?>
-  <table class="table table-bordered">
+  <table class="table table-responsive-md table-bordered">
       <thead>
           <tr>
               <th>Name</th>

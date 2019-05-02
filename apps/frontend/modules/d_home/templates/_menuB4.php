@@ -58,10 +58,9 @@
                    class="nav-link" href="<?php echo url_for('profile') ?>">Welcome <?php echo $sf_user->getFirstName() ?>!</a></li>
               <li class="nav-item"><a class="nav-link" href="<?php echo url_for('sf_guard_signout') ?>">Logout</a></li>
             <?php else: ?>
-              <?php if ($menu_login): ?><li class="nav-item"><a class="nav-link" data-toggle="modal" data-target="#login_modal" rel="nofollow" href="<?php echo url_for('homepage') ?>" href="<?php echo url_for('ajax_signin') ?>">Login<?php if ($menu_join): ?> | Join<?php endif ?></a></li><?php endif ?>
+              <?php if ($menu_login): ?><li class="nav-item"><a class="nav-link" data-toggle="modal" data-target="#login_modal" rel="nofollow" href="<?php echo url_for('ajax_signin') ?>">Login<?php if ($menu_join): ?> | Join<?php endif ?></a></li><?php endif ?>
             <?php endif ?>
         </ul>
 
     </div>
 </nav>
-<br />

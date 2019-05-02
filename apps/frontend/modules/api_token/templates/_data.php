@@ -1,6 +1,6 @@
 <tr id="token_data_<?php echo $token->getId() ?>">
     <td colspan="4">
-        <table class="table table-bordered table-striped table-condensed">
+        <table class="table table-responsive-md table-bordered table-striped table-condensed">
             <?php foreach ($offsets as $offset): /* @var $offset ApiTokenOffset */ ?>
               <tr>
                   <td><?php echo $offset->getCountry() ?></td>

@@ -24,7 +24,7 @@ use_helper('Number');
         <?php endif ?>
     </div>
     <?php if (isset($signings) && $signings->count()): ?>
-      <table class="table table-bordered">
+      <table class="table table-responsive-md table-bordered">
           <thead>
               <tr>
                   <?php if ($show_petition): ?><th>Action</th><?php endif ?>
@@ -109,7 +109,7 @@ use_helper('Number');
             <?php if ($incremental_downloads->count()): ?>
               <br /><br />
               <h4>History of incremental downloads</h4>
-              <table class="table table-condensed">
+              <table class="table table-responsive-md table-condensed">
                   <thead>
                       <tr><th>Date</th><th>Count</th><th></th></tr>
                   </thead>

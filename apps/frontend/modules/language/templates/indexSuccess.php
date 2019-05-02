@@ -1,5 +1,5 @@
 <?php include_partial('dashboard/admin_tabs', array('active' => 'languages')) ?>
-<table class="table table-bordered table-striped">
+<table class="table table-responsive-md table-bordered table-striped">
   <thead>
     <tr><th>ISO Code</th><th>Name</th><th>Order number</th><th></th></tr>
   </thead>

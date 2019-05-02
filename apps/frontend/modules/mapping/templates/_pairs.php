@@ -1,5 +1,5 @@
 <div id="pairs_pager">
-  <table class="table table-bordered table-striped" id="pairs">
+  <table class="table table-responsive-md table-bordered table-striped" id="pairs">
     <thead>
       <tr><th>A</th><th>B</th><th></th></tr>
     </thead>

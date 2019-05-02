@@ -18,6 +18,7 @@
 class d_widgetActions extends policatActions {
 
   public function executeIndex(sfWebRequest $request) {
+    $this->getResponse()->setSlot('fluid', true);
     $this->includeChosen();
   }
 

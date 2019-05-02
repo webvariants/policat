@@ -1,5 +1,5 @@
 <?php include_partial('dashboard/admin_tabs', array('active' => 'country')) ?>
-<table class="table table-bordered table-striped">
+<table class="table table-responsive-md table-bordered table-striped">
   <thead>
       <tr><th class="span3">Name</th><th>Countries</th><th class="span2"></th></tr>
   </thead>

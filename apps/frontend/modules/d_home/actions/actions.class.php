@@ -201,7 +201,7 @@ class d_homeActions extends policatActions {
         $sub_extra = '<th class="span2">Subscription / Abo</th>';
     }
 
-    $table = '<table class="table table-bordered" style="width:auto"><tr><th>Package</th><th>E-mails / participants</th>' . $sub_extra . '<th>Days</th><th>Net</th><th>Gross</th></tr>';
+    $table = '<table class="table table-responsive-md table-bordered" style="width:auto"><tr><th>Package</th><th>E-mails / participants</th>' . $sub_extra . '<th>Days</th><th>Net</th><th>Gross</th></tr>';
 
     foreach ($products as $product) {
       /* @var $product Product */

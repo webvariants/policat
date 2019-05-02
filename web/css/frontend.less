@@ -161,6 +161,7 @@ select.form-control {
     padding-left: 2px;
     padding-right: 1px;
     vertical-align: top;
+    height: 31px; // iphone
   }
   input[type=date]::-webkit-inner-spin-button {
     display: none;
@@ -189,4 +190,20 @@ select.form-control {
   font-weight: bold;
   color: #007bff !important;
   font-size: 120%;
+}
+
+.navbar-collapse.collapse.show, .navbar-collapse.collapsing {
+  > ul:first-child {
+    margin-top: 20px;
+  }
+}
+
+.btn-txt, #todo blockquote .btn-sm {
+  font-size: 0.9em;
+  padding: 0 0.25em;
+  vertical-align: baseline;
+}
+
+.modal {
+  -webkit-overflow-scrolling: touch; // make scrolling possible if iframe with widget is inside for iphone
 }

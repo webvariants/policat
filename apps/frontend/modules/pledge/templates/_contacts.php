@@ -7,7 +7,7 @@ if ($pledges instanceof sfOutputEscaperArrayDecorator)
   $pledges = $pledges->getRawValue();
 ?>
 <div id="contacts">
-  <table class="table table-bordered table-striped">
+  <table class="table table-responsive-md table-bordered table-striped">
     <thead>
       <tr><th>E-mail</th><th>Firstname</th><th>Lastname</th><th>Gender</th><th>Country</th><th>Pledges</th><th></th></tr>
     </thead>

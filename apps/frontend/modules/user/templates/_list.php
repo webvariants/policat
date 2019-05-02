@@ -7,7 +7,7 @@
   </form>
 <?php endif ?>
 <div id="user_list">
-  <table class="table table-bordered">
+  <table class="table table-responsive-md table-bordered">
     <thead>
       <tr>
         <th>Name</th>

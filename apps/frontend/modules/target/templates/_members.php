@@ -13,7 +13,7 @@
         </p>
         <input type="hidden" name="csrf_token" value="<?php echo $csrf_token ?>" />
       <?php endif ?>
-      <table class="table table-bordered">
+      <table class="table table-responsive-md table-bordered">
         <thead>
           <tr>
             <?php if ($admin): ?><th></th><?php endif ?>

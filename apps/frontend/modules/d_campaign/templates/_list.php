@@ -1,5 +1,5 @@
 <div id="campaing_list">
-    <table class="table table-striped table-bordered">
+    <table class="table table-responsive-md table-striped table-bordered">
         <thead>
         <th>Name</th>
         <th>DPO</th>

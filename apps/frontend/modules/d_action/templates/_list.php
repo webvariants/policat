@@ -13,7 +13,7 @@ if (!isset($no_filter)):
   </form>
 <?php endif ?>
 <div id="action_list">
-  <table class="table table-sm table-bordered">
+  <table class="table table-responsive-lg table-sm table-bordered">
     <thead>
       <tr>
         <th>E-action
