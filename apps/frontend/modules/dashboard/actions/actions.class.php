@@ -23,12 +23,16 @@ class dashboardActions extends policatActions {
    * @param sfRequest $request A request object
    */
   public function executeIndex(sfWebRequest $request) {
+    if (!$this->getUser()->isAuthenticated()) {
+        $this->forward('sfGuardAuth', 'signin');
+    }
+
     $this->includeChosen();
     $this->no_campaign = $request->getGetParameter('no_campaign', 0) ? true : false;
   }
 
   public function executeAdmin(sfWebRequest $request) {
-    
+
   }
 
   public function executeStats(sfWebRequest $request) {
@@ -47,7 +51,7 @@ class dashboardActions extends policatActions {
       $form->bind($request->getPostParameter($form->getName()));
       if ($form->isValid()) {
         UtilMail::send('Testmail', null, $form->getValue('from'), $form->getValue('to'), $form->getValue('subject'), $form->getValue('body'), null, null, null, null, array(), true);
-        
+
         return $this->ajax()->form($form)->alert('Mail sent.', '', '#testmail', 'after')->render();
       }
 
