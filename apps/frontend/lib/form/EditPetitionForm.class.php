@@ -327,28 +327,28 @@ class EditPetitionForm extends PetitionFieldsForm {
     $this->setWidget('style_font_family', new sfWidgetFormChoice(array('choices' => array_combine(UtilFont::$FONTS, UtilFont::$FONTS), 'label' => 'Font')));
     $this->setValidator('style_font_family', new sfValidatorChoice(array('choices' => UtilFont::$FONTS)));
 
-    $this->setWidget('style_title_color', new sfWidgetFormInput(array('label' => 'Title/Kicker'), array('class' => 'color {hash:true}')));
+    $this->setWidget('style_title_color', new sfWidgetFormInput(array('label' => 'Title/Kicker'), array('class' => 'jscolor {hash:true}')));
     $this->setValidator('style_title_color', new ValidatorCssColor(array('min_length' => 7, 'max_length' => 7)));
 
-    $this->setWidget('style_body_color', new sfWidgetFormInput(array('label' => 'Context box'), array('class' => 'color {hash:true}')));
+    $this->setWidget('style_body_color', new sfWidgetFormInput(array('label' => 'Context box'), array('class' => 'jscolor {hash:true}')));
     $this->setValidator('style_body_color', new ValidatorCssColor(array('min_length' => 7, 'max_length' => 7)));
 
-    $this->setWidget('style_label_color', new sfWidgetFormInput(array('label' => 'Other texts and labels'), array('class' => 'color {hash:true}')));
+    $this->setWidget('style_label_color', new sfWidgetFormInput(array('label' => 'Other texts and labels'), array('class' => 'jscolor {hash:true}')));
     $this->setValidator('style_label_color', new ValidatorCssColor(array('min_length' => 7, 'max_length' => 7)));
 
-    $this->setWidget('style_button_color', new sfWidgetFormInput(array('label' => 'Other buttons and visual elements'), array('class' => 'color {hash:true}')));
+    $this->setWidget('style_button_color', new sfWidgetFormInput(array('label' => 'Other buttons and visual elements'), array('class' => 'jscolor {hash:true}')));
     $this->setValidator('style_button_color', new ValidatorCssColor(array('min_length' => 7, 'max_length' => 7)));
 
-    $this->setWidget('style_button_primary_color', new sfWidgetFormInput(array('label' => 'Sign button'), array('class' => 'color {hash:true}')));
+    $this->setWidget('style_button_primary_color', new sfWidgetFormInput(array('label' => 'Sign button'), array('class' => 'jscolor {hash:true}')));
     $this->setValidator('style_button_primary_color', new ValidatorCssColor(array('min_length' => 7, 'max_length' => 7)));
 
-    $this->setWidget('style_bg_left_color', new sfWidgetFormInput(array('label' => 'Context box background'), array('class' => 'color {hash:true}')));
+    $this->setWidget('style_bg_left_color', new sfWidgetFormInput(array('label' => 'Context box background'), array('class' => 'jscolor {hash:true}')));
     $this->setValidator('style_bg_left_color', new ValidatorCssColor(array('min_length' => 7, 'max_length' => 7)));
 
-    $this->setWidget('style_bg_right_color', new sfWidgetFormInput(array('label' => 'Widget background'), array('class' => 'color {hash:true}')));
+    $this->setWidget('style_bg_right_color', new sfWidgetFormInput(array('label' => 'Widget background'), array('class' => 'jscolor {hash:true}')));
     $this->setValidator('style_bg_right_color', new ValidatorCssColor(array('min_length' => 7, 'max_length' => 7)));
 
-    $this->setWidget('style_form_title_color', new sfWidgetFormInput(array('label' => 'Headings'), array('class' => 'color {hash:true}')));
+    $this->setWidget('style_form_title_color', new sfWidgetFormInput(array('label' => 'Headings'), array('class' => 'jscolor {hash:true}')));
     $this->setValidator('style_form_title_color', new ValidatorCssColor(array('min_length' => 7, 'max_length' => 7)));
 
     if ($this->getObject()->getKind() == Petition::KIND_PETITION) {
@@ -411,7 +411,7 @@ class EditPetitionForm extends PetitionFieldsForm {
 
     $this->setValidator('share', new sfValidatorChoice(array('choices' => array(0, 1))));
 
-    $this->setWidget('email_button_color', new sfWidgetFormInput(array('label' => 'Button color'), array('class' => 'luma-light color {hash:true}')));
+    $this->setWidget('email_button_color', new sfWidgetFormInput(array('label' => 'Button color'), array('class' => 'luma-light jscolor {hash:true}')));
     $this->setValidator('email_button_color', new ValidatorCssColor(array('min-luma' => 0.5, 'min_length' => 7, 'max_length' => 7)));
     $this->getWidgetSchema()->setHelp('email_button_color', 'This is the background color of buttons in outgoing E-mails. The font color is always black.');
 

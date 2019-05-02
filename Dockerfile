@@ -1,14 +1,10 @@
-FROM node:8 as assets
+FROM node:12 as assets
 
 WORKDIR /app
 
 COPY package.json .
 
 RUN npm install --quiet --no-cache
-
-COPY .bowerrc bower.json /app/
-
-RUN npm run bower install
 
 COPY Gruntfile.js /app/
 

@@ -56,6 +56,8 @@ CVS
 /composer.lock
 /bower.json
 /Gruntfile.js
+/package.json
+/package-lock.json
 
 /bower_components
 /bower_components/*

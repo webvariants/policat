@@ -8,11 +8,12 @@ module.exports = function(grunt) {
 					sourceMap: true
 				},
 				files: {
-					'web/js/dist/policat_widget.js': ['bower_components/jscolor/jscolor.js', 'web/js/policat_widget.js'],
+					'web/js/dist/policat_widget.js': ['node_modules/jscolor-picker/jscolor.js', 'web/js/policat_widget.js'],
 					'web/js/dist/policat_widget_outer.js': ['web/js/policat_widget_outer.js'],
-					'web/js/dist/select2.js' : ['bower_components/select2/select2.js'],
-					'web/js/dist/jscolor.js': ['bower_components/jscolor/jscolor.js'],
-					'web/js/dist/signers.js': ['web/js/signers.js']
+					'web/js/dist/select2.js' : ['node_modules/select2/select2.js'],
+					'web/js/dist/jscolor.js': ['node_modules/jscolor-picker/jscolor.js'],
+					'web/js/dist/signers.js': ['web/js/signers.js'],
+					'web/js/dist/chosen.jquery.min.js': ['node_modules/chosen-js/chosen.jquery.js']
 				}
 			},
 			frontend: {
@@ -21,14 +22,14 @@ module.exports = function(grunt) {
 				},
 				files: {
 					'web/js/dist/frontend.js': [
-						'bower_components/jquery-elastic/jquery.elastic.source.js',
+						'node_modules/jquery-elastic/jquery.elastic.source.js',
 						'web/js/dashboard.js'
 					],
 					'web/js/dist/jquery.highlighttextarea.js': [
-						'bower_components/jquery-highlightTextarea/jquery.highlighttextarea.js'
+						'node_modules/jquery-highlightTextarea/jquery.highlighttextarea.js'
 					],
 					'web/js/dist/jquery.iframe-transport.js': [
-						'bower_components/jquery-iframe-transport/jquery.iframe-transport.js'
+						'node_modules/jquery.iframe-transport/jquery.iframe-transport.js'
 					]
 				}
 			}
@@ -133,14 +134,17 @@ module.exports = function(grunt) {
 			frontend: {
 				files: {
 					'web/css/dist/select2.css': [
-						'bower_components/select2/select2.css',
-						'bower_components/select2/select2-bootstrap.css'
+						'node_modules/select2/select2.css',
+						'node_modules/select2/select2-bootstrap.css'
 					],
 					'web/css/dist/jquery.highlighttextarea.css': [
-						'bower_components/jquery-highlightTextarea/jquery.highlighttextarea.css'
+						'node_modules/jquery-highlightTextarea/jquery.highlighttextarea.css'
 					],
 					'web/css/dist/bootstrap4.min.css': [
 						'web/css/dist/bootstrap4.css'
+					],
+					'web/css/dist/chosen.min.css': [
+						'node_modules/chosen-js/chosen.css'
 					]
 				}
 			}
@@ -148,72 +152,66 @@ module.exports = function(grunt) {
 		copy: {
 			select2: {
 				expand:true,
-				cwd: 'bower_components/select2/',
+				cwd: 'node_modules/select2/',
 				src: ['*.png', '*.gif'],
 				dest: 'web/css/dist/'
 			},
-			html5shiv: {
-				src: ['bower_components/html5shiv/dist/html5shiv.min.js'],
-				dest: 'web/js/dist/html5shiv.js'
-			},
-			jscolor: {
-				expand:true,
-				cwd: 'bower_components/jscolor/',
-				src: ['*.png', '*.gif'],
-				dest: 'web/js/dist/'
-			},
+			// html5shiv: {
+			// 	src: ['bower_components/html5shiv/dist/html5shiv.min.js'],
+			// 	dest: 'web/js/dist/html5shiv.js'
+			// },
+			// jscolor: {
+			// 	expand:true,
+			// 	cwd: 'bower_components/jscolor/',
+			// 	src: ['*.png', '*.gif'],
+			// 	dest: 'web/js/dist/'
+			// },
 			jquery: {
-				src: 'bower_components/jquery-1.10/jquery.min.js',
+				src: 'node_modules/jquery-1.10/jquery.min.js',
 				dest: 'web/js/static/jquery-1.10.2.min.js'
 			},
-			chosen_js: {
+			chosen_sprite: {
 				expand:true,
-				cwd: 'bower_components/chosen/',
-				src: ['*.js'],
-				dest: 'web/js/dist/'
-			},
-			chosen_css: {
-				expand:true,
-				cwd: 'bower_components/chosen/',
-				src: ['*.png', '*.css'],
+				cwd: 'node_modules/chosen-js/',
+				src: ['*.png'],
 				dest: 'web/css/dist/'
 			},
 			showdown: {
-				src: ['bower_components/showdown/dist/showdown.min.js'],
+				src: ['node_modules/showdown/dist/showdown.min.js'],
 				dest: 'web/js/dist/showdown.js'
 			},
 			markitup_js: {
 				expand:true,
-				cwd: 'bower_components/markitup/markitup/',
+				cwd: 'node_modules/markItUp!/markitup/',
 				src: ['**/*.js', '**/*.html'],
 				dest: 'web/js/dist/markitup'
 			},
 			markitup_css: {
 				expand:true,
-				cwd: 'bower_components/markitup/markitup/',
+				cwd: 'node_modules/markItUp!/markitup/',
 				src: ['**/*.css', '**/*.png'],
 				dest: 'web/css/dist/markitup'
 			},
 			bootstrap4_js: {
-				src: ['bower_components/bootstrap/dist/js/bootstrap.min.js'],
+				src: ['node_modules/bootstrap/dist/js/bootstrap.min.js'],
 				dest: 'web/js/dist/bootstrap4.min.js'
 			},
 			tether_js: {
-				src: ['bower_components/tether/dist/js/tether.min.js'],
+				src: ['node_modules/tether/dist/js/tether.min.js'],
 				dest: 'web/js/dist/tether.min.js'
 			},
 			popper_js: {
-				src: ['bower_components/popper.js/dist/umd/popper.min.js'],
+				src: ['node_modules/popper.js/dist/umd/popper.min.js'],
 				dest: 'web/js/dist/popper.min.js'
 			},
 			jquery31_js: {
-				src: ['bower_components/jquery-3.1/dist/jquery.min.js'],
+				src: ['node_modules/jquery/dist/jquery.min.js'],
 				dest: 'web/js/dist/jquery-3.1.min.js'
 			}
 		},
 		exec: {
 			"sass-bootstrap": {
-				command: "node_modules/.bin/node-sass --output-style expanded --source-map true --precision 6 bower_components/bootstrap/scss/bootstrap.scss web/css/dist/bootstrap4.css",
+				command: "node_modules/.bin/node-sass --output-style expanded --source-map true --precision 6 node_modules/bootstrap/scss/bootstrap.scss web/css/dist/bootstrap4.css",
 			}
 		}
 	});

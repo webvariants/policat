@@ -1,0 +1,6 @@
+#!/bin/bash
+
+docker run --user $(id -u):$(id -g) \
+--volume /etc/passwd:/etc/passwd:ro \
+--volume /etc/group:/etc/group:ro \
+--volume "$HOME:$HOME" -w "$(pwd)" --rm -ti node:12 npm $@

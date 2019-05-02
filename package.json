@@ -3,10 +3,16 @@
 	"version": "0.1.0",
 	"scripts": {
 		"grunt": "grunt",
-		"bower": "bower"
+		"install": "napa"
+	},
+	"napa": {
+		"jquery-highlightTextarea": "moha297/jQuery-highlightTextarea#2.0",
+		"jquery-elastic": "jakobmattsson/jquery-elastic#1.6.11"
 	},
 	"devDependencies": {
+		"bootstrap": "^4.0.0",
 		"bower": "^1.8.4",
+		"chosen-js": "^1.6.2",
 		"grunt": "^1.0.1",
 		"grunt-cli": "^1.3.1",
 		"grunt-contrib-copy": "^1.0.0",
@@ -14,7 +20,17 @@
 		"grunt-contrib-less": "^1.4.1",
 		"grunt-contrib-uglify": "^3.0.1",
 		"grunt-exec": "^1.0.1",
-		"node-sass": "^4.1.1"
+		"jquery": "^3.1.1",
+		"jquery-1.10": "https://github.com/jquery/jquery/archive/1.10.2.tar.gz",
+		"jquery.iframe-transport": "^1.0.0",
+		"jscolor-picker": "^2.0.4",
+		"markItUp!": "git+https://github.com/markitup/1.x.git",
+		"napa": "^3.0.0",
+		"node-sass": "^4.12.0",
+		"popper.js": "^1.14.4",
+		"select2": "^3.4.5",
+		"showdown": "^1.4.3",
+		"tether": "^1.4.6"
 	},
 	"dependencies": {}
 }
