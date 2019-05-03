@@ -374,6 +374,7 @@ class widgetActions extends policatActions
       $this->target = $this->count . '-' . Petition::calcTarget($this->count, $petition->getTargetNum());
     }
     $image_prefix = ($request->isSecure() ? 'https://' : 'http://') . $request->getHost() . '/' . $request->getRelativeUrlRoot() . 'images/';
+    $image_prefix_static = ($request->isSecure() ? 'https://' : 'http://') . $request->getHost() . '/' . $request->getRelativeUrlRoot() . 'images_static/';
 
     $this->kind = $petition->getKind();
     $this->lang = $petition_text->getLanguageId();
@@ -397,7 +398,7 @@ class widgetActions extends policatActions
     $this->stylings = $stylings;
 
     $this->keyvisual = $petition->getKeyVisual() ? $image_prefix . 'keyvisual/' . $petition->getKeyVisual() :  null;
-    $this->sprite = $image_prefix . 'policat.spr.png';
+    $this->sprite = $image_prefix_static . 'policat.spr.png';
     $this->url = $this->getContext()->getRouting()->generate('sign', array('id' => $this->widget['id'], 'hash' => $this->widget->getLastHash(true)), true);
     $this->getResponse()->setContentType('text/javascript');
     $this->setLayout(false);

@@ -7,16 +7,8 @@
 /web/*_dev.php
 /web/*_stress.php
 /web/uploads/*
-/web/images/keyvisual
-/web/images/keyvisual/*
-/web/images/pledge_header_visual
-/web/images/pledge_header_visual/*
-/web/images/pledge_key_visual
-/web/images/pledge_key_visual/*
-/web/images/store
-/web/images/store/*
-/web/images/action/
-/web/images/action/*
+/web/images
+/web/images/*
 /apps/widget/i18n/*
 
 # SCM files
@@ -63,9 +55,6 @@ CVS
 /bower_components/*
 /node_modules
 /node_modules/*
-
-/web/images/ttipceta
-/web/images/ttipceta/*
 
 /deploy*.sh
 /run*

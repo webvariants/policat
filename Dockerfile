@@ -10,7 +10,7 @@ COPY Gruntfile.js /app/
 
 COPY web/css/ /app/web/css/
 COPY web/fonts/ /app/web/fonts/
-COPY web/images/ /app/web/images/
+COPY web/images_static/ /app/web/images_static/
 COPY web/js/ /app/web/js/
 
 RUN npm run grunt
@@ -28,7 +28,9 @@ RUN cd config && \
     ln -s ../data/config/databases.yml databases.yml && \
     ln -s ../data/config/factories.yml factories.yml && \
     ln -s ../data/config/properties.ini properties.ini && \
-    ln -s ../data/config/settings.yml settings.yml
+    ln -s ../data/config/settings.yml settings.yml && \
+    cd ../web && \
+    ln -s ../data/images images
 
 COPY --from=assets /app/web /app/web
 
@@ -39,3 +41,5 @@ ENV PHP_IMAGE_VERSION=2 \
     PHPINI_OPCACHE__VALIDATE_TIMESTAMPS=0
 
 USER www-data:www-data
+
+# VOLUME [ "/app/data" ]

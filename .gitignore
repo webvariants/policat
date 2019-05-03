@@ -8,11 +8,7 @@ cache/*
 /deploy/*
 /nbproject/*
 /plugins/*
-/web/images/keyvisual/*
-/web/images/pledge_header_visual/*
-/web/images/pledge_key_visual/*
-/web/images/store/*
-/web/images/action/*
+/web/images/
 /web/uploads/*
 /web/google*html
 /data/*.lck
@@ -28,7 +24,6 @@ cache/*
 /data/upload_tmp/
 /lib/vendor/*
 
-/web/images/ttipceta/*
 /node_modules/
 
 /bower_components/*

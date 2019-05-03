@@ -10,11 +10,7 @@ deploy/
 nbproject/
 plugins/amgSentryPlugin/
 plugins/.*
-web/images/keyvisual/
-web/images/pledge_header_visual/
-web/images/pledge_key_visual/
-web/images/store/
-web/images/action/
+web/images/
 web/uploads/
 web/google*html
 web/*_dev.php
@@ -28,7 +24,6 @@ config/settings.yml
 
 lib/vendor/
 
-web/images/ttipceta/
 node_modules/
 
 bower_components/

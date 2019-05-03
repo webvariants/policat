@@ -318,7 +318,7 @@ if (is_array($target_selectors)) {
                             <div class="embed-code">
                                 <label><?php echo __('Embed this code') ?>:</label>
                                 <input type="text" id="embed_markup" readonly="readonly"/>
-                                <a id="embed-copy" class="embed-copy button-color" title="<?php echo __('Copy to clipboard') ?>"><img class="no_load" src="<?php echo image_path('clipboard-64.png') ?>" /></a>
+                                <a id="embed-copy" class="embed-copy button-color" title="<?php echo __('Copy to clipboard') ?>"><img class="no_load" src="/images_static/clipboard-64.png" /></a>
                             </div>
                             <a class="back button-color button-btn"><?php echo __('Back') ?></a>
                         </div>
@@ -348,19 +348,19 @@ if (is_array($target_selectors)) {
                         <?php endif ?>
                         <div class="share <?php echo $widget['share'] ? 'share-on-sign' : '' ?>">
                             <h2 class="label_color"><?php echo __('Tell your friends') ?></h2>
-                            <a href="https://www.facebook.com/sharer/sharer.php?u=" class="newwin sicon facebook" title="Facebook"><img class="no_load" alt="Facebook" src="<?php echo image_path('facebook-64.png') ?>" /></a>
-                            <a href="whatsapp://send?text=<?php echo rawurlencode($share_title . ' ') ?>" class="hideDesktop sicon whatsapp" title="WhatsApp"><img class="no_load" alt="WhatsApp" src="<?php echo image_path('whatsapp-64.png') ?>" /></a>
-                            <a href="https://twitter.com/share?text=<?php echo urlencode($share_title) ?>&amp;url=" class="newwin sicon twitter" title="Twitter"><img class="no_load" alt="Twitter" src="<?php echo image_path('twitter-64.png') ?>" /></a>
+                            <a href="https://www.facebook.com/sharer/sharer.php?u=" class="newwin sicon facebook" title="Facebook"><img class="no_load" alt="Facebook" src="/images_static/facebook-64.png" /></a>
+                            <a href="whatsapp://send?text=<?php echo rawurlencode($share_title . ' ') ?>" class="hideDesktop sicon whatsapp" title="WhatsApp"><img class="no_load" alt="WhatsApp" src="/images_static/whatsapp-64.png" /></a>
+                            <a href="https://twitter.com/share?text=<?php echo urlencode($share_title) ?>&amp;url=" class="newwin sicon twitter" title="Twitter"><img class="no_load" alt="Twitter" src="/images_static/twitter-64.png" /></a>
                             <?php
                             list($mail_subject, $mail_body) = UtilMail::tellyourmail($widget, $petition_text, 'UURRLLRREEFF', 'UURRLLMMOORREE');
                             ?>
-                            <a href="mailto:?subject=<?php echo $mail_subject ?>&amp;body=<?php echo $mail_body ?>" class="sicon mailto" title="Email" target="_top"><img  class="no_load" alt="Email" src="<?php echo image_path('email-64.png') ?>" /></a>
-                            <?php if ($petition->getShowEmbed()): ?><a id="a-embed-this" class="sicon a-embed-this" title="<?php echo __('Embed this') ?>"><img class="no_load" alt="<?php echo __('Embed this') ?>" src="<?php echo image_path('code-64.png') ?>" /></a><?php endif ?>
+                            <a href="mailto:?subject=<?php echo $mail_subject ?>&amp;body=<?php echo $mail_body ?>" class="sicon mailto" title="Email" target="_top"><img  class="no_load" alt="Email" src="/images_static/email-64.png" /></a>
+                            <?php if ($petition->getShowEmbed()): ?><a id="a-embed-this" class="sicon a-embed-this" title="<?php echo __('Embed this') ?>"><img class="no_load" alt="<?php echo __('Embed this') ?>" src="/images_static/code-64.png" /></a><?php endif ?>
                             <?php if ($paypal_email || $donate_url): ?>
                               <?php if ($donate_direct): ?>
-                                <a class="sicon donate-btn" target="_blank" href="<?php echo $donate_url ?>" title="<?php echo __('Donate') ?>"><img class="no_load" alt="<?php echo __('Donate') ?>" src="<?php echo image_path('charity-64.png') ?>" /></a>
+                                <a class="sicon donate-btn" target="_blank" href="<?php echo $donate_url ?>" title="<?php echo __('Donate') ?>"><img class="no_load" alt="<?php echo __('Donate') ?>" src="/images_static/charity-64.png" /></a>
                               <?php else: ?>
-                                <a id="a-donate" class="sicon donate-btn" title="<?php echo __('Donate') ?>"><img class="no_load" alt="<?php echo __('Donate') ?>" src="<?php echo image_path('charity-64.png') ?>" /></a>
+                                <a id="a-donate" class="sicon donate-btn" title="<?php echo __('Donate') ?>"><img class="no_load" alt="<?php echo __('Donate') ?>" src="/images_static/charity-64.png" /></a>
                               <?php endif ?>
                             <?php endif ?>
                         </div>
