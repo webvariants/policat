@@ -1,0 +1,7 @@
+*/10 * * * * php symfony policat:geo-cron-loop; php symfony policat:send-digest-email; php symfony policat:open-actions
+
+*/20 * * * * php symfony policat:delete-pending --limit=1000 --silent=1; php symfony policat:recall-pending --limit=1000 --silent=1
+
+1 * * * * php symfony policat:action-schedule --utc-hour=00 --silent=1; php symfony policat:quota-check
+
+*/1 * * * * php symfony policat:send-emails
