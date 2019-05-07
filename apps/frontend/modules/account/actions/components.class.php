@@ -49,7 +49,7 @@ class accountComponents extends policatComponents {
       $this->addContentTags($register_on);
     }
 
-    if ($menu_join->getValue() && $register_on->getValue()) {
+    if ($menu_join && $menu_join->getValue() && $register_on  && $register_on->getValue()) {
       $this->registerForm = new RegisterForm(new sfGuardUser());
       $this->registerForm->getWidgetSchema()->setFormFormatterName('bootstrap');
     }
