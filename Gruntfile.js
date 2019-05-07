@@ -168,7 +168,7 @@ module.exports = function(grunt) {
 			// },
 			jquery: {
 				src: 'node_modules/jquery-1.10/jquery.min.js',
-				dest: 'web/js/static/jquery-1.10.2.min.js'
+				dest: 'web/js/dist/jquery-1.10.2.min.js'
 			},
 			chosen_sprite: {
 				expand:true,

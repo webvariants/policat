@@ -11,6 +11,10 @@
     <head>
         <?php include_http_metas() ?>
         <?php include_metas() ?>
+        <?php if (!UtilTheme::removeClassicCss($widget, $petition)): ?><link rel="preload" as="style" href="/css/dist/policat_widget.css?<?php echo filemtime(sfConfig::get('sf_web_dir') . '/css/dist/policat_widget.css') ?>" /><?php endif ?>
+        <?php if ($font_css_file): ?><link href="<?php echo $font_css_file ?>" rel="reload" as="style" /><?php endif ?>
+        <link rel="preload" href="/js/dist/jquery-1.10.2.min.js" as="script">
+        <link rel="preload" href="/js/dist/policat_widget.js?<?php echo filemtime(sfConfig::get('sf_web_dir') . '/js/dist/policat_widget.js') ?>" as="script">
         <meta http-equiv="X-UA-Compatible" content="IE=edge" />
         <meta name="language" content="<?php echo $lang ?>" />
         <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" />
@@ -55,9 +59,7 @@ if (is_array($target_selectors)) {
         var CT_extra = null;
 <?php endif ?>
         </script>
-        <?php if (!UtilTheme::removeClassicCss($widget, $petition)) echo '<style type="text/css">' . file_get_contents(sfConfig::get('sf_web_dir') . '/css/dist/policat_widget.css') . "\n</style>"; ?>
-        <script type="text/javascript" src="/js/static/jquery-1.10.2.min.js"></script>
-        <?php printf("<script type=\"text/javascript\">/* <![CDATA[ */\n%s\n/* ]]> */</script>\n", file_get_contents(sfConfig::get('sf_web_dir') . '/js/dist/policat_widget.js')); ?>
+        <?php if (!UtilTheme::removeClassicCss($widget, $petition)): ?><link rel="stylesheet" type="text/css" href="/css/dist/policat_widget.css?<?php echo filemtime(sfConfig::get('sf_web_dir') . '/css/dist/policat_widget.css') ?>" /><?php endif ?>
         <?php if ($font_css_file): ?><link href="<?php echo $font_css_file ?>" rel="stylesheet" type="text/css" /><?php endif ?>
         <?php UtilTheme::printCss($widget, $petition); ?><!-- <?php echo $petition['themeId'] ?> -->
     </head>
@@ -420,6 +422,8 @@ if (is_array($target_selectors)) {
         </div>
         <div id="policat-widget-loading" class="policat-widget-loading"></div>
         <div id="labels-inside"></div>
+        <script type="text/javascript" src="/js/dist/jquery-1.10.2.min.js"></script>
+        <script type="text/javascript" src="/js/dist/policat_widget.js?<?php echo filemtime(sfConfig::get('sf_web_dir') . '/js/dist/policat_widget.js') ?>"></script>
     </body>
 </html>
 <!-- <?php echo $petition->getId() ?> / <?php echo $widget->getPetitionTextId() ?> / <?php echo $widget->getId() ?> -->
