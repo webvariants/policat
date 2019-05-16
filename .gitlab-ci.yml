@@ -10,7 +10,7 @@ build:
   tags:
     - docker-builder
   script: |
-    docker build --force-rm --cpu-shares=512 --memory 512MB --memory-swap 720MB -t $CI_REGISTRY_IMAGE:$ENV_NAME --label "rev=$CI_COMMIT_SHA" .
+    docker build --pull --force-rm --cpu-shares=512 --memory 512MB --memory-swap 720MB -t $CI_REGISTRY_IMAGE:$ENV_NAME --label "rev=$CI_COMMIT_SHA" .
     docker login -u gitlab-ci-token -p $CI_JOB_TOKEN $CI_REGISTRY
     docker push $CI_REGISTRY_IMAGE:$ENV_NAME
   only:
