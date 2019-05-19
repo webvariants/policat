@@ -16,21 +16,33 @@ class frontendConfiguration extends sfApplicationConfiguration {
     $dispatcher->connect('task.cache.clear', array($this, 'clearQueryCache'));
   }
 
+  private function cachePDO() {
+    return new PDO('sqlite:' . realpath( __DIR__ . '/../../../cache') . '/query_cache_fe.sqlite');
+  }
+
+  private function cacheCon() {
+    return Doctrine_Manager::getInstance()->openConnection($this->cachePDO(), 'cache', false);
+  }
+
   public function configureDoctrineConnection(sfEvent $event) {
     $parameters = $event->getParameters();
     $con = $parameters['connection'];
     /* @var $con Doctrine_Connection */
 
-    $cache = new Doctrine_Cache_Db(array('connection' => $con, 'tableName' => 'query_cache'));
+    $cache = new Doctrine_Cache_Db(array('connection' => $this->cacheCon(), 'tableName' => 'query_cache'));
+    try {
+      $cache->createTable();
+    } catch (\Exception $e) {
+    }
     $con->setAttribute(Doctrine_Core::ATTR_QUERY_CACHE, $cache);
     $con->setAttribute(Doctrine_Core::ATTR_QUERY_CACHE_LIFESPAN, 3600);
   }
 
   public function clearQueryCache(sfEvent $event) {
-    $databaseManager = new sfDatabaseManager($this);
-    $con = $databaseManager->getDatabase('doctrine')->getConnection();
-    /* @var $con PDO */
-    $con->exec('TRUNCATE query_cache');
+    try {
+      $this->cachePDO()->exec('TRUNCATE query_cache');
+    } catch (\Exception $e) {
+    }
   }
 
   public function initialize() {
