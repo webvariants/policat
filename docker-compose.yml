@@ -38,6 +38,20 @@ services:
       WWW_USER: "${WWW_USER:-martin}"
       WWW_GROUP: "${WWW_GROUP:-martin}"
       PHPINI_SESSION__GC_MAXLIFETIME: "3600"
+      PHP_ZEND_EXTENSIONS: "xdebug.so"
+      PHPINI_XDEBUG__REMOTE_ENABLE: "1"
+      PHPINI_XDEBUG__REMOTE_CONNECT_BACK: "1"
+      PHPINI_XDEBUG__REMOTE_PORT: "9000"
+      PHPINI_XDEBUG__REMOTE_HANDLER: "dbgp"
+      PHPINI_XDEBUG__REMOTE_MODE: "req"
+      PHPINI_XDEBUG__REMOTE_AUTOSTART: "true"
+      PHPINI_AUTO_START: "0"
+      PHPINI_XDEBUG__PROFILER_OUTPUT_DIR: "$WEB_ROOT/data"
+      PHPINI_XDEBUG__PROFILER_ENABLE: 0
+      PHPINI_XDEBUG__PROFILER_ENABLE_TRIGGER: 1
+      PHPINI_AUTO_PREPEND_FILE: /xhgui/header.php
+      XHGUI_PROBABILITY: 100
+      XHGUI_FULL_PROFILING: 1
 
   # policatphp:
   #   build: .
@@ -78,3 +92,62 @@ services:
       - traefik.frontend.rule=Host:${HOST:-policat.local}
       - traefik.frontend.passHostHeader=true
       - traefik.docker.network=${NETWORK:-proxy}
+
+  mongo-xh:
+    image: percona/percona-server-mongodb:3.6
+    restart: unless-stopped
+    # (case sensitive) engine: mmapv1, rocksdb, wiredTiger, inMemory
+    command: --storageEngine=inMemory
+    environment:
+      - MONGO_INITDB_DATABASE=xhprof
+    volumes:
+      - ./docker/xhgui/xhgui.js:/docker-entrypoint-initdb.d/xhgui.js:ro
+      - ./data/mongodb:/data/db # 1001
+    networks: ["default"]
+    mem_limit: 300m
+    logging:
+      driver: json-file
+      options:
+        max-file: '3'
+        max-size: 512k
+
+  xhgui:
+    image: webvariants/php:7.3
+    restart: unless-stopped
+    depends_on:
+        - mongo-xh
+    tmpfs:
+      - /xhgui/cache
+      - /xhgui/data
+    volumes:
+      - ./docker/xhgui/xhgui_index_cap.php:/start/index_cap.php
+    networks:
+      - proxy
+      - default
+    mem_limit: 200m
+    cap_drop:
+      - ALL
+    cap_add:
+      - NET_BIND_SERVICE
+    environment:
+      PHP_IMAGE_VERSION: "2"
+      WEB_ROOT: "/xhgui/webroot"
+      APP_DATA: "/xhgui/data"
+      XHGUI_CACHE: "/xhgui/cache"
+      PHP_TYPO3_INI: "1"
+      PHP_OPCACHE_INI: "1"
+      PHP_OPCACHE_INI_FAST_SHUTDOWN: "1"
+      PHPINI_OPCACHE__VALIDATE_TIMESTAMPS: 0
+      START_SCRIPT_DIR: /start
+      XHGUI_INDEX_CAP: 104857600 # 100 MB
+    labels:
+      - traefik.enable=true
+      - traefik.port=80
+      - traefik.frontend.rule=Host:xhgui.${HOST:-policat.local}
+      - traefik.frontend.passHostHeader=true
+      - traefik.docker.network=${NETWORK:-proxy}
+    logging:
+      driver: json-file
+      options:
+        max-file: '3'
+        max-size: 512k

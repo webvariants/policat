@@ -41,6 +41,7 @@ CVS
 /data/csv_downloads/*
 /data/session/
 /data/upload_tmp
+/data/mongodb/
 
 .gitignore
 
@@ -63,3 +64,5 @@ CVS
 /build-assets
 
 .gitlab-ci.yml
+
+/init

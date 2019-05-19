@@ -1,0 +1,5 @@
+#!/bin/bash
+
+cd "$(dirname "${BASH_SOURCE[0]}")"
+
+install -o 1001 -g 0    -d ./data/mongodb

@@ -8,6 +8,7 @@ log/
 cache/
 deploy/
 nbproject/
+.vscode/
 plugins/amgSentryPlugin/
 plugins/.*
 web/images/
@@ -45,3 +46,5 @@ LICENSE
 .vscode/
 test/
 Dockerfile
+
+init
