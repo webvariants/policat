@@ -1,7 +1,7 @@
 <?php if (!isset($no_filter)):
 /* @var $target_list MailingList */
 ?>
-  <form method="get" class="form-inline ajax_form filter_form" action="<?php echo url_for('target_contact_pager', array('page' => 1, 'id' => $target_list->getId())) ?>">
+  <form method="get" class="form-inline ajax_form filter_form mb-2" action="<?php echo url_for('target_contact_pager', array('page' => 1, 'id' => $target_list->getId())) ?>">
   <?php echo $form ?>
     <button class="btn btn-primary btn-sm mt-3" type="submit">Filter</button>
     <button class="filter_reset btn btn-secondary btn-sm mt-3">Reset filter</button>

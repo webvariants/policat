@@ -30,7 +30,7 @@ class MailingListForm extends BaseMailingListForm
       $this['status']
     );
 
-    $this->setWidget('name', new sfWidgetFormTextarea(array(), array('cols' => 90, 'rows' => 2)));    
+    $this->setWidget('name', new sfWidgetFormInputText(array(), array()));
 
     if (!$this->getObject()->isNew())
     {

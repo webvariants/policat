@@ -114,11 +114,11 @@
                     <a class="btn btn-large btn-primary ajax_link"
                         href="<?php echo url_for('paypal_pay', array('id' => $order->getId())) ?>">
                         <strong>Pay now</strong> &nbsp;
-                        <?php echo image_tag('pay-mastercard.png', array('size' => '50x31', 'alt' => 'mastercard')) ?>
-                        <?php echo image_tag('pay-maestro.png', array('size' => '50x31', 'alt' => 'maestro')) ?>
-                        <?php echo image_tag('pay-visa.png', array('size' => '50x31', 'alt' => 'visa')) ?>
-                        <?php echo image_tag('pay-paypal.png', array('size' => '50x31', 'alt' => 'paypal')) ?>
-                        <?php echo image_tag('pay-direct-debit.png', array('size' => '50x31', 'alt' => 'direct debit')) ?>
+                        <img alt="mastercard" src="/images_static/pay-mastercard.png" height="31" width="50" />
+                        <img alt="maestro" src="/images_static/pay-maestro.png" height="31" width="50" />
+                        <img alt="visa" src="/images_static/pay-visa.png" height="31" width="50" />
+                        <img alt="paypal" src="/images_static/pay-paypal.png" height="31" width="50" />
+                        <img alt="direct debit" src="/images_static/pay-direct-debit.png" height="31" width="50" />
                     </a>
                     <div>
                         <strong>to activate the package immediately.</strong><br />
@@ -127,7 +127,7 @@
                     </div>
                 </div>
                 <?php endif ?>
-                <a class="btn <?php if (!$paypal): ?> btn-primary<?php endif ?>"
+                <a class="btn <?php if (!$paypal): ?> btn-primary<?php else: ?> btn-secondary<?php endif ?>"
                     href="<?php echo url_for('quota_list', array('id' => $campaign->getId())) ?>">Back to campaign</a>
                 <a class="btn btn-secondary ajax_link post"
                     data-submit='<?php echo json_encode(array('csrf_token' => $csrf_token)) ?>'
@@ -135,7 +135,7 @@
                 <?php if ($order->deleteable() || $sf_user->hasCredential(myUser::CREDENTIAL_ADMIN)): ?>
                 <br />
                 <br />
-                <a style="padding-left: 10px; color: red;" class="ajax_link"
+                <a style="padding-left: 10px; color: red;" class="ajax_link btn btn-danger"
                     href="<?php echo url_for('order_delete', array('id' => $order->getId())) ?>">
                     <?php if ($order->deleteable() || ($sf_user->hasCredential(myUser::CREDENTIAL_ADMIN) && $order->getStatus() == OrderTable::STATUS_CANCELATION)): ?>
                     Delete order

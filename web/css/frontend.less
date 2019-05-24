@@ -25,7 +25,7 @@ footer.footer {
 	display: block !important;
 }
 
-a {
+a, button {
   &.btn-primary,
   &.btn-secondary,
   &.btn-success,
@@ -206,4 +206,10 @@ select.form-control {
 
 .modal {
   -webkit-overflow-scrolling: touch; // make scrolling possible if iframe with widget is inside for iphone
+}
+
+.bs-popover-right, .bs-popover-left {
+  @media (min-width: 1000px) {
+    max-width: 600px;
+  }
 }

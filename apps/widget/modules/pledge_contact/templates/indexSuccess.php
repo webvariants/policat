@@ -180,7 +180,7 @@
             <?php if ($password_too_short): ?><span class="invalid-feedback"
                 style="display:block"><?php echo __('Password is too short. Use at least 8 characters.') ?></span><?php endif ?>
         </fieldset>
-        <button type="submit" class="btn mt-4 mb-4" <?php if ($petition_contact->isNew()): ?>disabled="disabled"
+        <button type="submit" class="btn btn-primary mt-4 mb-4" <?php if ($petition_contact->isNew()): ?>disabled="disabled"
             <?php endif ?>><?php echo __('Save & submit my pledges') ?></button>
         <?php endif ?>
         <?php echo UtilMarkdown::transform($petition_text->getPledgeExplantoryAnnotation()) ?>

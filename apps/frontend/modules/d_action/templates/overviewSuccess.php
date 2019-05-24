@@ -12,66 +12,61 @@
 <div class="row">
   <div class="col-md-8">
     <div class="form-horizontal">
+      <h4>Status: <?php echo $petition->getStatusName() ?></h4>
+      <h4>Input data</h4>
+      <ul>
+        <li><?php echo Petition::$NAMETYPE_SHOW[$petition->getNametype()] ?></li><?php
+        if ($petition->getWithAddress()) echo '<li>' . Petition::$WITH_ADDRESS_SHOW[$petition->getWithAddress()] . '</li>';
+        if ($petition->getWithExtra1() == Petition::WITH_EXTRA_YES) echo '<li>free text field</li>';
+        if ($petition->getWithCountry()): ?><li>country</li><?php else: ?><li>without country</li><?php endif;
+        if ($petition->getWithComments()): ?><li>comments</li><?php endif ?>
+      </ul>
+      <?php if ($petition->getFollowPetitionId()): ?>
+        <h4>Follow-up action</h4>
+        <p><?php echo $petition->getFollowPetition()->getName() ?></p>
+      <?php endif ?>
       <table class="table table-responsive-md table-sm table-bordered">
-        <tr>
-          <th>Input data</th>
-          <td>
-              <?php echo Petition::$NAMETYPE_SHOW[$petition->getNametype()] ?>, <?php
-              if ($petition->getWithAddress()) echo Petition::$WITH_ADDRESS_SHOW[$petition->getWithAddress()] . ', ';
-              if ($petition->getWithExtra1() == Petition::WITH_EXTRA_YES) echo 'free text field, ';
-              if ($petition->getWithCountry()): ?>country<?php else: ?> without country<?php endif;
-              if ($petition->getWithComments()): ?>, comments<?php endif ?>
-          </td>
-        </tr>
-        <tr>
-          <th>Status</th>
-          <td><?php echo $petition->getStatusName() ?></td>
-        <?php if ($petition->getFollowPetitionId()): ?>
-        <tr>
-          <th>Follow-up action</th>
-          <td><?php echo $petition->getFollowPetition()->getName() ?></td>
-        <?php endif ?>
         <?php if ($petition->isGeoKind()): ?>
         <tr>
+          <td class="text-right"><mark><?php echo format_number($petition->countMailsSent()) ?></mark></td>
           <th>Mails sent</th>
-          <td><?php echo format_number($petition->countMailsSent()) ?></td>
         </tr>
         <tr>
+          <td class="text-right"><?php echo format_number($petition->countMailsOutgoing()) ?></td>
           <th>Mails in Sending Queue</th>
-          <td><?php echo format_number($petition->countMailsOutgoing()) ?></td>
         </tr>
         <tr>
+          <td class="text-right"><?php echo format_number($petition->countMailsPending()) ?></span></div>
           <th>Mails pending</th>
-          <td><?php echo format_number($petition->countMailsPending()) ?></span></div>
         </div>
         <?php endif ?>
         <tr>
+          <td class="text-right"><?php echo format_number($petition->countSignings(60)) ?></td>
           <th>Signings via widgets</th>
-          <td><?php echo format_number($petition->countSignings(60)) ?></td>
         </tr>
         <tr>
+          <td class="text-right"><?php echo format_number($petition->sumApi(60)) ?></td>
           <th>Signings via API</th>
-          <td><?php echo format_number($petition->sumApi(60)) ?></td>
         </tr>
         <tr>
+          <td class="text-right"><?php echo format_number($petition->getAddnum()) ?></td>
           <th>Manual counter tweak</th>
-          <td><?php echo format_number($petition->getAddnum()) ?></td>
         </tr>
         <tr>
+          <td class="text-right"><mark><?php echo format_number($petition->countSigningsPlusApi(60)) ?></mark></td>
           <th>Signings total</th>
-          <td><?php echo format_number($petition->countSigningsPlusApi(60)) ?></td>
         </tr>
         <tr>
+          <td class="text-right"><?php echo format_number($petition->countSignings24()) ?></td>
           <th>Signings last 24h</th>
-          <td><?php echo format_number($petition->countSignings24()) ?></td>
         </tr>
         <tr>
+          <td class="text-right"><?php echo format_number($petition->countSigningsPending()) ?></td>
           <th>Signings with verification pending</th>
-          <td><?php echo format_number($petition->countSigningsPending()) ?></td>
         </tr>
         <tr>
+          <td class="text-right"><?php echo format_number($petition->countWidgets()) ?></td>
           <th>Widgets</th>
-          <td><?php echo format_number($petition->countWidgets()) ?></td>
         </tr>
       </table>
       <a href="<?php echo url_for('api_v2_doc') ?>" target="_blank">API documentation</a>

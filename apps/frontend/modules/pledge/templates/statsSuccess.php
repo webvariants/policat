@@ -16,10 +16,10 @@ else:
   </nav>
   <?php include_component('d_action', 'notice', array('petition' => $petition)) ?>
   <?php include_partial('d_action/tabs', array('petition' => $petition, 'active' => 'pledge_stats')) ?>
-  <form method="get" class="form-inline ajax_form filter_form" action="<?php echo url_for('pledge_stats_pager', array('page' => 1, 'id' => $petition->getId())) ?>">
+  <form method="get" class="form-inline ajax_form filter_form mb-2" action="<?php echo url_for('pledge_stats_pager', array('page' => 1, 'id' => $petition->getId())) ?>">
     <?php echo $form ?>
     <button class="btn btn-primary btn-sm mt-3" type="submit">Filter</button>
-    <button class="filter_reset btn btn-sm mt-3">Reset filter</button>
+    <button class="filter_reset btn btn-secondary btn-sm mt-3">Reset filter</button>
   </form>
   <?php
   include_partial('contacts', array(

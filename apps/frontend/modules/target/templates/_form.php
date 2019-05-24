@@ -1,8 +1,8 @@
 <?php
 /* @var $form MailingListForm */
 $target_list = $form->getObject();
-$action = $target_list->isNew() 
-  ? url_for('target_new', array('id' => $target_list->getCampaignId())) 
+$action = $target_list->isNew()
+  ? url_for('target_new', array('id' => $target_list->getCampaignId()))
   : url_for('target_edit', array('id' => $target_list->getId()));
 
 if (!isset($petition_id)) {
@@ -25,7 +25,7 @@ if (!isset($petition_id)) {
       <?php endif ?>
       <?php if (!$target_list->isNew()): ?>
         <p class="">
-          Used by <?php echo $target_list->countActions() ?> 
+          Used by <?php echo $target_list->countActions() ?>
           actions<?php if ($target_list->countActionsDeleted()): ?> and <?php echo $target_list->countActionsDeleted() ?> deleted actions<?php endif ?>.
         </p>
       <?php endif ?>

@@ -6,10 +6,10 @@ if (!isset($no_filter)):
   /* @var $campaign Campaign */
   $url = isset($campaign) ? url_for('petition_pager', array('page' => 1, 'id' => $campaign->getId())) : url_for('petition_pager_all', array('page' => 1))
   ?>
-  <form method="get" class="form-inline ajax_form filter_form" action="<?php echo $url ?>">
+  <form method="get" class="form-inline ajax_form filter_form mb-2" action="<?php echo $url ?>">
     <?php echo $form ?>
     <button class="btn btn-primary mt-3 btn-sm" type="submit">Filter</button>
-    <button class="filter_reset btn btn-sm mt-3">Reset filter</button>
+    <button class="filter_reset btn btn-secondary btn-sm mt-3">Reset filter</button>
   </form>
 <?php endif ?>
 <div id="action_list">

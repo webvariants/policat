@@ -18,7 +18,7 @@ class EditCampaignPrivacyForm extends BaseCampaignForm {
 
     $this->setWidget('privacy_policy', new sfWidgetFormTextarea(
         array('label' => false),
-        array('class' => 'span6', 'placeholder' => 'Enter privacy agreement', 'style' => 'height: 360px'))
+        array('class' => 'span6', 'placeholder' => 'Enter privacy agreement', 'style' => 'height: 60px'))
     );
 
     $this->setValidator('privacy_policy', new sfValidatorString(array(

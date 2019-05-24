@@ -11,16 +11,16 @@ use_helper('Number');
   </form>
 <?php endif ?>
 <div id="data">
-    <div class="row">
-        <?php if (isset($count)): ?><p class="col-md-3">Count: <span class="label label-success"><?php echo format_number($count) ?></span></p><?php endif ?>
+    <div class="row mt-2">
+        <?php if (isset($count)): ?><p class="col-md-3"><strong>Count: <span class="label label-success"><?php echo format_number($count) ?></strong></span></p><?php endif ?>
         <?php if (isset($pending)): ?>
-          <p class="col-md-9" style="text-align: right">
+          <p class="col-md-9" style="text-align: right"><strong>
               Signings with pending verification (not shown): <span class="label label-important"><?php echo format_number($pending) ?></span>
               <?php if (isset($petition)): /* @var $petition Petition */ ?>
                 Auto deleted (validation link expired): <span class="label label-warning"><?php echo format_number($petition->getDeletedPendings()) ?></span>
                 Auto deleted (hard bounces): <span class="label label-warning"><?php echo format_number($petition->getDeletedHardBounces()) ?></span>
               <?php endif ?>
-          </p>
+          </strong></p>
         <?php endif ?>
     </div>
     <?php if (isset($signings) && $signings->count()): ?>

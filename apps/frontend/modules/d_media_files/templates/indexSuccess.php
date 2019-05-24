@@ -15,6 +15,6 @@
         <?php echo $form->renderHiddenFields() ?>
         <span>Upload new media file</span>
         <?php echo $form ?>
-        <button class="btn btn-small" type="submit">Upload</button>
+        <button class="btn btn-primary btn-small" type="submit">Upload</button>
     </form>
 </div>

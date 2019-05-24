@@ -211,7 +211,7 @@ module.exports = function(grunt) {
 		},
 		exec: {
 			"sass-bootstrap": {
-				command: "node_modules/.bin/node-sass --output-style expanded --source-map true --precision 6 node_modules/bootstrap/scss/bootstrap.scss web/css/dist/bootstrap4.css",
+				command: "node_modules/.bin/node-sass --output-style expanded --source-map true --precision 6 web/css/bootstrap.sass web/css/dist/bootstrap4.css"
 			}
 		}
 	});
