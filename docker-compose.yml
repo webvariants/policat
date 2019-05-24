@@ -95,7 +95,6 @@ services:
 
   mongo-xh:
     image: percona/percona-server-mongodb:3.6
-    restart: unless-stopped
     # (case sensitive) engine: mmapv1, rocksdb, wiredTiger, inMemory
     command: --storageEngine=inMemory
     environment:
@@ -113,7 +112,6 @@ services:
 
   xhgui:
     image: webvariants/php:7.3
-    restart: unless-stopped
     depends_on:
         - mongo-xh
     tmpfs:
