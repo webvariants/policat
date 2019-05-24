@@ -21,7 +21,12 @@ class frontendConfiguration extends sfApplicationConfiguration {
   }
 
   private function cacheCon() {
-    return Doctrine_Manager::getInstance()->openConnection($this->cachePDO(), 'cache', false);
+    $pdo = $this->cachePDO();
+    try {
+      $pdo->exec('CREATE TABLE IF NOT EXISTS query_cache (id VARCHAR(255), data LONGBLOB, expire DATETIME, PRIMARY KEY(id))');
+      } catch (\Exception $e) {
+    }
+    return Doctrine_Manager::getInstance()->openConnection($pdo, 'cache', false);
   }
 
   public function configureDoctrineConnection(sfEvent $event) {
@@ -30,10 +35,6 @@ class frontendConfiguration extends sfApplicationConfiguration {
     /* @var $con Doctrine_Connection */
 
     $cache = new Doctrine_Cache_Db(array('connection' => $this->cacheCon(), 'tableName' => 'query_cache'));
-    try {
-      $cache->createTable();
-    } catch (\Exception $e) {
-    }
     $con->setAttribute(Doctrine_Core::ATTR_QUERY_CACHE, $cache);
     $con->setAttribute(Doctrine_Core::ATTR_QUERY_CACHE_LIFESPAN, 3600);
   }
