@@ -26,7 +26,7 @@ foreach ($styles->getRawValue() as $widget_id => $stylings) {
           <?php foreach ($chunk as $action): ?>
             <div class="card mb-4" onclick="<?php echo UtilWidget::getWidgetHereJs($action['widget_id'], true) ?>" style="cursor: pointer">
                 <?php if ($action['key_visual']): ?><img style="width: 100%" class="card-img-top img-fluid" src="<?php echo image_path('keyvisual/' . $action['key_visual']) ?>" alt="" /><?php endif ?>
-                <div class="card-block">
+                <div class="card-body">
                     <p class="mb-1 p-color-less-important"><?php echo Petition::$KIND_SHOW_FE[$action['kind']] ?></p>
                     <div class="progress mb-1">
                         <div class="progress-bar" role="progressbar" style="width: <?php echo $action['counter_percent'] ?>%;" aria-valuenow="<?php echo $action['counter_percent'] ?>" aria-valuemin="0" aria-valuemax="100"><?php echo number_format($action['counter_value'], 0, '.', ',') ?></div>
