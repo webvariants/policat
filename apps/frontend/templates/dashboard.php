@@ -27,7 +27,7 @@
     <?php echo $sf_content ?>
     <?php include_component('d_home', 'footer') ?>
     <?php // include_component('account', 'ajaxSignin', array('a' => $sf_user->isAuthenticated() ? 1 : 0)) ?>
-    <div id="waiting"><b></b><i></i><div class="progress progress-striped active"><div class="bar" style="width: 100%;"></div></div></div>
+    <div id="waiting"><b></b><i></i><div class="progress active"><div class="progress-bar progress-bar-striped" style="width: 100%;"></div></div></div>
     <?php if(StoreTable::value(StoreTable::INSTANT_CHAT_ENABLE)) { ?>
     <!--Start of Tawk.to Script-->
     <script type="text/javascript">

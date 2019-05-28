@@ -76,8 +76,6 @@ class PetitionSigningTable extends Doctrine_Table {
    */
   public function query(array $options) {
     $query = $this->queryAll('ps')
-      ->leftJoin('ps.Widget w')
-      ->leftJoin('w.PetitionText pt')
       ->useQueryCache(false);
 
     $options = array_merge(self::$DEFAULT_OPTIONS, $options);
@@ -140,16 +138,18 @@ class PetitionSigningTable extends Doctrine_Table {
     }
 
     if ($campaign) {
-      $query
-        ->leftJoin('ps.Petition p')
-        ->andWhere('p.status != ?', Petition::STATUS_DELETED);
+      $pquery = PetitionTable::getInstance()->queryAll(false);
       if (is_array($campaign)) {
         $ids = array();
-        foreach ($campaign as $c)
+        foreach ($campaign as $c) {
           $ids[] = is_object($c) ? $c->getId() : $c;
-        $query->andWhereIn('p.campaign_id', $ids);
-      } else
-        $query->andWhere('p.campaign_id = ?', is_object($campaign) ? $campaign->getId() : $campaign);
+        }
+        $pquery->andWhereIn('p.campaign_id', $ids);
+      } else {
+        $pquery->andWhere('p.campaign_id = ?', is_object($campaign) ? $campaign->getId() : $campaign);
+      }
+
+      $query->andWhereIn('ps.petition_id', (array) $pquery->select('p.id')->execute(array(), Doctrine_Core::HYDRATE_SINGLE_SCALAR));
     }
 
     if ($widget) {
@@ -161,29 +161,10 @@ class PetitionSigningTable extends Doctrine_Table {
     }
 
     if ($language) {
-      $widget_ids_lang_sub_query = $query->copy()
-        ->orderBy('ps.widget_id')
-        ->removeSqlQueryPart('orderby')
-        ->select('DISTINCT ps.widget_id');
       if (is_array($language)) {
-        $widget_ids_lang_sub_query->andWhereIn('pt.language_id', $language);
+        $query->andWhereIn('ps.language_id', $language);
       } else {
-        $widget_ids_lang_sub_query->andWhere('pt.language_id = ?', $language);
-      }
-
-      $widget_lang_filter_query = WidgetTable::getInstance()->createQuery('wlfq')
-        ->where('wlfq.id IN (' . $widget_ids_lang_sub_query->getDql() . ')', $widget_ids_lang_sub_query)
-        ->removeSqlQueryPart('orderby')
-        ->select('DISTINCT wlfq.id');
-      $widget_lang_filter_query->setParams($widget_ids_lang_sub_query->getParams());
-
-
-
-      $widget_lang_ids = (array) $widget_ids_lang_sub_query->execute(array(), Doctrine_Core::HYDRATE_SINGLE_SCALAR);
-      if (count($widget_lang_ids)) {
-        $query->andWhereIn('ps.widget_id', $widget_lang_ids);
-      } else {
-        $query->andWhere('ps.widget_id = -3'); // force to return nothing
+        $query->andWhere('ps.language_id = ?', $language);
       }
     }
 
@@ -231,6 +212,7 @@ class PetitionSigningTable extends Doctrine_Table {
     }
 
     if ($widget_filter) {
+      $query->leftJoin('ps.Widget w');
       if (preg_match('/^u(\d+)$/', $widget_filter, $matches)) {
         $query->andWhere('w.user_id = ?', $matches[1]);
       } elseif (preg_match('/^w(\d+)$/', $widget_filter, $matches)) {

@@ -14,6 +14,9 @@ abstract class BasePetitionSigningFormFilter extends BaseFormFilterDoctrine
   {
     $this->setWidgets(array(
       'petition_id'            => new sfWidgetFormDoctrineChoice(array('model' => $this->getRelatedModelName('Petition'), 'add_empty' => true)),
+      'campaign_id'            => new sfWidgetFormDoctrineChoice(array('model' => $this->getRelatedModelName('Campaign'), 'add_empty' => true)),
+      'petition_text_id'       => new sfWidgetFormDoctrineChoice(array('model' => $this->getRelatedModelName('PetitionText'), 'add_empty' => true)),
+      'language_id'            => new sfWidgetFormDoctrineChoice(array('model' => $this->getRelatedModelName('Language'), 'add_empty' => true)),
       'fields'                 => new sfWidgetFormFilterInput(),
       'status'                 => new sfWidgetFormFilterInput(array('with_empty' => false)),
       'verified'               => new sfWidgetFormFilterInput(array('with_empty' => false)),
@@ -61,6 +64,9 @@ abstract class BasePetitionSigningFormFilter extends BaseFormFilterDoctrine
 
     $this->setValidators(array(
       'petition_id'            => new sfValidatorDoctrineChoice(array('required' => false, 'model' => $this->getRelatedModelName('Petition'), 'column' => 'id')),
+      'campaign_id'            => new sfValidatorDoctrineChoice(array('required' => false, 'model' => $this->getRelatedModelName('Campaign'), 'column' => 'id')),
+      'petition_text_id'       => new sfValidatorDoctrineChoice(array('required' => false, 'model' => $this->getRelatedModelName('PetitionText'), 'column' => 'id')),
+      'language_id'            => new sfValidatorDoctrineChoice(array('required' => false, 'model' => $this->getRelatedModelName('Language'), 'column' => 'id')),
       'fields'                 => new sfValidatorPass(array('required' => false)),
       'status'                 => new sfValidatorSchemaFilter('text', new sfValidatorInteger(array('required' => false))),
       'verified'               => new sfValidatorSchemaFilter('text', new sfValidatorInteger(array('required' => false))),
@@ -143,6 +149,9 @@ abstract class BasePetitionSigningFormFilter extends BaseFormFilterDoctrine
     return array(
       'id'                     => 'Number',
       'petition_id'            => 'ForeignKey',
+      'campaign_id'            => 'ForeignKey',
+      'petition_text_id'       => 'ForeignKey',
+      'language_id'            => 'ForeignKey',
       'fields'                 => 'Text',
       'status'                 => 'Number',
       'verified'               => 'Number',

@@ -492,6 +492,9 @@ PetitionSigning:
   columns:
     id:              { type: integer(8), primary: true, autoincrement: true }
     petition_id:     { type: integer(4), notnull: true }
+    campaign_id:     { type: integer(4), notnull: false, default: null }
+    petition_text_id: { type: integer(4), notnull: false, default: null }
+    language_id:     { type: string(5),  notnull: false, default: null }
     fields:          { type: clob }
     status:          { type: integer(4), notnull: true, default: 1}
     verified:        { type: integer(4), notnull: true, default: 0}
@@ -534,6 +537,9 @@ PetitionSigning:
     download_data_id:       { type: integer(4), notnull: false, default: null }
   relations:
     Petition: { onDelete: CASCADE }
+    Campaign:     { }
+    PetitionText: { }
+    Language:     { }
     Widget:   { onDelete: SET NULL }
     Contact:  { refClass: PetitionSigningContact, local: petition_signing_id, foreign: contact_id, type: many }
     Quota:    { onDelete: SET NULL }
@@ -563,6 +569,8 @@ PetitionSigning:
     signing_bounce:               { fields: [petition_id, bounce, verified, bounce_at] }
     signing_inc_dl_sub:           { fields: [petition_id, download_subscriber_id, status, subscribe, id] }
     signing_inc_dl_data:           { fields: [petition_id, download_data_id, status, id] }
+    signing_language1:            { fields: [petition_id, status, language_id] }
+    signing_language2:            { fields: [widget_id, status, language_id] }
 
 PetitionSigningSearch:
   options:

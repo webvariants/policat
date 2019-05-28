@@ -53,6 +53,6 @@
           <h2><?php echo __('All signers') ?></h2>
           <p>Disabled for this action.</p>
         <?php endif ?>
-        <div id="waiting"><b></b><i></i><div class="progress progress-striped active"><div class="bar" style="width: 100%;"></div></div></div>
+        <div id="waiting"><b></b><i></i><div class="progress active"><div class="progress-bar progress-bar-striped" style="width: 100%;"></div></div></div>
     </body>
 </html>

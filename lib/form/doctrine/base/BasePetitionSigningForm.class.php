@@ -17,6 +17,9 @@ abstract class BasePetitionSigningForm extends BaseFormDoctrine
     $this->setWidgets(array(
       'id'                     => new sfWidgetFormInputHidden(),
       'petition_id'            => new sfWidgetFormDoctrineChoice(array('model' => $this->getRelatedModelName('Petition'), 'add_empty' => false)),
+      'campaign_id'            => new sfWidgetFormDoctrineChoice(array('model' => $this->getRelatedModelName('Campaign'), 'add_empty' => true)),
+      'petition_text_id'       => new sfWidgetFormDoctrineChoice(array('model' => $this->getRelatedModelName('PetitionText'), 'add_empty' => true)),
+      'language_id'            => new sfWidgetFormDoctrineChoice(array('model' => $this->getRelatedModelName('Language'), 'add_empty' => true)),
       'fields'                 => new sfWidgetFormTextarea(),
       'status'                 => new sfWidgetFormInputText(),
       'verified'               => new sfWidgetFormInputText(),
@@ -65,6 +68,9 @@ abstract class BasePetitionSigningForm extends BaseFormDoctrine
     $this->setValidators(array(
       'id'                     => new sfValidatorChoice(array('choices' => array($this->getObject()->get('id')), 'empty_value' => $this->getObject()->get('id'), 'required' => false)),
       'petition_id'            => new sfValidatorDoctrineChoice(array('model' => $this->getRelatedModelName('Petition'), 'column' => 'id')),
+      'campaign_id'            => new sfValidatorDoctrineChoice(array('model' => $this->getRelatedModelName('Campaign'), 'column' => 'id', 'required' => false)),
+      'petition_text_id'       => new sfValidatorDoctrineChoice(array('model' => $this->getRelatedModelName('PetitionText'), 'column' => 'id', 'required' => false)),
+      'language_id'            => new sfValidatorDoctrineChoice(array('model' => $this->getRelatedModelName('Language'), 'column' => 'id', 'required' => false)),
       'fields'                 => new sfValidatorString(array('required' => false)),
       'status'                 => new sfValidatorInteger(array('required' => false)),
       'verified'               => new sfValidatorInteger(array('required' => false)),

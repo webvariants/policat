@@ -121,6 +121,9 @@ class widgetActions extends policatActions
     $sign             = new PetitionSigning();
     $sign['Petition'] = $this->widget['Petition'];
     $sign['Widget']   = $this->widget;
+    $sign['PetitionText'] = $this->petition_text;
+    $sign['campaign_id'] = $this->widget['campaign_id'];
+    $sign['language_id'] = $this->lang;
 
     if ($request->isMethod('post') && $request->hasParameter('widget') )
     {

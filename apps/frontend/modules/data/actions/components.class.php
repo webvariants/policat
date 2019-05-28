@@ -48,7 +48,8 @@ class dataComponents extends policatComponents {
           PetitionSigningTable::CAMPAIGN => $this->campaign,
           PetitionSigningTable::ORDER => PetitionSigningTable::ORDER_DESC,
           SigningsDownloadForm::OPTION_QUERY => $query->copy(),
-          SigningsDownloadForm::OPTION_SUBSCRIBER => $this->subscriptions
+          SigningsDownloadForm::OPTION_SUBSCRIBER => $this->subscriptions,
+          SigningsDownloadForm::OPTION_FAST_VALIDATE => $page > 1
       ));
       $this->form->bindSelf('c' . $this->campaign->getId());
 
@@ -73,7 +74,8 @@ class dataComponents extends policatComponents {
           PetitionSigningTable::PETITION => $this->petition,
           PetitionSigningTable::ORDER => PetitionSigningTable::ORDER_DESC,
           SigningsDownloadForm::OPTION_QUERY => $query->copy(),
-          SigningsDownloadForm::OPTION_SUBSCRIBER => $this->subscriptions
+          SigningsDownloadForm::OPTION_SUBSCRIBER => $this->subscriptions,
+          SigningsDownloadForm::OPTION_FAST_VALIDATE => $page > 1
       ));
       $this->form->bindSelf('p' . $this->petition->getId());
 
@@ -94,7 +96,8 @@ class dataComponents extends policatComponents {
           PetitionSigningTable::USER => $this->getGuardUser(),
           PetitionSigningTable::ORDER => PetitionSigningTable::ORDER_DESC,
           SigningsDownloadForm::OPTION_QUERY => $query->copy(),
-          SigningsDownloadForm::OPTION_SUBSCRIBER => $this->subscriptions
+          SigningsDownloadForm::OPTION_SUBSCRIBER => $this->subscriptions,
+          SigningsDownloadForm::OPTION_FAST_VALIDATE => $page > 1
       ));
       $this->form->bindSelf('w' . $this->widget->getId());
 

@@ -539,7 +539,7 @@ $(function ($) {
 
 		var progress = $('<div class="progress"></div>');
 		a.after(progress);
-		var bar = $('<div class="bar" style="width: 0%;"></div>');
+		var bar = $('<div class="progress-bar" style="width: 0%;"></div>');
 		progress.append(bar);
 
 		var process = function (page) {

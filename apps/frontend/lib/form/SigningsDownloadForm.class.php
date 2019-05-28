@@ -12,26 +12,20 @@ class SigningsDownloadForm extends policatFilterForm {
 
   const OPTION_QUERY = 'query';
   const OPTION_SUBSCRIBER = 'subscriber';
+  const OPTION_FAST_VALIDATE = 'fast_validate';
 
   public function configure() {
     $query = $this->getOption(self::OPTION_QUERY);
     /* @var $query Doctrine_Query */
 
-    $widget_sub_query = $query->copy()
-      ->orderBy('ps.widget_id')
-      ->select('DISTINCT ps.widget_id');
-
-    $lang_sub_query = WidgetTable::getInstance()->createQuery('wq')
-      ->where('wq.id IN (' . $widget_sub_query->getDql() . ')', $widget_sub_query)
-      ->leftJoin('wq.PetitionText wq_pt')
-      ->select('DISTINCT wq_pt.language_id');
-    $lang_sub_query->setParams($widget_sub_query->getParams());
-
     $lang_query = LanguageTable::getInstance()
       ->createQuery('l')
-      ->where('l.id IN (' . $lang_sub_query->getDql() . ')', $lang_sub_query)
       ->orderBy('l.name ASC');
-    $lang_query->setParams($lang_sub_query->getParams());
+    if (!$this->getOption(self::OPTION_FAST_VALIDATE, false)) {
+      $lang_sub_query = $query->copy()->select('DISTINCT ps.language_id');
+      $lang_query->where('l.id IN (' . $lang_sub_query->getDql() . ')');
+      $lang_query->setParams($lang_sub_query->getParams());
+    }
 
     $this->setWidget('l', new sfWidgetFormDoctrineChoice(
       array(
@@ -47,11 +41,16 @@ class SigningsDownloadForm extends policatFilterForm {
         'query' => $lang_query
     )));
 
-    $countries = $query->copy()->orderBy('ps.country')->select('DISTINCT ps.country')->execute(array(), Doctrine_Core::HYDRATE_SINGLE_SCALAR);
-    if (is_string($countries))
-      $countries = array($countries);
+    if (!$this->getOption(self::OPTION_FAST_VALIDATE, false)) {
+      $countries = $query->copy()->orderBy('ps.country')->select('DISTINCT ps.country')->execute(array(), Doctrine_Core::HYDRATE_SINGLE_SCALAR);
+      if (is_string($countries)) {
+        $countries = array($countries);
+      }
 
-    $countries = array_filter($countries);
+      $countries = array_filter($countries);
+    } else {
+      $countries = array();
+    }
 
     $this->setWidget('c', new sfWidgetFormI18nChoiceCountry(
       array(
@@ -60,10 +59,14 @@ class SigningsDownloadForm extends policatFilterForm {
         'label' => false
       ), array('class' => 'span2')
     ));
-    $this->setValidator('c', new sfValidatorChoice(array(
+    if (!$this->getOption(self::OPTION_FAST_VALIDATE, false)) {
+      $this->setValidator('c', new sfValidatorChoice(array(
         'choices' => $countries,
         'required' => false
-    )));
+      )));
+    } else {
+      $this->setValidator('c', new sfValidatorString(array('min_length' => 2, 'max_length' => 2, 'required' => false)));
+    }
 
     $campaign = $this->getOption(PetitionSigningTable::CAMPAIGN);
     if ($campaign && !$this->getOption(PetitionSigningTable::PETITION)) {

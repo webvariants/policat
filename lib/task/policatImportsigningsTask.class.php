@@ -78,7 +78,7 @@ EOF;
         {
           $i++;
           if ($i % 100 == 0) echo "$i\n";
-        
+
           //if ($i > 300) break;
           if (!is_array($first_line))
           {
@@ -90,6 +90,7 @@ EOF;
             $signing = new PetitionSigning();
             $signing->setPetitionId($petition_id);
             $signing->setStatus(PetitionSigning::STATUS_COUNTED);
+            $signing->setCampaignId($campaign['id']);
             foreach ($formfields as $formfield)
             {
               switch ($formfield)
