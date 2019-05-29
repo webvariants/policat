@@ -350,20 +350,26 @@
             "version": "dev-master",
             "source": {
                 "type": "git",
-                "url": "https://github.com/LExpress/doctrine1.git",
-                "reference": "44abc88ce9882b13ae2844f3868f750409368118"
+                "url": "https://github.com/FriendsOfSymfony1/doctrine1.git",
+                "reference": "d6c2c675ab38dbc823fedbdad2b805577f2cf922"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/LExpress/doctrine1/zipball/44abc88ce9882b13ae2844f3868f750409368118",
-                "reference": "44abc88ce9882b13ae2844f3868f750409368118",
+                "url": "https://api.github.com/repos/FriendsOfSymfony1/doctrine1/zipball/d6c2c675ab38dbc823fedbdad2b805577f2cf922",
+                "reference": "d6c2c675ab38dbc823fedbdad2b805577f2cf922",
                 "shasum": ""
             },
             "require": {
+                "ext-mbstring": "*",
                 "ext-pdo": "*",
-                "php": ">=5.2.3"
+                "php": ">=5.3"
             },
             "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "1.4-dev"
+                }
+            },
             "autoload": {
                 "psr-0": {
                     "Doctrine_": "lib/"
@@ -381,15 +387,21 @@
                 {
                     "name": "Jonathan Wage",
                     "email": "jonwage@gmail.com"
+                },
+                {
+                    "name": "Doctrine1 Contributors",
+                    "homepage": "https://github.com/FriendsOfSymfony1/doctrine1/graphs/contributors"
                 }
             ],
-            "description": "PHP5 Database ORM",
+            "description": "PHP Database ORM for Symfony1. Do NOT use for new projects: please move to a newest Symfony release and Doctrine2",
             "homepage": "http://www.doctrine-project.org",
             "keywords": [
                 "database",
-                "orm"
+                "doctrine1",
+                "orm",
+                "symfony1"
             ],
-            "time": "2018-09-14T10:05:06+00:00"
+            "time": "2019-04-16T12:12:17+00:00"
         },
         {
             "name": "lexpress/symfony1",

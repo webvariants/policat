@@ -12,6 +12,7 @@ class widgetConfiguration extends sfApplicationConfiguration {
 
   public function configure() {
     $this->getEventDispatcher()->connect('doctrine.configure_connection', array($this, 'configureDoctrineConnection'));
+    Doctrine_Manager::getInstance()->registerConnectionDriver('mysql', 'Doctrine_Connection_Mysql_Project');
   }
 
   public function configureDoctrineConnection(sfEvent $event) {

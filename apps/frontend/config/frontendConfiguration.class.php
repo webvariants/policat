@@ -14,6 +14,7 @@ class frontendConfiguration extends sfApplicationConfiguration {
     $dispatcher = $this->getEventDispatcher();
     $dispatcher->connect('doctrine.configure_connection', array($this, 'configureDoctrineConnection'));
     $dispatcher->connect('task.cache.clear', array($this, 'clearQueryCache'));
+    Doctrine_Manager::getInstance()->registerConnectionDriver('mysql', 'Doctrine_Connection_Mysql_Project');
   }
 
   private function cachePDO() {
