@@ -12,8 +12,8 @@
 <div class="row">
   <div class="col-md-8">
     <div class="form-horizontal">
-      <h4>Status: <?php echo $petition->getStatusName() ?></h4>
-      <h4>Input data</h4>
+      <strong>Status:</strong> <?php echo $petition->getStatusName() ?><br />
+      <strong>Input data</strong>
       <ul>
         <li><?php echo Petition::$NAMETYPE_SHOW[$petition->getNametype()] ?></li><?php
         if ($petition->getWithAddress()) echo '<li>' . Petition::$WITH_ADDRESS_SHOW[$petition->getWithAddress()] . '</li>';
@@ -25,10 +25,10 @@
         <h4>Follow-up action</h4>
         <p><?php echo $petition->getFollowPetition()->getName() ?></p>
       <?php endif ?>
-      <table class="table table-responsive-md table-sm table-bordered">
+      <table class="table table-responsive table-sm">
         <?php if ($petition->isGeoKind()): ?>
         <tr>
-          <td class="text-right"><mark><?php echo format_number($petition->countMailsSent()) ?></mark></td>
+          <td class="text-right table-success"><?php echo format_number($petition->countMailsSent()) ?></td>
           <th>Mails sent</th>
         </tr>
         <tr>
@@ -53,7 +53,7 @@
           <th>Manual counter tweak</th>
         </tr>
         <tr>
-          <td class="text-right"><mark><?php echo format_number($petition->countSigningsPlusApi(60)) ?></mark></td>
+          <td class="text-right table-success"><?php echo format_number($petition->countSigningsPlusApi(60)) ?></td>
           <th>Signings total</th>
         </tr>
         <tr>

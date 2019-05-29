@@ -10,9 +10,8 @@ if (!isset($petition_id)) {
 }
 ?>
 <form id="form" class="ajax_form form-horizontal" action="<?php echo $action ?>" method="post">
-  <div class="control-group">
-    <label class="control-label">Status</label>
-    <div class="controls" >
+    <strong>Status: </strong>
+    <span>
       <span class="widget_text"><?php echo $target_list->getStatusName() ?></span>
       <?php if (!$target_list->isNew() && $target_list->getStatus() != MailingListTable::STATUS_ACTIVE): ?>
       <a class="btn btn-primary btn-sm ajax_link post" data-submit='<?php echo json_encode(array('csrf_token' => $csrf_token, 'id' => $target_list->getId(), 'petition_id' => $petition_id)) ?>' href="<?php echo url_for('target_activate') ?>">activate</a>
@@ -29,8 +28,7 @@ if (!isset($petition_id)) {
           actions<?php if ($target_list->countActionsDeleted()): ?> and <?php echo $target_list->countActionsDeleted() ?> deleted actions<?php endif ?>.
         </p>
       <?php endif ?>
-    </div>
-  </div>
+    </span>
 <?php echo $form ?>
   <div class="form-actions">
     <button class="btn btn-primary" type="submit">Save</button>
