@@ -11,7 +11,7 @@ use_helper('Date');
             <input type="hidden" value="<?php echo $ticket->getId() ?>" name="id" />
             <?php if (isset($campaign_id)): ?><input type="hidden" name="campaign_id" value="<?php echo $campaign_id ?>" /><?php endif ?>
             <?php if (isset($petition_id)): ?><input type="hidden" name="petition_id" value="<?php echo $petition_id ?>" /><?php endif ?>
-            <div class="align-right">
+            <div class="align-right mt-1">
                 <?php if ($is_notice): ?>
                 <a class="btn btn-primary btn-sm submit" data-submit='{"method": "decline", "view": "close" }'>Close</a>
                 <?php else: ?>

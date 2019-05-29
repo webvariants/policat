@@ -58,7 +58,7 @@ class ticketComponents extends policatComponents {
         '#WIDGET#' => $ticket->getWidgetId() ? sprintf('<a href="%s">%s</a>', $routing->generate('widget_edit', array('id' => $ticket->getWidgetId())), $ticket->getWidgetId()) : '',
         '#TARGETLIST#' => $ticket->getTargetListId() ? sprintf('<a href="%s">%s</a>', $routing->generate('target_edit', array('id' => $ticket->getTargetListId())), Util::enc($ticket->getTargetList()->getName())): '',
         '#TEXT#' => $ticket->getText() ? sprintf('<blockquote style="white-space:pre-line;margin:0">%s</blockquote>', Util::enc($ticket->getText())) : '',
-        '#DATE#' => format_date($ticket->getCreatedAt(), 'yyyy-MM-dd HH:mm'),
+        '#DATE#' => format_date($ticket->getCreatedAt(), 'yyyy&#8209;MM&#8209;dd&#160;HH:mm'),
         '#BUY-PACKAGE#' => $this->packageLink($ticket)
     );
 
@@ -85,11 +85,11 @@ class ticketComponents extends policatComponents {
     }
 
     if (!$campaign->getOrderId()) {
-      return sprintf('<a class="btn btn-primary btn-sm" href="%s">Buy package</a>', $this->getContext()->getRouting()->generate('order_new', array('id' => $campaign->getId())));
+      return sprintf('<a class="btn btn-primary btn-sm btn-txt" href="%s">Buy package</a>', $this->getContext()->getRouting()->generate('order_new', array('id' => $campaign->getId())));
     }
 
     if ($campaign->getOrderId() && $campaign->getOrder()->getUserId() == $this->getGuardUser()->getId()) {
-      return sprintf('<a class="btn btn-primary btn-sm" href="%s">Show active order</a>', $this->getContext()->getRouting()->generate('order_show', array('id' => $campaign->getOrderId())));
+      return sprintf('<a class="btn btn-primary btn-sm btn-txt" href="%s">Show active order</a>', $this->getContext()->getRouting()->generate('order_show', array('id' => $campaign->getOrderId())));
     }
 
     return '';
