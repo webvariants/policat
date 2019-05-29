@@ -129,27 +129,19 @@ class PetitionSigningTable extends Doctrine_Table {
 
     if ($petition) {
       if (is_array($petition)) {
-        $ids = array();
-        foreach ($petition as $p)
-          $ids[] = is_object($p) ? $p->getId() : $p;
-        $query->andWhereIn('ps.petition_id', $ids);
-      } else
+        throw new \Exception('only single petition supported');
+      } else {
         $query->andWhere('ps.petition_id = ?', is_object($petition) ? $petition->getId() : $petition);
+      }
     }
 
-    if ($campaign) {
-      $pquery = PetitionTable::getInstance()->queryAll(false);
+    if ($campaign && !$petition) {
+      $query->andWhere('ps.petition_enabled = 1');
       if (is_array($campaign)) {
-        $ids = array();
-        foreach ($campaign as $c) {
-          $ids[] = is_object($c) ? $c->getId() : $c;
-        }
-        $pquery->andWhereIn('p.campaign_id', $ids);
+        throw new \Exception('only single campaign supported');
       } else {
-        $pquery->andWhere('p.campaign_id = ?', is_object($campaign) ? $campaign->getId() : $campaign);
+        $query->andWhere('ps.campaign_id = ?', is_object($campaign) ? $campaign->getId() : $campaign);
       }
-
-      $query->andWhereIn('ps.petition_id', (array) $pquery->select('p.id')->execute(array(), Doctrine_Core::HYDRATE_SINGLE_SCALAR));
     }
 
     if ($widget) {
@@ -682,4 +674,17 @@ class PetitionSigningTable extends Doctrine_Table {
       ))->count();
   }
 
+  public function updatePetitionStatus(Petition $petition, $old_status = null) {
+    if ($old_status !== null && $petition->getStatus() == $old_status) {
+        return;
+    }
+
+    $query = $this->createQuery();
+    /** @$query Doctrine_Query */
+    $query->update()
+        ->set('petition_status', $petition->getStatus())
+        ->set('petition_enabled', $petition->getStatus() != Petition::STATUS_DELETED ? 1 : 0)
+        ->where('petition_id = ?', $petition->getId())
+        ->execute();
+  }
 }

@@ -12,6 +12,8 @@
  * @property string                                        $language_id                                        Type: string(5)
  * @property string                                        $fields                                             Type: clob
  * @property int                                           $status                                             Type: integer(4), default "1"
+ * @property int                                           $petition_status                                    Type: integer(4), default "1"
+ * @property int                                           $petition_enabled                                   Type: integer(1), default "1"
  * @property int                                           $verified                                           Type: integer(4)
  * @property string                                        $email                                              Type: string(80)
  * @property string                                        $country                                            Type: string(5)
@@ -72,6 +74,8 @@
  * @method string                                          getLanguageId()                                     Type: string(5)
  * @method string                                          getFields()                                         Type: clob
  * @method int                                             getStatus()                                         Type: integer(4), default "1"
+ * @method int                                             getPetitionStatus()                                 Type: integer(4), default "1"
+ * @method int                                             getPetitionEnabled()                                Type: integer(1), default "1"
  * @method int                                             getVerified()                                       Type: integer(4)
  * @method string                                          getEmail()                                          Type: string(80)
  * @method string                                          getCountry()                                        Type: string(5)
@@ -132,6 +136,8 @@
  * @method PetitionSigning                                 setLanguageId(string $val)                          Type: string(5)
  * @method PetitionSigning                                 setFields(string $val)                              Type: clob
  * @method PetitionSigning                                 setStatus(int $val)                                 Type: integer(4), default "1"
+ * @method PetitionSigning                                 setPetitionStatus(int $val)                         Type: integer(4), default "1"
+ * @method PetitionSigning                                 setPetitionEnabled(int $val)                        Type: integer(1), default "1"
  * @method PetitionSigning                                 setVerified(int $val)                               Type: integer(4)
  * @method PetitionSigning                                 setEmail(string $val)                               Type: string(80)
  * @method PetitionSigning                                 setCountry(string $val)                             Type: string(5)
@@ -229,6 +235,18 @@ abstract class BasePetitionSigning extends myDoctrineRecord
              'notnull' => true,
              'default' => 1,
              'length' => 4,
+             ));
+        $this->hasColumn('petition_status', 'integer', 4, array(
+             'type' => 'integer',
+             'notnull' => true,
+             'default' => 1,
+             'length' => 4,
+             ));
+        $this->hasColumn('petition_enabled', 'integer', 1, array(
+             'type' => 'integer',
+             'notnull' => true,
+             'default' => 1,
+             'length' => 1,
              ));
         $this->hasColumn('verified', 'integer', 4, array(
              'type' => 'integer',
@@ -496,12 +514,6 @@ abstract class BasePetitionSigning extends myDoctrineRecord
               0 => 'country',
              ),
              ));
-        $this->index('signing_email_hash', array(
-             'fields' => 
-             array(
-              0 => 'email_hash',
-             ),
-             ));
         $this->index('signing_pending_index2', array(
              'fields' => 
              array(
@@ -532,33 +544,6 @@ abstract class BasePetitionSigning extends myDoctrineRecord
               0 => 'petition_id',
               1 => 'status',
               2 => 'updated_at',
-             ),
-             ));
-        $this->index('signing_list_name1', array(
-             'fields' => 
-             array(
-              0 => 'petition_id',
-              1 => 'status',
-              2 => 'fullname',
-              3 => 'id',
-             ),
-             ));
-        $this->index('signing_list_name2', array(
-             'fields' => 
-             array(
-              0 => 'petition_id',
-              1 => 'status',
-              2 => 'lastname',
-              3 => 'id',
-             ),
-             ));
-        $this->index('signing_list_city', array(
-             'fields' => 
-             array(
-              0 => 'petition_id',
-              1 => 'status',
-              2 => 'city',
-              3 => 'id',
              ),
              ));
         $this->index('signing_list_country', array(
@@ -613,6 +598,34 @@ abstract class BasePetitionSigning extends myDoctrineRecord
               0 => 'widget_id',
               1 => 'status',
               2 => 'language_id',
+             ),
+             ));
+        $this->index('signing_language3', array(
+             'fields' => 
+             array(
+              0 => 'campaign_id',
+              1 => 'petition_enabled',
+              2 => 'status',
+              3 => 'language_id',
+              4 => 'id',
+             ),
+             ));
+        $this->index('signing_list_campaign', array(
+             'fields' => 
+             array(
+              0 => 'campaign_id',
+              1 => 'petition_enabled',
+              2 => 'status',
+              3 => 'id',
+             ),
+             ));
+        $this->index('signing_campaign_country', array(
+             'fields' => 
+             array(
+              0 => 'campaign_id',
+              1 => 'petition_enabled',
+              2 => 'status',
+              3 => 'country',
              ),
              ));
         $this->option('options', NULL);

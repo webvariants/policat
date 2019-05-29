@@ -118,12 +118,14 @@ class widgetActions extends policatActions
     $this->width = $this->widget->getStyling('width');
     $this->font_css_file = UtilFont::cssFileByFont($this->widget->getFontFamily());
 
-    $sign             = new PetitionSigning();
-    $sign['Petition'] = $this->widget['Petition'];
-    $sign['Widget']   = $this->widget;
-    $sign['PetitionText'] = $this->petition_text;
-    $sign['campaign_id'] = $this->widget['campaign_id'];
-    $sign['language_id'] = $this->lang;
+    $sign                    = new PetitionSigning();
+    $sign['Petition']        = $this->widget['Petition'];
+    $sign['petition_status'] = $this->widget['Petition']['status'];
+    $sign['petition_enabled'] = $this->widget['Petition']['status'] != 7 ? 1 : 0;
+    $sign['Widget']          = $this->widget;
+    $sign['PetitionText']    = $this->petition_text;
+    $sign['campaign_id']     = $this->widget['campaign_id'];
+    $sign['language_id']     = $this->lang;
 
     if ($request->isMethod('post') && $request->hasParameter('widget') )
     {

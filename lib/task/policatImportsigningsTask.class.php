@@ -89,6 +89,8 @@ EOF;
             $line = array_combine($first_line, $data);
             $signing = new PetitionSigning();
             $signing->setPetitionId($petition_id);
+            $signing->setPetitionStatus($petition['status']);
+            $signing->setPetitionEnabled($petition['status'] != 7 ? 1 : 0);
             $signing->setStatus(PetitionSigning::STATUS_COUNTED);
             $signing->setCampaignId($campaign['id']);
             foreach ($formfields as $formfield)

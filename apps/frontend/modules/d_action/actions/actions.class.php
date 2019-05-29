@@ -269,6 +269,7 @@ class d_actionActions extends policatActions {
     }
 
     $form = new EditPetitionForm($petition, array(EditPetitionForm::USER => $this->getGuardUser()));
+    $old_status = $petition->getStatus();
 
     if ($request->isMethod('post')) {
       $form->bind($request->getPostParameter($form->getName()), $request->getFiles($form->getName()));
@@ -278,6 +279,7 @@ class d_actionActions extends policatActions {
         $con->beginTransaction();
         try {
           $form->save();
+          PetitionSigningTable::getInstance()->updatePetitionStatus($petition, $old_status);
 
           $con->commit();
         } catch (Exception $e) {
@@ -303,6 +305,7 @@ class d_actionActions extends policatActions {
             if (!$form->getErrorSchema()->offsetExists(EditPetitionForm::getCSRFFieldName())) {
               $petition->setStatus(Petition::STATUS_DELETED);
               $petition->save();
+              PetitionSigningTable::getInstance()->updatePetitionStatus($petition, $old_status);
 
               return $this->ajax()->redirectRotue('petition_overview', array('id' => $petition->getId()))->render();
             }

@@ -497,6 +497,8 @@ PetitionSigning:
     language_id:     { type: string(5),  notnull: false, default: null }
     fields:          { type: clob }
     status:          { type: integer(4), notnull: true, default: 1}
+    petition_status: { type: integer(4), notnull: true, default: 1 }
+    petition_enabled: { type: integer(1), notnull: true, default: 1 }
     verified:        { type: integer(4), notnull: true, default: 0}
     email:           { type: string(80) }
     country:         { type: string(5) }
@@ -557,20 +559,19 @@ PetitionSigning:
     signing_wave_cron_index:      { fields: [wave_cron] }
     signing_subsrcibe:            { fields: [subscribe]}
     signing_country:              { fields: [country] }
-    signing_email_hash:           { fields: [email_hash] }
     signing_pending_index2:       { fields: [status, created_at, id] }
     signing_pending_index3:        { fields: [status, mailed_at, updated_at, id] }
     signing_email_duplicate:       { fields: [petition_id, email] }
     signing_last_signers:         { fields: [petition_id, status, updated_at] }
-    signing_list_name1:           { fields: [petition_id, status, fullname, id] }
-    signing_list_name2:           { fields: [petition_id, status, lastname, id] }
-    signing_list_city:            { fields: [petition_id, status, city, id] }
     signing_list_country:         { fields: [petition_id, status, country, city, id] }
     signing_bounce:               { fields: [petition_id, bounce, verified, bounce_at] }
     signing_inc_dl_sub:           { fields: [petition_id, download_subscriber_id, status, subscribe, id] }
     signing_inc_dl_data:           { fields: [petition_id, download_data_id, status, id] }
     signing_language1:            { fields: [petition_id, status, language_id] }
     signing_language2:            { fields: [widget_id, status, language_id] }
+    signing_language3:            { fields: [campaign_id, petition_enabled, status, language_id, id] }
+    signing_list_campaign:        { fields: [campaign_id, petition_enabled, status, id] }
+    signing_campaign_country:     { fields: [campaign_id, petition_enabled, status, country] }
 
 PetitionSigningSearch:
   options:
