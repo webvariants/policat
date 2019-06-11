@@ -149,3 +149,17 @@ services:
       options:
         max-file: '3'
         max-size: 512k
+
+  mail:
+    image: djfarrelly/maildev
+    labels:
+      - traefik.enable=true
+      - traefik.port=80
+      - traefik.frontend.rule=Host:mail.${HOST:-policat.local}
+      - traefik.docker.network=${NETWORK:-proxy}
+    restart: unless-stopped
+    mem_limit: 50M
+    memswap_limit: 100M
+    networks:
+      - proxy
+      - default
