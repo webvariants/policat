@@ -13,6 +13,8 @@ COPY web/fonts/ /app/web/fonts/
 COPY web/images_static/ /app/web/images_static/
 COPY web/js/ /app/web/js/
 
+RUN npm run install
+
 RUN npm run grunt
 
 FROM webvariants/php:7.2-fpm-alpine
