@@ -206,6 +206,8 @@ var tryEdits = function (prefix) {
 	});
 
 	$(prefix + '.add_tooltip').tooltip();
+
+	$('.markItUpButton').unbind('focusin.markItUp');
 };
 
 var load_href = window.location.href;
