@@ -55,7 +55,7 @@ class NewPetitionForm extends PetitionFieldsForm {
     $this->setWidget('name', new sfWidgetFormInput(array(
         'label' => 'Action name'
       ), array(
-        'class' => 'add_popover',
+        'class' => 'add_popover form-control',
         'size' => 90,
         'data-content' => 'Give your action a short and memorisable name. It won\'t be shown to your supporters. It\'s only for your and your colleague\'s overview.',
         'rel' => 'popover'

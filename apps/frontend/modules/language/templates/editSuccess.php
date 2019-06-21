@@ -26,7 +26,7 @@
             <input type="hidden" name="csrf_token" value="<?php echo $csrf_token ?>" />
             <input type="file" name="file" />
             <br />
-            <button class="mt-2 btn btn-scondary" type="submit">Upload</button>
+            <button class="mt-2 btn btn-secondary" type="submit">Upload</button>
           </form>
           </div>
         </div>

@@ -7,6 +7,8 @@
 <div class="page-header">
   <h1>Start a new e-action</h1>
 </div>
+<div class="row">
+  <div class="col-md-9">
     <form class="ajax_form form-horizontal" action="<?php echo url_for('petition_new_') ?>" method="post">
       <?php echo $form->renderHiddenFields() ?>
       <?php echo $form->renderRows('name', 'campaign_id', '*new_campaign', 'kind') ?>
@@ -23,3 +25,5 @@
         <a class="btn btn-secondary" href="<?php echo url_for('homepage') ?>">Cancel</a>
       </div>
     </form>
+  </div>
+</div>
