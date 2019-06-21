@@ -15,6 +15,7 @@ services:
 
   policatphp:
     image: webvariants/php:7.2-fpm-alpine
+    hostname: policatphp
     depends_on:
         - memcached
     volumes:
@@ -157,7 +158,6 @@ services:
       - traefik.port=80
       - traefik.frontend.rule=Host:mail.${HOST:-policat.local}
       - traefik.docker.network=${NETWORK:-proxy}
-    restart: unless-stopped
     mem_limit: 50M
     memswap_limit: 100M
     networks:
