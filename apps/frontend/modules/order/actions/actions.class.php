@@ -282,11 +282,7 @@ class orderActions extends policatActions {
   }
 
   private function pdfOffer(Offer $offer, $download = false) {
-    define('DOMPDF_ENABLE_AUTOLOAD', false);
-    define('DOMPDF_ENABLE_CSS_FLOAT', true);
-    require_once __DIR__ . '/../../../../../lib/vendor/dompdf/dompdf/dompdf_config.inc.php';
-
-    $dompdf = new DOMPDF();
+    $dompdf = new \Dompdf\Dompdf();
     $dompdf->load_html($this->getPartial('offer_pdf', array('offer' => $offer)), 'UTF-8');
     $dompdf->render();
     $pdf = $dompdf->output();

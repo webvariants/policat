@@ -52,15 +52,12 @@ class billActions extends policatActions {
   }
 
   private function pdf(Bill $bill, $download = false, $return_pdf = false) {
-    define('DOMPDF_ENABLE_AUTOLOAD', false);
-    define('DOMPDF_ENABLE_CSS_FLOAT', true);
-    require_once __DIR__ . '/../../../../../lib/vendor/dompdf/dompdf/dompdf_config.inc.php';
-
-    $dompdf = new DOMPDF();
-    $dompdf->load_html($this->getPartial('bill', array('bill' => $bill)), 'UTF-8');
+    $dompdf = new \Dompdf\Dompdf();
+    $h = $this->getPartial('bill', array('bill' => $bill));
+    $dompdf->load_html($h, 'UTF-8');
     $dompdf->render();
     $pdf = $dompdf->output();
-    
+
     if ($return_pdf) {
       return $pdf;
     }
@@ -159,11 +156,11 @@ class billActions extends policatActions {
     $subject = strtr(StoreTable::value(StoreTable::BILLING_BILL_MAIL_SUBJECT), $bill->getSubst1());
     $body = strtr(UtilMarkdown::transform(strtr(StoreTable::value(StoreTable::BILLING_BILL_MAIL_BODY), $bill->getSubst1())), $bill->getSubst2());
     $user = $bill->getUser();
-    
+
     $attachments = array(new Swift_Attachment($this->pdf($bill, false, true), 'invoice_' . $bill->getId() . '.pdf', 'application/pdf'));
-    
+
     UtilMail::send('Bill', 'User-' . $user->getId(), null, $user->getSwiftEmail(), $subject, $body, 'text/html', null, null, null, $attachments);
-    
+
     return $this->ajax()->alert('Mail sent', '')->render();
   }
 
