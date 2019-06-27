@@ -35,7 +35,7 @@
 <trans-unit id="30"><source>Country</source><target>Pays</target></trans-unit>
 <trans-unit id="31"><source>Address</source><target>Adresse</target></trans-unit>
 <trans-unit id="32"><source>Email address</source><target>Adresse e-mail</target></trans-unit>
-<trans-unit id="33"><source>Comment</source><target>Commentaire</target></trans-unit>
+<trans-unit id="33"><source>Personal comment</source><target>Commentaire personnel</target></trans-unit>
 <trans-unit id="34"><source>Privacy policy</source><target>J'accepte la politique de confidentialité</target></trans-unit>
 <trans-unit id="35"><source>Keep me posted on this and similar campaigns.</source><target>Informez-moi de la suite de cette campagne ou de l'actualité liée.</target></trans-unit>
 <trans-unit id="36"><source>Reminder:</source><target>Rappel:</target></trans-unit>

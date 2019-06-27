@@ -24,7 +24,7 @@
 <trans-unit id="19"><source>Support the appeal</source><target>Appell unterzeichnen</target></trans-unit>
 <trans-unit id="20"><source>Join the community</source><target>Beitreten</target></trans-unit>
 <trans-unit id="21"><source>Name</source><target>Name</target></trans-unit>
-<trans-unit id="22"><source>Full name</source><target>Vor- und Zuname</target></trans-unit>
+<trans-unit id="22"><source>Full name</source><target>Vor- und Nachname</target></trans-unit>
 <trans-unit id="23"><source>First name</source><target>Vorname</target></trans-unit>
 <trans-unit id="24"><source>Last name</source><target>Nachname</target></trans-unit>
 <trans-unit id="25"><source>Mr</source><target>Herr</target></trans-unit>
@@ -35,11 +35,12 @@
 <trans-unit id="30"><source>Country</source><target>Land</target></trans-unit>
 <trans-unit id="31"><source>Address</source><target>Adresse</target></trans-unit>
 <trans-unit id="32"><source>Email address</source><target>E-Mail</target></trans-unit>
-<trans-unit id="33"><source>Comment</source><target>Kommentar</target></trans-unit>
+<trans-unit id="33"><source>Personal comment</source><target>Persönlicher Kommentar</target></trans-unit>
 <trans-unit id="34"><source>Privacy policy</source><target>Ich akzeptiere die Datenschutzbestimmungen</target></trans-unit>
 <trans-unit id="35"><source>Keep me posted on this and similar campaigns.</source><target>Informieren Sie mich über den Fortgang dieser und ähnlicher Aktionen.</target></trans-unit>
 <trans-unit id="36"><source>Reminder:</source><target>Erinnerung:</target></trans-unit>
 <trans-unit id="37"><source>By signing, I agree with the _privacy policy_.</source><target>Ich habe die _Datenschutzerklärung_ gelesen.</target></trans-unit>
+<trans-unit id="38"><source>Personal comment</source><target>Persönlicher Kommentar</target></trans-unit>
 <trans-unit id="41"><source>Thank you</source><target>Vielen Dank</target></trans-unit>
 <trans-unit id="42"><source>Attention: You will receive a confirmation email. Check your email inbox (and junk folder) now! To confirm your action, click the link given in the email.</source><target>Achtung: Sie erhalten jetzt eine Bestätigungs-E-Mail. Prüfen Sie  Ihren Posteingang (und ggf. Spam-Ordner)! Um die Aktion zu bestätigen, klicken Sie auf den Bestätigungs-Link in der E-Mail.</target></trans-unit>
 <trans-unit id="43"><source>Attention: You've already taken part in this action (maybe on another website).</source><target>Achtung: Sie haben an dieser Aktion bereits teilgenommen (vielleicht auf einer anderen Website).</target></trans-unit>
@@ -56,7 +57,7 @@
 <trans-unit id="54"><source>All signers</source><target>Alle Unterzeichner</target></trans-unit>
 <trans-unit id="61"><source>Back</source><target>Zurück</target></trans-unit>
 <trans-unit id="62"><source>Background</source><target>Hintergrund</target></trans-unit>
-<trans-unit id="63"><source>Read more</source><target>Erfahren Sie mehr</target></trans-unit>
+<trans-unit id="63"><source>Read more</source><target>Mehr Infos</target></trans-unit>
 <trans-unit id="64"><source>More actions</source><target>Starten Sie Ihre Petition!</target></trans-unit>
 <trans-unit id="65"><source>PP Heading</source><target>Datenschutzerklärung</target></trans-unit>
 <trans-unit id="66"><source># Participants</source><target># Teilnehmer*innen</target></trans-unit>

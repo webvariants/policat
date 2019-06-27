@@ -1,56 +1,73 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE xliff PUBLIC "-//XLIFF//DTD XLIFF//EN" "http://www.oasis-open.org/committees/xliff/documents/xliff.dtd">
 <xliff version="1.0">
-<file source-language="EN" target-language="el" datatype="plaintext" original="messages" date="2010-04-08T13:53:17Z" product-name="messages">
+<file source-language="EN" target-language="el" datatype="plaintext" original="messages" date="2019-01-30T13:53:17Z" product-name="messages">
 <header/>
 <body>
-<trans-unit id="1"><source>Petition</source><target>Αίτηση</target></trans-unit>
-<trans-unit id="2"><source>Email action</source><target>δράση email </target></trans-unit>
+<trans-unit id="1"><source>Petition</source><target>"Αίτημα
+"</target></trans-unit>
+<trans-unit id="2"><source>Email action</source><target>Δράση με email</target></trans-unit>
 <trans-unit id="3"><source>Initiative</source><target>Πρωτοβουλία</target></trans-unit>
-<trans-unit id="4"><source>Network-News</source><target>Νέα του δικτύου </target></trans-unit>
-<trans-unit id="11"><source>Sign the Petition</source><target>Υπογραφή της αίτησης</target></trans-unit>
-<trans-unit id="12"><source>Send an Email</source><target>Στείλτε ένα e-mail </target></trans-unit>
-<trans-unit id="13"><source>Support</source><target>Υποστήριξη</target></trans-unit>
-<trans-unit id="14"><source>Take action</source><target>Δράση</target></trans-unit>
-<trans-unit id="15"><source>Sign</source><target>Υπογραφή</target></trans-unit>
-<trans-unit id="16"><source>Send</source><target>Αποστολή</target></trans-unit>
+<trans-unit id="4"><source>Appeal</source><target>Έκκληση</target></trans-unit>
+<trans-unit id="5"><source>Community</source><target>Κοινότητα</target></trans-unit>
+<trans-unit id="6"><source>Newsletter</source><target>Newsletter</target></trans-unit>
+<trans-unit id="7"><source>Join</source><target>Συμμετοχή</target></trans-unit>
+<trans-unit id="8"><source>Sign up</source><target>Εγγραφή</target></trans-unit>
+<trans-unit id="9"><source>Sign up to the newsletter</source><target>"Εγγραφή στο ενημερωτικό δελτίο
+"</target></trans-unit>
+<trans-unit id="11"><source>Sign the Petition</source><target>Υπέγραψε το αίτημα</target></trans-unit>
+<trans-unit id="12"><source>Send an Email</source><target>Στείλε e-mail</target></trans-unit>
+<trans-unit id="13"><source>Support</source><target>"Υποστήριξε
+"</target></trans-unit>
+<trans-unit id="14"><source>Take action</source><target>Δράσε!</target></trans-unit>
+<trans-unit id="15"><source>Sign</source><target>Υπέγραψε</target></trans-unit>
+<trans-unit id="16"><source>Send</source><target>"Αποστολή
+"</target></trans-unit>
 <trans-unit id="17"><source>Subscribe</source><target>Εγγραφή</target></trans-unit>
-<trans-unit id="18"><source>Support the initiative</source><target>Υπογραφή της πρωτοβουλία</target></trans-unit>
+<trans-unit id="18"><source>Support the initiative</source><target>Υποστήριξε την πρωτοβουλία</target></trans-unit>
+<trans-unit id="19"><source>Support the appeal</source><target>Υποστήριξε το αίτημα</target></trans-unit>
+<trans-unit id="20"><source>Join the community</source><target>Γίνε μέλος της κοινότητας</target></trans-unit>
 <trans-unit id="21"><source>Name</source><target>Όνομα</target></trans-unit>
-<trans-unit id="22"><source>Full name</source><target>Πλήρες όνομα</target></trans-unit>
+<trans-unit id="22"><source>Full name</source><target>"Ονοματεπώνυμο
+"</target></trans-unit>
 <trans-unit id="23"><source>First name</source><target>Όνομα</target></trans-unit>
-<trans-unit id="24"><source>Last name</source><target>Επώνυμο</target></trans-unit>
+<trans-unit id="24"><source>Last name</source><target>Επίθετο</target></trans-unit>
 <trans-unit id="25"><source>Mr</source><target>Κος</target></trans-unit>
 <trans-unit id="26"><source>Mrs</source><target>Κα</target></trans-unit>
-<trans-unit id="27"><source>Mrs/Mr</source><target>Κος/Κα</target></trans-unit>
+<trans-unit id="27"><source>Mrs/Mr</source><target>Κα/Κος</target></trans-unit>
 <trans-unit id="28"><source>City</source><target>Πόλη</target></trans-unit>
-<trans-unit id="29"><source>Post code</source><target>Ταχυδρομικός κώδικας</target></trans-unit>
+<trans-unit id="29"><source>Post code</source><target>Ταχ. Κώδ.</target></trans-unit>
 <trans-unit id="30"><source>Country</source><target>Χώρα</target></trans-unit>
-<trans-unit id="31"><source>Address</source><target>Ταχυδρομική διεύθυνση</target></trans-unit>
-<trans-unit id="32"><source>Email address</source><target>Διεύθυνση ηλεκτρονικού ταχυδρομείου</target></trans-unit>
-<trans-unit id="33"><source>Comment</source><target>Σχόλιο</target></trans-unit>
-<trans-unit id="34"><source>Privacy policy</source><target>Αποδέχομαι την πολιτική απορρήτου</target></trans-unit>
-<trans-unit id="35"><source>Keep me posted on this and similar campaigns.</source><target>Επιθυμώ να λαμβάνω ενημερώσεις σχετικά με την παρούσα και άλλες δράσεις.</target></trans-unit>
-<trans-unit id="36"><source>Reminder:</source><target>Reminder:</target></trans-unit>
-<trans-unit id="41"><source>Thank you</source><target>Ευχαριστούμε</target></trans-unit>
-<trans-unit id="42"><source>Attention: You will receive a confirmation email. Check your email inbox (and junk folder) now! To confirm your action, click the link given in the email.</source><target>Προσοχή: θα λάβετε ένα email επιβεβαίωσης. Ελέγξτε τα εισερχόμενά σας (και τον φάκελο ανεπιθύμητης αλληλογραφίας) τώρα! Για να επιβεβαιώσετε την ενέργειά σας κάντε κλικ στον σύνδεσμο που περιέχεται σε αυτό το μήνυμα.</target></trans-unit>
-<trans-unit id="43"><source>Attention: You've already taken part in this action (maybe on another website).</source><target>Προσοχή: έχετε ήδη λάβει μέρος σε αυτή τη δράση (ίσως σε άλλη ιστοσελίδα)</target></trans-unit>
-<trans-unit id="44"><source>Your email is being validated, please wait!</source><target>Πραγματοποιείται εξακρίβωση της διεύθυνσης ηλεκτρονικού ταχυδρομείου σας, παρακαλώ περιμένετε!</target></trans-unit>
-<trans-unit id="45"><source>You verified your email address. Your action is confirmed. Use this moment to tell friends and family.</source><target>Επιβεβαιώσατε τη διεύθυνση ηλεκτρονικού ταχυδρομείου σας. Η ενέργειά σας έχει επιβεβαιωθεί. Επωφεληθείτε αυτής της στιγμής για να ενημερώσετε τους φίλους και την οικογένειά σας.</target></trans-unit>
-<trans-unit id="46"><source>Share</source><target> Κοινοποίηση</target></trans-unit>
-<trans-unit id="47"><source>Tell your friends</source><target>Ενημερώστε σχετικά τους φίλους σας</target></trans-unit>
+<trans-unit id="31"><source>Address</source><target>Διεύθυνση</target></trans-unit>
+<trans-unit id="32"><source>Email address</source><target>Διεύθ. ηλεκτ. ταχ.</target></trans-unit>
+<trans-unit id="33"><source>Personal comment</source><target>Σχόλια</target></trans-unit>
+<trans-unit id="34"><source>Privacy policy</source><target>"Πολιτική Απορρήτου
+"</target></trans-unit>
+<trans-unit id="35"><source>Keep me posted on this and similar campaigns.</source><target>Κρατήστε με ενήμερο/η για κάθε μελοντική παρόμια εκστρατεία</target></trans-unit>
+<trans-unit id="36"><source>Reminder:</source><target>Υπενθύμιση:</target></trans-unit>
+<trans-unit id="37"><source>By signing, I agree with the _privacy policy_.</source><target>Υπογράφοντας, συμφωνώ με την _πολιτική απορρήτου_</target></trans-unit>
+<trans-unit id="41"><source>Thank you</source><target>Ευχαριστούμε!</target></trans-unit>
+<trans-unit id="42"><source>Attention: You will receive a confirmation email. Check your email inbox (and junk folder) now! To confirm your action, click the link given in the email.</source><target>Προσοχή: Θα λάβετε e-mail επιβεβαίωσης. Ελέγξτε τα εισερχόμενα σας (καθώς και τον φάκελο ανεπιθύμητης αλληλογραφίας) άμεσα! Επιβεβαίωστε την δράση σας, επιλέγοντας τον σύνδεσμο σε αυτό το e-mail.</target></trans-unit>
+<trans-unit id="43"><source>Attention: You've already taken part in this action (maybe on another website).</source><target>"Προσοχή: Ενδέχεται να έχετε λάβει ήδη μέρος στην δράση αυτή (σε κάποια άλλη ιστοσελίδα)
+"</target></trans-unit>
+<trans-unit id="44"><source>Your email is being validated, please wait!</source><target>Το e-mail σας επιβεβαιώνεται, παρακαλώ περιμένετε!</target></trans-unit>
+<trans-unit id="45"><source>You verified your email address. Your action is confirmed. Use this moment to tell friends and family.</source><target>To e-mail σας επαληθεύτηκε. Η δράση σας επιβεβαιώθηκε. Δώστε ένα λεπτό για να ενημερώσετε τους φίλους και την οικογένεια σας!</target></trans-unit>
+<trans-unit id="46"><source>Share</source><target>Διαδώστε!</target></trans-unit>
+<trans-unit id="47"><source>Tell your friends</source><target>Πείτε το και στους φίλους σας!</target></trans-unit>
 <trans-unit id="48"><source>Separate email addresses with a comma.</source><target>Διαχωρίστε τις διευθύνσεις ηλεκτρονικού ταχυδρομείου με κόμμα. </target></trans-unit>
 <trans-unit id="49"><source>We have sent an email with information about this campaign to the address(es) specified.</source><target>Έχουμε στείλει ένα email με πληροφορίες σχετικά με την εκστρατεία στη διεύθυνση(εις) που αναφέρεται(νται).</target></trans-unit>
-<trans-unit id="50"><source>Donate</source><target>Δωρεές </target></trans-unit>
+<trans-unit id="50"><source>Donate</source><target>Δωρεά</target></trans-unit>
 <trans-unit id="51"><source>Help us fund this campaign. Give whatever you can now using the safe and secure paypal form below.</source><target>Βοηθήστε μας να χρηματοδοτήσουμε αυτή την εκστρατεία. Δώστε ότι μπορείτε τώρα χρησιμοποιώντας την παρακάτω ασφαλή φόρμα paypal.</target></trans-unit>
 <trans-unit id="52"><source>Amount</source><target>ποσό που </target></trans-unit>
+<trans-unit id="53"><source>Last signers</source><target>Τελευταίοι υπογράφοντες</target></trans-unit>
+<trans-unit id="54"><source>All signers</source><target>Όλοι οι υπογράφοντες</target></trans-unit>
 <trans-unit id="61"><source>Back</source><target>Πίσω</target></trans-unit>
 <trans-unit id="62"><source>Background</source><target>Ιστορικό </target></trans-unit>
 <trans-unit id="63"><source>Read more</source><target>Διαβάστε περισσότερα</target></trans-unit>
 <trans-unit id="64"><source>More actions</source><target>Ξεκινήστε την αίτηση!</target></trans-unit>
 <trans-unit id="65"><source>PP Heading</source><target>Πολιτική απορρήτου</target></trans-unit>
-<trans-unit id="66"><source>people so far</source><target>άνθρωποι έως τώρα</target></trans-unit>
-<trans-unit id="67"><source>emails sent</source><target>e-pošta poslana</target></trans-unit>
+<trans-unit id="66"><source># Participants</source><target># άνθρωποι έως τώρα</target></trans-unit>
+<trans-unit id="67"><source># emails sent</source><target># e-pošta poslana</target></trans-unit>
 <trans-unit id="68"><source>The action starts on #DATE#. Stay tuned and spread the word!</source><target> Η δράση ξεκινά την #DATE#. Μείνετε συντονισμένοι και κοινοποιήστε!</target></trans-unit>
 <trans-unit id="69"><source>This action is over. Thanks to the #COUNTER# people who signed-up!</source><target>Η δράση ολοκληρώθηκε. Ευχαριστούμε τους #COUNTER# ανθρώπους που υπέγραψαν!</target></trans-unit>
 <trans-unit id="70"><source>select</source><target>Επιλογή</target></trans-unit>
@@ -84,6 +101,7 @@
 <trans-unit id="129"><source>Subject</source><target>Θέμα </target></trans-unit>
 <trans-unit id="130"><source>Email body</source><target>σώμα email </target></trans-unit>
 <trans-unit id="131"><source>Choose 'Embed' to have this box ("widget") embedded into your webpage, including texts and action-form. Visitors can instantly read all and take action. However, you need at least 440px width to embed the widget. Choose 'Popup' if you lack sufficient space on your webpage. You will get a small box ("teaser") with flexible width (at least 150px). If visitors click on the teaser, the big action-widget pops up.</source><target>Επιλέξτε "Embed" για ενσωμάτωση αυτό του πλαισίου ("widget") στην ιστοσελίδα σας, συμπεριλαμβανομένων των κειμένων και της μορφής δράσης. Οι επισκέπτες μπορούν να διαβάσουν τα πάντα αμέσως και να αναλάβουν δράση. Για την ενσωμάτωση, ωστόσο του widget χρειάζεστε πλάτος  440px. Σε περίπτωση όπου δεν έχετε αρκετό χώρο στην ιστοσελίδα σας επιλέξτε "Popup". Θα αποκτήσετε ένα μικρό πλαίσιο ("teaser"), του οποίου το πλάτος μπορεί να προσαρμοστεί (τουλάχιστον 150px). Εάν οι επισκέπτες κάνουν κλικ στο teaser θα εμφανιστεί το μεγάλο αναδυόμενο action-widget.</target></trans-unit>
+<trans-unit id="166"><source>Target #</source><target>Στόχος #</target></trans-unit>
 <trans-unit id="201"><source>Hello</source><target>Γεια σας</target></trans-unit>
 <trans-unit id="202"><source>Dear Madam %F %L,</source><target>Αγαπητέ %F %L,</target></trans-unit>
 <trans-unit id="203"><source>Dear Sir %F %L,</source><target>Αγαπητέ %F %L,</target></trans-unit>
@@ -106,7 +124,6 @@
 <trans-unit id="316"><source>Password again</source><target>Password ξανά </target></trans-unit>
 <trans-unit id="317"><source>Enter</source><target>Εισαγωγή </target></trans-unit>
 <trans-unit id="318"><source>I pledged on #DATE#</source><target>Θα υποσχεθεί στις #DATE#</target></trans-unit>
-
 </body>
 </file>
 </xliff>
