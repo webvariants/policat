@@ -1,5 +1,6 @@
 stages:
   - build
+  - tag
 
 before_script:
   - |
@@ -18,3 +19,28 @@ build:
     - develop
     - staging
     - /^[a-z]+-[0-9]+$/
+
+tag-staging:
+  stage: tag
+  tags:
+    - docker-builder
+  script: |
+    docker login -u gitlab-ci-token -p $CI_JOB_TOKEN $CI_REGISTRY
+    docker pull $CI_REGISTRY_IMAGE:$ENV_NAME
+    docker push $CI_REGISTRY_IMAGE:staging
+  when: manual
+  only:
+    - develop
+
+tag-live:
+  stage: tag
+  tags:
+    - docker-builder
+  script: |
+    docker login -u gitlab-ci-token -p $CI_JOB_TOKEN $CI_REGISTRY
+    docker pull $CI_REGISTRY_IMAGE:$ENV_NAME
+    docker push $CI_REGISTRY_IMAGE:live
+  when: manual
+  only:
+    - develop
+    - master
