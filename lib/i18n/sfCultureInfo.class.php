@@ -24,6 +24,11 @@ class sfCultureInfo
 //              )
 //          )
       ),
+      'mg'  => array(
+        'root' => 'fr',
+        'intl_countries' => true
+
+      ),
       'extra_sq' => array(
           'sq' => array(
               'Countries' => array(
@@ -33,7 +38,7 @@ class sfCultureInfo
           )
       )
   );
-  
+
   /**
    * ICU data filename extension.
    * @var string
@@ -75,11 +80,11 @@ class sfCultureInfo
    * @var sfNumberFormatInfo
    */
   protected $numberFormat;
-  
+
   /**
    * A list of properties that are accessable/writable.
    * @var array
-   */ 
+   */
   protected $properties = array();
 
   /**
@@ -174,9 +179,9 @@ class sfCultureInfo
   }
 
   /**
-   * Initializes a new instance of the sfCultureInfo class based on the 
+   * Initializes a new instance of the sfCultureInfo class based on the
    * culture specified by name. E.g. <code>new sfCultureInfo('en_AU');</code>
-   * The culture indentifier must be of the form 
+   * The culture indentifier must be of the form
    * "<language>_(country/region/variant)".
    *
    * @param string $culture a culture name, e.g. "en_AU".
@@ -265,12 +270,14 @@ class sfCultureInfo
   protected function loadCultureData($culture)
   {
     $extra = false;
+    $intl_countries = false;
     if (array_key_exists($culture, self::$extraCountry)) {
       $extra = $culture;
       $culture = self::$extraCountry[$extra]['root'];
-      $extra_data = self::$extraCountry[$extra]['data'];
+      $intl_countries = array_key_exists('intl_countries', self::$extraCountry[$extra]) ? self::$extraCountry[$extra]['intl_countries'] : false;
+      // $extra_data = self::$extraCountry[$extra]['data'];
     }
-    
+
     $file_parts = explode('_', $culture);
     $current_part = $file_parts[0];
 
@@ -313,8 +320,18 @@ class sfCultureInfo
             }
           }
         }
-        
+
         if ($extra && $culture === $file) {
+          if ($intl_countries && function_exists('locale_get_display_region')) {
+            foreach ($data[Countries] as $iso => &$country) {
+              if (!is_numeric($iso)) {
+                $name = locale_get_display_region('-' . $iso, $extra);
+                if ($name !== $iso) {
+                  $country = $name;
+                }
+              }
+            }
+          }
           $this->data[$extra] = &$data;
         } else {
           $this->data[$file] = &$data;
@@ -335,7 +352,7 @@ class sfCultureInfo
    * this function.
    *
    * @param string $filename the ICU data filename
-   * @return array ICU data 
+   * @return array ICU data
    */
   protected function &getData($filename)
   {
@@ -359,7 +376,7 @@ class sfCultureInfo
    * Use merge=true to return the ICU including the parent culture.
    * E.g. The currency data for a variant, say "en_AU" contains one
    * entry, the currency for AUD, the other currency data are stored
-   * in the "en" data file. Thus to retrieve all the data regarding 
+   * in the "en" data file. Thus to retrieve all the data regarding
    * currency for "en_AU", you need to use findInfo("Currencies,true);.
    *
    * @param string  $path   the data you want to find.
@@ -441,9 +458,9 @@ class sfCultureInfo
       }
     }
   }
-  
+
   /**
-   * Gets the culture name in the format 
+   * Gets the culture name in the format
    * "<languagecode2>_(country/regioncode2)".
    *
    * @return string culture name.
@@ -559,7 +576,7 @@ class sfCultureInfo
   }
 
   /**
-   * Gets a value indicating whether the current sfCultureInfo 
+   * Gets a value indicating whether the current sfCultureInfo
    * represents a neutral culture. Returns true if the culture
    * only contains two characters.
    *
@@ -602,7 +619,7 @@ class sfCultureInfo
   }
 
   /**
-   * Gets the sfCultureInfo that represents the parent culture of the 
+   * Gets the sfCultureInfo that represents the parent culture of the
    * current sfCultureInfo
    *
    * @return sfCultureInfo parent culture information.
@@ -618,14 +635,14 @@ class sfCultureInfo
   }
 
   /**
-   * Gets the list of supported cultures filtered by the specified 
+   * Gets the list of supported cultures filtered by the specified
    * culture type. This is an EXPENSIVE function, it needs to traverse
    * a list of ICU files in the data directory.
    * This function can be called statically.
    *
    * @param int $type culture type, sfCultureInfo::ALL, sfCultureInfo::NEUTRAL
    * or sfCultureInfo::SPECIFIC.
-   * @return array list of culture information available. 
+   * @return array list of culture information available.
    */
   static function getCultures($type = sfCultureInfo::ALL)
   {
@@ -731,7 +748,7 @@ class sfCultureInfo
    *
    * @param  array $countries An array of countries used to restrict the returned array (null by default, which means all countries)
    *
-   * @return array a list of localized country names. 
+   * @return array a list of localized country names.
    */
   public function getCountries($countries = null)
   {
