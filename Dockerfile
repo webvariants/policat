@@ -34,7 +34,9 @@ RUN cd config && \
     ln -s ../data/config/properties.ini properties.ini && \
     ln -s ../data/config/settings.yml settings.yml && \
     cd ../web && \
-    ln -s ../data/images images
+    ln -s ../data/images images && \
+    cd ../apps/widget && \
+    ln -s ../../data/i18n i18n
 
 COPY --from=assets /app/web /app/web
 

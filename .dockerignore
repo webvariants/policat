@@ -22,6 +22,8 @@ config/databases.yml
 config/properties.ini
 config/factories.yml
 config/settings.yml
+apps/widget/i18n/
+apps/widget/i18n
 
 lib/vendor/
 
