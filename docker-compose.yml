@@ -13,9 +13,9 @@ services:
   memcached:
     image: memcached
 
-  policatphp:
+  php:
     image: webvariants/php:7.2-fpm-alpine
-    hostname: policatphp
+    hostname: php
     depends_on:
         - memcached
     volumes:
@@ -54,28 +54,28 @@ services:
       XHGUI_PROBABILITY: 100
       XHGUI_FULL_PROFILING: 1
 
-  # policatphp:
-  #   build: .
-  #   depends_on:
-  #       - memcached
-  #   volumes:
-  #     - /etc/passwd:/etc/passwd:ro
-  #     - /etc/group:/etc/group:ro
-  #     - "./data:/app/data"
-  #     - "./config:/app/data/config:ro"
-  #   user: "${USER_UID:-1000}:${USER_GID:-1000}"
-  #   tmpfs:
-  #     - /app/cache
-  #     - /app/log
-  #   networks:
-  #     - mysql
-  #     - default
-  #   cap_drop:
-  #     - ALL
-  #   cap_add:
-  #     - NET_BIND_SERVICE
+  cron:
+    image: webvariants/php:7.2-fpm-alpine
+    hostname: cron
+    depends_on:
+        - memcached
+    volumes:
+      - /etc/passwd:/etc/passwd:ro
+      - /etc/group:/etc/group:ro
+      - "./:/app"
+    working_dir: "/app"
+    networks:
+      - mysql
+      - default
+    user: "${USER_UID:-1000}:${USER_GID:-1000}"
+    cap_drop:
+      - ALL
+    environment:
+      PHP_IMAGE_VERSION: "2"
+      MINICRON_EXEC: 1
+      MINICRON_FILE: /app/crontab
 
-  main:
+  nginx:
     image: webvariants/nginx-acme-and-more
     volumes:
       - "./docker/nginx/default.conf:/etc/nginx/conf.d/default.conf"
@@ -86,7 +86,7 @@ services:
       - proxy
       - default
     depends_on:
-      - policatphp
+      - php
     labels:
       - traefik.enable=true
       - traefik.port=80
