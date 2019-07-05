@@ -65,9 +65,14 @@ class UtilOpenActions {
       ->leftJoin('p.PetitionText pt')
       ->andWhere('pt.status = ?', PetitionText::STATUS_ACTIVE)
       ->andWhere('pt.language_id = ?', 'en')
+      ->andWhere('5 <= (SELECT count(smin.id) FROM PetitionSigning smin WHERE smin.petition_id = p.id and smin.status = ' . PetitionSigning::STATUS_COUNTED . ')')
       ->select('p.*, pt.*, c.id, c.object_version')
       ->addSelect('(SELECT count(z.id) FROM PetitionSigning z WHERE DATE_SUB(NOW(),INTERVAL 1 DAY) <= z.created_at  and z.petition_id = p.id and z.status = ' . PetitionSigning::STATUS_COUNTED . ') as signings24')
       ->limit(self::MAX * 2);
+
+    if (StoreTable::value(StoreTable::BILLING_ENABLE)) {
+      $query->andWhere('(c.billing_enabled = 0 OR c.quota_id IS NOT NULL)');
+    }
 
     switch ($type) {
       case self::LARGEST:
