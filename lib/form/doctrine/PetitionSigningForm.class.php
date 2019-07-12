@@ -119,9 +119,21 @@ class PetitionSigningForm extends BasePetitionSigningForm {
           break;
         case Petition::FIELD_EXTRA1:
           $text = $this->getObject()->getWidget()->getPetitionText();
-          $widget = new sfWidgetFormInputText(array(), array('class' => 'not_required', 'placeholder' => $text->getPlaceholderExtra1()));
+          $widget = new sfWidgetFormInputText(array(), array('class' => ($petition->getWithExtra1() == Petition::WITH_EXTRA_YES_REQUIRED ? '' : 'not_required'), 'placeholder' => $text->getPlaceholderExtra1()));
           $validator = new sfValidatorString(array('required' => false));
-          $label = $text->getLabelExtra1() ? : 'Extra';
+          $label = $text->getLabelExtra1() ? : 'Extra 1';
+          break;
+        case Petition::FIELD_EXTRA2:
+          $text = $this->getObject()->getWidget()->getPetitionText();
+          $widget = new sfWidgetFormInputText(array(), array('class' => ($petition->getWithExtra2() == Petition::WITH_EXTRA_YES_REQUIRED ? '' : 'not_required'), 'placeholder' => $text->getPlaceholderExtra2()));
+          $validator = new sfValidatorString(array('required' => false));
+          $label = $text->getLabelExtra2() ? : 'Extra 2';
+          break;
+        case Petition::FIELD_EXTRA3:
+          $text = $this->getObject()->getWidget()->getPetitionText();
+          $widget = new sfWidgetFormInputText(array(), array('class' => ($petition->getWithExtra3() == Petition::WITH_EXTRA_YES_REQUIRED ? '' : 'not_required'), 'placeholder' => $text->getPlaceholderExtra3()));
+          $validator = new sfValidatorString(array('required' => false));
+          $label = $text->getLabelExtra3() ? : 'Extra 3';
           break;
         default:
           $widget = new sfWidgetFormInputText();

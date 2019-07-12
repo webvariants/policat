@@ -268,11 +268,25 @@ class TranslationForm extends BasePetitionTextForm {
       $this->getWidgetSchema()->setHelp('donate_text', 'This may contain explanatory text and will be displayed in the widget, on click of the \'Donate\' button. It necessitates two clicks to open the donation page in a new browser tab. For a single click workflow, leave this field empty.');
     }
 
-    if ($petition->getWithExtra1() == Petition::WITH_EXTRA_YES) {
-      $this->getWidgetSchema()->setLabel('label_extra1', 'Extra input field label (title text)');
+    if ($petition->getWithExtra1() != Petition::WITH_EXTRA_NO) {
+      $this->getWidgetSchema()->setLabel('label_extra1', 'Extra input field 1 label (title text)');
       unset($this['placeholder_extra1']);
     } else {
       unset($this['label_extra1'], $this['placeholder_extra1']);
+    }
+
+    if ($petition->getWithExtra2() != Petition::WITH_EXTRA_NO) {
+      $this->getWidgetSchema()->setLabel('label_extra2', 'Extra input field 2 label (title text)');
+      unset($this['placeholder_extra2']);
+    } else {
+    unset($this['label_extra2'], $this['placeholder_extra2']);
+    }
+
+    if ($petition->getWithExtra3() != Petition::WITH_EXTRA_NO) {
+      $this->getWidgetSchema()->setLabel('label_extra3', 'Extra input field 3 label (title text)');
+      unset($this['placeholder_extra3']);
+    } else {
+    unset($this['label_extra3'], $this['placeholder_extra3']);
     }
 
     $this->setWidget('subscribe_text', new sfWidgetFormInput(array('label' => 'Keep-me-posted checkbox'), array('size' => 90, 'class' => 'large', 'placeholder' => 'Leave this field empty to use standard texts.')));

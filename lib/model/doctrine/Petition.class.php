@@ -47,11 +47,14 @@ class Petition extends BasePetition {
   const FIELD_EMAIL_BODY = 'email_body';
   const FIELD_REF = 'ref';
   const FIELD_EXTRA1 = 'extra1';
+  const FIELD_EXTRA2 = 'extra2';
+  const FIELD_EXTRA3 = 'extra3';
   const EDITABLE_YES = 1;
   const EDITABLE_NO = 2;
   const VALIDATION_REQUIRED_YES = 1;
   const VALIDATION_REQUIRED_NO = 0;
   const WITH_EXTRA_YES = 1;
+  const WITH_EXTRA_YES_REQUIRED = 2;
   const WITH_EXTRA_NO = 0;
   const THANK_YOU_EMAIL_YES = 1;
   const THANK_YOU_EMAIL_NO = 0;
@@ -69,6 +72,8 @@ class Petition extends BasePetition {
       self::FIELD_POSTCODE => 'post_code',
       self::FIELD_COUNTRY => 'country',
       self::FIELD_EXTRA1 => 'extra1',
+      self::FIELD_EXTRA2 => 'extra2',
+      self::FIELD_EXTRA3 => 'extra3',
       self::FIELD_COMMENT => 'comment',
       self::FIELD_PRIVACY => 'privacy policy accepted',
       self::FIELD_SUBSCRIBE => 'subscribe'
@@ -225,6 +230,12 @@ class Petition extends BasePetition {
     }
     if ($this->getWithExtra1()) {
       $fields[] = self::FIELD_EXTRA1;
+    }
+    if ($this->getWithExtra2()) {
+      $fields[] = self::FIELD_EXTRA2;
+    }
+    if ($this->getWithExtra3()) {
+      $fields[] = self::FIELD_EXTRA3;
     }
     $formfields = array();
     foreach (array_keys(self::$FIELD_SHOW) as $field) {

@@ -39,7 +39,7 @@
                     <div class="global_error">
                         <span id="new_petition_customise"></span>
                     </div>
-                    <?php echo $form->renderRows('titletype', 'nametype', 'with_address', 'with_country', 'default_country', 'country_collection_id', 'with_comments', 'with_extra1', 'policy_checkbox', 'subscribe_default') ?>
+                    <?php echo $form->renderRows('titletype', 'nametype', 'with_address', 'with_country', 'default_country', 'country_collection_id', 'with_comments', 'with_extra1', 'with_extra2', 'with_extra3', 'policy_checkbox', 'subscribe_default') ?>
                 </fieldset>
                 <fieldset class="tab-pane show-before-chosen-init" id="sec3">
                     <legend>Emails</legend>

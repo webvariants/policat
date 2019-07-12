@@ -68,14 +68,16 @@ class PetitionFieldsForm extends BasePetitionForm {
     $this->setWidget('default_country', new sfWidgetFormI18nChoiceCountry(array('countries' => $countries, 'culture' => 'en', 'add_empty' => ''), array('data-placeholder' => 'No default country')));
     $this->setValidator('default_country', new sfValidatorI18nChoiceCountry(array('countries' => $countries, 'required' => false)));
 
-    $this->setWidget('with_extra1', new sfWidgetFormChoice(array(
-        'choices' => array(Petition::WITH_EXTRA_NO => 'no', Petition::WITH_EXTRA_YES => 'yes'),
-        'label' => 'Free text field'
-      ), array(
-        'class' => 'add_popover',
-        'data-content' => 'When selected, an extra input field will be added to the sign-up form. You will be asked to set a custom label (title text) for each language of your action.',
-    )));
-    $this->setValidator('with_extra1', new sfValidatorChoice(array('choices' => array(Petition::WITH_EXTRA_NO, Petition::WITH_EXTRA_YES), 'required' => true)));
+    for ($i = 1; $i <= 3; $i++) {
+        $this->setWidget("with_extra$i", new sfWidgetFormChoice(array(
+            'choices' => array(Petition::WITH_EXTRA_NO => 'no', Petition::WITH_EXTRA_YES => 'yes', Petition::WITH_EXTRA_YES_REQUIRED => 'yes (required field)'),
+            'label' => "Free text field $i"
+        ), array(
+            'class' => 'add_popover',
+            'data-content' => 'When selected, an extra input field will be added to the sign-up form. You will be asked to set a custom label (title text) for each language of your action.',
+        )));
+        $this->setValidator("with_extra$i", new sfValidatorChoice(array('choices' => array(Petition::WITH_EXTRA_NO, Petition::WITH_EXTRA_YES, Petition::WITH_EXTRA_YES_REQUIRED), 'required' => true)));
+    }
 
     $this->getWidgetSchema()->setLabel('country_collection_id', 'Restrict Countries');
     $this->getWidgetSchema()->setHelp('country_collection_id', 'As a standard, activists can select their home country from a list of all countries in the world. You may restrict the number of country options shown, so activists can pick their country faster.');

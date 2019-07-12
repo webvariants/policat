@@ -36,6 +36,8 @@
  * @property string                                        $post_code                                          Type: string(50)
  * @property string                                        $comment                                            Type: clob
  * @property string                                        $extra1                                             Type: string(100)
+ * @property string                                        $extra2                                             Type: string(100)
+ * @property string                                        $extra3                                             Type: string(100)
  * @property int                                           $privacy                                            Type: integer(1)
  * @property string                                        $email_subject                                      Type: string(250)
  * @property string                                        $email_body                                         Type: clob
@@ -98,6 +100,8 @@
  * @method string                                          getPostCode()                                       Type: string(50)
  * @method string                                          getComment()                                        Type: clob
  * @method string                                          getExtra1()                                         Type: string(100)
+ * @method string                                          getExtra2()                                         Type: string(100)
+ * @method string                                          getExtra3()                                         Type: string(100)
  * @method int                                             getPrivacy()                                        Type: integer(1)
  * @method string                                          getEmailSubject()                                   Type: string(250)
  * @method string                                          getEmailBody()                                      Type: clob
@@ -160,6 +164,8 @@
  * @method PetitionSigning                                 setPostCode(string $val)                            Type: string(50)
  * @method PetitionSigning                                 setComment(string $val)                             Type: clob
  * @method PetitionSigning                                 setExtra1(string $val)                              Type: string(100)
+ * @method PetitionSigning                                 setExtra2(string $val)                              Type: string(100)
+ * @method PetitionSigning                                 setExtra3(string $val)                              Type: string(100)
  * @method PetitionSigning                                 setPrivacy(int $val)                                Type: integer(1)
  * @method PetitionSigning                                 setEmailSubject(string $val)                        Type: string(250)
  * @method PetitionSigning                                 setEmailBody(string $val)                           Type: clob
@@ -353,6 +359,16 @@ abstract class BasePetitionSigning extends myDoctrineRecord
              'notnull' => false,
              ));
         $this->hasColumn('extra1', 'string', 100, array(
+             'type' => 'string',
+             'notnull' => false,
+             'length' => 100,
+             ));
+        $this->hasColumn('extra2', 'string', 100, array(
+             'type' => 'string',
+             'notnull' => false,
+             'length' => 100,
+             ));
+        $this->hasColumn('extra3', 'string', 100, array(
              'type' => 'string',
              'notnull' => false,
              'length' => 100,

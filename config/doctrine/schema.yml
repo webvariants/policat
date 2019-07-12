@@ -288,6 +288,8 @@ Petition:
     with_address:         { type: integer(1), notnull: true, default: 0 }
     with_country:         { type: integer(1), notnull: true, default: 0 }
     with_extra1:          { type: integer(1), notnull: true, default: 0 }
+    with_extra2:          { type: integer(1), notnull: true, default: 0 }
+    with_extra3:          { type: integer(1), notnull: true, default: 0 }
     default_country:      { type: string(5), notnull: true, default: '' }
     subscribe_default:    { type: integer(1), notnull: true, default: 0 }
     show_keyvisual:       { type: integer(1), notnull: true, default: 0 }
@@ -394,6 +396,12 @@ PetitionText:
 
     label_extra1:               { type: string(80), notnull: false, default: null }
     placeholder_extra1:         { type: string(80), notnull: false, default: null }
+
+    label_extra2:               { type: string(80), notnull: false, default: null }
+    placeholder_extra2:         { type: string(80), notnull: false, default: null }
+
+    label_extra3:               { type: string(80), notnull: false, default: null }
+    placeholder_extra3:         { type: string(80), notnull: false, default: null }
 
     form_title:                 { type: string(100), notnull: false, default: '' }
     subscribe_text:             { type: string(250), notnull: false, default: '' }
@@ -523,6 +531,8 @@ PetitionSigning:
     post_code:       { type: string(50),  notnull: false, default: null }
     comment:         { type: clob,        notnull: false }
     extra1:          { type: string(100), notnull: false, default: null }
+    extra2:          { type: string(100), notnull: false, default: null }
+    extra3:          { type: string(100), notnull: false, default: null }
     privacy:         { type: integer(1),  notnull: false, default: null }
     email_subject:   { type: string(250), notnull: false, default: null }
     email_body:      { type: clob,        notnull: false }

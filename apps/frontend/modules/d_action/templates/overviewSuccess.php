@@ -17,7 +17,9 @@
       <ul>
         <li><?php echo Petition::$NAMETYPE_SHOW[$petition->getNametype()] ?></li><?php
         if ($petition->getWithAddress()) echo '<li>' . Petition::$WITH_ADDRESS_SHOW[$petition->getWithAddress()] . '</li>';
-        if ($petition->getWithExtra1() == Petition::WITH_EXTRA_YES) echo '<li>free text field</li>';
+        if ($petition->getWithExtra1() != Petition::WITH_EXTRA_NO) echo '<li>free text field 1</li>';
+        if ($petition->getWithExtra2() != Petition::WITH_EXTRA_NO) echo '<li>free text field 2</li>';
+        if ($petition->getWithExtra3() != Petition::WITH_EXTRA_NO) echo '<li>free text field 3</li>';
         if ($petition->getWithCountry()): ?><li>country</li><?php else: ?><li>without country</li><?php endif;
         if ($petition->getWithComments()): ?><li>comments</li><?php endif ?>
       </ul>

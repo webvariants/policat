@@ -39,6 +39,8 @@
  * @property int                                     $with_address                                    Type: integer(1)
  * @property int                                     $with_country                                    Type: integer(1)
  * @property int                                     $with_extra1                                     Type: integer(1)
+ * @property int                                     $with_extra2                                     Type: integer(1)
+ * @property int                                     $with_extra3                                     Type: integer(1)
  * @property string                                  $default_country                                 Type: string(5)
  * @property int                                     $subscribe_default                               Type: integer(1)
  * @property int                                     $show_keyvisual                                  Type: integer(1)
@@ -134,6 +136,8 @@
  * @method int                                       getWithAddress()                                 Type: integer(1)
  * @method int                                       getWithCountry()                                 Type: integer(1)
  * @method int                                       getWithExtra1()                                  Type: integer(1)
+ * @method int                                       getWithExtra2()                                  Type: integer(1)
+ * @method int                                       getWithExtra3()                                  Type: integer(1)
  * @method string                                    getDefaultCountry()                              Type: string(5)
  * @method int                                       getSubscribeDefault()                            Type: integer(1)
  * @method int                                       getShowKeyvisual()                               Type: integer(1)
@@ -229,6 +233,8 @@
  * @method Petition                                  setWithAddress(int $val)                         Type: integer(1)
  * @method Petition                                  setWithCountry(int $val)                         Type: integer(1)
  * @method Petition                                  setWithExtra1(int $val)                          Type: integer(1)
+ * @method Petition                                  setWithExtra2(int $val)                          Type: integer(1)
+ * @method Petition                                  setWithExtra3(int $val)                          Type: integer(1)
  * @method Petition                                  setDefaultCountry(string $val)                   Type: string(5)
  * @method Petition                                  setSubscribeDefault(int $val)                    Type: integer(1)
  * @method Petition                                  setShowKeyvisual(int $val)                       Type: integer(1)
@@ -465,6 +471,18 @@ abstract class BasePetition extends myDoctrineRecord
              'length' => 1,
              ));
         $this->hasColumn('with_extra1', 'integer', 1, array(
+             'type' => 'integer',
+             'notnull' => true,
+             'default' => 0,
+             'length' => 1,
+             ));
+        $this->hasColumn('with_extra2', 'integer', 1, array(
+             'type' => 'integer',
+             'notnull' => true,
+             'default' => 0,
+             'length' => 1,
+             ));
+        $this->hasColumn('with_extra3', 'integer', 1, array(
              'type' => 'integer',
              'notnull' => true,
              'default' => 0,

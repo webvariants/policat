@@ -17,7 +17,7 @@
         <div class="global_error">
           <span id="new_petition_customise"></span>
         </div>
-        <?php echo $form->renderRows('titletype', 'nametype', 'with_address', 'with_country', 'default_country', 'country_collection_id', 'with_comments', 'with_extra1') ?>
+        <?php echo $form->renderRows('titletype', 'nametype', 'with_address', 'with_country', 'default_country', 'country_collection_id', 'with_comments', 'with_extra1', 'with_extra2', 'with_extra3') ?>
       </fieldset>
       <div class="form-actions">
         <button accesskey="s" title="[Accesskey] + S" class="btn btn-primary" type="submit">Save &amp; go to optional settings</button>

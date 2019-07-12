@@ -37,6 +37,10 @@
  * @property string                                 $signers_url                                 Type: string(200)
  * @property string                                 $label_extra1                                Type: string(80)
  * @property string                                 $placeholder_extra1                          Type: string(80)
+ * @property string                                 $label_extra2                                Type: string(80)
+ * @property string                                 $placeholder_extra2                          Type: string(80)
+ * @property string                                 $label_extra3                                Type: string(80)
+ * @property string                                 $placeholder_extra3                          Type: string(80)
  * @property string                                 $form_title                                  Type: string(100)
  * @property string                                 $subscribe_text                              Type: string(250)
  * @property string                                 $signers_page                                Type: clob
@@ -83,6 +87,10 @@
  * @method string                                   getSignersUrl()                              Type: string(200)
  * @method string                                   getLabelExtra1()                             Type: string(80)
  * @method string                                   getPlaceholderExtra1()                       Type: string(80)
+ * @method string                                   getLabelExtra2()                             Type: string(80)
+ * @method string                                   getPlaceholderExtra2()                       Type: string(80)
+ * @method string                                   getLabelExtra3()                             Type: string(80)
+ * @method string                                   getPlaceholderExtra3()                       Type: string(80)
  * @method string                                   getFormTitle()                               Type: string(100)
  * @method string                                   getSubscribeText()                           Type: string(250)
  * @method string                                   getSignersPage()                             Type: clob
@@ -129,6 +137,10 @@
  * @method PetitionText                             setSignersUrl(string $val)                   Type: string(200)
  * @method PetitionText                             setLabelExtra1(string $val)                  Type: string(80)
  * @method PetitionText                             setPlaceholderExtra1(string $val)            Type: string(80)
+ * @method PetitionText                             setLabelExtra2(string $val)                  Type: string(80)
+ * @method PetitionText                             setPlaceholderExtra2(string $val)            Type: string(80)
+ * @method PetitionText                             setLabelExtra3(string $val)                  Type: string(80)
+ * @method PetitionText                             setPlaceholderExtra3(string $val)            Type: string(80)
  * @method PetitionText                             setFormTitle(string $val)                    Type: string(100)
  * @method PetitionText                             setSubscribeText(string $val)                Type: string(250)
  * @method PetitionText                             setSignersPage(string $val)                  Type: clob
@@ -274,6 +286,26 @@ abstract class BasePetitionText extends myDoctrineRecord
              'length' => 80,
              ));
         $this->hasColumn('placeholder_extra1', 'string', 80, array(
+             'type' => 'string',
+             'notnull' => false,
+             'length' => 80,
+             ));
+        $this->hasColumn('label_extra2', 'string', 80, array(
+             'type' => 'string',
+             'notnull' => false,
+             'length' => 80,
+             ));
+        $this->hasColumn('placeholder_extra2', 'string', 80, array(
+             'type' => 'string',
+             'notnull' => false,
+             'length' => 80,
+             ));
+        $this->hasColumn('label_extra3', 'string', 80, array(
+             'type' => 'string',
+             'notnull' => false,
+             'length' => 80,
+             ));
+        $this->hasColumn('placeholder_extra3', 'string', 80, array(
              'type' => 'string',
              'notnull' => false,
              'length' => 80,
