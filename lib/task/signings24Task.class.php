@@ -30,9 +30,9 @@ class signings24Task extends sfBaseTask {
     $databaseManager = new sfDatabaseManager($this->configuration);
     $connection = $databaseManager->getDatabase($options['connection'])->getConnection();
 
-    $connection->exec('update petition p set cron_signings24 = (SELECT count(z.id) FROM petition_signing z WHERE DATE_SUB(NOW(),INTERVAL 1 DAY) <= z.created_at and z.petition_id = p.id and z.status = ' . PetitionSigning::STATUS_COUNTED . ')');
+    $connection->exec('update petition p set cron_signings24 = (SELECT count(*) FROM petition_signing z USE INDEX (signing_petition_count_index2) WHERE DATE_SUB(NOW(),INTERVAL 1 DAY) <= z.created_at and z.petition_id = p.id and z.status = ' . PetitionSigning::STATUS_COUNTED . ')');
 
-    $connection->exec('update widget w set cron_signings24 = (SELECT count(z.id) FROM petition_signing z WHERE DATE_SUB(NOW(),INTERVAL 1 DAY) <= z.created_at and z.widget_id = w.id and z.status = ' . PetitionSigning::STATUS_COUNTED . ')');
+    $connection->exec('update widget w set cron_signings24 = (SELECT count(*) FROM petition_signing z USE INDEX (signing_widget_count_index3) WHERE DATE_SUB(NOW(),INTERVAL 1 DAY) <= z.created_at and z.widget_id = w.id and z.status = ' . PetitionSigning::STATUS_COUNTED . ')');
   }
 
 }
