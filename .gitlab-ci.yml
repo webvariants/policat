@@ -60,3 +60,17 @@ deploy-staging:
   when: manual
   only:
     - develop
+
+deploy-live:
+  stage: deploy
+  tags:
+    - policat-server
+  script: |
+    cd /docker/policat-live/
+    docker login -u gitlab-ci-token -p $CI_JOB_TOKEN $CI_REGISTRY
+    docker-compose pull
+    docker-compose up -d
+  when: manual
+  only:
+    - develop
+    - master
