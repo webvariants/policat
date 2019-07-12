@@ -29,6 +29,13 @@ $(document).ready(function($) {
 			return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, numberSeparator);
 		};
 
+		var pledge_ul_clear = function () {
+			var t = $('.pledge-text');
+			t.hide();
+			widget.append(t);
+			pledge_ul.empty();
+		}
+
 		if (window.navigator.userAgent.match(/Android|BlackBerry|iPhone|iPad|iPod|Opera Mini|IEMobile/i)) {
 			$('body').addClass('isMobile');
 		} else {
@@ -475,7 +482,7 @@ $(document).ready(function($) {
 									ts_2.attr('disabled', 'disabled');
 									scroll_pledges.removeClass('error');
 									if (pledge_ul.length)
-										pledge_ul.empty();
+										pledge_ul_clear();
 									$.ajax({
 										type: 'POST',
 										dataType: 'json',
@@ -486,7 +493,7 @@ $(document).ready(function($) {
 												keywords = data.keywords;
 											}
 											if (typeof data.pledges == 'object') {
-												pledge_ul.empty();
+												pledge_ul_clear();
 												insert_sort(pledge_ul, data.choices, null, null, data.pledges, pledge_ul.data('template'), data.infos, pledge_ul.data('pledge-count'), data.sort);
 											} else {
 												$('option.x', ts_2).remove();
@@ -606,7 +613,7 @@ $(document).ready(function($) {
 									ts_1.attr('disabled', 'disabled');
 									select.attr('disabled', 'disabled');
 									if (pledge_ul.length) {
-										pledge_ul.empty();
+										pledge_ul_clear();
 									}
 									$.ajax({
 										type: 'POST',
@@ -614,7 +621,7 @@ $(document).ready(function($) {
 										url: window.location.href.split('#', 1)[0],
 										data: {target_selector1: ts_1.val(), target_selector2: s_val},
 										success: function(data) {
-											pledge_ul.empty();
+											pledge_ul_clear();
 											insert_sort(pledge_ul, data.choices, null, null, data.pledges, pledge_ul.data('template'), data.infos, pledge_ul.data('pledge-count'), data.sort);
 											ts_1.attr('disabled', null);
 											select.attr('disabled', null);
@@ -622,7 +629,7 @@ $(document).ready(function($) {
 										}
 									});
 								} else {
-									pledge_ul.empty();
+									pledge_ul_clear();
 									resize();
 								}
 							});
