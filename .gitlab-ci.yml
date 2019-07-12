@@ -60,6 +60,9 @@ deploy-staging:
   when: manual
   only:
     - develop
+  environment:
+    name: staging
+    url: $URL_STAGING
 
 deploy-live:
   stage: deploy
@@ -74,3 +77,6 @@ deploy-live:
   only:
     - develop
     - master
+  environment:
+    name: live
+    url: $URL_LIVE
