@@ -4,4 +4,6 @@
 
 1 * * * * php symfony policat:action-schedule --utc-hour=00 --silent=1; php symfony policat:quota-check
 
+50 * * * * php symfony policat:signings24
+
 */1 * * * * php symfony policat:send-emails

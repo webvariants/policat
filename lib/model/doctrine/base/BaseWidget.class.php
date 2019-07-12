@@ -39,6 +39,7 @@
  * @property string                                     $last_ref                                        Type: string(200)
  * @property string                                     $email_targets                                   Type: clob
  * @property string                                     $social_share_text                               Type: clob
+ * @property int                                        $cron_signings24                                 Type: integer(4)
  * @property Campaign                                   $Campaign                                        
  * @property Petition                                   $Petition                                        
  * @property PetitionText                               $PetitionText                                    
@@ -90,6 +91,7 @@
  * @method string                                       getLastRef()                                     Type: string(200)
  * @method string                                       getEmailTargets()                                Type: clob
  * @method string                                       getSocialShareText()                             Type: clob
+ * @method int                                          getCronSignings24()                              Type: integer(4)
  * @method Campaign                                     getCampaign()                                    
  * @method Petition                                     getPetition()                                    
  * @method PetitionText                                 getPetitionText()                                
@@ -141,6 +143,7 @@
  * @method Widget                                       setLastRef(string $val)                          Type: string(200)
  * @method Widget                                       setEmailTargets(string $val)                     Type: clob
  * @method Widget                                       setSocialShareText(string $val)                  Type: clob
+ * @method Widget                                       setCronSignings24(int $val)                      Type: integer(4)
  * @method Widget                                       setCampaign(Campaign $val)                       
  * @method Widget                                       setPetition(Petition $val)                       
  * @method Widget                                       setPetitionText(PetitionText $val)               
@@ -312,6 +315,12 @@ abstract class BaseWidget extends myDoctrineRecord
              ));
         $this->hasColumn('social_share_text', 'clob', null, array(
              'type' => 'clob',
+             ));
+        $this->hasColumn('cron_signings24', 'integer', 4, array(
+             'type' => 'integer',
+             'notnull' => true,
+             'default' => 0,
+             'length' => 4,
              ));
 
 

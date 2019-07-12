@@ -330,6 +330,7 @@ Petition:
     addnum_email_counter:    { type: integer(4), notnull: true, default: 0 }
     target_num_email_counter: { type: integer(4), notnull: true, default: 0 }
     digest_enabled:           { type: integer(1), notnull: true, default: 0 }
+    cron_signings24:         { type: integer(4), notnull: true, default: 0 }
   relations:
     Campaign:          { onDelete: CASCADE  }
     Language:          {  }
@@ -472,6 +473,7 @@ Widget:
     last_ref:          { type: string(200), notnull: false, default: null }
     email_targets:     { type: clob }
     social_share_text:          { type: clob }
+    cron_signings24:   { type: integer(4), notnull: true, default: 0 }
   relations:
     Campaign:          { onDelete: CASCADE }
     Petition:          { onDelete: CASCADE }

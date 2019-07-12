@@ -81,6 +81,7 @@
  * @property int                                     $addnum_email_counter                            Type: integer(4)
  * @property int                                     $target_num_email_counter                        Type: integer(4)
  * @property int                                     $digest_enabled                                  Type: integer(1)
+ * @property int                                     $cron_signings24                                 Type: integer(4)
  * @property Campaign                                $Campaign                                        
  * @property Language                                $Language                                        
  * @property MailingList                             $MailingList                                     
@@ -175,6 +176,7 @@
  * @method int                                       getAddnumEmailCounter()                          Type: integer(4)
  * @method int                                       getTargetNumEmailCounter()                       Type: integer(4)
  * @method int                                       getDigestEnabled()                               Type: integer(1)
+ * @method int                                       getCronSignings24()                              Type: integer(4)
  * @method Campaign                                  getCampaign()                                    
  * @method Language                                  getLanguage()                                    
  * @method MailingList                               getMailingList()                                 
@@ -269,6 +271,7 @@
  * @method Petition                                  setAddnumEmailCounter(int $val)                  Type: integer(4)
  * @method Petition                                  setTargetNumEmailCounter(int $val)               Type: integer(4)
  * @method Petition                                  setDigestEnabled(int $val)                       Type: integer(1)
+ * @method Petition                                  setCronSignings24(int $val)                      Type: integer(4)
  * @method Petition                                  setCampaign(Campaign $val)                       
  * @method Petition                                  setLanguage(Language $val)                       
  * @method Petition                                  setMailingList(MailingList $val)                 
@@ -707,6 +710,12 @@ abstract class BasePetition extends myDoctrineRecord
              'notnull' => true,
              'default' => 0,
              'length' => 1,
+             ));
+        $this->hasColumn('cron_signings24', 'integer', 4, array(
+             'type' => 'integer',
+             'notnull' => true,
+             'default' => 0,
+             'length' => 4,
              ));
 
 

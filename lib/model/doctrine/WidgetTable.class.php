@@ -301,8 +301,7 @@ class WidgetTable extends Doctrine_Table {
           break;
         case self::ORDER_TRENDING:
           $query->select('w.*');
-          $query->addSelect('(SELECT count(z.id) FROM PetitionSigning z WHERE DATE_SUB(NOW(),INTERVAL 1 DAY) <= z.created_at  and z.widget_id = w.id and z.status = ' . PetitionSigning::STATUS_COUNTED . ') as signings24');
-          $query->orderBy('signings24 DESC, w.activity_at DESC, w.id DESC');
+          $query->orderBy('cron_signings24 DESC, w.activity_at DESC, w.id DESC');
           break;
       }
     }
