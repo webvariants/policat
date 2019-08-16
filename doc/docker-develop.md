@@ -1,5 +1,11 @@
 # Develop policat with docker (not production)
 
+Create directories with permissions
+
+    mkdir -p ./data/mongodb && sudo chown 1001 ./data/mongodb
+
+We use https://github.com/mcnilz/dockerfiles-develop as base stack with mysql8
+
 You can use docker to develop policat. To start policat run:
 
     docker-compose up -d
@@ -7,12 +13,18 @@ You can use docker to develop policat. To start policat run:
 ## first time setup
 
     docker-compose exec php composer.phar install                                  # https://getcomposer.org/
-    docker-compose exec php php symfony doctrine:build-db                          # create database
-    docker-compose exec php php symfony doctrine:insert-sql                        # create tables
+    cd config
+    cp databases.yml.dist    databases.yml    && nano databases.yml                # enter database connection parameters
+    cp app.yml.dist          app.yml          && nano app.yml                      # enter random secrets, web domain, ip of your email server, 127.0.0.1 will do for testing
+    cp factories.yml.dist    factories.yml    && nano factories.yml                # editing optional
+    cp properties.ini.dist   properties.ini   && nano properties.ini               # editing optional
+    cd ..
+    docker-compose exec php php symfony doctrine:build-db                          # create database or create yourself
+    docker-compose exec php php symfony doctrine:insert-sql                        # create tables, if you get errors on mysql8 insert data/sql/schema.sql with other tool
     docker-compose exec php php symfony doctrine:data-load --application=frontend  # load fixture data
     ./build_assets                                                                 # build assets
 
-Go to http://policat.local/ and login with admin / admin.
+Go to http://policat.local/admin and login with admin / admin.
 
 ## Symfony
 
