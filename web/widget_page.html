@@ -5,6 +5,22 @@
 		<title>policat.org Widget Tester</title>
 		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
 		<script type="text/javascript">policat_scroll_offset = 0;</script>
+		<script type="text/javascript">
+			window.addEventListener('message', function(event) {
+			var split;
+				if (typeof event.data === 'string') {
+					if (event.data.indexOf('@speakout:sign@') === 0) {
+						console.log('message for openECI', JSON.parse(event.data.substr(15)));
+					}
+					if (event.data.indexOf('policat_signed;') === 0) {
+						console.log('policat_signed', JSON.parse(event.data.substr(15)));
+					}
+					if (event.data.indexOf('policat_show;') === 0) {
+						console.log('policat_show', JSON.parse(event.data.substr(13)));
+					}
+				}
+			}, false);
+		</script>
 	</head>
 	<body style="margin: 0 auto;">
 		<h2>Lorem ipsum</h2>

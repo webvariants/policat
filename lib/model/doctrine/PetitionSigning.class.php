@@ -207,7 +207,7 @@ class PetitionSigning extends BasePetitionSigning {
   }
 
   public function getSignersListEntry($petition, $culture) {
-    $with_city = $petition->getLastSigningsCity() && $petition->getWithAddress();
+    $with_city = $petition->getLastSigningsCity() && ($petition->getWithAddress() && ($petition->getWithAddress() != 3));
     $with_country = $petition->getLastSigningsCountry() && $petition->getWithCountry();
 
     $ret = $this->getComputedName();

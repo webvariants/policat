@@ -58,6 +58,7 @@ if (is_array($target_selectors)) {
 <?php else: ?>
         var CT_extra = null;
 <?php endif ?>
+      var isOpenECI = <?php echo json_encode($petition->getKind() == Petition::KIND_OPENECI) ?> ;
         </script>
         <?php if (!UtilTheme::removeClassicCss($widget, $petition)): ?><link rel="stylesheet" type="text/css" href="/css/dist/policat_widget.css?<?php echo filemtime(sfConfig::get('sf_web_dir') . '/css/dist/policat_widget.css') ?>" /><?php endif ?>
         <?php if ($font_css_file): ?><link href="<?php echo $font_css_file ?>" rel="stylesheet" type="text/css" /><?php endif ?>

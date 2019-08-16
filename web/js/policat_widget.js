@@ -142,11 +142,13 @@ $(document).ready(function($) {
 			widget.removeClass('right-only');
 			widget_right.removeClass('show-sign').removeClass('show-donate').removeClass('show-embed-this').removeClass('show-thankyou');
 			widget_right.addClass('show-' + name);
+			window.parent.postMessage('policat_show;' + JSON.stringify({side: 'right', content: name, iframe: iframe_no, widget: widget_id}) , '*');
 		}
 
 		function show_left(name) {
 			$('#action, #privacy-policy, #embed-this-left').hide();
 			$('#' + name).show();
+			window.parent.postMessage('policat_show;' + JSON.stringify({side: 'left', content: name, iframe: iframe_no, widget: widget_id}) , '*');
 		}
 
 		function show_sign() {
@@ -978,6 +980,18 @@ $(document).ready(function($) {
 						$.post(window.location.href.split('#', 1)[0], form.serialize() + '&' + refName + '=' + ref, function(data) {
 							switch (formId) {
 								case 'sign':
+									if (isOpenECI) {
+										var eciPost = {}
+										var eciFields = ["firstname","lastname","post_code","email","country"];
+										eciFields.forEach(function (e) {
+											var val = $("#petition_signing_" + e).val();
+											if (val) {
+												eciPost[e.replace('_', '')] = val;
+											}
+										});
+										window.top.postMessage("@speakout:sign@"+JSON.stringify(eciPost),'*');
+									}
+									window.parent.postMessage('policat_signed;' + JSON.stringify({iframe: iframe_no, widget: widget_id}) , '*');
 									show_thankyou();
 									$('#widget-right .thankyou .form_message').text('');
 									for (var error in data.errors) {

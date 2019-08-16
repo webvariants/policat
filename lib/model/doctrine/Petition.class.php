@@ -122,7 +122,7 @@ class Petition extends BasePetition {
       self::EDITABLE_YES => 'yes',
       self::EDITABLE_NO => 'no'
   );
-  static $WITH_ADDRESS_SHOW = array(0 => 'Don\'t ask', 1 => 'Post code and city', 2 => '(Street) address, post code and city');
+  static $WITH_ADDRESS_SHOW = array(0 => 'Don\'t ask', 1 => 'Post code and city', 2 => '(Street) address, post code and city', 3 => 'Post code only');
 
   static $SHOW_EMAIL_COUNTER_SHOW = array(
       self::SHOW_EMAIL_COUNTER_NO => 'no',
@@ -223,6 +223,10 @@ class Petition extends BasePetition {
         $fields[] = self::FIELD_POSTCODE;
         $fields[] = self::FIELD_CITY;
         $fields[] = self::FIELD_ADDRESS;
+        break;
+      case 3:
+      case '3':
+        $fields[] = self::FIELD_POSTCODE;
         break;
     }
     if ($this->getWithCountry()) {
