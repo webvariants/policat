@@ -372,8 +372,6 @@ var wvAjax = function (options) {
 									var p = target.parent();
 									if (p.is('label'))
 										target = p;
-									if (target.hasClass('highlight'))
-										target = target.parents('.highlightTextarea');
 									target.after($('<p class="invalid-feedback"></p>').text(error_message).addClass(form_prefix + 'form_error'));
 									target.addClass('is-invalid').addClass(form_prefix + 'group_error');
 									var pane = target.parents('.tab-pane');
