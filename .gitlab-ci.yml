@@ -16,7 +16,7 @@ build:
     docker login -u gitlab-ci-token -p $CI_JOB_TOKEN $CI_REGISTRY
     docker push $CI_REGISTRY_IMAGE:$ENV_NAME
   only:
-    - /^[a-z]$/
+    - /^[a-z]+$/
     - /^[a-z]+-[0-9]+$/
 
 tag-staging:
@@ -30,7 +30,7 @@ tag-staging:
     docker push $CI_REGISTRY_IMAGE:staging
   when: manual
   only:
-    - /^[a-z]$/
+    - /^[a-z]+$/
     - /^[a-z]+-[0-9]+$/
 
 tag-live:
@@ -58,7 +58,7 @@ deploy-staging:
     docker-compose up -d
   when: manual
   only:
-    - /^[a-z]$/
+    - /^[a-z]+$/
     - /^[a-z]+-[0-9]+$/
   environment:
     name: staging
