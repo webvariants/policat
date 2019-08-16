@@ -26,6 +26,7 @@ class Petition extends BasePetition {
   const KIND_EMAIL_TO_LIST = 10;
   const KIND_EMAIL_ACTION = 11;
   const KIND_PLEDGE = 12;
+  const KIND_OPENECI = 13;
   const TITLETYPE_NO = 0;
   const TITLETYPE_FM = 1; // female, male
   const TITLETYPE_FMN = 2; // female, male, neutral
@@ -101,14 +102,16 @@ class Petition extends BasePetition {
       self::KIND_PETITION => 'Petition',
       self::KIND_EMAIL_TO_LIST => 'List-action',
       self::KIND_EMAIL_ACTION => 'E-mail-Action',
-      self::KIND_PLEDGE => 'Pledge'
+      self::KIND_PLEDGE => 'Pledge',
+      self::KIND_OPENECI => 'European Citizen Initiative (with OpenECI)',
   );
   static $KIND_SHOW_FE = array
       (
       self::KIND_PETITION => 'Petition',
       self::KIND_EMAIL_TO_LIST => 'E-mail-Action',
       self::KIND_EMAIL_ACTION => 'E-mail-Action',
-      self::KIND_PLEDGE => 'Pledge'
+      self::KIND_PLEDGE => 'Pledge',
+      self::KIND_OPENECI => 'European Citizen Initiative',
   );
   static $EMAIL_KINDS = array(
       self::KIND_EMAIL_TO_LIST,
