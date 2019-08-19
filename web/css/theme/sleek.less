@@ -480,6 +480,14 @@ span.checkbox {
 	}
 }
 
+.right-only {
+	@media (min-width: @width-two-column-min) {
+		&::before {
+			display: none;
+		}
+	}
+}
+
 .thankyou {
 	margin-bottom: 30px;
 }

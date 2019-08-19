@@ -643,6 +643,7 @@ a.back-priv-1 {
 }
 
 .widget-right {
+	.openECI-thankyou-with-sign,
 	.sign,
 	.openECI,
 	.donate,
@@ -657,6 +658,11 @@ a.back-priv-1 {
 	&.show-sign .last-signings,
 	&.show-donate .donate,
 	&.show-embed-this .embed-this,
+	&.show-openECI-thankyou-with-sign .openECI-thankyou-with-sign,
+	&.show-openECI-thankyou-with-sign .sign,
+	&.show-openECI-thankyou-with-sign .share,
+	&.show-openECI-thankyou-with-sign .last-signings,
+	&.show-openECI-thankyou-with-sign .donate,
 	&.show-thankyou .thankyou,
 	&.show-thankyou .last-signings,
 	&.show-sign .share-on-sign,
@@ -668,6 +674,11 @@ a.back-priv-1 {
 	&.show-thankyou .share #a-donate,
 	&.show-thankyou .donate .back  {
 		display: none;
+	}
+	&.show-openECI-thankyou-with-sign {
+		.go-to-eci-form, .count {
+			display: none;
+		}
 	}
 	/*
 		.thankyou, .widget-right .donate  {

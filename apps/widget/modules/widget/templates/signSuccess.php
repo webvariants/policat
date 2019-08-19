@@ -202,6 +202,12 @@ if (is_array($target_selectors)) {
 
                 <div id="widget-right" class="widget-right show-sign">
                     <div id="content-right" class="content-right">
+                        <?php if ($openECI): ?>
+                        <div class="openECI-thankyou-with-sign">
+                            <h2 class="title-color"><?php echo __('Keep me informed') ?></h2>
+                            <p class="form_message label_color"><?php echo __('Lorem ipsum dolor sit amit.') ?></p>
+                        </div>
+                        <?php endif ?>
                         <div class="sign">
                             <h2 class="form-title title-color"><?php echo trim(Util::enc($petition_text->getFormTitle(), array('\n' => '<br />'))) ? : __($petition->getLabel(PetitionTable::LABEL_TITLE)) ?></h2>
                             <?php
@@ -276,7 +282,7 @@ if (is_array($target_selectors)) {
                         <?php if ($openECI): ?>
                         <div class="openECI">
                             <div>TODO: resize iframe openECI</div>
-                            <iframe class="openECI-iframe" src="<?php echo Util::enc($petition->getOpeneciURL()) ?>?channel=<?php echo Util::enc($petition->getOpeneciChannel()) ?>&amp;lang=<?php echo $lang ?>#formcol1" allowtransparency="true" frameborder="0" hspace="0" vspace="0" marginheight="0" marginwidth="0" scrolling="yes"></iframe>
+                            <iframe id="openECI" class="openECI-iframe" src="<?php echo Util::enc($petition->getOpeneciURL()) ?>?channel=<?php echo Util::enc($petition->getOpeneciChannel()) ?>&amp;lang=<?php echo $lang ?>#formcol1" allowtransparency="true" frameborder="0" hspace="0" vspace="0" marginheight="0" marginwidth="0" scrolling="yes"></iframe>
                             <a class="back button-color button-btn"><?php echo __('Back') ?></a>
                         <?php endif ?>
                         </div>
