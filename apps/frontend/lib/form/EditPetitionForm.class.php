@@ -177,6 +177,22 @@ class EditPetitionForm extends PetitionFieldsForm {
         '"Lucida Console", Monaco, monospace', '"Lucida Sans Unicode", Verdana, Arial'
     );
 
+    if ($this->getObject()->getKind() == Petition::KIND_OPENECI) {
+        $this->setWidget('openeci_url', new sfWidgetFormInput(array('label' => 'URL'), array(
+            'size' => 90,
+            // 'class' => 'add_popover large',
+            // 'data-content' => '',
+        )));
+        $this->setValidator('openeci_url', new ValidatorUrl(array('required' => false)));
+        $this->setWidget('openeci_channel', new sfWidgetFormInput(array('label' => 'Channel'), array(
+            'size' => 90,
+            // 'class' => 'add_popover large',
+            // 'data-content' => '',
+        )));
+    } else {
+      unset($this['openeci_url'], $this['openeci_channel']);
+    }
+
     if ($this->getObject()->getKind() == Petition::KIND_PETITION) {
       $this->setWidget('validation_required', new sfWidgetFormChoice(array(
           'choices' => array(Petition::VALIDATION_REQUIRED_NO => 'no', Petition::VALIDATION_REQUIRED_YES => 'yes'),

@@ -644,6 +644,7 @@ a.back-priv-1 {
 
 .widget-right {
 	.sign,
+	.openECI,
 	.donate,
 	.embed-this,
 	.thankyou,
@@ -652,6 +653,7 @@ a.back-priv-1 {
 		display: none;
 	}
 	&.show-sign .sign,
+	&.show-openECI .openECI,
 	&.show-sign .last-signings,
 	&.show-donate .donate,
 	&.show-embed-this .embed-this,
@@ -767,6 +769,12 @@ button.submit-sign {
 		max-height: 70%;
 	}
 }
+
+div.go-to-eci-form {
+	text-align: center;
+	margin-bottom: 10px;
+}
+
 input[type=checkbox]+p {
 	font-size: 11px;
 	line-height: 14px;
@@ -1283,4 +1291,13 @@ h2:hover + .embed-this-help-head {
 	left: 0;
 	right: 0;
 	bottom: 0;
+}
+
+.openECI-iframe {
+	width: 100%;
+	min-height: 600px;
+
+	border: 0px;
+	outline: 0px;
+	padding: 0px;
 }

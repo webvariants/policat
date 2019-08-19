@@ -140,7 +140,7 @@ $(document).ready(function($) {
 
 		function show_right(name) {
 			widget.removeClass('right-only');
-			widget_right.removeClass('show-sign').removeClass('show-donate').removeClass('show-embed-this').removeClass('show-thankyou');
+			widget_right.removeClass('show-sign').removeClass('show-donate').removeClass('show-embed-this').removeClass('show-thankyou').removeClass('show-openECI');
 			widget_right.addClass('show-' + name);
 			window.parent.postMessage('policat_show;' + JSON.stringify({side: 'right', content: name, iframe: iframe_no, widget: widget_id}) , '*');
 		}
@@ -154,6 +154,11 @@ $(document).ready(function($) {
 		function show_sign() {
 			show_left('action');
 			show_right('sign');
+			resize();
+		}
+		function show_openECI() {
+			show_left('action');
+			show_right('openECI');
 			resize();
 		}
 		function show_donate() {
@@ -992,7 +997,11 @@ $(document).ready(function($) {
 										window.top.postMessage("@speakout:sign@"+JSON.stringify(eciPost),'*');
 									}
 									window.parent.postMessage('policat_signed;' + JSON.stringify({iframe: iframe_no, widget: widget_id}) , '*');
-									show_thankyou();
+									if (isOpenECI) {
+										show_openECI();
+									} else {
+										show_thankyou();
+									}
 									$('#widget-right .thankyou .form_message').text('');
 									for (var error in data.errors) {
 										$('#widget-right .thankyou .form_message').append($('<div></div>').text(data.errors[error]));
@@ -1078,6 +1087,11 @@ $(document).ready(function($) {
 				show_sign();
 			}
 
+			return false;
+		});
+
+		$('a.go-to-eci-form').click(function() {
+			show_openECI();
 			return false;
 		});
 

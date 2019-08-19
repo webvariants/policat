@@ -58,7 +58,7 @@ if (is_array($target_selectors)) {
 <?php else: ?>
         var CT_extra = null;
 <?php endif ?>
-      var isOpenECI = <?php echo json_encode($petition->getKind() == Petition::KIND_OPENECI) ?> ;
+      var isOpenECI = <?php echo json_encode($openECI) ?>;
         </script>
         <?php if (!UtilTheme::removeClassicCss($widget, $petition)): ?><link rel="stylesheet" type="text/css" href="/css/dist/policat_widget.css?<?php echo filemtime(sfConfig::get('sf_web_dir') . '/css/dist/policat_widget.css') ?>" /><?php endif ?>
         <?php if ($font_css_file): ?><link href="<?php echo $font_css_file ?>" rel="stylesheet" type="text/css" /><?php endif ?>
@@ -258,6 +258,11 @@ if (is_array($target_selectors)) {
                                 <div class="submit-sign-container">
                                     <button type="button" class="submit submit-sign"><span class="font-size-auto"><?php echo strtr(__($petition->getLabel(PetitionTable::LABEL_BUTTON)), array(' ' => '&nbsp;')) ?></span></button>
                                 </div>
+                                <?php if ($openECI): ?>
+                                <div class="go-to-eci-form">
+                                    <a class="go-to-eci-form" href="">sign ECI</a>
+                                </div>
+                                <?php endif ?>
                             </form>
                             <?php if ($disabled): ?>
                               <div id="footer_ot"></div>
@@ -267,6 +272,13 @@ if (is_array($target_selectors)) {
                             <?php if (is_string($read_more_url) && strlen($read_more_url) > 6 && !$background): ?>
                             <a href="<?php echo Util::enc($read_more_url) ?>" class="newwin readmore-btn"><?php echo __('Read more') ?></a>
                             <?php endif ?>
+                        </div>
+                        <?php if ($openECI): ?>
+                        <div class="openECI">
+                            <div>TODO: resize iframe openECI</div>
+                            <iframe class="openECI-iframe" src="<?php echo Util::enc($petition->getOpeneciURL()) ?>?channel=<?php echo Util::enc($petition->getOpeneciChannel()) ?>&amp;lang=<?php echo $lang ?>#formcol1" allowtransparency="true" frameborder="0" hspace="0" vspace="0" marginheight="0" marginwidth="0" scrolling="yes"></iframe>
+                            <a class="back button-color button-btn"><?php echo __('Back') ?></a>
+                        <?php endif ?>
                         </div>
                         <?php if ($petition->getShowEmbed()): ?>
                         <div class="embed-this">

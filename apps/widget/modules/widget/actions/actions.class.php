@@ -246,6 +246,13 @@ class widgetActions extends policatActions
     } else {
       $this->last_signings = null;
     }
+
+    $this->openECI = false;
+    if ($this->petition->getKind() == Petition::KIND_OPENECI) {
+        if ($this->petition->getOpeneciUrl() && $this->petition->getOpeneciChannel()) {
+            $this->openECI = true;
+        }
+    }
   }
 
   public function executeSignHp(sfWebRequest $request) {
