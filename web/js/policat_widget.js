@@ -1268,7 +1268,7 @@ $(document).ready(function($) {
 		if (isOpenECI) {
 			window.addEventListener('message', function(event) {
 				if (typeof event.data === 'string') {
-					if (event.data.indexOf('openeci_signed') === 0) { // window.parent.postMessage('openeci_signed', '*');
+					if (event.data.indexOf('@openeci:duplicate@') === 0 || event.data.indexOf('@openeci:sign@') === 0) {
 						openECIsigned = true;
 						$('div.go-to-eci-form').remove();
 						show_thankyou();
