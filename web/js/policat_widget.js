@@ -181,6 +181,7 @@ $(document).ready(function($) {
 				show_right('openECI-thankyou-with-sign');
 				fontResize($('.font-size-auto-subscribe'));
 				$('.font-size-auto-subscribe').removeClass('font-size-auto-subscribe');
+				$('#petition_signing_subscribe').addClass('required');
 			} else {
 				show_right('thankyou');
 				widget.addClass('right-only');
