@@ -54,6 +54,7 @@ class Petition extends BasePetition {
   const EDITABLE_NO = 2;
   const VALIDATION_REQUIRED_YES = 1;
   const VALIDATION_REQUIRED_NO = 0;
+  const VALIDATION_REQUIRED_YES_IF_SUBSCRIBE = 2;
   const WITH_EXTRA_YES = 1;
   const WITH_EXTRA_YES_REQUIRED = 2;
   const WITH_EXTRA_NO = 0;

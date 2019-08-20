@@ -20,9 +20,14 @@ class PetitionSigningForm extends BasePetitionSigningForm {
 
   protected $no_mails = false;
   private $contact_num = 0;
+  protected $skip_validation = false;
 
   public function getNoMails() {
     return $this->no_mails;
+  }
+
+  public function getSkipValidation() {
+    return $this->skip_validation;
   }
 
   public function configure() {
@@ -284,6 +289,13 @@ class PetitionSigningForm extends BasePetitionSigningForm {
     }
 
     $validation_kind = $this->getOption('validation_kind', PetitionSigning::VALIDATION_KIND_NONE);
+    if ($validation_kind == PetitionSigning::VALIDATION_KIND_EMAIL &&
+        $petition->getValidationRequired() == Petition::VALIDATION_REQUIRED_YES_IF_SUBSCRIBE &&
+        (!array_key_exists(Petition::FIELD_SUBSCRIBE, $values) || !$values[Petition::FIELD_SUBSCRIBE])) {
+      $validation_kind = PetitionSigning::VALIDATION_KIND_NONE;
+      $this->skip_validation = true;
+    }
+
     switch ($validation_kind) {
       case PetitionSigning::VALIDATION_KIND_EMAIL:
         $values['validation_data'] = $code;
@@ -314,6 +326,10 @@ class PetitionSigningForm extends BasePetitionSigningForm {
     $petition = $signing->getPetition();
 
     if ($petition->getValidationRequired() == Petition::VALIDATION_REQUIRED_NO) {
+      $signing->setStatus(PetitionSigning::STATUS_COUNTED);
+    }
+
+    if ($petition->getValidationRequired() == Petition::VALIDATION_REQUIRED_YES_IF_SUBSCRIBE) {
       $signing->setStatus(PetitionSigning::STATUS_COUNTED);
     }
 
@@ -368,8 +384,7 @@ class PetitionSigningForm extends BasePetitionSigningForm {
       }
     }
 
-    $validation_kind = $this->getOption('validation_kind', PetitionSigning::VALIDATION_KIND_NONE);
-    switch ($validation_kind) {
+    switch ($signing->getValidationKind()) {
       case PetitionSigning::VALIDATION_KIND_EMAIL:
         UtilEmailValidation::send($signing);
         break;
