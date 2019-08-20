@@ -75,37 +75,44 @@ class PetitionTable extends Doctrine_Table {
   const LABEL_TAB = 1;
   const LABEL_BUTTON = 2;
   const LABEL_TITLE = 3;
+  const LABEL_BUTTON_SUBSCRIBE = 4;
 
   public static $LABELS = array(
       self::LABEL_MODEL_EMAIL => array(
           self::LABEL_TAB => 'Email action',
           self::LABEL_BUTTON => 'Send',
-          self::LABEL_TITLE => 'Send an Email'
+          self::LABEL_TITLE => 'Send an Email',
+          self::LABEL_BUTTON_SUBSCRIBE => 'Subscribe'
       ),
       self::LABEL_MODE_PETITION => array(
           self::LABEL_TAB => 'Petition',
           self::LABEL_BUTTON => 'Sign',
-          self::LABEL_TITLE => 'Sign the Petition'
+          self::LABEL_TITLE => 'Sign the Petition',
+          self::LABEL_BUTTON_SUBSCRIBE => 'Subscribe'
       ),
       self::LABEL_MODE_INITIATIVE => array(
           self::LABEL_TAB => 'Initiative',
           self::LABEL_BUTTON => 'Sign',
-          self::LABEL_TITLE => 'Support the initiative'
+          self::LABEL_TITLE => 'Support the initiative',
+          self::LABEL_BUTTON_SUBSCRIBE => 'Subscribe'
       ),
       self::LABEL_MODE_APPEAL => array(
           self::LABEL_TAB => 'Appeal',
           self::LABEL_BUTTON => 'Support',
-          self::LABEL_TITLE => 'Support the appeal'
+          self::LABEL_TITLE => 'Support the appeal',
+          self::LABEL_BUTTON_SUBSCRIBE => 'Subscribe'
       ),
       self::LABEL_MODE_COMMUNITY => array(
           self::LABEL_TAB => 'Community',
           self::LABEL_BUTTON => 'Join',
-          self::LABEL_TITLE => 'Join the community'
+          self::LABEL_TITLE => 'Join the community',
+          self::LABEL_BUTTON_SUBSCRIBE => 'Subscribe'
       ),
       self::LABEL_MODE_NEWSLETTER => array(
           self::LABEL_TAB => 'Newsletter',
           self::LABEL_BUTTON => 'Sign up',
-          self::LABEL_TITLE => 'Sign up to the newsletter'
+          self::LABEL_TITLE => 'Sign up to the newsletter',
+          self::LABEL_BUTTON_SUBSCRIBE => 'Subscribe'
       )
   );
 

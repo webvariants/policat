@@ -367,7 +367,7 @@ class EditPetitionForm extends PetitionFieldsForm {
     $this->setWidget('style_form_title_color', new sfWidgetFormInput(array('label' => 'Headings'), array('class' => 'jscolor {hash:true}')));
     $this->setValidator('style_form_title_color', new ValidatorCssColor(array('min_length' => 7, 'max_length' => 7)));
 
-    if ($this->getObject()->getKind() == Petition::KIND_PETITION || $this->getObject()->getKind() == Petition::KIND_OPENECI) {
+    if ($this->getObject()->getKind() == Petition::KIND_PETITION) {
       $this->setWidget('label_mode', new sfWidgetFormChoice(array('choices' => PetitionTable::$LABEL_MODE, 'label' => 'Petition labelling')));
       $this->setValidator('label_mode', new sfValidatorChoice(array('choices' => array_keys(PetitionTable::$LABEL_MODE))));
     }
@@ -396,8 +396,8 @@ class EditPetitionForm extends PetitionFieldsForm {
     $this->setValidator('subscribe_default', new sfValidatorChoice(array('choices' => array_keys(PetitionTable::$SUBSCRIBE_CHECKBOX_DEFAULT))));
     $this->getWidgetSchema()->setHelp('subscribe_default', 'You might increase your subscription rate, if you keep the checkbox preselected. However, preselection is not legally in conformity with the EU General Data Protection Regulation. It is your legal obligation to make sure your selection is in conformity with EU and national data protection legislation.');
 
-    $this->setWidget('themeId', new sfWidgetFormChoice(array('label' => 'Theme', 'choices' => UtilTheme::$THEMES)));
-    $this->setValidator('themeId', new sfValidatorChoice(array('required' => false, 'choices' => array_keys(UtilTheme::$THEMES))));
+    $this->setWidget('themeId', new sfWidgetFormChoice(array('label' => 'Theme', 'choices' => UtilTheme::themesByKind($this->getObject()->getKind()))));
+    $this->setValidator('themeId', new sfValidatorChoice(array('required' => false, 'choices' => array_keys(UtilTheme::themesByKind($this->getObject()->getKind())))));
 
     $this->setWidget('last_signings', new sfWidgetFormChoice(array('choices' => PetitionTable::$LAST_SINGINGS, 'label' => 'Show participants list'), array(
         'class' => 'toggle-on-value',

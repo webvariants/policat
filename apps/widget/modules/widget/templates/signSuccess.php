@@ -262,7 +262,11 @@ if (is_array($target_selectors)) {
                                     <?php endif; ?>
                                 </fieldset>
                                 <div class="submit-sign-container">
-                                    <button type="button" class="submit submit-sign"><span class="font-size-auto"><?php echo strtr(__($petition->getLabel(PetitionTable::LABEL_BUTTON)), array(' ' => '&nbsp;')) ?></span></button>
+                                    <button type="button" class="submit submit-sign submit-no-subscribe"><span class="font-size-auto"><?php echo strtr(__($petition->getLabel(PetitionTable::LABEL_BUTTON)), array(' ' => '&nbsp;')) ?></span></button>
+                                    <?php if ($openECI): ?>
+                                        <button type="button" class="submit submit-sign submit-subscribe"><span class="font-size-auto-subscribe"><?php echo strtr(__($petition->getLabel(PetitionTable::LABEL_BUTTON_SUBSCRIBE)), array(' ' => '&nbsp;')) ?></span></button>
+                                    <?php endif ?>
+                                    </div>
                                 </div>
                                 <?php if ($openECI): ?>
                                 <div class="go-to-eci-form">

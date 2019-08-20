@@ -179,6 +179,8 @@ $(document).ready(function($) {
 		function show_thankyou() {
 			if (openECI && !hasSign) {
 				show_right('openECI-thankyou-with-sign');
+				fontResize($('.font-size-auto-subscribe'));
+				$('.font-size-auto-subscribe').removeClass('font-size-auto-subscribe');
 			} else {
 				show_right('thankyou');
 				widget.addClass('right-only');
@@ -999,7 +1001,7 @@ $(document).ready(function($) {
 												eciPost[e.replace('_', '')] = val;
 											}
 										});
-										window.top.postMessage("@speakout:sign@"+JSON.stringify(eciPost),'*');
+										// window.top.postMessage("@speakout:sign@"+JSON.stringify(eciPost),'*');
 										document.getElementById('openECI').contentWindow.postMessage("@speakout:sign@"+JSON.stringify(eciPost),'*');
 									}
 									window.parent.postMessage('policat_signed;' + JSON.stringify({iframe: iframe_no, widget: widget_id}) , '*');

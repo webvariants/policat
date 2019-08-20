@@ -32,6 +32,18 @@ class UtilTheme {
       5 => '768px'
   );
 
+  public static $DISABLE_KIND = array(
+      Petition::KIND_OPENECI => array(null, 3, 4, 6)
+  );
+
+  public static function themesByKind($kind) {
+    if (array_key_exists($kind, self::$DISABLE_KIND)) {
+        return array_diff_key(self::$THEMES, array_combine(self::$DISABLE_KIND[$kind], self::$DISABLE_KIND[$kind]));
+    }
+
+    return $THEMES;
+  }
+
   public static $REMOVE_CLASSIC_CSS = array(6);
 
   public static function removeClassicCss($widget, $petition) {

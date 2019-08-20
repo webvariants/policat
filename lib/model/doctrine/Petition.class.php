@@ -691,7 +691,14 @@ class Petition extends BasePetition {
   }
 
   public function getLabel($type) {
-    $mode = $this->isEmailKind() ? PetitionTable::LABEL_MODEL_EMAIL : $this->getLabelMode();
+    if ($this->isEmailKind()) {
+        $mode = PetitionTable::LABEL_MODEL_EMAIL;
+    }
+    elseif ($this->getKind() == self::KIND_OPENECI ) {
+        $mode = PetitionTable::LABEL_MODE_NEWSLETTER;
+    } else {
+        $mode = $this->getLabelMode();
+    }
 
     return PetitionTable::$LABELS[$mode][$type];
   }

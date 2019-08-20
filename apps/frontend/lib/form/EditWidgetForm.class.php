@@ -68,8 +68,8 @@ class EditWidgetForm extends WidgetForm {
     $this->setValidator('share', new sfValidatorChoice(array('choices' => array('0', '1'))));
 
     if ($petition->getWidgetIndividualiseDesign()) {
-      $this->setWidget('themeId', new sfWidgetFormChoice(array('label' => 'Theme', 'choices' => UtilTheme::$THEMES)));
-      $this->setValidator('themeId', new sfValidatorChoice(array('required' => false, 'choices' => array_keys(UtilTheme::$THEMES))));
+      $this->setWidget('themeId', new sfWidgetFormChoice(array('label' => 'Theme', 'choices' => UtilTheme::themesByKind($petition->getKind()))));
+      $this->setValidator('themeId', new sfValidatorChoice(array('required' => false, 'choices' => array_keys(UtilTheme::themesByKind($petition->getKind())))));
 
       $this->setWidget('styling_title_color', new sfWidgetFormInput(array(), array('class' => 'jscolor {hash:true}')));
       $this->setValidator('styling_title_color', new ValidatorCssColor(array('min_length' => 7, 'max_length' => 7)));
