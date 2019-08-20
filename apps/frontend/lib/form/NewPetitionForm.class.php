@@ -98,8 +98,12 @@ class NewPetitionForm extends PetitionFieldsForm {
       unset($values['new_campaign']);
     }
 
-    if ($values['kind'] == Petition::KIND_PETITION) {
+    if ($values['kind'] == Petition::KIND_PETITION || $values['kind'] == Petition::KIND_OPENECI) {
       $values['validation_required'] = Petition::VALIDATION_REQUIRED_NO;
+    }
+
+    if ($values['kind'] == Petition::KIND_OPENECI) {
+      $values['label_mode'] = PetitionTable::LABEL_MODE_NEWSLETTER;
     }
 
     return parent::processValues($values);

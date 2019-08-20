@@ -217,10 +217,6 @@ class d_actionActions extends policatActions {
         try {
           $this->form->save();
           $petition = $this->form->getObject();
-          if ($petition->getKind() == Petition::KIND_OPENECI) {
-              $petition->setLabelMode(PetitionTable::LABEL_MODE_NEWSLETTER);
-              $petition->save();
-          }
           $pr = new PetitionRights();
           $pr->setPetition($petition);
           $pr->setUser($this->getGuardUser());

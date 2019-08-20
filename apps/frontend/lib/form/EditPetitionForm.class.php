@@ -193,10 +193,10 @@ class EditPetitionForm extends PetitionFieldsForm {
       unset($this['openeci_url'], $this['openeci_channel']);
     }
 
-    if ($this->getObject()->getKind() == Petition::KIND_PETITION) {
+    if ($this->getObject()->getKind() == Petition::KIND_PETITION || $this->getObject()->getKind() == Petition::KIND_OPENECI) {
       $this->setWidget('validation_required', new sfWidgetFormChoice(array(
-          'choices' => array(Petition::VALIDATION_REQUIRED_NO => 'no', Petition::VALIDATION_REQUIRED_YES => 'yes'),
-          'label' => 'Validation required to count signing.'
+          'choices' => array(Petition::VALIDATION_REQUIRED_NO => 'No. Validation not required to count signing.', Petition::VALIDATION_REQUIRED_YES => 'Yes. Validation required to count signing.'),
+          'label' => 'Opt-In email to validate email address'
         ), array(
           'class' => 'add_popover',
           'data-content' => 'PoliCAT sends this email to each signee, asking to validate the stated email address. This is to improve the credibility of your data: it confirms that the stated email address exists and belongs to the participant. Sometimes, participants will not click this link (e.g. because they forget or the verification email lands in their spam filter). Thus, we recommend that you count signatures immediately (i.e. select "no"). This will also give you access to non-verified data, and may improve your overall participation count. The verification email always includes an "opt-out" link, allowing participants to revoke their participation and delete their data.',
