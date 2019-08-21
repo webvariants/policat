@@ -33,6 +33,9 @@ class UtilThankYouEmail {
       return;
     }
 
+    if (!$signing->getDeleteCode()) {
+        $signing->setDeleteCode(PetitionSigning::genCode());
+    }
     $unsubscribe = UtilLink::unsubscribeSigning($signing->getId(), $signing->getDeleteCode());
     $url_ref_ = $signing->getField(Petition::FIELD_REF);
     $url_readmore_ = $petition->getReadMoreUrl();

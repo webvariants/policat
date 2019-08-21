@@ -183,6 +183,11 @@ class widgetActions extends policatActions
           if (sfConfig::get('sf_environment') === 'stress') // ONLY FOR STRESS TEST !!!
             $extra['code'] = $this->form->getObject()->getId() . '-' . $this->form->getObject()->getValidationData();
 
+          if ($this->form->getRefCode()) {
+            $extra['ref_id'] = $this->form->getObject()->getId();
+            $extra['ref_code'] = $this->form->getRefCode();
+          }
+
           $search_table = PetitionSigningSearchTable::getInstance();
           $search_table->savePetitionSigning($sign, false);
 
@@ -574,5 +579,40 @@ class widgetActions extends policatActions
     }
 
     $this->setTemplate('fail');
+  }
+
+  public function executeRefShown(sfWebRequest $request)
+  {
+    if (!$request->isMethod('POST')) {
+      $this->forward404();
+    }
+
+    $id = $request->getParameter('id');
+    $code = $request->getParameter('code');
+
+    if (!$id || !$code || !is_scalar($id) || !is_scalar($code)) {
+      $this->forward404();
+    }
+
+    $this->setTemplate(false);
+    $this->setLayout(false);
+    $this->getResponse()->setContentType('application/json');
+
+    $table = PetitionSigningTable::getInstance();
+    $hash = $table->fetchRefHash($id);
+
+    $data = array('status' => 'ok');
+    if (!$hash) {
+        $data = array('status' => 'no hash');
+    } else {
+        if (!password_verify($code, $hash)) {
+            $data = array('status' => 'wrong code');
+        } else {
+            $table->setRefShown($id);
+        }
+    }
+
+    sfConfig::set('sf_web_debug', false);
+    return $this->renderText(json_encode($data));
   }
 }

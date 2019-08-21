@@ -25,6 +25,8 @@ $(document).ready(function($) {
 		var replaceForceRefresh = false;
 		var old_height = null;
 		var openECIsigned = false;
+		var refId = null;
+		var refCode = null;
 
 		var numberWithCommas = function numberWithCommas(x) {
 			return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, numberSeparator);
@@ -1023,6 +1025,10 @@ $(document).ready(function($) {
 									widget.addClass('has_sign');
 									resize();
 									window.parent.postMessage('policat_scroll;' + iframe_no + ';0;0', '*');
+									if (isOpenECI && data.extra.ref_id && data.extra.ref_code) {
+										refId = data.extra.ref_id;
+										refCode = data.extra.ref_code;
+									}
 									break;
 								case 'embed':
 									if (data.isValid) {
@@ -1280,10 +1286,19 @@ $(document).ready(function($) {
 						if (data && typeof data === 'object' && data.uuid) {
 							$('.openECI-ref-number span').text(data.uuid);
 							$('.openECI-ref-number').show();
+							$('#petition_signing_ref_shown').val(1);
 						}
 						openECIsigned = true;
 						$('div.go-to-eci-form').remove();
 						show_thankyou();
+						if (refId && refCode) {
+							$.ajax({
+								type: 'POST',
+								dataType: 'json',
+								url: '/ref_shown',
+								data: 'id=' + refId + '&code=' + refCode,
+							});
+						}
 					}
 				}
 			});

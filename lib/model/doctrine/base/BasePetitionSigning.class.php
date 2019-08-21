@@ -45,6 +45,8 @@
  * @property int                                           $quota_id                                           Type: integer(4)
  * @property int                                           $quota_emails                                       Type: integer(2)
  * @property int                                           $thank_sent                                         Type: integer(1)
+ * @property int                                           $ref_shown                                          Type: integer(1)
+ * @property string                                        $ref_hash                                           Type: string(80)
  * @property int                                           $quota_thank_you_id                                 Type: integer(4)
  * @property int                                           $bounce                                             Type: integer(1)
  * @property string                                        $bounce_at                                          Type: timestamp, Timestamp in ISO-8601 format (YYYY-MM-DD HH:MI:SS)
@@ -109,6 +111,8 @@
  * @method int                                             getQuotaId()                                        Type: integer(4)
  * @method int                                             getQuotaEmails()                                    Type: integer(2)
  * @method int                                             getThankSent()                                      Type: integer(1)
+ * @method int                                             getRefShown()                                       Type: integer(1)
+ * @method string                                          getRefHash()                                        Type: string(80)
  * @method int                                             getQuotaThankYouId()                                Type: integer(4)
  * @method int                                             getBounce()                                         Type: integer(1)
  * @method string                                          getBounceAt()                                       Type: timestamp, Timestamp in ISO-8601 format (YYYY-MM-DD HH:MI:SS)
@@ -173,6 +177,8 @@
  * @method PetitionSigning                                 setQuotaId(int $val)                                Type: integer(4)
  * @method PetitionSigning                                 setQuotaEmails(int $val)                            Type: integer(2)
  * @method PetitionSigning                                 setThankSent(int $val)                              Type: integer(1)
+ * @method PetitionSigning                                 setRefShown(int $val)                               Type: integer(1)
+ * @method PetitionSigning                                 setRefHash(string $val)                             Type: string(80)
  * @method PetitionSigning                                 setQuotaThankYouId(int $val)                        Type: integer(4)
  * @method PetitionSigning                                 setBounce(int $val)                                 Type: integer(1)
  * @method PetitionSigning                                 setBounceAt(string $val)                            Type: timestamp, Timestamp in ISO-8601 format (YYYY-MM-DD HH:MI:SS)
@@ -407,6 +413,17 @@ abstract class BasePetitionSigning extends myDoctrineRecord
              'notnull' => true,
              'default' => 0,
              'length' => 1,
+             ));
+        $this->hasColumn('ref_shown', 'integer', 1, array(
+             'type' => 'integer',
+             'notnull' => true,
+             'default' => 0,
+             'length' => 1,
+             ));
+        $this->hasColumn('ref_hash', 'string', 80, array(
+             'type' => 'string',
+             'notnull' => false,
+             'length' => 80,
              ));
         $this->hasColumn('quota_thank_you_id', 'integer', 4, array(
              'type' => 'integer',

@@ -21,6 +21,7 @@ class PetitionSigningForm extends BasePetitionSigningForm {
   protected $no_mails = false;
   private $contact_num = 0;
   protected $skip_validation = false;
+  protected $ref_code = false;
 
   public function getNoMails() {
     return $this->no_mails;
@@ -28,6 +29,10 @@ class PetitionSigningForm extends BasePetitionSigningForm {
 
   public function getSkipValidation() {
     return $this->skip_validation;
+  }
+
+  public function getRefCode() {
+    return $this->ref_code;
   }
 
   public function configure() {
@@ -177,6 +182,12 @@ class PetitionSigningForm extends BasePetitionSigningForm {
       }
     }
 
+    if ($petition->getKind() == Petition::KIND_OPENECI) {
+      $this->setWidget('ref_shown', new sfWidgetFormInputHidden(array(), array()));
+      $this->setValidator('ref_shown', new sfValidatorChoice(array('choices' => array('0', '1'), 'required' => false)));
+      $this->setDefault('ref_shown', '0');
+    }
+
     $this->widgetSchema->setFormFormatterName('policatWidget');
   }
 
@@ -311,6 +322,11 @@ class PetitionSigningForm extends BasePetitionSigningForm {
     $email = $values[Petition::FIELD_EMAIL];
     if ($email) {
       $values['email_hash'] = UtilEmailHash::hash($email);
+    }
+
+    if ($petition->getKind() == Petition::KIND_OPENECI && (!array_key_exists('ref_shown', $values) || $values['ref_shown'] != '1'))  {
+      $this->ref_code = bin2hex(random_bytes(8));
+      $values['ref_hash'] = password_hash($this->ref_code, PASSWORD_DEFAULT);
     }
 
     unset($values['id']);

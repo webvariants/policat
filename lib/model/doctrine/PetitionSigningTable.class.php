@@ -687,4 +687,21 @@ class PetitionSigningTable extends Doctrine_Table {
         ->where('petition_id = ?', $petition->getId())
         ->execute();
   }
+
+  public function fetchRefHash($id) {
+    return $this->createQuery('ps')
+        ->where('ps.id = ?', $id)
+        ->select('ps.ref_hash')
+        ->execute(array(), Doctrine_Core::HYDRATE_SINGLE_SCALAR);
+  }
+
+  public function setRefShown($id) {
+    $query = $this->createQuery();
+    /** @$query Doctrine_Query */
+    $query->update()
+        ->set('ref_shown', 1)
+        ->set('ref_hash', 'NULL')
+        ->where('id = ?', $id)
+        ->execute();
+  }
 }
