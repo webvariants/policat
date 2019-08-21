@@ -151,6 +151,10 @@ class Download extends BaseDownload {
       $used_fields['bounce_related_to'] = count($used_fields);
     }
 
+    if ($petition->getKind() == Petition::KIND_OPENECI) {
+      $used_fields['thank you page shown'] = count($used_fields);
+    }
+
     ini_set('max_execution_time', 600);
     set_time_limit(120);
 
@@ -171,6 +175,10 @@ class Download extends BaseDownload {
         $cell[$used_fields['bounce_hard']] = $petition_signing['bounce_hard'];
         $cell[$used_fields['bounce_error']] = $petition_signing['bounce_related_to'];
         $cell[$used_fields['bounce_related_to']] = $petition_signing['bounce_error'];
+      }
+
+      if ($petition->getKind() == Petition::KIND_OPENECI) {
+        $cell[$used_fields['thank you page shown']] = $petition_signing['ref_shown'] ? 'yes' : 'no';
       }
 
       foreach ($formfields as $formfield) {
