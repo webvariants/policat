@@ -11,7 +11,7 @@ if (isset($form))
       if ($form->getNoMails()) {
         $errors['extra'] = __("Attention: You've already taken part in this action (maybe on another website).");
       } elseif ($form->getSkipValidation()) {
-        $errors['extra'] = __('TODO: supply "Thank you for supporting." text');
+        $errors['extra'] = __('Your action is confirmed. Use this moment to tell friends and family.');
       } else {
         $errors['extra'] = __("Attention: You will receive a confirmation email. Check your email inbox (and junk folder) now! To confirm your action, click the link given in the email.");
       }

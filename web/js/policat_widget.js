@@ -847,7 +847,11 @@ $(document).ready(function($) {
 
 				if (formId === 'sign') {
 					$('#tabs .left').click();
-					show_sign();
+					if (isOpenECI && openECIsigned) {
+						show_thankyou();
+					} else {
+						show_sign();
+					}
 				}
 
 				// copy -> original
@@ -1272,6 +1276,11 @@ $(document).ready(function($) {
 			window.addEventListener('message', function(event) {
 				if (typeof event.data === 'string') {
 					if (event.data.indexOf('@openeci:duplicate@') === 0 || event.data.indexOf('@openeci:sign@') === 0) {
+						var data = JSON.parse(event.data.substr(1 + event.data.indexOf('@', 1)));
+						if (data && typeof data === 'object' && data.uuid) {
+							$('.openECI-ref-number span').text(data.uuid);
+							$('.openECI-ref-number').show();
+						}
 						openECIsigned = true;
 						$('div.go-to-eci-form').remove();
 						show_thankyou();

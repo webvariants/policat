@@ -209,6 +209,9 @@ if (is_array($target_selectors)) {
                         </div>
                         <?php endif ?>
                         <div class="sign">
+                            <?php if ($openECI): ?>
+                                <div class="openECI-ref-number"><?php echo __('Reference number') ?>: <span></span></div>
+                            <?php endif ?>
                             <h2 class="form-title title-color"><?php echo trim(Util::enc($petition_text->getFormTitle(), array('\n' => '<br />'))) ? : __($petition->getLabel(PetitionTable::LABEL_TITLE)) ?></h2>
                             <?php
                             $disabled = false;
@@ -350,6 +353,9 @@ if (is_array($target_selectors)) {
                         <div class="thankyou">
                             <h2 class="title-color"><?php echo __('Thank you') ?></h2>
                             <p class="form_message label_color"><?php echo __('You verified your email address. Your action is confirmed. Use this moment to tell friends and family.') ?></p>
+                            <?php if ($openECI): ?>
+                            <div class="openECI-ref-number"><?php echo __('Reference number') ?>: <span></span></div>
+                            <?php endif ?>
                         </div>
                         <?php if ($petition->getLastSignings() != PetitionTable::LAST_SIGNINGS_NO): ?>
                           <div class="last-signings">

@@ -18,6 +18,9 @@
 					if (event.data.indexOf('policat_show;') === 0) {
 						console.log('policat_show', JSON.parse(event.data.substr(13)));
 					}
+					if (event.data.indexOf('@openeci:sign@') === 0 || event.data.indexOf('@openeci:duplicate@') === 0) {
+						window.frames[0].postMessage(event.data, '*');
+					}
 					console.log(event.data);
 				}
 			}, false);
