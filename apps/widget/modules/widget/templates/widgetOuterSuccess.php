@@ -7,6 +7,7 @@ $stylings['sprite'] = $sprite;
 $stylings['target'] = $target;
 $stylings['button_text'] = __('Take action');
 $stylings['headline'] = __($headline);
+$stylings['default_country'] = $widget->getDefaultCountry();
 $css = array(
     'text-align' => 'center',
     'font-weight' => 'normal',

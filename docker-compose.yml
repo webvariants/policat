@@ -36,8 +36,8 @@ services:
     environment:
       PHP_IMAGE_VERSION: "2"
       WEB_ROOT: "/app/web"
-      WWW_USER: "${WWW_USER:-martin}"
-      WWW_GROUP: "${WWW_GROUP:-martin}"
+      WWW_USER: "${WWW_USER:-tom}"
+      WWW_GROUP: "${WWW_GROUP:-tom}"
       PHPINI_SESSION__GC_MAXLIFETIME: "3600"
       PHP_ZEND_EXTENSIONS: "xdebug.so"
       PHPINI_XDEBUG__REMOTE_ENABLE: "1"
