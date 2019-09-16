@@ -27,6 +27,7 @@ $(document).ready(function($) {
 		var openECIsigned = false;
 		var refId = null;
 		var refCode = null;
+		var iFrameResizer = false;
 
 		var numberWithCommas = function numberWithCommas(x) {
 			return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, numberSeparator);
@@ -131,6 +132,18 @@ $(document).ready(function($) {
 			old_height = height;
 		}
 
+		function innerIFrameResized(innerIFrame) {
+			//window.parent.postMessage('policat_debug;' + innerIFrame.iframe + ';' + innerIFrame.height + ';' + innerIFrame.width + ';' + innerIFrame.type, '*');
+			window.parent.postMessage('policat_debug;' + innerIFrame.height + ';' + innerIFrame.width + ';' + innerIFrame.type, '*');
+
+			var iframe = document.getElementById('openECI');
+			if (iframe) {
+				iframe.style.height = innerIFrame.height + 'px';
+			}
+
+			resize();
+		}
+
 		down_button.click(function() {
 			scrollTop($('#sign'), true);
 			return false;
@@ -162,7 +175,12 @@ $(document).ready(function($) {
 		function show_openECI() {
 			show_left('action');
 			show_right('openECI');
-			resize();
+			if (!iFrameResizer) {
+				iFrameResize({ onResized: innerIFrameResized }, '#openECI');
+				iFrameResizer = true;
+			}
+			//resize();
+			setTimeout(function () { resize(); }, 500);
 		}
 		function show_donate() {
 			show_left('action');
@@ -1110,7 +1128,7 @@ $(document).ready(function($) {
 		});
 
 		$('a.go-to-eci-form').click(function() {
-			show_openECI();
+            show_openECI();
 			return false;
 		});
 

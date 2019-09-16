@@ -84,6 +84,12 @@ var policat = typeof policat === "undefined" ? {widgets: []} : policat;
 					var no = data[1];
 					var offset = parseInt(data[2], 10);
 					scrollTo(no, 0, offset, data[3] === '1' ? true : false);
+				} else if (event.data.match(/^policat_debug;\d+;\d+;.+$/)) {
+					var data   		= event.data.split(';');
+                    var debugHeight = data[1];
+                    var debugWidth  = data[2];
+                    var debugType   = data[3];
+                    console.log(debugType + ': ' + debugHeight + 'x' + debugWidth + 'px');
 				}
 			}
 		};

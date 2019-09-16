@@ -15,6 +15,7 @@
         <?php if ($font_css_file): ?><link href="<?php echo $font_css_file ?>" rel="reload" as="style" /><?php endif ?>
         <link rel="preload" href="/js/dist/jquery-1.10.2.min.js" as="script">
         <link rel="preload" href="/js/dist/policat_widget.js?<?php echo filemtime(sfConfig::get('sf_web_dir') . '/js/dist/policat_widget.js') ?>" as="script">
+        <link rel="preload" href="/js/lib/iframeResizer/iframeResizer.min.js" as="script">
         <meta http-equiv="X-UA-Compatible" content="IE=edge" />
         <meta name="language" content="<?php echo $lang ?>" />
         <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" />
@@ -452,6 +453,7 @@ if (is_array($target_selectors)) {
         <div id="labels-inside"></div>
         <script type="text/javascript" src="/js/dist/jquery-1.10.2.min.js"></script>
         <script type="text/javascript" src="/js/dist/policat_widget.js?<?php echo filemtime(sfConfig::get('sf_web_dir') . '/js/dist/policat_widget.js') ?>"></script>
+        <script type="text/javascript" src="/js/lib/iframeResizer/iframeResizer.min.js"></script>
     </body>
 </html>
 <!-- <?php echo $petition->getId() ?> / <?php echo $widget->getPetitionTextId() ?> / <?php echo $widget->getId() ?> -->

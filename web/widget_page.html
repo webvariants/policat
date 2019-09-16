@@ -31,7 +31,8 @@
 		<p>Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna </p>
 
 		<script type="text/javascript">
-			document.write('<' + 'script type="text/javascript" src="/api/js/widget/' + parseInt(window.location.href.split('/').pop()) + '"><' + '/script>');
+			var widget_id = parseInt(window.location.href.split('/').pop());
+			document.write('<' + 'script type="text/javascript" src="/api/js/widget/' + widget_id + '"><' + '/script>');
 		</script>
 
 		<h2>Lorem ipsum</h2>
