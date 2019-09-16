@@ -59,7 +59,8 @@ if (is_array($target_selectors)) {
 <?php else: ?>
         var CT_extra = null;
 <?php endif ?>
-      var isOpenECI = <?php echo json_encode($openECI) ?>;
+      var isOpenECI  = <?php echo json_encode($openECI) ?>;
+      var srcOpenECI = '<?php echo Util::enc($petition->getOpeneciURL()) ?>?channel=<?php echo Util::enc($petition->getOpeneciChannel()) ?>&lang=<?php echo $lang ?>';
         </script>
         <?php if (!UtilTheme::removeClassicCss($widget, $petition)): ?><link rel="stylesheet" type="text/css" href="/css/dist/policat_widget.css?<?php echo filemtime(sfConfig::get('sf_web_dir') . '/css/dist/policat_widget.css') ?>" /><?php endif ?>
         <?php if ($font_css_file): ?><link href="<?php echo $font_css_file ?>" rel="stylesheet" type="text/css" /><?php endif ?>
@@ -287,9 +288,7 @@ if (is_array($target_selectors)) {
                             <?php endif ?>
                         </div>
                         <?php if ($openECI): ?>
-                        <div class="openECI">
-                            <div>TODO: resize iframe openECI</div>
-                            <iframe id="openECI" class="openECI-iframe" src="<?php echo Util::enc($petition->getOpeneciURL()) ?>?channel=<?php echo Util::enc($petition->getOpeneciChannel()) ?>&amp;lang=<?php echo $lang ?>#formcol1" allowtransparency="true" frameborder="0" hspace="0" vspace="0" marginheight="0" marginwidth="0" scrolling="yes"></iframe>
+                        <div class="openECI" id="openECIParent">
                             <a class="back button-color button-btn"><?php echo __('Back') ?></a>
                         <?php endif ?>
                         </div>

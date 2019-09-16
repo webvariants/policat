@@ -172,15 +172,72 @@ $(document).ready(function($) {
 			show_right('sign');
 			resize();
 		}
+
 		function show_openECI() {
-			show_left('action');
-			show_right('openECI');
 			if (!iFrameResizer) {
-				iFrameResize({ onResized: innerIFrameResized }, '#openECI');
-				iFrameResizer = true;
+				var params = '';
+				var fieldValue = $('#petition_signing_fullname').val();
+				if (fieldValue) {
+					var idx = fieldValue.indexOf(' ');
+					if (idx == -1) {
+						params += '&firstname=' + encodeURI(fieldValue);
+					} else {
+						params += '&firstname=' + encodeURI(fieldValue.substr(0, idx));
+						idx++;
+						params += '&lastname=' + encodeURI(fieldValue.substr(idx));
+					}
+				} else {
+					fieldValue = $('#petition_signing_firstname').val();
+					if (fieldValue) {
+						params += '&firstname=' + encodeURI(fieldValue);
+					}
+					fieldValue = $('#petition_signing_lastname').val();
+					if (fieldValue) {
+						params += '&lastname=' + encodeURI(fieldValue);
+					}
+				}
+				fieldValue = $('#petition_signing_city').val();
+				if (fieldValue) {
+					params += '&city=' + encodeURI(fieldValue);
+				}
+				fieldValue = $('#petition_signing_post_code').val();
+				if (fieldValue) {
+					params += '&postcode=' + encodeURI(fieldValue);
+				}
+				fieldValue = $('#petition_signing_country').val();
+				if (fieldValue) {
+					params += '&country=' + encodeURI(fieldValue.toLowerCase());
+				}
+				//params += '#formcol1';
+				console.log('params: ' + params);
+				srcOpenECI += params;
+				console.log('srcOpenECI: ' + srcOpenECI);
+
+				var ifr = document.createElement('iframe');
+				ifr.setAttribute('id', 'openECI');
+				ifr.setAttribute('class', 'openECI-iframe');
+				ifr.setAttribute('src', srcOpenECI);
+				ifr.setAttribute('allowtransparency', true);
+				ifr.setAttribute('frameborder', '0');
+				ifr.setAttribute('hspace', '0');
+				ifr.setAttribute('vspace', '0');
+				ifr.setAttribute('marginheight', '0');
+				ifr.setAttribute('marginwidth', '0');
+				ifr.setAttribute('scrolling', 'yes');
+
+				document.getElementById('openECIParent').prepend(ifr);
 			}
-			//resize();
-			setTimeout(function () { resize(); }, 500);
+
+			setTimeout(function () {
+				show_left('action');
+				show_right('openECI');
+				if (!iFrameResizer) {
+					iFrameResize({ onResized: innerIFrameResized }, '#openECI');
+					iFrameResizer = true;
+				}
+				resize();
+				//setTimeout(function () { resize(); }, 500);
+			}, 1000);
 		}
 		function show_donate() {
 			show_left('action');
@@ -1017,18 +1074,26 @@ $(document).ready(function($) {
 						$.post(window.location.href.split('#', 1)[0], form.serialize() + '&' + refName + '=' + ref, function(data) {
 							switch (formId) {
 								case 'sign':
-									if (isOpenECI) {
-										var eciPost = {}
-										var eciFields = ["firstname","lastname","post_code","email","country"];
-										eciFields.forEach(function (e) {
-											var val = $("#petition_signing_" + e).val();
-											if (val) {
-												eciPost[e.replace('_', '')] = val;
-											}
-										});
-										// window.top.postMessage("@speakout:sign@"+JSON.stringify(eciPost),'*');
-										document.getElementById('openECI').contentWindow.postMessage("@speakout:sign@"+JSON.stringify(eciPost),'*');
-									}
+
+//									if (isOpenECI) {
+//										var eciPost = {}
+//										var eciFields = [
+//											"firstname",
+//											"lastname",
+//											"email",
+//											"post_code",
+//											"country"
+//										];
+//										eciFields.forEach(function (e) {
+//											var val = $("#petition_signing_" + e).val();
+//											if (val) {
+//												eciPost[e.replace('_', '')] = val;
+//											}
+//										});
+//										// window.top.postMessage("@speakout:sign@"+JSON.stringify(eciPost),'*');
+//										document.getElementById('openECI').contentWindow.postMessage("@speakout:sign@"+JSON.stringify(eciPost),'*');
+//									}
+
 									window.parent.postMessage('policat_signed;' + JSON.stringify({iframe: iframe_no, widget: widget_id}) , '*');
 									hasSign = true;
 									if (isOpenECI && !openECIsigned) {
