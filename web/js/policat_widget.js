@@ -1069,6 +1069,7 @@ $(document).ready(function($) {
 									if (isOpenECI && !openECIsigned) {
 										show_openECI();
 									} else {
+										$('.openECI-ref-number').remove();
 										show_thankyou();
 									}
 									$('#widget-right .thankyou .form_message').text('');
@@ -1338,6 +1339,9 @@ $(document).ready(function($) {
 						var data = JSON.parse(event.data.substr(1 + event.data.indexOf('@', 1)));
 						if (data && typeof data === 'object' && data.uuid) {
 							$('.openECI-ref-number span').text(data.uuid);
+							if (event.data.indexOf('@openeci:duplicate@') === 0) {
+								$('.openECI-ref-number i').show();
+							}
 							$('.openECI-ref-number').show();
 							$('#petition_signing_ref_shown').val(1);
 						}

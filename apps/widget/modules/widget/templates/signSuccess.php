@@ -206,14 +206,12 @@ if (is_array($target_selectors)) {
                     <div id="content-right" class="content-right">
                         <?php if ($openECI): ?>
                         <div class="openECI-thankyou-with-sign">
+                            <h2 class="title-color"><?php echo __('Thank you') ?></h2>
+                            <div class="openECI-ref-number"><i><?php echo __("Attention: You've already taken part in this action (maybe on another website).") ?> </i><?php echo __('Your statement of support has been submitted successfully. Signature identifier') ?>: <span></span>.</div>
                             <h2 class="title-color"><?php echo __('Keep me informed') ?></h2>
-                            <p class="form_message label_color"><?php echo __('Lorem ipsum dolor sit amit.') ?></p>
                         </div>
                         <?php endif ?>
                         <div class="sign">
-                            <?php if ($openECI): ?>
-                                <div class="openECI-ref-number"><?php echo __('Reference number') ?>: <span></span>.</div>
-                            <?php endif ?>
                             <h2 class="form-title title-color"><?php echo trim(Util::enc($petition_text->getFormTitle(), array('\n' => '<br />'))) ? : __($petition->getLabel(PetitionTable::LABEL_TITLE)) ?></h2>
                             <?php
                             $disabled = false;
@@ -353,7 +351,7 @@ if (is_array($target_selectors)) {
                         <div class="thankyou">
                             <h2 class="title-color"><?php echo __('Thank you') ?></h2>
                             <?php if ($openECI): ?>
-                            <div class="openECI-ref-number"><?php echo __('Reference number') ?>: <span></span>.</div>
+                            <div class="openECI-ref-number"><i><?php echo __("Attention: You've already taken part in this action (maybe on another website).") ?> </i><?php echo __('Your statement of support has been submitted successfully. Signature identifier') ?>: <span></span>.</div>
                             <?php endif ?>
                             <p class="form_message label_color"><?php echo __('You verified your email address. Your action is confirmed. Use this moment to tell friends and family.') ?></p>
                         </div>
