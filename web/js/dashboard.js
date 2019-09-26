@@ -190,7 +190,7 @@ var tryEdits = function (prefix) {
 
 	$(prefix + '.add_popover').each(function () {
 		var $this = $(this);
-		var placement = $this.hasClass('popover_left') ? 'left' : 'right';
+		var placement = ($this.hasClass('popover_left') || ($this.parents('.popovers_left').length)) ? 'left' : 'auto';
 		var trigger = $this.hasClass('popover_hover') ? 'hover' : 'focus';
 		if ($this.is('button')) {
 			trigger = 'hover';

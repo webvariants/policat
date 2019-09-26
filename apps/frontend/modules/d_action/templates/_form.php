@@ -18,7 +18,7 @@
             </div>
         </div>
         <div class="col-md-9">
-            <div class="tab-content" id="v-pills-tabContent">
+            <div class="tab-content popovers_left" id="v-pills-tabContent">
                 <fieldset class="tab-pane fade show active tab-pane active show-before-chosen-init" id="sec1">
                     <legend>Basic settings</legend>
                     <div class="control-group">
