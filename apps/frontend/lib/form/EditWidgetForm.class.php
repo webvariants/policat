@@ -64,17 +64,19 @@ class EditWidgetForm extends WidgetForm {
     $this->setDefault('styling_width', $this->getObject()->getStyling('width', $parent ? $parent->getStyling('width') : 'auto'));
     $this->getWidgetSchema()->setLabel('styling_width', 'Width');
 
-    $culture_info    = sfCultureInfo::getInstance('en');
-    $countries_false = array_keys($culture_info->getCountries());
-    $countries       = array();
-    foreach ($countries_false as $country) {
+    if ($petition->getWithCountry()) {
+      $culture_info    = sfCultureInfo::getInstance('en');
+      $countries_false = array_keys($culture_info->getCountries());
+      $countries       = array();
+      foreach ($countries_false as $country) {
       if (!is_numeric($country)) {
-        $countries[] = $country;
+          $countries[] = $country;
       }
+      }
+      $countries = array_diff($countries, array('QU', 'ZZ'));
+      $this->setWidget('default_country', new sfWidgetFormI18nChoiceCountry(array('countries' => $countries, 'culture' => 'en', 'add_empty' => ''), array('data-placeholder' => 'No default country')));
+      $this->setValidator('default_country', new sfValidatorI18nChoiceCountry(array('countries' => $countries, 'required' => false)));
     }
-    $countries = array_diff($countries, array('QU', 'ZZ'));
-    $this->setWidget('default_country', new sfWidgetFormI18nChoiceCountry(array('countries' => $countries, 'culture' => 'en', 'add_empty' => ''), array('data-placeholder' => 'No default country')));
-    $this->setValidator('default_country', new sfValidatorI18nChoiceCountry(array('countries' => $countries, 'required' => false)));
 
     $this->setWidget('share', new WidgetFormInputCheckbox(array('value_attribute_value' => '1', 'value_checked' => '1', 'value_unchecked' => '0', 'label' => 'Include share buttons underneath sign-button')));
     $this->setValidator('share', new sfValidatorChoice(array('choices' => array('0', '1'))));

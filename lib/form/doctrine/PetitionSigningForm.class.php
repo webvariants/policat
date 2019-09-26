@@ -74,7 +74,9 @@ class PetitionSigningForm extends BasePetitionSigningForm {
           $widget = new WidgetFormI18nChoiceCountry(array('countries' => $countries, 'culture' => $culture_info->getName(), 'add_empty' => 'Country'));
           $validator = new sfValidatorI18nChoiceCountry(array('countries' => $countries));
 
-          if ($petition->getDefaultCountry()) {
+          if ($widget_object->getDefaultCountry()) {
+            $widget->setDefault($widget_object->getDefaultCountry());
+          } elseif ($petition->getDefaultCountry()) {
             $widget->setDefault($petition->getDefaultCountry());
           }
 

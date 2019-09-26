@@ -56,10 +56,6 @@ class widgetActions extends policatActions
 
     if (empty ($this->widget)) return $this->forward404('No widget found');
 
-    if ($defaultCountry = $this->widget->getDefaultCountry()) {
-      $this->widget->getPetition()->setDefaultCountry($defaultCountry);
-    }
-
     $this->setContentTags($this->widget);
     $this->addContentTags($this->widget->getCampaign());
     $this->addContentTags($this->widget->getPetition());
@@ -146,12 +142,13 @@ class widgetActions extends policatActions
 
     if (!isset($new_widget))
     {
-      $new_widget                  = new Widget();
-      $new_widget['Parent']        = $this->widget;
-      $new_widget['Campaign']      = $this->widget['Campaign'];
-      $new_widget['Petition']      = $this->widget['Petition'];
-      $new_widget['PetitionText']  = $this->widget['PetitionText'];
-      $new_widget['email_targets'] = $this->widget['email_targets'];
+      $new_widget                    = new Widget();
+      $new_widget['Parent']          = $this->widget;
+      $new_widget['Campaign']        = $this->widget['Campaign'];
+      $new_widget['Petition']        = $this->widget['Petition'];
+      $new_widget['PetitionText']    = $this->widget['PetitionText'];
+      $new_widget['email_targets']   = $this->widget['email_targets'];
+      $new_widget['default_country'] = $this->widget['default_country'];
     }
 
     $subscribe_text = trim($this->petition_text['subscribe_text']);
