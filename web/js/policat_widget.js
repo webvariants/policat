@@ -254,7 +254,7 @@ $(document).ready(function($) {
 			resize();
 		}
 		function show_thankyou() {
-			if (openECI && !hasSign) {
+			if (isOpenECI && !hasSign) {
 				show_right('openECI-thankyou-with-sign');
 				fontResize($('.font-size-auto-subscribe'));
 				$('.font-size-auto-subscribe').removeClass('font-size-auto-subscribe');
