@@ -15,7 +15,7 @@
         <?php if ($font_css_file): ?><link href="<?php echo $font_css_file ?>" rel="reload" as="style" /><?php endif ?>
         <link rel="preload" href="/js/dist/jquery-1.10.2.min.js" as="script">
         <link rel="preload" href="/js/dist/policat_widget.js?<?php echo filemtime(sfConfig::get('sf_web_dir') . '/js/dist/policat_widget.js') ?>" as="script">
-        <link rel="preload" href="/js/lib/iframeResizer/iframeResizer.min.js" as="script">
+        <?php if ($openECI): ?><link rel="preload" href="/js/lib/iframeResizer/iframeResizer.min.js" as="script"><?php endif ?>
         <meta http-equiv="X-UA-Compatible" content="IE=edge" />
         <meta name="language" content="<?php echo $lang ?>" />
         <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" />
@@ -251,6 +251,7 @@ if (is_array($target_selectors)) {
                             <form <?php if ($disabled): ?>style="display:none"<?php endif ?> id="sign" class="sign-form" action="" method="post" autocomplete="off">
                                 <?php echo $form->renderHiddenFields() ?>
                                 <fieldset>
+                                    <?php if ($openECI): ?><div class="form-row"><label></label><div class="form-text"><?php echo __('Be part of the movement') ?></div></div><?php endif ?>
                                     <?php
                                     foreach ($form as $fieldname => $fieldwidget) {
                                       $group = $form->isGroupedField($fieldname);
@@ -274,7 +275,7 @@ if (is_array($target_selectors)) {
                                 </div>
                                 <?php if ($openECI): ?>
                                 <div class="go-to-eci-form">
-                                    <a class="go-to-eci-form" href="">sign ECI</a>
+                                    <a class="go-to-eci-form" href=""><?php echo __('Skip and directly support the citizen initiative') ?></a>
                                 </div>
                                 <?php endif ?>
                             </form>
@@ -289,9 +290,8 @@ if (is_array($target_selectors)) {
                         </div>
                         <?php if ($openECI): ?>
                         <div class="openECI" id="openECIParent">
-                            <a class="back button-color button-btn"><?php echo __('Back') ?></a>
-                        <?php endif ?>
                         </div>
+                        <?php endif ?>
                         <?php if ($petition->getShowEmbed()): ?>
                         <div class="embed-this">
                             <h2 class="title-color"><?php echo __('Embed this') ?></h2>
@@ -452,7 +452,7 @@ if (is_array($target_selectors)) {
         <div id="labels-inside"></div>
         <script type="text/javascript" src="/js/dist/jquery-1.10.2.min.js"></script>
         <script type="text/javascript" src="/js/dist/policat_widget.js?<?php echo filemtime(sfConfig::get('sf_web_dir') . '/js/dist/policat_widget.js') ?>"></script>
-        <script type="text/javascript" src="/js/lib/iframeResizer/iframeResizer.min.js"></script>
+        <?php if ($openECI): ?><script type="text/javascript" src="/js/lib/iframeResizer/iframeResizer.min.js"></script><?php endif ?>
     </body>
 </html>
 <!-- <?php echo $petition->getId() ?> / <?php echo $widget->getPetitionTextId() ?> / <?php echo $widget->getId() ?> -->

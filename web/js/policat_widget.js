@@ -1,7 +1,7 @@
 jscolor.dir = '/js/dist/';
 
 $(document).ready(function($) {
-	(function($, widget_id, window, Math, target_selectors, CT_extra, t_sel, t_sel_all, petition_id, numberSeparator, isOpenECI) {
+	(function($, widget_id, window, Math, target_selectors, CT_extra, t_sel, t_sel_all, petition_id, numberSeparator, isOpenECI, srcOpenECI) {
 		var widget = $('#widget');
 		var widget_left = $('#widget-left');
 		var widget_right = $('#widget-right');
@@ -27,7 +27,7 @@ $(document).ready(function($) {
 		var openECIsigned = false;
 		var refId = null;
 		var refCode = null;
-		var iFrameResizer = false;
+		var openECIiframeLoaded = false;
 
 		var numberWithCommas = function numberWithCommas(x) {
 			return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, numberSeparator);
@@ -132,10 +132,7 @@ $(document).ready(function($) {
 			old_height = height;
 		}
 
-		function innerIFrameResized(innerIFrame) {
-			//window.parent.postMessage('policat_debug;' + innerIFrame.iframe + ';' + innerIFrame.height + ';' + innerIFrame.width + ';' + innerIFrame.type, '*');
-			window.parent.postMessage('policat_debug;' + innerIFrame.height + ';' + innerIFrame.width + ';' + innerIFrame.type, '*');
-
+		function openECIiFrameResized(innerIFrame) {
 			var iframe = document.getElementById('openECI');
 			if (iframe) {
 				iframe.style.height = innerIFrame.height + 'px';
@@ -174,7 +171,7 @@ $(document).ready(function($) {
 		}
 
 		function show_openECI() {
-			if (!iFrameResizer) {
+			if (!openECIiframeLoaded) {
 				var params = '';
 				var fieldValue = $('#petition_signing_fullname').val();
 				if (fieldValue) {
@@ -202,21 +199,18 @@ $(document).ready(function($) {
 				}
 				fieldValue = $('#petition_signing_post_code').val();
 				if (fieldValue) {
-					params += '&postcode=' + encodeURI(fieldValue);
+					params += '&postalCode=' + encodeURI(fieldValue);
 				}
 				fieldValue = $('#petition_signing_country').val();
 				if (fieldValue) {
 					params += '&country=' + encodeURI(fieldValue.toLowerCase());
 				}
 				//params += '#formcol1';
-				console.log('params: ' + params);
-				srcOpenECI += params;
-				console.log('srcOpenECI: ' + srcOpenECI);
 
 				var ifr = document.createElement('iframe');
 				ifr.setAttribute('id', 'openECI');
 				ifr.setAttribute('class', 'openECI-iframe');
-				ifr.setAttribute('src', srcOpenECI);
+				ifr.setAttribute('src', srcOpenECI + params);
 				ifr.setAttribute('allowtransparency', true);
 				ifr.setAttribute('frameborder', '0');
 				ifr.setAttribute('hspace', '0');
@@ -226,18 +220,14 @@ $(document).ready(function($) {
 				ifr.setAttribute('scrolling', 'yes');
 
 				document.getElementById('openECIParent').prepend(ifr);
-			}
 
-			setTimeout(function () {
-				show_left('action');
-				show_right('openECI');
-				if (!iFrameResizer) {
-					iFrameResize({ onResized: innerIFrameResized }, '#openECI');
-					iFrameResizer = true;
-				}
-				resize();
-				//setTimeout(function () { resize(); }, 500);
-			}, 1000);
+				iFrameResize({ onResized: openECIiFrameResized }, '#openECI');
+				openECIiframeLoaded = true;
+			}
+			show_left('action');
+			show_right('openECI');
+
+			resize();
 		}
 		function show_donate() {
 			show_left('action');
@@ -1074,26 +1064,6 @@ $(document).ready(function($) {
 						$.post(window.location.href.split('#', 1)[0], form.serialize() + '&' + refName + '=' + ref, function(data) {
 							switch (formId) {
 								case 'sign':
-
-//									if (isOpenECI) {
-//										var eciPost = {}
-//										var eciFields = [
-//											"firstname",
-//											"lastname",
-//											"email",
-//											"post_code",
-//											"country"
-//										];
-//										eciFields.forEach(function (e) {
-//											var val = $("#petition_signing_" + e).val();
-//											if (val) {
-//												eciPost[e.replace('_', '')] = val;
-//											}
-//										});
-//										// window.top.postMessage("@speakout:sign@"+JSON.stringify(eciPost),'*');
-//										document.getElementById('openECI').contentWindow.postMessage("@speakout:sign@"+JSON.stringify(eciPost),'*');
-//									}
-
 									window.parent.postMessage('policat_signed;' + JSON.stringify({iframe: iframe_no, widget: widget_id}) , '*');
 									hasSign = true;
 									if (isOpenECI && !openECIsigned) {
@@ -1387,5 +1357,5 @@ $(document).ready(function($) {
 			});
 		}
 
-	})($, widget_id, window, Math, target_selectors, CT_extra, t_sel, t_sel_all, petition_id, numberSeparator, isOpenECI);
+	})($, widget_id, window, Math, target_selectors, CT_extra, t_sel, t_sel_all, petition_id, numberSeparator, isOpenECI, srcOpenECI);
 });
