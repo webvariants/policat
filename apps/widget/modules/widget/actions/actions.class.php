@@ -56,6 +56,10 @@ class widgetActions extends policatActions
 
     if (empty ($this->widget)) return $this->forward404('No widget found');
 
+    if ($defaultCountry = $this->widget->getDefaultCountry()) {
+      $this->widget->getPetition()->setDefaultCountry($defaultCountry);
+    }
+
     $this->setContentTags($this->widget);
     $this->addContentTags($this->widget->getCampaign());
     $this->addContentTags($this->widget->getPetition());

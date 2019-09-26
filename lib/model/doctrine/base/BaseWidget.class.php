@@ -40,6 +40,7 @@
  * @property string                                     $email_targets                                   Type: clob
  * @property string                                     $social_share_text                               Type: clob
  * @property int                                        $cron_signings24                                 Type: integer(4)
+ * @property string                                     $default_country                                 Type: string(5)
  * @property Campaign                                   $Campaign                                        
  * @property Petition                                   $Petition                                        
  * @property PetitionText                               $PetitionText                                    
@@ -92,6 +93,7 @@
  * @method string                                       getEmailTargets()                                Type: clob
  * @method string                                       getSocialShareText()                             Type: clob
  * @method int                                          getCronSignings24()                              Type: integer(4)
+ * @method string                                       getDefaultCountry()                              Type: string(5)
  * @method Campaign                                     getCampaign()                                    
  * @method Petition                                     getPetition()                                    
  * @method PetitionText                                 getPetitionText()                                
@@ -144,6 +146,7 @@
  * @method Widget                                       setEmailTargets(string $val)                     Type: clob
  * @method Widget                                       setSocialShareText(string $val)                  Type: clob
  * @method Widget                                       setCronSignings24(int $val)                      Type: integer(4)
+ * @method Widget                                       setDefaultCountry(string $val)                   Type: string(5)
  * @method Widget                                       setCampaign(Campaign $val)                       
  * @method Widget                                       setPetition(Petition $val)                       
  * @method Widget                                       setPetitionText(PetitionText $val)               
@@ -321,6 +324,12 @@ abstract class BaseWidget extends myDoctrineRecord
              'notnull' => true,
              'default' => 0,
              'length' => 4,
+             ));
+        $this->hasColumn('default_country', 'string', 5, array(
+             'type' => 'string',
+             'notnull' => true,
+             'default' => '',
+             'length' => 5,
              ));
 
 
