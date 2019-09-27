@@ -57,14 +57,18 @@ class PetitionFieldsForm extends BasePetitionForm {
     $this->setValidator('with_comments', new sfValidatorChoice(array('choices' => array(0, 1), 'required' => true)));
 
     $culture_info = sfCultureInfo::getInstance('en');
-    $countries_false = array_keys($culture_info->getCountries());
-    $countries = array();
-    foreach ($countries_false as $country) {
-      if (!is_numeric($country)) {
-        $countries[] = $country;
+    if ($this->getObject()->getCountryCollectionId()) {
+      $countries = $this->getObject()->getCountryCollection()->getCountriesList();
+    } else {
+      $countries_false = array_keys($culture_info->getCountries());
+      $countries = array();
+      foreach ($countries_false as $country) {
+        if (!is_numeric($country)) {
+          $countries[] = $country;
+        }
       }
+      $countries = array_diff($countries, array('QU', 'ZZ'));
     }
-    $countries = array_diff($countries, array('QU', 'ZZ'));
     $this->setWidget('default_country', new sfWidgetFormI18nChoiceCountry(array('countries' => $countries, 'culture' => 'en', 'add_empty' => ''), array('data-placeholder' => 'No default country')));
     $this->setValidator('default_country', new sfValidatorI18nChoiceCountry(array('countries' => $countries, 'required' => false)));
 

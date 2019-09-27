@@ -66,15 +66,23 @@ class EditWidgetForm extends WidgetForm {
 
     if ($petition->getWithCountry()) {
       $culture_info    = sfCultureInfo::getInstance('en');
-      $countries_false = array_keys($culture_info->getCountries());
-      $countries       = array();
-      foreach ($countries_false as $country) {
-      if (!is_numeric($country)) {
-          $countries[] = $country;
+      if ($petition->getCountryCollectionId()) {
+          $countries = $petition->getCountryCollection()->getCountriesList();
+      } else {
+        $countries_false = array_keys($culture_info->getCountries());
+        $countries       = array();
+        foreach ($countries_false as $country) {
+          if (!is_numeric($country)) {
+            $countries[] = $country;
+          }
+        }
+        $countries = array_diff($countries, array('QU', 'ZZ'));
       }
+
+      $this->setWidget('default_country', new sfWidgetFormI18nChoiceCountry(array('countries' => $countries, 'culture' => 'en', 'add_empty' => ''), array('data-placeholder' => 'use action default' . ($petition->getDefaultCountry() ? ' (' . $culture_info->getCountry($petition->getDefaultCountry()) . ')' : ''))));
+      if ($petition->getDefaultCountry()) {
+        $this->setDefault('default_country', $petition->getDefaultCountry());
       }
-      $countries = array_diff($countries, array('QU', 'ZZ'));
-      $this->setWidget('default_country', new sfWidgetFormI18nChoiceCountry(array('countries' => $countries, 'culture' => 'en', 'add_empty' => ''), array('data-placeholder' => 'No default country')));
       $this->setValidator('default_country', new sfValidatorI18nChoiceCountry(array('countries' => $countries, 'required' => false)));
     }
 
