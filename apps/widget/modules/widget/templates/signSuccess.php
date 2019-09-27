@@ -357,7 +357,7 @@ if (is_array($target_selectors)) {
                             <?php if ($openECI): ?>
                             <div class="openECI-ref-number"><i><?php echo __("Attention: You've already taken part in this action (maybe on another website).") ?> </i><?php echo __('Your statement of support has been submitted successfully. Signature identifier') ?>: <span></span>.</div>
                             <?php endif ?>
-                            <p class="form_message label_color"><?php echo __('You verified your email address. Your action is confirmed. Use this moment to tell friends and family.') ?></p>
+                            <p class="form_message label_color"><?php echo __('You verified your email address. Use this moment to tell friends and family.') ?></p>
                         </div>
                         <?php if ($petition->getLastSignings() != PetitionTable::LAST_SIGNINGS_NO): ?>
                           <div class="last-signings">
