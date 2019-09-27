@@ -67,7 +67,7 @@ if (is_array($target_selectors)) {
         <?php UtilTheme::printCss($widget, $petition); ?><!-- <?php echo $petition['themeId'] ?> -->
     </head>
     <body>
-        <div id="widget" class="widget">
+        <div id="widget" class="widget <?php echo $openECI ? 'eci' : '' ?>">
             <?php if ($title || $target): ?>
               <div class="header">
                   <?php if ($title): ?><h1 class="action-title"><?php echo Util::enc($title) ?></h1><?php endif ?>

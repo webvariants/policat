@@ -483,6 +483,16 @@ span.checkbox {
 	}
 }
 
+.eci {
+	.widget-body {
+		@media (min-width: @width-two-column-min) {
+			&::before {
+				right: 60%;
+			}
+		}
+	}
+}
+
 .right-only {
 	@media (min-width: @width-two-column-min) {
 		&::before {
