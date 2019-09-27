@@ -92,8 +92,14 @@ class PetitionSigningForm extends BasePetitionSigningForm {
           }
           break;
         case Petition::FIELD_SUBSCRIBE:
-          $widget = new WidgetFormInputCheckbox(array('value_attribute_value' => 1), $petition->getSubscribeDefault() == PetitionTable::SUBSCRIBE_CHECKBOX_DEFAULT_YES ? array('checked' => 'checked') : array('class' => $petition->getSubscribeDefault() == PetitionTable::SUBSCRIBE_CHECKBOX_REQUIRED ? 'required' : ''));
-          $validator = new sfValidatorChoice(array('choices' => array('1'), 'required' => $petition->getSubscribeDefault() == PetitionTable::SUBSCRIBE_CHECKBOX_REQUIRED));
+          if ($petition->getSubscribeDefault() == PetitionTable::SUBSCRIBE_CHECKBOX_RADIO) {
+            $this->getObject()->setSubscribe('unset'); // workaround to uncheck radio
+            $widget = new sfWidgetFormChoice(array('choices' => array('1' => 'Yes, please', '0' => 'No, thank you'), 'expanded' => true, 'renderer_class' => 'FormatterRadio', 'renderer_options' => array('label_separator' => '')), array('class' => 'required'));
+            $validator = new sfValidatorChoice(array('choices' => array('1', '0')));
+          } else {
+            $widget = new WidgetFormInputCheckbox(array('value_attribute_value' => 1), $petition->getSubscribeDefault() == PetitionTable::SUBSCRIBE_CHECKBOX_DEFAULT_YES ? array('checked' => 'checked') : array('class' => $petition->getSubscribeDefault() == PetitionTable::SUBSCRIBE_CHECKBOX_REQUIRED ? 'required' : ''));
+            $validator = new sfValidatorChoice(array('choices' => array('1'), 'required' => $petition->getSubscribeDefault() == PetitionTable::SUBSCRIBE_CHECKBOX_REQUIRED));
+          }
           $label = 'Keep me posted on this and similar campaigns.';
           $subscribe_text = trim($this->getOption('subscribe_text'));
           if ($subscribe_text) {

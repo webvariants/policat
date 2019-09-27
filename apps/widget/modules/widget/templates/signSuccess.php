@@ -264,6 +264,10 @@ if (is_array($target_selectors)) {
                                           <label class="short-text">&raquo;&nbsp;<?php echo __('PP Heading') ?></label>
                                       </div>
                                     <?php endif; ?>
+                                    <div id="subscribe-checkbox" style="display:none"><!--
+                                        <label for="petition_signing_subscribe"><?php echo __('Keep me posted on this and similar campaigns.') ?></label>
+                                        <span class="checkbox"><input class="required" type="checkbox" name="petition_signing[subscribe]" value="1" id="petition_signing_subscribe"></span>-->
+                                    </div>
                                 </fieldset>
                                 <div class="submit-sign-container">
                                     <button type="button" class="submit submit-sign submit-no-subscribe"><span class="font-size-auto"><?php echo strtr(__($petition->getLabel(PetitionTable::LABEL_BUTTON)), array(' ' => '&nbsp;')) ?></span></button>

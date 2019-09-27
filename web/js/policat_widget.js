@@ -248,7 +248,8 @@ $(document).ready(function($) {
 				show_right('openECI-thankyou-with-sign');
 				fontResize($('.font-size-auto-subscribe'));
 				$('.font-size-auto-subscribe').removeClass('font-size-auto-subscribe');
-				$('#petition_signing_subscribe').addClass('required');
+				$('.form-row.subscribe').html($('#subscribe-checkbox').html().replace('<!--', '').replace('-->', '').trim());
+				// $('#petition_signing_subscribe').addClass('required');
 			} else {
 				show_right('thankyou');
 				widget.addClass('right-only');
@@ -1043,6 +1044,11 @@ $(document).ready(function($) {
 					$(this).parent().parent().addClass('form-error');
 					form_error = true;
 				});
+
+				if ($('#petition_signing_subscribe_1.required:not(:checked)', form).length && $('#petition_signing_subscribe_0.required:not(:checked)', form).length) {
+					$('.form-row.subscribe').addClass('form-error');
+					form_error = true;
+				}
 
 				if (!form_error) {
 					if (formId == 'paypal') {
