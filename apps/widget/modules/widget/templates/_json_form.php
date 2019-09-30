@@ -8,10 +8,11 @@ if (isset($form))
   if ($form->isValid())
   {
     if ($form instanceof PetitionSigningForm) {
+      $petition = $form->getObject()->getPetition();
       if ($form->getNoMails()) {
         $errors['extra'] = __("Attention: You've already taken part in this action (maybe on another website).");
       } elseif ($form->getSkipValidation()) {
-        $errors['extra'] = __('Use this moment to tell friends and family.');
+        $errors['extra'] = ($petition->getKind() == Petition::KIND_OPENECI ? '' : __('Your action is confirmed.')) . ' ' . __('Use this moment to tell friends and family.');
       } else {
         $errors['extra'] = __("Attention: You will receive a confirmation email. Check your email inbox (and junk folder) now! To confirm your action, click the link given in the email.");
       }

@@ -205,7 +205,7 @@ if (is_array($target_selectors)) {
                 <div id="widget-right" class="widget-right show-sign">
                     <div id="content-right" class="content-right">
                         <?php if ($openECI): ?>
-                        <div class="openECI-thankyou-with-sign">
+                        <div class="openECI-thankyou-with-sign"><?php /* Shown if ECI is signed before policat  */ ?>
                             <h2 class="title-color"><?php echo __('Thank you') ?></h2>
                             <div class="openECI-ref-number"><i><?php echo __("Attention: You've already taken part in this action (maybe on another website).") ?> </i><?php echo __('Your statement of support has been submitted successfully. Signature identifier') ?>: <span></span>. <?php echo __('Use this moment to tell friends and family.') ?></div>
                             <h2 class="title-color"><?php echo __('Keep me informed') ?></h2>
@@ -352,12 +352,15 @@ if (is_array($target_selectors)) {
                             <a class="back button-color button-btn"><?php echo __('Back') ?></a>
                         </div>
                         <?php endif ?>
-                        <div class="thankyou">
+                        <div class="thankyou"><?php /* Shown after policat (and maybe ECI) signed OR after email-validation */ ?>
                             <h2 class="title-color"><?php echo __('Thank you') ?></h2>
                             <?php if ($openECI): ?>
                             <div class="openECI-ref-number"><i><?php echo __("Attention: You've already taken part in this action (maybe on another website).") ?> </i><?php echo __('Your statement of support has been submitted successfully. Signature identifier') ?>: <span></span>.</div>
                             <?php endif ?>
-                            <p class="form_message label_color"><?php echo __('You verified your email address.') . ' ' . __('Use this moment to tell friends and family.') ?></p>
+                            <p class="form_message label_color">
+                                <?php /* This can be overwritten by js through, see policat_widget.js and _json_form.php */ ?>
+                                <?php echo __('You verified your email address.') . ' ' . __('Use this moment to tell friends and family.') ?>
+                            </p>
                         </div>
                         <?php if ($petition->getLastSignings() != PetitionTable::LAST_SIGNINGS_NO): ?>
                           <div class="last-signings">
