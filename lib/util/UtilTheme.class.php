@@ -41,7 +41,7 @@ class UtilTheme {
         return array_diff_key(self::$THEMES, array_combine(self::$DISABLE_KIND[$kind], self::$DISABLE_KIND[$kind]));
     }
 
-    return $THEMES;
+    return self::$THEMES;
   }
 
   public static $REMOVE_CLASSIC_CSS = array(6);
