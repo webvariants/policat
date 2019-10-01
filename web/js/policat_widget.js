@@ -1349,11 +1349,11 @@ $(document).ready(function($) {
 							if (event.data.indexOf('@openeci:duplicate@') === 0) {
 								$('.openECI-message .eci-duplicate').show();
 								$('.openECI-message .eci-success').hide();
+								$('.error-email-old').remove(); // remove duplicate warning message from policat form (search ValidatorUniqueEmail)
 							}
 							$('.openECI-message').show();
 							$('#petition_signing_ref_shown').val(1);
 						}
-						$('.error-email-old').remove(); // remove duplicate warning message from policat form (search ValidatorUniqueEmail)
 						openECIsigned = true;
 						$('div.go-to-eci-form').remove();
 						show_thankyou();

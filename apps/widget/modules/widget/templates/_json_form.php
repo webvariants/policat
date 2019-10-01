@@ -15,7 +15,7 @@ if (isset($form))
         // no targets on EMAIL-TO-LIST or PLEDGE action
         $errors['extra'] = array('code' => 'info', 'message' => __("Attention: You've already taken part in this action (maybe on another website)."));
       } elseif ($form->getSkipValidation()) {
-        $errors['extra'] = array('code' => 'info', 'message' => ($petition->getKind() == Petition::KIND_OPENECI ? '' : __('Your action is confirmed.')) . ' ' . __('Use this moment to tell friends and family.'));
+        $errors['extra'] = array('code' => 'info', 'message' => $petition->getKind() == Petition::KIND_OPENECI ? __('Use this moment to tell friends and family.') : (__('Your action is confirmed.') . ' ' . __('Use this moment to tell friends and family.')));
       } else {
         $errors['extra'] = array('code' => 'info', 'message' => __("Attention: You will receive a confirmation email. Check your email inbox (and junk folder) now! To confirm your action, click the link given in the email."));
       }
