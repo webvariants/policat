@@ -17,9 +17,20 @@ RUN npm run install
 
 RUN npm run grunt
 
-FROM webvariants/php:7.2-fpm-alpine
+FROM alpine:3.10 as compress
 
-RUN apk add --no-cache brotli --repository=http://dl-cdn.alpinelinux.org/alpine/edge/community
+RUN apk add --no-cache brotli
+
+COPY --from=assets /app/web /app/web
+
+WORKDIR /app
+
+RUN find web/css/dist -type f -name '*.css' -exec gzip -9 -k -f "{}" \; && \
+    find web/css/dist -type f -name '*.css' -exec brotli -q 11 -k -f "{}" \; && \
+    find web/js/dist  -type f -name '*.js'  -exec gzip -9 -k -f "{}" \; && \
+    find web/js/dist  -type f -name '*.js'  -exec brotli -q 11 -k -f "{}" \;
+
+FROM webvariants/php:7.2-fpm-alpine
 
 COPY composer.json composer.lock /app/
 
@@ -38,12 +49,7 @@ RUN cd config && \
     cd ../apps/widget && \
     ln -s ../../data/i18n i18n
 
-COPY --from=assets /app/web /app/web
-
-RUN find web/css/dist -type f -name '*.css' -exec gzip -9 -k -f "{}" \; && \
-    find web/css/dist -type f -name '*.css' -exec brotli -q 11 -k -f "{}" \; && \
-    find web/js/dist  -type f -name '*.js'  -exec gzip -9 -k -f "{}" \; && \
-    find web/js/dist  -type f -name '*.js'  -exec brotli -q 11 -k -f "{}" \;
+COPY --from=compress /app/web /app/web
 
 ENV PHP_IMAGE_VERSION=2 \
     WEB_ROOT=/app/web \
