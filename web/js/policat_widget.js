@@ -1351,6 +1351,10 @@ $(document).ready(function($) {
 								$('.openECI-message .eci-success').hide();
 								$('.error-email-old').remove(); // remove duplicate warning message from policat form (search ValidatorUniqueEmail)
 							}
+							if (!hasSign) {
+								$('.openECI-message .eci-please-sign-policat').show();
+								$('.openECI-message .eci-tell').hide();
+							}
 							$('.openECI-message').show();
 							$('#petition_signing_ref_shown').val(1);
 						}

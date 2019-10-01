@@ -207,8 +207,7 @@ if (is_array($target_selectors)) {
                         <?php if ($openECI): ?>
                         <div class="openECI-thankyou-with-sign"><?php /* Shown if ECI is signed before policat  */ ?>
                             <h2 class="title-color"><?php echo __('Thank you') ?></h2>
-                            <div class="openECI-message"><span class="eci-duplicate"><?php echo __("Attention: You've already taken part in this action (maybe on another website).") ?></span><span class="eci-success"><?php echo __('Your statement of support has been submitted successfully.') ?></span> <?php echo __('Signature identifier') ?>: <span class="eci-number"></span>. <?php echo __('Use this moment to tell friends and family.') ?></div>
-                            <h2 class="title-color"><?php echo __('Keep me informed') ?></h2>
+                            <div class="openECI-message"><span class="eci-duplicate"><?php echo __("Attention: You've already taken part in this action (maybe on another website).") ?></span><span class="eci-success"><?php echo __('Your statement of support has been submitted successfully.') ?></span> <?php echo __('Signature identifier') ?>: <span class="eci-number"></span>. <span class="eci-tell"><?php echo __('Use this moment to tell friends and family.') ?></span><span class="eci-please-sign-policat"><?php echo __('Sign up and become part of the movement.') ?></span></div>
                         </div>
                         <?php endif ?>
                         <div class="sign">
@@ -249,7 +248,6 @@ if (is_array($target_selectors)) {
                             <form <?php if ($disabled): ?>style="display:none"<?php endif ?> id="sign" class="sign-form" action="" method="post" autocomplete="off">
                                 <?php echo $form->renderHiddenFields() ?>
                                 <fieldset>
-                                    <?php if ($openECI): ?><div class="form-row"><label></label><div class="form-text"><?php echo __('Be part of the movement') ?></div></div><?php endif ?>
                                     <?php
                                     foreach ($form as $fieldname => $fieldwidget) {
                                       $group = $form->isGroupedField($fieldname);
