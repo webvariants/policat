@@ -3,18 +3,21 @@ use_helper('I18N');
 if (isset($form))
 {
   $errors = array();
-  foreach ($form->getErrorSchema() as  $field => $error) $errors[$field] = __($error->getMessage());
+  foreach ($form->getErrorSchema() as  $field => $error) {
+    $errors[$field] = array('message' => __($error->getMessage()), 'code' => $error->getCode());
+  }
 
   if ($form->isValid())
   {
     if ($form instanceof PetitionSigningForm) {
       $petition = $form->getObject()->getPetition();
       if ($form->getNoMails()) {
-        $errors['extra'] = __("Attention: You've already taken part in this action (maybe on another website).");
+        // no targets on EMAIL-TO-LIST or PLEDGE action
+        $errors['extra'] = array('code' => 'info', 'message' => __("Attention: You've already taken part in this action (maybe on another website)."));
       } elseif ($form->getSkipValidation()) {
-        $errors['extra'] = ($petition->getKind() == Petition::KIND_OPENECI ? '' : __('Your action is confirmed.')) . ' ' . __('Use this moment to tell friends and family.');
+        $errors['extra'] = array('code' => 'info', 'message' => ($petition->getKind() == Petition::KIND_OPENECI ? '' : __('Your action is confirmed.')) . ' ' . __('Use this moment to tell friends and family.'));
       } else {
-        $errors['extra'] = __("Attention: You will receive a confirmation email. Check your email inbox (and junk folder) now! To confirm your action, click the link given in the email.");
+        $errors['extra'] = array('code' => 'info', 'message' => __("Attention: You will receive a confirmation email. Check your email inbox (and junk folder) now! To confirm your action, click the link given in the email."));
       }
     }
 //    else if ($form instanceof TellyourForm)
@@ -28,5 +31,6 @@ if (isset($form))
   'extra'   => isset($extra) ? $extra : null
   ));
 }
-else
+else {
   echo json_encode('Error: something went wrong.');
+}

@@ -1075,12 +1075,12 @@ $(document).ready(function($) {
 									if (isOpenECI && !openECIsigned) {
 										show_openECI();
 									} else {
-										$('.openECI-ref-number').remove();
+										$('.openECI-message').remove();
 										show_thankyou();
 									}
 									$('#widget-right .thankyou .form_message').text('');
 									for (var error in data.errors) {
-										$('#widget-right .thankyou .form_message').append($('<div></div>').text(data.errors[error]));
+										$('#widget-right .thankyou .form_message').append($('<div></div>').addClass('error-' + error + '-' + data.errors[error].code).text(data.errors[error].message));
 									}
 									widget.addClass('has_sign');
 									resize();
@@ -1342,15 +1342,18 @@ $(document).ready(function($) {
 			window.addEventListener('message', function(event) {
 				if (typeof event.data === 'string') {
 					if (event.data.indexOf('@openeci:duplicate@') === 0 || event.data.indexOf('@openeci:sign@') === 0) {
+						// event: just signed eci (maybe duplicate)
 						var data = JSON.parse(event.data.substr(1 + event.data.indexOf('@', 1)));
 						if (data && typeof data === 'object' && data.uuid) {
-							$('.openECI-ref-number span').text(data.uuid);
+							$('.openECI-message .eci-number').text(data.uuid);
 							if (event.data.indexOf('@openeci:duplicate@') === 0) {
-								$('.openECI-ref-number i').show();
+								$('.openECI-message .eci-duplicate').show();
+								$('.openECI-message .eci-success').hide();
 							}
-							$('.openECI-ref-number').show();
+							$('.openECI-message').show();
 							$('#petition_signing_ref_shown').val(1);
 						}
+						$('.error-email-old').remove(); // remove duplicate warning message from policat form (search ValidatorUniqueEmail)
 						openECIsigned = true;
 						$('div.go-to-eci-form').remove();
 						show_thankyou();
