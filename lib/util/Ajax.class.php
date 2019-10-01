@@ -13,7 +13,7 @@ class Ajax {
   protected $data = array();
 
   /**
-   * @var sfAction 
+   * @var sfAction
    */
   protected $action = null;
 
@@ -29,7 +29,7 @@ class Ajax {
   public function jSelect($cmd, $selector, $args = array()) {
     return $this->add('j', array('cmd' => $cmd, 'selector' => $selector, 'args' => $args));
   }
-  
+
   public function j0($cmd, $selector) {
     return $this->jSelect($cmd, $selector, array());
   }
@@ -73,7 +73,7 @@ class Ajax {
   public function remove($selector) {
     return $this->jSelect('remove', $selector);
   }
-  
+
   public function append($selector, $markup) {
     return $this->j('append', $selector, $markup);
   }
@@ -85,7 +85,7 @@ class Ajax {
   public function appendComponent($selector, $moduleName, $componentName, $vars = null) {
     return $this->jComponent('append', $selector, $moduleName, $componentName, $vars);
   }
-  
+
   public function afterPartial($selector, $templateName, $vars = null) {
     return $this->jPartial('after', $selector, $templateName, $vars);
   }
@@ -113,15 +113,15 @@ class Ajax {
   public function removeClass($selector, $class) {
     return $this->j('removeClass', $selector, $class);
   }
-  
+
   public function val($selector, $value) {
     return $this->j('val', $selector, $value);
   }
-  
+
   public function trigger($selector, $value) {
     return $this->j('trigger', $selector, $value);
   }
-  
+
   public function empty_($selector) {
     return $this->j0('empty', $selector);
   }
@@ -153,6 +153,18 @@ class Ajax {
           'raw' => $raw,
           'type' => $type
       ));
+  }
+
+  public function info($message = '', $heading = 'Info') {
+    return
+      $this
+        ->modal('#info_modal', 'hide')
+        ->appendPartial('body', 'dashboard/infoModal', array(
+          'heading' => $heading,
+          'message' => $message
+        ))
+        ->modal('#info_modal')
+        ;
   }
 
   public function setAlertTarget($selector = null, $action = null) {
@@ -189,7 +201,7 @@ class Ajax {
   public function initRecaptcha() {
     return $this->add('initRecaptcha');
   }
-  
+
   public function click($selector) {
     return $this->j0('click', $selector);
   }
@@ -209,7 +221,7 @@ class Ajax {
   public function __toString() {
     return '   Do not forget to call render()!   ';
   }
-  
+
   public function edits($selector = null) {
     return $this->add('edits', $selector);
   }
