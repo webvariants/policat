@@ -195,11 +195,11 @@ class EditPetitionForm extends PetitionFieldsForm {
 
     if ($this->getObject()->getKind() == Petition::KIND_PETITION || $this->getObject()->getKind() == Petition::KIND_OPENECI) {
       $this->setWidget('validation_required', new sfWidgetFormChoice(array(
-          'choices' => array(Petition::VALIDATION_REQUIRED_NO => 'No. Validation not required to count signing.', Petition::VALIDATION_REQUIRED_YES => 'Yes. Validation required to count signing.', Petition::VALIDATION_REQUIRED_YES_IF_SUBSCRIBE => 'Only if "keep-me-posted" is selected.'),
-          'label' => 'Opt-In email to validate email address'
+          'choices' => array(Petition::VALIDATION_REQUIRED_YES => 'Yes. Email verification required to count signing.', Petition::VALIDATION_REQUIRED_NO => 'Yes. Email verification not required to count signing.', Petition::VALIDATION_REQUIRED_YES_IF_SUBSCRIBE => 'Only to opt-ins. Email verification required to access opted-in email addresses.'),
+          'label' => 'Send confirmation (opt-in) email to verify email address'
         ), array(
           'class' => 'add_popover',
-          'data-content' => 'PoliCAT sends this email to each signee, asking to validate the stated email address. This is to improve the credibility of your data: it confirms that the stated email address exists and belongs to the participant. Sometimes, participants will not click this link (e.g. because they forget or the verification email lands in their spam filter). Thus, we recommend that you count signatures immediately (i.e. select "no"). This will also give you access to non-verified data, and may improve your overall participation count. The verification email always includes an "opt-out" link, allowing participants to revoke their participation and delete their data.',
+          'data-content' => 'A confirmation (opt-in) email is sent to a signee/participant, asking to verify their email address by clicking on a link provided in the email. This improves the credibility of your data as it confirms that it was really the owner of this email who participated in your action; it might also prevent abuse of the sign-up form. A confirmation (opt-in) email is a legal requirement for you to use opted-in email addresses i.e. to send emails to signees who selected the "keep me informed" option. The confirmation (opt-in) email also provides an opt-out link, allowing participants to revoke their participation and, as is their right, have their data deleted automatically.',
       )));
       $this->setValidator('validation_required', new sfValidatorChoice(array('choices' => array(Petition::VALIDATION_REQUIRED_NO, Petition::VALIDATION_REQUIRED_YES, Petition::VALIDATION_REQUIRED_YES_IF_SUBSCRIBE), 'required' => true)));
     } else {
