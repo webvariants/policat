@@ -94,7 +94,7 @@ class PetitionSigningForm extends BasePetitionSigningForm {
         case Petition::FIELD_SUBSCRIBE:
           if ($petition->getSubscribeDefault() == PetitionTable::SUBSCRIBE_CHECKBOX_RADIO) {
             $this->getObject()->setSubscribe('unset'); // workaround to uncheck radio
-            $widget = new sfWidgetFormChoice(array('choices' => array('1' => 'Yes, please', '0' => 'No, thank you'), 'expanded' => true, 'renderer_class' => 'FormatterRadio', 'renderer_options' => array('label_separator' => '')), array('class' => 'required'));
+            $widget = new sfWidgetFormChoice(array('choices' => array('1' => 'Yes, please', '0' => 'No, thank you'), 'expanded' => true, 'renderer_class' => 'FormatterRadio', 'renderer_options' => array('label_separator' => '')), array('class' => 'required', 'data-row-class' => 'subscribe-radio'));
             $validator = new sfValidatorChoice(array('choices' => array('1', '0')));
           } else {
             $widget = new WidgetFormInputCheckbox(array('value_attribute_value' => 1), $petition->getSubscribeDefault() == PetitionTable::SUBSCRIBE_CHECKBOX_DEFAULT_YES ? array('checked' => 'checked') : array('class' => $petition->getSubscribeDefault() == PetitionTable::SUBSCRIBE_CHECKBOX_REQUIRED ? 'required' : ''));

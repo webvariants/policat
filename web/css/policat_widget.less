@@ -589,13 +589,13 @@ a.back-priv-1 {
 	}
 }
 
-@media (min-width: 440px) {
+@media (min-width: @width-two-column-min) {
 	.eci {
 		.widget-left {
-			width: 40%;
+			width: 50%;
 		}
 		.widget-right {
-			width: 60%;
+			width: 50%;
 		}
 	}
 }
@@ -611,6 +611,19 @@ a.back-priv-1 {
 			cursor: pointer;
 			&:hover {
 				text-decoration: underline;
+			}
+
+			&.parted-label {
+				cursor: default;
+				text-decoration: none;
+				span {
+					&.label-link {
+						cursor: pointer;
+						&:hover {
+							text-decoration: underline;
+						}
+					}
+				}
 			}
 		}
 	}

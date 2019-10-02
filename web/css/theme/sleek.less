@@ -1,5 +1,8 @@
-@width-one-column-max: 439px;
-@width-two-column-min: 440px;
+@import "../policat_widget.less";
+@import "../policat_widget_variables.less";
+
+@width-one-column-max: 640px;
+@width-two-column-min: 641px;
 
 @enable-label-left: true;
 @width-label-left-1-min: 800px;
@@ -364,6 +367,15 @@ span.checkbox {
 			padding-left: 25px;
 		}
 	}
+
+	.subscribe-radio {
+		> label {
+			padding-left: 0;
+		}
+		.form-check {
+			margin-left: 0;
+		}
+	}
 }
 
 .widget-left {
@@ -447,6 +459,15 @@ span.checkbox {
 		.select-wrap:first-child {
 			margin-left: 40%;
 		}
+
+		&.privacy, &.subscribe {
+			margin-left: 40%;
+			width: 60%;
+
+			label {
+				width: auto;
+			}
+		}
 	}
 
 	.subscribe when (@enable-label-left = true) {
@@ -487,7 +508,7 @@ span.checkbox {
 	.widget-body {
 		@media (min-width: @width-two-column-min) {
 			&::before {
-				right: 60%;
+				right: 50%;
 			}
 		}
 	}

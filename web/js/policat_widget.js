@@ -249,7 +249,7 @@ $(document).ready(function($) {
 				fontResize($('.font-size-auto-subscribe'));
 				$('.font-size-auto-subscribe').removeClass('font-size-auto-subscribe');
 				if ($('#subscribe-checkbox').length) {
-					$('.form-row.subscribe').html($('#subscribe-checkbox').html().replace('<!--', '').replace('-->', '').trim());
+					$('.form-row.subscribe').removeClass('subscribe-radio').html($('#subscribe-checkbox').html().replace('<!--', '').replace('-->', '').trim());
 					$('#subscribe-checkbox').remove();
 				}
 				// $('#petition_signing_subscribe').addClass('required');
@@ -319,6 +319,20 @@ $(document).ready(function($) {
 					return null;
 				}
 			}
+		}
+
+		var privacy_label = $('div.privacy label');
+		var privacy_label_text = privacy_label.text();
+		var privacy_label_text_parts = privacy_label_text.split('_');
+		privacy_label.attr('for', 'useless');
+		if (privacy_label_text_parts.length === 3) {
+			privacy_label.text('');
+			privacy_label.append($('<span></span>').text(privacy_label_text_parts[0]));
+			privacy_label.append($('<span class="label-link"></span>').text(privacy_label_text_parts[1]).click(show_privacy_policy));
+			privacy_label.append($('<span></span>').text(privacy_label_text_parts[2]));
+			privacy_label.addClass('parted-label');
+		} else {
+			privacy_label.click(show_privacy_policy);
 		}
 
 		fontResize(font_size_auto_elements);
@@ -1147,10 +1161,6 @@ $(document).ready(function($) {
 
 		$('#a-donate').click(function() {
 			show_donate();
-		});
-
-		$('div.privacy label').attr('for', 'useless').click(function() {
-			show_privacy_policy();
 		});
 
 		$('a.newwin, .widget-left a:not(.back):not(.nonewwin)').click(function() {

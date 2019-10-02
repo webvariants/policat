@@ -252,7 +252,8 @@ if (is_array($target_selectors)) {
                                     foreach ($form as $fieldname => $fieldwidget) {
                                       $group = $form->isGroupedField($fieldname);
                                       if (!$fieldwidget->isHidden()) {
-                                        printf('<div class="form-row %s%s%s">%s</div>', $fieldname, $group ? ' group' : '', $group === 2 ? ' first' : '', $fieldwidget->renderRow());
+                                        $extra_row_class = $fieldwidget->getWidget()->getAttribute('data-row-class');
+                                        printf('<div class="form-row %s%s%s %s">%s</div>', $fieldname, $group ? ' group' : '', $group === 2 ? ' first' : '', $extra_row_class, $fieldwidget->renderRow());
                                       }
                                     }
                                     if (!isset($form[Petition::FIELD_PRIVACY])):

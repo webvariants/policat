@@ -44,7 +44,7 @@ class UtilTheme {
     return self::$THEMES;
   }
 
-  public static $REMOVE_CLASSIC_CSS = array(6);
+  public static $REMOVE_CLASSIC_CSS = array(2, 5, 6);
 
   public static function removeClassicCss($widget, $petition) {
     $variables = null;
