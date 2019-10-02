@@ -248,7 +248,10 @@ $(document).ready(function($) {
 				show_right('openECI-thankyou-with-sign');
 				fontResize($('.font-size-auto-subscribe'));
 				$('.font-size-auto-subscribe').removeClass('font-size-auto-subscribe');
-				$('.form-row.subscribe').html($('#subscribe-checkbox').html().replace('<!--', '').replace('-->', '').trim());
+				if ($('#subscribe-checkbox').length) {
+					$('.form-row.subscribe').html($('#subscribe-checkbox').html().replace('<!--', '').replace('-->', '').trim());
+					$('#subscribe-checkbox').remove();
+				}
 				// $('#petition_signing_subscribe').addClass('required');
 			} else {
 				show_right('thankyou');
