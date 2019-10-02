@@ -17,14 +17,16 @@ class UtilTheme {
       3 => 'Light',
       4 => 'Classic - modified',
       5 => 'Minimal Sleek',
-      6 => 'Flat'
+      6 => 'Flat',
+      7 => 'Sleek variant 1',
   );
   public static $CSS_FILES = array(
       2 => 'sleek.css',
       3 => 'light.css',
       4 => 'classic-modified.css',
       5 => 'minimal.css',
-      6 => 'flat.css'
+      6 => 'flat.css',
+      7 => 'sleek-variant-1.css',
   );
 
   public static $MAX_WIDTH = array(
@@ -44,7 +46,7 @@ class UtilTheme {
     return self::$THEMES;
   }
 
-  public static $REMOVE_CLASSIC_CSS = array(2, 5, 6);
+  public static $REMOVE_CLASSIC_CSS = array(2, 5, 6, 7);
 
   public static function removeClassicCss($widget, $petition) {
     $variables = null;
