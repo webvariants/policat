@@ -353,7 +353,7 @@ if (is_array($target_selectors)) {
                         <div class="thankyou"><?php /* Shown after policat (and maybe ECI) signed OR after email-validation */ ?>
                             <h2 class="title-color"><?php echo __('Thank you') ?></h2>
                             <?php if ($openECI): ?>
-                            <div class="openECI-message"><span class="eci-duplicate"><?php echo __("Attention: You've already taken part in this action (maybe on another website).") ?></span><span class="eci-success"><?php echo __('Your statement of support has been submitted successfully.') ?></span> <?php echo __('Signature identifier') ?>: <span class="eci-number"></span>.</div>
+                            <div class="openECI-message"><span class="eci-duplicate"><?php echo __("Attention: You've already taken part in this action (maybe on another website).") ?></span><span class="eci-success"><?php echo __('Your statement of support has been submitted successfully.') ?></span> <?php echo __('Signature identifier') ?>: <span class="eci-number"></span>. <span class="eci-tell"><?php echo __('Use this moment to tell friends and family.') ?></span></div>
                             <?php endif ?>
                             <p class="form_message label_color">
                                 <?php /* This can be overwritten by js through, see policat_widget.js and _json_form.php */ ?>

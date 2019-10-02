@@ -1346,13 +1346,16 @@ $(document).ready(function($) {
 						var data = JSON.parse(event.data.substr(1 + event.data.indexOf('@', 1)));
 						if (data && typeof data === 'object' && data.uuid) {
 							$('.openECI-message .eci-number').text(data.uuid);
-							if (event.data.indexOf('@openeci:duplicate@') === 0) {
+							if (event.data.indexOf('@openeci:duplicate@') === 0 && !$('.error-extra-confirmation').length) {
 								$('.openECI-message .eci-duplicate').show();
 								$('.openECI-message .eci-success').hide();
-								$('.error-email-old').remove(); // remove duplicate warning message from policat form (search ValidatorUniqueEmail)
 							}
+							$('.error-email-old').remove(); // remove duplicate warning message from policat form (search ValidatorUniqueEmail)
 							if (!hasSign) {
 								$('.openECI-message .eci-please-sign-policat').show();
+								$('.openECI-message .eci-tell').hide();
+							}
+							if ($('.error-extra-confirmation').length) {
 								$('.openECI-message .eci-tell').hide();
 							}
 							$('.openECI-message').show();
