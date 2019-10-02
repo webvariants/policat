@@ -1,5 +1,7 @@
 @import "sleek.less";
 
+@sleek-input-radius: 10px;
+
 @media (max-width: @width-one-column-max) {
 	#petition_text, #readmore, #down-button {
 		display: none;
@@ -8,4 +10,35 @@
 	#content-right {
 		padding-top: 0;
 	}
+}
+
+.submit {
+	border-radius: 30px;
+	background-image: none;
+}
+
+input[type=text], textarea, select {
+	box-shadow: none;
+}
+
+.form-error {
+	input[type=text],
+	textarea {
+		box-shadow: none;
+	}
+}
+
+.form-valid.form-indicator-positive {
+	input[type=text],
+	textarea {
+		box-shadow: none;
+	}
+}
+
+.count .count-bar {
+	background: var(--button-color-darker);
+}
+
+.count .count-bar div {
+	background: var(--button-color);
 }

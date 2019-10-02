@@ -8,6 +8,8 @@
 @width-label-left-1-min: 800px;
 @width-label-left-2-min: 330px;
 
+@sleek-input-radius: 5px;
+
 body {
 	font-size: 14px;
 }
@@ -245,7 +247,7 @@ input[type=checkbox] {
 
 input[type=text] {
 	height: 40px;
-	border-radius: 5px;
+	border-radius: @sleek-input-radius;
 	font-size: 15px;
 	line-height: 20px;
 	padding: 10px 12px;
@@ -253,7 +255,7 @@ input[type=text] {
 
 select {
 	height: 38px;
-	border-radius: 5px;
+	border-radius: @sleek-input-radius;
 	font-size: 15px;
 	padding-left: 7px;
 }
@@ -330,7 +332,7 @@ a.back {
 }*/
 
 .select-wrap, textarea {
-	border-radius: 5px;
+	border-radius: @sleek-input-radius;
 }
 
 .form-row {
