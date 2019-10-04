@@ -608,20 +608,18 @@ a.back-priv-1 {
 
 	.privacy {
 		label {
-			cursor: pointer;
-			&:hover {
-				text-decoration: underline;
+			span.label-link {
+				cursor: pointer;
+				&:hover {
+					text-decoration: underline;
+				}
 			}
 
-			&.parted-label {
-				cursor: default;
-				text-decoration: none;
-				span {
-					&.label-link {
-						cursor: pointer;
-						&:hover {
-							text-decoration: underline;
-						}
+			&.long-text {
+				span.label-link {
+					text-decoration: underline;
+					&:hover {
+						text-decoration: none;
 					}
 				}
 			}
@@ -843,6 +841,9 @@ input[type=checkbox]+p {
 	}
 	.country {
 		margin-top: 5px;
+		label {
+			display: none;
+		}
 	}
 
 	.subscribe, .privacy  {

@@ -321,19 +321,7 @@ $(document).ready(function($) {
 			}
 		}
 
-		var privacy_label = $('div.privacy label');
-		var privacy_label_text = privacy_label.text();
-		var privacy_label_text_parts = privacy_label_text.split('_');
-		privacy_label.attr('for', 'useless');
-		if (privacy_label_text_parts.length === 3) {
-			privacy_label.text('');
-			privacy_label.append($('<span></span>').text(privacy_label_text_parts[0]));
-			privacy_label.append($('<span class="label-link"></span>').text(privacy_label_text_parts[1]).click(show_privacy_policy));
-			privacy_label.append($('<span></span>').text(privacy_label_text_parts[2]));
-			privacy_label.addClass('parted-label');
-		} else {
-			privacy_label.click(show_privacy_policy);
-		}
+		$('div.privacy label span.label-link').click(show_privacy_policy);
 
 		fontResize(font_size_auto_elements);
 

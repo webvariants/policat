@@ -80,7 +80,7 @@ class PetitionSigningForm extends BasePetitionSigningForm {
             $widget->setDefault($petition->getDefaultCountry());
           }
 
-          $label = false;
+          $label = 'Country';
           break;
         case Petition::FIELD_PRIVACY:
           if ($petition->getPolicyCheckbox() == PetitionTable::POLICY_CHECKBOX_YES) {
