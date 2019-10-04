@@ -383,6 +383,7 @@ PetitionText:
 
     read_more_url:              { type: string }
     landing_url:                { type: string }
+    landing2_url:               { type: string }
 
     widget_id:                  { type: integer(4), notnull: false }
 
@@ -467,6 +468,7 @@ Widget:
     organisation:      { type: string(200) }
 
     landing_url:       { type: string }
+    landing2_url:      { type: string }
     donate_url:        { type: string(200), notnull: false, default: null }
     donate_text:       { type: clob,        notnull: false }
 

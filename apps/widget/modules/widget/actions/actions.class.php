@@ -353,8 +353,9 @@ class widgetActions extends policatActions
 
             $this->ref      = $petition_signing->getField(Petition::FIELD_REF);
             $this->wid      = $petition_signing->getWidgetId();
+            $this->show_eci = ($petition->getKind() == Petition::KIND_OPENECI) && !$petition_signing->getRefShown();
 
-            $this->landing_url = $widget->findLandingUrl($petition);
+            $this->landing_url = $widget->findLandingUrl($petition, $this->show_eci);
             if ($this->landing_url) {
               $this->setLayout(false);
               $this->setTemplate('landing');

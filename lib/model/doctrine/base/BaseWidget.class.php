@@ -24,6 +24,7 @@
  * @property string                                     $email                                           Type: string(80)
  * @property string                                     $organisation                                    Type: string(200)
  * @property string                                     $landing_url                                     Type: string
+ * @property string                                     $landing2_url                                    Type: string
  * @property string                                     $donate_url                                      Type: string(200)
  * @property string                                     $donate_text                                     Type: clob
  * @property string                                     $ref                                             Type: string
@@ -77,6 +78,7 @@
  * @method string                                       getEmail()                                       Type: string(80)
  * @method string                                       getOrganisation()                                Type: string(200)
  * @method string                                       getLandingUrl()                                  Type: string
+ * @method string                                       getLanding2Url()                                 Type: string
  * @method string                                       getDonateUrl()                                   Type: string(200)
  * @method string                                       getDonateText()                                  Type: clob
  * @method string                                       getRef()                                         Type: string
@@ -130,6 +132,7 @@
  * @method Widget                                       setEmail(string $val)                            Type: string(80)
  * @method Widget                                       setOrganisation(string $val)                     Type: string(200)
  * @method Widget                                       setLandingUrl(string $val)                       Type: string
+ * @method Widget                                       setLanding2Url(string $val)                      Type: string
  * @method Widget                                       setDonateUrl(string $val)                        Type: string(200)
  * @method Widget                                       setDonateText(string $val)                       Type: clob
  * @method Widget                                       setRef(string $val)                              Type: string
@@ -251,6 +254,9 @@ abstract class BaseWidget extends myDoctrineRecord
              'length' => 200,
              ));
         $this->hasColumn('landing_url', 'string', null, array(
+             'type' => 'string',
+             ));
+        $this->hasColumn('landing2_url', 'string', null, array(
              'type' => 'string',
              ));
         $this->hasColumn('donate_url', 'string', 200, array(

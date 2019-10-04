@@ -21,7 +21,7 @@ class WidgetForm extends BaseWidgetForm {
   public function setup() {
     parent::setup();
     unset(
-      $this['user_id'], $this['data_owner'], $this['created_at'], $this['updated_at'], $this['campaign_id'], $this['petition_id'], $this['petition_text_id'], $this['stylings'], $this['email'], $this['organisation'], $this['validation_kind'], $this['validation_data'], $this['validation_status'], $this['edit_code'], $this['object_version'], $this['parent_id'], $this['ref'], $this['paypal_email'], $this['activity_at'], $this['last_ref'], $this['donate_url'], $this['donate_text'], $this['themeId'], $this['email_targets'], $this['social_share_text'], $this['cron_signings24'], $this['default_country']
+      $this['user_id'], $this['data_owner'], $this['created_at'], $this['updated_at'], $this['campaign_id'], $this['petition_id'], $this['petition_text_id'], $this['stylings'], $this['email'], $this['organisation'], $this['validation_kind'], $this['validation_data'], $this['validation_status'], $this['edit_code'], $this['object_version'], $this['parent_id'], $this['ref'], $this['paypal_email'], $this['activity_at'], $this['last_ref'], $this['donate_url'], $this['donate_text'], $this['themeId'], $this['email_targets'], $this['social_share_text'], $this['cron_signings24'], $this['default_country'], $this['landing2_url']
     );
     $petition = $this->getObject()->getPetition();
 
