@@ -3,12 +3,30 @@
 @sleek-input-radius: 10px;
 
 @media (max-width: @width-one-column-max) {
+	/* one column only */
+
 	#petition_text, #readmore, #down-button {
 		display: none;
 	}
 
 	#content-right {
 		padding-top: 0;
+	}
+
+	.sign .readmore-btn {
+		display: none;
+	}
+
+	@media (min-width: 380px) {
+		.sign-form fieldset {
+			margin-right: 5%;
+		}
+	}
+
+	@media (min-width: 430px) {
+		.sign-form fieldset {
+			margin-right: 15%;
+		}
 	}
 }
 
@@ -41,4 +59,16 @@ input[type=text], textarea, select {
 
 .count .count-bar div {
 	background: var(--button-color);
+}
+
+.share {
+	.share-icons {
+		text-align: center;
+		word-spacing: -1ch;
+	}
+
+	.sicon {
+		float: none;
+		display: inline-block;
+	}
 }
