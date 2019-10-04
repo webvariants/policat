@@ -248,6 +248,7 @@ if (is_array($target_selectors)) {
                             <form <?php if ($disabled): ?>style="display:none"<?php endif ?> id="sign" class="sign-form" action="" method="post" autocomplete="off">
                                 <?php echo $form->renderHiddenFields() ?>
                                 <fieldset>
+                                    <?php if ($openECI): ?><div class="form-row openECI-movement"><label></label><div class="form-text"><?php echo __('Be part of the movement') ?></div></div><?php endif ?>
                                     <?php
                                     foreach ($form as $fieldname => $fieldwidget) {
                                       $group = $form->isGroupedField($fieldname);

@@ -2,6 +2,16 @@
 
 @sleek-input-radius: 10px;
 
+.openECI-movement {
+	display: block;
+	margin-bottom: 20px;
+
+	.form-text {
+		font-size: 18px;
+		font-weight: 700;
+	}
+}
+
 @media (max-width: @width-one-column-max) {
 	/* one column only */
 
@@ -21,18 +31,43 @@
 		.sign-form fieldset {
 			margin-right: 5%;
 		}
+
+		.openECI-movement .form-text {
+			margin-right: -5%;
+		}
 	}
 
 	@media (min-width: 430px) {
 		.sign-form fieldset {
 			margin-right: 15%;
 		}
+
+		.openECI-movement .form-text {
+			margin-right: -15%;
+		}
 	}
+
+	.share {
+		.share-icons {
+			text-align: center;
+			word-spacing: -1ch;
+		}
+
+		.sicon {
+			float: none;
+			display: inline-block;
+		}
+	}
+}
+
+a {
+	color: var(--sign-button-color);
 }
 
 .submit {
 	border-radius: 30px;
 	background-image: none;
+	color: var(--background-color);
 }
 
 input[type=text], textarea, select {
@@ -54,21 +89,50 @@ input[type=text], textarea, select {
 }
 
 .count .count-bar {
-	background: var(--button-color-darker);
+	background: var(--sign-button-color-darker);
 }
 
 .count .count-bar div {
-	background: var(--button-color);
+	background: var(--sign-button-color);
 }
 
-.share {
-	.share-icons {
-		text-align: center;
-		word-spacing: -1ch;
-	}
+label {
+	font-size: 15px;
+}
 
-	.sicon {
-		float: none;
-		display: inline-block;
+.go-to-eci-form {
+	font-size: 15px;
+	font-weight: 700;
+
+	a {
+		text-decoration: none;
+		&::before {
+			content: "> ";
+		}
+
+		&:hover {
+			text-decoration: underline;
+		}
+	}
+}
+
+.count .count-text {
+	font-size: 18px;
+}
+
+.subscribe label, .privacy label {
+	font-weight: bold;
+	line-height: 20px;
+}
+
+.header {
+	h1 {
+		font-size: 36px;
+		line-height: 42px;
+
+		@media (max-width: @width-one-column-max) {
+			font-size: 36px;
+			line-height: 42px;
+		}
 	}
 }
