@@ -153,7 +153,15 @@ $(document).ready(function($) {
 
 		function show_right(name) {
 			widget.removeClass('right-only');
-			widget_right.removeClass('show-sign').removeClass('show-donate').removeClass('show-embed-this').removeClass('show-thankyou').removeClass('show-openECI').removeClass('show-openECI-thankyou-with-sign');
+			widget_right
+				.removeClass('show-sign')
+				.removeClass('show-donate')
+				.removeClass('show-embed-this')
+				.removeClass('show-thankyou')
+				.removeClass('show-openECI')
+				.removeClass('show-openECI-thankyou-with-sign')
+				.removeClass('show-openECI-thankyou-with-eci')
+			;
 			widget_right.addClass('show-' + name);
 			window.parent.postMessage('policat_show;' + JSON.stringify({side: 'right', content: name, iframe: iframe_no, widget: widget_id}) , '*');
 		}
@@ -170,40 +178,42 @@ $(document).ready(function($) {
 			resize();
 		}
 
-		function show_openECI() {
+		function openECIiframeLoader(prefill) {
 			if (!openECIiframeLoaded) {
 				var params = '';
-				var fieldValue = $('#petition_signing_fullname').val();
-				if (fieldValue) {
-					var idx = fieldValue.indexOf(' ');
-					if (idx == -1) {
-						params += '&firstname=' + encodeURI(fieldValue);
+				if (prefill) {
+					var fieldValue = $('#petition_signing_fullname').val();
+					if (fieldValue) {
+						var idx = fieldValue.indexOf(' ');
+						if (idx == -1) {
+							params += '&firstname=' + encodeURI(fieldValue);
+						} else {
+							params += '&firstname=' + encodeURI(fieldValue.substr(0, idx));
+							idx++;
+							params += '&lastname=' + encodeURI(fieldValue.substr(idx));
+						}
 					} else {
-						params += '&firstname=' + encodeURI(fieldValue.substr(0, idx));
-						idx++;
-						params += '&lastname=' + encodeURI(fieldValue.substr(idx));
+						fieldValue = $('#petition_signing_firstname').val();
+						if (fieldValue) {
+							params += '&firstname=' + encodeURI(fieldValue);
+						}
+						fieldValue = $('#petition_signing_lastname').val();
+						if (fieldValue) {
+							params += '&lastname=' + encodeURI(fieldValue);
+						}
 					}
-				} else {
-					fieldValue = $('#petition_signing_firstname').val();
+					fieldValue = $('#petition_signing_city').val();
 					if (fieldValue) {
-						params += '&firstname=' + encodeURI(fieldValue);
+						params += '&city=' + encodeURI(fieldValue);
 					}
-					fieldValue = $('#petition_signing_lastname').val();
+					fieldValue = $('#petition_signing_post_code').val();
 					if (fieldValue) {
-						params += '&lastname=' + encodeURI(fieldValue);
+						params += '&postalCode=' + encodeURI(fieldValue);
 					}
-				}
-				fieldValue = $('#petition_signing_city').val();
-				if (fieldValue) {
-					params += '&city=' + encodeURI(fieldValue);
-				}
-				fieldValue = $('#petition_signing_post_code').val();
-				if (fieldValue) {
-					params += '&postalCode=' + encodeURI(fieldValue);
-				}
-				fieldValue = $('#petition_signing_country').val();
-				if (fieldValue) {
-					params += '&country=' + encodeURI(fieldValue.toLowerCase());
+					fieldValue = $('#petition_signing_country').val();
+					if (fieldValue) {
+						params += '&country=' + encodeURI(fieldValue.toLowerCase());
+					}
 				}
 				//params += '#formcol1';
 
@@ -224,6 +234,10 @@ $(document).ready(function($) {
 				iFrameResize({ onResized: openECIiFrameResized }, '#openECI');
 				openECIiframeLoaded = true;
 			}
+		}
+
+		function show_openECI() {
+			openECIiframeLoader(true);
 			show_left('action');
 			show_right('openECI');
 
@@ -254,7 +268,14 @@ $(document).ready(function($) {
 				}
 				// $('#petition_signing_subscribe').addClass('required');
 			} else {
-				show_right('thankyou');
+				if (isOpenECI && show_eci) {
+					openECIiframeLoader(false);
+					show_right('openECI-thankyou-with-eci');
+					console.log('XXXX');
+					show_eci = false; // do not show again
+				} else {
+					show_right('thankyou');
+				}
 				widget.addClass('right-only');
 			}
 			$('.share').after($('.last-signings'));
@@ -353,8 +374,9 @@ $(document).ready(function($) {
 			var edit_code = hash_parts[1];
 		var count = decodeURIComponent(hash_parts[2]);
 		var iframe_no = hash_parts[3];
-		var name = hash_parts[4];
-		var ref = hash_parts[5];
+		var show_eci = hash_parts[4];
+		var name = hash_parts[5];
+		var ref = hash_parts[6];
 
 		if (hasSign) {
 			$('.reload', widget_right).remove();
@@ -1364,6 +1386,7 @@ $(document).ready(function($) {
 						}
 						openECIsigned = true;
 						$('div.go-to-eci-form').remove();
+						$('#widget-right .thankyou .form_message .verified-message').remove();
 						show_thankyou();
 						if (refId && refCode) {
 							$.ajax({

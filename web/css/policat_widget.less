@@ -662,8 +662,12 @@ a.back-priv-1 {
 	}
 }
 
+.verified-message-sign-eci {
+	display: none;
+}
+
 .widget-right {
-	.openECI-thankyou-with-sign,
+	.openECI-thankyou-with-eci,
 	.sign,
 	.openECI,
 	.donate,
@@ -678,11 +682,16 @@ a.back-priv-1 {
 	&.show-sign .last-signings,
 	&.show-donate .donate,
 	&.show-embed-this .embed-this,
-	&.show-openECI-thankyou-with-sign .openECI-thankyou-with-sign,
+	&.show-openECI-thankyou-with-sign .thankyou,
 	&.show-openECI-thankyou-with-sign .sign,
 	&.show-openECI-thankyou-with-sign .share,
 	&.show-openECI-thankyou-with-sign .last-signings,
 	&.show-openECI-thankyou-with-sign .donate,
+	&.show-openECI-thankyou-with-eci .thankyou,
+	&.show-openECI-thankyou-with-eci .openECI,
+	&.show-openECI-thankyou-with-eci .last-signings,
+	&.show-openECI-thankyou-with-eci .share,
+	&.show-openECI-thankyou-with-eci .donate,
 	&.show-thankyou .thankyou,
 	&.show-thankyou .last-signings,
 	&.show-sign .share-on-sign,
@@ -708,6 +717,14 @@ a.back-priv-1 {
 		.share h2 {
 			display: block;
 			margin-top: 10px;
+		}
+	}
+	&.show-openECI-thankyou-with-eci {
+		.verified-message-tell {
+			display: none;
+		}
+		.verified-message-sign-eci {
+			display: inline;
 		}
 	}
 	/*
@@ -1357,6 +1374,7 @@ h2:hover + .embed-this-help-head {
 
 .openECI-iframe {
 	width: 100%;
+	max-width: 900px;
 	min-height: 600px;
 
 	border: 0px;

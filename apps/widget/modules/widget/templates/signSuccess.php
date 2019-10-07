@@ -204,12 +204,20 @@ if (is_array($target_selectors)) {
 
                 <div id="widget-right" class="widget-right show-sign">
                     <div id="content-right" class="content-right">
-                        <?php if ($openECI): ?>
-                        <div class="openECI-thankyou-with-sign"><?php /* Shown if ECI is signed before policat  */ ?>
+                        <div class="thankyou">
                             <h2 class="title-color"><?php echo __('Thank you') ?></h2>
+                            <?php if ($openECI): ?>
                             <div class="openECI-message"><span class="eci-duplicate"><?php echo __("Attention: You've already taken part in this action (maybe on another website).") ?></span><span class="eci-success"><?php echo __('Your statement of support has been submitted successfully.') ?></span> <?php echo __('Signature identifier') ?>: <span class="eci-number"></span>. <span class="eci-tell"><?php echo __('Use this moment to tell friends and family.') ?></span><span class="eci-please-sign-policat"><?php echo __('Sign up and become part of the movement.') ?></span></div>
+                            <?php endif ?>
+                            <p class="form_message label_color">
+                                <?php /* This can be overwritten by js through, see policat_widget.js and _json_form.php */ ?>
+                                <span class="verified-message">
+                                    <?php echo __('You verified your email address.') ?>
+                                    <span class="verified-message-tell"><?php echo __('Use this moment to tell friends and family.') ?></span>
+                                    <?php if ($openECI): ?><span class="verified-message-sign-eci"><?php echo __('Take a moment to support the European Citizen Initiative.') ?></span><?php endif ?>
+                                </span>
+                            </p>
                         </div>
-                        <?php endif ?>
                         <div class="sign">
                             <h2 class="form-title title-color"><?php echo trim(Util::enc($petition_text->getFormTitle(), array('\n' => '<br />'))) ? : __($petition->getLabel(PetitionTable::LABEL_TITLE)) ?></h2>
                             <?php
@@ -357,16 +365,6 @@ if (is_array($target_selectors)) {
                             <a class="back button-color button-btn"><?php echo __('Back') ?></a>
                         </div>
                         <?php endif ?>
-                        <div class="thankyou"><?php /* Shown after policat (and maybe ECI) signed OR after email-validation */ ?>
-                            <h2 class="title-color"><?php echo __('Thank you') ?></h2>
-                            <?php if ($openECI): ?>
-                            <div class="openECI-message"><span class="eci-duplicate"><?php echo __("Attention: You've already taken part in this action (maybe on another website).") ?></span><span class="eci-success"><?php echo __('Your statement of support has been submitted successfully.') ?></span> <?php echo __('Signature identifier') ?>: <span class="eci-number"></span>. <span class="eci-tell"><?php echo __('Use this moment to tell friends and family.') ?></span></div>
-                            <?php endif ?>
-                            <p class="form_message label_color">
-                                <?php /* This can be overwritten by js through, see policat_widget.js and _json_form.php */ ?>
-                                <?php echo __('You verified your email address.') . ' ' . __('Use this moment to tell friends and family.') ?>
-                            </p>
-                        </div>
                         <?php if ($petition->getLastSignings() != PetitionTable::LAST_SIGNINGS_NO): ?>
                           <div class="last-signings">
                               <div id="last-signers-exists" class="last-signers-exists">

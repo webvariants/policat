@@ -3,6 +3,7 @@
   var policat_ref = <?php echo json_encode($ref) ?>;
   var policat_width = 'auto';
   var policat_name = <?php echo json_encode($name) ?>;
+  var policat_show_eci = <?php echo json_encode($show_eci) ?>;
 </script>
 <p class="iframe-center">
   <br />
