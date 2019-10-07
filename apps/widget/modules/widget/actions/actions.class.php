@@ -343,10 +343,18 @@ class widgetActions extends policatActions
                 $petition_signing->setQuotaEmails($quota_emails);
               }
 
-              $petition->state(Doctrine_Record::STATE_CLEAN); // prevent updating Petitiion for nothing
+              $petition->state(Doctrine_Record::STATE_CLEAN); // prevent updating Petition for nothing
               $petition_signing->setStatus(PetitionSigning::STATUS_COUNTED);
               $petition_signing->setVerified(PetitionSigning::VERIFIED_YES);
               $petition_signing->setEmailHash($petition_signing->getEmailHashAuto());
+
+              // Mail Export
+              if ($petition->getMailexportEnabled()
+                && $petition_signing->getSubscribe() == Petition_Singing::SUBSCRIBE_YES
+                && $petition_signing->getMailexportPending() == Petition_Singing::MAILEXPORT_PENDING_NO) {
+                $petition_signing->setMailexportPending(Petition_Singing::MAILEXPORT_PENDING_YES);
+              }
+
               UtilThankYouEmail::send($petition_signing);
               $petition_signing->save();
             }

@@ -725,4 +725,31 @@ class Petition extends BasePetition {
   public function getCleanData($key, $default = null) {
     return array_key_exists($key, $this->cleanData) ? $this->cleanData[$key] : $default;
   }
+
+  public function getMailexportData($field = null, $default = null) {
+    $json = $this->getMailexport();
+    if ($json) {
+      $data = json_decode($json, true);
+      if ($field) {
+        if (array_key_exists($field, $data)) {
+          return $data[$field];
+        } else {
+          return $default;
+        }
+      } else {
+        return $data;
+      }
+    } else {
+      if ($field) {
+        return $default;
+      } else {
+        return [];
+      }
+    }
+  }
+
+  public function setMailexportData($data) {
+    $this->setMailexport(json_encode($data));
+  }
+
 }

@@ -56,6 +56,7 @@
  * @property string                                        $bounce_error                                       Type: string(20)
  * @property int                                           $download_subscriber_id                             Type: integer(4)
  * @property int                                           $download_data_id                                   Type: integer(4)
+ * @property int                                           $mailexportPending                                  Type: integer(1)
  * @property Petition                                      $Petition                                           
  * @property Campaign                                      $Campaign                                           
  * @property PetitionText                                  $PetitionText                                       
@@ -122,6 +123,7 @@
  * @method string                                          getBounceError()                                    Type: string(20)
  * @method int                                             getDownloadSubscriberId()                           Type: integer(4)
  * @method int                                             getDownloadDataId()                                 Type: integer(4)
+ * @method int                                             getMailexportpending()                              Type: integer(1)
  * @method Petition                                        getPetition()                                       
  * @method Campaign                                        getCampaign()                                       
  * @method PetitionText                                    getPetitionText()                                   
@@ -188,6 +190,7 @@
  * @method PetitionSigning                                 setBounceError(string $val)                         Type: string(20)
  * @method PetitionSigning                                 setDownloadSubscriberId(int $val)                   Type: integer(4)
  * @method PetitionSigning                                 setDownloadDataId(int $val)                         Type: integer(4)
+ * @method PetitionSigning                                 setMailexportpending(int $val)                      Type: integer(1)
  * @method PetitionSigning                                 setPetition(Petition $val)                          
  * @method PetitionSigning                                 setCampaign(Campaign $val)                          
  * @method PetitionSigning                                 setPetitionText(PetitionText $val)                  
@@ -472,6 +475,12 @@ abstract class BasePetitionSigning extends myDoctrineRecord
              'notnull' => false,
              'length' => 4,
              ));
+        $this->hasColumn('mailexportPending', 'integer', 1, array(
+             'type' => 'integer',
+             'notnull' => true,
+             'default' => 0,
+             'length' => 1,
+             ));
 
 
         $this->index('signing_petition_count_index2', array(
@@ -659,6 +668,13 @@ abstract class BasePetitionSigning extends myDoctrineRecord
               1 => 'petition_enabled',
               2 => 'status',
               3 => 'country',
+             ),
+             ));
+        $this->index('signing_mailexport', array(
+             'fields' => 
+             array(
+              0 => 'petition_id',
+              1 => 'mailexportPending',
              ),
              ));
         $this->option('options', NULL);

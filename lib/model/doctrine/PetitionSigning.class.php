@@ -38,6 +38,10 @@ class PetitionSigning extends BasePetitionSigning {
   const VERIFIED_NO = 0;
   const VERIFIED_YES = 1;
 
+  const MAILEXPORT_PENDING_NO = 0;
+  const MAILEXPORT_PENDING_YES = 1;
+  const MAILEXPORT_PENDING_DONE = 2;
+
   public function getStatusName() {
     $status = $this->getStatus();
     return isset(self::$STATUS_SHOW[$status]) ? self::$STATUS_SHOW[$status] : 'unknown';

@@ -62,6 +62,7 @@ Options +FollowSymLinks +ExecCGI
   RewriteRule ^action/((token)|(token_new)|(token_edit)|(token_data)|(token_addnum))/\d+$ frontend.php [QSA,L]
 
   RewriteRule ^translation/((create)|(edit)|(default))/\d+$ frontend.php [QSA,L]
+  RewriteRule ^mailexport/((setting)|(test))/\d+$ frontend.php [QSA,L]
 
   RewriteRule ^widget((/data_owner)|(/revoke_data))?$ frontend.php [QSA,L]
   RewriteRule ^widget/((new)|(edit)|(pager)|(view)|(data)|(data_email)|(data/download)|(data/prepare))/\d+$ frontend.php [QSA,L]

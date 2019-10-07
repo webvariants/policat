@@ -335,6 +335,8 @@ Petition:
     cron_signings24:         { type: integer(4), notnull: true, default: 0 }
     openeci_url:             { type: string(120), notnull: false, default: null }
     openeci_channel:         { type: string(40),  notnull: false, default: null }
+    mailexport:              { type: clob, notnull: false }
+    mailexport_enabled:      { type: integer(1), notnull: true, default: 0 }
   relations:
     Campaign:          { onDelete: CASCADE  }
     Language:          {  }
@@ -556,6 +558,7 @@ PetitionSigning:
     bounce_error:       { type: string(20), notnull: false, default: null }
     download_subscriber_id: { type: integer(4), notnull: false, default: null }
     download_data_id:       { type: integer(4), notnull: false, default: null }
+    mailexportPending:      { type: integer(1),  notnull: true, default: 0 }
   relations:
     Petition: { onDelete: CASCADE }
     Campaign:     { }
@@ -591,6 +594,7 @@ PetitionSigning:
     signing_language3:            { fields: [campaign_id, petition_enabled, status, language_id, id] }
     signing_list_campaign:        { fields: [campaign_id, petition_enabled, status, id] }
     signing_campaign_country:     { fields: [campaign_id, petition_enabled, status, country] }
+    signing_mailexport:           { fields: [petition_id, mailexportPending] }
 
 PetitionSigningSearch:
   options:
