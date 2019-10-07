@@ -350,9 +350,9 @@ class widgetActions extends policatActions
 
               // Mail Export
               if ($petition->getMailexportEnabled()
-                && $petition_signing->getSubscribe() == Petition_Singing::SUBSCRIBE_YES
-                && $petition_signing->getMailexportPending() == Petition_Singing::MAILEXPORT_PENDING_NO) {
-                $petition_signing->setMailexportPending(Petition_Singing::MAILEXPORT_PENDING_YES);
+                && $petition_signing->getSubscribe() == PetitionSigning::SUBSCRIBE_YES
+                && $petition_signing->getMailexportPending() == PetitionSigning::MAILEXPORT_PENDING_NO) {
+                $petition_signing->setMailexportPending(PetitionSigning::MAILEXPORT_PENDING_YES);
               }
 
               UtilThankYouEmail::send($petition_signing);
