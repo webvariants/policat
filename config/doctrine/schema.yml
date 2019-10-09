@@ -558,7 +558,7 @@ PetitionSigning:
     bounce_error:       { type: string(20), notnull: false, default: null }
     download_subscriber_id: { type: integer(4), notnull: false, default: null }
     download_data_id:       { type: integer(4), notnull: false, default: null }
-    mailexportPending:      { type: integer(1),  notnull: true, default: 0 }
+    mailexport_pending:     { type: integer(1),  notnull: true, default: 0 }
   relations:
     Petition: { onDelete: CASCADE }
     Campaign:     { }
@@ -594,7 +594,7 @@ PetitionSigning:
     signing_language3:            { fields: [campaign_id, petition_enabled, status, language_id, id] }
     signing_list_campaign:        { fields: [campaign_id, petition_enabled, status, id] }
     signing_campaign_country:     { fields: [campaign_id, petition_enabled, status, country] }
-    signing_mailexport:           { fields: [petition_id, mailexportPending] }
+    signing_mailexport:           { fields: [petition_id, mailexport_pending] }
 
 PetitionSigningSearch:
   options:

@@ -7,10 +7,10 @@ class Version236 extends Doctrine_Migration_Base
     public function up()
     {
         $this->addIndex('petition_signing', 'signing_mailexport', array(
-             'fields' => 
+             'fields' =>
              array(
               0 => 'petition_id',
-              1 => 'mailexportpending',
+              1 => 'mailexport_pending',
              ),
              ));
     }
@@ -18,10 +18,10 @@ class Version236 extends Doctrine_Migration_Base
     public function down()
     {
         $this->removeIndex('petition_signing', 'signing_mailexport', array(
-             'fields' => 
+             'fields' =>
              array(
               0 => 'petition_id',
-              1 => 'mailexportpending',
+              1 => 'mailexport_pending',
              ),
              ));
     }

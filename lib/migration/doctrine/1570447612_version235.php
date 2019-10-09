@@ -9,7 +9,7 @@ class Version235 extends Doctrine_Migration_Base
         $this->addColumn('petition', 'mailexport', 'clob', '', array(
              'notnull' => '',
              ));
-        $this->addColumn('petition_signing', 'mailexportpending', 'integer', '1', array(
+        $this->addColumn('petition_signing', 'mailexport_pending', 'integer', '1', array(
              'notnull' => '1',
              'default' => '0',
              ));
@@ -18,6 +18,6 @@ class Version235 extends Doctrine_Migration_Base
     public function down()
     {
         $this->removeColumn('petition', 'mailexport');
-        $this->removeColumn('petition_signing', 'mailexportpending');
+        $this->removeColumn('petition_signing', 'mailexport_pending');
     }
 }
