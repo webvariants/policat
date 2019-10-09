@@ -56,6 +56,7 @@ class TicketTable extends Doctrine_Table {
   const KIND_TARGET_LIST_BOUNCE = 16;
   const KIND_SUBSCRIPTION_ORDER_ISSUED = 17;
   const KIND_QUOTA_MISSING_OPEN_ORDER = 18;
+  const KIND_MAILEXPORT_ERROR = 19;
 
   static $KIND_NAME = array(
       self::KIND_DEFAULT => 'Default',
@@ -76,6 +77,7 @@ class TicketTable extends Doctrine_Table {
       self::KIND_TARGET_LIST_BOUNCE => 'Target-list has bounces',
       self::KIND_SUBSCRIPTION_ORDER_ISSUED => 'Subscription package for campaign renewed. Make sure to pay your invoice swiftly.',
       self::KIND_QUOTA_MISSING_OPEN_ORDER => 'Package required, open order',
+      self::KIND_MAILEXPORT_ERROR => 'Mail export error',
   );
   static $KIND_HANDLER = array(
       self::KIND_DEFAULT => 'default',
@@ -96,6 +98,7 @@ class TicketTable extends Doctrine_Table {
       self::KIND_TARGET_LIST_BOUNCE => 'none',
       self::KIND_SUBSCRIPTION_ORDER_ISSUED => 'none',
       self::KIND_QUOTA_MISSING_OPEN_ORDER => 'none',
+      self::KIND_MAILEXPORT_ERROR => 'none',
   );
   static $KIND_HANDLER_DENY = array(
       self::KIND_DEFAULT => 'default',
@@ -116,6 +119,7 @@ class TicketTable extends Doctrine_Table {
       self::KIND_TARGET_LIST_BOUNCE => 'none',
       self::KIND_SUBSCRIPTION_ORDER_ISSUED => 'none',
       self::KIND_QUOTA_MISSING_OPEN_ORDER => 'none',
+      self::KIND_MAILEXPORT_ERROR => 'none',
   );
   static $KIND_TEMPLATE = array(
       self::KIND_DEFAULT => 'Default (#DATE#)',
@@ -136,6 +140,7 @@ class TicketTable extends Doctrine_Table {
       self::KIND_TARGET_LIST_BOUNCE => '<strong>Manage bounces in</strong> target list #TARGETLIST# used by campaign #CAMPAIGN#. (#DATE#)',
       self::KIND_SUBSCRIPTION_ORDER_ISSUED => 'Your subscription package for campaign "#CAMPAIGN#" was renewed and an invoice was issued. Make your payment soon to ensure that all your actions remain active. Click "#BUY-PACKAGE#" for order details and your invoice (#DATE#)<br />#TEXT#',
       self::KIND_QUOTA_MISSING_OPEN_ORDER => 'You need to pay the bill to (re-)start your action(s) in campaign #CAMPAIGN#. #BUY-PACKAGE# (#DATE#)<br />#TEXT#',
+      self::KIND_MAILEXPORT_ERROR => 'There was an error exporting the addresses for the e-action #PETITION# (#CAMPAIGN#). Please check and test your settings. (#DATE#)<br />#TEXT#',
   );
 
   const STATUS_NEW = 1;

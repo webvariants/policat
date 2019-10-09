@@ -35,7 +35,16 @@ abstract class MailExport {
     return false;
   }
 
+  protected function queryPendingSignings(Petition $petition) {
+    return PetitionSigningTable::getInstance()->query([
+      PetitionSigningTable::PETITION => $petition->getId(),
+      PetitionSigningTable::MAILEXPORT_PENDING => PetitionSigning::MAILEXPORT_PENDING_YES,
+    ]);
+  }
+
   abstract public function formSetup(MailExportSettingForm $form);
 
   abstract public function getName();
+
+  abstract public function export(Petition $petition, $verbose = false);
 }
