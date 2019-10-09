@@ -281,6 +281,20 @@ class Widget extends BaseWidget {
     return $landing_url;
   }
 
+  public function getInheritLanding2Url() {
+    $landing_url2 = trim($this->getLanding2Url());
+
+    if (!$landing_url2 && $this->getParentId()) {
+      $landing_url2 = trim($this->getParent()->getLanding2Url());
+    }
+
+    if (!$landing_url2 && $this->getPetitionTextId()) {
+      $landing_url2 = trim($this->getPetitionText()->getLanding2Url());
+    }
+
+    return $landing_url2;
+  }
+
   public function getRequireBilling() {
     return StoreTable::value(StoreTable::BILLING_ENABLE) && $this->getCampaign()->getBillingEnabled() && !$this->getCampaign()->getQuotaId();
   }

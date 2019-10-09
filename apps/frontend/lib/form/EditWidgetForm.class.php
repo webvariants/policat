@@ -208,7 +208,10 @@ class EditWidgetForm extends WidgetForm {
     $this->setValidator('landing_url', new ValidatorUrl(array('required' => false, 'trim' => true)));
 
     if ($petition->getKind() == Petition::KIND_OPENECI) {
-        $this->setWidget('landing2_url', new sfWidgetFormInput(array('label' => 'Alternative opt-in landing page, if OpenECI form was not submitted'), array(
+        $this->setWidget('landing2_url', new sfWidgetFormInput(array(
+          'label' => 'Alternative opt-in landing page, if OpenECI form was not submitted',
+          'default' => $this->getObject()->getInheritLanding2Url()
+        ), array(
             'size' => 90,
             'class' => 'add_popover large',
             'data-content' => 'Provide an alternative landing page, containing the ECI form and a prompt to "support the ECI, if you haven\'t done yet"',
