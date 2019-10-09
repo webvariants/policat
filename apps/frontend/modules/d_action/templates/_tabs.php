@@ -24,7 +24,6 @@ if ($user->isPetitionMember($petition->getRawValue(), true)) {
   if ($user->isDataOwnerOfCampaign($petition->getRawValue()->getCampaign())) {
     $list['dataSubscriptions'] = array('title' => 'Mailing addresses', 'route' => 'petition_data_email');
     $list['bounces'] = array('title' => 'Bounces', 'route' => 'petition_bounces');
-    $list['mailexport'] = array('title' => 'Mail export', 'route' => 'mailexport_setting');
   }
 }
 if ($petition->getKind() == Petition::KIND_PLEDGE) {

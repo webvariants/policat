@@ -52,3 +52,5 @@
   <p>No Api tokens yet</p>
 <?php endif ?>
 <a class="btn btn-secondary" href="<?php echo url_for('petition_token_new', array('id' => $petition->getId())) ?>">Create API token</a>
+
+<?php include_component('mailexport', 'setting', array('petition' => $petition)) ?>

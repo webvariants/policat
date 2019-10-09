@@ -27,30 +27,19 @@ class mailexportActions extends policatActions {
       return $this->noAccess();
     }
 
-    $this->petition = $petition;
-
-    $this->form = new MailExportSettingForm($petition->getMailexportData());
-
+    $form = new MailExportSettingForm($petition->getMailexportData());
     if ($request->isMethod('post')) {
-      $this->form->bind($request->getPostParameter($this->form->getName()));
+      $form->bind($request->getPostParameter($form->getName()));
 
-      if ($this->form->isValid()) {
+      if ($form->isValid()) {
 
-        $petition->setMailexportData($this->form->getValues());
+        $petition->setMailexportData($form->getValues());
         $petition->setMailexportEnabled(MailExport::checkOneEnabled($petition) ? 1 : 0);
         $petition->save();
         return $this->ajax()->redirectRotue('petition_overview', array('id' => $petition->getId()))->render();
 
       } else {
-        return $this->ajax()->form($this->form)->render();
-      }
-    }
-
-    $this->test_csrf_token = UtilCSRF::gen('mailexport_test', $petition->getId());
-    $this->enabled_services = [];
-    foreach (MailExport::getServices() as $name => $service) {
-      if ($service->checkEnabled($petition)) {
-        $this->enabled_services[$name] = $service->getName();
+        return $this->ajax()->form($form)->render();
       }
     }
   }
