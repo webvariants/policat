@@ -271,7 +271,6 @@ $(document).ready(function($) {
 				if (isOpenECI && show_eci) {
 					openECIiframeLoader(false);
 					show_right('openECI-thankyou-with-eci');
-					console.log('XXXX');
 					show_eci = false; // do not show again
 				} else {
 					show_right('thankyou');
@@ -374,7 +373,7 @@ $(document).ready(function($) {
 			var edit_code = hash_parts[1];
 		var count = decodeURIComponent(hash_parts[2]);
 		var iframe_no = hash_parts[3];
-		var show_eci = hash_parts[4];
+		var show_eci = hash_parts[4] == '1';
 		var name = hash_parts[5];
 		var ref = hash_parts[6];
 
