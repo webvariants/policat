@@ -41,3 +41,5 @@ cache/*
 
 /docker/data-develop/*
 /docker/config-develop/data/*
+
+/.env

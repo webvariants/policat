@@ -70,6 +70,10 @@ services:
     user: "${USER_UID:-1000}:${USER_GID:-1000}"
     cap_drop:
       - ALL
+    ulimits:
+      core:
+        soft: 0
+        hard: 0
     environment:
       PHP_IMAGE_VERSION: "2"
       MINICRON_EXEC: 1

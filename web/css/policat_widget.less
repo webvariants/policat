@@ -584,13 +584,22 @@ a.back-priv-1 {
 }
 
 .thankyou {
-	h2 {
-		font-size: 20px;
-	}
 	div {
 		font-size: 14px;
 	}
 }
+
+@media (min-width: @width-two-column-min) {
+	.eci {
+		.widget-left {
+			width: 50%;
+		}
+		.widget-right {
+			width: 50%;
+		}
+	}
+}
+
 .widget-right {
 	float: left;
 	padding: 0;
@@ -599,9 +608,20 @@ a.back-priv-1 {
 
 	.privacy {
 		label {
-			cursor: pointer;
-			&:hover {
-				text-decoration: underline;
+			span.label-link {
+				cursor: pointer;
+				&:hover {
+					text-decoration: underline;
+				}
+			}
+
+			&.long-text {
+				span.label-link {
+					text-decoration: underline;
+					&:hover {
+						text-decoration: none;
+					}
+				}
 			}
 		}
 	}
@@ -642,8 +662,14 @@ a.back-priv-1 {
 	}
 }
 
+.verified-message-sign-eci {
+	display: none;
+}
+
 .widget-right {
+	.openECI-thankyou-with-eci,
 	.sign,
+	.openECI,
 	.donate,
 	.embed-this,
 	.thankyou,
@@ -652,9 +678,20 @@ a.back-priv-1 {
 		display: none;
 	}
 	&.show-sign .sign,
+	&.show-openECI .openECI,
 	&.show-sign .last-signings,
 	&.show-donate .donate,
 	&.show-embed-this .embed-this,
+	&.show-openECI-thankyou-with-sign .thankyou,
+	&.show-openECI-thankyou-with-sign .sign,
+	&.show-openECI-thankyou-with-sign .share,
+	&.show-openECI-thankyou-with-sign .last-signings,
+	&.show-openECI-thankyou-with-sign .donate,
+	&.show-openECI-thankyou-with-eci .thankyou,
+	&.show-openECI-thankyou-with-eci .openECI,
+	&.show-openECI-thankyou-with-eci .last-signings,
+	&.show-openECI-thankyou-with-eci .share,
+	&.show-openECI-thankyou-with-eci .donate,
 	&.show-thankyou .thankyou,
 	&.show-thankyou .last-signings,
 	&.show-sign .share-on-sign,
@@ -666,6 +703,29 @@ a.back-priv-1 {
 	&.show-thankyou .share #a-donate,
 	&.show-thankyou .donate .back  {
 		display: none;
+	}
+	&.show-openECI-thankyou-with-sign {
+		.go-to-eci-form, .count {
+			display: none;
+		}
+		.submit-no-subscribe {
+			display: none;
+		}
+		.submit-subscribe {
+			display: inline-block;
+		}
+		.share h2 {
+			display: block;
+			margin-top: 10px;
+		}
+	}
+	&.show-openECI-thankyou-with-eci {
+		.verified-message-tell {
+			display: none;
+		}
+		.verified-message-sign-eci {
+			display: inline;
+		}
 	}
 	/*
 		.thankyou, .widget-right .donate  {
@@ -739,6 +799,9 @@ button.submit-sign {
 	margin-bottom: 20px;
 	padding: 0 10px;
 }
+button.submit-subscribe {
+	display: none;
+}
 .submit.button-small {
 	font-size: 13px;
 	height: 25px;
@@ -767,6 +830,12 @@ button.submit-sign {
 		max-height: 70%;
 	}
 }
+
+div.go-to-eci-form {
+	text-align: center;
+	margin-bottom: 10px;
+}
+
 input[type=checkbox]+p {
 	font-size: 11px;
 	line-height: 14px;
@@ -789,12 +858,30 @@ input[type=checkbox]+p {
 	}
 	.country {
 		margin-top: 5px;
+		label {
+			display: none;
+		}
 	}
 
 	.subscribe, .privacy  {
 		clear: left;
 		margin-bottom: 10px;
 		position: relative;
+
+		label {
+			float: none;
+		}
+
+		.form-check {
+			position: relative;
+			clear: left;
+			margin: 10px 0 0 25px;
+
+			label {
+				float: none;
+				padding-top: 3px;
+			}
+		}
 
 		span.checkbox {
 			position: absolute;
@@ -1283,4 +1370,27 @@ h2:hover + .embed-this-help-head {
 	left: 0;
 	right: 0;
 	bottom: 0;
+}
+
+.openECI-iframe {
+	width: 100%;
+	max-width: 900px;
+	min-height: 600px;
+
+	border: 0px;
+	outline: 0px;
+	padding: 0px;
+}
+
+.openECI-message {
+	display: none;
+	margin-bottom: 10px;
+
+	.eci-duplicate, .eci-please-sign-policat {
+		display: none;
+	}
+}
+
+.openECI-movement {
+	display: none;
 }

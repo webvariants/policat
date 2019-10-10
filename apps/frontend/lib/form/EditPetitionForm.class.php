@@ -33,7 +33,7 @@ class EditPetitionForm extends PetitionFieldsForm {
     unset($this['pledge_background_color'], $this['pledge_color'], $this['pledge_head_color'], $this['pledge_font']);
     unset($this['pledge_info_columns'], $this['pledge_with_comments'], $this['activity_at'], $this['deleted_pendings'], $this['deleted_hard_bounces'], $this['deleted_bounces_manually']);
     unset($this['label_mode'], $this['follow_petition_id'], $this['addnum'], $this['target_num'], $this['keywords_subst'], $this['addnum_email_counter'], $this['target_num_email_counter']);
-    unset($this['digest_enabled'], $this['pledge_sort_column']);
+    unset($this['digest_enabled'], $this['pledge_sort_column'], $this['mailexport'], $this['mailexport_enabled']);
 
     $this->configure_fields();
 
@@ -177,15 +177,31 @@ class EditPetitionForm extends PetitionFieldsForm {
         '"Lucida Console", Monaco, monospace', '"Lucida Sans Unicode", Verdana, Arial'
     );
 
-    if ($this->getObject()->getKind() == Petition::KIND_PETITION) {
+    if ($this->getObject()->getKind() == Petition::KIND_OPENECI) {
+        $this->setWidget('openeci_url', new sfWidgetFormInput(array('label' => 'URL'), array(
+            'size' => 90,
+            // 'class' => 'add_popover large',
+            // 'data-content' => '',
+        )));
+        $this->setValidator('openeci_url', new ValidatorUrl(array('required' => false)));
+        $this->setWidget('openeci_channel', new sfWidgetFormInput(array('label' => 'Channel'), array(
+            'size' => 90,
+            // 'class' => 'add_popover large',
+            // 'data-content' => '',
+        )));
+    } else {
+      unset($this['openeci_url'], $this['openeci_channel']);
+    }
+
+    if ($this->getObject()->getKind() == Petition::KIND_PETITION || $this->getObject()->getKind() == Petition::KIND_OPENECI) {
       $this->setWidget('validation_required', new sfWidgetFormChoice(array(
-          'choices' => array(Petition::VALIDATION_REQUIRED_NO => 'no', Petition::VALIDATION_REQUIRED_YES => 'yes'),
-          'label' => 'Validation required to count signing.'
+          'choices' => array(Petition::VALIDATION_REQUIRED_YES => 'Yes. Email verification required to count signing.', Petition::VALIDATION_REQUIRED_NO => 'Yes. Email verification not required to count signing.', Petition::VALIDATION_REQUIRED_YES_IF_SUBSCRIBE => 'Only to opt-ins. Email verification required to access opted-in email addresses.'),
+          'label' => 'Send confirmation (opt-in) email to verify email address'
         ), array(
           'class' => 'add_popover',
-          'data-content' => 'PoliCAT sends this email to each signee, asking to validate the stated email address. This is to improve the credibility of your data: it confirms that the stated email address exists and belongs to the participant. Sometimes, participants will not click this link (e.g. because they forget or the verification email lands in their spam filter). Thus, we recommend that you count signatures immediately (i.e. select "no"). This will also give you access to non-verified data, and may improve your overall participation count. The verification email always includes an "opt-out" link, allowing participants to revoke their participation and delete their data.',
+          'data-content' => 'A confirmation (opt-in) email is sent to a signee/participant, asking to verify their email address by clicking on a link provided in the email. This improves the credibility of your data as it confirms that it was really the owner of this email who participated in your action; it might also prevent abuse of the sign-up form. A confirmation (opt-in) email is a legal requirement for you to use opted-in email addresses i.e. to send emails to signees who selected the "keep me informed" option. The confirmation (opt-in) email also provides an opt-out link, allowing participants to revoke their participation and, as is their right, have their data deleted automatically.',
       )));
-      $this->setValidator('validation_required', new sfValidatorChoice(array('choices' => array(Petition::VALIDATION_REQUIRED_NO, Petition::VALIDATION_REQUIRED_YES), 'required' => true)));
+      $this->setValidator('validation_required', new sfValidatorChoice(array('choices' => array(Petition::VALIDATION_REQUIRED_NO, Petition::VALIDATION_REQUIRED_YES, Petition::VALIDATION_REQUIRED_YES_IF_SUBSCRIBE), 'required' => true)));
     } else {
       unset($this['validation_required']);
     }
@@ -380,8 +396,8 @@ class EditPetitionForm extends PetitionFieldsForm {
     $this->setValidator('subscribe_default', new sfValidatorChoice(array('choices' => array_keys(PetitionTable::$SUBSCRIBE_CHECKBOX_DEFAULT))));
     $this->getWidgetSchema()->setHelp('subscribe_default', 'You might increase your subscription rate, if you keep the checkbox preselected. However, preselection is not legally in conformity with the EU General Data Protection Regulation. It is your legal obligation to make sure your selection is in conformity with EU and national data protection legislation.');
 
-    $this->setWidget('themeId', new sfWidgetFormChoice(array('label' => 'Theme', 'choices' => UtilTheme::$THEMES)));
-    $this->setValidator('themeId', new sfValidatorChoice(array('required' => false, 'choices' => array_keys(UtilTheme::$THEMES))));
+    $this->setWidget('themeId', new sfWidgetFormChoice(array('label' => 'Theme', 'choices' => UtilTheme::themesByKind($this->getObject()->getKind()))));
+    $this->setValidator('themeId', new sfValidatorChoice(array('required' => false, 'choices' => array_keys(UtilTheme::themesByKind($this->getObject()->getKind())))));
 
     $this->setWidget('last_signings', new sfWidgetFormChoice(array('choices' => PetitionTable::$LAST_SINGINGS, 'label' => 'Show participants list'), array(
         'class' => 'toggle-on-value',

@@ -22,6 +22,10 @@ unsubscribe_signing:
   url: /unsubscribe/:code
   param: { module: widget, action: unsubscribe }
 
+ref_shown:
+  url: /ref_shown
+  param: { module: widget, action: refShown }
+
 pledge_contact:
   url: '/pledge/:petition_id/:contact_id/:secret'
   param: { module: pledge_contact, action: index }

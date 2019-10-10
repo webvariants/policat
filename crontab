@@ -6,4 +6,6 @@
 
 50 * * * * php symfony policat:signings24
 
+40 * * * * php symfony policat:mailexport -v 1
+
 */1 * * * * php symfony policat:send-emails

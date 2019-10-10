@@ -58,6 +58,8 @@ $stylings = json_encode($stylings);
 ?>
 <?php echo UtilWidget::getInitJS() ?>
 <?php echo UtilWidget::getAddStyleJS($widget['id'], $stylings) ?>
+<?php echo "\n\n"; ?>
 <?php echo (file_get_contents(sfConfig::get('sf_web_dir') . '/js/dist/policat_widget_outer.js')); ?>
+<?php echo "\n\n"; ?>
 if (typeof(policat_later_<?php echo $widget['id'] ?>) === 'undefined')
 <?php echo UtilWidget::getWidgetHereJs($widget['id'], false) ?>

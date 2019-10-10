@@ -142,12 +142,13 @@ class widgetActions extends policatActions
 
     if (!isset($new_widget))
     {
-      $new_widget                  = new Widget();
-      $new_widget['Parent']        = $this->widget;
-      $new_widget['Campaign']      = $this->widget['Campaign'];
-      $new_widget['Petition']      = $this->widget['Petition'];
-      $new_widget['PetitionText']  = $this->widget['PetitionText'];
-      $new_widget['email_targets'] = $this->widget['email_targets'];
+      $new_widget                    = new Widget();
+      $new_widget['Parent']          = $this->widget;
+      $new_widget['Campaign']        = $this->widget['Campaign'];
+      $new_widget['Petition']        = $this->widget['Petition'];
+      $new_widget['PetitionText']    = $this->widget['PetitionText'];
+      $new_widget['email_targets']   = $this->widget['email_targets'];
+      $new_widget['default_country'] = $this->widget['default_country'];
     }
 
     $subscribe_text = trim($this->petition_text['subscribe_text']);
@@ -182,6 +183,11 @@ class widgetActions extends policatActions
           $this->form->save();
           if (sfConfig::get('sf_environment') === 'stress') // ONLY FOR STRESS TEST !!!
             $extra['code'] = $this->form->getObject()->getId() . '-' . $this->form->getObject()->getValidationData();
+
+          if ($this->form->getRefCode()) {
+            $extra['ref_id'] = $this->form->getObject()->getId();
+            $extra['ref_code'] = $this->form->getRefCode();
+          }
 
           $search_table = PetitionSigningSearchTable::getInstance();
           $search_table->savePetitionSigning($sign, false);
@@ -245,6 +251,13 @@ class widgetActions extends policatActions
       $this->last_signings = PetitionSigningTable::getInstance()->lastSignings($this->petition->getId());
     } else {
       $this->last_signings = null;
+    }
+
+    $this->openECI = false;
+    if ($this->petition->getKind() == Petition::KIND_OPENECI) {
+        if ($this->petition->getOpeneciUrl() && $this->petition->getOpeneciChannel()) {
+            $this->openECI = true;
+        }
     }
   }
 
@@ -330,18 +343,27 @@ class widgetActions extends policatActions
                 $petition_signing->setQuotaEmails($quota_emails);
               }
 
-              $petition->state(Doctrine_Record::STATE_CLEAN); // prevent updating Petitiion for nothing
+              $petition->state(Doctrine_Record::STATE_CLEAN); // prevent updating Petition for nothing
               $petition_signing->setStatus(PetitionSigning::STATUS_COUNTED);
               $petition_signing->setVerified(PetitionSigning::VERIFIED_YES);
               $petition_signing->setEmailHash($petition_signing->getEmailHashAuto());
+
+              // Mail Export
+              if ($petition->getMailexportEnabled()
+                && $petition_signing->getSubscribe() == PetitionSigning::SUBSCRIBE_YES
+                && $petition_signing->getMailexportPending() == PetitionSigning::MAILEXPORT_PENDING_NO) {
+                $petition_signing->setMailexportPending(PetitionSigning::MAILEXPORT_PENDING_YES);
+              }
+
               UtilThankYouEmail::send($petition_signing);
               $petition_signing->save();
             }
 
             $this->ref      = $petition_signing->getField(Petition::FIELD_REF);
             $this->wid      = $petition_signing->getWidgetId();
+            $this->show_eci = ($petition->getKind() == Petition::KIND_OPENECI) && !$petition_signing->getRefShown();
 
-            $this->landing_url = $widget->findLandingUrl($petition);
+            $this->landing_url = $widget->findLandingUrl($petition, $this->show_eci);
             if ($this->landing_url) {
               $this->setLayout(false);
               $this->setTemplate('landing');
@@ -567,5 +589,40 @@ class widgetActions extends policatActions
     }
 
     $this->setTemplate('fail');
+  }
+
+  public function executeRefShown(sfWebRequest $request)
+  {
+    if (!$request->isMethod('POST')) {
+      $this->forward404();
+    }
+
+    $id = $request->getParameter('id');
+    $code = $request->getParameter('code');
+
+    if (!$id || !$code || !is_scalar($id) || !is_scalar($code)) {
+      $this->forward404();
+    }
+
+    $this->setTemplate(false);
+    $this->setLayout(false);
+    $this->getResponse()->setContentType('application/json');
+
+    $table = PetitionSigningTable::getInstance();
+    $hash = $table->fetchRefHash($id);
+
+    $data = array('status' => 'ok');
+    if (!$hash) {
+        $data = array('status' => 'no hash');
+    } else {
+        if (!password_verify($code, $hash)) {
+            $data = array('status' => 'wrong code');
+        } else {
+            $table->setRefShown($id);
+        }
+    }
+
+    sfConfig::set('sf_web_debug', false);
+    return $this->renderText(json_encode($data));
   }
 }

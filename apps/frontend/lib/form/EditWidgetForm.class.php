@@ -64,12 +64,34 @@ class EditWidgetForm extends WidgetForm {
     $this->setDefault('styling_width', $this->getObject()->getStyling('width', $parent ? $parent->getStyling('width') : 'auto'));
     $this->getWidgetSchema()->setLabel('styling_width', 'Width');
 
+    if ($petition->getWithCountry()) {
+      $culture_info    = sfCultureInfo::getInstance('en');
+      if ($petition->getCountryCollectionId()) {
+          $countries = $petition->getCountryCollection()->getCountriesList();
+      } else {
+        $countries_false = array_keys($culture_info->getCountries());
+        $countries       = array();
+        foreach ($countries_false as $country) {
+          if (!is_numeric($country)) {
+            $countries[] = $country;
+          }
+        }
+        $countries = array_diff($countries, array('QU', 'ZZ'));
+      }
+
+      $this->setWidget('default_country', new sfWidgetFormI18nChoiceCountry(array('countries' => $countries, 'culture' => 'en', 'add_empty' => ''), array('data-placeholder' => 'use action default' . ($petition->getDefaultCountry() ? ' (' . $culture_info->getCountry($petition->getDefaultCountry()) . ')' : ''))));
+      if ($petition->getDefaultCountry()) {
+        $this->setDefault('default_country', $petition->getDefaultCountry());
+      }
+      $this->setValidator('default_country', new sfValidatorI18nChoiceCountry(array('countries' => $countries, 'required' => false)));
+    }
+
     $this->setWidget('share', new WidgetFormInputCheckbox(array('value_attribute_value' => '1', 'value_checked' => '1', 'value_unchecked' => '0', 'label' => 'Include share buttons underneath sign-button')));
     $this->setValidator('share', new sfValidatorChoice(array('choices' => array('0', '1'))));
 
     if ($petition->getWidgetIndividualiseDesign()) {
-      $this->setWidget('themeId', new sfWidgetFormChoice(array('label' => 'Theme', 'choices' => UtilTheme::$THEMES)));
-      $this->setValidator('themeId', new sfValidatorChoice(array('required' => false, 'choices' => array_keys(UtilTheme::$THEMES))));
+      $this->setWidget('themeId', new sfWidgetFormChoice(array('label' => 'Theme', 'choices' => UtilTheme::themesByKind($petition->getKind()))));
+      $this->setValidator('themeId', new sfValidatorChoice(array('required' => false, 'choices' => array_keys(UtilTheme::themesByKind($petition->getKind())))));
 
       $this->setWidget('styling_title_color', new sfWidgetFormInput(array(), array('class' => 'jscolor {hash:true}')));
       $this->setValidator('styling_title_color', new ValidatorCssColor(array('min_length' => 7, 'max_length' => 7)));
@@ -184,6 +206,19 @@ class EditWidgetForm extends WidgetForm {
         'data-content' => 'Enter URL of external landing page, including \'http://\'. Leave empty for standard landing page',
     )));
     $this->setValidator('landing_url', new ValidatorUrl(array('required' => false, 'trim' => true)));
+
+    if ($petition->getKind() == Petition::KIND_OPENECI) {
+        $this->setWidget('landing2_url', new sfWidgetFormInput(array(
+          'label' => 'Alternative opt-in landing page, if OpenECI form was not submitted',
+          'default' => $this->getObject()->getInheritLanding2Url()
+        ), array(
+            'size' => 90,
+            'class' => 'add_popover large',
+            'data-content' => 'Provide an alternative landing page, containing the ECI form and a prompt to "support the ECI, if you haven\'t done yet"',
+            'placeholder' =>'https://www.example.com/-language-/thank-you'
+        )));
+        $this->setValidator('landing2_url', new ValidatorUrl(array('required' => false, 'trim' => true)));
+    }
 
     $this->removeWidgetIndividualiseFields();
 

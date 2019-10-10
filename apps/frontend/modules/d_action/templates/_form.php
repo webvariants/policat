@@ -4,6 +4,9 @@
         <div class="col-md-3">
             <div class="nav flex-column nav-pills" id="v-pills-tab" role="tablist" aria-orientation="vertical">
                 <a class="nav-link active" href="#sec1" data-toggle="tab">Basic settings</a>
+                <?php if ($petition->getKind() == Petition::KIND_OPENECI): ?>
+                <a class="nav-link" href="#openeci" data-toggle="tab">openECI</a>
+                <?php endif ?>
                 <a class="nav-link" href="#sec2" data-toggle="tab">Sign-up data</a>
                 <a class="nav-link" href="#sec3" data-toggle="tab">Emails</a>
                 <a class="nav-link" href="#sec4" data-toggle="tab">Donations (optional)</a>
@@ -15,7 +18,7 @@
             </div>
         </div>
         <div class="col-md-9">
-            <div class="tab-content" id="v-pills-tabContent">
+            <div class="tab-content popovers_left" id="v-pills-tabContent">
                 <fieldset class="tab-pane fade show active tab-pane active show-before-chosen-init" id="sec1">
                     <legend>Basic settings</legend>
                     <div class="control-group">
@@ -33,6 +36,12 @@
                     </fieldset>
                     <?php echo $form->renderRows('*label_mode', 'read_more_url') ?>
                 </fieldset>
+                <?php if ($petition->getKind() == Petition::KIND_OPENECI): ?>
+                <fieldset class="tab-pane show-before-chosen-init" id="openeci">
+                    <legend>openECI</legend>
+                    <?php echo $form->renderRows('openeci_url', 'openeci_channel') ?>
+                </fieldset>
+                <?php endif ?>
                 <fieldset class="tab-pane show-before-chosen-init" id="sec2">
                     <legend>Sign-up data</legend>
                     <p class="alert alert-danger">If you make changes here for a running action you may lose data if you remove fields.</p>

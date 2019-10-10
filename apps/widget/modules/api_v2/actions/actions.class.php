@@ -316,7 +316,7 @@ class api_v2Actions extends policatActions {
 
     $data['pages'] = ceil($data['total'] / $page_size);
 
-    $with_city = $petition->getLastSigningsCity() && $petition->getWithAddress();
+    $with_city = $petition->getLastSigningsCity() && ($petition->getWithAddress() && ($petition->getWithAddress() != 3));
     $with_country = $petition->getLastSigningsCountry() && $petition->getWithCountry();
 
     $signers = array();

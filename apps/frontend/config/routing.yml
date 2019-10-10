@@ -113,6 +113,9 @@ translation_create:    {  url: '/translation/create/:id',           param: { mod
 translation_edit:      {  url: '/translation/edit/:id',             param: { module: d_action,   action: translationEdit },            requirements: { sf_method: [get, head, post], id: '\d+' } }
 translation_default:   {  url: '/translation/default/:id',          param: { module: d_action,   action: translationDefaultText },     requirements: { sf_method: [get, head], id: '\d+' } }
 
+mailexport_setting:    {  url: '/mailexport/setting/:id',           param: { module: mailexport, action: setting },                    requirements: { sf_method: [post], id: '\d+' } }
+mailexport_test:       {  url: '/mailexport/test/:id',              param: { module: mailexport, action: test },                       requirements: { sf_method: [post], id: '\d+' } }
+
 widget_index:          {  url: '/widget',                           param: { module: d_widget,   action: index },                      requirements: { sf_method: [get, head] } }
 widget_create:         {  url: '/widget/new/:id',                   param: { module: d_widget,   action: edit, new: true },            requirements: { sf_method: [post], pid: '\d+' } }
 widget_edit:           {  url: '/widget/edit/:id',                  param: { module: d_widget,   action: edit },                       requirements: { sf_method: [get, head, post], id: '\d+' } }

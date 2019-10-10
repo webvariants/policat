@@ -120,6 +120,14 @@ module.exports = function(grunt) {
 				files: {
 					'web/css/dist/theme/flat.css': 'web/css/theme/flat.less'
 			  }
+			},
+			theme_sleek_variant_1: {
+				options: {
+					sourceMapFilename: 'web/css/dist/theme/sleek-variant-1.less.map'
+				},
+				files: {
+					'web/css/dist/theme/sleek-variant-1.css': 'web/css/theme/sleek-variant-1.less'
+			  }
 			}
 		},
 		cssmin: {

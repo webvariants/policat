@@ -1,11 +1,11 @@
 <div class="modal hide hidden_remove" id="campaign_privacy_modal" tabindex="-1" role="dialog" aria-hidden="true">
-    <div class="modal-dialog" role="document">
+    <div class="modal-dialog modal-lg" role="document">
         <div class="modal-content">
             <form class="ajax_form"
                 action="<?php echo url_for('campaign_privacy', array('id' => $form->getObject()->getId())) ?>"
                 method="post">
                 <div class="modal-header">
-                    <h5 class="modal-title">Edit Privacy Agreement</h5>
+                    <h5 class="modal-title">Edit widget data owner agreement</h5>
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                         <span aria-hidden="true">&times;</span>
                     </button>

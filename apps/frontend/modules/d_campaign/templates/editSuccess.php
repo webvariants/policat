@@ -71,7 +71,7 @@ if ($billingEnabled) {
               <?php if ($sf_user->hasCredential(myUser::CREDENTIAL_ADMIN)): ?><?php include_component('d_campaign', 'editPublic', array('campaign' => $campaign)) ?><?php endif ?>
               <br />
               <a class="btn btn-secondary btn-sm ajax_link mb-1" href="<?php echo url_for('campaign_name', array('id' => $campaign->getId())) ?>">Rename campaign</a>
-              <a class="btn btn-secondary btn-sm ajax_link mb-1" href="<?php echo url_for('campaign_privacy', array('id' => $campaign->getId())) ?>">Privacy agreement</a>
+              <a class="btn btn-secondary btn-sm ajax_link mb-1" href="<?php echo url_for('campaign_privacy', array('id' => $campaign->getId())) ?>">Widget data owner agreement</a>
               <a class="btn btn-secondary btn-sm ajax_link mb-1" href="<?php echo url_for('campaign_address', array('id' => $campaign->getId())) ?>">Address</a>
             <?php endif ?>
           </div>

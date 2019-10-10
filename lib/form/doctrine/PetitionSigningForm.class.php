@@ -20,9 +20,19 @@ class PetitionSigningForm extends BasePetitionSigningForm {
 
   protected $no_mails = false;
   private $contact_num = 0;
+  protected $skip_validation = false;
+  protected $ref_code = false;
 
   public function getNoMails() {
     return $this->no_mails;
+  }
+
+  public function getSkipValidation() {
+    return $this->skip_validation;
+  }
+
+  public function getRefCode() {
+    return $this->ref_code;
   }
 
   public function configure() {
@@ -64,11 +74,13 @@ class PetitionSigningForm extends BasePetitionSigningForm {
           $widget = new WidgetFormI18nChoiceCountry(array('countries' => $countries, 'culture' => $culture_info->getName(), 'add_empty' => 'Country'));
           $validator = new sfValidatorI18nChoiceCountry(array('countries' => $countries));
 
-          if ($petition->getDefaultCountry()) {
+          if ($widget_object->getDefaultCountry()) {
+            $widget->setDefault($widget_object->getDefaultCountry());
+          } elseif ($petition->getDefaultCountry()) {
             $widget->setDefault($petition->getDefaultCountry());
           }
 
-          $label = false;
+          $label = 'Country';
           break;
         case Petition::FIELD_PRIVACY:
           if ($petition->getPolicyCheckbox() == PetitionTable::POLICY_CHECKBOX_YES) {
@@ -80,8 +92,14 @@ class PetitionSigningForm extends BasePetitionSigningForm {
           }
           break;
         case Petition::FIELD_SUBSCRIBE:
-          $widget = new WidgetFormInputCheckbox(array('value_attribute_value' => 1), $petition->getSubscribeDefault() == PetitionTable::SUBSCRIBE_CHECKBOX_DEFAULT_YES ? array('checked' => 'checked') : array('class' => $petition->getSubscribeDefault() == PetitionTable::SUBSCRIBE_CHECKBOX_REQUIRED ? 'required' : ''));
-          $validator = new sfValidatorChoice(array('choices' => array('1'), 'required' => $petition->getSubscribeDefault() == PetitionTable::SUBSCRIBE_CHECKBOX_REQUIRED));
+          if ($petition->getSubscribeDefault() == PetitionTable::SUBSCRIBE_CHECKBOX_RADIO) {
+            $this->getObject()->setSubscribe('unset'); // workaround to uncheck radio
+            $widget = new sfWidgetFormChoice(array('choices' => array('1' => 'Yes, please', '0' => 'No, thank you'), 'expanded' => true, 'renderer_class' => 'FormatterRadio', 'renderer_options' => array('label_separator' => '')), array('class' => 'required', 'data-row-class' => 'subscribe-radio'));
+            $validator = new sfValidatorChoice(array('choices' => array('1', '0')));
+          } else {
+            $widget = new WidgetFormInputCheckbox(array('value_attribute_value' => 1), $petition->getSubscribeDefault() == PetitionTable::SUBSCRIBE_CHECKBOX_DEFAULT_YES ? array('checked' => 'checked') : array('class' => $petition->getSubscribeDefault() == PetitionTable::SUBSCRIBE_CHECKBOX_REQUIRED ? 'required' : ''));
+            $validator = new sfValidatorChoice(array('choices' => array('1'), 'required' => $petition->getSubscribeDefault() == PetitionTable::SUBSCRIBE_CHECKBOX_REQUIRED));
+          }
           $label = 'Keep me posted on this and similar campaigns.';
           $subscribe_text = trim($this->getOption('subscribe_text'));
           if ($subscribe_text) {
@@ -170,6 +188,12 @@ class PetitionSigningForm extends BasePetitionSigningForm {
         $this->setWidget('ts_2', new sfWidgetFormInputHidden(array(), array('class' => 'original')));
         $this->setValidator('ts_2', new sfValidatorString(array('required' => false)));
       }
+    }
+
+    if ($petition->getKind() == Petition::KIND_OPENECI) {
+      $this->setWidget('ref_shown', new sfWidgetFormInputHidden(array(), array()));
+      $this->setValidator('ref_shown', new sfValidatorChoice(array('choices' => array('0', '1'), 'required' => false)));
+      $this->setDefault('ref_shown', '0');
     }
 
     $this->widgetSchema->setFormFormatterName('policatWidget');
@@ -284,6 +308,13 @@ class PetitionSigningForm extends BasePetitionSigningForm {
     }
 
     $validation_kind = $this->getOption('validation_kind', PetitionSigning::VALIDATION_KIND_NONE);
+    if ($validation_kind == PetitionSigning::VALIDATION_KIND_EMAIL &&
+        $petition->getValidationRequired() == Petition::VALIDATION_REQUIRED_YES_IF_SUBSCRIBE &&
+        (!array_key_exists(Petition::FIELD_SUBSCRIBE, $values) || !$values[Petition::FIELD_SUBSCRIBE])) {
+      $validation_kind = PetitionSigning::VALIDATION_KIND_NONE;
+      $this->skip_validation = true;
+    }
+
     switch ($validation_kind) {
       case PetitionSigning::VALIDATION_KIND_EMAIL:
         $values['validation_data'] = $code;
@@ -301,6 +332,11 @@ class PetitionSigningForm extends BasePetitionSigningForm {
       $values['email_hash'] = UtilEmailHash::hash($email);
     }
 
+    if ($petition->getKind() == Petition::KIND_OPENECI && (!array_key_exists('ref_shown', $values) || $values['ref_shown'] != '1'))  {
+      $this->ref_code = bin2hex(random_bytes(8));
+      $values['ref_hash'] = password_hash($this->ref_code, PASSWORD_DEFAULT);
+    }
+
     unset($values['id']);
     parent::doUpdateObject($values);
   }
@@ -314,6 +350,10 @@ class PetitionSigningForm extends BasePetitionSigningForm {
     $petition = $signing->getPetition();
 
     if ($petition->getValidationRequired() == Petition::VALIDATION_REQUIRED_NO) {
+      $signing->setStatus(PetitionSigning::STATUS_COUNTED);
+    }
+
+    if ($petition->getValidationRequired() == Petition::VALIDATION_REQUIRED_YES_IF_SUBSCRIBE) {
       $signing->setStatus(PetitionSigning::STATUS_COUNTED);
     }
 
@@ -368,8 +408,7 @@ class PetitionSigningForm extends BasePetitionSigningForm {
       }
     }
 
-    $validation_kind = $this->getOption('validation_kind', PetitionSigning::VALIDATION_KIND_NONE);
-    switch ($validation_kind) {
+    switch ($signing->getValidationKind()) {
       case PetitionSigning::VALIDATION_KIND_EMAIL:
         UtilEmailValidation::send($signing);
         break;

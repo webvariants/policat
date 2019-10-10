@@ -1,9 +1,14 @@
-@width-one-column-max: 439px;
-@width-two-column-min: 440px;
+@import "../policat_widget.less";
+@import "../policat_widget_variables.less";
+
+@width-one-column-max: 640px;
+@width-two-column-min: 641px;
 
 @enable-label-left: true;
 @width-label-left-1-min: 800px;
 @width-label-left-2-min: 330px;
+
+@sleek-input-radius: 5px;
 
 body {
 	font-size: 14px;
@@ -242,7 +247,7 @@ input[type=checkbox] {
 
 input[type=text] {
 	height: 40px;
-	border-radius: 5px;
+	border-radius: @sleek-input-radius;
 	font-size: 15px;
 	line-height: 20px;
 	padding: 10px 12px;
@@ -250,7 +255,7 @@ input[type=text] {
 
 select {
 	height: 38px;
-	border-radius: 5px;
+	border-radius: @sleek-input-radius;
 	font-size: 15px;
 	padding-left: 7px;
 }
@@ -285,6 +290,9 @@ button.submit-sign {
 		min-width: 300px;
 		width: auto;
 	}
+}
+button.submit-subscribe {
+	display: none;
 }
 
 .button-btn {
@@ -324,7 +332,7 @@ a.back {
 }*/
 
 .select-wrap, textarea {
-	border-radius: 5px;
+	border-radius: @sleek-input-radius;
 }
 
 .form-row {
@@ -361,6 +369,15 @@ span.checkbox {
 			padding-left: 25px;
 		}
 	}
+
+	.subscribe-radio {
+		> label {
+			padding-left: 0;
+		}
+		.form-check {
+			margin-left: 0;
+		}
+	}
 }
 
 .widget-left {
@@ -380,6 +397,10 @@ span.checkbox {
 	.privacy-no-check {
 		label {
 			color: var(--button-color);
+		}
+
+		.short-text, .long-text {
+			padding: 0;
 		}
 
 		.short-text {
@@ -436,13 +457,22 @@ span.checkbox {
 			text-transform: none;
 		}
 
-		input[type=text], textarea, .select-wrap {
+		input[type=text], textarea, .select-wrap, .form-text {
 			width: 60%;
 			float: left;
 		}
 
-		.select-wrap:first-child {
+		.select-wrap:first-child, &.country .select-wrap {
 			margin-left: 40%;
+		}
+
+		&.privacy, &.subscribe {
+			margin-left: 40%;
+			width: 60%;
+
+			label {
+				width: auto;
+			}
 		}
 	}
 
@@ -461,6 +491,16 @@ span.checkbox {
 			text-align: left;
 		}
 	}
+
+	.widget-right {
+		.privacy-no-check {
+			.short-text {
+				margin-left: 40%;
+				padding-left: 0;
+				width: auto;
+			}
+		}
+	}
 }
 
 .widget-body {
@@ -476,6 +516,24 @@ span.checkbox {
 			top: 20px;
 			bottom: 20px;
 			right: 40%;
+		}
+	}
+}
+
+.eci {
+	.widget-body {
+		@media (min-width: @width-two-column-min) {
+			&::before {
+				right: 50%;
+			}
+		}
+	}
+}
+
+.right-only {
+	@media (min-width: @width-two-column-min) {
+		&::before {
+			display: none;
 		}
 	}
 }

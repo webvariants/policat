@@ -26,6 +26,7 @@ class Petition extends BasePetition {
   const KIND_EMAIL_TO_LIST = 10;
   const KIND_EMAIL_ACTION = 11;
   const KIND_PLEDGE = 12;
+  const KIND_OPENECI = 13;
   const TITLETYPE_NO = 0;
   const TITLETYPE_FM = 1; // female, male
   const TITLETYPE_FMN = 2; // female, male, neutral
@@ -53,6 +54,7 @@ class Petition extends BasePetition {
   const EDITABLE_NO = 2;
   const VALIDATION_REQUIRED_YES = 1;
   const VALIDATION_REQUIRED_NO = 0;
+  const VALIDATION_REQUIRED_YES_IF_SUBSCRIBE = 2;
   const WITH_EXTRA_YES = 1;
   const WITH_EXTRA_YES_REQUIRED = 2;
   const WITH_EXTRA_NO = 0;
@@ -101,14 +103,16 @@ class Petition extends BasePetition {
       self::KIND_PETITION => 'Petition',
       self::KIND_EMAIL_TO_LIST => 'List-action',
       self::KIND_EMAIL_ACTION => 'E-mail-Action',
-      self::KIND_PLEDGE => 'Pledge'
+      self::KIND_PLEDGE => 'Pledge',
+      self::KIND_OPENECI => 'European Citizen Initiative (with OpenECI)',
   );
   static $KIND_SHOW_FE = array
       (
       self::KIND_PETITION => 'Petition',
       self::KIND_EMAIL_TO_LIST => 'E-mail-Action',
       self::KIND_EMAIL_ACTION => 'E-mail-Action',
-      self::KIND_PLEDGE => 'Pledge'
+      self::KIND_PLEDGE => 'Pledge',
+      self::KIND_OPENECI => 'European Citizen Initiative',
   );
   static $EMAIL_KINDS = array(
       self::KIND_EMAIL_TO_LIST,
@@ -119,7 +123,7 @@ class Petition extends BasePetition {
       self::EDITABLE_YES => 'yes',
       self::EDITABLE_NO => 'no'
   );
-  static $WITH_ADDRESS_SHOW = array(0 => 'Don\'t ask', 1 => 'Post code and city', 2 => '(Street) address, post code and city');
+  static $WITH_ADDRESS_SHOW = array(0 => 'Don\'t ask', 1 => 'Post code and city', 2 => '(Street) address, post code and city', 3 => 'Post code only');
 
   static $SHOW_EMAIL_COUNTER_SHOW = array(
       self::SHOW_EMAIL_COUNTER_NO => 'no',
@@ -220,6 +224,10 @@ class Petition extends BasePetition {
         $fields[] = self::FIELD_POSTCODE;
         $fields[] = self::FIELD_CITY;
         $fields[] = self::FIELD_ADDRESS;
+        break;
+      case 3:
+      case '3':
+        $fields[] = self::FIELD_POSTCODE;
         break;
     }
     if ($this->getWithCountry()) {
@@ -684,7 +692,14 @@ class Petition extends BasePetition {
   }
 
   public function getLabel($type) {
-    $mode = $this->isEmailKind() ? PetitionTable::LABEL_MODEL_EMAIL : $this->getLabelMode();
+    if ($this->isEmailKind()) {
+        $mode = PetitionTable::LABEL_MODEL_EMAIL;
+    }
+    elseif ($this->getKind() == self::KIND_OPENECI ) {
+        $mode = PetitionTable::LABEL_MODE_NEWSLETTER;
+    } else {
+        $mode = $this->getLabelMode();
+    }
 
     return PetitionTable::$LABELS[$mode][$type];
   }
@@ -710,4 +725,31 @@ class Petition extends BasePetition {
   public function getCleanData($key, $default = null) {
     return array_key_exists($key, $this->cleanData) ? $this->cleanData[$key] : $default;
   }
+
+  public function getMailexportData($field = null, $default = null) {
+    $json = $this->getMailexport();
+    if ($json) {
+      $data = json_decode($json, true);
+      if ($field) {
+        if (array_key_exists($field, $data)) {
+          return $data[$field];
+        } else {
+          return $default;
+        }
+      } else {
+        return $data;
+      }
+    } else {
+      if ($field) {
+        return $default;
+      } else {
+        return [];
+      }
+    }
+  }
+
+  public function setMailexportData($data) {
+    $this->setMailexport(json_encode($data));
+  }
+
 }

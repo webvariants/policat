@@ -1,7 +1,7 @@
 jscolor.dir = '/js/dist/';
 
 $(document).ready(function($) {
-	(function($, widget_id, window, Math, target_selectors, CT_extra, t_sel, t_sel_all, petition_id, numberSeparator) {
+	(function($, widget_id, window, Math, target_selectors, CT_extra, t_sel, t_sel_all, petition_id, numberSeparator, isOpenECI, srcOpenECI) {
 		var widget = $('#widget');
 		var widget_left = $('#widget-left');
 		var widget_right = $('#widget-right');
@@ -24,6 +24,10 @@ $(document).ready(function($) {
 		var replaceSignKeywords = null;
 		var replaceForceRefresh = false;
 		var old_height = null;
+		var openECIsigned = false;
+		var refId = null;
+		var refCode = null;
+		var openECIiframeLoaded = false;
 
 		var numberWithCommas = function numberWithCommas(x) {
 			return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, numberSeparator);
@@ -128,6 +132,15 @@ $(document).ready(function($) {
 			old_height = height;
 		}
 
+		function openECIiFrameResized(innerIFrame) {
+			var iframe = document.getElementById('openECI');
+			if (iframe) {
+				iframe.style.height = innerIFrame.height + 'px';
+			}
+
+			resize();
+		}
+
 		down_button.click(function() {
 			scrollTop($('#sign'), true);
 			return false;
@@ -140,18 +153,94 @@ $(document).ready(function($) {
 
 		function show_right(name) {
 			widget.removeClass('right-only');
-			widget_right.removeClass('show-sign').removeClass('show-donate').removeClass('show-embed-this').removeClass('show-thankyou');
+			widget_right
+				.removeClass('show-sign')
+				.removeClass('show-donate')
+				.removeClass('show-embed-this')
+				.removeClass('show-thankyou')
+				.removeClass('show-openECI')
+				.removeClass('show-openECI-thankyou-with-sign')
+				.removeClass('show-openECI-thankyou-with-eci')
+			;
 			widget_right.addClass('show-' + name);
+			window.parent.postMessage('policat_show;' + JSON.stringify({side: 'right', content: name, iframe: iframe_no, widget: widget_id}) , '*');
 		}
 
 		function show_left(name) {
 			$('#action, #privacy-policy, #embed-this-left').hide();
 			$('#' + name).show();
+			window.parent.postMessage('policat_show;' + JSON.stringify({side: 'left', content: name, iframe: iframe_no, widget: widget_id}) , '*');
 		}
 
 		function show_sign() {
 			show_left('action');
 			show_right('sign');
+			resize();
+		}
+
+		function openECIiframeLoader(prefill) {
+			if (!openECIiframeLoaded) {
+				var params = '';
+				if (prefill) {
+					var fieldValue = $('#petition_signing_fullname').val();
+					if (fieldValue) {
+						var idx = fieldValue.indexOf(' ');
+						if (idx == -1) {
+							params += '&firstname=' + encodeURI(fieldValue);
+						} else {
+							params += '&firstname=' + encodeURI(fieldValue.substr(0, idx));
+							idx++;
+							params += '&lastname=' + encodeURI(fieldValue.substr(idx));
+						}
+					} else {
+						fieldValue = $('#petition_signing_firstname').val();
+						if (fieldValue) {
+							params += '&firstname=' + encodeURI(fieldValue);
+						}
+						fieldValue = $('#petition_signing_lastname').val();
+						if (fieldValue) {
+							params += '&lastname=' + encodeURI(fieldValue);
+						}
+					}
+					fieldValue = $('#petition_signing_city').val();
+					if (fieldValue) {
+						params += '&city=' + encodeURI(fieldValue);
+					}
+					fieldValue = $('#petition_signing_post_code').val();
+					if (fieldValue) {
+						params += '&postalCode=' + encodeURI(fieldValue);
+					}
+					fieldValue = $('#petition_signing_country').val();
+					if (fieldValue) {
+						params += '&country=' + encodeURI(fieldValue.toLowerCase());
+					}
+				}
+				//params += '#formcol1';
+
+				var ifr = document.createElement('iframe');
+				ifr.setAttribute('id', 'openECI');
+				ifr.setAttribute('class', 'openECI-iframe');
+				ifr.setAttribute('src', srcOpenECI + params);
+				ifr.setAttribute('allowtransparency', true);
+				ifr.setAttribute('frameborder', '0');
+				ifr.setAttribute('hspace', '0');
+				ifr.setAttribute('vspace', '0');
+				ifr.setAttribute('marginheight', '0');
+				ifr.setAttribute('marginwidth', '0');
+				ifr.setAttribute('scrolling', 'yes');
+
+				document.getElementById('openECIParent').prepend(ifr);
+
+				iFrameResize({ onResized: openECIiFrameResized }, '#openECI');
+				openECIiframeLoaded = true;
+			}
+		}
+
+		function show_openECI() {
+			openECIiframeLoader(true);
+			show_left('action');
+			show_right('openECI');
+
 			resize();
 		}
 		function show_donate() {
@@ -169,8 +258,25 @@ $(document).ready(function($) {
 			resize();
 		}
 		function show_thankyou() {
-			show_right('thankyou');
-			widget.addClass('right-only');
+			if (isOpenECI && !hasSign) {
+				show_right('openECI-thankyou-with-sign');
+				fontResize($('.font-size-auto-subscribe'));
+				$('.font-size-auto-subscribe').removeClass('font-size-auto-subscribe');
+				if ($('#subscribe-checkbox').length) {
+					$('.form-row.subscribe').removeClass('subscribe-radio').html($('#subscribe-checkbox').html().replace('<!--', '').replace('-->', '').trim());
+					$('#subscribe-checkbox').remove();
+				}
+				// $('#petition_signing_subscribe').addClass('required');
+			} else {
+				if (isOpenECI && show_eci) {
+					openECIiframeLoader(false);
+					show_right('openECI-thankyou-with-eci');
+					show_eci = false; // do not show again
+				} else {
+					show_right('thankyou');
+				}
+				widget.addClass('right-only');
+			}
 			$('.share').after($('.last-signings'));
 			resize();
 			fetchLastSigners(1, 30);
@@ -235,6 +341,8 @@ $(document).ready(function($) {
 			}
 		}
 
+		$('div.privacy label span.label-link').click(show_privacy_policy);
+
 		fontResize(font_size_auto_elements);
 
 		if (parseInt($('#labels-inside').css('z-index'), 10) === 1) {
@@ -265,8 +373,9 @@ $(document).ready(function($) {
 			var edit_code = hash_parts[1];
 		var count = decodeURIComponent(hash_parts[2]);
 		var iframe_no = hash_parts[3];
-		var name = hash_parts[4];
-		var ref = hash_parts[5];
+		var show_eci = hash_parts[4] == '1';
+		var name = hash_parts[5];
+		var ref = hash_parts[6];
 
 		if (hasSign) {
 			$('.reload', widget_right).remove();
@@ -832,7 +941,11 @@ $(document).ready(function($) {
 
 				if (formId === 'sign') {
 					$('#tabs .left').click();
-					show_sign();
+					if (isOpenECI && openECIsigned) {
+						show_thankyou();
+					} else {
+						show_sign();
+					}
 				}
 
 				// copy -> original
@@ -958,6 +1071,11 @@ $(document).ready(function($) {
 					form_error = true;
 				});
 
+				if ($('#petition_signing_subscribe_1.required:not(:checked)', form).length && $('#petition_signing_subscribe_0.required:not(:checked)', form).length) {
+					$('.form-row.subscribe').addClass('form-error');
+					form_error = true;
+				}
+
 				if (!form_error) {
 					if (formId == 'paypal') {
 						// paypal form
@@ -978,15 +1096,25 @@ $(document).ready(function($) {
 						$.post(window.location.href.split('#', 1)[0], form.serialize() + '&' + refName + '=' + ref, function(data) {
 							switch (formId) {
 								case 'sign':
-									show_thankyou();
+									window.parent.postMessage('policat_signed;' + JSON.stringify({iframe: iframe_no, widget: widget_id}) , '*');
+									hasSign = true;
+									if (isOpenECI && !openECIsigned) {
+										show_openECI();
+									} else {
+										$('.openECI-message').remove();
+										show_thankyou();
+									}
 									$('#widget-right .thankyou .form_message').text('');
 									for (var error in data.errors) {
-										$('#widget-right .thankyou .form_message').append($('<div></div>').text(data.errors[error]));
+										$('#widget-right .thankyou .form_message').append($('<div></div>').addClass('error-' + error + '-' + data.errors[error].code).text(data.errors[error].message));
 									}
-									hasSign = true;
 									widget.addClass('has_sign');
 									resize();
 									window.parent.postMessage('policat_scroll;' + iframe_no + ';0;0', '*');
+									if (isOpenECI && data.extra.ref_id && data.extra.ref_code) {
+										refId = data.extra.ref_id;
+										refCode = data.extra.ref_code;
+									}
 									break;
 								case 'embed':
 									if (data.isValid) {
@@ -1044,10 +1172,6 @@ $(document).ready(function($) {
 			show_donate();
 		});
 
-		$('div.privacy label').attr('for', 'useless').click(function() {
-			show_privacy_policy();
-		});
-
 		$('a.newwin, .widget-left a:not(.back):not(.nonewwin)').click(function() {
 			var href = $(this).attr('href');
 			if (href)
@@ -1064,6 +1188,11 @@ $(document).ready(function($) {
 				show_sign();
 			}
 
+			return false;
+		});
+
+		$('a.go-to-eci-form').click(function() {
+            show_openECI();
 			return false;
 		});
 
@@ -1231,5 +1360,45 @@ $(document).ready(function($) {
 			return b[i]? -1:0;
 		}
 
-	})($, widget_id, window, Math, target_selectors, CT_extra, t_sel, t_sel_all, petition_id, numberSeparator);
+		if (isOpenECI) {
+			window.addEventListener('message', function(event) {
+				if (typeof event.data === 'string') {
+					if (event.data.indexOf('@openeci:duplicate@') === 0 || event.data.indexOf('@openeci:sign@') === 0) {
+						// event: just signed eci (maybe duplicate)
+						var data = JSON.parse(event.data.substr(1 + event.data.indexOf('@', 1)));
+						if (data && typeof data === 'object' && data.uuid) {
+							$('.openECI-message .eci-number').text(data.uuid);
+							if (event.data.indexOf('@openeci:duplicate@') === 0 && !$('.error-extra-confirmation').length) {
+								$('.openECI-message .eci-duplicate').show();
+								$('.openECI-message .eci-success').hide();
+							}
+							$('.error-email-old').remove(); // remove duplicate warning message from policat form (search ValidatorUniqueEmail)
+							if (!hasSign) {
+								$('.openECI-message .eci-please-sign-policat').show();
+								$('.openECI-message .eci-tell').hide();
+							}
+							if ($('.error-extra-confirmation').length) {
+								$('.openECI-message .eci-tell').hide();
+							}
+							$('.openECI-message').show();
+							$('#petition_signing_ref_shown').val(1);
+						}
+						openECIsigned = true;
+						$('div.go-to-eci-form').remove();
+						$('#widget-right .thankyou .form_message .verified-message').remove();
+						show_thankyou();
+						if (refId && refCode) {
+							$.ajax({
+								type: 'POST',
+								dataType: 'json',
+								url: '/ref_shown',
+								data: 'id=' + refId + '&code=' + refCode,
+							});
+						}
+					}
+				}
+			});
+		}
+
+	})($, widget_id, window, Math, target_selectors, CT_extra, t_sel, t_sel_all, petition_id, numberSeparator, isOpenECI, srcOpenECI);
 });

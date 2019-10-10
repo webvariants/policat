@@ -84,6 +84,10 @@
  * @property int                                     $target_num_email_counter                        Type: integer(4)
  * @property int                                     $digest_enabled                                  Type: integer(1)
  * @property int                                     $cron_signings24                                 Type: integer(4)
+ * @property string                                  $openeci_url                                     Type: string(120)
+ * @property string                                  $openeci_channel                                 Type: string(40)
+ * @property string                                  $mailexport                                      Type: clob
+ * @property int                                     $mailexport_enabled                              Type: integer(1)
  * @property Campaign                                $Campaign                                        
  * @property Language                                $Language                                        
  * @property MailingList                             $MailingList                                     
@@ -181,6 +185,10 @@
  * @method int                                       getTargetNumEmailCounter()                       Type: integer(4)
  * @method int                                       getDigestEnabled()                               Type: integer(1)
  * @method int                                       getCronSignings24()                              Type: integer(4)
+ * @method string                                    getOpeneciUrl()                                  Type: string(120)
+ * @method string                                    getOpeneciChannel()                              Type: string(40)
+ * @method string                                    getMailexport()                                  Type: clob
+ * @method int                                       getMailexportEnabled()                           Type: integer(1)
  * @method Campaign                                  getCampaign()                                    
  * @method Language                                  getLanguage()                                    
  * @method MailingList                               getMailingList()                                 
@@ -278,6 +286,10 @@
  * @method Petition                                  setTargetNumEmailCounter(int $val)               Type: integer(4)
  * @method Petition                                  setDigestEnabled(int $val)                       Type: integer(1)
  * @method Petition                                  setCronSignings24(int $val)                      Type: integer(4)
+ * @method Petition                                  setOpeneciUrl(string $val)                       Type: string(120)
+ * @method Petition                                  setOpeneciChannel(string $val)                   Type: string(40)
+ * @method Petition                                  setMailexport(string $val)                       Type: clob
+ * @method Petition                                  setMailexportEnabled(int $val)                   Type: integer(1)
  * @method Petition                                  setCampaign(Campaign $val)                       
  * @method Petition                                  setLanguage(Language $val)                       
  * @method Petition                                  setMailingList(MailingList $val)                 
@@ -734,6 +746,26 @@ abstract class BasePetition extends myDoctrineRecord
              'notnull' => true,
              'default' => 0,
              'length' => 4,
+             ));
+        $this->hasColumn('openeci_url', 'string', 120, array(
+             'type' => 'string',
+             'notnull' => false,
+             'length' => 120,
+             ));
+        $this->hasColumn('openeci_channel', 'string', 40, array(
+             'type' => 'string',
+             'notnull' => false,
+             'length' => 40,
+             ));
+        $this->hasColumn('mailexport', 'clob', null, array(
+             'type' => 'clob',
+             'notnull' => false,
+             ));
+        $this->hasColumn('mailexport_enabled', 'integer', 1, array(
+             'type' => 'integer',
+             'notnull' => true,
+             'default' => 0,
+             'length' => 1,
              ));
 
 

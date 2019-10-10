@@ -17,14 +17,16 @@ class UtilTheme {
       3 => 'Light',
       4 => 'Classic - modified',
       5 => 'Minimal Sleek',
-      6 => 'Flat'
+      6 => 'Flat',
+      7 => 'Sleek variant 1',
   );
   public static $CSS_FILES = array(
       2 => 'sleek.css',
       3 => 'light.css',
       4 => 'classic-modified.css',
       5 => 'minimal.css',
-      6 => 'flat.css'
+      6 => 'flat.css',
+      7 => 'sleek-variant-1.css',
   );
 
   public static $MAX_WIDTH = array(
@@ -32,7 +34,19 @@ class UtilTheme {
       5 => '768px'
   );
 
-  public static $REMOVE_CLASSIC_CSS = array(6);
+  public static $DISABLE_KIND = array(
+      Petition::KIND_OPENECI => array(null, 3, 4, 6)
+  );
+
+  public static function themesByKind($kind) {
+    if (array_key_exists($kind, self::$DISABLE_KIND)) {
+        return array_diff_key(self::$THEMES, array_combine(self::$DISABLE_KIND[$kind], self::$DISABLE_KIND[$kind]));
+    }
+
+    return self::$THEMES;
+  }
+
+  public static $REMOVE_CLASSIC_CSS = array(2, 5, 6, 7);
 
   public static function removeClassicCss($widget, $petition) {
     $variables = null;
@@ -92,7 +106,10 @@ class UtilTheme {
     foreach (WidgetTable::$STYLE_COLOR_NAMES as $style) {
       $var = 'var(--' . WidgetTable::$STYLE_COLOR_NAMES_CSS[$style] . ')';
       if ($widget_colors) {
-        $variables[$var] = $widget->getStyling($style);
+        $color = $widget->getStyling($style);
+        $variables[$var] = $color;
+        $variables['var(--' . WidgetTable::$STYLE_COLOR_NAMES_CSS[$style] . '-darker)'] = self::adjustBrightness($color, -0.4); // provide color as darker variant
+        $variables['var(--' . WidgetTable::$STYLE_COLOR_NAMES_CSS[$style] . '-lighter)'] = self::adjustBrightness($color, +0.4); // provide color as lighter variant
       } else {
         $variables[$var] = $petition['style_' . $style];
       }
@@ -119,5 +136,24 @@ class UtilTheme {
     if (array_key_exists($theme, self::$MAX_WIDTH)) {
       $stylings['max_width'] = self::$MAX_WIDTH[$theme];
     }
+  }
+
+  public static function adjustBrightness($hexCode, $adjustPercent) {
+    $hexCode = ltrim($hexCode, '#');
+
+    if (strlen($hexCode) == 3) {
+        $hexCode = $hexCode[0] . $hexCode[0] . $hexCode[1] . $hexCode[1] . $hexCode[2] . $hexCode[2];
+    }
+
+    $hexCode = array_map('hexdec', str_split($hexCode, 2));
+
+    foreach ($hexCode as & $color) {
+        $adjustableLimit = $adjustPercent < 0 ? $color : 255 - $color;
+        $adjustAmount = ceil($adjustableLimit * $adjustPercent);
+
+        $color = str_pad(dechex($color + $adjustAmount), 2, '0', STR_PAD_LEFT);
+    }
+
+    return '#' . implode($hexCode);
   }
 }

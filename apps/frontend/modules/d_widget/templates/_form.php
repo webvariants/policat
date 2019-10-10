@@ -21,13 +21,13 @@
       <?php
       echo $form->renderRows('*footer');
     }
-    echo $form->renderRows('*background', 'styling_type', 'styling_width', '*themeId', '*styling_font_family');
+    echo $form->renderRows('*background', 'styling_type', 'styling_width', '*default_country', '*themeId', '*styling_font_family');
     ?>
     <div class="row">
         <div class="col-md-6"><?php echo $form->renderRows('*styling_bg_right_color', '*styling_bg_left_color', '*styling_button_primary_color', '*styling_button_color') ?></div>
         <div class="col-md-6"><?php echo $form->renderRows('*styling_title_color', '*styling_form_title_color', '*styling_body_color', '*styling_label_color') ?></div>
     </div>
-    <?php echo $form->renderRows('share', 'paypal_email', '*donate_url', '*donate_text', 'landing_url', '*social_share_text') ?>
+    <?php echo $form->renderRows('share', 'paypal_email', '*donate_url', '*donate_text', 'landing_url', 'landing2_url', '*social_share_text') ?>
     <?php if (isset($form['target_selector_1'])): ?>
       <legend>Preselect Targets</legend>
       <div class="row">

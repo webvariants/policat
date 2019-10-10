@@ -198,6 +198,18 @@ class d_widgetActions extends policatActions {
     if ($widget->getDataOwner() == WidgetTable::DATA_OWNER_YES)
       return $this->ajax()->alert('You are already Data-owner of this widget', '')->render();
 
+    if (!$request->getPostParameter('agree')) {
+      return $this->ajax()
+        ->modal('#data_owner_modal', 'hide')
+        ->appendPartial('body', 'dataOwnerModal', array('widget' => $widget, 'csrf_token' => UtilCSRF::gen('widget_data_owner')))
+        ->modal('#data_owner_modal')
+        ->render();
+    }
+    if (!$request->getPostParameter('agree-check')) {
+      return $this->ajax()->addClass('#agree-check', 'is-invalid')->render();
+    }
+    $this->ajax()->modal('#data_owner_modal', 'hide');
+
     $ticket = TicketTable::getInstance()->generate(array(
         TicketTable::CREATE_AUTO_FROM => true,
         TicketTable::CREATE_WIDGET => $widget,
@@ -208,9 +220,9 @@ class d_widgetActions extends policatActions {
       $ticket->save();
       $ticket->notifyAdmin();
     } else
-      return $this->ajax()->alert('Application already pending', '')->render();
+      return $this->ajax()->info('Application already pending.', '')->render();
 
-    return $this->ajax()->alert('Application has been sent to Campaign admin', '')->render();
+    return $this->ajax()->info('Application has been sent to Campaign admin.', '')->render();
   }
 
   // this is for widget owners only

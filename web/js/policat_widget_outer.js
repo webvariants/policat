@@ -1,5 +1,5 @@
 var policat = typeof policat === "undefined" ? {widgets: []} : policat;
-(function(policat, window, document, Math, ref, verified_id, width, edit, name) {
+(function(policat, window, document, Math, ref, verified_id, width, edit, name, show_eci) {
 	if (policat.widget_here === undefined) {
 		policat.overlay_frame_height = null;
 		policat.iframe_no = 0;
@@ -84,6 +84,12 @@ var policat = typeof policat === "undefined" ? {widgets: []} : policat;
 					var no = data[1];
 					var offset = parseInt(data[2], 10);
 					scrollTo(no, 0, offset, data[3] === '1' ? true : false);
+				} else if (event.data.match(/^policat_debug;\d+;\d+;.+$/)) {
+					var data   		= event.data.split(';');
+                    var debugHeight = data[1];
+                    var debugWidth  = data[2];
+                    var debugType   = data[3];
+                    console.log(debugType + ': ' + debugHeight + 'x' + debugWidth + 'px');
 				}
 			}
 		};
@@ -116,7 +122,7 @@ var policat = typeof policat === "undefined" ? {widgets: []} : policat;
 			if (width) {
 				widget.width = 'auto';
 			}
-			var hash = verified_id + '!' + edit + '!' + widget.target + '!' + iframe_no + '!' + name + '!' + ref;
+			var hash = verified_id + '!' + edit + '!' + widget.target + '!' + iframe_no + '!' + (show_eci ? 1 : 0) + '!' + name + '!' + ref;
 
 			function createIFrame(auto) {
 				var width = (auto || widget.width === 'auto') ? '100%' : (widget.width + 'px');
@@ -339,5 +345,6 @@ var policat = typeof policat === "undefined" ? {widgets: []} : policat;
 		typeof policat_verified !== 'undefined' ? policat_verified : 0,
 		typeof policat_width !== 'undefined' ? policat_width : null,
 		typeof policat_widget_edit_code !== 'undefined' ? policat_widget_edit_code : '',
-		typeof policat_name !== 'undefined' ? policat_name : ''
+		typeof policat_name !== 'undefined' ? policat_name : '',
+		typeof policat_show_eci !== 'undefined' ? policat_show_eci : false
 		);

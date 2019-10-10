@@ -190,23 +190,41 @@ class Widget extends BaseWidget {
     return PetitionSigningTable::getInstance()->countPendingByWidget($this);
   }
 
-  public function findLandingUrl($petition = null) {
+  public function findLandingUrl($petition = null, $try2nd) {
+    if ($try2nd) {
+      $landing_url = $this->getLanding2Url();
+
+      if ($landing_url) {
+        return $landing_url;
+      }
+    }
+
     $landing_url = $this->getLandingUrl();
 
-    if ($landing_url)
+    if ($landing_url) {
       return $landing_url;
+    }
+
+    if ($try2nd) {
+      $landing_url_text = $this->getPetitionText()->getLanding2Url();
+      if ($landing_url_text) {
+        return $landing_url_text;
+      }
+    }
 
     $landing_url_text = $this->getPetitionText()->getLandingUrl();
-    if ($landing_url_text)
+    if ($landing_url_text) {
       return $landing_url_text;
+    }
 
     if ($petition === null) {
       $petition = $this->getPetition();
     }
 
     $landing_url_petition = $petition->getLandingUrl();
-    if ($landing_url_petition)
+    if ($landing_url_petition) {
       return $landing_url_petition;
+    }
 
     return null;
   }
@@ -261,6 +279,20 @@ class Widget extends BaseWidget {
     }
 
     return $landing_url;
+  }
+
+  public function getInheritLanding2Url() {
+    $landing_url2 = trim($this->getLanding2Url());
+
+    if (!$landing_url2 && $this->getParentId()) {
+      $landing_url2 = trim($this->getParent()->getLanding2Url());
+    }
+
+    if (!$landing_url2 && $this->getPetitionTextId()) {
+      $landing_url2 = trim($this->getPetitionText()->getLanding2Url());
+    }
+
+    return $landing_url2;
   }
 
   public function getRequireBilling() {

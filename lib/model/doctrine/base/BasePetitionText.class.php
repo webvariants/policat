@@ -27,6 +27,7 @@
  * @property string                                 $privacy_policy_body                         Type: clob
  * @property string                                 $read_more_url                               Type: string
  * @property string                                 $landing_url                                 Type: string
+ * @property string                                 $landing2_url                                Type: string
  * @property int                                    $widget_id                                   Type: integer(4)
  * @property string                                 $pledge_title                                Type: string
  * @property string                                 $pledge_comment                              Type: clob
@@ -77,6 +78,7 @@
  * @method string                                   getPrivacyPolicyBody()                       Type: clob
  * @method string                                   getReadMoreUrl()                             Type: string
  * @method string                                   getLandingUrl()                              Type: string
+ * @method string                                   getLanding2Url()                             Type: string
  * @method int                                      getWidgetId()                                Type: integer(4)
  * @method string                                   getPledgeTitle()                             Type: string
  * @method string                                   getPledgeComment()                           Type: clob
@@ -127,6 +129,7 @@
  * @method PetitionText                             setPrivacyPolicyBody(string $val)            Type: clob
  * @method PetitionText                             setReadMoreUrl(string $val)                  Type: string
  * @method PetitionText                             setLandingUrl(string $val)                   Type: string
+ * @method PetitionText                             setLanding2Url(string $val)                  Type: string
  * @method PetitionText                             setWidgetId(int $val)                        Type: integer(4)
  * @method PetitionText                             setPledgeTitle(string $val)                  Type: string
  * @method PetitionText                             setPledgeComment(string $val)                Type: clob
@@ -243,6 +246,9 @@ abstract class BasePetitionText extends myDoctrineRecord
              'type' => 'string',
              ));
         $this->hasColumn('landing_url', 'string', null, array(
+             'type' => 'string',
+             ));
+        $this->hasColumn('landing2_url', 'string', null, array(
              'type' => 'string',
              ));
         $this->hasColumn('widget_id', 'integer', 4, array(

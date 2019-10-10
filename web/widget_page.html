@@ -5,13 +5,31 @@
 		<title>policat.org Widget Tester</title>
 		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
 		<script type="text/javascript">policat_scroll_offset = 0;</script>
+		<script type="text/javascript">
+			window.addEventListener('message', function(event) {
+			var split;
+				if (typeof event.data === 'string') {
+					if (event.data.indexOf('@speakout:sign@') === 0) {
+						console.log('message for openECI', JSON.parse(event.data.substr(15)));
+					}
+					if (event.data.indexOf('policat_signed;') === 0) {
+						console.log('policat_signed', JSON.parse(event.data.substr(15)));
+					}
+					if (event.data.indexOf('policat_show;') === 0) {
+						console.log('policat_show', JSON.parse(event.data.substr(13)));
+					}
+					console.log(event.data);
+				}
+			}, false);
+		</script>
 	</head>
 	<body style="margin: 0 auto;">
 		<h2>Lorem ipsum</h2>
 		<p>Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna </p>
 
 		<script type="text/javascript">
-			document.write('<' + 'script type="text/javascript" src="/api/js/widget/' + parseInt(window.location.href.split('/').pop()) + '"><' + '/script>');
+			var widget_id = parseInt(window.location.href.split('/').pop());
+			document.write('<' + 'script type="text/javascript" src="/api/js/widget/' + widget_id + '"><' + '/script>');
 		</script>
 
 		<h2>Lorem ipsum</h2>

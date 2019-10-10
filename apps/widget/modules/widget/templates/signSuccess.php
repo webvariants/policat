@@ -15,6 +15,7 @@
         <?php if ($font_css_file): ?><link href="<?php echo $font_css_file ?>" rel="reload" as="style" /><?php endif ?>
         <link rel="preload" href="/js/dist/jquery-1.10.2.min.js" as="script">
         <link rel="preload" href="/js/dist/policat_widget.js?<?php echo filemtime(sfConfig::get('sf_web_dir') . '/js/dist/policat_widget.js') ?>" as="script">
+        <?php if ($openECI): ?><link rel="preload" href="/js/lib/iframeResizer/iframeResizer.min.js" as="script"><?php endif ?>
         <meta http-equiv="X-UA-Compatible" content="IE=edge" />
         <meta name="language" content="<?php echo $lang ?>" />
         <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" />
@@ -58,13 +59,15 @@ if (is_array($target_selectors)) {
 <?php else: ?>
         var CT_extra = null;
 <?php endif ?>
+      var isOpenECI  = <?php echo json_encode($openECI) ?>;
+      var srcOpenECI = '<?php echo Util::enc($petition->getOpeneciURL()) ?>?channel=<?php echo Util::enc($petition->getOpeneciChannel()) ?>&lang=<?php echo $lang ?>';
         </script>
         <?php if (!UtilTheme::removeClassicCss($widget, $petition)): ?><link rel="stylesheet" type="text/css" href="/css/dist/policat_widget.css?<?php echo filemtime(sfConfig::get('sf_web_dir') . '/css/dist/policat_widget.css') ?>" /><?php endif ?>
         <?php if ($font_css_file): ?><link href="<?php echo $font_css_file ?>" rel="stylesheet" type="text/css" /><?php endif ?>
         <?php UtilTheme::printCss($widget, $petition); ?><!-- <?php echo $petition['themeId'] ?> -->
     </head>
     <body>
-        <div id="widget" class="widget">
+        <div id="widget" class="widget <?php echo $openECI ? 'eci' : '' ?>">
             <?php if ($title || $target): ?>
               <div class="header">
                   <?php if ($title): ?><h1 class="action-title"><?php echo Util::enc($title) ?></h1><?php endif ?>
@@ -201,6 +204,20 @@ if (is_array($target_selectors)) {
 
                 <div id="widget-right" class="widget-right show-sign">
                     <div id="content-right" class="content-right">
+                        <div class="thankyou">
+                            <h2 class="title-color"><?php echo __('Thank you') ?></h2>
+                            <?php if ($openECI): ?>
+                            <div class="openECI-message"><span class="eci-duplicate"><?php echo __("Attention: You've already taken part in this action (maybe on another website).") ?></span><span class="eci-success"><?php echo __('Your statement of support has been submitted successfully.') ?></span> <?php echo __('Signature identifier') ?>: <span class="eci-number"></span>. <span class="eci-tell"><?php echo __('Use this moment to tell friends and family.') ?></span><span class="eci-please-sign-policat"><?php echo __('Sign up and become part of the movement.') ?></span></div>
+                            <?php endif ?>
+                            <p class="form_message label_color">
+                                <?php /* This can be overwritten by js through, see policat_widget.js and _json_form.php */ ?>
+                                <span class="verified-message">
+                                    <?php echo __('You verified your email address.') ?>
+                                    <span class="verified-message-tell"><?php echo __('Use this moment to tell friends and family.') ?></span>
+                                    <?php if ($openECI): ?><span class="verified-message-sign-eci"><?php echo __('Take a moment to support the European Citizen Initiative.') ?></span><?php endif ?>
+                                </span>
+                            </p>
+                        </div>
                         <div class="sign">
                             <h2 class="form-title title-color"><?php echo trim(Util::enc($petition_text->getFormTitle(), array('\n' => '<br />'))) ? : __($petition->getLabel(PetitionTable::LABEL_TITLE)) ?></h2>
                             <?php
@@ -239,24 +256,43 @@ if (is_array($target_selectors)) {
                             <form <?php if ($disabled): ?>style="display:none"<?php endif ?> id="sign" class="sign-form" action="" method="post" autocomplete="off">
                                 <?php echo $form->renderHiddenFields() ?>
                                 <fieldset>
+                                    <?php if ($openECI): ?><div class="form-row openECI-movement"><label></label><div class="form-text"><?php echo __('Be part of the movement') ?></div></div><?php endif ?>
                                     <?php
                                     foreach ($form as $fieldname => $fieldwidget) {
                                       $group = $form->isGroupedField($fieldname);
                                       if (!$fieldwidget->isHidden()) {
-                                        printf('<div class="form-row %s%s%s">%s</div>', $fieldname, $group ? ' group' : '', $group === 2 ? ' first' : '', $fieldwidget->renderRow());
+                                        $extra_row_class = $fieldwidget->getWidget()->getAttribute('data-row-class');
+                                        printf('<div class="form-row %s%s%s %s">%s</div>', $fieldname, $group ? ' group' : '', $group === 2 ? ' first' : '', $extra_row_class, $fieldwidget->renderRow());
                                       }
                                     }
                                     if (!isset($form[Petition::FIELD_PRIVACY])):
                                       ?>
                                       <div class="privacy privacy-no-check">
-                                          <label class="long-text"><?php echo UtilBold::format(__('By signing, I agree with the _privacy policy_.')) ?></label>
-                                          <label class="short-text">&raquo;&nbsp;<?php echo __('PP Heading') ?></label>
+                                          <?php $long_text = preg_replace('/(_)([^_]+)(_)/', '<span class="label-link">${2}</span>', __('By signing, I agree with the _privacy policy_.'), -1, $replace_count);
+                                          if (!$replace_count) {
+                                            $long_text = '<span class="label-link">' . __('By signing, I agree with the _privacy policy_.') . '</span>';
+                                          }
+                                          ?>
+                                          <label class="long-text"><?php echo $long_text ?></label>
+                                          <label class="short-text"><span class="label-link">&raquo;&nbsp;<?php echo __('PP Heading') ?></span></label>
                                       </div>
                                     <?php endif; ?>
+                                    <div id="subscribe-checkbox" style="display:none"><!--
+                                        <label for="petition_signing_subscribe"><?php echo __('Keep me posted on this and similar campaigns.') ?></label>
+                                        <span class="checkbox"><input class="required" type="checkbox" name="petition_signing[subscribe]" value="1" id="petition_signing_subscribe"></span>-->
+                                    </div>
                                 </fieldset>
                                 <div class="submit-sign-container">
-                                    <button type="button" class="submit submit-sign"><span class="font-size-auto"><?php echo strtr(__($petition->getLabel(PetitionTable::LABEL_BUTTON)), array(' ' => '&nbsp;')) ?></span></button>
+                                    <button type="button" class="submit submit-sign submit-no-subscribe"><span class="font-size-auto"><?php echo strtr(__($petition->getLabel(PetitionTable::LABEL_BUTTON)), array(' ' => '&nbsp;')) ?></span></button>
+                                    <?php if ($openECI): ?>
+                                        <button type="button" class="submit submit-sign submit-subscribe"><span class="font-size-auto-subscribe"><?php echo strtr(__($petition->getLabel(PetitionTable::LABEL_BUTTON_SUBSCRIBE)), array(' ' => '&nbsp;')) ?></span></button>
+                                    <?php endif ?>
                                 </div>
+                                <?php if ($openECI): ?>
+                                <div class="go-to-eci-form">
+                                    <a class="go-to-eci-form" href=""><?php echo __('Skip and directly support the citizen initiative') ?></a>
+                                </div>
+                                <?php endif ?>
                             </form>
                             <?php if ($disabled): ?>
                               <div id="footer_ot"></div>
@@ -267,6 +303,10 @@ if (is_array($target_selectors)) {
                             <a href="<?php echo Util::enc($read_more_url) ?>" class="newwin readmore-btn"><?php echo __('Read more') ?></a>
                             <?php endif ?>
                         </div>
+                        <?php if ($openECI): ?>
+                        <div class="openECI" id="openECIParent">
+                        </div>
+                        <?php endif ?>
                         <?php if ($petition->getShowEmbed()): ?>
                         <div class="embed-this">
                             <h2 class="title-color"><?php echo __('Embed this') ?></h2>
@@ -325,10 +365,6 @@ if (is_array($target_selectors)) {
                             <a class="back button-color button-btn"><?php echo __('Back') ?></a>
                         </div>
                         <?php endif ?>
-                        <div class="thankyou">
-                            <h2 class="title-color"><?php echo __('Thank you') ?></h2>
-                            <p class="form_message label_color"><?php echo __('You verified your email address. Your action is confirmed. Use this moment to tell friends and family.') ?></p>
-                        </div>
                         <?php if ($petition->getLastSignings() != PetitionTable::LAST_SIGNINGS_NO): ?>
                           <div class="last-signings">
                               <div id="last-signers-exists" class="last-signers-exists">
@@ -350,21 +386,23 @@ if (is_array($target_selectors)) {
                         <?php endif ?>
                         <div class="share <?php echo $widget['share'] ? 'share-on-sign' : '' ?>">
                             <h2 class="label_color"><?php echo __('Tell your friends') ?></h2>
-                            <a href="https://www.facebook.com/sharer/sharer.php?u=" class="newwin sicon facebook" title="Facebook"><img class="no_load" alt="Facebook" src="/images_static/facebook-64.png" /></a>
-                            <a href="whatsapp://send?text=<?php echo rawurlencode($share_title . ' ') ?>" class="hideDesktop sicon whatsapp" title="WhatsApp"><img class="no_load" alt="WhatsApp" src="/images_static/whatsapp-64.png" /></a>
-                            <a href="https://twitter.com/share?text=<?php echo urlencode($share_title) ?>&amp;url=" class="newwin sicon twitter" title="Twitter"><img class="no_load" alt="Twitter" src="/images_static/twitter-64.png" /></a>
-                            <?php
-                            list($mail_subject, $mail_body) = UtilMail::tellyourmail($widget, $petition_text, 'UURRLLRREEFF', 'UURRLLMMOORREE');
-                            ?>
-                            <a href="mailto:?subject=<?php echo $mail_subject ?>&amp;body=<?php echo $mail_body ?>" class="sicon mailto" title="Email" target="_top"><img  class="no_load" alt="Email" src="/images_static/email-64.png" /></a>
-                            <?php if ($petition->getShowEmbed()): ?><a id="a-embed-this" class="sicon a-embed-this" title="<?php echo __('Embed this') ?>"><img class="no_load" alt="<?php echo __('Embed this') ?>" src="/images_static/code-64.png" /></a><?php endif ?>
-                            <?php if ($paypal_email || $donate_url): ?>
-                              <?php if ($donate_direct): ?>
-                                <a class="sicon donate-btn" target="_blank" href="<?php echo $donate_url ?>" title="<?php echo __('Donate') ?>"><img class="no_load" alt="<?php echo __('Donate') ?>" src="/images_static/charity-64.png" /></a>
-                              <?php else: ?>
-                                <a id="a-donate" class="sicon donate-btn" title="<?php echo __('Donate') ?>"><img class="no_load" alt="<?php echo __('Donate') ?>" src="/images_static/charity-64.png" /></a>
-                              <?php endif ?>
-                            <?php endif ?>
+                            <div class="share-icons">
+                                <a href="https://www.facebook.com/sharer/sharer.php?u=" class="newwin sicon facebook" title="Facebook"><img class="no_load" alt="Facebook" src="/images_static/facebook-64.png" /></a>
+                                <a href="whatsapp://send?text=<?php echo rawurlencode($share_title . ' ') ?>" class="hideDesktop sicon whatsapp" title="WhatsApp"><img class="no_load" alt="WhatsApp" src="/images_static/whatsapp-64.png" /></a>
+                                <a href="https://twitter.com/share?text=<?php echo urlencode($share_title) ?>&amp;url=" class="newwin sicon twitter" title="Twitter"><img class="no_load" alt="Twitter" src="/images_static/twitter-64.png" /></a>
+                                <?php
+                                list($mail_subject, $mail_body) = UtilMail::tellyourmail($widget, $petition_text, 'UURRLLRREEFF', 'UURRLLMMOORREE');
+                                ?>
+                                <a href="mailto:?subject=<?php echo $mail_subject ?>&amp;body=<?php echo $mail_body ?>" class="sicon mailto" title="Email" target="_top"><img  class="no_load" alt="Email" src="/images_static/email-64.png" /></a>
+                                <?php if ($petition->getShowEmbed()): ?><a id="a-embed-this" class="sicon a-embed-this" title="<?php echo __('Embed this') ?>"><img class="no_load" alt="<?php echo __('Embed this') ?>" src="/images_static/code-64.png" /></a><?php endif ?>
+                                <?php if ($paypal_email || $donate_url): ?>
+                                <?php if ($donate_direct): ?>
+                                    <a class="sicon donate-btn" target="_blank" href="<?php echo $donate_url ?>" title="<?php echo __('Donate') ?>"><img class="no_load" alt="<?php echo __('Donate') ?>" src="/images_static/charity-64.png" /></a>
+                                <?php else: ?>
+                                    <a id="a-donate" class="sicon donate-btn" title="<?php echo __('Donate') ?>"><img class="no_load" alt="<?php echo __('Donate') ?>" src="/images_static/charity-64.png" /></a>
+                                <?php endif ?>
+                                <?php endif ?>
+                            </div>
                         </div>
                         <div class="donate">
                             <?php if ($paypal_email): ?>
@@ -424,6 +462,7 @@ if (is_array($target_selectors)) {
         <div id="labels-inside"></div>
         <script type="text/javascript" src="/js/dist/jquery-1.10.2.min.js"></script>
         <script type="text/javascript" src="/js/dist/policat_widget.js?<?php echo filemtime(sfConfig::get('sf_web_dir') . '/js/dist/policat_widget.js') ?>"></script>
+        <?php if ($openECI): ?><script type="text/javascript" src="/js/lib/iframeResizer/iframeResizer.min.js"></script><?php endif ?>
     </body>
 </html>
-<!-- <?php echo $petition->getId() ?> / <?php echo $widget->getPetitionTextId() ?> / <?php echo $widget->getId() ?> -->
+<!-- <?php echo $petition->getId() ?> / <?php echo $widget->getPetitionTextId() ?> / <?php echo $widget->getId() ?> / <?php echo gmdate('Y-m-d H:i:s') ?> GMT -->

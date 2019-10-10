@@ -34,7 +34,7 @@ class TranslationForm extends BasePetitionTextForm {
 
     unset(
       $this['created_at'], $this['updated_at'], $this['petition_id'], $this['object_version'], $this['email_targets'], $this['widget_id'], $this['donate_url'], $this['donate_text'],
-      $this['digest_subject'], $this['digest_body_intro'], $this['digest_body_outro']
+      $this['digest_subject'], $this['digest_body_intro'], $this['digest_body_outro'], $this['landing2_url']
     );
 
     $this->setWidget('form_title', new sfWidgetFormInput(array('label' => 'Widget heading'), array('size' => 90, 'class' => 'large', 'placeholder' => 'Leave this field empty to use standard texts.')));
@@ -74,6 +74,16 @@ class TranslationForm extends BasePetitionTextForm {
         'placeholder' => $petition->getLandingUrl() ?: 'https://www.example.com/-language-/thank-you'
     )));
     $this->setValidator('landing_url', new ValidatorUrl(array('required' => false, 'trim' => true)));
+
+    if ($this->getObject()->getPetition()->getKind() == Petition::KIND_OPENECI) {
+        $this->setWidget('landing2_url', new sfWidgetFormInput(array('label' => 'Alternative opt-in landing page, if OpenECI form was not submitted'), array(
+            'size' => 90,
+            'class' => 'add_popover large',
+            'data-content' => 'Provide an alternative landing page, containing the ECI form and a prompt to "support the ECI, if you haven\'t done yet"',
+            'placeholder' => 'https://www.example.com/-language-/thank-you'
+        )));
+        $this->setValidator('landing2_url', new ValidatorUrl(array('required' => false, 'trim' => true)));
+    }
 
     if (!$petition->isEmailKind()) {
       $this->setWidget('intro', new sfWidgetFormTextarea(array('label' => 'Introductory part'), array(

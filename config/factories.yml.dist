@@ -38,6 +38,11 @@ all:
 #      spool_class:       Swift_DoctrineSpool
 #      spool_arguments:   [ MailMessage, messagePlain, getSpooledMessages ]
 
+#      transport:
+#        class: Swift_SmtpTransport
+#        param:
+#          host: mail
+
   view_cache:
     class: sfTaggingCache
     param:

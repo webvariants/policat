@@ -31,6 +31,7 @@ class PetitionSigningTable extends Doctrine_Table {
   const BOUNCE = 'bounce';
   const DOWNLOAD = 'download';
   const DOWNLOAD_NULL = 'download_null';
+  const MAILEXPORT_PENDING = 'mailexport_pending';
   const WIDGET_FILTER = 'widget_filter';
   const KEYWORD_NAME = '#SENDER-NAME#';
   const KEYWORD_COUNTRY = '#SENDER-COUNTRY#';
@@ -58,6 +59,7 @@ class PetitionSigningTable extends Doctrine_Table {
       self::BOUNCE => false,
       self::DOWNLOAD => null,
       self::DOWNLOAD_NULL => null,
+      self::MAILEXPORT_PENDING => null,
   );
   static $KEYWORDS = array(
       self::KEYWORD_NAME,
@@ -93,6 +95,7 @@ class PetitionSigningTable extends Doctrine_Table {
     $bounce = $options[self::BOUNCE];
     $download = $options[self::DOWNLOAD];
     $download_null = $options[self::DOWNLOAD_NULL];
+    $mailexport_pending = $options[self::MAILEXPORT_PENDING];
 
     if ($status) {
       $query->andWhere('ps.status = ?', $status);
@@ -122,6 +125,10 @@ class PetitionSigningTable extends Doctrine_Table {
       } else {
         $query->andWhere('ps.download_data_id IS NULL');
       }
+    }
+
+    if ($mailexport_pending !== null) {
+      $query->andWhere('ps.mailexport_pending = ?', $mailexport_pending);
     }
 
     if (!($petition || $campaign || $widget))
@@ -685,6 +692,23 @@ class PetitionSigningTable extends Doctrine_Table {
         ->set('petition_status', $petition->getStatus())
         ->set('petition_enabled', $petition->getStatus() != Petition::STATUS_DELETED ? 1 : 0)
         ->where('petition_id = ?', $petition->getId())
+        ->execute();
+  }
+
+  public function fetchRefHash($id) {
+    return $this->createQuery('ps')
+        ->where('ps.id = ?', $id)
+        ->select('ps.ref_hash')
+        ->execute(array(), Doctrine_Core::HYDRATE_SINGLE_SCALAR);
+  }
+
+  public function setRefShown($id) {
+    $query = $this->createQuery();
+    /** @$query Doctrine_Query */
+    $query->update()
+        ->set('ref_shown', 1)
+        ->set('ref_hash', 'NULL')
+        ->where('id = ?', $id)
         ->execute();
   }
 }
