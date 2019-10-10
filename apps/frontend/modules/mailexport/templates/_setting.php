@@ -1,6 +1,6 @@
 <?php if ($show): ?>
   <hr />
-  <h3 class="mt-4">Mail export settings</h3>
+  <h3 class="mt-4">Mailing (subscriber) API</h3>
   <form id="mailexport_setting_form" class="ajax_form form-horizontal" action="<?php echo url_for('mailexport_setting', array('id' => $petition->getId())) ?>" method="post">
     <?php echo $form ?>
     <div class="form-actions">

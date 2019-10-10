@@ -8,7 +8,7 @@ class MailExportSettingForm extends BaseForm {
 
   public function setup() {
     foreach (MailExport::getServices() as $service) {
-      $service->formSetup($this);
+      $service->formSetup($this->getOption('petition'), $this);
     }
 
     $this->widgetSchema->setNameFormat('mailexport_setting[%s]');

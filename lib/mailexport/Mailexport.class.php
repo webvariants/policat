@@ -42,7 +42,7 @@ abstract class MailExport {
     ]);
   }
 
-  abstract public function formSetup(MailExportSettingForm $form);
+  abstract public function formSetup(Petition $petition, MailExportSettingForm $form);
 
   abstract public function getName();
 
