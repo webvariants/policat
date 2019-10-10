@@ -45,6 +45,11 @@ class PetitionSigningForm extends BasePetitionSigningForm {
 
     $this->setValidator(Petition::FIELD_REF, new sfValidatorString(array('required' => false)));
 
+    $this->mergePostValidator(new ValidatorUniqueEmail([], [
+      'petition_id' => $petition['id'],
+      ValidatorUniqueEmail::OPTION_IS_GEO => $petition->isGeoKind()
+    ]));
+
     foreach ($this->formfields as $formfield) {
       if (isset($this[$formfield])) {
         unset($this[$formfield]);
@@ -55,12 +60,7 @@ class PetitionSigningForm extends BasePetitionSigningForm {
       switch ($formfield) {
         case Petition::FIELD_EMAIL:
           $widget = new sfWidgetFormInputText();
-          $validator = new ValidatorUniqueEmail(array(
-              'petition_id' => $petition['id'],
-              'max_length' => 80,
-              ValidatorUniqueEmail::OPTION_IS_GEO => $petition->isGeoKind(),
-              ValidatorUniqueEmail::OPTION_IGNORE_PENDING => true
-          ));
+          $validator = new ValidatorEmail(array('max_length' => 80));
           $label = 'Email address';
           break;
         case Petition::FIELD_COUNTRY:
@@ -396,11 +396,15 @@ class PetitionSigningForm extends BasePetitionSigningForm {
       parent::doSave($con);
     }
 
+    // cleanup old pending signings with same email address
     $existing_signing = PetitionSigningTable::getInstance()->findByPetitionIdAndEmail($petition->getId(), $signing->getEmail(), $signing->getId());
     if ($existing_signing) {
-      if ($existing_signing->getStatus() == PetitionSigning::STATUS_PENDING && !$geo_existing) {
+      if (($existing_signing->getStatus() == PetitionSigning::STATUS_PENDING && !$geo_existing)
+        ||($existing_signing->getStatus() == PetitionSigning::STATUS_COUNTED && !$geo_existing && !$existing_signing->getSubscribe() && $signing->getSubscribe())) // see 4eb47883-b48f-43b0-af1f-0726857213cf
+      {
         $existing_signing->delete();
       } else {
+        // geo sticks to first signing
         $signing->delete();
         $this->object = $existing_signing;
         $signing = $existing_signing;
