@@ -16,7 +16,7 @@ class mailexportComponents extends policatComponents {
       return;
     }
     $this->show = true;
-    $this->form = new MailExportSettingForm($this->petition->getMailexportData());
+    $this->form = new MailExportSettingForm($this->petition->getMailexportData(), ['petition' => $this->petition]);
     $this->test_csrf_token = UtilCSRF::gen('mailexport_test', $this->petition->getId());
     $this->enabled_services = [];
     foreach (MailExport::getServices() as $name => $service) {

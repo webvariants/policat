@@ -27,7 +27,7 @@ class mailexportActions extends policatActions {
       return $this->noAccess();
     }
 
-    $form = new MailExportSettingForm($petition->getMailexportData());
+    $form = new MailExportSettingForm($petition->getMailexportData(), ['petition' => $petition]);
     if ($request->isMethod('post')) {
       $form->bind($request->getPostParameter($form->getName()));
 
