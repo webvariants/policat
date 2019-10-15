@@ -695,20 +695,32 @@ class PetitionSigningTable extends Doctrine_Table {
         ->execute();
   }
 
-  public function fetchRefHash($id) {
-    return $this->createQuery('ps')
+  public function fetchRefHash($id, &$mailexport_pending = null) {
+    $result = $this->createQuery('ps')
         ->where('ps.id = ?', $id)
-        ->select('ps.ref_hash')
-        ->execute(array(), Doctrine_Core::HYDRATE_SINGLE_SCALAR);
+        ->select('ps.ref_hash, ps.mailexport_pending')
+        ->fetchOne(array(), Doctrine_Core::HYDRATE_SCALAR);
+
+    if ($result) {
+      $mailexport_pending = $result['ps_mailexport_pending'];
+      return $result['ps_ref_hash'];
+    }
+
+    return null;
   }
 
-  public function setRefShown($id) {
+  public function setRefShown($id, $mailexport_pending = null) {
     $query = $this->createQuery();
     /** @$query Doctrine_Query */
     $query->update()
         ->set('ref_shown', 1)
-        ->set('ref_hash', 'NULL')
-        ->where('id = ?', $id)
+        ->set('ref_hash', 'NULL');
+
+    if ($mailexport_pending !== null) {
+      $query->set('mailexport_pending', $mailexport_pending);
+    }
+
+    $query->where('id = ?', $id)
         ->execute();
   }
 }

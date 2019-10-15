@@ -609,17 +609,24 @@ class widgetActions extends policatActions
     $this->getResponse()->setContentType('application/json');
 
     $table = PetitionSigningTable::getInstance();
-    $hash = $table->fetchRefHash($id);
+    $hash = $table->fetchRefHash($id, $mailexport_pending);
 
     $data = array('status' => 'ok');
     if (!$hash) {
-        $data = array('status' => 'no hash');
+      $data = array('status' => 'no hash');
     } else {
-        if (!password_verify($code, $hash)) {
-            $data = array('status' => 'wrong code');
+      if (!password_verify($code, $hash)) {
+        $data = array('status' => 'wrong code');
+      } else {
+        if ($mailexport_pending == PetitionSigning::MAILEXPORT_PENDING_DONE) {
+          // retrigger export when done before
+          $mailexport_pending = PetitionSigning::MAILEXPORT_PENDING_YES;
         } else {
-            $table->setRefShown($id);
+          $mailexport_pending = null;
         }
+
+        $table->setRefShown($id, $mailexport_pending);
+      }
     }
 
     sfConfig::set('sf_web_debug', false);
