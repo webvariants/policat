@@ -231,4 +231,16 @@ class PetitionSigning extends BasePetitionSigning {
     return $ret . ($extra ? " ($extra)" : '');
   }
 
+  public function addRefCode($pos = null) {
+    $ref_code = bin2hex(random_bytes(8));
+    $ref_hash = password_hash($ref_code, PASSWORD_DEFAULT);
+
+    $hash = $this->getRefHash();
+    $parts = $hash ? explode('; ', $hash) : [];
+    $parts[$pos] = $ref_hash;
+    $this->setRefHash(implode('; ', $parts));
+
+    return $ref_code;
+  }
+
 }

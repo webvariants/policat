@@ -114,7 +114,7 @@ abstract class BasePetitionSigningForm extends BaseFormDoctrine
       'quota_emails'           => new sfValidatorInteger(array('required' => false)),
       'thank_sent'             => new sfValidatorInteger(array('required' => false)),
       'ref_shown'              => new sfValidatorInteger(array('required' => false)),
-      'ref_hash'               => new sfValidatorString(array('max_length' => 80, 'required' => false)),
+      'ref_hash'               => new sfValidatorString(array('max_length' => 160, 'required' => false)),
       'quota_thank_you_id'     => new sfValidatorDoctrineChoice(array('model' => $this->getRelatedModelName('QuotaThankYou'), 'column' => 'id', 'required' => false)),
       'bounce'                 => new sfValidatorInteger(array('required' => false)),
       'bounce_at'              => new sfValidatorDateTime(array('required' => false)),

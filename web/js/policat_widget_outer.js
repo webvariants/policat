@@ -1,5 +1,5 @@
 var policat = typeof policat === "undefined" ? {widgets: []} : policat;
-(function(policat, window, document, Math, ref, verified_id, width, edit, name, show_eci) {
+(function(policat, window, document, Math, ref, verified_id, width, edit, name, sign_id, ref_code) {
 	if (policat.widget_here === undefined) {
 		policat.overlay_frame_height = null;
 		policat.iframe_no = 0;
@@ -122,7 +122,7 @@ var policat = typeof policat === "undefined" ? {widgets: []} : policat;
 			if (width) {
 				widget.width = 'auto';
 			}
-			var hash = verified_id + '!' + edit + '!' + widget.target + '!' + iframe_no + '!' + (show_eci ? 1 : 0) + '!' + name + '!' + ref;
+			var hash = verified_id + '!' + edit + '!' + widget.target + '!' + iframe_no + '!' + sign_id + '!' + ref_code + '!' + name + '!' + ref;
 
 			function createIFrame(auto) {
 				var width = (auto || widget.width === 'auto') ? '100%' : (widget.width + 'px');
@@ -346,5 +346,6 @@ var policat = typeof policat === "undefined" ? {widgets: []} : policat;
 		typeof policat_width !== 'undefined' ? policat_width : null,
 		typeof policat_widget_edit_code !== 'undefined' ? policat_widget_edit_code : '',
 		typeof policat_name !== 'undefined' ? policat_name : '',
-		typeof policat_show_eci !== 'undefined' ? policat_show_eci : false
+		typeof policat_sign_id !== 'undefined' ? policat_sign_id : '',
+		typeof policat_ref_code !== 'undefined' ? policat_ref_code : '0'
 		);

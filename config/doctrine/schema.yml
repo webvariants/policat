@@ -548,7 +548,7 @@ PetitionSigning:
     quota_emails:    { type: integer(2),  notnull: false, default: null }
     thank_sent:      { type: integer(1),  notnull: true, default: 0 }
     ref_shown:       { type: integer(1),  notnull: true, default: 0 }
-    ref_hash:        { type: string(80),  notnull: false, default: null }
+    ref_hash:        { type: string(160),  notnull: false, default: null }
     quota_thank_you_id: { type: integer(4),  notnull: false, default: null }
     bounce:             { type: integer(1),  notnull: true, default: 0 }
     bounce_at:          { type: timestamp,   notnull: false, default: null }

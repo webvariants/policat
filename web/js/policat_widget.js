@@ -374,9 +374,13 @@ $(document).ready(function($) {
 			var edit_code = hash_parts[1];
 		var count = decodeURIComponent(hash_parts[2]);
 		var iframe_no = hash_parts[3];
-		var show_eci = hash_parts[4] == '1';
-		var name = hash_parts[5];
-		var ref = hash_parts[6];
+		refId = hash_parts[4];
+		var show_eci = (hash_parts[5] + '').length > 5;
+		if (show_eci) {
+			refCode = hash_parts[5];
+		}
+		var name = hash_parts[6];
+		var ref = hash_parts[7];
 
 		if (hasSign) {
 			$('.reload', widget_right).remove();

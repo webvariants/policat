@@ -304,6 +304,11 @@ class widgetActions extends policatActions
 
           if (($code === $petition_signing->getValidationData() && !$petition->isGeoKind()) || $wave)
           {
+            $ref_code = 0;
+            if (($petition->getKind() == Petition::KIND_OPENECI) && !$petition_signing->getRefShown()) {
+              $ref_code = $petition_signing->addRefCode(1);
+            }
+
             if ($petition_signing->getStatus() == PetitionSigning::STATUS_PENDING
               || ($wave && $wave->getStatus() == PetitionSigning::STATUS_PENDING)
               || ($petition_signing->getStatus() == PetitionSigning::STATUS_COUNTED && $petition_signing->getVerified() == PetitionSigning::VERIFIED_NO))
@@ -357,11 +362,21 @@ class widgetActions extends policatActions
 
               UtilThankYouEmail::send($petition_signing);
               $petition_signing->save();
+            } else {
+              if ($ref_code) {
+                $petition_signing->save();
+              }
             }
 
             $this->ref      = $petition_signing->getField(Petition::FIELD_REF);
             $this->wid      = $petition_signing->getWidgetId();
-            $this->show_eci = ($petition->getKind() == Petition::KIND_OPENECI) && !$petition_signing->getRefShown();
+            $this->id       = $petition_signing->getId();
+            $this->ref_code = $ref_code;
+
+            $response = $this->getResponse();
+            if ($response instanceof sfWebResponse) {
+              $response->setHttpHeader('cache-control', 'private, must-revalidate, max-age=60');
+            }
 
             $this->landing_url = $widget->findLandingUrl($petition, $this->show_eci);
             if ($this->landing_url) {
@@ -615,7 +630,15 @@ class widgetActions extends policatActions
     if (!$hash) {
       $data = array('status' => 'no hash');
     } else {
-      if (!password_verify($code, $hash)) {
+      $code_ok = false;
+      foreach (explode('; ', $hash) as $hash_i) {
+        if (password_verify($code, $hash_i)) {
+          $code_ok = true;
+          break;
+        }
+      }
+
+      if (!$code_ok) {
         $data = array('status' => 'wrong code');
       } else {
         if ($mailexport_pending == PetitionSigning::MAILEXPORT_PENDING_DONE) {

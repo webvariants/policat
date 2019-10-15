@@ -30,7 +30,8 @@ class policatActions extends sfActions {
         if (!$user instanceof sfGuardSecurityUser || $user->isAnonymous()) {
           $response->addCacheControlHttpHeader('public');
           $response->addCacheControlHttpHeader('must-revalidate');
-          $response->addCacheControlHttpHeader('max_age=60');
+          $response->addCacheControlHttpHeader('max_age=61');
+          $response->addCacheControlHttpHeader('stale-while-revalidate=10');
         } else {
           $response->addVaryHttpHeader('Cookie');
           $response->addCacheControlHttpHeader('private');
