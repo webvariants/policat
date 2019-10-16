@@ -378,7 +378,7 @@ class widgetActions extends policatActions
               $response->setHttpHeader('cache-control', 'private, must-revalidate, max-age=60');
             }
 
-            $this->landing_url = $widget->findLandingUrl($petition, $this->show_eci);
+            $this->landing_url = $widget->findLandingUrl($petition, !!$this->ref_code);
             if ($this->landing_url) {
               $this->setLayout(false);
               $this->setTemplate('landing');
