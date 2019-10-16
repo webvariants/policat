@@ -1,4 +1,4 @@
-<?php use_helper('Number') ?>
+<?php use_helper('Number', 'I18N') ?>
 <nav aria-label="breadcrumb">
   <ol class="breadcrumb">
     <li class="breadcrumb-item"><a href="<?php echo url_for('dashboard') ?>">Dashboard</a></li>
@@ -38,9 +38,22 @@
           <th>Mails in Sending Queue</th>
         </tr>
         <tr>
-          <td class="text-right"><?php echo format_number($petition->countMailsPending()) ?></span></div>
+          <td class="text-right"><?php echo format_number($petition->countMailsPending()) ?></td>
           <th>Mails pending</th>
-        </div>
+        </tr>
+        <?php endif ?>
+        <?php if ($petition->getKind() == Petition::KIND_OPENECI): ?>
+        <tr>
+          <td class="text-right"><?php echo format_number($petition->getOpeneciCounterTotal()) ?></td>
+          <th>Total count OpenECI</th>
+        </tr>
+        <?php foreach ($petition->getOpeneciCounterCountriesData() as $iso => $total): ?>
+        <tr>
+          <td></td>
+          <th><?php echo format_country($iso, 'en') ?></th>
+          <td><?php echo format_number($total) ?></td>
+        </tr>
+        <?php endforeach ?>
         <?php endif ?>
         <tr>
           <td class="text-right"><?php echo format_number($petition->countSignings(60)) ?></td>

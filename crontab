@@ -2,6 +2,8 @@
 
 */20 * * * * php symfony policat:delete-pending --limit=1000 --silent=1; php symfony policat:recall-pending --limit=1000 --silent=1
 
+*/5 * * * * php symfony policat:openeci-fetch-counter -v 1
+
 1 * * * * php symfony policat:action-schedule --utc-hour=00 --silent=1; php symfony policat:quota-check
 
 50 * * * * php symfony policat:signings24

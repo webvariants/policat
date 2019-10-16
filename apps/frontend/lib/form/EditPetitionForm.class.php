@@ -34,6 +34,7 @@ class EditPetitionForm extends PetitionFieldsForm {
     unset($this['pledge_info_columns'], $this['pledge_with_comments'], $this['activity_at'], $this['deleted_pendings'], $this['deleted_hard_bounces'], $this['deleted_bounces_manually']);
     unset($this['label_mode'], $this['follow_petition_id'], $this['addnum'], $this['target_num'], $this['keywords_subst'], $this['addnum_email_counter'], $this['target_num_email_counter']);
     unset($this['digest_enabled'], $this['pledge_sort_column'], $this['mailexport'], $this['mailexport_enabled']);
+    unset($this['openeci_counter_total'], $this['openeci_counter_countries']);
 
     $this->configure_fields();
 
@@ -189,8 +190,14 @@ class EditPetitionForm extends PetitionFieldsForm {
             // 'class' => 'add_popover large',
             // 'data-content' => '',
         )));
+        $this->setWidget('openeci_counter_override', new sfWidgetFormChoice(array(
+          'choices' => array(0 => 'no', 1 => 'yes'),
+          'label' => 'Override total counter with data from openECI'
+        ), array(
+        )));
+        $this->setValidator('openeci_counter_override', new sfValidatorChoice(array('choices' => array(0, 1), 'required' => true)));
     } else {
-      unset($this['openeci_url'], $this['openeci_channel']);
+      unset($this['openeci_url'], $this['openeci_channel'], $this['openeci_counter_override']);
     }
 
     if ($this->getObject()->getKind() == Petition::KIND_PETITION || $this->getObject()->getKind() == Petition::KIND_OPENECI) {

@@ -335,6 +335,9 @@ Petition:
     cron_signings24:         { type: integer(4), notnull: true, default: 0 }
     openeci_url:             { type: string(120), notnull: false, default: null }
     openeci_channel:         { type: string(40),  notnull: false, default: null }
+    openeci_counter_override:  { type: integer(1), notnull: true, default: 0 }
+    openeci_counter_total:     { type: integer(4), notnull: true, default: 0 }
+    openeci_counter_countries: { type: clob, notnull: false }
     mailexport:              { type: clob, notnull: false }
     mailexport_enabled:      { type: integer(1), notnull: true, default: 0 }
   relations:

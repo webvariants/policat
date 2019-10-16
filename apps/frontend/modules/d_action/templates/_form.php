@@ -39,7 +39,7 @@
                 <?php if ($petition->getKind() == Petition::KIND_OPENECI): ?>
                 <fieldset class="tab-pane show-before-chosen-init" id="openeci">
                     <legend>openECI</legend>
-                    <?php echo $form->renderRows('openeci_url', 'openeci_channel') ?>
+                    <?php echo $form->renderRows('openeci_url', 'openeci_channel', 'openeci_counter_override') ?>
                 </fieldset>
                 <?php endif ?>
                 <fieldset class="tab-pane show-before-chosen-init" id="sec2">

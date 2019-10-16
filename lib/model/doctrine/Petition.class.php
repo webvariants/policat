@@ -752,4 +752,18 @@ class Petition extends BasePetition {
     $this->setMailexport(json_encode($data));
   }
 
+  public function getOpeneciCounterCountriesData() {
+    $json = $this->getOpeneciCounterCountries();
+    if (!$json) {
+      return [];
+    }
+
+    $data = @json_decode($json, true);
+    if (!is_array($data)) {
+      return [];
+    }
+
+    return $data;
+  }
+
 }

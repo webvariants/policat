@@ -411,7 +411,11 @@ class widgetActions extends policatActions
       $this->count_translation = '# emails sent';
       $this->target = $this->count . '-' . Petition::calcTarget($this->count, $petition->getTargetNumEmailCounter());
     } else {
-      $this->count = $petition->getCount(60);
+      if ($petition->getKind() == Petition::KIND_OPENECI && $petition->getOpeneciCounterOverride()) {
+        $this->count = (int) $petition->getOpeneciCounterTotal();
+      } else {
+        $this->count = $petition->getCount(60);
+      }
       $this->count_translation = '# Participants';
       $this->target = $this->count . '-' . Petition::calcTarget($this->count, $petition->getTargetNum());
     }
