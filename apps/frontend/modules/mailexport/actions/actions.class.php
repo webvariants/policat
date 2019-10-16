@@ -36,7 +36,7 @@ class mailexportActions extends policatActions {
         $petition->setMailexportData($form->getValues());
         $petition->setMailexportEnabled(MailExport::checkOneEnabled($petition) ? 1 : 0);
         $petition->save();
-        return $this->ajax()->redirectRotue('petition_overview', array('id' => $petition->getId()))->render();
+        return $this->ajax()->redirectRotue('petition_tokens', array('id' => $petition->getId()))->render();
 
       } else {
         return $this->ajax()->form($form)->render();

@@ -17,6 +17,12 @@ class MailExportRapidmail extends MailExport {
     $form->setWidget('rapidmail_recipientlist_id', new sfWidgetFormInputText(['label' => 'Recipientlist ID']));
     $form->setValidator('rapidmail_recipientlist_id', new sfValidatorInteger(array('required' => false)));
 
+    $form->setWidget('rapidmail_recipient_exists', new sfWidgetFormChoice(['label' => 'If recipient exists', 'choices' => [
+      'stock' => 'Keep existing data',
+      'importfile' => 'Overwrite existing data (required to track updates)'
+    ]]));
+    $form->setValidator('rapidmail_recipient_exists', new sfValidatorChoice(['choices' => ['stock', 'importfile']]));
+
     $extra_fields_choices = ['' => 'no export'];
     foreach (range(1, 10) as $number) {
       $extra_fields_choices['extra' . $number] = 'extra' . $number;
@@ -194,7 +200,13 @@ class MailExportRapidmail extends MailExport {
   }
 
   private function postCSV(Petition $petition, $csv, $ids, $verbose = false) {
-    $ch = $this->curlInit($petition, 'recipients/import');
+    $query = '';
+    $recipient_exists = $petition->getMailexportData('rapidmail_recipient_exists');
+    if ($recipient_exists) {
+      $query = '?recipient_exists=' . $recipient_exists;
+    }
+
+    $ch = $this->curlInit($petition, 'recipients/import' . $query);
     $body = [
       'recipientlist_id' => (int) $petition->getMailexportData('rapidmail_recipientlist_id'),
       'file' => [
