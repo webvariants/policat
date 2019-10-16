@@ -670,11 +670,13 @@ abstract class BasePetitionSigning extends myDoctrineRecord
               3 => 'country',
              ),
              ));
-        $this->index('signing_mailexport', array(
+        $this->index('signing_mailexport2', array(
              'fields' => 
              array(
               0 => 'petition_id',
               1 => 'mailexport_pending',
+              2 => 'subscribe',
+              3 => 'widget_id',
              ),
              ));
         $this->option('options', NULL);

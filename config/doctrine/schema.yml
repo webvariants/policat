@@ -594,7 +594,7 @@ PetitionSigning:
     signing_language3:            { fields: [campaign_id, petition_enabled, status, language_id, id] }
     signing_list_campaign:        { fields: [campaign_id, petition_enabled, status, id] }
     signing_campaign_country:     { fields: [campaign_id, petition_enabled, status, country] }
-    signing_mailexport:           { fields: [petition_id, mailexport_pending] }
+    signing_mailexport2:          { fields: [petition_id, mailexport_pending, subscribe, widget_id] }
 
 PetitionSigningSearch:
   options:

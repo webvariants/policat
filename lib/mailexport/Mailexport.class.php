@@ -39,6 +39,7 @@ abstract class MailExport {
     return PetitionSigningTable::getInstance()->query([
       PetitionSigningTable::PETITION => $petition->getId(),
       PetitionSigningTable::MAILEXPORT_PENDING => PetitionSigning::MAILEXPORT_PENDING_YES,
+      PetitionSigningTable::SUBSCRIBER => true
     ]);
   }
 
