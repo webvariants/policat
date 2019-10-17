@@ -55,17 +55,46 @@
 		}
 
 	}
+}
 
-	.share {
-		.share-icons {
-			text-align: center;
-			word-spacing: -1ch;
+@media (min-width: @width-label-left-1-min) {
+
+	.sign-form fieldset {
+		margin-right: 5%;
+	}
+
+	.openECI-movement .form-text {
+		margin-right: -5%;
+	}
+
+	.form-row.subscribe-radio {
+		width: 68%;
+	}
+
+	@media (min-width: 1030px) {
+		.sign-form fieldset {
+			margin-right: 15%;
 		}
 
-		.sicon {
-			float: none;
-			display: inline-block;
+		.openECI-movement .form-text {
+			margin-right: -15%;
 		}
+
+		.form-row.subscribe-radio {
+			width: 78%;
+		}
+	}
+}
+
+.share {
+	.share-icons {
+		text-align: center;
+		word-spacing: -1ch;
+	}
+
+	.sicon {
+		float: none;
+		display: inline-block;
 	}
 }
 
