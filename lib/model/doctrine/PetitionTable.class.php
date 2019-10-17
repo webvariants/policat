@@ -45,13 +45,15 @@ class PetitionTable extends Doctrine_Table {
   const LABEL_MODE_APPEAL = 3;
   const LABEL_MODE_COMMUNITY = 4;
   const LABEL_MODE_NEWSLETTER = 5;
+  const LABEL_MODE_ECI = 6;
 
   public static $LABEL_MODE = array(
       self::LABEL_MODE_PETITION => 'Petition',
       self::LABEL_MODE_INITIATIVE => 'Citizen initiative',
       self::LABEL_MODE_APPEAL => 'Appeal',
       self::LABEL_MODE_COMMUNITY => 'Community',
-      self::LABEL_MODE_NEWSLETTER => 'Newsletter'
+      self::LABEL_MODE_NEWSLETTER => 'Newsletter',
+      self::LABEL_MODE_ECI => 'European Citizen Initiative',
   );
 
   const POLICY_CHECKBOX_NO = 0;
@@ -115,6 +117,12 @@ class PetitionTable extends Doctrine_Table {
           self::LABEL_BUTTON => 'Sign up',
           self::LABEL_TITLE => 'Sign up to the newsletter',
           self::LABEL_BUTTON_SUBSCRIBE => 'Subscribe'
+      ),
+      self::LABEL_MODE_ECI => array(
+          self::LABEL_TAB => 'European Citizen Initiative',
+          self::LABEL_BUTTON => 'Confirm and continue',
+          self::LABEL_TITLE => 'Join now',
+          self::LABEL_BUTTON_SUBSCRIBE => 'Sign up'
       )
   );
 

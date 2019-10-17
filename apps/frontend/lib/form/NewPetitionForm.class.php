@@ -103,7 +103,7 @@ class NewPetitionForm extends PetitionFieldsForm {
     }
 
     if ($values['kind'] == Petition::KIND_OPENECI) {
-      $values['label_mode'] = PetitionTable::LABEL_MODE_NEWSLETTER;
+      $values['label_mode'] = PetitionTable::LABEL_MODE_ECI;
     }
 
     return parent::processValues($values);

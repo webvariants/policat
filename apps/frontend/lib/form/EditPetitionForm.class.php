@@ -374,7 +374,7 @@ class EditPetitionForm extends PetitionFieldsForm {
     $this->setWidget('style_form_title_color', new sfWidgetFormInput(array('label' => 'Headings'), array('class' => 'jscolor {hash:true}')));
     $this->setValidator('style_form_title_color', new ValidatorCssColor(array('min_length' => 7, 'max_length' => 7)));
 
-    if ($this->getObject()->getKind() == Petition::KIND_PETITION) {
+    if (in_array($this->getObject()->getKind(), [Petition::KIND_PETITION, Petition::KIND_OPENECI])) {
       $this->setWidget('label_mode', new sfWidgetFormChoice(array('choices' => PetitionTable::$LABEL_MODE, 'label' => 'Petition labelling')));
       $this->setValidator('label_mode', new sfValidatorChoice(array('choices' => array_keys(PetitionTable::$LABEL_MODE))));
     }

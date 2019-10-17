@@ -256,7 +256,7 @@ if (is_array($target_selectors)) {
                             <form <?php if ($disabled): ?>style="display:none"<?php endif ?> id="sign" class="sign-form" action="" method="post" autocomplete="off">
                                 <?php echo $form->renderHiddenFields() ?>
                                 <fieldset>
-                                    <?php if ($openECI): ?><div class="form-row openECI-movement"><label></label><div class="form-text"><?php echo __('Be part of the movement') ?></div></div><?php endif ?>
+                                    <?php if ($openECI): ?><div class="form-row openECI-movement"><label></label><div class="form-text"><?php echo __('Become part of the movement') ?></div></div><?php endif ?>
                                     <?php
                                     foreach ($form as $fieldname => $fieldwidget) {
                                       $group = $form->isGroupedField($fieldname);
@@ -290,7 +290,7 @@ if (is_array($target_selectors)) {
                                 </div>
                                 <?php if ($openECI): ?>
                                 <div class="go-to-eci-form">
-                                    <a class="go-to-eci-form" href=""><?php echo __('Skip and directly support the citizen initiative') ?></a>
+                                    <a class="go-to-eci-form" href=""><?php echo __('Skip and go directly to signing the initiative in step 2') ?></a>
                                 </div>
                                 <?php endif ?>
                             </form>
