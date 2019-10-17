@@ -414,29 +414,109 @@ class PetitionSigningTable extends Doctrine_Table {
     return $query->limit(1)->fetchOne();
   }
 
+  private function getWidgetOrgas(Petition $petition) {
+    $id = $petition->getId();
+    $status = PetitionSigning::STATUS_COUNTED;
+    $connection = $this->getConnection();
+    $query = "SELECT DISTINCT
+                  w.organisation AS organisation
+              FROM
+                  widget w
+              WHERE
+                  (w.petition_id = '$id'
+                      AND w.organisation != ''
+                      AND w.id IN (SELECT
+                          *
+                      FROM
+                          (SELECT
+                              p.widget_id AS p__widget_id
+                          FROM
+                              petition_signing p
+                          WHERE
+                              p.status = '$status' AND p.widget_id = w.id
+                          LIMIT 1) AS t))";
+    $statement = $connection->execute($query);
+    $statement->execute();
+    return $statement->fetchAll(PDO::FETCH_COLUMN, 0);
+  }
+
+  private function getWidgetIds(Petition $petition) {
+    $id = $petition->getId();
+    $status = PetitionSigning::STATUS_COUNTED;
+    $connection = $this->getConnection();
+    $query = "SELECT
+                  w.id AS id
+              FROM
+                  widget w
+              WHERE
+                  (w.petition_id = '$id'
+                      AND w.id IN (SELECT * FROM (SELECT
+                          p.widget_id AS p__widget_id
+                      FROM
+                          petition_signing p
+                      WHERE
+                          p.status = '$status' AND p.widget_id = w.id LIMIT 1) as t))
+              ORDER BY w.activity_at DESC";
+    $statement = $connection->execute($query);
+    $statement->execute();
+    return $statement->fetchAll(PDO::FETCH_COLUMN, 0);
+  }
+
+  private function getWidgetUsers(Petition $petition) {
+    $id = $petition->getId();
+    $status = PetitionSigning::STATUS_COUNTED;
+    $connection = $this->getConnection();
+    $query = "SELECT DISTINCT
+                  w.user_id AS user_id
+              FROM
+                  widget w
+              WHERE
+                  (w.petition_id = '$id'
+                      AND w.user_id IS NOT NULL
+                      AND w.id IN (SELECT
+                          *
+                      FROM
+                          (SELECT
+                              p.widget_id AS p__widget_id
+                          FROM
+                              petition_signing p
+                          WHERE
+                              p.status = '$status' AND p.widget_id = w.id
+                          LIMIT 1) AS t))
+              ORDER BY w.activity_at DESC";
+    $statement = $connection->execute($query);
+    $statement->execute();
+    return $statement->fetchAll(PDO::FETCH_COLUMN, 0);
+  }
+
   public function getWidgetFilter(Petition $petition) {
-    $query_orga = WidgetTable::getInstance()
-      ->queryByPetition($petition)
-      ->andWhere('w.organisation != ""')
-      ->andWhere('w.id IN (SELECT DISTINCT ps.widget_id FROM PetitionSigning ps WHERE ps.status = ? AND ps.widget_id = w.id)', PetitionSigning::STATUS_COUNTED);
-    $query_orga->select('DISTINCT ' . $query_orga->getRootAlias() . '.organisation');
-    $result_orga = $query_orga->fetchArray();
+    // $query_orga = WidgetTable::getInstance()
+    //   ->queryByPetition($petition)
+    //   ->andWhere('w.organisation != ""')
+    //   ->andWhere('w.id IN (SELECT DISTINCT ps.widget_id FROM PetitionSigning ps WHERE ps.status = ? AND ps.widget_id = w.id)', PetitionSigning::STATUS_COUNTED);
+    // $query_orga->select('DISTINCT ' . $query_orga->getRootAlias() . '.organisation');
+    // $result_orga = $query_orga->fetchArray();
 
-    $organisations = array();
-    foreach ($result_orga as $orga) {
-      $organisations[$orga['organisation']] = $orga['organisation'];
-    }
+    // $organisations = array();
+    // foreach ($result_orga as $orga) {
+    //   $organisations[$orga['organisation']] = $orga['organisation'];
+    // }
 
-    $query_user = WidgetTable::getInstance()
-      ->queryByPetition($petition)
-      ->andWhere('w.user_id IS NOT NULL')
-      ->andWhere('w.id IN (SELECT DISTINCT ps.widget_id FROM PetitionSigning ps WHERE ps.status = ? AND ps.widget_id = w.id)', PetitionSigning::STATUS_COUNTED);
-    $query_user->select('DISTINCT ' . $query_user->getRootAlias() . '.user_id');
-    $result_user = $query_user->fetchArray();
-    $user_ids = array();
-    foreach ($result_user as $user_id) {
-      $user_ids[] = $user_id['user_id'];
-    }
+    $organisations = $this->getWidgetOrgas($petition);
+    $organisations = array_combine($organisations, $organisations);
+
+    // $query_user = WidgetTable::getInstance()
+    //   ->queryByPetition($petition)
+    //   ->andWhere('w.user_id IS NOT NULL')
+    //   ->andWhere('w.id IN (SELECT DISTINCT ps.widget_id FROM PetitionSigning ps WHERE ps.status = ? AND ps.widget_id = w.id)', PetitionSigning::STATUS_COUNTED);
+    // $query_user->select('DISTINCT ' . $query_user->getRootAlias() . '.user_id');
+    // $result_user = $query_user->fetchArray();
+    // $user_ids = array();
+    // foreach ($result_user as $user_id) {
+    //   $user_ids[] = $user_id['user_id'];
+    // }
+
+    $user_ids = $this->getWidgetUsers($petition);
 
     $users = array();
     if ($user_ids) {
@@ -448,13 +528,14 @@ class PetitionSigningTable extends Doctrine_Table {
     }
 
     $widgets = array();
-    $widget_ids = WidgetTable::getInstance()
-      ->queryByPetition($petition)
-      ->andWhere('w.id IN (SELECT DISTINCT ps.widget_id FROM PetitionSigning ps WHERE ps.status = ? AND ps.widget_id = w.id)', PetitionSigning::STATUS_COUNTED)
-      ->select('w.id')
-      ->fetchArray();
-    foreach ($widget_ids as $widget) {
-      $widgets['w' . $widget['id']] = 'Widget #' . $widget['id'];
+    // $widget_ids = WidgetTable::getInstance()
+    //   ->queryByPetition($petition)
+    //   ->andWhere('w.id IN (SELECT DISTINCT ps.widget_id FROM PetitionSigning ps WHERE ps.status = ? AND ps.widget_id = w.id)', PetitionSigning::STATUS_COUNTED)
+    //   ->select('w.id')
+    //   ->fetchArray();
+    $widget_ids = $this->getWidgetIds($petition);
+    foreach ($widget_ids as $widget_id) {
+      $widgets['w' . $widget_id] = 'Widget #' . $widget_id;
     }
 
     return array(
