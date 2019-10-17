@@ -78,7 +78,9 @@ class d_homeActions extends policatActions {
       }
     }
 
-    array_splice($joined, count($joined) - count($joined) % 3);
+    if (count($joined) > 3) {
+      array_splice($joined, count($joined) - count($joined) % 3);
+    }
     $this->actionListChunk = array_chunk($joined, 3);
     $this->styles = $openActions['styles'];
   }
