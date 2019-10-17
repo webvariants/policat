@@ -268,13 +268,12 @@ if (is_array($target_selectors)) {
                                     if (!isset($form[Petition::FIELD_PRIVACY])):
                                       ?>
                                       <div class="privacy privacy-no-check">
-                                          <?php $long_text = preg_replace('/(_)([^_]+)(_)/', '<span class="label-link">${2}</span>', __('By signing, I agree with the _privacy policy_.'), -1, $replace_count);
+                                          <?php $long_text = preg_replace('/(_)([^_]+)(_)/', '<span class="label-link">${2}</span>', __('I accept the _privacy policy_'), -1, $replace_count);
                                           if (!$replace_count) {
-                                            $long_text = '<span class="label-link">' . __('By signing, I agree with the _privacy policy_.') . '</span>';
+                                            $long_text = '<span class="label-link">' . __('I accept the _privacy policy_') . '</span>';
                                           }
                                           ?>
-                                          <label class="long-text"><?php echo $long_text ?></label>
-                                          <label class="short-text"><span class="label-link">&raquo;&nbsp;<?php echo __('PP Heading') ?></span></label>
+                                          <label><?php echo $long_text ?></label>
                                       </div>
                                     <?php endif; ?>
                                     <div id="subscribe-checkbox" style="display:none"><!--

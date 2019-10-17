@@ -342,7 +342,8 @@ $(document).ready(function($) {
 		}
 
 		$('div.privacy-no-check label span.label-link').click(show_privacy_policy);
-		$('div.privacy:not(.privacy-no-check) label').attr('for', 'useless').css('cursor', 'pointer').click(show_privacy_policy);
+		$('div.privacy:not(.privacy-no-check) label').attr('for', 'useless');
+		$('div.privacy:not(.privacy-no-check) label span.label-link').click(show_privacy_policy);
 
 		fontResize(font_size_auto_elements);
 

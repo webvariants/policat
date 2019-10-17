@@ -86,7 +86,7 @@ class PetitionSigningForm extends BasePetitionSigningForm {
           if ($petition->getPolicyCheckbox() == PetitionTable::POLICY_CHECKBOX_YES) {
             $widget = new WidgetFormInputCheckbox(array('value_attribute_value' => 1));
             $validator = new sfValidatorChoice(array('choices' => array('1'), 'required' => true));
-            $label = 'Privacy policy';
+            $label = 'I accept the _privacy policy_';
           } else {
             $this->getObject()->setPrivacy(0);
           }
