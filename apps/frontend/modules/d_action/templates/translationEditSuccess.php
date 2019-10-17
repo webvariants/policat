@@ -15,7 +15,7 @@
         <?php echo $form->renderHiddenFields(); ?>
 
         <legend>Settings</legend>
-        <?php echo $form->renderRows(array('*language_id', 'status', 'read_more_url', 'landing_url', 'landing2_url')) ?>
+        <?php echo $form->renderRows(array('*language_id', 'status', 'read_more_url', 'landing_url', '*landing2_url')) ?>
         <?php if (isset($topLanguages)): ?>
           <div class="select-order" data-options="<?php
           echo Util::enc(json_encode(array(
