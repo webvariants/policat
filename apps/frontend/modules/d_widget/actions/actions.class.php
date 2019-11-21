@@ -291,7 +291,7 @@ class d_widgetActions extends policatActions {
 //          $this->getContext()->getI18N()->setCulture($this->lang);
 //          $this->getUser()->setCulture($this->lang);
 
-          if ($code === $widget->getValidationData()) {
+          if (hash_equals($code, $widget->getValidationData())) {
             $this->idcode = $id . '-' . $code;
             $this->id = $widget->getId();
 

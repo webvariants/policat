@@ -302,7 +302,7 @@ class widgetActions extends policatActions
             }
           }
 
-          if (($code === $petition_signing->getValidationData() && !$petition->isGeoKind()) || $wave)
+          if ((hash_equals($code, $petition_signing->getValidationData()) && !$petition->isGeoKind()) || $wave)
           {
             $ref_code = 0;
             if (($petition->getKind() == Petition::KIND_OPENECI) && !$petition_signing->getRefShown()) {
@@ -503,7 +503,7 @@ class widgetActions extends policatActions
           $this->getContext()->getI18N()->setCulture($this->lang);
           $this->getUser()->setCulture($this->lang);
 
-          if ($this->code == $widget->getEditCode())
+          if (hash_equals($this->code, $widget->getEditCode()))
           {
             $this->width = $widget->getStyling('width');
             return;
