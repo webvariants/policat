@@ -29,7 +29,8 @@ Options +FollowSymLinks +ExecCGI
   RewriteRule ^widget_page/([0-9]+)$ widget_page.html [L]
 
   # widget routes
-  RewriteRule (^(counterbar|validate|unsubscribe|delete|(api/js/widget)|(api/js/widget_no_redirect)|teaser_js2|teaser_js|widgetedit)/[0-9-]+$)|^ref_shown$|^feed$|^fb_canvas$|^fb_tab$|(^(sign(_hp)?/[0-9]+|text)/[0-9a-f]+) widget.php [L]
+  RewriteRule (^(counterbar|validate|unsubscribe|delete|(api/js/widget)|(api/js/widget_no_redirect)|teaser_js2|teaser_js|widgetedit)/[0-9-]+$)|^ref_shown$|^feed$|^fb_canvas$|^fb_tab$|(^(sign(_hp)?/[0-9]+)/[0-9a-f]+$) widget.php [L]
+  RewriteRule ^text/\d+-[0-9a-f]+$ widget.php? [L]
   RewriteRule ^api(/v2)?$|^counterbar$ widget.php? [L]
   RewriteRule ^api/jsonp?$|^counterbar/colors$ widget.php [L]
   RewriteRule ^api/v2/actions/\d+/signings$ widget.php [L]
