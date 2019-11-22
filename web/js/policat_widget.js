@@ -231,7 +231,7 @@ $(document).ready(function($) {
 
 				document.getElementById('openECIParent').prepend(ifr);
 
-				iFrameResize({ onResized: openECIiFrameResized }, '#openECI');
+				iFrameResize({ checkOrigin: false, onResized: openECIiFrameResized }, '#openECI');
 				openECIiframeLoaded = true;
 			}
 		}
