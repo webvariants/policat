@@ -1248,6 +1248,9 @@ $(document).ready(function($) {
 		}
 
 		resize();
+		$(window).load(function() {
+			resize();
+		});
 		$(window).resize(resize);
 
 		$('img:not(.no_load)', widget).each(function() {
