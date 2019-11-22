@@ -8,7 +8,7 @@
  * http://www.opensource.org/licenses/mit-license.php
  */
 
-class WidgetLogo extends sfWidgetFormInputFileEditable {
+class WidgetLogo extends WidgetFormInputFileEditableBootstrap4 {
 
   protected function configure($options = array(), $attributes = array()) {
     parent::configure($options, $attributes);
@@ -16,7 +16,7 @@ class WidgetLogo extends sfWidgetFormInputFileEditable {
     $this->setOption('file_src', '/images/store');
     $this->setOption('is_image', true);
     $this->setOption('with_delete', false);
-    $this->setOption('template', '<div>%file%<br />%input%<br />%delete% %delete_label%</div>');
+    // $this->setOption('template', '<div>%file%<br />%input%<br />%delete% %delete_label%</div>');
   }
 
 }

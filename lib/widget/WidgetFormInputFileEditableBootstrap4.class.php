@@ -6,6 +6,7 @@ class WidgetFormInputFileEditableBootstrap4 extends sfWidgetFormInputFileEditabl
     parent::configure($options, $attributes);
 
     $this->addOption('template', '%file%<br />%input%<div class="form-check">%delete%%delete_label%</div>');
+    $this->addOption('needs_multipart', false);
   }
 
   /**

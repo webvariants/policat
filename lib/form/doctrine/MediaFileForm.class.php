@@ -20,7 +20,7 @@ class MediaFileForm extends BaseMediaFileForm {
       $this->widgetSchema->setFormFormatterName('bootstrapinline');
 
       $this->setWidget('filename', new sfWidgetFormInputFile(array('label' => false)));
-      $this->setValidator('filename', new sfValidatorFile(array(
+      $this->setValidator('filename', new ValidatorUrlEncodedFile(array(
           'required' => true,
           'mime_types' => 'web_images',
           'path' => $this->getObject()->getFilePath(),

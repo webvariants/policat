@@ -223,7 +223,6 @@ var wvAjax = function (options) {
 			data.push({'name': k, 'value': v});
 		});
 	};
-	var iframe = false;
 	if (options['originalEvent'] != undefined || options['handleObj'] != undefined)
 		options = {}; // ignore options when it is an event
 
@@ -237,18 +236,28 @@ var wvAjax = function (options) {
 
 	var jq1 = $.fn.jquery.substring(0, 1) === "1";
 
+	var file_queue = [];
 	if ($this.is('form')) {
 		url = $this.attr('action');
 		data = $this.serializeArray();
 		$(jq1 ? '.btn.active[data-submit=*]' : '.btn.active[data-submit]', $this).each(function () {
 			add_data($(this).data('submit'));
 		});
-		if ($this.attr('enctype') == 'multipart/form-data')
-			iframe = true;
 		type = $this.attr('method');
 		if (type == undefined)
 			type = 'get';
 		cache = type == 'get';
+		$(':file', $this).each(function() {
+			if (this.files.length) {
+				var file = this.files[0];
+				var entry = {
+					file: file,
+					name: $(this).attr('name'),
+					filename: file.name
+				}
+				file_queue.push(entry);
+			}
+		});
 	} else if ($this.is('a')) {
 		url = $this.attr('href');
 		cache = true;
@@ -295,117 +304,141 @@ var wvAjax = function (options) {
 
 	// $this.addClass('progress');
 	$('#waiting').show();
-	$.ajax({
-		'url': url,
-		'cache': cache,
-		'dataType': 'json',
-		'data': data,
-		'type': type,
-		'iframe': iframe,
-		'files': iframe ? $(':file', $this) : null,
-		'processData': !iframe,
-		'success': function (data) {
-			// $this.removeClass('progress');
-			$('#waiting').hide();
-			$.each(data, function (index, action) {
-				var action_data = action.data == undefined ? {} : action.data;
-				switch (action.cmd) {
-					case 'j':
-						if (action_data.selector != undefined) {
-							var s = jQuery(action_data.selector);
-							if (action_data.args == undefined)
-								s[action_data.cmd].apply(s);
-							else
-								s[action_data.cmd].apply(s, action_data.args);
-						}
-						break;
-					case 'redirect':
-						$this.addClass('redirect');
-						$('#waiting').show();
-						window.location.href = action_data.url;
-						if (action_data.reload) {
-							window.location.reload(true);
-						}
-						return;
-					case 'redirect-post':
-						$('#waiting').show();
-						var form = $('<form style="display: none" method="post"></form>');
-						$('body').append(form);
-						form.attr('action', action_data.url);
-						$.each(action_data.data, function (name, value) {
-							var input = $('<input type="hidden"/>');
-							form.append(input);
-							input.attr('name', name).val(value);
-						});
-						form.submit();
-						break;
-					case 'auth':
-						alert('please login');
-						return;
-					case 'scroll':
-						$(window).scrollTop(action_data);
-						break;
-					case 'edits':
-						tryEdits(action_data);
-						break;
-					case 'initRecaptcha':
-						initRecaptcha();
-						break;
-					case 'form':
-						var form_prefix = action_data.form_prefix != undefined ? action_data.form_prefix : '';
-						$('.invalid-feedback.' + form_prefix + 'form_error').remove();
-						$('.is-invalid.' + form_prefix + 'group_error').removeClass('is-invalid').removeClass(form_prefix + 'group_error');
-						$('a.' + form_prefix + 'tab_error').removeClass('is-invalid').removeClass(form_prefix + 'tab_error');
-						if (action_data.form_errors != undefined) {
-							$.each(action_data.form_errors, function (error_field, error_message) {
-								var fieldname = error_field;
-								var target = $('#' + form_prefix + fieldname);
-								while (target.length == 0 && fieldname) {
-									var pos = fieldname.lastIndexOf('_');
-									if (pos > 0) {
-										fieldname = fieldname.substr(0, pos);
-										target = $('#' + form_prefix + fieldname);
-									} else
-										fieldname = ''; // to abort loop
-								}
-								if (target.length) {
-									var p = target.parent();
-									if (p.is('label'))
-										target = p;
-									target.after($('<p class="invalid-feedback"></p>').text(error_message).addClass(form_prefix + 'form_error'));
-									target.addClass('is-invalid').addClass(form_prefix + 'group_error');
-									var pane = target.parents('.tab-pane');
-									if (pane.length) {
-										var pane_link = $('a[href="#' + pane.attr('id') + '"]', pane.parents('form'));
-										pane_link.addClass('is-invalid').addClass(form_prefix + 'tab_error');
-									}
-								}
-							});
-						}
-						break;
-				}
-			});
 
-			if (options['success'] != undefined && $.isFunction(options['success']))
-				options['success'].call($this);
-		},
-		'error': function (data) {
-			// $this.removeClass('progress');
-			$('#waiting').hide();
-			var text = (typeof data == 'object' && data.responseText != undefined && data.responseText) ? data.responseText : '';
-			if (!text) {
-				text = data.status == 0 ? '<span>Connection to server lost. Please check your internet connection and retry</span>' : 'Unknown error';
-			}
-			$('#waiting').before('<div id="crit_error_modal" class="modal hide hidden_remove"><div class="modal-header"><a class="close" data-dismiss="modal">&times;</a><h3>ERROR</h3></div><div class="modal-body"> </div><div class="modal-footer"><a class="btn btn-secondary" data-dismiss="modal">Close</a></div></div>');
-			if (text.indexOf('<') == 0) {
-				$('#crit_error_modal .modal-body').append(text);
+	var file_pos = 0;
+	function work_files() {
+		var pos = file_pos;
+		var reader  = new FileReader();
+		var filename = file_queue[pos].filename.replace(/;=/g, '_').replace(/[^\x00-\x7F]/g,'');
+		reader.onloadend = function(evt) {
+			data.push({name: file_queue[pos].name, value: reader.result.replace(';', ';name=' + filename + ';') });
+
+			file_pos++;
+			if (file_pos < file_queue.length) {
+				work_files();
 			} else {
-				var pre = $('<pre></pre>').text(text);
-				$('#crit_error_modal .modal-body').append(pre);
+				do_ajax();
 			}
-			$('#crit_error_modal').modal('show');
-		}
-	});
+		};
+		reader.readAsDataURL(file_queue[pos].file);
+	}
+
+	if (file_queue.length) {
+		work_files();
+	} else {
+		do_ajax();
+	}
+
+	function do_ajax() {
+		$.ajax({
+			'url': url,
+			'cache': cache,
+			'dataType': 'json',
+			'data': data,
+			'type': type,
+			'success': function (data) {
+				// $this.removeClass('progress');
+				$('#waiting').hide();
+				$.each(data, function (index, action) {
+					var action_data = action.data == undefined ? {} : action.data;
+					switch (action.cmd) {
+						case 'j':
+							if (action_data.selector != undefined) {
+								var s = jQuery(action_data.selector);
+								if (action_data.args == undefined)
+									s[action_data.cmd].apply(s);
+								else
+									s[action_data.cmd].apply(s, action_data.args);
+							}
+							break;
+						case 'redirect':
+							$this.addClass('redirect');
+							$('#waiting').show();
+							window.location.href = action_data.url;
+							if (action_data.reload) {
+								window.location.reload(true);
+							}
+							return;
+						case 'redirect-post':
+							$('#waiting').show();
+							var form = $('<form style="display: none" method="post"></form>');
+							$('body').append(form);
+							form.attr('action', action_data.url);
+							$.each(action_data.data, function (name, value) {
+								var input = $('<input type="hidden"/>');
+								form.append(input);
+								input.attr('name', name).val(value);
+							});
+							form.submit();
+							break;
+						case 'auth':
+							alert('please login');
+							return;
+						case 'scroll':
+							$(window).scrollTop(action_data);
+							break;
+						case 'edits':
+							tryEdits(action_data);
+							break;
+						case 'initRecaptcha':
+							initRecaptcha();
+							break;
+						case 'form':
+							var form_prefix = action_data.form_prefix != undefined ? action_data.form_prefix : '';
+							$('.invalid-feedback.' + form_prefix + 'form_error').remove();
+							$('.is-invalid.' + form_prefix + 'group_error').removeClass('is-invalid').removeClass(form_prefix + 'group_error');
+							$('a.' + form_prefix + 'tab_error').removeClass('is-invalid').removeClass(form_prefix + 'tab_error');
+							if (action_data.form_errors != undefined) {
+								$.each(action_data.form_errors, function (error_field, error_message) {
+									var fieldname = error_field;
+									var target = $('#' + form_prefix + fieldname);
+									while (target.length == 0 && fieldname) {
+										var pos = fieldname.lastIndexOf('_');
+										if (pos > 0) {
+											fieldname = fieldname.substr(0, pos);
+											target = $('#' + form_prefix + fieldname);
+										} else
+											fieldname = ''; // to abort loop
+									}
+									if (target.length) {
+										var p = target.parent();
+										if (p.is('label'))
+											target = p;
+										target.after($('<p class="invalid-feedback"></p>').text(error_message).addClass(form_prefix + 'form_error'));
+										target.addClass('is-invalid').addClass(form_prefix + 'group_error');
+										var pane = target.parents('.tab-pane');
+										if (pane.length) {
+											var pane_link = $('a[href="#' + pane.attr('id') + '"]', pane.parents('form'));
+											pane_link.addClass('is-invalid').addClass(form_prefix + 'tab_error');
+										}
+									}
+								});
+							}
+							break;
+					}
+				});
+
+				if (options['success'] != undefined && $.isFunction(options['success']))
+					options['success'].call($this);
+			},
+			'error': function (data) {
+				// $this.removeClass('progress');
+				$('#waiting').hide();
+				var text = (typeof data == 'object' && data.responseText != undefined && data.responseText) ? data.responseText : '';
+				if (!text) {
+					text = data.status == 0 ? '<span>Connection to server lost. Please check your internet connection and retry</span>' : 'Unknown error';
+				}
+				$('#waiting').before('<div id="crit_error_modal" class="modal hide hidden_remove"><div class="modal-header"><a class="close" data-dismiss="modal">&times;</a><h3>ERROR</h3></div><div class="modal-body"> </div><div class="modal-footer"><a class="btn btn-secondary" data-dismiss="modal">Close</a></div></div>');
+				if (text.indexOf('<') == 0) {
+					$('#crit_error_modal .modal-body').append(text);
+				} else {
+					var pre = $('<pre></pre>').text(text);
+					$('#crit_error_modal .modal-body').append(pre);
+				}
+				$('#crit_error_modal').modal('show');
+			}
+		});
+	}
 
 	if (!propagate) {
 		return false;

@@ -129,14 +129,14 @@ class d_media_filesActions extends policatActions {
     $form->bind($request->getPostParameter($form->getName()), $request->getFiles($form->getName()));
 
     if (!$form->isValid()) {
-      return $this->ajax()->form($form)->render(true);
+      return $this->ajax()->form($form)->render();
     }
 
     $form->save();
     $petition->forceUpdate();
     MediaFileTable::getInstance()->clearResultCachePetition($petition);
 
-    return $this->ajax()->redirectRotue('media_files_list', array('id' => $petition->getId()))->render(true);
+    return $this->ajax()->redirectRotue('media_files_list', array('id' => $petition->getId()))->render();
   }
 
   public function executeInternal(sfWebRequest $request) {

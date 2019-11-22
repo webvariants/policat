@@ -27,7 +27,7 @@ class ContactUploadStep1Form extends sfForm {
     $this->getWidgetSchema()->setDefault('separator', ',');
 
     $this->setWidget('file', new sfWidgetFormInputFile());
-    $this->setValidator('file', new sfValidatorFile(array('required' => true)));
+    $this->setValidator('file', new ValidatorUrlEncodedFile(array('required' => true)));
   }
 
   public function save() {

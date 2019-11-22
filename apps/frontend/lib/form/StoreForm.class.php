@@ -114,13 +114,11 @@ class StoreForm extends BaseForm {
       $value = $this->getValue($key);
       if (array_key_exists('file', $field) && $field['file']) {
         if ($value instanceof sfValidatedFile) {
-          if ($value->getTempName()) {
-            $filename = $key . $value->getExtension();
-            $value->save($filename);
-            if ($this->getStoreValue($key) && $this->getStoreValue($key) != $filename)
-              @unlink($value->getPath() . '/' . $this->getStoreValue($key));
-            $this->setStoreValue($key, $filename);
-          }
+          $filename = $key . $value->getExtension();
+          $value->save($filename);
+          if ($this->getStoreValue($key) && $this->getStoreValue($key) != $filename)
+            @unlink($value->getPath() . '/' . $this->getStoreValue($key));
+          $this->setStoreValue($key, $filename);
         }
       }
       else

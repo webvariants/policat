@@ -8,11 +8,11 @@
  * http://www.opensource.org/licenses/mit-license.php
  */
 
-class ValidatorLogo extends sfValidatorFile {
+class ValidatorLogo extends ValidatorUrlEncodedFile {
 
   protected function configure($options = array(), $messages = array()) {
     parent::configure($options, $messages);
-    
+
     $this->setOption('mime_types', 'web_images');
     $this->setOption('path', sfConfig::get('sf_web_dir') . '/images/store');
   }

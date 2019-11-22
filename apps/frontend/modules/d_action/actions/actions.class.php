@@ -272,7 +272,7 @@ class d_actionActions extends policatActions {
     $old_status = $petition->getStatus();
 
     if ($request->isMethod('post')) {
-      $form->bind($request->getPostParameter($form->getName()), $request->getFiles($form->getName()));
+      $form->bind($request->getPostParameter($form->getName()));
 
       if ($form->isValid()) {
         $con = PetitionTable::getInstance()->getConnection();

@@ -206,12 +206,9 @@ class Ajax {
     return $this->j0('click', $selector);
   }
 
-  public function render($iframe_transport = false) {
+  public function render() {
     sfConfig::set('sf_web_debug', false);
-    if ($iframe_transport)
-      return $this->action->renderText('<textarea data-type="application/json">' . $this->json() . '</textarea>');
-    else
-      return $this->action->renderText($this->json());
+    return $this->action->renderText($this->json());
   }
 
   public function json() {

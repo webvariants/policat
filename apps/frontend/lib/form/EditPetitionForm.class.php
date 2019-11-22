@@ -66,7 +66,7 @@ class EditPetitionForm extends PetitionFieldsForm {
         'with_delete' => true,
         'delete_label' => 'No key visual (delete existing key visual)'
     )));
-    $this->setValidator('key_visual', new sfValidatorFile(array(
+    $this->setValidator('key_visual', new ValidatorUrlEncodedFile(array(
         'required' => false,
         'mime_types' => 'web_images',
         'path' => sfConfig::get('sf_web_dir') . DIRECTORY_SEPARATOR . 'images' . DIRECTORY_SEPARATOR . 'keyvisual'
@@ -278,7 +278,7 @@ class EditPetitionForm extends PetitionFieldsForm {
         )));
         $this->setValidator('pledge_with_comments', new sfValidatorChoice(array('choices' => array('0', '1'))));
 
-        $this->setWidget('pledge_header_visual', new sfWidgetFormInputFileEditable(array(
+        $this->setWidget('pledge_header_visual', new WidgetFormInputFileEditableBootstrap4(array(
             'file_src' => '/images/pledge_header_visual/' . $this->getObject()->getPledgeHeaderVisual(),
             'is_image' => true,
             'with_delete' => false,
@@ -286,12 +286,12 @@ class EditPetitionForm extends PetitionFieldsForm {
             'label' => 'Header visual'
         )));
         $this->getWidgetSchema()->setHelp('pledge_header_visual', 'Width should be 1170px and height about 180px. Keep the file small (<80KB). Compress PNGs with tools like http://optipng.sourceforge.net/');
-        $this->setValidator('pledge_header_visual', new sfValidatorFile(array(
+        $this->setValidator('pledge_header_visual', new ValidatorUrlEncodedFile(array(
             'required' => false,
             'mime_types' => 'web_images',
             'path' => sfConfig::get('sf_web_dir') . '/images/pledge_header_visual'
         )));
-        $this->setWidget('pledge_key_visual', new sfWidgetFormInputFileEditable(array(
+        $this->setWidget('pledge_key_visual', new WidgetFormInputFileEditableBootstrap4(array(
             'file_src' => '/images/pledge_key_visual/' . $this->getObject()->getPledgeKeyVisual(),
             'is_image' => true,
             'with_delete' => false,
@@ -299,7 +299,7 @@ class EditPetitionForm extends PetitionFieldsForm {
             'label' => 'Key visual'
         )));
         $this->getWidgetSchema()->setHelp('pledge_key_visual', 'Dimensions should be about 140x140px. Keep the file small (<80KB).');
-        $this->setValidator('pledge_key_visual', new sfValidatorFile(array(
+        $this->setValidator('pledge_key_visual', new ValidatorUrlEncodedFile(array(
             'required' => false,
             'mime_types' => 'web_images',
             'path' => sfConfig::get('sf_web_dir') . '/images/pledge_key_visual'

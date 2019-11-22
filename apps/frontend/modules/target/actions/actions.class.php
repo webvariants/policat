@@ -556,9 +556,9 @@ class targetActions extends policatActions {
           $filename = $form1->save();
           $form2->setSeparator($form1->getSeparator());
           $form2->setFile($filename, true);
-          return $this->ajax()->replaceWithPartial('#upload_form', 'upload2', array('form' => $form2, 'target_list' => $target_list))->render(true);
+          return $this->ajax()->replaceWithPartial('#upload_form', 'upload2', array('form' => $form2, 'target_list' => $target_list))->render();
         } else {
-          return $this->ajax()->form($form1)->render(true);
+          return $this->ajax()->form($form1)->render();
         }
       } else {
         $form2_params = $request->getPostParameter($form2->getName());

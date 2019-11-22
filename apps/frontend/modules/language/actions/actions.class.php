@@ -86,24 +86,34 @@ class languageActions extends policatActions {
 
       $this->ajax()->setAlertTarget('#upload', 'append');
 
-      $file = $request->getFiles('file');
-      if ($file && $file['tmp_name']) {
-        $parser = new sfMessageSource_XLIFF('');
-        if ($parser->loadData($file['tmp_name'])) {
-          $dir = dirname($language->i18nFileWidget());
-          if (!file_exists($dir)) {
-            mkdir($dir);
-          }
-          move_uploaded_file($file['tmp_name'], $language->i18nFileWidget());
-          $language->i18nCacheWidgetClear();
-
-          return $this->ajax()->alert('Language file updated.', '', null, null, false, 'success')->render(true);
+      $file = $request->getPostParameter('file');
+      if ($file) {
+        $dir = dirname($language->i18nFileWidget());
+        if (!file_exists($dir)) {
+          mkdir($dir);
+        }
+        $validator = new ValidatorUrlEncodedFile(['path' => $dir]);
+        try {
+          $file = $validator->clean($file);
+        } catch (\Exception $e) {
+          return $this->ajax()->alert('Upload failed.', '', null, null, false, 'error')->render();
         }
 
-        return $this->ajax()->alert('File invalid.', '', null, null, false, 'error')->render(true);
+        $file->save('parse.xml.tmp');
+
+        $parser = new sfMessageSource_XLIFF('');
+        if ($parser->loadData($dir . '/parse.xml.tmp')) {
+          rename($dir . '/parse.xml.tmp', $language->i18nFileWidget());
+          $language->i18nCacheWidgetClear();
+
+          return $this->ajax()->alert('Language file updated.', '', null, null, false, 'success')->render();
+        }
+        @unlink($dir . '/parse.xml.tmp');
+
+        return $this->ajax()->alert('File invalid.', '', null, null, false, 'error')->render();
       }
 
-      return $this->ajax()->alert('Upload failed.', '', null, null, false, 'error')->render(true);
+      return $this->ajax()->alert('Upload failed.', '', null, null, false, 'error')->render();
     }
 
     return $this->notFound();
