@@ -54,7 +54,6 @@ class languageActions extends policatActions {
       }
 
       $this->csrf_token = UtilCSRF::gen('language_upload', $language->getId());
-      $this->includeIframeTransport();
     }
   }
 

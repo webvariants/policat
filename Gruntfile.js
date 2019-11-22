@@ -27,9 +27,6 @@ module.exports = function(grunt) {
 					],
 					'web/js/dist/jquery.highlighttextarea.js': [
 						'node_modules/jquery-highlightTextarea/jquery.highlighttextarea.js'
-					],
-					'web/js/dist/jquery.iframe-transport.js': [
-						'node_modules/jquery.iframe-transport/jquery.iframe-transport.js'
 					]
 				}
 			}

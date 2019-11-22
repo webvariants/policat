@@ -227,13 +227,6 @@ class policatActions extends sfActions {
     }
   }
 
-  public function includeIframeTransport() {
-    $response = $this->getResponse();
-    if ($response instanceof sfWebResponse) {
-      $response->addJavascript('dist/jquery.iframe-transport.js', 'last');
-    }
-  }
-
   public function includeHighlight() {
     $response = $this->getResponse();
     if ($response instanceof sfWebResponse) {

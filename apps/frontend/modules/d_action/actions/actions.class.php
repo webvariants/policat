@@ -317,7 +317,6 @@ class d_actionActions extends policatActions {
     }
 
     $this->form = $form;
-    $this->includeIframeTransport();
     $this->includeChosen();
     $this->includeJsColor();
     $this->includeSelect2();

@@ -41,8 +41,6 @@ class d_media_filesActions extends policatActions {
     $media_file = new MediaFile();
     $media_file->setPetition($this->petition);
     $this->form = new MediaFileForm($media_file);
-
-    $this->includeIframeTransport();
   }
 
   public function executePager(sfWebRequest $request) {

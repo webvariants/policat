@@ -74,7 +74,6 @@ class storeActions extends policatActions {
 
     $this->list = StoreTable::metaOrdered();
 
-    $this->includeIframeTransport();
     $this->includeMarkdown();
     $this->includeHighlight();
   }

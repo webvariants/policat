@@ -21,7 +21,6 @@
 		"grunt-exec": "^1.0.1",
 		"jquery": "^3.1.1",
 		"jquery-1.10": "https://github.com/jquery/jquery/archive/1.10.2.tar.gz",
-		"jquery.iframe-transport": "^1.0.0",
 		"jscolor-picker": "^2.0.4",
 		"markItUp!": "git+https://github.com/markitup/1.x.git",
 		"napa": "^3.0.0",

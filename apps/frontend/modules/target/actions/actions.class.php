@@ -90,7 +90,6 @@ class targetActions extends policatActions {
     $this->open_edit = $request->getGetParameter('e') ? true : false;
 
     $this->setTemplate('edit');
-    $this->includeIframeTransport();
     $this->includeChosen();
   }
 
@@ -161,7 +160,6 @@ class targetActions extends policatActions {
       }
     }
 
-    $this->includeIframeTransport();
     $this->includeChosen();
   }
 
