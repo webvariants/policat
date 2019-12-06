@@ -129,7 +129,11 @@ if (is_array($target_selectors)) {
                             <h1><?php echo __('PP Heading') ?></h1>
                             <a class="back back-priv-1 button-color button-btn"><?php echo __('Back') ?></a>
                             <?php
-                            $privacy_policy = strtr($petition_text['privacy_policy_body'], $widget->getDataOwnerSubst('<br />', $petition));
+                            $privacy_policy_body = $petition_text['privacy_policy_body'];
+                            if ($widget->isInDataOwnerMode() && $widget['privacy_policy_body']) {
+                              $privacy_policy_body = $widget['privacy_policy_body'];
+                            }
+                            $privacy_policy = strtr($privacy_policy_body, $widget->getDataOwnerSubst('<br />', $petition));
                             echo UtilMarkdown::transform($privacy_policy);
                             ?>
                             <a class="back back-priv-2 button-color button-btn"><?php echo __('Back') ?></a>

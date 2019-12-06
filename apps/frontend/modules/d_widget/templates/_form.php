@@ -41,7 +41,7 @@
     <?php endif ?>
     <?php if (isset($form['subscribe_default'])): ?>
       <legend>Widget data owner settings</legend>
-      <?php echo $form->renderRows('*subscribe_default', '*subscribe_text') ?>
+      <?php echo $form->renderRows('*subscribe_default', '*subscribe_text', '*privacy_policy_body') ?>
     <?php endif ?>
     <div class="form-actions">
         <button accesskey="s" title="[Accesskey] + S" class="btn btn-primary" type="submit">Save</button>

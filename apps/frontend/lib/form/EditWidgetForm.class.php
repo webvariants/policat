@@ -265,6 +265,13 @@ class EditWidgetForm extends WidgetForm {
       $this->setWidget('subscribe_text', new sfWidgetFormInput(array('label' => 'Keep-me-posted checkbox'), array('size' => 90, 'class' => 'large', 'placeholder' => 'Leave this field empty to use standard texts.')));
       $this->setValidator('subscribe_text', new sfValidatorString(array('max_length' => 250, 'required' => false)));
       $this->getWidgetSchema()->setHelp('subscribe_text', 'You may customise the text of the keep-me-posted checkbox. Leave this field empty to use action or standard texts. You may use the following keywords to include the name or email of the respective data owner: #DATA-OFFICER-NAME#, #DATA-OFFICER-ORGA#, #DATA-OFFICER-EMAIL#');
+
+      $this->setWidget('privacy_policy_body', new sfWidgetFormTextarea(array(), array('cols' => 90, 'rows' => 30, 'class' => 'markdown highlight')));
+      if (!$this->getObject()->getPrivacyPolicyBody()) { // if empty get default from petition translation/text
+        $this->getWidgetSchema()->setDefault('privacy_policy_body', $this->getObject()->getPetitionText()->getPrivacyPolicyBody());
+      }
+      $this->setValidator('privacy_policy_body', new sfValidatorString(array('required' => false)));
+      $this->getWidgetSchema()->setHelp('privacy_policy_body', '#DATA-OFFICER-NAME#, #DATA-OFFICER-ORGA#, #DATA-OFFICER-EMAIL#, #DATA-OFFICER-WEBSITE#, #DATA-OFFICER-PHONE#, #DATA-OFFICER-MOBILE#, #DATA-OFFICER-STREET#, #DATA-OFFICER-POST-CODE#, #DATA-OFFICER-CITY#, #DATA-OFFICER-COUNTRY#, #DATA-OFFICER-ADDRESS#');
     }
   }
 

@@ -44,6 +44,7 @@
  * @property string                                     $default_country                                 Type: string(5)
  * @property int                                        $subscribe_default                               Type: integer(1), default "-1"
  * @property string                                     $subscribe_text                                  Type: string(250)
+ * @property string                                     $privacy_policy_body                             Type: clob
  * @property Campaign                                   $Campaign                                        
  * @property Petition                                   $Petition                                        
  * @property PetitionText                               $PetitionText                                    
@@ -100,6 +101,7 @@
  * @method string                                       getDefaultCountry()                              Type: string(5)
  * @method int                                          getSubscribeDefault()                            Type: integer(1), default "-1"
  * @method string                                       getSubscribeText()                               Type: string(250)
+ * @method string                                       getPrivacyPolicyBody()                           Type: clob
  * @method Campaign                                     getCampaign()                                    
  * @method Petition                                     getPetition()                                    
  * @method PetitionText                                 getPetitionText()                                
@@ -156,6 +158,7 @@
  * @method Widget                                       setDefaultCountry(string $val)                   Type: string(5)
  * @method Widget                                       setSubscribeDefault(int $val)                    Type: integer(1), default "-1"
  * @method Widget                                       setSubscribeText(string $val)                    Type: string(250)
+ * @method Widget                                       setPrivacyPolicyBody(string $val)                Type: clob
  * @method Widget                                       setCampaign(Campaign $val)                       
  * @method Widget                                       setPetition(Petition $val)                       
  * @method Widget                                       setPetitionText(PetitionText $val)               
@@ -354,6 +357,9 @@ abstract class BaseWidget extends myDoctrineRecord
              'notnull' => false,
              'default' => '',
              'length' => 250,
+             ));
+        $this->hasColumn('privacy_policy_body', 'clob', null, array(
+             'type' => 'clob',
              ));
 
 
