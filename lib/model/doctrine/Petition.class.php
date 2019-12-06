@@ -548,7 +548,7 @@ class Petition extends BasePetition {
       switch ($subst_field['type']) {
         case 'fix':
             if ($subst_field['id'] === MailingList::FIX_GENDER) {
-                continue;
+              break;
             }
         case 'free':
         case 'choice':
