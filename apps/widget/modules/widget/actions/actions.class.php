@@ -152,6 +152,9 @@ class widgetActions extends policatActions
     }
 
     $subscribe_text = trim($this->petition_text['subscribe_text']);
+    if ($this->widget->isInDataOwnerMode() && trim($this->widget['subscribe_text'])) {
+      $subscribe_text = $this->widget['subscribe_text'];
+    }
     if ($subscribe_text && mb_strpos($subscribe_text, '#') !== false) {
       $subscribe_text = strtr($subscribe_text, $this->widget->getDataOwnerSubst(' ', $this->petition));
     }

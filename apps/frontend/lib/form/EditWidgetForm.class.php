@@ -254,6 +254,18 @@ class EditWidgetForm extends WidgetForm {
     $this->setWidget('social_share_text', new sfWidgetFormInput(array('label' => 'Twitter message'), array('size' => 90, 'class' => 'large', 'placeholder' => 'Leave this field empty to use standard texts.')));
     $this->setValidator('social_share_text', new sfValidatorString(array('max_length' => 1000, 'required' => false)));
     $this->getWidgetSchema()->setHelp('social_share_text', 'Optional keywords: #TITLE#, #WIDGET-HEADING#. Keep the text short. URL is appended automatically.');
+
+    if ($this->getObject()->isInDataOwnerMode()) {
+      $choices = PetitionTable::$WIDGET_SUBSCRIBE_CHECKBOX_DEFAULT;
+      $choices[PetitionTable::SUBSCRIBE_CHECKBOX_INHERIT] = $choices[PetitionTable::SUBSCRIBE_CHECKBOX_INHERIT] . ' [' . PetitionTable::$WIDGET_SUBSCRIBE_CHECKBOX_DEFAULT[$petition->getSubscribeDefault()] .  ']';
+      $this->setWidget('subscribe_default', new sfWidgetFormChoice(array('choices' => $choices, 'label' => 'Keep-me-posted checkbox')));
+      $this->setValidator('subscribe_default', new sfValidatorChoice(array('choices' => array_keys(PetitionTable::$WIDGET_SUBSCRIBE_CHECKBOX_DEFAULT))));
+      $this->getWidgetSchema()->setHelp('subscribe_default', 'You might increase your subscription rate, if you keep the checkbox preselected. However, preselection is not legally in conformity with the EU General Data Protection Regulation. It is your legal obligation to make sure your selection is in conformity with EU and national data protection legislation.');
+
+      $this->setWidget('subscribe_text', new sfWidgetFormInput(array('label' => 'Keep-me-posted checkbox'), array('size' => 90, 'class' => 'large', 'placeholder' => 'Leave this field empty to use standard texts.')));
+      $this->setValidator('subscribe_text', new sfValidatorString(array('max_length' => 250, 'required' => false)));
+      $this->getWidgetSchema()->setHelp('subscribe_text', 'You may customise the text of the keep-me-posted checkbox. Leave this field empty to use action or standard texts. You may use the following keywords to include the name or email of the respective data owner: #DATA-OFFICER-NAME#, #DATA-OFFICER-ORGA#, #DATA-OFFICER-EMAIL#');
+    }
   }
 
   public function processValues($values) {

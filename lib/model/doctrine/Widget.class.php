@@ -405,4 +405,8 @@ class Widget extends BaseWidget {
     return $subst;
   }
 
+  public function isInDataOwnerMode() {
+    return (bool) ($this->getUserId() && $this->getDataOwner());
+  }
+
 }

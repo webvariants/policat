@@ -42,6 +42,8 @@
  * @property string                                     $social_share_text                               Type: clob
  * @property int                                        $cron_signings24                                 Type: integer(4)
  * @property string                                     $default_country                                 Type: string(5)
+ * @property int                                        $subscribe_default                               Type: integer(1), default "-1"
+ * @property string                                     $subscribe_text                                  Type: string(250)
  * @property Campaign                                   $Campaign                                        
  * @property Petition                                   $Petition                                        
  * @property PetitionText                               $PetitionText                                    
@@ -96,6 +98,8 @@
  * @method string                                       getSocialShareText()                             Type: clob
  * @method int                                          getCronSignings24()                              Type: integer(4)
  * @method string                                       getDefaultCountry()                              Type: string(5)
+ * @method int                                          getSubscribeDefault()                            Type: integer(1), default "-1"
+ * @method string                                       getSubscribeText()                               Type: string(250)
  * @method Campaign                                     getCampaign()                                    
  * @method Petition                                     getPetition()                                    
  * @method PetitionText                                 getPetitionText()                                
@@ -150,6 +154,8 @@
  * @method Widget                                       setSocialShareText(string $val)                  Type: clob
  * @method Widget                                       setCronSignings24(int $val)                      Type: integer(4)
  * @method Widget                                       setDefaultCountry(string $val)                   Type: string(5)
+ * @method Widget                                       setSubscribeDefault(int $val)                    Type: integer(1), default "-1"
+ * @method Widget                                       setSubscribeText(string $val)                    Type: string(250)
  * @method Widget                                       setCampaign(Campaign $val)                       
  * @method Widget                                       setPetition(Petition $val)                       
  * @method Widget                                       setPetitionText(PetitionText $val)               
@@ -336,6 +342,18 @@ abstract class BaseWidget extends myDoctrineRecord
              'notnull' => true,
              'default' => '',
              'length' => 5,
+             ));
+        $this->hasColumn('subscribe_default', 'integer', 1, array(
+             'type' => 'integer',
+             'notnull' => true,
+             'default' => -1.0,
+             'length' => 1,
+             ));
+        $this->hasColumn('subscribe_text', 'string', 250, array(
+             'type' => 'string',
+             'notnull' => false,
+             'default' => '',
+             'length' => 250,
              ));
 
 

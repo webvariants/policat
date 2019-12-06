@@ -2,7 +2,9 @@
 <form id="widget_edit_form" class="ajax_form form-horizontal" action="<?php echo $form->getObject()->isNew() ? url_for('widget_create', array('id' => $petition->getId())) : url_for('widget_edit', array('id' => $form->getObject()->getId())) ?>" method="post">
     <?php if (isset($lang)): ?><input type="hidden" name="lang" value="<?php echo $lang ?>"/><?php endif ?>
     <?php echo $form->renderHiddenFields() ?>
-    <?php echo $form->renderRows('status', '*title', '*target') ?>
+    <?php echo $form->renderRows('status') ?>
+    <legend>Texts</legend>
+    <?php echo $form->renderRows('*title', '*target') ?>
     <?php
     if ($petition->isEmailKind()) {
       if ($petition->getKind() != Petition::KIND_PLEDGE) {
@@ -21,8 +23,10 @@
       <?php
       echo $form->renderRows('*footer');
     }
-    echo $form->renderRows('*background', 'styling_type', 'styling_width', '*default_country', '*themeId', '*styling_font_family');
+    echo $form->renderRows('*background');
     ?>
+    <legend>Widget customization</legend>
+    <?php echo $form->renderRows('styling_type', 'styling_width', '*default_country', '*themeId', '*styling_font_family'); ?>
     <div class="row">
         <div class="col-md-6"><?php echo $form->renderRows('*styling_bg_right_color', '*styling_bg_left_color', '*styling_button_primary_color', '*styling_button_color') ?></div>
         <div class="col-md-6"><?php echo $form->renderRows('*styling_title_color', '*styling_form_title_color', '*styling_body_color', '*styling_label_color') ?></div>
@@ -34,6 +38,10 @@
           <div class="col-md-6"><?php echo $form->renderRows(array('target_selector_1', 'target_selector_2*')) ?></div>
           <div class="col-md-6"><?php UtilTargetSelectorPreselect::printTextPreselection($form->getObject()->getPetitionText(), '<div class="alert alert-info">If you select nothing settings from the translation will be used.<br /> %s</div>') ?></div>
       </div>
+    <?php endif ?>
+    <?php if (isset($form['subscribe_default'])): ?>
+      <legend>Widget data owner settings</legend>
+      <?php echo $form->renderRows('*subscribe_default', '*subscribe_text') ?>
     <?php endif ?>
     <div class="form-actions">
         <button accesskey="s" title="[Accesskey] + S" class="btn btn-primary" type="submit">Save</button>

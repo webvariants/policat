@@ -64,6 +64,7 @@ class PetitionTable extends Doctrine_Table {
       self::POLICY_CHECKBOX_NO => 'Don\'t show (legal grey zone)'
   );
 
+  const SUBSCRIBE_CHECKBOX_INHERIT = -1;
   const SUBSCRIBE_CHECKBOX_DEFAULT_NO = 0;
   const SUBSCRIBE_CHECKBOX_DEFAULT_YES = 1;
   const SUBSCRIBE_CHECKBOX_REQUIRED = 2;
@@ -74,6 +75,14 @@ class PetitionTable extends Doctrine_Table {
       self::SUBSCRIBE_CHECKBOX_DEFAULT_YES => 'Preselected (not legal in the EU)',
       self::SUBSCRIBE_CHECKBOX_REQUIRED => 'Required, not preselected',
       self::SUBSCRIBE_CHECKBOX_RADIO => "Radio buttons 'yes'/'no' (recommended)"
+  );
+
+  public static $WIDGET_SUBSCRIBE_CHECKBOX_DEFAULT = array(
+    self::SUBSCRIBE_CHECKBOX_INHERIT => 'inherit action default',
+    self::SUBSCRIBE_CHECKBOX_DEFAULT_NO => 'Not preselected (legal requirement in the EU)',
+    self::SUBSCRIBE_CHECKBOX_DEFAULT_YES => 'Preselected (not legal in the EU)',
+    self::SUBSCRIBE_CHECKBOX_REQUIRED => 'Required, not preselected',
+    self::SUBSCRIBE_CHECKBOX_RADIO => "Radio buttons 'yes'/'no' (recommended)"
   );
 
   const LABEL_TAB = 1;
