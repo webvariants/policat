@@ -79,7 +79,7 @@ class EditWidgetForm extends WidgetForm {
         $countries = array_diff($countries, array('QU', 'ZZ'));
       }
 
-      $this->setWidget('default_country', new sfWidgetFormI18nChoiceCountry(array('countries' => $countries, 'culture' => 'en', 'add_empty' => ''), array('data-placeholder' => 'use action default' . ($petition->getDefaultCountry() ? ' (' . $culture_info->getCountry($petition->getDefaultCountry()) . ')' : ''))));
+      $this->setWidget('default_country', new sfWidgetFormI18nChoiceCountry(array('countries' => $countries, 'culture' => 'en', 'add_empty' => ''), array('data-placeholder' => 'use action default' . ($petition->getDefaultCountry() ? ' (' . $culture_info->getCountry($petition->getDefaultCountry()) . ')' : ' (no country preselected)'))));
       if ($petition->getDefaultCountry()) {
         $this->setDefault('default_country', $petition->getDefaultCountry());
       }
