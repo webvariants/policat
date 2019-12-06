@@ -108,7 +108,7 @@ class dataComponents extends policatComponents {
       $download_route_id = $this->widget->getId();
     }
 
-    $this->can_delete = $this->getUser()->getUserId() == $data_owner_id;
+    $this->is_campaign_data_owner = $this->getUser()->getUserId() == $data_owner_id;
 
     $this->signings = new policatPager($query, $page, $this->route, $this->route_params, true, 20, $this->form, null, array('s' => $this->subscriptions ? 1 : 0));
 

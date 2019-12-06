@@ -184,7 +184,7 @@ class policatActions extends sfActions {
   public function notFound($message = 'Not found.', $stop = false) {
     $request = $this->getRequest();
     if ($request instanceof sfWebRequest && $request->isXmlHttpRequest()) {
-      $render = $this->ajax()->alert($message)->render();
+      $render = $this->ajax()->info($message, 'Error')->render();
       if ($stop) {
         $this->getResponse()->send();
         throw new \sfStopException();

@@ -437,7 +437,10 @@ class dataActions extends policatActions {
     }
 
     $user_id = $this->getUser()->getUserId();
-    if (!$user_id || $user_id != $signing->getPetition()->getCampaign()->getDataOwnerId()) {
+    if (!($user_id && (
+        $user_id == $signing->getPetition()->getCampaign()->getDataOwnerId()
+        || ($signing->getWidget()->getUserId() == $user_id && $signing->getWidget()->getDataOwner() == WidgetTable::DATA_OWNER_YES)
+      ))) {
       return $this->notFound();
     }
 

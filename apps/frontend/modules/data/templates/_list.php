@@ -38,7 +38,7 @@ use_helper('Number');
                   <th>Country</th>
                   <th>Name</th>
                   <?php if ($show_email): ?><th>Address</th><?php endif ?>
-                  <?php if ($can_delete): ?><th></th><?php endif ?>
+                  <th></th>
               </tr>
           </thead>
           <tbody>
@@ -75,7 +75,7 @@ use_helper('Number');
                     <td><?php echo $signing->getCountry() ?></td>
                     <td><?php echo $signing->getComputedName() ?></td>
                     <?php if ($show_email): ?><td><?php echo $signing->getComputedAddress('en', ", ", false, false) ?></td><?php endif ?>
-                    <?php if ($can_delete): ?><td><a class="btn btn-secondary btn-sm ajax_link" href="<?php echo url_for('data_delete', array('id' => $signing->getId())) ?>">delete</a></td><?php endif ?>
+                    <td><?php if ($is_campaign_data_owner || ($signing->getWidget()->getUserId() == $sf_user->getUserId() && $signing->getWidget()->getDataOwner() == WidgetTable::DATA_OWNER_YES)): ?><a class="btn btn-secondary btn-sm ajax_link" href="<?php echo url_for('data_delete', array('id' => $signing->getId())) ?>">delete</a><?php endif ?></td>
                 </tr>
               <?php endforeach ?>
           </tbody>

@@ -138,7 +138,7 @@ class Ajax {
     return $this->j('select2color', $selector, $options);
   }
 
-  protected $alert_selector = 'header';
+  protected $alert_selector = '.page-header';
   protected $alert_action = 'after';
 
   public function alert($message = '', $heading = 'Info', $selector = null, $action = null, $raw = false, $type = null) {
