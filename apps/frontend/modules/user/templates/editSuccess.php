@@ -46,6 +46,9 @@
           <?php endif ?>
         <?php endif ?>
         <a class="btn btn-danger ajax_link" href="<?php echo url_for('user_delete', array('id' => $form->getObject()->getId())) ?>">Delete</a>
+        <?php if (!$user->hasPermission(myUser::CREDENTIAL_ADMIN)): ?>
+          <a title="login as this user" class="btn btn-danger ajax_link post" href="<?php echo url_for('user_switch', array('id' => $form->getObject()->getId())) ?>">Switch</a>
+        <?php endif ?>
       <?php endif ?>
     </div>
   </form>
