@@ -262,6 +262,9 @@ class EditWidgetForm extends WidgetForm {
       $this->setValidator('subscribe_default', new sfValidatorChoice(array('choices' => array_keys(PetitionTable::$WIDGET_SUBSCRIBE_CHECKBOX_DEFAULT))));
       $this->getWidgetSchema()->setHelp('subscribe_default', 'You might increase your subscription rate, if you keep the checkbox preselected. However, preselection is not legally in conformity with the EU General Data Protection Regulation. It is your legal obligation to make sure your selection is in conformity with EU and national data protection legislation.');
 
+      if (!$this->getObject()->getSubscribeText()) {
+        $this->getObject()->setSubscribeText($this->getObject()->getPetitionText()->getSubscribeText());
+      }
       $this->setWidget('subscribe_text', new sfWidgetFormInput(array('label' => 'Keep-me-posted checkbox'), array('size' => 90, 'class' => 'large', 'placeholder' => 'Leave this field empty to use standard texts.')));
       $this->setValidator('subscribe_text', new sfValidatorString(array('max_length' => 250, 'required' => false)));
       $this->getWidgetSchema()->setHelp('subscribe_text', 'You may customise the text of the keep-me-posted checkbox. Leave this field empty to use action or standard texts. You may use the following keywords to include the name or email of the respective data owner: #DATA-OFFICER-NAME#, #DATA-OFFICER-ORGA#, #DATA-OFFICER-EMAIL#');
