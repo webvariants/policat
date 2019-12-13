@@ -17,3 +17,7 @@ _open_actions:
   enabled: true
   contextual: false
   lifetime: 300
+
+page:
+  enabled: true
+  lifetime: 60

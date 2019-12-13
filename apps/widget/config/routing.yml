@@ -50,6 +50,10 @@ api_js_widget_no_redirect:
   url: /api/js/widget_no_redirect/:id
   param: { module: widget, action: widgetOuter, noRedirect: true }
 
+widget_page:
+  url: /p/:id
+  param: { module: widget, action: page }
+
 # keep for old urls compatibility
 teaser_js:
   url: /teaser_js/:id

@@ -553,7 +553,7 @@ class StoreTable extends Doctrine_Table {
               'body' => array(
                   'widget' => array('sfWidgetFormTextarea', array('label' => 'Body'), array('class' => 'markdown highlight email-template markItUp-higher')),
                   'validator' => array('ValidatorKeywords', array('keywords' => array('#VALIDATION-URL#', '#EDIT-URL#'))),
-                  'help' => '#VALIDATION-URL#, #EDIT-URL#',
+                  'help' => '#VALIDATION-URL#, #EDIT-URL#, #WIDGET-PAGE-URL#',
                   'data-markup-set-1' => array(UtilEmailLinks::VALIDATION, UtilEmailLinks::EDIT)
               ),
           )

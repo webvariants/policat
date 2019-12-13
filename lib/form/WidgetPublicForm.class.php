@@ -295,6 +295,7 @@ class WidgetPublicForm extends WidgetForm {
           'EDITCODE' => $edit_code, // deprecated
           '#VALIDATION-URL#' => $validation,
           '#EDIT-URL#' => $edit_code,
+          '#WIDGET-PAGE-URL#' => sfContext::getInstance()->getRouting()->generate('widget_page', array('id' => $widget->getId()), true),
       );
 
       UtilMail::send('Widget-created-' . $widget->getPetition()->getCampaignId(), null, $from, $to, $subject, $body, null, $widget->getSubst(), $subst_escape, null, array(), array(

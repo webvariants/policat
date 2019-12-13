@@ -10,6 +10,7 @@
             <div class="modal-body">
                 <p><b>HTML-Code:</b><code> &lt;script type="text/javascript"
                     src="<?php echo url_for('api_js_widget', array('id' => $id), true) ?>"&gt;&lt;/script&gt;</code></p>
+                <p><b>Shareable widget page (for testing or to use widget widget without embedding):</b> <a target="_blank" href="<?php echo url_for('widget_page', ['id' => $id], true) ?>">LINK</a></p>
                 <?php if ($follows): ?>
                 <p><strong style="color:red">Attention: The action is following the action
                         "<?php echo $follows ?>".</strong></p>

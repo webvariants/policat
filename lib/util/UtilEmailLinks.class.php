@@ -18,6 +18,7 @@ class UtilEmailLinks {
   const PLEDGE = 5;
   const UNSUBSCRIBE = 6;
   const EDIT = 7;
+  const WIDGET_PAGE = 8;
 
   static $NAME = array(
       self::VALIDATION => 'Validation Button',
@@ -26,7 +27,8 @@ class UtilEmailLinks {
       self::READMORE => 'Read more Link',
       self::PLEDGE => 'Pledge Button',
       self::UNSUBSCRIBE => 'Unsubscribe Link',
-      self::EDIT => 'Edit Link'
+      self::EDIT => 'Edit Link',
+      self::WIDGET_PAGE => 'Widget page'
   );
   static $TEXT = array(
       self::VALIDATION => 'Confirm your email address',
@@ -35,7 +37,8 @@ class UtilEmailLinks {
       self::READMORE => 'Read more',
       self::PLEDGE => 'Pledge now',
       self::UNSUBSCRIBE => 'Unsubscribe',
-      self::EDIT => 'Edit widget'
+      self::EDIT => 'Edit widget',
+      self::WIDGET_PAGE => 'Widget page'
   );
   static $SHORTCUT = array(
       self::VALIDATION => '#VALIDATION-URL#', // BUTTON
@@ -44,7 +47,8 @@ class UtilEmailLinks {
       self::READMORE => '#READMORE-URL#', // LINK
       self::PLEDGE => '#PLEDGE-URL#', // BUTTON
       self::UNSUBSCRIBE => '#UNSUBSCRIBE-URL#', // LINK
-      self::EDIT => '#EDIT-URL#'  // LINK
+      self::EDIT => '#EDIT-URL#',  // LINK
+      self::WIDGET_PAGE => '#WIDGET-PAGE-URL#'  // LINK
   );
   static $PATH = array(
       self::VALIDATION => array('/validate/', '/widgetval/', '/register/', '/forgotten/'),
@@ -53,7 +57,8 @@ class UtilEmailLinks {
       self::READMORE => null,
       self::PLEDGE => array('/pledge/'),
       self::UNSUBSCRIBE => array('/unsubscribe/'),
-      self::EDIT => array('/widget/edit/')
+      self::EDIT => array('/widget/edit/'),
+      self::WIDGET_PAGE => '/p/'
   );
 
   public static function dataMarkupSet($links = array()) {

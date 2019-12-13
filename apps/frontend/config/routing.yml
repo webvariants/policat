@@ -11,6 +11,7 @@ feed:                      { url: /feed,                               param: { 
 pledge_contact_test:       { url: '/pledge/:petition_id/test',         param: { module: default, action: error404 } }
 api_v2_doc:                { url: '/api/v2',                           param: { module: default, action: error404 } }
 signers:                   { url: '/signers/:id/:text_id',             param: { module: default, action: error404 } }
+widget_page:               { url: '/p/:id',                            param: { module: default, action: error404 } }
 
 # ############################
 

@@ -662,4 +662,10 @@ class widgetActions extends policatActions
     sfConfig::set('sf_web_debug', false);
     return $this->renderText(json_encode($data));
   }
+
+  public function executePage(sfWebRequest $request)
+  {
+    $this->fetchWidget();
+    $this->backgroundColor = $this->widget->getStyling('bg_right_color');
+  }
 }

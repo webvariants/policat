@@ -21,7 +21,7 @@ class UtilLink
   {
     return self::RouteParamIdCode('validate', 'code', $id, $code);
   }
-  
+
   public static function deleteSigning($id, $code)
   {
     return self::RouteParamIdCode('delete_signing', 'code', $id, $code);
