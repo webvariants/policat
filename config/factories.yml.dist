@@ -34,14 +34,14 @@ all:
   mailer:
     param:
       delivery_strategy: realtime
-#      delivery_strategy: spool
-#      spool_class:       Swift_DoctrineSpool
-#      spool_arguments:   [ MailMessage, messagePlain, getSpooledMessages ]
+      delivery_strategy: spool
+      spool_class:       Swift_DoctrineSpool
+      spool_arguments:   [ MailMessage, messagePlain, getSpooledMessages ]
 
-#      transport:
-#        class: Swift_SmtpTransport
-#        param:
-#          host: mail
+      transport:
+        class: Swift_SmtpTransport
+        param:
+          host: mail
 
   view_cache:
     class: sfTaggingCache
