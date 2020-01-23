@@ -467,6 +467,18 @@ span.checkbox {
 		}
 	}
 
+	.share when (@enable-label-left = true) {
+		.share-icons {
+			text-align: center;
+			word-spacing: -1ch;
+		}
+
+		.sicon {
+			float: none;
+			display: inline-block;
+		}
+	}
+
 	.subscribe when (@enable-label-left = true) {
 		label {
 			width: 100%;
