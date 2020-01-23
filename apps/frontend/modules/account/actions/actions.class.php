@@ -89,8 +89,11 @@ class accountActions extends policatActions {
         return $this->ajax()
             ->form($this->form)
             ->attr('#register_form input, #register_form select, #register_form button', 'disabled', 'disabled')
+            ->modal('#login_modal', 'hide')
+            ->hide('#register_form')
+            ->show('#login_form')
             ->scroll()
-            ->alert("To activate your user account, you have to verify your email address. "
+            ->info("To activate your user account, you have to verify your email address. "
               . "Look for the verification email in your inbox and click the link in the email. A confirmation "
               . "message will appear in your web browser. Didn't get the email? Check your spam folder to make "
               . "sure it didn't end up there. Add the email address $mail to your address book.", 'Account created.', '.register-success', 'append')->render();
