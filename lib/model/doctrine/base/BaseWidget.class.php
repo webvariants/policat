@@ -45,6 +45,7 @@
  * @property int                                        $subscribe_default                               Type: integer(1), default "-1"
  * @property string                                     $subscribe_text                                  Type: string(250)
  * @property string                                     $privacy_policy_body                             Type: clob
+ * @property string                                     $privacy_policy_url                              Type: string
  * @property Campaign                                   $Campaign                                        
  * @property Petition                                   $Petition                                        
  * @property PetitionText                               $PetitionText                                    
@@ -102,6 +103,7 @@
  * @method int                                          getSubscribeDefault()                            Type: integer(1), default "-1"
  * @method string                                       getSubscribeText()                               Type: string(250)
  * @method string                                       getPrivacyPolicyBody()                           Type: clob
+ * @method string                                       getPrivacyPolicyUrl()                            Type: string
  * @method Campaign                                     getCampaign()                                    
  * @method Petition                                     getPetition()                                    
  * @method PetitionText                                 getPetitionText()                                
@@ -159,6 +161,7 @@
  * @method Widget                                       setSubscribeDefault(int $val)                    Type: integer(1), default "-1"
  * @method Widget                                       setSubscribeText(string $val)                    Type: string(250)
  * @method Widget                                       setPrivacyPolicyBody(string $val)                Type: clob
+ * @method Widget                                       setPrivacyPolicyUrl(string $val)                 Type: string
  * @method Widget                                       setCampaign(Campaign $val)                       
  * @method Widget                                       setPetition(Petition $val)                       
  * @method Widget                                       setPetitionText(PetitionText $val)               
@@ -360,6 +363,9 @@ abstract class BaseWidget extends myDoctrineRecord
              ));
         $this->hasColumn('privacy_policy_body', 'clob', null, array(
              'type' => 'clob',
+             ));
+        $this->hasColumn('privacy_policy_url', 'string', null, array(
+             'type' => 'string',
              ));
 
 

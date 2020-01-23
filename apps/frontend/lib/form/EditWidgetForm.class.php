@@ -275,6 +275,13 @@ class EditWidgetForm extends WidgetForm {
       }
       $this->setValidator('privacy_policy_body', new sfValidatorString(array('required' => false)));
       $this->getWidgetSchema()->setHelp('privacy_policy_body', '#DATA-OFFICER-NAME#, #DATA-OFFICER-ORGA#, #DATA-OFFICER-EMAIL#, #DATA-OFFICER-WEBSITE#, #DATA-OFFICER-PHONE#, #DATA-OFFICER-MOBILE#, #DATA-OFFICER-STREET#, #DATA-OFFICER-POST-CODE#, #DATA-OFFICER-CITY#, #DATA-OFFICER-COUNTRY#, #DATA-OFFICER-ADDRESS#');
+
+      $this->setWidget('privacy_policy_url', new sfWidgetFormInput(array('label' => 'Privacy policy URL'), array(
+        'size' => 90,
+        'placeholder' => 'https://www.example.com/privacy_policy'
+      )));
+      $this->setValidator('privacy_policy_url', new ValidatorUrl(array('required' => false)));
+      $this->getWidgetSchema()->setHelp('privacy_policy_url', 'Leave this empty to show the privacy policy text as below within the widget (recommended). If a click on "privacy policy" should open your own privacy policy page instead, enter its URL here, including "https://".');
     }
   }
 

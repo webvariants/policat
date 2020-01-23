@@ -282,6 +282,11 @@ $(document).ready(function($) {
 			fetchLastSigners(1, 30);
 		}
 		function show_privacy_policy() {
+			if ($('#external-privacy-policy-url').length) {
+				$('#external-privacy-policy-url').click();
+				return;
+			}
+
 			show_left('privacy-policy');
 			if (hasSign) {
 				show_right('thankyou');

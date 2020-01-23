@@ -51,7 +51,8 @@ class WidgetForm extends BaseWidgetForm {
       $this['landing2_url'],
       $this['subscribe_default'],
       $this['subscribe_text'],
-      $this['privacy_policy_body']
+      $this['privacy_policy_body'],
+      $this['privacy_policy_url']
     );
     $petition = $this->getObject()->getPetition();
 

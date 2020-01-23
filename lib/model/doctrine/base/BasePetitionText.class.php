@@ -25,6 +25,7 @@
  * @property string                                 $email_tellyour_body                         Type: clob
  * @property string                                 $email_targets                               Type: clob
  * @property string                                 $privacy_policy_body                         Type: clob
+ * @property string                                 $privacy_policy_url                          Type: string
  * @property string                                 $read_more_url                               Type: string
  * @property string                                 $landing_url                                 Type: string
  * @property string                                 $landing2_url                                Type: string
@@ -76,6 +77,7 @@
  * @method string                                   getEmailTellyourBody()                       Type: clob
  * @method string                                   getEmailTargets()                            Type: clob
  * @method string                                   getPrivacyPolicyBody()                       Type: clob
+ * @method string                                   getPrivacyPolicyUrl()                        Type: string
  * @method string                                   getReadMoreUrl()                             Type: string
  * @method string                                   getLandingUrl()                              Type: string
  * @method string                                   getLanding2Url()                             Type: string
@@ -127,6 +129,7 @@
  * @method PetitionText                             setEmailTellyourBody(string $val)            Type: clob
  * @method PetitionText                             setEmailTargets(string $val)                 Type: clob
  * @method PetitionText                             setPrivacyPolicyBody(string $val)            Type: clob
+ * @method PetitionText                             setPrivacyPolicyUrl(string $val)             Type: string
  * @method PetitionText                             setReadMoreUrl(string $val)                  Type: string
  * @method PetitionText                             setLandingUrl(string $val)                   Type: string
  * @method PetitionText                             setLanding2Url(string $val)                  Type: string
@@ -241,6 +244,9 @@ abstract class BasePetitionText extends myDoctrineRecord
              ));
         $this->hasColumn('privacy_policy_body', 'clob', null, array(
              'type' => 'clob',
+             ));
+        $this->hasColumn('privacy_policy_url', 'string', null, array(
+             'type' => 'string',
              ));
         $this->hasColumn('read_more_url', 'string', null, array(
              'type' => 'string',

@@ -72,7 +72,7 @@
         <?php endif ?>
 
         <legend>Privacy Policy</legend>
-        <?php echo $form->renderRows(array('privacy_policy_body')) ?>
+        <?php echo $form->renderRows(array('privacy_policy_url', 'privacy_policy_body')) ?>
 
         <?php if ($petition->getDonateUrl()): ?>
           <legend>Donate</legend>
