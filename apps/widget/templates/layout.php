@@ -21,7 +21,7 @@
 </head>
 
 <body>
-    <nav class="navbar navbar-expand-md navbar-dark fixed-top bg-dark no-print">
+    <nav class="navbar fixed-top no-print">
         <?php $logo = StoreTable::value(StoreTable::PORTAL_LOGO); ?>
         <?php if ($logo): ?>
         <a class="navbar-brand navbar-brand-img" href="<?php echo url_for('homepage') ?>">
@@ -33,15 +33,6 @@
             <?php echo Util::enc(StoreTable::value(StoreTable::PORTAL_NAME)) ?>
         </a>
         <?php endif ?>
-        <button class="navbar-toggler ml-auto" type="button" data-toggle="collapse" data-target="#navbarCollapse"
-            aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation">
-            <span class="navbar-toggler-icon"></span>
-        </button>
-        <div class="collapse navbar-collapse" id="navbarCollapse">
-            <ul class="navbar-nav mr-auto">
-                <li class="nav-item"><a class="nav-link"href="<?php echo url_for('homepage') ?>">Home</a></li>
-            </ul>
-        </div>
     </nav>
     <div class="container">
         <?php echo $sf_content ?>

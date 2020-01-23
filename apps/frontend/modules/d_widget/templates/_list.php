@@ -72,6 +72,7 @@ if (!isset($no_filter)):
                 <td><?php echo $widget->getPetitionText()->getLanguage() ?></td>
                 <td><?php echo $widget->getStatusName() ?>
                   <?php if ($widget->getPetitionText()->getWidgetId() == $widget->getId()): ?> <span title="featured on portal homepage">(*)</span><?php endif ?>
+                  <?php if ($user->hasPermission(myUser::CREDENTIAL_ADMIN)): ?><small title="only visible for admins"><br /><?php echo UtilTheme::$THEMES[$widget->getThemeId()] ?></small><?php endif ?>
                 </td>
                 <td><?php echo format_date($widget->getActivityAt(), 'yyyy-MM-dd') ?></td>
                 <td class="align-right"><?php echo format_number($widget->countSignings()) ?></td>
