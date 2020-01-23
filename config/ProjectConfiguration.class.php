@@ -9,7 +9,10 @@
  */
 
 require_once __DIR__ . '/../lib/vendor/autoload.php'; // from composer
-require_once __DIR__ . '/../lib/memcacheshim/memcacheshim.php';
+if (!class_exists('Memcache')) {
+  // PHP 7 support for memcache is back! see https://pecl.php.net/package/memcache version 4 🙂
+  require_once __DIR__ . '/../lib/memcacheshim/memcacheshim.php';
+}
 class Doctrine extends Doctrine_Core {}
 
 sfCoreAutoload::register();
