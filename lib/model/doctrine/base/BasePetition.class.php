@@ -91,6 +91,7 @@
  * @property string                                  $openeci_counter_countries                       Type: clob
  * @property string                                  $mailexport                                      Type: clob
  * @property int                                     $mailexport_enabled                              Type: integer(1)
+ * @property int                                     $privacy_policy_by_widget_data_owner             Type: integer(1)
  * @property Campaign                                $Campaign                                        
  * @property Language                                $Language                                        
  * @property MailingList                             $MailingList                                     
@@ -195,6 +196,7 @@
  * @method string                                    getOpeneciCounterCountries()                     Type: clob
  * @method string                                    getMailexport()                                  Type: clob
  * @method int                                       getMailexportEnabled()                           Type: integer(1)
+ * @method int                                       getPrivacyPolicyByWidgetDataOwner()              Type: integer(1)
  * @method Campaign                                  getCampaign()                                    
  * @method Language                                  getLanguage()                                    
  * @method MailingList                               getMailingList()                                 
@@ -299,6 +301,7 @@
  * @method Petition                                  setOpeneciCounterCountries(string $val)          Type: clob
  * @method Petition                                  setMailexport(string $val)                       Type: clob
  * @method Petition                                  setMailexportEnabled(int $val)                   Type: integer(1)
+ * @method Petition                                  setPrivacyPolicyByWidgetDataOwner(int $val)      Type: integer(1)
  * @method Petition                                  setCampaign(Campaign $val)                       
  * @method Petition                                  setLanguage(Language $val)                       
  * @method Petition                                  setMailingList(MailingList $val)                 
@@ -787,6 +790,12 @@ abstract class BasePetition extends myDoctrineRecord
              'notnull' => false,
              ));
         $this->hasColumn('mailexport_enabled', 'integer', 1, array(
+             'type' => 'integer',
+             'notnull' => true,
+             'default' => 0,
+             'length' => 1,
+             ));
+        $this->hasColumn('privacy_policy_by_widget_data_owner', 'integer', 1, array(
              'type' => 'integer',
              'notnull' => true,
              'default' => 0,

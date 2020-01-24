@@ -39,8 +39,19 @@
           <div class="col-md-6"><?php UtilTargetSelectorPreselect::printTextPreselection($form->getObject()->getPetitionText(), '<div class="alert alert-info">If you select nothing settings from the translation will be used.<br /> %s</div>') ?></div>
       </div>
     <?php endif ?>
-    <?php if (isset($form['subscribe_default'])): ?>
+    <?php if ($form->getObject()->isInDataOwnerMode()): ?>
       <legend>Widget data owner settings</legend>
+      <?php if (!isset($form['subscribe_default'])): ?>
+        <p>Only <?php echo Util::enc($form->getObject()->getUser()->getFullname()) ?> can edit the following settings:</p>
+        <ul>
+          <li>Keep-me-posted checkbox: <?php echo PetitionTable::$WIDGET_SUBSCRIBE_CHECKBOX_DEFAULT[$form->getObject()->getSubscribeDefault()] ?></li>
+          <li>Keep-me-posted checkbox text: <?php echo Util::enc($form->getObject()->getSubscribeText()) ?></li>
+          <?php if ($petition->getPrivacyPolicyByWidgetDataOwner()): ?>
+            <li>Privacy policy URL: <?php echo Util::enc($form->getObject()->getPrivacyPolicyUrl()) ?></li>
+            <li>Privacy policy body: <pre><code><?php echo Util::enc($form->getObject()->getPrivacyPolicyBody()) ?></code></pre></li>
+          <?php endif ?>
+        </ul>
+      <?php endif ?>
       <?php echo $form->renderRows('*subscribe_default', '*subscribe_text', '*privacy_policy_url', '*privacy_policy_body') ?>
     <?php endif ?>
     <div class="form-actions">

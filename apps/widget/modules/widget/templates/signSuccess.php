@@ -129,7 +129,7 @@ if (is_array($target_selectors)) {
                             <h1><?php echo __('PP Heading') ?></h1>
                             <a class="back back-priv-1 button-color button-btn"><?php echo __('Back') ?></a>
                             <?php
-                            if ($widget->isInDataOwnerMode()) {
+                            if ($petition->getPrivacyPolicyByWidgetDataOwner() && $widget->isInDataOwnerMode()) {
                               if ($widget['privacy_policy_url']) {
                                 $privacy_policy_url = $widget['privacy_policy_url'];
                               } elseif ($widget['privacy_policy_body']) {
@@ -147,7 +147,7 @@ if (is_array($target_selectors)) {
                             <?php
                             } else {
                               $privacy_policy_body = $petition_text['privacy_policy_body'];
-                              if ($widget->isInDataOwnerMode() && $widget['privacy_policy_body']) {
+                              if ($petition->getPrivacyPolicyByWidgetDataOwner() && $widget->isInDataOwnerMode() && $widget['privacy_policy_body']) {
                                 $privacy_policy_body = $widget['privacy_policy_body'];
                               }
                               $privacy_policy = strtr($privacy_policy_body, $widget->getDataOwnerSubst('<br />', $petition));

@@ -18,6 +18,8 @@
  */
 class EditWidgetForm extends WidgetForm {
 
+  const USER = 'user';
+
   use FormTargetSelectorPreselect;
 
   protected $state_count = true;
@@ -255,7 +257,10 @@ class EditWidgetForm extends WidgetForm {
     $this->setValidator('social_share_text', new sfValidatorString(array('max_length' => 1000, 'required' => false)));
     $this->getWidgetSchema()->setHelp('social_share_text', 'Optional keywords: #TITLE#, #WIDGET-HEADING#. Keep the text short. URL is appended automatically.');
 
-    if ($this->getObject()->isInDataOwnerMode()) {
+    $user = $this->getOption(self::USER, null);
+    /* @var $user sfGuardUser */
+
+    if ($this->getObject()->isInDataOwnerMode() && $user && $this->getObject()->getUser()->getId() === $user->getId()) {
       $choices = PetitionTable::$WIDGET_SUBSCRIBE_CHECKBOX_DEFAULT;
       $choices[PetitionTable::SUBSCRIBE_CHECKBOX_INHERIT] = $choices[PetitionTable::SUBSCRIBE_CHECKBOX_INHERIT] . ' [' . PetitionTable::$WIDGET_SUBSCRIBE_CHECKBOX_DEFAULT[$petition->getSubscribeDefault()] .  ']';
       $this->setWidget('subscribe_default', new sfWidgetFormChoice(array('choices' => $choices, 'label' => 'Keep-me-posted checkbox')));
@@ -265,23 +270,25 @@ class EditWidgetForm extends WidgetForm {
       if (!$this->getObject()->getSubscribeText()) {
         $this->getObject()->setSubscribeText($this->getObject()->getPetitionText()->getSubscribeText());
       }
-      $this->setWidget('subscribe_text', new sfWidgetFormInput(array('label' => 'Keep-me-posted checkbox'), array('size' => 90, 'class' => 'large', 'placeholder' => 'Leave this field empty to use standard texts.')));
+      $this->setWidget('subscribe_text', new sfWidgetFormInput(array('label' => 'Keep-me-posted checkbox text'), array('size' => 90, 'class' => 'large', 'placeholder' => 'Leave this field empty to use standard texts.')));
       $this->setValidator('subscribe_text', new sfValidatorString(array('max_length' => 250, 'required' => false)));
       $this->getWidgetSchema()->setHelp('subscribe_text', 'You may customise the text of the keep-me-posted checkbox. Leave this field empty to use action or standard texts. You may use the following keywords to include the name or email of the respective data owner: #DATA-OFFICER-NAME#, #DATA-OFFICER-ORGA#, #DATA-OFFICER-EMAIL#');
 
-      $this->setWidget('privacy_policy_body', new sfWidgetFormTextarea(array(), array('cols' => 90, 'rows' => 30, 'class' => 'markdown highlight')));
-      if (!$this->getObject()->getPrivacyPolicyBody()) { // if empty get default from petition translation/text
-        $this->getWidgetSchema()->setDefault('privacy_policy_body', $this->getObject()->getPetitionText()->getPrivacyPolicyBody());
-      }
-      $this->setValidator('privacy_policy_body', new sfValidatorString(array('required' => false)));
-      $this->getWidgetSchema()->setHelp('privacy_policy_body', '#DATA-OFFICER-NAME#, #DATA-OFFICER-ORGA#, #DATA-OFFICER-EMAIL#, #DATA-OFFICER-WEBSITE#, #DATA-OFFICER-PHONE#, #DATA-OFFICER-MOBILE#, #DATA-OFFICER-STREET#, #DATA-OFFICER-POST-CODE#, #DATA-OFFICER-CITY#, #DATA-OFFICER-COUNTRY#, #DATA-OFFICER-ADDRESS#');
+      if ($petition->getPrivacyPolicyByWidgetDataOwner()) {
+        $this->setWidget('privacy_policy_body', new sfWidgetFormTextarea(array(), array('cols' => 90, 'rows' => 30, 'class' => 'markdown highlight')));
+        if (!$this->getObject()->getPrivacyPolicyBody()) { // if empty get default from petition translation/text
+          $this->getWidgetSchema()->setDefault('privacy_policy_body', $this->getObject()->getPetitionText()->getPrivacyPolicyBody());
+        }
+        $this->setValidator('privacy_policy_body', new sfValidatorString(array('required' => false)));
+        $this->getWidgetSchema()->setHelp('privacy_policy_body', '#DATA-OFFICER-NAME#, #DATA-OFFICER-ORGA#, #DATA-OFFICER-EMAIL#, #DATA-OFFICER-WEBSITE#, #DATA-OFFICER-PHONE#, #DATA-OFFICER-MOBILE#, #DATA-OFFICER-STREET#, #DATA-OFFICER-POST-CODE#, #DATA-OFFICER-CITY#, #DATA-OFFICER-COUNTRY#, #DATA-OFFICER-ADDRESS#');
 
-      $this->setWidget('privacy_policy_url', new sfWidgetFormInput(array('label' => 'Privacy policy URL'), array(
-        'size' => 90,
-        'placeholder' => 'https://www.example.com/privacy_policy'
-      )));
-      $this->setValidator('privacy_policy_url', new ValidatorUrl(array('required' => false)));
-      $this->getWidgetSchema()->setHelp('privacy_policy_url', 'Leave this empty to show the privacy policy text as below within the widget (recommended). If a click on "privacy policy" should open your own privacy policy page instead, enter its URL here, including "https://".');
+        $this->setWidget('privacy_policy_url', new sfWidgetFormInput(array('label' => 'Privacy policy URL'), array(
+          'size' => 90,
+          'placeholder' => 'https://www.example.com/privacy_policy'
+        )));
+        $this->setValidator('privacy_policy_url', new ValidatorUrl(array('required' => false)));
+        $this->getWidgetSchema()->setHelp('privacy_policy_url', 'Leave this empty to show the privacy policy text as below within the widget (recommended). If a click on "privacy policy" should open your own privacy policy page instead, enter its URL here, including "https://".');
+      }
     }
   }
 

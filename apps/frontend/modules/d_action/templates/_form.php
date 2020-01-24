@@ -15,6 +15,9 @@
                 <?php if ($petition->getKind() == Petition::KIND_PLEDGE): ?>
                   <a class="nav-link" href="#sec7" data-toggle="tab">Pledge Settings</a>
                 <?php endif ?>
+                <?php if (isset($form['privacy_policy_by_widget_data_owner'])): ?>
+                  <a class="nav-link" href="#sec8" data-toggle="tab">DPO settings</a>
+                <?php endif ?>
             </div>
         </div>
         <div class="col-md-9">
@@ -89,6 +92,12 @@
                   <fieldset class="tab-pane show-before-chosen-init" id="sec7">
                       <legend>Pledge Settings</legend>
                       <?php echo $form->renderRows('pledge_with_comments', 'pledge_header_visual', 'pledge_key_visual', 'pledge_background_color', 'pledge_color', 'pledge_head_color', 'pledge_font', 'pledge_info_columns_comma', 'pledge_sort_column', 'digest_enabled') ?>
+                  </fieldset>
+                <?php endif ?>
+                <?php if (isset($form['privacy_policy_by_widget_data_owner'])): ?>
+                  <fieldset class="tab-pane show-before-chosen-init" id="sec8">
+                      <legend>Data protection officer settings</legend>
+                      <?php echo $form->renderRows('*privacy_policy_by_widget_data_owner') ?>
                   </fieldset>
                 <?php endif ?>
             </div>

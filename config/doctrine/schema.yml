@@ -165,7 +165,7 @@ Campaign:
     become_petition_admin: { type: integer(4), notnull: true, default: 0 } # obsolete
     privacy_policy:        { type: clob }
     address:               { type: clob }
-    data_owner_id:         { type: integer(4), notnull: false, default: null }
+    data_owner_id:         { type: integer(4), notnull: false, default: null } # This is the Data Protection Officer (DPO)
     quota_id:              { type: integer(4), notnull: false, default: null }
     order_id:              { type: integer(4), notnull: false, default: null }
     public_enabled:        { type: integer(1), notnull: true, default: 0 }
@@ -340,6 +340,7 @@ Petition:
     openeci_counter_countries: { type: clob, notnull: false }
     mailexport:              { type: clob, notnull: false }
     mailexport_enabled:      { type: integer(1), notnull: true, default: 0 }
+    privacy_policy_by_widget_data_owner: { type: integer(1), notnull: true, default: 0 }
   relations:
     Campaign:          { onDelete: CASCADE  }
     Language:          {  }

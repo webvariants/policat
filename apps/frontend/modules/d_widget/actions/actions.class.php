@@ -90,7 +90,7 @@ class d_widgetActions extends policatActions {
         return $this->ajax()->alert('Translation not active', 'Error')->render();
 
       $widget->setPetitionText($pt);
-      $this->form = new EditWidgetForm($widget);
+      $this->form = new EditWidgetForm($widget, [EditWidgetForm::USER => $this->getGuardUser()]);
       $this->lang = $pt->getId();
 
       if (!$request->getPostParameter($this->form->getName()) && !$request->getPostParameter('page'))
@@ -105,7 +105,7 @@ class d_widgetActions extends policatActions {
       if (!$this->userIsAdmin() && ($widget->getPetition()->getStatus() == Petition::STATUS_DELETED || $widget->getCampaign()->getStatus() == CampaignTable::STATUS_DELETED ))
         return $this->notFound();
 
-      $this->form = new EditWidgetForm($widget);
+      $this->form = new EditWidgetForm($widget, [EditWidgetForm::USER => $this->getGuardUser()]);
       $this->includeJsColor();
     }
 
@@ -123,7 +123,7 @@ class d_widgetActions extends policatActions {
         if ($request->getPostParameter('preview')) {
           $this->ajax()
             ->replaceWithPartial('#widget_edit_form', 'form', array(
-              'form' => new EditWidgetForm($widget),
+              'form' => new EditWidgetForm($widget, [EditWidgetForm::USER => $this->getGuardUser()]),
               'petition' => $widget->getPetition()
             ))
             ->edits('#widget_edit_form ');
