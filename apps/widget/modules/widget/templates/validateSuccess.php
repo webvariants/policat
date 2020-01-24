@@ -11,4 +11,4 @@
   <script type="text/javascript" src="<?php echo url_for('api_js_widget_no_redirect', array('id' => $wid)) ?>"></script>
 </p>
 <br /><br />
-<?php include_component('widget', 'open_actions'); ?>
+<?php UtilOpenActions::render([UtilOpenActions::HOTTEST], [(int) $petition_id]) ?>

@@ -52,37 +52,6 @@ class d_homeActions extends policatActions {
       $markup = UtilMarkdown::transform($markup, true, true);
       $this->markup = preg_replace_callback('/PasjhkX(\d+)KmsownedS/', array('UtilWidget', 'renderWidget'), $markup);
     }
-
-    $openActions = UtilOpenActions::dataByCache();
-    $joined = array();
-    $petition_ids = array();
-    foreach ($openActions['open'] as $tab) {
-      $fiveEach = 5;
-      foreach ($tab['excerpts'] as $action) {
-        if (!in_array($action['petition_id'], $petition_ids)) {
-          $joined[] = $action;
-          $petition_ids[] = $action['petition_id'];
-          $fiveEach--;
-          if ($fiveEach === 0) {
-              break;
-          }
-        }
-      }
-    }
-    foreach ($openActions['open'] as $tab) {
-      foreach ($tab['excerpts'] as $action) {
-        if (!in_array($action['petition_id'], $petition_ids)) {
-          $joined[] = $action;
-          $petition_ids[] = $action['petition_id'];
-        }
-      }
-    }
-
-    if (count($joined) > 3) {
-      array_splice($joined, count($joined) - count($joined) % 3);
-    }
-    $this->actionListChunk = array_chunk($joined, 3);
-    $this->styles = $openActions['styles'];
   }
 
   public function executeTips(sfWebRequest $request) {
