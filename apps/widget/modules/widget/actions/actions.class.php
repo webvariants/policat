@@ -388,6 +388,7 @@ class widgetActions extends policatActions
             } else {
               $this->petition_id = $petition->getId();
               $this->name = strtr((string) $petition_signing->getComputedName(), array('!' => '', '&' => '', ';' => '', '?' => ''));
+              $this->backgroundColor = $widget->getStyling('bg_right_color');
             }
             return;
           }

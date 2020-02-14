@@ -1,3 +1,8 @@
+<style>
+body {
+  background-color: <?php echo $backgroundColor ?>;
+}
+</style>
 <script type="text/javascript">
   var policat_verified = <?php echo $petition_id ?>;
   var policat_ref = <?php echo json_encode($ref) ?>;

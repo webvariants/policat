@@ -253,7 +253,7 @@ class UtilOpenActions {
       }
       $fiveEach = 5;
       foreach ($tab['excerpts'] as $action) {
-        if (!in_array($action['petition_id'], $petition_ids) && !in_array($action['petition_id'], $exclude_petition_ids)) {
+        if (!in_array($action['petition_id'], $petition_ids) && (!$exclude_petition_ids || !in_array($action['petition_id'], $exclude_petition_ids))) {
           $joined[] = $action;
           $petition_ids[] = $action['petition_id'];
           $fiveEach--;
@@ -268,7 +268,7 @@ class UtilOpenActions {
         continue;
       }
       foreach ($tab['excerpts'] as $action) {
-        if (!in_array($action['petition_id'], $petition_ids)) {
+        if (!in_array($action['petition_id'], $petition_ids) && (!$exclude_petition_ids || !in_array($action['petition_id'], $exclude_petition_ids))) {
           $joined[] = $action;
           $petition_ids[] = $action['petition_id'];
         }
