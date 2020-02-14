@@ -63,7 +63,9 @@ class ticketActions extends policatActions {
           return $this->ajax()->alert('No deny handler for ticket.', 'Error', '#todo')->render();
         }
       }
-      $ticket->save();
+      if ($ticket->getId()) {
+        $ticket->save();
+      }
     }
 
     $vars = array();
@@ -171,7 +173,7 @@ class ticketActions extends policatActions {
   }
 
   protected function privacyPolicyChanged(Ticket $ticket) {
-    
+
   }
 
   private function removeOldResignAndCallTickets(Campaign $campaign) {
@@ -211,8 +213,13 @@ class ticketActions extends policatActions {
     }
   }
 
+  protected function deleteTicket(Ticket $ticket) {
+    $ticket->delete();
+    $ticket->setId(null);
+  }
+
   protected function none() {
-    
+
   }
 
 }

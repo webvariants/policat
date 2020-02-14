@@ -573,7 +573,23 @@ class widgetActions extends policatActions
 
           if ($code && hash_equals($code, $petition_signing->getDeleteCode()))
           {
+            $widget = $petition_signing->getWidget();
+            $text = $petition_signing->getComputedName() . ' ' . $petition_signing->getEmail();
+
             $petition_signing->delete();
+
+            $data_owner = $widget->computeDataOwner();
+            if ($data_owner) {
+              $ticket = TicketTable::getInstance()->generate(array(
+                TicketTable::CREATE_KIND => TicketTable::KIND_SIGNING_DELETED,
+                TicketTable::CREATE_WIDGET => $widget,
+                TicketTable::CREATE_TEXT => $text,
+                TicketTable::CREATE_TO => $data_owner
+              ));
+              if ($ticket) {
+                $ticket->save();
+              }
+            }
             return;
           }
         }

@@ -409,6 +409,14 @@ class Widget extends BaseWidget {
     return (bool) ($this->getUserId() && $this->getDataOwner());
   }
 
+  public function computeDataOwner() {
+    if ($this->isInDataOwnerMode()) {
+      return $this->getUser();
+    }
+
+    return $this->getPetition()->getCampaign()->getDataOwner();
+  }
+
   public function computePrivacyPolicyLinkText() {
     $ret = '';
     if ($this->isInDataOwnerMode() && $this->getPrivacyPolicyLinkText()) {

@@ -47,6 +47,9 @@ class ticketComponents extends policatComponents {
     $routing = $this->getContext()->getRouting();
 
     $this->is_notice = TicketTable::$KIND_HANDLER[$ticket->getKind()] === 'none' && TicketTable::$KIND_HANDLER_DENY[$ticket->getKind()] === 'none';
+    if ('deleteTicket' === TicketTable::$KIND_HANDLER_DENY[$ticket->getKind()]) {
+      $this->is_notice = true;
+    }
 
     $this->getContext()->getConfiguration()->loadHelpers(array('Date'));
 
