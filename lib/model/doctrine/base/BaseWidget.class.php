@@ -19,6 +19,8 @@
  * @property string                                     $footer                                          Type: clob
  * @property string                                     $email_subject                                   Type: string
  * @property string                                     $email_body                                      Type: clob
+ * @property string                                     $email_validation_subject                        Type: string
+ * @property string                                     $email_validation_body                           Type: clob
  * @property string                                     $stylings                                        Type: clob
  * @property int                                        $themeId                                         Type: integer(4)
  * @property string                                     $email                                           Type: string(80)
@@ -78,6 +80,8 @@
  * @method string                                       getFooter()                                      Type: clob
  * @method string                                       getEmailSubject()                                Type: string
  * @method string                                       getEmailBody()                                   Type: clob
+ * @method string                                       getEmailValidationSubject()                      Type: string
+ * @method string                                       getEmailValidationBody()                         Type: clob
  * @method string                                       getStylings()                                    Type: clob
  * @method int                                          getThemeid()                                     Type: integer(4)
  * @method string                                       getEmail()                                       Type: string(80)
@@ -137,6 +141,8 @@
  * @method Widget                                       setFooter(string $val)                           Type: clob
  * @method Widget                                       setEmailSubject(string $val)                     Type: string
  * @method Widget                                       setEmailBody(string $val)                        Type: clob
+ * @method Widget                                       setEmailValidationSubject(string $val)           Type: string
+ * @method Widget                                       setEmailValidationBody(string $val)              Type: clob
  * @method Widget                                       setStylings(string $val)                         Type: clob
  * @method Widget                                       setThemeid(int $val)                             Type: integer(4)
  * @method Widget                                       setEmail(string $val)                            Type: string(80)
@@ -249,6 +255,13 @@ abstract class BaseWidget extends myDoctrineRecord
              'type' => 'string',
              ));
         $this->hasColumn('email_body', 'clob', null, array(
+             'type' => 'clob',
+             ));
+        $this->hasColumn('email_validation_subject', 'string', null, array(
+             'type' => 'string',
+             'notnull' => true,
+             ));
+        $this->hasColumn('email_validation_body', 'clob', null, array(
              'type' => 'clob',
              ));
         $this->hasColumn('stylings', 'clob', null, array(

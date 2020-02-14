@@ -53,6 +53,7 @@
         </ul>
       <?php endif ?>
       <?php echo $form->renderRows('*subscribe_default', '*subscribe_text', '*privacy_policy_url', '*privacy_policy_body') ?>
+      <?php echo $form->renderRows('*email_validation_subject', '*email_validation_body') ?>
     <?php endif ?>
     <div class="form-actions">
         <button accesskey="s" title="[Accesskey] + S" class="btn btn-primary" type="submit">Save</button>

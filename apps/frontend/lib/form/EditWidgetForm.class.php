@@ -298,6 +298,24 @@ class EditWidgetForm extends WidgetForm {
         $this->setValidator('privacy_policy_url', new ValidatorUrl(array('required' => false)));
         $this->getWidgetSchema()->setHelp('privacy_policy_url', 'Leave this empty to show the privacy policy text as below within the widget (recommended). If a click on "privacy policy" should open your own privacy policy page instead, enter its URL here, including "https://".');
       }
+
+      $this->setWidget('email_validation_subject', new sfWidgetFormInput(array('label' => 'Opt-In Confirmation Email Subject'), array('size' => 90, 'class' => 'large')));
+      $this->setValidator('email_validation_subject', new sfValidatorString(array('required' => false)));
+      if (!$this->getObject()->getEmailValidationSubject()) { // if empty get default from petition translation/text
+        $this->getWidgetSchema()->setDefault('email_validation_subject', $petition_text->getEmailValidationSubject());
+      }
+      $this->setWidget('email_validation_body', new sfWidgetFormTextarea(array('label' => 'Opt-In Confirmation Email Body'), array(
+          'cols' => 90,
+          'rows' => 16,
+          'class' => 'markdown highlight email-template markItUp-higher',
+          'data-markup-set-1' => UtilEmailLinks::dataMarkupSet(array(UtilEmailLinks::VALIDATION, UtilEmailLinks::DISCONFIRMATION, UtilEmailLinks::REFERER, UtilEmailLinks::READMORE)),
+          'data-markup-set-2' => $mediaMarkupSet
+      )));
+      $this->setValidator('email_validation_body', new ValidatorKeywords(array('required' => false, 'keywords' => array('#VALIDATION-URL#'))));
+      $this->getWidgetSchema()->setHelp('email_validation_body', '#VALIDATION-URL#, #DISCONFIRMATION-URL#,' . $email_keywords);
+      if (!$this->getObject()->getEmailValidationBody()) { // if empty get default from petition translation/text
+        $this->getWidgetSchema()->setDefault('email_validation_body', $petition_text->getEmailValidationBody());
+      }
     }
   }
 

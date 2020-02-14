@@ -468,6 +468,9 @@ Widget:
     email_subject:     { type: string }
     email_body:        { type: clob }
 
+    email_validation_subject:   { type: string,     notnull: true }
+    email_validation_body:      { type: clob }
+
     stylings:          { type: clob,       notnull: true }
     themeId:           { type: integer(4), notnull: false, default: null }
 

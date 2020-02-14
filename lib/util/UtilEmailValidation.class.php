@@ -21,6 +21,15 @@ class UtilEmailValidation {
     $petition_text = $widget->getPetitionText();
     $subject = $petition_text->getEmailValidationSubject();
     $body = $petition_text->getEmailValidationBody();
+    if ($widget->isInDataOwnerMode()) {
+      if ($widget->getEmailValidationSubject()) {
+        $subject = $widget->getEmailValidationSubject();
+      }
+      if ($widget->getEmailValidationBody()) {
+        $body = $widget->getEmailValidationBody();
+      }
+    }
+
     $validation = UtilLink::signValidation($signing->getId(), $signing->getValidationData());
     if (!$signing->getDeleteCode()) { // migrate old signings on the fly
       $signing->setDeleteCode(PetitionSigning::genCode());
