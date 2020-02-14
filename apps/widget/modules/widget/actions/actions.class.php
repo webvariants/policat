@@ -111,7 +111,7 @@ class widgetActions extends policatActions
       $this->donate_url = null;
     }
     $this->paypal_ref    = sprintf("%s%s%s", $this->petition['id'], $this->petition_text['language_id'], $this->widget['id']);
-    $this->read_more_url = $this->petition_text['read_more_url'] ? : $this->petition['read_more_url'];
+    $this->read_more_url = $this->widget['read_more_url'] ? : ($this->petition_text['read_more_url'] ? : $this->petition['read_more_url']);
 
     $this->require_billing = $this->widget->getRequireBilling();
 

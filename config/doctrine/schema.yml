@@ -499,6 +499,7 @@ Widget:
     subscribe_text:    { type: string(250), notnull: false, default: '' }
     privacy_policy_body: { type: clob }
     privacy_policy_url:  { type: string }
+    read_more_url:       { type: string }
 
   relations:
     Campaign:          { onDelete: CASCADE }

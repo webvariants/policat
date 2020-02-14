@@ -2,7 +2,7 @@
 <form id="widget_edit_form" class="ajax_form form-horizontal" action="<?php echo $form->getObject()->isNew() ? url_for('widget_create', array('id' => $petition->getId())) : url_for('widget_edit', array('id' => $form->getObject()->getId())) ?>" method="post">
     <?php if (isset($lang)): ?><input type="hidden" name="lang" value="<?php echo $lang ?>"/><?php endif ?>
     <?php echo $form->renderHiddenFields() ?>
-    <?php echo $form->renderRows('status') ?>
+    <?php echo $form->renderRows('status', '*read_more_url') ?>
     <legend>Texts</legend>
     <?php echo $form->renderRows('*title', '*target') ?>
     <?php

@@ -32,6 +32,7 @@ class EditWidgetForm extends WidgetForm {
     $this->getWidgetSchema()->setFormFormatterName('bootstrap');
     $this->getWidgetSchema()->setNameFormat('edit_widget[%s]');
     $petition = $this->getObject()->getPetition();
+    $petition_text = $this->getObject()->getPetitionText();
 
     if (isset($this['paypal_email'])) {
       $this->getWidgetSchema()->setLabel('paypal_email', 'Include donation form');
@@ -226,7 +227,7 @@ class EditWidgetForm extends WidgetForm {
 
     // donate_url on petition enables/disabled donate_url and donate_text feature
     if ($petition->getDonateUrl() && $petition->getDonateWidgetEdit()) {
-      $placeholder = $this->getObject()->getPetitionText()->getDonateUrl();
+      $placeholder = $petition_text->getDonateUrl();
       if (!$placeholder) {
         $placeholder = $petition->getDonateUrl();
       }
@@ -247,7 +248,7 @@ class EditWidgetForm extends WidgetForm {
       $this->getWidgetSchema()->setHelp('donate_text', 'This may contain explanatory text and will be displayed in the widget, on click of the \'Donate\' button. It necessitates two clicks to open the donation page in a new browser tab. For a single click workflow, leave this field empty.');
 
       if ($this->getObject()->isNew()) {
-        $this->getWidgetSchema()->setDefault('donate_text', $this->getObject()->getPetitionText()->getDonateText());
+        $this->getWidgetSchema()->setDefault('donate_text', $petition_text->getDonateText());
       }
     }
 
@@ -256,6 +257,14 @@ class EditWidgetForm extends WidgetForm {
     $this->setWidget('social_share_text', new sfWidgetFormInput(array('label' => 'Twitter message'), array('size' => 90, 'class' => 'large', 'placeholder' => 'Leave this field empty to use standard texts.')));
     $this->setValidator('social_share_text', new sfValidatorString(array('max_length' => 1000, 'required' => false)));
     $this->getWidgetSchema()->setHelp('social_share_text', 'Optional keywords: #TITLE#, #WIDGET-HEADING#. Keep the text short. URL is appended automatically.');
+
+    $this->setWidget('read_more_url', new sfWidgetFormInput(array('label' => '"Read more" link'), array(
+      'size' => 90,
+      'class' => 'add_popover large',
+      'data-content' => 'Enter the URL of your campaign site for this language, including "https://" or https://www. ". A "Read more" link will appear underneath your e-action. Leave empty for standard "Read more" page.',
+      'placeholder' => $petition_text->getReadMoreUrl() ?: ($petition->getReadMoreUrl() ?: 'https://www.example.com/' . $petition_text->getLanguageId() . '/info')
+    )));
+    $this->setValidator('read_more_url', new ValidatorUrl(array('required' => false)));
 
     $user = $this->getOption(self::USER, null);
     /* @var $user sfGuardUser */
@@ -268,7 +277,7 @@ class EditWidgetForm extends WidgetForm {
       $this->getWidgetSchema()->setHelp('subscribe_default', 'You might increase your subscription rate, if you keep the checkbox preselected. However, preselection is not legally in conformity with the EU General Data Protection Regulation. It is your legal obligation to make sure your selection is in conformity with EU and national data protection legislation.');
 
       if (!$this->getObject()->getSubscribeText()) {
-        $this->getObject()->setSubscribeText($this->getObject()->getPetitionText()->getSubscribeText());
+        $this->getObject()->setSubscribeText($petition_text->getSubscribeText());
       }
       $this->setWidget('subscribe_text', new sfWidgetFormInput(array('label' => 'Keep-me-posted checkbox text'), array('size' => 90, 'class' => 'large', 'placeholder' => 'Leave this field empty to use standard texts.')));
       $this->setValidator('subscribe_text', new sfValidatorString(array('max_length' => 250, 'required' => false)));
@@ -277,7 +286,7 @@ class EditWidgetForm extends WidgetForm {
       if ($petition->getPrivacyPolicyByWidgetDataOwner()) {
         $this->setWidget('privacy_policy_body', new sfWidgetFormTextarea(array(), array('cols' => 90, 'rows' => 30, 'class' => 'markdown highlight')));
         if (!$this->getObject()->getPrivacyPolicyBody()) { // if empty get default from petition translation/text
-          $this->getWidgetSchema()->setDefault('privacy_policy_body', $this->getObject()->getPetitionText()->getPrivacyPolicyBody());
+          $this->getWidgetSchema()->setDefault('privacy_policy_body', $petition_text->getPrivacyPolicyBody());
         }
         $this->setValidator('privacy_policy_body', new sfValidatorString(array('required' => false)));
         $this->getWidgetSchema()->setHelp('privacy_policy_body', '#DATA-OFFICER-NAME#, #DATA-OFFICER-ORGA#, #DATA-OFFICER-EMAIL#, #DATA-OFFICER-WEBSITE#, #DATA-OFFICER-PHONE#, #DATA-OFFICER-MOBILE#, #DATA-OFFICER-STREET#, #DATA-OFFICER-POST-CODE#, #DATA-OFFICER-CITY#, #DATA-OFFICER-COUNTRY#, #DATA-OFFICER-ADDRESS#');
