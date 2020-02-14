@@ -149,6 +149,11 @@ class widgetActions extends policatActions
       $new_widget['PetitionText']    = $this->widget['PetitionText'];
       $new_widget['email_targets']   = $this->widget['email_targets'];
       $new_widget['default_country'] = $this->widget['default_country'];
+      $new_widget['email_validation_subject'] = $this->widget['email_validation_subject'];
+      $new_widget['email_validation_body'] = $this->widget['email_validation_body'];
+      $new_widget['privacy_policy_body'] = $this->widget['privacy_policy_body'];
+      $new_widget['privacy_policy_url'] = $this->widget['privacy_policy_url'];
+      $new_widget['read_more_url'] = $this->widget['read_more_url'];
     }
 
     $subscribe_text = trim($this->petition_text['subscribe_text']);
