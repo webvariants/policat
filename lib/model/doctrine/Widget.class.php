@@ -409,4 +409,29 @@ class Widget extends BaseWidget {
     return (bool) ($this->getUserId() && $this->getDataOwner());
   }
 
+  public function computePrivacyPolicyLinkText() {
+    $ret = '';
+    if ($this->isInDataOwnerMode() && $this->getPrivacyPolicyLinkText()) {
+      $ret = $this->getPrivacyPolicyLinkText();
+    } else {
+      $ret = $this->getPetitionText()->getPrivacyPolicyLinkText();
+    }
+
+    if (mb_strpos($ret, '#') !== false) {
+      $petition = $this->getPetition();
+      $widget_data_owner = ($this->getDataOwner() == WidgetTable::DATA_OWNER_YES && $this->getUserId()) ? $this->getUser() : null;
+      $data_owner = $widget_data_owner ? $widget_data_owner : ($petition->getCampaign()->getDataOwnerId() ? $petition->getCampaign()->getDataOwner() : null);
+      /* @var $data_owner sfGuardUser */
+      $subst = array(
+          '#DATA-OFFICER-NAME#' => $data_owner ? Util::enc($data_owner->getFullName()) : '',
+          '#DATA-OFFICER-ORGA#' => $data_owner ? Util::enc($data_owner->getOrganisation()) : '',
+          '#DATA-OFFICER-EMAIL#' => $data_owner ? Util::enc($data_owner->getEmailAddress()) : '',
+      );
+
+      $ret = strtr($ret, $subst);
+    }
+
+    return $ret;
+  }
+
 }

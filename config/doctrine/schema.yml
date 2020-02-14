@@ -387,6 +387,7 @@ PetitionText:
     email_targets:              { type: clob }
     privacy_policy_body:        { type: clob }
     privacy_policy_url:         { type: string }
+    privacy_policy_link_text:    { type: string }
 
     read_more_url:              { type: string }
     landing_url:                { type: string }
@@ -502,6 +503,7 @@ Widget:
     subscribe_text:    { type: string(250), notnull: false, default: '' }
     privacy_policy_body: { type: clob }
     privacy_policy_url:  { type: string }
+    privacy_policy_link_text:  { type: string }
     read_more_url:       { type: string }
 
   relations:

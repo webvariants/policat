@@ -290,9 +290,10 @@ if (is_array($target_selectors)) {
                                     if (!isset($form[Petition::FIELD_PRIVACY])):
                                       ?>
                                       <div class="privacy privacy-no-check">
-                                          <?php $long_text = preg_replace('/(_)([^_]+)(_)/', '<span class="label-link">${2}</span>', __('I accept the _privacy policy_'), -1, $replace_count);
+                                          <?php $pp_link_text = $widget->computePrivacyPolicyLinkText() ?: __('I accept the _privacy policy_') ?>
+                                          <?php $long_text = preg_replace('/(_)([^_]+)(_)/', '<span class="label-link">${2}</span>', $pp_link_text , -1, $replace_count);
                                           if (!$replace_count) {
-                                            $long_text = '<span class="label-link">' . __('I accept the _privacy policy_') . '</span>';
+                                            $long_text = '<span class="label-link">' . $pp_link_text . '</span>';
                                           }
                                           ?>
                                           <label><?php echo $long_text ?></label>

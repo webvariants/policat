@@ -213,6 +213,10 @@ class TranslationForm extends BasePetitionTextForm {
     $this->setValidator('privacy_policy_url', new ValidatorUrl(array('required' => false)));
     $this->getWidgetSchema()->setHelp('privacy_policy_url', 'Leave this empty to show the privacy policy text as below within the widget (recommended). If a click on "privacy policy" should open your own privacy policy page instead, enter its URL here, including "https://".');
 
+    $this->setWidget('privacy_policy_link_text', new sfWidgetFormInput(['label' => 'Privacy policy link'], ['size' => 90, 'placeholder' => 'I accept the _privacy policy_']));
+    $this->setValidator('privacy_policy_link_text', new sfValidatorRegex(['required' => false, 'pattern' => '/^[^_]*_[^_]+_[^_]*$/i'], ['invalid' => 'Missing enclosing underscores.']));
+    $this->getWidgetSchema()->setHelp('privacy_policy_link_text', 'Please mark the link part with two enclosing underscores. ex "I accept the _privacy policy_"');
+
     if (!$petition_text->isNew()) {
       $this->setWidget('updated_at', new sfWidgetFormInputHidden());
       $this->setValidator('updated_at', new ValidatorUnchanged(array('fix' => $petition_text->getUpdatedAt())));

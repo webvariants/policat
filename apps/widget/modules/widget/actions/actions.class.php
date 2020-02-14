@@ -154,6 +154,7 @@ class widgetActions extends policatActions
       $new_widget['privacy_policy_body'] = $this->widget['privacy_policy_body'];
       $new_widget['privacy_policy_url'] = $this->widget['privacy_policy_url'];
       $new_widget['read_more_url'] = $this->widget['read_more_url'];
+      $new_widget['privacy_policy_link_text'] = $this->widget['privacy_policy_link_text'];
     }
 
     $subscribe_text = trim($this->petition_text['subscribe_text']);

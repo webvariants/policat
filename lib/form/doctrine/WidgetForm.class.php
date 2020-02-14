@@ -56,6 +56,7 @@ class WidgetForm extends BaseWidgetForm {
       $this['read_more_url'],
       $this['email_validation_subject'],
       $this['email_validation_body'],
+      $this['privacy_policy_link_text'],
     );
     $petition = $this->getObject()->getPetition();
 

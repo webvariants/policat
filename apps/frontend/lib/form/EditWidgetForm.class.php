@@ -297,6 +297,10 @@ class EditWidgetForm extends WidgetForm {
         )));
         $this->setValidator('privacy_policy_url', new ValidatorUrl(array('required' => false)));
         $this->getWidgetSchema()->setHelp('privacy_policy_url', 'Leave this empty to show the privacy policy text as below within the widget (recommended). If a click on "privacy policy" should open your own privacy policy page instead, enter its URL here, including "https://".');
+
+        $this->setWidget('privacy_policy_link_text', new sfWidgetFormInput(['label' => 'Privacy policy link'], ['size' => 90, 'placeholder' => $petition_text->getPrivacyPolicyLinkText() ?: 'I accept the _privacy policy_']));
+        $this->setValidator('privacy_policy_link_text', new sfValidatorRegex(['required' => false, 'pattern' => '/^[^_]*_[^_]+_[^_]*$/i'], ['invalid' => 'Missing enclosing underscores.']));
+        $this->getWidgetSchema()->setHelp('privacy_policy_link_text', 'You may customise the text of the privacy policy link. Leave this field empty to use standard texts. You may use the following keywords to include the name or email of the respective data owner: #DATA-OFFICER-NAME#, #DATA-OFFICER-ORGA#, #DATA-OFFICER-EMAIL#. Add "_" before and after the word or phrase that should link to your internal or external privacy policy text (required)');
       }
 
       $this->setWidget('email_validation_subject', new sfWidgetFormInput(array('label' => 'Opt-In Confirmation Email Subject'), array('size' => 90, 'class' => 'large')));

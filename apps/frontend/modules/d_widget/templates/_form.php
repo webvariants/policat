@@ -52,7 +52,7 @@
           <?php endif ?>
         </ul>
       <?php endif ?>
-      <?php echo $form->renderRows('*subscribe_default', '*subscribe_text', '*privacy_policy_url', '*privacy_policy_body') ?>
+      <?php echo $form->renderRows('*subscribe_default', '*subscribe_text', '*privacy_policy_link_text', '*privacy_policy_url', '*privacy_policy_body') ?>
       <?php echo $form->renderRows('*email_validation_subject', '*email_validation_body') ?>
     <?php endif ?>
     <div class="form-actions">
