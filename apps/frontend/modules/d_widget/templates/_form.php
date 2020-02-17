@@ -50,6 +50,8 @@
             <li>Privacy policy URL: <?php echo Util::enc($form->getObject()->getPrivacyPolicyUrl()) ?></li>
             <li>Privacy policy body: <pre><code><?php echo Util::enc($form->getObject()->getPrivacyPolicyBody()) ?></code></pre></li>
           <?php endif ?>
+          <li>Opt-In Confirmation Email Subject: <?php echo Util::enc($form->getObject()->getEmailValidationSubject()) ?></li>
+          <li>Opt-In Confirmation Email Body: <pre><code><?php echo Util::enc($form->getObject()->getPrivacyPolicyBody()) ?></code></pre></li>
         </ul>
       <?php endif ?>
       <?php echo $form->renderRows('*subscribe_default', '*subscribe_text', '*privacy_policy_link_text', '*privacy_policy_url', '*privacy_policy_body') ?>
