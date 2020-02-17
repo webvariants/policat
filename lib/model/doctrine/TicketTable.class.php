@@ -145,7 +145,7 @@ class TicketTable extends Doctrine_Table {
       self::KIND_SUBSCRIPTION_ORDER_ISSUED => 'Your subscription package for campaign "#CAMPAIGN#" was renewed and an invoice was issued. Make your payment soon to ensure that all your actions remain active. Click "#BUY-PACKAGE#" for order details and your invoice (#DATE#)<br />#TEXT#',
       self::KIND_QUOTA_MISSING_OPEN_ORDER => 'You need to pay the bill to (re-)start your action(s) in campaign #CAMPAIGN#. #BUY-PACKAGE# (#DATE#)<br />#TEXT#',
       self::KIND_MAILEXPORT_ERROR => 'There was an error exporting the addresses for the e-action #PETITION# (#CAMPAIGN#). Please check and test your settings. (#DATE#)<br />#TEXT#',
-      self::KIND_SIGNING_DELETED => '<b>#TEXT#</b><br />requested deletion of her/his personal data from all your records. Make sure to delete the data set from your exports, downloads and mailing lists. Closing this ticket will delete any trace of this data set from the PoliCAT server.'
+      self::KIND_SIGNING_DELETED => '<b>#TEXT#</b> requested deletion of her/his personal data from all your records. Make sure to delete the data set from your exports, downloads and mailing lists. Closing this ticket will delete any trace of this data set from the PoliCAT server.'
   );
 
   const STATUS_NEW = 1;

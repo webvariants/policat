@@ -588,6 +588,7 @@ class widgetActions extends policatActions
               ));
               if ($ticket) {
                 $ticket->save();
+                $ticket->notifyAdmin();
               }
             }
             return;
