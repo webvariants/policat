@@ -417,6 +417,29 @@ class Widget extends BaseWidget {
     return $this->getPetition()->getCampaign()->getDataOwner();
   }
 
+  public function getFrom() {
+    if (!$this->isInDataOwnerMode()) {
+      return $this->getPetition()->getFrom();
+    }
+
+    $name = $this->getFromName();
+    if (!$name) {
+      $name = $this->getUser()->getFromNameWithOrganisation();
+    }
+
+    $email = $this->getFromEmail();
+
+    if (!$email && $this->getUser()->hasValidEmail()) {
+      $email = $this->getUser()->getEmailAddress();
+    }
+
+    if (!$email || !is_string($email) || !preg_match(ValidatorEmail::REGEX_EMAIL, $email)) {
+      return $this->getPetition()->getFrom();
+    }
+
+    return array($email => $name);
+  }
+
   public function computePrivacyPolicyLinkText() {
     $ret = '';
     if ($this->isInDataOwnerMode() && $this->getPrivacyPolicyLinkText()) {

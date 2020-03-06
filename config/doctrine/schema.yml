@@ -505,6 +505,8 @@ Widget:
     privacy_policy_url:  { type: string }
     privacy_policy_link_text:  { type: string }
     read_more_url:       { type: string }
+    from_name:           { type: string(80) }
+    from_email:          { type: string(80) }
 
   relations:
     Campaign:          { onDelete: CASCADE }

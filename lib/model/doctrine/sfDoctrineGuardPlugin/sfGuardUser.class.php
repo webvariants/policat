@@ -2,7 +2,7 @@
 
 /**
  * sfGuardUser
- * 
+ *
  * @package    policat
  * @subpackage model
  * @author     Martin
@@ -128,6 +128,10 @@ class sfGuardUser extends PluginsfGuardUser {
       return $this->getEmailAddress();
     }
     return null;
+  }
+
+  public function getFromNameWithOrganisation() {
+    return $this->getFullName() . ($this->getOrganisation() ? ' (' . $this->getOrganisation()  . ')' : '');
   }
 
   public function hasCampaigns() {

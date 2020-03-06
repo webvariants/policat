@@ -320,6 +320,29 @@ class EditWidgetForm extends WidgetForm {
       if (!$this->getObject()->getEmailValidationBody()) { // if empty get default from petition translation/text
         $this->getWidgetSchema()->setDefault('email_validation_body', $petition_text->getEmailValidationBody());
       }
+
+      $this->setWidget('from_name', new sfWidgetFormInput(array(), array(
+        'size' => 90,
+        'class' => 'add_popover',
+        'data-content' => 'Any activist who wants to support your action will receive a verification e-mail. In order to make their participation count, activists must click on the validation link in their verification e-mail, in order to proof their consent. Otherwise, anyone could sign up to an action in anothers\' name. Please specify the name and e-mail address that should appear as the sender of these e-mails. We recommend, you choose a short name that resembles the action title, and your own e-mail address. Note: you must provide a valid e-mail address to which you have access!',
+        'placeholder' => $this->getObject()->getUser()->getFromNameWithOrganisation()
+      )));
+      $this->setValidator('from_name', new sfValidatorString(array('required' => true, 'max_length' => 80)));
+
+      $this->setWidget('from_email', new sfWidgetFormInput(array(), array(
+          'size' => 90,
+          'class' => 'add_popover',
+          'data-content' => 'Any activist who wants to support your action will receive a verification e-mail. In order to make their participation count, activists must click on the validation link in their verification e-mail, in order to proof their consent. Otherwise, anyone could sign up to an action in anothers\' name. Please specify the name and e-mail address that should appear as the sender of these e-mails. We recommend, you choose a short name that resembles the action title, and your own e-mail address. Note: you must provide a valid e-mail address to which you have access!',
+          'placeholder' => $this->getObject()->getUser()->getEmailAddress()
+      )));
+      $this->setValidator('from_email', new ValidatorEmail(array('required' => true, 'max_length' => 80)));
+      if (sfConfig::get('app_spf_ip')) {
+        $this->getWidgetSchema()->setHelp('from_email', 'Please check if the e-mail domain server of the e-mail you provided allows PoliCAT to send e-mails with your address. Do not use an address if the SPF check result is "fail". You may use an e-mail address if the SPF check result is "none" or "softfail". However, be aware that in these cases a certain percentage of your validation and action e-mails might be considered spam by some e-mail clients. Ideally, ask your e-mail server admin to add ' . sfConfig::get('app_spf_ip') . ' in their SPF record, sample code: your.mail.domain. 3600 IN TXT "v=spf1 mx ip4:' . sfConfig::get('app_spf_ip') . '/32 -all"');
+      } else {
+        if (StoreTable::getInstance()->value(StoreTable::EMAIL_FROM_ONLY_VERIFIED)) {
+          $this->getWidgetSchema()->setHelp('from_email', 'This address is used as "Reply-To" in emails.');
+        }
+      }
     }
   }
 

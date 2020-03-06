@@ -50,6 +50,8 @@
  * @property string                                     $privacy_policy_url                              Type: string
  * @property string                                     $privacy_policy_link_text                        Type: string
  * @property string                                     $read_more_url                                   Type: string
+ * @property string                                     $from_name                                       Type: string(80)
+ * @property string                                     $from_email                                      Type: string(80)
  * @property Campaign                                   $Campaign                                        
  * @property Petition                                   $Petition                                        
  * @property PetitionText                               $PetitionText                                    
@@ -112,6 +114,8 @@
  * @method string                                       getPrivacyPolicyUrl()                            Type: string
  * @method string                                       getPrivacyPolicyLinkText()                       Type: string
  * @method string                                       getReadMoreUrl()                                 Type: string
+ * @method string                                       getFromName()                                    Type: string(80)
+ * @method string                                       getFromEmail()                                   Type: string(80)
  * @method Campaign                                     getCampaign()                                    
  * @method Petition                                     getPetition()                                    
  * @method PetitionText                                 getPetitionText()                                
@@ -174,6 +178,8 @@
  * @method Widget                                       setPrivacyPolicyUrl(string $val)                 Type: string
  * @method Widget                                       setPrivacyPolicyLinkText(string $val)            Type: string
  * @method Widget                                       setReadMoreUrl(string $val)                      Type: string
+ * @method Widget                                       setFromName(string $val)                         Type: string(80)
+ * @method Widget                                       setFromEmail(string $val)                        Type: string(80)
  * @method Widget                                       setCampaign(Campaign $val)                       
  * @method Widget                                       setPetition(Petition $val)                       
  * @method Widget                                       setPetitionText(PetitionText $val)               
@@ -391,6 +397,14 @@ abstract class BaseWidget extends myDoctrineRecord
              ));
         $this->hasColumn('read_more_url', 'string', null, array(
              'type' => 'string',
+             ));
+        $this->hasColumn('from_name', 'string', 80, array(
+             'type' => 'string',
+             'length' => 80,
+             ));
+        $this->hasColumn('from_email', 'string', 80, array(
+             'type' => 'string',
+             'length' => 80,
              ));
 
 

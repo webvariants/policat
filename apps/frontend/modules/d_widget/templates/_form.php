@@ -50,12 +50,14 @@
             <li>Privacy policy URL: <?php echo Util::enc($form->getObject()->getPrivacyPolicyUrl()) ?></li>
             <li>Privacy policy body: <pre><code><?php echo Util::enc($form->getObject()->getPrivacyPolicyBody()) ?></code></pre></li>
           <?php endif ?>
+          <li>Opt-In from name: <?php echo Util::enc($form->getObject()->getFromName()) ?></li>
+          <li>Opt-In from email: <?php echo Util::enc($form->getObject()->getFromEmail()) ?></li>
           <li>Opt-In Confirmation Email Subject: <?php echo Util::enc($form->getObject()->getEmailValidationSubject()) ?></li>
           <li>Opt-In Confirmation Email Body: <pre><code><?php echo Util::enc($form->getObject()->getEmailValidationBody()) ?></code></pre></li>
         </ul>
       <?php endif ?>
       <?php echo $form->renderRows('*subscribe_default', '*subscribe_text', '*privacy_policy_link_text', '*privacy_policy_url', '*privacy_policy_body') ?>
-      <?php echo $form->renderRows('*email_validation_subject', '*email_validation_body') ?>
+      <?php echo $form->renderRows('*from_name', '*from_email', '*email_validation_subject', '*email_validation_body') ?>
     <?php endif ?>
     <div class="form-actions">
         <button accesskey="s" title="[Accesskey] + S" class="btn btn-primary" type="submit">Save</button>
