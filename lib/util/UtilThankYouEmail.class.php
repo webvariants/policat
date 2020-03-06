@@ -41,7 +41,7 @@ class UtilThankYouEmail {
     $url_readmore_ = $petition->getReadMoreUrl();
     $url_ref = UtilPolicat::firstString(array($url_ref_, $url_readmore_));
     $url_readmore = UtilPolicat::firstString(array($url_readmore_, $url_ref_));
-    $from = $petition->getFrom();
+    $from = $widget->getFrom();
     $to = $signing->getEmail();
     $subst_base = array(
         '#REFERER-URL#' => $url_ref,
