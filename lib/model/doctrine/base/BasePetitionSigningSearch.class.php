@@ -38,6 +38,13 @@ abstract class BasePetitionSigningSearch extends myDoctrineRecord
              'length' => 48,
              ));
 
+
+        $this->index('search_keyword_idx', array(
+             'fields' => 
+             array(
+              0 => 'keyword',
+             ),
+             ));
         $this->option('symfony', array(
              'form' => false,
              'filter' => false,

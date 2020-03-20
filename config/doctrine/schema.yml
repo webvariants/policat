@@ -625,6 +625,8 @@ PetitionSigningSearch:
     keyword: { type: string(48), notnull: true, primary: true }
   relations:
     PetitionSigning: { onDelete: CASCADE, local: id, foreign: id, foreignAlias: Search }
+  indexes:
+    search_keyword_idx: { fields: [keyword] }
 
 MigrationVersion:
   options:
