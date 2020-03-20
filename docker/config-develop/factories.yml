@@ -22,6 +22,7 @@ test:
 
 all:
   mailer:
+    class: policatMailer
     param:
       transport:
         class: Swift_SmtpTransport
@@ -29,7 +30,7 @@ all:
           host: mail
       delivery_strategy: realtime
       delivery_strategy: spool
-      spool_class:       Swift_DoctrineSpool
+      spool_class:       policatDoctrineSpool
       spool_arguments:   [ MailMessage, messagePlain, getSpooledMessages ]
 
   view_cache:

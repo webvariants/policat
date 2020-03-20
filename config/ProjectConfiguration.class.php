@@ -24,13 +24,12 @@ class ProjectConfiguration extends sfProjectConfiguration {
 
   public function setup() {
     date_default_timezone_set('Etc/UTC');
-    $this->enablePlugins(array(
+    $this->enablePlugins([
         'sfDoctrinePlugin',
         'sfDoctrineGuardPlugin',
         'sfFormExtraPlugin',
         'sfCacheTaggingPlugin',
-        'amgSentryPlugin'
-    ));
+    ]);
     sfConfig::set('doctrine_model_builder_options', array('baseClassName' => 'myDoctrineRecord'));
 
     $this->getEventDispatcher()->connect('doctrine.filter_model_builder_options', function($_, $options) {

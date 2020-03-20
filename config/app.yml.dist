@@ -1,6 +1,6 @@
 all:
   facebook:
-    appId: # INSERT HERE # 
+    appId: # INSERT HERE #
     secret: # INSERT HERE #
     domain: # INSERT HERE #
     form_hash: '# INSERT RANDOM SECRET HERE #'
@@ -55,12 +55,3 @@ all:
 #        email: email                            # optional
 #        error_related_to: error_related_to      # optional
 #        error: error                            # optional
-
-#prod:
-#  amg_sentry:
-#    enabled: true
-#    dsn: 'http://...'
-##    logger: 'custom-logger-name'
-#    reportPHPErrors: true
-#    reportPHPWarnings: false
-#    report404: false

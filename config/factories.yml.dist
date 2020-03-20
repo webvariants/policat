@@ -32,10 +32,11 @@ test:
 
 all:
   mailer:
+    class: policatMailer
     param:
       delivery_strategy: realtime
       delivery_strategy: spool
-      spool_class:       Swift_DoctrineSpool
+      spool_class:       policatDoctrineSpool
       spool_arguments:   [ MailMessage, messagePlain, getSpooledMessages ]
 
       transport:

@@ -66,7 +66,7 @@ class UtilMail {
   }
 
   public static function send($trackCampaign, $trackId, $from, $to, $subject, $body, $contentType = null, $subst = null, $subst_escape = null, $replyTo = null, $attachments = array(), $markdown = false) {
-    $message = Swift_Message::newInstance();
+    $message = new Swift_Message();
     if ($from == null) {
       $message->setFrom(self::getDefaultFrom());
     } else {
