@@ -259,7 +259,7 @@ if (is_array($target_selectors)) {
                             <?php elseif ($petition->isAfter() || $require_billing_after): $disabled = true ?>
                               <?php if ($petition->getKeyVisual()): ?><div class="keyvisual"><img src="<?php echo image_path('keyvisual/' . $petition->getKeyVisual()) ?>" alt="" /></div><?php endif ?>
                               <p>
-                                  <?php echo __('This action is over. Thanks to the #COUNTER# people who signed-up!', array('#COUNTER#' => '<b>' . $petition->countSigningsPlus() . '</b>')) ?>
+                                  <?php echo __('This action is over. Thanks to the #COUNTER# people who signed-up!', array('#COUNTER#' => '<b>' . $petition->countSigningsPlusApi() . '</b>')) ?>
                                   <a target="_blank" href="<?php echo url_for('homepage') ?>"><?php echo __('More actions') ?></a>
                               </p>
                             <?php endif ?>
