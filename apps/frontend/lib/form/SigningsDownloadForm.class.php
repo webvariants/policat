@@ -20,11 +20,9 @@ class SigningsDownloadForm extends policatFilterForm {
 
     $lang_query = LanguageTable::getInstance()
       ->createQuery('l')
-      ->orderBy('l.name ASC');
+      ->orderBy('l.order_number ASC');
     if (!$this->getOption(self::OPTION_FAST_VALIDATE, false)) {
-      $lang_sub_query = $query->copy()->select('DISTINCT ps.language_id');
-      $lang_query->where('l.id IN (' . $lang_sub_query->getDql() . ')');
-      $lang_query->setParams($lang_sub_query->getParams());
+      $lang_query->whereIn('l.id', (array) $query->copy()->select('ps.language_id')->groupby('ps.language_id')->execute(array(), Doctrine_Core::HYDRATE_SINGLE_SCALAR));
     }
 
     $this->setWidget('l', new sfWidgetFormDoctrineChoice(
