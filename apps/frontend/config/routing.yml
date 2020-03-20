@@ -66,7 +66,7 @@ action_by_campaign: {     url: '/action/by_campaign',               param: { mod
 action_join: {            url: '/action/join',                      param: { module: d_action,   action: join },                       requirements: { sf_method: [post] } }
 action_leave: {           url: '/action/leave',                     param: { module: d_action,   action: leave },                      requirements: { sf_method: [post] } }
 petition_new_:  {         url: '/action/new',                       param: { module: d_action,   action: new },                        requirements: { sf_method: [get, head, post] } }
-petition_spf:           { url: '/action/spf',                       param: { module: d_action,   action: spf },                        requirements: { sf_method: [post] }, class: sfRequestRoute }
+# petition_spf:           { url: '/action/spf',                       param: { module: d_action,   action: spf },                        requirements: { sf_method: [post] }, class: sfRequestRoute }
 petition_overview:  {     url: '/action/:id',                       param: { module: d_action,   action: overview },                   requirements: { sf_method: [get, head], id: '\d+' } }
 petition_edit_:  {        url: '/action/edit/:id',                  param: { module: d_action,   action: edit },                       requirements: { sf_method: [get, head, post], id: '\d+' } }
 petition_edit_target: {   url: '/action/edit_target/:id',           param: { module: d_action,   action: editTarget },                 requirements: { sf_method: [post], id: '\d+' }, class: sfRequestRoute }

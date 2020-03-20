@@ -32,13 +32,13 @@ class UtilMail {
     return StoreTable::getInstance()->getValueCached(StoreTable::EMAIL_SENDER) ? true : false;
   }
 
-  private static function fromOnlyVerified() {
+  public static function fromOnlyVerified() {
     return StoreTable::getInstance()->getValueCached(StoreTable::EMAIL_FROM_ONLY_VERIFIED) ? true : false;
   }
 
   private static $verified_cache = null;
 
-  private static function isVerified($email) {
+  public static function isVerified($email) {
     $fullemail = is_array($email) ? key($email) : $email;
 
     if (!$fullemail) {

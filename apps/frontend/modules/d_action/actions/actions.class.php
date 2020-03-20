@@ -646,30 +646,30 @@ class d_actionActions extends policatActions {
     $this->includeChosen();
   }
 
-  public function executeSpf(sfWebRequest $request) {
-    $mail = $request->getPostParameter('email');
-    if (is_string($mail)) {
-      $mail = trim($mail);
+  // public function executeSpf(sfWebRequest $request) {
+  //   $mail = $request->getPostParameter('email');
+  //   if (is_string($mail)) {
+  //     $mail = trim($mail);
 
-      if (!preg_match('/^([^@\s]+)@((?:[-a-z0-9]+\.)+[a-z]{2,})$/i', $mail)) {
-        $mail = null;
-      }
-    } else {
-      $mail = null;
-    }
+  //     if (!preg_match('/^([^@\s]+)@((?:[-a-z0-9]+\.)+[a-z]{2,})$/i', $mail)) {
+  //       $mail = null;
+  //     }
+  //   } else {
+  //     $mail = null;
+  //   }
 
-    if ($mail) {
-      $status = UtilSpf::query($mail);
+  //   if ($mail) {
+  //     $status = UtilSpf::query($mail);
 
-      $this->ajax()->appendPartial('body', 'spf', array(
-          'status' => UtilSpf::$STATUS[$status],
-          'text' => UtilSpf::$STATUS_TEXT[$status],
-          'ip' => sfConfig::get('app_spf_ip'),
-      ))->modal('#spf_modal');
-    }
+  //     $this->ajax()->appendPartial('body', 'spf', array(
+  //         'status' => UtilSpf::$STATUS[$status],
+  //         'text' => UtilSpf::$STATUS_TEXT[$status],
+  //         'ip' => sfConfig::get('app_spf_ip'),
+  //     ))->modal('#spf_modal');
+  //   }
 
-    return $this->ajax()->render();
-  }
+  //   return $this->ajax()->render();
+  // }
 
   public function executeEditFollow(sfWebRequest $request) {
     $this->ajax()->setAlertTarget('#petition_follow', 'after');

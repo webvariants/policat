@@ -24,6 +24,7 @@ class UtilSpf {
   );
 
   static function query($email) {
+    throw \Excetion('deprecated');
     $ip = sfConfig::get('app_spf_ip');
     $cmd = sfConfig::get('app_spf_cmd', 'spfquery');
 
