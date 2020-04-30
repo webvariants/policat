@@ -19,7 +19,7 @@
 		"grunt-contrib-less": "^1.4.1",
 		"grunt-contrib-uglify": "^3.0.1",
 		"grunt-exec": "^1.0.1",
-		"jquery": "^3.1.1",
+		"jquery": "^3.5.0",
 		"jquery-1.10": "https://github.com/jquery/jquery/archive/1.10.2.tar.gz",
 		"jscolor-picker": "^2.0.4",
 		"markItUp!": "git+https://github.com/markitup/1.x.git",
