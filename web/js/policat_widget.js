@@ -1104,7 +1104,7 @@ $(document).ready(function($) {
 								refName = 'widget[ref]';
 								break;
 						}
-						$.post(window.location.href.split('#', 1)[0], form.serialize() + '&' + refName + '=' + ref, function(data) {
+						$.post(window.location.href.split('#', 1)[0], form.serialize() + '&' + refName + '=' + encodeURIComponent(ref), function(data) {
 							switch (formId) {
 								case 'sign':
 									window.parent.postMessage('policat_signed;' + JSON.stringify({iframe: iframe_no, widget: widget_id}) , '*');
