@@ -27,7 +27,7 @@
 		"node-sass": "^4.12.0",
 		"popper.js": "^1.14.4",
 		"select2": "^3.4.5",
-		"showdown": "^1.4.3",
+		"showdown": "^1.9.1",
 		"tether": "^1.4.6"
 	},
 	"dependencies": {}
