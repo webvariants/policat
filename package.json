@@ -24,7 +24,7 @@
 		"jscolor-picker": "^2.0.4",
 		"markItUp!": "git+https://github.com/markitup/1.x.git",
 		"napa": "^3.0.0",
-		"node-sass": "^4.12.0",
+		"node-sass": "^7.0.0",
 		"popper.js": "^1.14.4",
 		"select2": "^3.4.5",
 		"showdown": "^1.4.3",
