@@ -3,7 +3,7 @@
         "php": "7.2.*",
         "lexpress/symfony1": "1.5.*",
         "lexpress/doctrine1": "*@dev",
-        "dompdf/dompdf": "^0.8.3",
+        "dompdf/dompdf": "^2.0.0",
         "paypal/rest-api-sdk-php": "^1.7.4",
         "swiftmailer/swiftmailer": "6.2.3 as 5.2.1",
         "lox/xhprof": "*@dev",
